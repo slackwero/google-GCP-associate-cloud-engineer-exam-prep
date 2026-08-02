@@ -1,0 +1,872 @@
+{
+  "preguntas": [
+    {
+      "id": "s1b-001",
+      "curso": null,
+      "servicios": [
+        "resource-manager"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-resource-hierarchy"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is a lien in Google Cloud Resource Manager?",
+        "es": "¿Qué es un lien (retención) en Google Cloud Resource Manager?"
+      },
+      "opciones": [
+        {
+          "en": "A marker placed on a project that blocks its deletion until the lien is removed",
+          "es": "Una marca que se coloca sobre un proyecto y bloquea su eliminación hasta que se quite el lien"
+        },
+        {
+          "en": "A billing hold that stops charges from accruing on a project",
+          "es": "Una retención de facturación que impide que se acumulen cargos en un proyecto"
+        },
+        {
+          "en": "An IAM role that grants read-only access to the resource hierarchy",
+          "es": "Un rol de IAM que otorga acceso de solo lectura a la jerarquía de recursos"
+        },
+        {
+          "en": "A quota reservation that guarantees capacity in a region",
+          "es": "Una reserva de cuota que garantiza capacidad en una región"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "A lien is attached to a project and restricts specific actions on it; the common restriction is resourcemanager.projects.delete, so any attempt to delete the project fails until someone with the right permission removes the lien. This is the standard protection against accidental deletion of critical projects. Option B is wrong because liens have no effect on billing; charges keep accruing normally. Option C confuses liens with IAM: liens are not roles and grant no access at all. Option D is wrong because capacity guarantees come from reservations and committed use discounts, not from Resource Manager liens.",
+        "es": "Un lien se adjunta a un proyecto y restringe acciones específicas sobre él; la restricción habitual es resourcemanager.projects.delete, así que cualquier intento de borrar el proyecto falla hasta que alguien con el permiso adecuado quite el lien. Es la protección estándar contra el borrado accidental de proyectos críticos. La opción B es incorrecta porque los liens no afectan la facturación; los cargos se siguen acumulando normalmente. La opción C confunde liens con IAM: los liens no son roles y no otorgan ningún acceso. La opción D es incorrecta porque las garantías de capacidad vienen de las reservas y los descuentos por uso comprometido, no de los liens de Resource Manager."
+      },
+      "doc": "https://cloud.google.com/resource-manager/docs/project-liens"
+    },
+    {
+      "id": "s1b-002",
+      "curso": null,
+      "servicios": [
+        "iam"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-iam-project-roles"
+      ],
+      "nivel": "principiante",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO of the following are valid principal types that you can put in the members list of a project-level IAM allow policy binding?",
+        "es": "¿Cuáles DOS de las siguientes son tipos de principal válidos que puedes colocar en la lista de members de una vinculación de política de permisos de IAM a nivel de proyecto?"
+      },
+      "opciones": [
+        {
+          "en": "group:finance-team@example.com",
+          "es": "group:finance-team@example.com"
+        },
+        {
+          "en": "serviceAccount:etl@my-project.iam.gserviceaccount.com",
+          "es": "serviceAccount:etl@my-project.iam.gserviceaccount.com"
+        },
+        {
+          "en": "instance:web-server-1",
+          "es": "instance:web-server-1"
+        },
+        {
+          "en": "network:default",
+          "es": "network:default"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "IAM allow policies accept identities such as user:, group:, serviceAccount:, domain:, principalSet: and allAuthenticatedUsers/allUsers, so a Google group and a service account are both valid members. Options C and D are not identities: a Compute Engine instance and a VPC network are resources that IAM policies are applied TO, not principals that IAM policies grant access to. A VM gets permissions by running as an attached service account, and a network never appears in a members list.",
+        "es": "Las políticas de permisos de IAM aceptan identidades como user:, group:, serviceAccount:, domain:, principalSet: y allAuthenticatedUsers/allUsers, así que un grupo de Google y una cuenta de servicio son members válidos. Las opciones C y D no son identidades: una instancia de Compute Engine y una red de VPC son recursos SOBRE los que se aplican políticas de IAM, no principales a los que IAM otorga acceso. Una VM obtiene permisos ejecutándose con una cuenta de servicio adjunta, y una red nunca aparece en una lista de members."
+      },
+      "doc": "https://cloud.google.com/iam/docs/principal-identifiers"
+    },
+    {
+      "id": "s1b-003",
+      "curso": null,
+      "servicios": [
+        "cloud-identity"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-cloud-identity"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is Cloud Identity?",
+        "es": "¿Qué es Cloud Identity?"
+      },
+      "opciones": [
+        {
+          "en": "An identity as a service (IDaaS) product that lets you create and manage the users and groups your organization uses to sign in to Google Cloud",
+          "es": "Un producto de identidad como servicio (IDaaS) que permite crear y administrar los usuarios y grupos con los que tu organización inicia sesión en Google Cloud"
+        },
+        {
+          "en": "A service that issues short-lived access tokens to workloads running outside Google Cloud",
+          "es": "Un servicio que emite tokens de acceso de corta duración a cargas de trabajo que se ejecutan fuera de Google Cloud"
+        },
+        {
+          "en": "The IAM component that stores role definitions and permissions",
+          "es": "El componente de IAM que almacena las definiciones de roles y los permisos"
+        },
+        {
+          "en": "A directory of Google Cloud services and their regional availability",
+          "es": "Un directorio de servicios de Google Cloud y su disponibilidad regional"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Cloud Identity is Google's IDaaS offering: it holds the managed user accounts and groups tied to your verified domain, provides admin controls such as MFA and device management, and is what allows a company to obtain an Organization resource in Google Cloud. Option B describes Workload Identity Federation, a different mechanism. Option C is wrong: role and permission definitions live in IAM, while Cloud Identity only supplies the identities that IAM grants roles to. Option D describes the Google Cloud locations documentation, which has nothing to do with identity.",
+        "es": "Cloud Identity es la oferta IDaaS de Google: contiene las cuentas de usuario administradas y los grupos asociados a tu dominio verificado, aporta controles de administración como MFA y gestión de dispositivos, y es lo que permite a una empresa obtener un recurso Organización en Google Cloud. La opción B describe Workload Identity Federation, un mecanismo distinto. La opción C es incorrecta: las definiciones de roles y permisos viven en IAM, mientras que Cloud Identity solo aporta las identidades a las que IAM les otorga roles. La opción D describe la documentación de ubicaciones de Google Cloud, que no tiene relación con identidad."
+      },
+      "doc": "https://cloud.google.com/identity/docs/overview"
+    },
+    {
+      "id": "s1b-004",
+      "curso": null,
+      "servicios": [
+        "quotas-apis",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-apis-quotas"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your application calls the Cloud Translation API in a brand-new project and every request fails with SERVICE_DISABLED. What is the cause?",
+        "es": "Tu aplicación llama a la API de Cloud Translation en un proyecto recién creado y todas las solicitudes fallan con SERVICE_DISABLED. ¿Cuál es la causa?"
+      },
+      "opciones": [
+        {
+          "en": "The API has not been enabled on that project; each Google Cloud API must be enabled per project before it can be used",
+          "es": "La API no está habilitada en ese proyecto; cada API de Google Cloud debe habilitarse por proyecto antes de poder usarse"
+        },
+        {
+          "en": "The project has no billing account, and billing is the only thing that activates APIs",
+          "es": "El proyecto no tiene cuenta de facturación, y la facturación es lo único que activa las APIs"
+        },
+        {
+          "en": "The caller is missing the roles/viewer role on the project",
+          "es": "Al llamador le falta el rol roles/viewer en el proyecto"
+        },
+        {
+          "en": "The API is only available in some regions and the project has no default region set",
+          "es": "La API solo está disponible en algunas regiones y el proyecto no tiene una región predeterminada configurada"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Google Cloud services are enabled individually per project through Service Usage; until you enable the service, its endpoints reject calls with SERVICE_DISABLED, and the error message even links to the page that enables it. Option B is wrong because a missing billing account produces billing-specific errors, and enabling an API is a separate step from linking billing. Option C is wrong because a permission problem returns PERMISSION_DENIED, not SERVICE_DISABLED. Option D invents a behavior: projects have no mandatory default region, and regional availability produces a different error than a disabled service.",
+        "es": "Los servicios de Google Cloud se habilitan individualmente por proyecto mediante Service Usage; hasta que habilitas el servicio, sus endpoints rechazan las llamadas con SERVICE_DISABLED, y el mensaje de error incluso enlaza a la página que lo habilita. La opción B es incorrecta porque la falta de cuenta de facturación produce errores específicos de facturación, y habilitar una API es un paso distinto de vincular la facturación. La opción C es incorrecta porque un problema de permisos devuelve PERMISSION_DENIED, no SERVICE_DISABLED. La opción D inventa un comportamiento: los proyectos no tienen una región predeterminada obligatoria, y la disponibilidad regional produce un error distinto al de un servicio deshabilitado."
+      },
+      "doc": "https://cloud.google.com/service-usage/docs/enable-disable"
+    },
+    {
+      "id": "s1b-005",
+      "curso": null,
+      "servicios": [
+        "compute-engine",
+        "vpc"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-networking-availability"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "How are Compute Engine disks, subnets, and VPC networks classified in terms of Google Cloud resource scope?",
+        "es": "¿Cómo se clasifican los discos de Compute Engine, las subredes y las redes de VPC según el alcance de los recursos de Google Cloud?"
+      },
+      "opciones": [
+        {
+          "en": "Disks are zonal, subnets are regional, and VPC networks are global",
+          "es": "Los discos son zonales, las subredes son regionales y las redes de VPC son globales"
+        },
+        {
+          "en": "All three are regional resources",
+          "es": "Los tres son recursos regionales"
+        },
+        {
+          "en": "Disks are regional, subnets are global, and VPC networks are zonal",
+          "es": "Los discos son regionales, las subredes son globales y las redes de VPC son zonales"
+        },
+        {
+          "en": "All three are global resources because they belong to a project",
+          "es": "Los tres son recursos globales porque pertenecen a un proyecto"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Scope determines where a resource lives and what can reach it: a standard Persistent Disk or Hyperdisk volume exists in one zone and can only be attached to a VM in that same zone, a subnet spans a single region and provides IP ranges to VMs in any zone of that region, and a VPC network is a global construct whose subnets can be in many regions. Option B ignores that disks are zonal and that a VPC spans regions. Option C inverts every scope. Option D confuses ownership with scope: belonging to a project says nothing about whether a resource is zonal, regional, or global.",
+        "es": "El alcance determina dónde vive un recurso y qué puede alcanzarlo: un volumen Persistent Disk o Hyperdisk estándar existe en una zona y solo puede adjuntarse a una VM de esa misma zona, una subred abarca una sola región y entrega rangos de IP a VMs de cualquier zona de esa región, y una red de VPC es una construcción global cuyas subredes pueden estar en muchas regiones. La opción B ignora que los discos son zonales y que una VPC abarca varias regiones. La opción C invierte todos los alcances. La opción D confunde pertenencia con alcance: pertenecer a un proyecto no dice nada sobre si un recurso es zonal, regional o global."
+      },
+      "doc": "https://cloud.google.com/compute/docs/regions-zones/global-regional-zonal-resources"
+    },
+    {
+      "id": "s1b-006",
+      "curso": null,
+      "servicios": [
+        "resource-manager"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-resource-hierarchy"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You shut down a Google Cloud project by mistake. What happens to it immediately after the shutdown request?",
+        "es": "Cierras un proyecto de Google Cloud por error. ¿Qué le sucede inmediatamente después de la solicitud de cierre?"
+      },
+      "opciones": [
+        {
+          "en": "It enters a pending-deletion state for about 30 days, during which an authorized user can restore it",
+          "es": "Entra en un estado de eliminación pendiente durante unos 30 días, en los que un usuario autorizado puede restaurarlo"
+        },
+        {
+          "en": "It and all its resources are destroyed instantly and cannot be recovered",
+          "es": "El proyecto y todos sus recursos se destruyen al instante y no se pueden recuperar"
+        },
+        {
+          "en": "It is archived permanently in read-only mode but never deleted",
+          "es": "Se archiva de forma permanente en modo de solo lectura, pero nunca se borra"
+        },
+        {
+          "en": "It is automatically moved to the organization root and stays fully operational",
+          "es": "Se mueve automáticamente a la raíz de la organización y sigue plenamente operativo"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Deleting a project puts it in a pending-deletion state: resources stop working and the project stops being usable, but for roughly 30 days it can be restored by someone with the resourcemanager.projects.undelete permission, after which Google permanently removes it. Option B is wrong precisely because of that recovery window. Option C is wrong: the project is not archived forever, it is permanently deleted at the end of the window. Option D invents a behavior; deletion never re-parents a project, and the project certainly does not keep running.",
+        "es": "Borrar un proyecto lo deja en estado de eliminación pendiente: los recursos dejan de funcionar y el proyecto deja de ser utilizable, pero durante unos 30 días puede ser restaurado por alguien con el permiso resourcemanager.projects.undelete, tras lo cual Google lo elimina de forma permanente. La opción B es incorrecta precisamente por esa ventana de recuperación. La opción C es incorrecta: el proyecto no se archiva para siempre, se elimina definitivamente al terminar la ventana. La opción D inventa un comportamiento; borrar nunca cambia el padre de un proyecto, y desde luego el proyecto no sigue funcionando."
+      },
+      "doc": "https://cloud.google.com/resource-manager/docs/creating-managing-projects"
+    },
+    {
+      "id": "s1b-007",
+      "curso": null,
+      "servicios": [
+        "cloud-logging"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-observability-setup"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "In a new Google Cloud project, what do you have to install or configure to see platform logs such as Compute Engine API activity and Cloud Run request logs?",
+        "es": "En un proyecto nuevo de Google Cloud, ¿qué debes instalar o configurar para ver registros de plataforma como la actividad de la API de Compute Engine y los registros de solicitudes de Cloud Run?"
+      },
+      "opciones": [
+        {
+          "en": "Nothing: Google Cloud services send those logs to Cloud Logging automatically, with no agent required",
+          "es": "Nada: los servicios de Google Cloud envían esos registros a Cloud Logging automáticamente, sin necesidad de un agente"
+        },
+        {
+          "en": "The Ops Agent must be installed on every VM and every Cloud Run service",
+          "es": "Se debe instalar el agente de operaciones en cada VM y en cada servicio de Cloud Run"
+        },
+        {
+          "en": "A log sink to BigQuery, because Cloud Logging cannot store logs by itself",
+          "es": "Un sink de registros a BigQuery, porque Cloud Logging no puede almacenar registros por sí solo"
+        },
+        {
+          "en": "A Cloud Monitoring dashboard, because logs are only visible through dashboards",
+          "es": "Un panel de Cloud Monitoring, porque los registros solo se pueden ver mediante paneles"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Managed Google Cloud services emit platform and audit logs to Cloud Logging out of the box; the _Required and _Default log buckets exist from the moment the project is created, so admin activity and service request logs are queryable in Logs Explorer immediately. Option B is wrong because the Ops Agent is only needed for guest-level signals inside a VM, such as memory, disk, and application log files, and it is not installable on Cloud Run at all. Option C is wrong: Cloud Logging stores logs in its own buckets, and sinks are for routing copies elsewhere. Option D is wrong because logs are read in Logs Explorer, independently of Monitoring dashboards.",
+        "es": "Los servicios administrados de Google Cloud emiten registros de plataforma y de auditoría a Cloud Logging de forma predeterminada; los buckets de registros _Required y _Default existen desde que se crea el proyecto, así que la actividad administrativa y los registros de solicitudes se pueden consultar en el Explorador de registros de inmediato. La opción B es incorrecta porque el agente de operaciones solo hace falta para señales del sistema invitado dentro de una VM, como memoria, disco y archivos de registro de la aplicación, y ni siquiera se puede instalar en Cloud Run. La opción C es incorrecta: Cloud Logging guarda los registros en sus propios buckets, y los sinks sirven para enrutar copias a otro destino. La opción D es incorrecta porque los registros se leen en el Explorador de registros, con independencia de los paneles de Monitoring."
+      },
+      "doc": "https://cloud.google.com/logging/docs/overview"
+    },
+    {
+      "id": "s1b-008",
+      "curso": null,
+      "servicios": [
+        "asset-inventory"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-asset-inventory-gemini"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Besides resource metadata, what other kind of asset can Cloud Asset Inventory search across an organization?",
+        "es": "Además de los metadatos de recursos, ¿qué otro tipo de recurso (asset) puede buscar Cloud Asset Inventory en toda una organización?"
+      },
+      "opciones": [
+        {
+          "en": "IAM policies, so you can find which principals hold which roles anywhere in the hierarchy",
+          "es": "Las políticas de IAM, para encontrar qué principales tienen qué roles en cualquier punto de la jerarquía"
+        },
+        {
+          "en": "The contents of Cloud Storage objects and BigQuery tables",
+          "es": "El contenido de los objetos de Cloud Storage y de las tablas de BigQuery"
+        },
+        {
+          "en": "Application logs written by workloads running on VMs",
+          "es": "Los registros de aplicación que escriben las cargas de trabajo en las VMs"
+        },
+        {
+          "en": "Billing invoices and payment methods",
+          "es": "Las facturas y los métodos de pago"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Cloud Asset Inventory indexes assets of several content types, and the two you search most often are resource metadata and IAM policies; searchAllIamPolicies lets a security reviewer answer questions like which principals have a given role anywhere under the organization. Option B is wrong because Asset Inventory sees metadata only, never the data inside buckets or tables. Option C belongs to Cloud Logging. Option D belongs to Cloud Billing; Asset Inventory does not expose invoices or payment instruments.",
+        "es": "Cloud Asset Inventory indexa recursos de varios tipos de contenido, y los dos que más se consultan son los metadatos de recursos y las políticas de IAM; searchAllIamPolicies permite a un revisor de seguridad responder preguntas como qué principales tienen determinado rol en cualquier punto bajo la organización. La opción B es incorrecta porque Asset Inventory solo ve metadatos, nunca los datos dentro de buckets o tablas. La opción C corresponde a Cloud Logging. La opción D corresponde a Cloud Billing; Asset Inventory no expone facturas ni instrumentos de pago."
+      },
+      "doc": "https://cloud.google.com/asset-inventory/docs/overview"
+    },
+    {
+      "id": "s1b-009",
+      "curso": null,
+      "servicios": [
+        "identity-federation"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-workforce-identity-federation"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "In Workforce Identity Federation, what is a workforce pool provider?",
+        "es": "En Workforce Identity Federation, ¿qué es un proveedor (provider) de un workforce pool?"
+      },
+      "opciones": [
+        {
+          "en": "The configuration that describes a specific external identity provider and how its tokens map to Google Cloud attributes",
+          "es": "La configuración que describe un proveedor de identidad externo específico y cómo se asignan sus tokens a atributos de Google Cloud"
+        },
+        {
+          "en": "A Google group that contains all the federated users",
+          "es": "Un grupo de Google que contiene a todos los usuarios federados"
+        },
+        {
+          "en": "A service account that federated users impersonate to obtain credentials",
+          "es": "Una cuenta de servicio que los usuarios federados suplantan para obtener credenciales"
+        },
+        {
+          "en": "A Cloud Identity domain that must be verified before federation works",
+          "es": "Un dominio de Cloud Identity que debe verificarse antes de que la federación funcione"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "A workforce pool holds one or more providers, and each provider represents one external IdP: it stores the protocol details (SAML metadata or OIDC issuer and client), the attribute mapping that turns IdP claims into google.subject and other attributes, and optionally an attribute condition. Option B is wrong because federated users are not enrolled in Google groups; they are referenced through principal and principalSet identifiers. Option C describes impersonation, which federation deliberately avoids for human users. Option D is wrong because Workforce Identity Federation exists precisely so that you do not need Cloud Identity accounts for these users.",
+        "es": "Un workforce pool contiene uno o más proveedores, y cada proveedor representa un IdP externo: guarda los detalles del protocolo (metadatos SAML o issuer y cliente de OIDC), el mapeo de atributos que convierte los claims del IdP en google.subject y otros atributos, y opcionalmente una condición de atributos. La opción B es incorrecta porque los usuarios federados no se inscriben en grupos de Google; se referencian mediante identificadores principal y principalSet. La opción C describe la suplantación, que la federación evita deliberadamente para usuarios humanos. La opción D es incorrecta porque Workforce Identity Federation existe justamente para no necesitar cuentas de Cloud Identity para esos usuarios."
+      },
+      "doc": "https://cloud.google.com/iam/docs/workforce-identity-federation"
+    },
+    {
+      "id": "s1b-010",
+      "curso": null,
+      "servicios": [
+        "billing"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.2-billing-accounts"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is the difference between a self-serve and an invoiced Cloud Billing account?",
+        "es": "¿Cuál es la diferencia entre una cuenta de facturación de Cloud de autoservicio (self-serve) y una facturada (invoiced)?"
+      },
+      "opciones": [
+        {
+          "en": "A self-serve account is created online and charged automatically to a card or bank instrument, while an invoiced account is set up with Google Sales and pays against invoices with agreed terms",
+          "es": "La cuenta de autoservicio se crea en línea y se cobra automáticamente a una tarjeta o instrumento bancario, mientras que la cuenta facturada se configura con el equipo de ventas de Google y paga contra facturas con condiciones acordadas"
+        },
+        {
+          "en": "A self-serve account can only be linked to one project, while an invoiced account can be linked to many",
+          "es": "La cuenta de autoservicio solo puede vincularse a un proyecto, mientras que la facturada puede vincularse a muchos"
+        },
+        {
+          "en": "A self-serve account works only in a single region, while an invoiced account works globally",
+          "es": "La cuenta de autoservicio solo funciona en una región, mientras que la facturada funciona globalmente"
+        },
+        {
+          "en": "A self-serve account cannot export data to BigQuery",
+          "es": "La cuenta de autoservicio no puede exportar datos a BigQuery"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The distinction is the payment relationship: self-serve accounts are opened by anyone from the console and charged automatically to the payment instrument on file, whereas invoiced (offline) billing is arranged through Google Sales, requires eligibility, and produces invoices paid by check or wire under agreed terms. Option B is wrong because any billing account, self-serve included, can pay for many projects. Option C is wrong because billing accounts are not regional at all. Option D is wrong because BigQuery billing export is available regardless of the payment type.",
+        "es": "La diferencia está en la relación de pago: las cuentas de autoservicio las abre cualquiera desde la consola y se cobran automáticamente al instrumento de pago registrado, mientras que la facturación por factura (offline) se gestiona con el equipo de ventas de Google, exige elegibilidad y genera facturas que se pagan por cheque o transferencia bajo condiciones acordadas. La opción B es incorrecta porque cualquier cuenta de facturación, incluida la de autoservicio, puede pagar muchos proyectos. La opción C es incorrecta porque las cuentas de facturación no son regionales. La opción D es incorrecta porque la exportación de facturación a BigQuery está disponible sin importar el tipo de pago."
+      },
+      "doc": "https://cloud.google.com/billing/docs/concepts"
+    },
+    {
+      "id": "s1b-011",
+      "curso": null,
+      "servicios": [
+        "resource-manager"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-resource-hierarchy"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is the main governance difference between Resource Manager tags and labels?",
+        "es": "¿Cuál es la principal diferencia de gobernanza entre los tags de Resource Manager y las etiquetas (labels)?"
+      },
+      "opciones": [
+        {
+          "en": "Tags are hierarchy-aware key/value resources that can be referenced by IAM conditions and organization policies, while labels are free-form key/value pairs used mainly for organizing and for cost attribution",
+          "es": "Los tags son recursos de clave/valor conscientes de la jerarquía que pueden referenciarse en condiciones de IAM y en políticas de organización, mientras que las etiquetas son pares clave/valor de forma libre usados principalmente para organizar y para atribuir costos"
+        },
+        {
+          "en": "Tags apply only to Cloud Storage buckets, while labels apply to every resource type",
+          "es": "Los tags solo se aplican a buckets de Cloud Storage, mientras que las etiquetas se aplican a todos los tipos de recursos"
+        },
+        {
+          "en": "Labels are inherited down the hierarchy, while tags are never inherited",
+          "es": "Las etiquetas se heredan hacia abajo en la jerarquía, mientras que los tags nunca se heredan"
+        },
+        {
+          "en": "Tags replace IAM roles: attaching a tag grants the permissions defined in the tag value",
+          "es": "Los tags reemplazan a los roles de IAM: adjuntar un tag otorga los permisos definidos en el valor del tag"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Tags are first-class Resource Manager objects: a tag key holds tag values, the binding attaches a value to a resource, the binding is inherited by descendants, and IAM conditions and organization policies can then evaluate the tag to allow or deny behavior. Labels carry no policy semantics; they are metadata used for filtering and for splitting cost in the billing export. Option B is wrong because tags apply to many resource types, not just buckets. Option C inverts the behavior: tag bindings are inherited, labels are not. Option D is wrong because a tag never grants permissions by itself; it can only be a condition inside a policy that someone wrote.",
+        "es": "Los tags son objetos de primera clase de Resource Manager: una clave de tag contiene valores, la vinculación adjunta un valor a un recurso, esa vinculación la heredan los descendientes, y luego las condiciones de IAM y las políticas de organización pueden evaluar el tag para permitir o denegar un comportamiento. Las etiquetas no tienen semántica de políticas; son metadatos para filtrar y para dividir el costo en la exportación de facturación. La opción B es incorrecta porque los tags se aplican a muchos tipos de recursos, no solo a buckets. La opción C invierte el comportamiento: las vinculaciones de tags se heredan y las etiquetas no. La opción D es incorrecta porque un tag nunca otorga permisos por sí mismo; solo puede ser una condición dentro de una política que alguien escribió."
+      },
+      "doc": "https://cloud.google.com/resource-manager/docs/tags/tags-overview"
+    },
+    {
+      "id": "s1b-012",
+      "curso": null,
+      "servicios": [
+        "iam"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-iam-project-roles"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A binding inside a project's IAM allow policy is made of which elements?",
+        "es": "Una vinculación (binding) dentro de la política de permisos de IAM de un proyecto está compuesta por ¿qué elementos?"
+      },
+      "opciones": [
+        {
+          "en": "A role, a list of members, and an optional condition expression",
+          "es": "Un rol, una lista de members y una expresión de condición opcional"
+        },
+        {
+          "en": "A permission, a resource name, and a region",
+          "es": "Un permiso, un nombre de recurso y una región"
+        },
+        {
+          "en": "A user, a password policy, and an expiration date",
+          "es": "Un usuario, una política de contraseñas y una fecha de vencimiento"
+        },
+        {
+          "en": "A service account key, a scope, and an audience",
+          "es": "Una clave de cuenta de servicio, un alcance y una audiencia"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "An allow policy is a list of bindings; each binding names exactly one role, the set of principals that receive it, and optionally a condition that must evaluate to true for the grant to apply. Option B lists the pieces of a permission check, not of a binding: individual permissions are bundled into roles and are never attached directly to principals, and IAM bindings have no region. Option C describes account settings that belong to Cloud Identity, not to an IAM policy. Option D mixes authentication artifacts of service accounts and OAuth with the authorization model.",
+        "es": "Una política de permisos es una lista de bindings; cada binding nombra exactamente un rol, el conjunto de principales que lo reciben y, opcionalmente, una condición que debe evaluarse como verdadera para que el otorgamiento se aplique. La opción B enumera las piezas de una verificación de permisos, no de un binding: los permisos individuales se agrupan en roles y nunca se adjuntan directamente a un principal, y los bindings de IAM no tienen región. La opción C describe configuraciones de cuenta propias de Cloud Identity, no de una política de IAM. La opción D mezcla artefactos de autenticación de cuentas de servicio y OAuth con el modelo de autorización."
+      },
+      "doc": "https://cloud.google.com/iam/docs/policies"
+    },
+    {
+      "id": "s1b-013",
+      "curso": null,
+      "servicios": [
+        "cloud-identity"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-cloud-identity"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What does Google Cloud Directory Sync (GCDS) do?",
+        "es": "¿Qué hace Google Cloud Directory Sync (GCDS)?"
+      },
+      "opciones": [
+        {
+          "en": "It provisions users and groups into Cloud Identity from an on-premises LDAP or Active Directory source, in one direction only",
+          "es": "Aprovisiona usuarios y grupos en Cloud Identity a partir de una fuente LDAP o Active Directory local, en una sola dirección"
+        },
+        {
+          "en": "It replicates Cloud Identity users back into Active Directory so both directories can be edited",
+          "es": "Replica los usuarios de Cloud Identity de vuelta a Active Directory para que ambos directorios se puedan editar"
+        },
+        {
+          "en": "It authenticates users at sign-in time by forwarding passwords to the on-premises directory",
+          "es": "Autentica a los usuarios al iniciar sesión reenviando las contraseñas al directorio local"
+        },
+        {
+          "en": "It synchronizes IAM role bindings between Google Cloud projects",
+          "es": "Sincroniza las vinculaciones de roles de IAM entre proyectos de Google Cloud"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "GCDS is a provisioning tool that reads your LDAP or Active Directory source and makes the Cloud Identity directory match it, creating, updating, suspending, and deleting accounts and groups; the sync is deliberately one-way so the on-premises directory stays the single source of truth. Option B is wrong because GCDS never writes back to the source directory. Option C confuses provisioning with authentication: sign-in against the corporate IdP is handled by SSO (SAML), not by GCDS. Option D is wrong because GCDS knows nothing about IAM bindings; it only manages identities.",
+        "es": "GCDS es una herramienta de aprovisionamiento que lee tu fuente LDAP o Active Directory y hace que el directorio de Cloud Identity coincida con ella, creando, actualizando, suspendiendo y borrando cuentas y grupos; la sincronización es deliberadamente unidireccional para que el directorio local siga siendo la única fuente de verdad. La opción B es incorrecta porque GCDS nunca escribe de vuelta en el directorio de origen. La opción C confunde aprovisionamiento con autenticación: el inicio de sesión contra el IdP corporativo lo maneja SSO (SAML), no GCDS. La opción D es incorrecta porque GCDS no sabe nada de vinculaciones de IAM; solo administra identidades."
+      },
+      "doc": "https://cloud.google.com/architecture/identity/federating-gcp-with-active-directory-introduction"
+    },
+    {
+      "id": "s1b-014",
+      "curso": null,
+      "servicios": [
+        "quotas-apis"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-apis-quotas"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is the risk of disabling an API in a project that still has resources depending on it?",
+        "es": "¿Cuál es el riesgo de deshabilitar una API en un proyecto que todavía tiene recursos que dependen de ella?"
+      },
+      "opciones": [
+        {
+          "en": "The resources that rely on that service stop working, and services that depend on the disabled API are also affected",
+          "es": "Los recursos que dependen de ese servicio dejan de funcionar, y también se ven afectados los servicios que dependen de la API deshabilitada"
+        },
+        {
+          "en": "Nothing happens until the next billing cycle, when the resources are deleted",
+          "es": "No pasa nada hasta el siguiente ciclo de facturación, cuando los recursos se borran"
+        },
+        {
+          "en": "The API stays usable but calls become billable at a higher rate",
+          "es": "La API sigue utilizable pero las llamadas pasan a cobrarse a una tarifa más alta"
+        },
+        {
+          "en": "Only new resources are blocked; existing resources are unaffected forever",
+          "es": "Solo se bloquean los recursos nuevos; los recursos existentes no se ven afectados nunca"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Disabling a service turns off its endpoints for the project, so anything that calls it fails, and Service Usage warns you when other enabled services depend on the one you are turning off. Google may also delete the resources managed by a service that stays disabled. Option B invents a billing-cycle behavior that does not exist. Option C is wrong because a disabled API is not usable at any price. Option D is wrong because existing resources managed by that API stop being reachable and can eventually be removed.",
+        "es": "Deshabilitar un servicio apaga sus endpoints para el proyecto, así que todo lo que lo llame falla, y Service Usage te advierte cuando otros servicios habilitados dependen del que estás apagando. Además, Google puede borrar los recursos administrados por un servicio que permanece deshabilitado. La opción B inventa un comportamiento de ciclo de facturación que no existe. La opción C es incorrecta porque una API deshabilitada no es utilizable a ningún precio. La opción D es incorrecta porque los recursos existentes administrados por esa API dejan de ser accesibles y con el tiempo pueden eliminarse."
+      },
+      "doc": "https://cloud.google.com/service-usage/docs/enable-disable"
+    },
+    {
+      "id": "s1b-015",
+      "curso": null,
+      "servicios": [
+        "vpc",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-networking-availability"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your users are all in Santiago, Chile, and the application is latency sensitive. Which consideration should drive your choice of Google Cloud region?",
+        "es": "Todos tus usuarios están en Santiago de Chile y la aplicación es sensible a la latencia. ¿Qué consideración debe guiar tu elección de región de Google Cloud?"
+      },
+      "opciones": [
+        {
+          "en": "Pick the region geographically closest to the users that offers the products you need, because network round-trip time grows with distance",
+          "es": "Elegir la región geográficamente más cercana a los usuarios que ofrezca los productos que necesitas, porque el tiempo de ida y vuelta de la red crece con la distancia"
+        },
+        {
+          "en": "Pick the region with the most zones, because more zones always means lower latency",
+          "es": "Elegir la región con más zonas, porque más zonas siempre significa menor latencia"
+        },
+        {
+          "en": "Pick the cheapest region worldwide, because Google's private backbone makes distance irrelevant",
+          "es": "Elegir la región más barata del mundo, porque el backbone privado de Google hace irrelevante la distancia"
+        },
+        {
+          "en": "Pick any region and enable a global external load balancer, which removes latency entirely",
+          "es": "Elegir cualquier región y habilitar un balanceador de cargas externo global, que elimina la latencia por completo"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Physical distance sets a floor on round-trip time, so serving users from a nearby region is the primary lever for latency; you still have to confirm in the locations documentation that the products and machine types you need are actually offered there. Option B is wrong because the number of zones affects availability options, not the distance to the user. Option C is wrong because the backbone reduces jitter and hops but cannot beat the speed of light, and cheap far-away regions hurt interactive traffic. Option D is wrong because a global load balancer shortens the path to Google's edge but the backend still runs in a region, and latency is never eliminated.",
+        "es": "La distancia física impone un mínimo al tiempo de ida y vuelta, así que servir a los usuarios desde una región cercana es la principal palanca de latencia; aun así hay que confirmar en la documentación de ubicaciones que los productos y tipos de máquina que necesitas se ofrecen ahí. La opción B es incorrecta porque la cantidad de zonas afecta las opciones de disponibilidad, no la distancia al usuario. La opción C es incorrecta porque el backbone reduce el jitter y los saltos, pero no supera la velocidad de la luz, y las regiones baratas y lejanas perjudican el tráfico interactivo. La opción D es incorrecta porque un balanceador global acorta el camino al borde de Google, pero el backend sigue ejecutándose en una región y la latencia nunca se elimina."
+      },
+      "doc": "https://cloud.google.com/compute/docs/regions-zones"
+    },
+    {
+      "id": "s1b-016",
+      "curso": null,
+      "servicios": [
+        "billing"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.2-budgets-alerts"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "By default, who receives the email notifications generated by a Cloud Billing budget threshold?",
+        "es": "De forma predeterminada, ¿quién recibe las notificaciones por correo que genera el umbral de un presupuesto de facturación de Cloud?"
+      },
+      "opciones": [
+        {
+          "en": "The Billing Account Administrators and Billing Account Users of the billing account the budget belongs to",
+          "es": "Los administradores y los usuarios de la cuenta de facturación (Billing Account Administrator y Billing Account User) a la que pertenece el presupuesto"
+        },
+        {
+          "en": "Every user who has any IAM role in any of the linked projects",
+          "es": "Todos los usuarios que tengan cualquier rol de IAM en alguno de los proyectos vinculados"
+        },
+        {
+          "en": "Only the organization's super admin account",
+          "es": "Solo la cuenta de superadministrador de la organización"
+        },
+        {
+          "en": "Nobody, unless a Pub/Sub topic is configured first",
+          "es": "Nadie, a menos que primero se configure un tema de Pub/Sub"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "A budget sends its threshold emails to the principals holding Billing Account Administrator and Billing Account User on that billing account; you can override this by pointing the budget at Monitoring notification channels so that specific people or distribution lists get the alert instead. Option B is wrong because project-level roles do not subscribe anyone to billing alerts. Option C is wrong because the super admin has no special role in budget notifications. Option D is wrong because email is the default channel; Pub/Sub is an additional, optional route used for automation.",
+        "es": "Un presupuesto envía sus correos de umbral a los principales que tienen Billing Account Administrator y Billing Account User en esa cuenta de facturación; puedes cambiarlo apuntando el presupuesto a canales de notificación de Monitoring para que la alerta llegue a personas o listas específicas. La opción B es incorrecta porque los roles a nivel de proyecto no suscriben a nadie a las alertas de facturación. La opción C es incorrecta porque el superadministrador no cumple un papel especial en las notificaciones de presupuesto. La opción D es incorrecta porque el correo es el canal predeterminado; Pub/Sub es una vía adicional y opcional que se usa para automatizar."
+      },
+      "doc": "https://cloud.google.com/billing/docs/how-to/budgets"
+    },
+    {
+      "id": "s1b-017",
+      "curso": null,
+      "servicios": [
+        "resource-manager"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-resource-hierarchy"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "An organization policy sets a list constraint at the organization node. A folder underneath sets its own policy for the same constraint with inheritFromParent set to false. What is the effect on projects inside that folder?",
+        "es": "Una política de organización establece una restricción de lista en el nodo de la organización. Una carpeta debajo establece su propia política para la misma restricción con inheritFromParent en false. ¿Cuál es el efecto en los proyectos dentro de esa carpeta?"
+      },
+      "opciones": [
+        {
+          "en": "Only the folder's policy applies to them; the values inherited from the organization are discarded for that constraint",
+          "es": "Solo se les aplica la política de la carpeta; los valores heredados de la organización se descartan para esa restricción"
+        },
+        {
+          "en": "Both policies are merged, and the union of allowed values applies",
+          "es": "Ambas políticas se combinan y se aplica la unión de los valores permitidos"
+        },
+        {
+          "en": "The organization policy always wins, because policies set higher in the hierarchy cannot be replaced",
+          "es": "La política de la organización siempre gana, porque las políticas fijadas más arriba en la jerarquía no se pueden reemplazar"
+        },
+        {
+          "en": "The constraint stops being enforced anywhere in the organization",
+          "es": "La restricción deja de aplicarse en toda la organización"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Organization policies are inherited by default, and inheritFromParent controls whether a node's policy is merged with the one above it. Setting it to false makes the node's policy stand alone, so the folder's rules replace the inherited ones for its whole subtree. Option B describes what happens when inheritFromParent is true, which is exactly what the flag turns off. Option C is wrong because the whole point of the hierarchy is that lower nodes can define their own policy, subject to who holds the Organization Policy Administrator role. Option D is wrong because the change is scoped to that folder; the rest of the organization keeps the original policy.",
+        "es": "Las políticas de organización se heredan de forma predeterminada, e inheritFromParent controla si la política de un nodo se combina con la de arriba. Ponerlo en false hace que la política del nodo quede aislada, de modo que las reglas de la carpeta reemplazan a las heredadas en todo su subárbol. La opción B describe lo que ocurre cuando inheritFromParent es true, que es justo lo que la marca desactiva. La opción C es incorrecta porque el sentido de la jerarquía es que los nodos inferiores puedan definir su propia política, sujeto a quién tenga el rol de administrador de políticas de la organización. La opción D es incorrecta porque el cambio se limita a esa carpeta; el resto de la organización mantiene la política original."
+      },
+      "doc": "https://cloud.google.com/resource-manager/docs/organization-policy/understanding-hierarchy"
+    },
+    {
+      "id": "s1b-018",
+      "curso": null,
+      "servicios": [
+        "cloud-monitoring",
+        "quotas-apis"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-observability-setup"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A team wants to build dashboards and alerting policies with Cloud Monitoring in a new project. Which API has to be enabled?",
+        "es": "Un equipo quiere crear paneles y políticas de alertas con Cloud Monitoring en un proyecto nuevo. ¿Qué API debe estar habilitada?"
+      },
+      "opciones": [
+        {
+          "en": "monitoring.googleapis.com, the Cloud Monitoring API",
+          "es": "monitoring.googleapis.com, la API de Cloud Monitoring"
+        },
+        {
+          "en": "compute.googleapis.com, because all metrics come from Compute Engine",
+          "es": "compute.googleapis.com, porque todas las métricas provienen de Compute Engine"
+        },
+        {
+          "en": "cloudresourcemanager.googleapis.com, because dashboards are hierarchy resources",
+          "es": "cloudresourcemanager.googleapis.com, porque los paneles son recursos de la jerarquía"
+        },
+        {
+          "en": "bigquery.googleapis.com, because Monitoring stores time series in BigQuery",
+          "es": "bigquery.googleapis.com, porque Monitoring almacena las series temporales en BigQuery"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Dashboards, alerting policies, custom metrics, and uptime checks are all served by the Cloud Monitoring API, so monitoring.googleapis.com must be enabled in the project (Cloud Logging has its own API, logging.googleapis.com). Option B is wrong because Monitoring collects metrics from dozens of services and does not require Compute Engine. Option C is wrong because Resource Manager manages projects and folders, not monitoring objects. Option D is wrong because Monitoring keeps time series in its own managed store; BigQuery is only a destination if you deliberately export data.",
+        "es": "Los paneles, las políticas de alertas, las métricas personalizadas y las verificaciones de tiempo de actividad los sirve la API de Cloud Monitoring, así que monitoring.googleapis.com debe estar habilitada en el proyecto (Cloud Logging tiene su propia API, logging.googleapis.com). La opción B es incorrecta porque Monitoring recopila métricas de decenas de servicios y no requiere Compute Engine. La opción C es incorrecta porque Resource Manager administra proyectos y carpetas, no objetos de supervisión. La opción D es incorrecta porque Monitoring guarda las series temporales en su propio almacén administrado; BigQuery solo es un destino si exportas datos deliberadamente."
+      },
+      "doc": "https://cloud.google.com/monitoring/api/enable-api"
+    },
+    {
+      "id": "s1b-019",
+      "curso": null,
+      "servicios": [
+        "asset-inventory",
+        "bigquery",
+        "cloud-storage"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-asset-inventory-gemini"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "To which destinations can Cloud Asset Inventory export a point-in-time snapshot of your assets?",
+        "es": "¿A qué destinos puede exportar Cloud Asset Inventory una instantánea de tus recursos en un momento dado?"
+      },
+      "opciones": [
+        {
+          "en": "A Cloud Storage bucket or a BigQuery table",
+          "es": "Un bucket de Cloud Storage o una tabla de BigQuery"
+        },
+        {
+          "en": "Only a local file downloaded from the console",
+          "es": "Solo un archivo local descargado desde la consola"
+        },
+        {
+          "en": "A Cloud SQL instance or a Firestore database",
+          "es": "Una instancia de Cloud SQL o una base de datos de Firestore"
+        },
+        {
+          "en": "A Pub/Sub topic only, because exports are always streaming",
+          "es": "Únicamente un tema de Pub/Sub, porque las exportaciones siempre son de streaming"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The export operation writes the snapshot either as files in a Cloud Storage bucket or as rows in a BigQuery table, and the BigQuery option is what makes SQL analysis of the inventory possible. Option B is wrong because the export is a server-side operation, not a console download. Option C is wrong because Cloud SQL and Firestore are not supported export destinations. Option D confuses exports with feeds: feeds publish change notifications to Pub/Sub, while exports produce a snapshot to Cloud Storage or BigQuery.",
+        "es": "La operación de exportación escribe la instantánea como archivos en un bucket de Cloud Storage o como filas en una tabla de BigQuery, y la opción de BigQuery es la que permite analizar el inventario con SQL. La opción B es incorrecta porque la exportación es una operación del lado del servidor, no una descarga desde la consola. La opción C es incorrecta porque Cloud SQL y Firestore no son destinos de exportación admitidos. La opción D confunde exportaciones con feeds: los feeds publican notificaciones de cambios en Pub/Sub, mientras que las exportaciones producen una instantánea a Cloud Storage o BigQuery."
+      },
+      "doc": "https://cloud.google.com/asset-inventory/docs/exporting-to-bigquery"
+    },
+    {
+      "id": "s1b-020",
+      "curso": null,
+      "servicios": [
+        "vpc"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-networking-availability"
+      ],
+      "nivel": "principiante",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO statements are true when you evaluate Google Cloud locations for a new deployment?",
+        "es": "¿Cuáles DOS afirmaciones son verdaderas cuando evalúas ubicaciones de Google Cloud para una implementación nueva?"
+      },
+      "opciones": [
+        {
+          "en": "Not every product, machine type, or accelerator is available in every region",
+          "es": "No todos los productos, tipos de máquina o aceleradores están disponibles en todas las regiones"
+        },
+        {
+          "en": "Prices for the same resource can differ from one region to another",
+          "es": "Los precios de un mismo recurso pueden variar de una región a otra"
+        },
+        {
+          "en": "Every region contains exactly three zones by design",
+          "es": "Toda región contiene exactamente tres zonas por diseño"
+        },
+        {
+          "en": "Choosing a region automatically replicates your resources to a second region",
+          "es": "Elegir una región replica automáticamente tus recursos en una segunda región"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Product availability and pricing are both location dependent, which is why the locations page and the pricing calculator are part of planning: a GPU model or a managed service may simply not exist in the region you prefer, and identical resources often cost different amounts in different regions. Option C is wrong because the number of zones varies by region. Option D is wrong because cross-region redundancy is never automatic: you get it only by choosing multi-region or dual-region options, or by deploying to more than one region yourself.",
+        "es": "La disponibilidad de productos y los precios dependen de la ubicación, y por eso la página de ubicaciones y la calculadora de precios forman parte de la planificación: un modelo de GPU o un servicio administrado puede simplemente no existir en la región que prefieres, y recursos idénticos suelen costar distinto en regiones distintas. La opción C es incorrecta porque la cantidad de zonas varía según la región. La opción D es incorrecta porque la redundancia entre regiones nunca es automática: solo se obtiene eligiendo opciones multirregión o birregión, o implementando tú mismo en más de una región."
+      },
+      "doc": "https://cloud.google.com/about/locations"
+    }
+  ]
+}

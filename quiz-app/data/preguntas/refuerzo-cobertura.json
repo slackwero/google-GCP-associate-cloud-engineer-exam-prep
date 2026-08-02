@@ -359,6 +359,1422 @@
         "es": "La causa raíz es que la pertenencia a un network tag no está controlada por acceso. Filtrar por cuenta de servicio o por un secure tag lleva esa pertenencia a IAM: un desarrollador que no puede actuar como la cuenta de servicio, o que no tiene Tag User sobre el valor del tag, no puede poner una VM dentro del alcance de la regla. B no ayuda porque la prioridad rige el orden de evaluación y el desarrollador seguiría coincidiendo con solo agregar el tag. C rompe el requisito de que los desarrolladores sigan administrando sus VMs. D solo detecta el problema después de ocurrido y no impide el acceso."
       },
       "doc": "https://cloud.google.com/firewall/docs/firewalls"
+    },
+    {
+      "id": "cob-009",
+      "curso": null,
+      "servicios": [
+        "compute-engine",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-instance-ops"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which command opens an SSH session to a Linux Compute Engine instance and generates or reuses the SSH key pair for you?",
+        "es": "¿Qué comando abre una sesión SSH hacia una instancia Linux de Compute Engine y genera o reutiliza el par de claves SSH por ti?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud compute ssh INSTANCE_NAME --zone ZONE",
+          "es": "gcloud compute ssh INSTANCE_NAME --zone ZONE"
+        },
+        {
+          "en": "gcloud compute instances connect INSTANCE_NAME --shell",
+          "es": "gcloud compute instances connect INSTANCE_NAME --shell"
+        },
+        {
+          "en": "gcloud auth login --instance INSTANCE_NAME",
+          "es": "gcloud auth login --instance INSTANCE_NAME"
+        },
+        {
+          "en": "gcloud compute instances describe INSTANCE_NAME --ssh",
+          "es": "gcloud compute instances describe INSTANCE_NAME --ssh"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "gcloud compute ssh wraps the ssh client: it creates a key pair on first use, publishes the public key through OS Login or instance metadata, and connects. B is not a real gcloud command. C authenticates the gcloud CLI itself with your Google account and has no instance flag. D returns the instance definition in YAML and has no --ssh flag.",
+        "es": "gcloud compute ssh envuelve al cliente ssh: crea un par de claves en el primer uso, publica la clave pública mediante OS Login o los metadatos de la instancia y se conecta. B no es un comando real de gcloud. C autentica la propia CLI de gcloud con tu cuenta de Google y no tiene marca de instancia. D devuelve la definición de la instancia en YAML y no tiene la marca --ssh."
+      },
+      "doc": "https://cloud.google.com/compute/docs/connect/standard-ssh"
+    },
+    {
+      "id": "cob-010",
+      "curso": null,
+      "servicios": [
+        "compute-engine"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-instance-ops"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A VM is in the TERMINATED state. What does that mean in Compute Engine?",
+        "es": "Una VM está en estado TERMINATED. ¿Qué significa eso en Compute Engine?"
+      },
+      "opciones": [
+        {
+          "en": "The instance is stopped: its disks and configuration still exist and it can be started again, but no CPU or memory is billed",
+          "es": "La instancia está detenida: sus discos y su configuración siguen existiendo y se puede volver a iniciar, pero no se factura CPU ni memoria"
+        },
+        {
+          "en": "The instance has been permanently deleted along with its boot disk",
+          "es": "La instancia se borró de forma permanente junto con su disco de arranque"
+        },
+        {
+          "en": "The instance is running but unreachable because of a firewall rule",
+          "es": "La instancia está en ejecución pero es inalcanzable por una regla de firewall"
+        },
+        {
+          "en": "The instance memory has been saved to disk so it can resume in seconds",
+          "es": "La memoria de la instancia se guardó en disco para poder reanudarla en segundos"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "TERMINATED is the state of a stopped instance; the instance resource and its persistent disks remain, so you keep paying for storage and reserved static IPs but not for the machine type. B describes deletion, which removes the instance from the project entirely. C describes a connectivity problem on a RUNNING instance, not a lifecycle state. D describes SUSPENDED, where the guest memory is preserved and the instance can be resumed.",
+        "es": "TERMINATED es el estado de una instancia detenida; el recurso de la instancia y sus discos persistentes permanecen, así que sigues pagando almacenamiento e IPs estáticas reservadas, pero no el tipo de máquina. B describe el borrado, que elimina la instancia del proyecto por completo. C describe un problema de conectividad en una instancia RUNNING, no un estado del ciclo de vida. D describe SUSPENDED, donde la memoria del huésped se conserva y la instancia puede reanudarse."
+      },
+      "doc": "https://cloud.google.com/compute/docs/instances/instance-life-cycle"
+    },
+    {
+      "id": "cob-011",
+      "curso": null,
+      "servicios": [
+        "compute-engine",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-instance-ops"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which command shows the full configuration of a single VM, including its machine type, disks, network interfaces and metadata?",
+        "es": "¿Qué comando muestra la configuración completa de una sola VM, incluidos su tipo de máquina, discos, interfaces de red y metadatos?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud compute instances describe INSTANCE_NAME --zone ZONE",
+          "es": "gcloud compute instances describe INSTANCE_NAME --zone ZONE"
+        },
+        {
+          "en": "gcloud compute instances list --zone ZONE",
+          "es": "gcloud compute instances list --zone ZONE"
+        },
+        {
+          "en": "gcloud compute instances get-serial-port-output INSTANCE_NAME",
+          "es": "gcloud compute instances get-serial-port-output INSTANCE_NAME"
+        },
+        {
+          "en": "gcloud compute config-ssh",
+          "es": "gcloud compute config-ssh"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "describe returns the complete resource definition of one instance in YAML or JSON. B lists many instances but only a summary (name, zone, machine type, IPs, status). C prints the serial console output, which is boot and kernel logging, not the configuration. D writes SSH host entries into your local ssh config so you can use plain ssh; it does not show instance details.",
+        "es": "describe devuelve la definición completa del recurso de una instancia en YAML o JSON. B lista muchas instancias pero solo con un resumen (nombre, zona, tipo de máquina, IPs, estado). C imprime la salida de la consola serie, que es registro de arranque y del kernel, no la configuración. D escribe entradas de host SSH en tu configuración local de ssh para poder usar ssh directo; no muestra detalles de la instancia."
+      },
+      "doc": "https://cloud.google.com/sdk/gcloud/reference/compute/instances/describe"
+    },
+    {
+      "id": "cob-012",
+      "curso": null,
+      "servicios": [
+        "compute-engine",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-instance-ops"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You need a list of only the running instances in a project, showing just the name and the zone. Which command does this?",
+        "es": "Necesitas una lista solo de las instancias en ejecución de un proyecto, mostrando únicamente el nombre y la zona. ¿Qué comando lo hace?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud compute instances list --filter=\"status=RUNNING\" --format=\"table(name,zone)\"",
+          "es": "gcloud compute instances list --filter=\"status=RUNNING\" --format=\"table(name,zone)\""
+        },
+        {
+          "en": "gcloud compute instances list --status RUNNING --columns name,zone",
+          "es": "gcloud compute instances list --status RUNNING --columns name,zone"
+        },
+        {
+          "en": "gcloud compute instances describe --filter=\"status=RUNNING\"",
+          "es": "gcloud compute instances describe --filter=\"status=RUNNING\""
+        },
+        {
+          "en": "gcloud compute instances list | grep RUNNING --format=name,zone",
+          "es": "gcloud compute instances list | grep RUNNING --format=name,zone"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "--filter applies a server or client side expression over resource fields, and --format=\"table(...)\" selects the projected columns; both are generic gcloud flags available on list commands. B invents flags that do not exist. C is wrong because describe targets a single named instance and does not accept a filter over many resources. D pipes to grep, which cannot select columns, and --format is not a grep flag.",
+        "es": "--filter aplica una expresión sobre los campos del recurso y --format=\"table(...)\" selecciona las columnas proyectadas; ambas son marcas genéricas de gcloud disponibles en los comandos list. B inventa marcas que no existen. C es incorrecta porque describe apunta a una sola instancia con nombre y no acepta un filtro sobre muchos recursos. D canaliza a grep, que no puede seleccionar columnas, y --format no es una marca de grep."
+      },
+      "doc": "https://cloud.google.com/sdk/gcloud/reference/topic/filters"
+    },
+    {
+      "id": "cob-013",
+      "curso": null,
+      "servicios": [
+        "compute-engine",
+        "vpc",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-instance-ops"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A VM has no external IP address and company policy forbids adding one. How can an administrator open an SSH session to it?",
+        "es": "Una VM no tiene dirección IP externa y la política de la empresa prohíbe agregarla. ¿Cómo puede un administrador abrir una sesión SSH hacia ella?"
+      },
+      "opciones": [
+        {
+          "en": "Use IAP TCP forwarding, for example gcloud compute ssh INSTANCE --tunnel-through-iap, and allow ingress on TCP 22 from 35.235.240.0/20",
+          "es": "Usar el reenvío TCP de IAP, por ejemplo gcloud compute ssh INSTANCE --tunnel-through-iap, y permitir la entrada en TCP 22 desde 35.235.240.0/20"
+        },
+        {
+          "en": "Configure Cloud NAT for the subnet so that inbound SSH connections are translated to the VM",
+          "es": "Configurar Cloud NAT en la subred para que las conexiones SSH entrantes se traduzcan hacia la VM"
+        },
+        {
+          "en": "Enable the serial console and use it as the standard administrative SSH session",
+          "es": "Habilitar la consola serie y usarla como sesión SSH administrativa estándar"
+        },
+        {
+          "en": "Assign an ephemeral external IP only for the duration of the session",
+          "es": "Asignar una IP externa efímera solo mientras dure la sesión"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "IAP TCP forwarding tunnels SSH through Google's front end, so the VM needs no external IP; you grant the IAP-secured Tunnel User role and allow ingress from the IAP range 35.235.240.0/20. B is wrong: Cloud NAT provides outbound connectivity only and never accepts inbound connections. C is wrong: the serial console is a break-glass debugging channel, not the standard remote access path, and it is not SSH to the guest network stack. D violates the stated policy that forbids external IPs.",
+        "es": "El reenvío TCP de IAP tuneliza SSH a través del frontend de Google, por lo que la VM no necesita IP externa; se otorga el rol IAP-secured Tunnel User y se permite la entrada desde el rango de IAP 35.235.240.0/20. B es falsa: Cloud NAT solo da conectividad saliente y nunca acepta conexiones entrantes. C es falsa: la consola serie es un canal de depuración de emergencia, no la vía estándar de acceso remoto, y no es SSH contra la pila de red del huésped. D viola la política declarada que prohíbe IPs externas."
+      },
+      "doc": "https://cloud.google.com/iap/docs/using-tcp-forwarding"
+    },
+    {
+      "id": "cob-014",
+      "curso": null,
+      "servicios": [
+        "compute-engine",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-instance-ops"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You want to stop paying for the vCPU and memory of a VM overnight, but keep its boot disk and its configuration so the same VM starts again in the morning. Which action fits?",
+        "es": "Quieres dejar de pagar la vCPU y la memoria de una VM durante la noche, pero conservar su disco de arranque y su configuración para que la misma VM se inicie por la mañana. ¿Qué acción corresponde?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud compute instances stop, and gcloud compute instances start the next morning",
+          "es": "gcloud compute instances stop y, a la mañana siguiente, gcloud compute instances start"
+        },
+        {
+          "en": "gcloud compute instances reset, which restarts the machine cleanly",
+          "es": "gcloud compute instances reset, que reinicia la máquina de forma limpia"
+        },
+        {
+          "en": "gcloud compute instances delete with --keep-disks=boot, then recreate the VM",
+          "es": "gcloud compute instances delete con --keep-disks=boot y luego volver a crear la VM"
+        },
+        {
+          "en": "Detach the boot disk at night and reattach it in the morning",
+          "es": "Desconectar el disco de arranque por la noche y volver a conectarlo por la mañana"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Stopping moves the instance to TERMINATED: compute charges stop while disks and the instance definition persist, and start brings the same VM back. B only resets a running instance, similar to pulling the power; it keeps billing and can corrupt the file system. C destroys the instance resource and forces you to rebuild it, which is far more work than a stop. D is not a supported way to pause billing: the instance keeps running and simply loses its boot disk.",
+        "es": "Detener lleva la instancia a TERMINATED: se detienen los cargos de cómputo mientras persisten los discos y la definición de la instancia, y start recupera la misma VM. B solo reinicia una instancia en ejecución, similar a cortar la energía; mantiene la facturación y puede corromper el sistema de archivos. C destruye el recurso de la instancia y obliga a reconstruirla, mucho más trabajo que un stop. D no es una forma admitida de pausar la facturación: la instancia sigue en ejecución y simplemente pierde su disco de arranque."
+      },
+      "doc": "https://cloud.google.com/compute/docs/instances/stop-start-instance"
+    },
+    {
+      "id": "cob-015",
+      "curso": null,
+      "servicios": [
+        "compute-engine",
+        "cloud-logging"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-instance-ops"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "After a kernel update, a VM no longer accepts SSH connections and the guest never finishes booting. You must see what the operating system prints during startup, with the least effort. What should you do?",
+        "es": "Tras una actualización de kernel, una VM ya no acepta conexiones SSH y el sistema huésped nunca termina de arrancar. Debes ver lo que el sistema operativo imprime durante el inicio, con el menor esfuerzo. ¿Qué haces?"
+      },
+      "opciones": [
+        {
+          "en": "Inspect the serial port output of the instance (gcloud compute instances get-serial-port-output) and, if needed, enable interactive serial console access",
+          "es": "Inspeccionar la salida del puerto serie de la instancia (gcloud compute instances get-serial-port-output) y, si hace falta, habilitar el acceso interactivo a la consola serie"
+        },
+        {
+          "en": "Add an external IP address and retry gcloud compute ssh with --troubleshoot",
+          "es": "Agregar una dirección IP externa y reintentar gcloud compute ssh con --troubleshoot"
+        },
+        {
+          "en": "Create a snapshot of the boot disk and inspect it later from a workstation",
+          "es": "Crear una instantánea del disco de arranque e inspeccionarla más tarde desde una estación de trabajo"
+        },
+        {
+          "en": "Recreate the VM from the latest image and discard the broken instance",
+          "es": "Volver a crear la VM desde la imagen más reciente y descartar la instancia dañada"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The serial port captures BIOS, bootloader and kernel messages before the network and the SSH daemon are available, which is exactly the phase that fails here, and it is readable with one command. B does not help, because the guest is not far enough into boot to run sshd, so no network change fixes it. C is much slower: it means attaching the disk to another VM before you can read anything, and it still does not show live boot messages. D destroys the evidence and does not explain the failure, so the same update could break the next VM.",
+        "es": "El puerto serie captura los mensajes del BIOS, del gestor de arranque y del kernel antes de que estén disponibles la red y el demonio SSH, que es justo la fase que falla aquí, y se lee con un solo comando. B no ayuda, porque el huésped no llega a un punto del arranque en que sshd se ejecute, así que ningún cambio de red lo resuelve. C es mucho más lento: implica adjuntar el disco a otra VM antes de poder leer algo y aun así no muestra los mensajes de arranque en vivo. D destruye la evidencia y no explica la falla, por lo que la misma actualización podría romper la siguiente VM."
+      },
+      "doc": "https://cloud.google.com/compute/docs/troubleshooting/viewing-serial-port-output"
+    },
+    {
+      "id": "cob-016",
+      "curso": null,
+      "servicios": [
+        "compute-engine",
+        "gcloud-cli",
+        "iam"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-instance-ops"
+      ],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO practices let you manage SSH access to a fleet of Compute Engine instances centrally instead of copying keys to each VM?",
+        "es": "¿Cuáles DOS prácticas permiten administrar el acceso SSH a una flota de instancias de Compute Engine de forma centralizada en lugar de copiar claves en cada VM?"
+      },
+      "opciones": [
+        {
+          "en": "Enable OS Login on the project or instance so SSH access is granted through IAM roles such as Compute OS Login",
+          "es": "Habilitar OS Login en el proyecto o la instancia para que el acceso SSH se otorgue mediante roles de IAM como Compute OS Login"
+        },
+        {
+          "en": "Use IAP TCP forwarding so administrators connect through Identity-Aware Proxy with an IAM-controlled tunnel role",
+          "es": "Usar el reenvío TCP de IAP para que los administradores se conecten mediante Identity-Aware Proxy con un rol de túnel controlado por IAM"
+        },
+        {
+          "en": "Store a shared private key in a Cloud Storage bucket and let each administrator download it",
+          "es": "Guardar una clave privada compartida en un bucket de Cloud Storage y dejar que cada administrador la descargue"
+        },
+        {
+          "en": "Add every administrator's public key to the ssh-keys metadata of each individual instance",
+          "es": "Agregar la clave pública de cada administrador a los metadatos ssh-keys de cada instancia individual"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "A is correct: OS Login binds Linux accounts to Google identities and grants access through IAM, so revoking a role revokes SSH everywhere. B is correct: IAP TCP forwarding centralizes who may open a tunnel through the IAP-secured Tunnel User role and works without external IPs. C is wrong: a shared private key removes individual accountability and cannot be revoked per person. D is wrong: per-instance metadata keys are exactly the manual, decentralized model that OS Login replaces, and stale keys linger on VMs.",
+        "es": "A es correcta: OS Login vincula las cuentas de Linux a identidades de Google y otorga acceso mediante IAM, así que revocar un rol revoca el SSH en todas partes. B es correcta: el reenvío TCP de IAP centraliza quién puede abrir un túnel mediante el rol IAP-secured Tunnel User y funciona sin IPs externas. C es falsa: una clave privada compartida elimina la trazabilidad individual y no se puede revocar por persona. D es falsa: las claves en metadatos por instancia son justamente el modelo manual y descentralizado que OS Login reemplaza, y las claves obsoletas quedan en las VMs."
+      },
+      "doc": "https://cloud.google.com/compute/docs/oslogin"
+    },
+    {
+      "id": "cob-017",
+      "curso": null,
+      "servicios": [
+        "bigquery"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-job-status"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which states can a BigQuery job report while you monitor it?",
+        "es": "¿Qué estados puede informar un trabajo de BigQuery mientras lo supervisas?"
+      },
+      "opciones": [
+        {
+          "en": "PENDING, RUNNING and DONE, where DONE means finished either successfully or with an error",
+          "es": "PENDING, RUNNING y DONE, donde DONE significa finalizado con éxito o con error"
+        },
+        {
+          "en": "STARTED, PAUSED and CLOSED",
+          "es": "STARTED, PAUSED y CLOSED"
+        },
+        {
+          "en": "PROVISIONING, STAGING and TERMINATED",
+          "es": "PROVISIONING, STAGING y TERMINATED"
+        },
+        {
+          "en": "SUBMITTED, QUEUED and ARCHIVED",
+          "es": "SUBMITTED, QUEUED y ARCHIVED"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "A BigQuery job moves from PENDING to RUNNING to DONE; DONE only means the job stopped, so you must inspect the error result to know whether it succeeded. B and D are invented state names. C lists Compute Engine instance lifecycle states, not BigQuery job states.",
+        "es": "Un trabajo de BigQuery pasa de PENDING a RUNNING y luego a DONE; DONE solo significa que el trabajo terminó, así que hay que revisar el resultado de error para saber si tuvo éxito. B y D son nombres de estados inventados. C enumera estados del ciclo de vida de instancias de Compute Engine, no de trabajos de BigQuery."
+      },
+      "doc": "https://cloud.google.com/bigquery/docs/managing-jobs"
+    },
+    {
+      "id": "cob-018",
+      "curso": null,
+      "servicios": [
+        "dataflow"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-job-status"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which command lists the Dataflow jobs of a project together with their current state?",
+        "es": "¿Qué comando lista los trabajos de Dataflow de un proyecto junto con su estado actual?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud dataflow jobs list",
+          "es": "gcloud dataflow jobs list"
+        },
+        {
+          "en": "gcloud dataflow pipelines status",
+          "es": "gcloud dataflow pipelines status"
+        },
+        {
+          "en": "bq ls --jobs dataflow",
+          "es": "bq ls --jobs dataflow"
+        },
+        {
+          "en": "gcloud beam jobs describe",
+          "es": "gcloud beam jobs describe"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "gcloud dataflow jobs list returns job ID, name, type, creation time and state for the project, and gcloud dataflow jobs describe adds the details of one job. B is not a valid command; the pipelines surface manages Data Pipelines schedules, not job status this way. C queries BigQuery jobs and cannot see Dataflow. D does not exist: there is no gcloud beam command group.",
+        "es": "gcloud dataflow jobs list devuelve el ID, el nombre, el tipo, la hora de creación y el estado de los trabajos del proyecto, y gcloud dataflow jobs describe agrega los detalles de uno. B no es un comando válido; la superficie pipelines administra programaciones de Data Pipelines, no el estado de los trabajos de esta forma. C consulta trabajos de BigQuery y no puede ver Dataflow. D no existe: no hay un grupo de comandos gcloud beam."
+      },
+      "doc": "https://cloud.google.com/dataflow/docs/guides/using-command-line-intf"
+    },
+    {
+      "id": "cob-019",
+      "curso": null,
+      "servicios": [
+        "bigquery",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-job-status"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which bq command lists the jobs recently run in the current project?",
+        "es": "¿Qué comando de bq lista los trabajos ejecutados recientemente en el proyecto actual?"
+      },
+      "opciones": [
+        {
+          "en": "bq ls -j",
+          "es": "bq ls -j"
+        },
+        {
+          "en": "bq show --datasets",
+          "es": "bq show --datasets"
+        },
+        {
+          "en": "bq query --jobs",
+          "es": "bq query --jobs"
+        },
+        {
+          "en": "bq head -j",
+          "es": "bq head -j"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "bq ls -j (or --jobs) lists job IDs with their type, state and creation time, and bq show -j JOB_ID then displays one job in detail. B lists datasets and says nothing about jobs. C is not valid: bq query runs a new query rather than listing history. D reads rows from a table, not job records.",
+        "es": "bq ls -j (o --jobs) lista los IDs de trabajo con su tipo, estado y hora de creación, y luego bq show -j JOB_ID muestra un trabajo en detalle. B lista conjuntos de datos y no dice nada sobre trabajos. C no es válida: bq query ejecuta una consulta nueva en vez de listar el historial. D lee filas de una tabla, no registros de trabajos."
+      },
+      "doc": "https://cloud.google.com/bigquery/docs/managing-jobs"
+    },
+    {
+      "id": "cob-020",
+      "curso": null,
+      "servicios": [
+        "bigquery"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-job-status"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A nightly load job into BigQuery finished but the destination table is empty. Which step best identifies why the job failed?",
+        "es": "Un trabajo de carga nocturno en BigQuery terminó, pero la tabla de destino está vacía. ¿Qué paso identifica mejor por qué falló el trabajo?"
+      },
+      "opciones": [
+        {
+          "en": "Run bq show -j JOB_ID to read the job status, including the error result and per-row errors",
+          "es": "Ejecutar bq show -j JOB_ID para leer el estado del trabajo, incluidos el resultado de error y los errores por fila"
+        },
+        {
+          "en": "Re-run the load with a larger slot reservation to see whether it succeeds",
+          "es": "Volver a ejecutar la carga con una reserva de slots mayor para ver si tiene éxito"
+        },
+        {
+          "en": "Query the destination table with SELECT COUNT(*) to confirm it is empty",
+          "es": "Consultar la tabla de destino con SELECT COUNT(*) para confirmar que está vacía"
+        },
+        {
+          "en": "Delete the table and create it again with the same schema",
+          "es": "Borrar la tabla y volver a crearla con el mismo esquema"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "bq show -j returns the job resource, whose status block carries the state, the top level errorResult and the list of errors, which is where a schema mismatch or a bad row is reported. B guesses at a capacity cause and hides the real error while spending more resources. C only restates the symptom you already observed. D destroys the destination without learning anything and will fail again on the next run.",
+        "es": "bq show -j devuelve el recurso del trabajo, cuyo bloque de estado contiene el estado, el errorResult principal y la lista de errores, que es donde se informa una discrepancia de esquema o una fila inválida. B supone una causa de capacidad, oculta el error real y gasta más recursos. C solo repite el síntoma que ya observaste. D destruye el destino sin aprender nada y volverá a fallar en la siguiente ejecución."
+      },
+      "doc": "https://cloud.google.com/bigquery/docs/managing-jobs"
+    },
+    {
+      "id": "cob-021",
+      "curso": null,
+      "servicios": [
+        "bigquery"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-job-status",
+        "3.2-data-queries"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You must report, with SQL, the 10 most expensive queries of the last 7 days in a BigQuery project, including who ran them and how many bytes they processed. What do you query?",
+        "es": "Debes reportar con SQL las 10 consultas más costosas de los últimos 7 días en un proyecto de BigQuery, incluidos quién las ejecutó y cuántos bytes procesaron. ¿Qué consultas?"
+      },
+      "opciones": [
+        {
+          "en": "The INFORMATION_SCHEMA.JOBS view, filtering by creation_time and ordering by total_bytes_processed",
+          "es": "La vista INFORMATION_SCHEMA.JOBS, filtrando por creation_time y ordenando por total_bytes_processed"
+        },
+        {
+          "en": "The Cloud Billing export tables, which store one row per query",
+          "es": "Las tablas de exportación de Cloud Billing, que guardan una fila por consulta"
+        },
+        {
+          "en": "INFORMATION_SCHEMA.TABLES, which records the queries that read each table",
+          "es": "INFORMATION_SCHEMA.TABLES, que registra las consultas que leen cada tabla"
+        },
+        {
+          "en": "The query history panel of the console, which is the only place where this data exists",
+          "es": "El panel de historial de consultas de la consola, que es el único lugar donde existen estos datos"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "INFORMATION_SCHEMA.JOBS exposes job metadata as queryable rows, including user_email, job_type, state, creation_time and total_bytes_processed, so it answers this with plain SQL. B is wrong: billing export aggregates cost by SKU and day, not per individual query with a user. C is wrong: TABLES describes table metadata such as type and creation time, not query activity. D is wrong: the console history is a convenience view of the same job metadata, and it is not the only source.",
+        "es": "INFORMATION_SCHEMA.JOBS expone los metadatos de los trabajos como filas consultables, incluidos user_email, job_type, state, creation_time y total_bytes_processed, así que responde esto con SQL simple. B es falsa: la exportación de facturación agrega costos por SKU y día, no por consulta individual con su usuario. C es falsa: TABLES describe metadatos de tablas como tipo y fecha de creación, no la actividad de consultas. D es falsa: el historial de la consola es una vista cómoda de esos mismos metadatos y no es la única fuente."
+      },
+      "doc": "https://cloud.google.com/bigquery/docs/information-schema-jobs"
+    },
+    {
+      "id": "cob-022",
+      "curso": null,
+      "servicios": [
+        "dataflow",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-job-status"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What does a Dataflow job in the Draining state indicate?",
+        "es": "¿Qué indica un trabajo de Dataflow en estado Draining?"
+      },
+      "opciones": [
+        {
+          "en": "The pipeline stopped ingesting new data and is finishing the in-flight work before it stops",
+          "es": "La canalización dejó de ingerir datos nuevos y está terminando el trabajo en curso antes de detenerse"
+        },
+        {
+          "en": "The pipeline was stopped immediately and all buffered data was discarded",
+          "es": "La canalización se detuvo de inmediato y se descartaron todos los datos en búfer"
+        },
+        {
+          "en": "The workers are being resized because autoscaling detected a backlog",
+          "es": "Se está redimensionando la cantidad de workers porque el autoescalado detectó un backlog"
+        },
+        {
+          "en": "The job failed and Dataflow is retrying it from the last checkpoint",
+          "es": "El trabajo falló y Dataflow lo reintenta desde el último punto de control"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Draining closes the sources, stops accepting new input and lets buffered elements and windows finish, so the job ends without data loss and then reports Drained. B describes Cancel, which stops the job at once and can lose buffered data. C describes autoscaling activity, which happens while the job stays in the Running state. D describes retry behavior on failure, which is reported by Failed or Updating states, not Draining.",
+        "es": "Draining cierra las fuentes, deja de aceptar entrada nueva y permite que los elementos y las ventanas en búfer terminen, de modo que el trabajo finaliza sin pérdida de datos y luego reporta Drained. B describe Cancel, que detiene el trabajo de inmediato y puede perder datos en búfer. C describe la actividad de autoescalado, que ocurre mientras el trabajo sigue en estado Running. D describe el comportamiento de reintento ante fallas, que se refleja en estados Failed o Updating, no en Draining."
+      },
+      "doc": "https://cloud.google.com/dataflow/docs/guides/stopping-a-pipeline"
+    },
+    {
+      "id": "cob-023",
+      "curso": null,
+      "servicios": [
+        "dataflow",
+        "cloud-logging"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-job-status"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A streaming Dataflow pipeline that reads from Pub/Sub must be replaced by a new version. You must not lose the messages already pulled into the pipeline, and downtime should be minimal. What should you do?",
+        "es": "Una canalización de streaming de Dataflow que lee de Pub/Sub debe reemplazarse por una versión nueva. No debes perder los mensajes ya extraídos por la canalización y el tiempo de inactividad debe ser mínimo. ¿Qué haces?"
+      },
+      "opciones": [
+        {
+          "en": "Drain the running job so in-flight data is processed and committed, then start the new version",
+          "es": "Drenar el trabajo en ejecución para que los datos en curso se procesen y se confirmen, y luego iniciar la versión nueva"
+        },
+        {
+          "en": "Cancel the running job and start the new version immediately",
+          "es": "Cancelar el trabajo en ejecución e iniciar la versión nueva de inmediato"
+        },
+        {
+          "en": "Delete the Pub/Sub subscription so the pipeline stops receiving data, then redeploy",
+          "es": "Borrar la suscripción de Pub/Sub para que la canalización deje de recibir datos y luego volver a implementar"
+        },
+        {
+          "en": "Scale the worker pool down to zero and deploy the new pipeline over the same job name",
+          "es": "Reducir el grupo de workers a cero e implementar la canalización nueva con el mismo nombre de trabajo"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Draining is the supported way to retire a streaming job cleanly: sources are closed and buffered elements and open windows are flushed to the sinks before the job reaches Drained. B loses buffered, already acknowledged data because cancel stops workers immediately. C destroys the subscription and therefore its backlog and its acknowledgement state, which loses messages that no longer exist for a new subscriber. D is not a valid mechanism: you cannot deploy a different pipeline into an existing job by name, and zero workers merely stalls processing.",
+        "es": "Drenar es la forma admitida de retirar un trabajo de streaming de forma limpia: se cierran las fuentes y los elementos en búfer y las ventanas abiertas se vacían hacia los sinks antes de que el trabajo llegue a Drained. B pierde datos en búfer ya confirmados porque cancelar detiene a los workers de inmediato. C destruye la suscripción y con ella su backlog y su estado de confirmación, lo que pierde mensajes que ya no existirán para un suscriptor nuevo. D no es un mecanismo válido: no puedes implementar una canalización distinta dentro de un trabajo existente por su nombre, y cero workers solo detiene el procesamiento."
+      },
+      "doc": "https://cloud.google.com/dataflow/docs/guides/stopping-a-pipeline"
+    },
+    {
+      "id": "cob-024",
+      "curso": null,
+      "servicios": [
+        "dataflow",
+        "cloud-monitoring",
+        "cloud-logging"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-job-status"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A Dataflow batch job is reported as Failed. You need the exception thrown by the user code inside the workers, not just the job level summary. Where do you look?",
+        "es": "Un trabajo por lotes de Dataflow aparece como Failed. Necesitas la excepción lanzada por el código de usuario dentro de los workers, no solo el resumen a nivel de trabajo. ¿Dónde buscas?"
+      },
+      "opciones": [
+        {
+          "en": "The worker logs of the job in Cloud Logging, reachable from the Logs panel of the job details page",
+          "es": "Los registros de worker del trabajo en Cloud Logging, accesibles desde el panel de registros de la página de detalles del trabajo"
+        },
+        {
+          "en": "The Cloud Audit Logs of the project, which record every exception raised by a pipeline",
+          "es": "Los registros de auditoría de Cloud del proyecto, que registran cada excepción lanzada por una canalización"
+        },
+        {
+          "en": "The output of gcloud dataflow jobs list, which prints the stack trace of failed jobs",
+          "es": "La salida de gcloud dataflow jobs list, que imprime el seguimiento de pila de los trabajos fallidos"
+        },
+        {
+          "en": "The VPC Flow Logs of the subnet where the workers ran",
+          "es": "Los VPC Flow Logs de la subred donde se ejecutaron los workers"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Dataflow separates job logs from worker logs: the job log carries service level messages, while the worker log stream in Cloud Logging holds the stack traces produced by your transforms, and the job details page links straight to it. B is wrong: audit logs record administrative API activity, not application exceptions. C is wrong: the list command shows one summary line per job, with state but no stack trace. D is wrong: flow logs describe network connections and reveal nothing about code exceptions.",
+        "es": "Dataflow separa los registros del trabajo de los de los workers: el registro del trabajo lleva mensajes a nivel de servicio, mientras que el flujo de registros de worker en Cloud Logging contiene los seguimientos de pila producidos por tus transformaciones, y la página de detalles del trabajo enlaza directamente allí. B es falsa: los registros de auditoría anotan actividad administrativa de la API, no excepciones de aplicación. C es falsa: el comando list muestra una línea de resumen por trabajo, con el estado pero sin seguimiento de pila. D es falsa: los flow logs describen conexiones de red y no revelan nada sobre excepciones del código."
+      },
+      "doc": "https://cloud.google.com/dataflow/docs/guides/logging"
+    },
+    {
+      "id": "cob-025",
+      "curso": null,
+      "servicios": [
+        "gemini-cloud-assist",
+        "cloud-monitoring"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.4-gemini-assist-monitoring"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What does Gemini Cloud Assist add to Cloud Monitoring?",
+        "es": "¿Qué aporta Gemini Cloud Assist a Cloud Monitoring?"
+      },
+      "opciones": [
+        {
+          "en": "An AI assistant that explains alerts, summarizes signals and helps build charts and queries in natural language",
+          "es": "Un asistente de IA que explica alertas, resume señales y ayuda a construir gráficos y consultas en lenguaje natural"
+        },
+        {
+          "en": "A replacement metric backend that stores time series more cheaply than Cloud Monitoring",
+          "es": "Un backend de métricas de reemplazo que almacena series temporales más barato que Cloud Monitoring"
+        },
+        {
+          "en": "An agent installed on each VM to collect system metrics and logs",
+          "es": "Un agente instalado en cada VM para recolectar métricas y registros del sistema"
+        },
+        {
+          "en": "A managed Prometheus service for scraping application metrics",
+          "es": "Un servicio administrado de Prometheus para recolectar métricas de aplicaciones"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Gemini Cloud Assist is an AI layer over your Google Cloud environment: inside Monitoring it summarizes and correlates signals, explains what an alert means and helps you author charts, queries and dashboards from a prompt. B is wrong: it stores nothing and Cloud Monitoring remains the metric backend. C describes the Ops Agent. D describes Google Cloud Managed Service for Prometheus.",
+        "es": "Gemini Cloud Assist es una capa de IA sobre tu entorno de Google Cloud: dentro de Monitoring resume y correlaciona señales, explica qué significa una alerta y ayuda a crear gráficos, consultas y paneles a partir de una instrucción. B es falsa: no almacena nada y Cloud Monitoring sigue siendo el backend de métricas. C describe el Ops Agent. D describe Google Cloud Managed Service para Prometheus."
+      },
+      "doc": "https://cloud.google.com/gemini/docs/cloud-assist/overview"
+    },
+    {
+      "id": "cob-026",
+      "curso": null,
+      "servicios": [
+        "gemini-cloud-assist",
+        "quotas-apis"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.4-gemini-assist-monitoring"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A team cannot see the Gemini Cloud Assist panel in the Google Cloud console. What is the first thing to check?",
+        "es": "Un equipo no ve el panel de Gemini Cloud Assist en la consola de Google Cloud. ¿Qué es lo primero que hay que revisar?"
+      },
+      "opciones": [
+        {
+          "en": "That the Gemini for Google Cloud API is enabled in the project and that users hold the required Gemini IAM role",
+          "es": "Que la API de Gemini para Google Cloud esté habilitada en el proyecto y que los usuarios tengan el rol de IAM de Gemini requerido"
+        },
+        {
+          "en": "That the Ops Agent is installed on every VM of the project",
+          "es": "Que el Ops Agent esté instalado en todas las VMs del proyecto"
+        },
+        {
+          "en": "That a log sink exports all logs to BigQuery",
+          "es": "Que un receptor de registros exporte todos los registros a BigQuery"
+        },
+        {
+          "en": "That the project has at least one alerting policy in the Incidents state",
+          "es": "Que el proyecto tenga al menos una política de alertas en estado de incidente"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Gemini Cloud Assist requires the Gemini for Google Cloud API to be enabled on the project and the user to be granted the corresponding IAM role, otherwise the assistant surface is not offered. B is wrong: the Ops Agent affects metric and log collection, not the availability of the assistant. C is wrong: log export is an unrelated routing feature. D is wrong: the assistant appears regardless of whether an incident is currently open.",
+        "es": "Gemini Cloud Assist requiere que la API de Gemini para Google Cloud esté habilitada en el proyecto y que el usuario tenga el rol de IAM correspondiente; de lo contrario, la superficie del asistente no se ofrece. B es falsa: el Ops Agent afecta la recolección de métricas y registros, no la disponibilidad del asistente. C es falsa: la exportación de registros es una función de enrutamiento sin relación. D es falsa: el asistente aparece independientemente de que haya un incidente abierto."
+      },
+      "doc": "https://cloud.google.com/gemini/docs/discover/set-up-gemini"
+    },
+    {
+      "id": "cob-027",
+      "curso": null,
+      "servicios": [
+        "gemini-cloud-assist",
+        "cloud-monitoring"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.4-gemini-assist-monitoring"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which statement best describes the role of Gemini Cloud Assist during an incident?",
+        "es": "¿Qué afirmación describe mejor el papel de Gemini Cloud Assist durante un incidente?"
+      },
+      "opciones": [
+        {
+          "en": "It assists the on-call engineer by summarizing evidence and proposing hypotheses, but the engineer still validates the diagnosis and decides the action",
+          "es": "Asiste al ingeniero de guardia resumiendo evidencia y proponiendo hipótesis, pero el ingeniero sigue validando el diagnóstico y decidiendo la acción"
+        },
+        {
+          "en": "It automatically applies the remediation it considers correct without human confirmation",
+          "es": "Aplica automáticamente la remediación que considera correcta sin confirmación humana"
+        },
+        {
+          "en": "It replaces alerting policies, so alerts no longer need to be configured",
+          "es": "Reemplaza a las políticas de alertas, por lo que ya no hace falta configurarlas"
+        },
+        {
+          "en": "It only works on logs and cannot reason about metrics or resource configuration",
+          "es": "Solo funciona sobre registros y no puede razonar sobre métricas ni sobre la configuración de recursos"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Gemini Cloud Assist is an assistive tool: it accelerates triage by correlating logs, metrics and configuration and by drafting explanations, while the human remains accountable for confirming the root cause and approving changes. B is wrong: it does not autonomously mutate your environment. C is wrong: alerting policies are still what detect and notify a problem. D is wrong: it reasons over multiple signal types, including metrics and resource configuration.",
+        "es": "Gemini Cloud Assist es una herramienta de asistencia: acelera el triage correlacionando registros, métricas y configuración y redactando explicaciones, mientras la persona sigue siendo responsable de confirmar la causa raíz y aprobar los cambios. B es falsa: no modifica tu entorno de forma autónoma. C es falsa: las políticas de alertas siguen siendo lo que detecta y notifica un problema. D es falsa: razona sobre varios tipos de señales, incluidas métricas y configuración de recursos."
+      },
+      "doc": "https://cloud.google.com/gemini/docs/cloud-assist/overview"
+    },
+    {
+      "id": "cob-028",
+      "curso": null,
+      "servicios": [
+        "gemini-cloud-assist",
+        "cloud-monitoring"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.4-gemini-assist-monitoring",
+        "3.4-alerts-metrics"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "An engineer new to Cloud Monitoring must build a chart of p99 request latency per Cloud Run service but does not know the metric names or the query language. What is the most efficient approach?",
+        "es": "Un ingeniero nuevo en Cloud Monitoring debe construir un gráfico de la latencia p99 de solicitudes por servicio de Cloud Run, pero no conoce los nombres de las métricas ni el lenguaje de consulta. ¿Cuál es el enfoque más eficiente?"
+      },
+      "opciones": [
+        {
+          "en": "Describe the chart in natural language to Gemini Cloud Assist in Monitoring and let it propose the query, then review and save it to a dashboard",
+          "es": "Describir el gráfico en lenguaje natural a Gemini Cloud Assist en Monitoring para que proponga la consulta y luego revisarla y guardarla en un panel"
+        },
+        {
+          "en": "Export all metrics to BigQuery and write SQL against the exported tables",
+          "es": "Exportar todas las métricas a BigQuery y escribir SQL contra las tablas exportadas"
+        },
+        {
+          "en": "Install the Ops Agent on the Cloud Run service to expose latency metrics",
+          "es": "Instalar el Ops Agent en el servicio de Cloud Run para exponer métricas de latencia"
+        },
+        {
+          "en": "Create a custom metric that computes p99 latency in application code",
+          "es": "Crear una métrica personalizada que calcule la latencia p99 en el código de la aplicación"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Gemini Cloud Assist inside Monitoring turns a plain description into a working query over the existing metrics, which is exactly the gap this engineer has, and the result is reviewable before saving. B is a heavy detour that adds export cost and latency for something the chart editor already does. C is wrong: Cloud Run emits request latency as a built-in metric and the Ops Agent is for VMs and GKE nodes, not for Cloud Run. D duplicates a metric Google already publishes and adds application code for no benefit.",
+        "es": "Gemini Cloud Assist dentro de Monitoring convierte una descripción sencilla en una consulta funcional sobre las métricas existentes, que es justo la brecha de este ingeniero, y el resultado se puede revisar antes de guardar. B es un rodeo pesado que agrega costo y latencia de exportación para algo que el editor de gráficos ya hace. C es falsa: Cloud Run emite la latencia de solicitudes como métrica integrada y el Ops Agent es para VMs y nodos de GKE, no para Cloud Run. D duplica una métrica que Google ya publica y agrega código de aplicación sin beneficio."
+      },
+      "doc": "https://cloud.google.com/gemini/docs/cloud-assist/overview"
+    },
+    {
+      "id": "cob-029",
+      "curso": null,
+      "servicios": [
+        "gemini-cloud-assist",
+        "cloud-monitoring",
+        "cloud-logging"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.4-gemini-assist-monitoring"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "During an outage, several alerts fire at once across GKE, Cloud SQL and a load balancer. How does Gemini Cloud Assist help most in this situation?",
+        "es": "Durante una interrupción se disparan varias alertas a la vez en GKE, Cloud SQL y un balanceador de cargas. ¿Cómo ayuda más Gemini Cloud Assist en esta situación?"
+      },
+      "opciones": [
+        {
+          "en": "By summarizing and correlating the related signals into a single narrative and suggesting a probable root cause to investigate first",
+          "es": "Resumiendo y correlacionando las señales relacionadas en una sola narrativa y sugiriendo una causa raíz probable para investigar primero"
+        },
+        {
+          "en": "By silencing the duplicate alerting policies so only one notification is delivered",
+          "es": "Silenciando las políticas de alertas duplicadas para que solo se entregue una notificación"
+        },
+        {
+          "en": "By failing the workload over to another region automatically",
+          "es": "Conmutando automáticamente la carga de trabajo a otra región"
+        },
+        {
+          "en": "By increasing the log retention of the affected projects so nothing is lost",
+          "es": "Aumentando la retención de registros de los proyectos afectados para que no se pierda nada"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The core value during a noisy incident is correlation: the assistant groups related alerts, logs and metric anomalies and produces an explanation that points at the likely originating component, which shortens triage. B is a job for alert grouping, notification channels and snooze settings, not for the assistant. C is wrong: it performs no failover and does not change traffic routing. D is a logging configuration change that does nothing to explain the incident.",
+        "es": "El valor central en un incidente ruidoso es la correlación: el asistente agrupa alertas, registros y anomalías de métricas relacionadas y produce una explicación que apunta al componente que probablemente originó el problema, lo que acorta el triage. B corresponde al agrupamiento de alertas, los canales de notificación y la postergación, no al asistente. C es falsa: no ejecuta conmutación por error ni cambia el enrutamiento del tráfico. D es un cambio de configuración de registros que no explica nada del incidente."
+      },
+      "doc": "https://cloud.google.com/gemini/docs/cloud-assist/overview"
+    },
+    {
+      "id": "cob-030",
+      "curso": null,
+      "servicios": [
+        "gemini-cloud-assist",
+        "iam"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.4-gemini-assist-monitoring"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A support engineer has no IAM permissions on the production project and asks Gemini Cloud Assist about the alerts of that project. What happens?",
+        "es": "Un ingeniero de soporte no tiene permisos de IAM en el proyecto de producción y le pregunta a Gemini Cloud Assist sobre las alertas de ese proyecto. ¿Qué ocurre?"
+      },
+      "opciones": [
+        {
+          "en": "The assistant cannot show data the engineer is not authorized to see, because it operates within the caller's existing IAM permissions",
+          "es": "El asistente no puede mostrar datos que el ingeniero no está autorizado a ver, porque opera dentro de los permisos de IAM del usuario que lo invoca"
+        },
+        {
+          "en": "The assistant answers with full data, because it runs with a Google-managed account that bypasses IAM",
+          "es": "El asistente responde con todos los datos, porque se ejecuta con una cuenta administrada por Google que omite IAM"
+        },
+        {
+          "en": "The assistant grants the engineer temporary read access for the duration of the incident",
+          "es": "El asistente otorga al ingeniero acceso de lectura temporal mientras dure el incidente"
+        },
+        {
+          "en": "The assistant answers only if the project has audit logs enabled",
+          "es": "El asistente responde solo si el proyecto tiene habilitados los registros de auditoría"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Gemini Cloud Assist respects the caller's IAM permissions: it can only reason over resources and telemetry the user is already allowed to read, so an unauthorized project stays invisible. B is wrong and would be a serious access control bypass. C is wrong: the assistant never grants roles, that remains an explicit IAM change. D is wrong: audit logs are a data source, not the authorization mechanism that decides what the user may see.",
+        "es": "Gemini Cloud Assist respeta los permisos de IAM de quien lo invoca: solo puede razonar sobre recursos y telemetría que el usuario ya tiene permitido leer, así que un proyecto no autorizado permanece invisible. B es falsa y sería una elusión grave del control de acceso. C es falsa: el asistente nunca otorga roles, eso sigue siendo un cambio explícito de IAM. D es falsa: los registros de auditoría son una fuente de datos, no el mecanismo de autorización que decide qué puede ver el usuario."
+      },
+      "doc": "https://cloud.google.com/gemini/docs/discover/set-up-gemini"
+    },
+    {
+      "id": "cob-031",
+      "curso": null,
+      "servicios": [
+        "gemini-cloud-assist",
+        "cloud-monitoring",
+        "observability-tools"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.4-gemini-assist-monitoring"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Gemini Cloud Assist proposes that a latency spike was caused by CPU throttling on a GKE node pool. Before you resize the node pool in production, what is the appropriate next step?",
+        "es": "Gemini Cloud Assist propone que un pico de latencia se debió a la limitación de CPU en un node pool de GKE. Antes de redimensionar el node pool en producción, ¿cuál es el siguiente paso adecuado?"
+      },
+      "opciones": [
+        {
+          "en": "Validate the hypothesis against the underlying metrics and logs, then apply the change through your normal change process",
+          "es": "Validar la hipótesis contra las métricas y los registros subyacentes y luego aplicar el cambio por tu proceso normal de cambios"
+        },
+        {
+          "en": "Apply the suggestion immediately, since the assistant has access to more signals than a human",
+          "es": "Aplicar la sugerencia de inmediato, ya que el asistente tiene acceso a más señales que una persona"
+        },
+        {
+          "en": "Disable the alerting policy that fired so the incident closes",
+          "es": "Deshabilitar la política de alertas que se disparó para que el incidente se cierre"
+        },
+        {
+          "en": "Ask the assistant to apply the change on your behalf in the production cluster",
+          "es": "Pedir al asistente que aplique el cambio en tu nombre en el clúster de producción"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The assistant produces a probable explanation, not a verified fact, so the operator confirms it against the throttling and utilization metrics before making a production change. B skips verification and can lead to resizing for the wrong reason while the real cause persists. C hides the symptom and leaves users affected. D misstates the tool: it assists analysis and drafts actions, and applying a production change is still an explicit, reviewed operation you perform.",
+        "es": "El asistente produce una explicación probable, no un hecho verificado, así que el operador la confirma contra las métricas de throttling y de utilización antes de un cambio en producción. B omite la verificación y puede llevar a redimensionar por el motivo equivocado mientras la causa real persiste. C oculta el síntoma y deja a los usuarios afectados. D describe mal la herramienta: asiste el análisis y redacta acciones, y aplicar un cambio en producción sigue siendo una operación explícita y revisada que ejecutas tú."
+      },
+      "doc": "https://cloud.google.com/gemini/docs/cloud-assist/overview"
+    },
+    {
+      "id": "cob-032",
+      "curso": null,
+      "servicios": [
+        "gemini-cloud-assist",
+        "cloud-monitoring"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.4-gemini-assist-monitoring"
+      ],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO tasks are appropriate uses of Gemini Cloud Assist together with Cloud Monitoring?",
+        "es": "¿Cuáles DOS tareas son usos apropiados de Gemini Cloud Assist junto con Cloud Monitoring?"
+      },
+      "opciones": [
+        {
+          "en": "Generating a plain-language explanation of what a firing alerting policy means and which resources it covers",
+          "es": "Generar una explicación en lenguaje sencillo de qué significa una política de alertas que se disparó y qué recursos abarca"
+        },
+        {
+          "en": "Drafting a dashboard or a metric query from a natural language description, which you then review",
+          "es": "Redactar un panel o una consulta de métricas a partir de una descripción en lenguaje natural, que luego revisas"
+        },
+        {
+          "en": "Serving as the system of record for metric data, replacing Cloud Monitoring storage",
+          "es": "Servir como sistema de registro de los datos de métricas y reemplazar el almacenamiento de Cloud Monitoring"
+        },
+        {
+          "en": "Guaranteeing a correct root cause without any human verification",
+          "es": "Garantizar una causa raíz correcta sin ninguna verificación humana"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "A and B are exactly the assistive tasks the product targets: explaining alerts and their scope, and turning intent into charts, queries and dashboards that you validate. C is wrong: Cloud Monitoring remains the metric store; the assistant only reads and reasons. D is wrong: its output is a hypothesis to verify, and treating it as guaranteed truth is the misuse the documentation warns about.",
+        "es": "A y B son justamente las tareas de asistencia a las que apunta el producto: explicar alertas y su alcance, y convertir la intención en gráficos, consultas y paneles que tú validas. C es falsa: Cloud Monitoring sigue siendo el almacén de métricas y el asistente solo lee y razona. D es falsa: su salida es una hipótesis por verificar, y tomarla como verdad garantizada es justamente el uso indebido que advierte la documentación."
+      },
+      "doc": "https://cloud.google.com/gemini/docs/cloud-assist/overview"
+    },
+    {
+      "id": "cob-033",
+      "curso": null,
+      "servicios": [
+        "active-assist"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.4-active-assist"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What does Active Assist provide in Google Cloud?",
+        "es": "¿Qué ofrece Active Assist en Google Cloud?"
+      },
+      "opciones": [
+        {
+          "en": "Automated recommendations and insights that help optimize cost, security, performance, and reliability",
+          "es": "Recomendaciones e insights automáticos que ayudan a optimizar costo, seguridad, rendimiento y confiabilidad"
+        },
+        {
+          "en": "A managed antivirus service for Compute Engine instances",
+          "es": "Un servicio administrado de antivirus para instancias de Compute Engine"
+        },
+        {
+          "en": "A support channel where Google engineers apply changes to your projects",
+          "es": "Un canal de soporte donde ingenieros de Google aplican cambios en tus proyectos"
+        },
+        {
+          "en": "A billing product that automatically negotiates discounts with sales",
+          "es": "Un producto de facturación que negocia descuentos automáticamente con ventas"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Active Assist is the family of Google Cloud tools that generates recommendations and insights (via Recommender) across cost, security, performance, and reliability. B is unrelated to Active Assist, C is false because recommendations are surfaced for you to review and apply, not applied by Google support, and D is not how commitment discounts work.",
+        "es": "Active Assist es la familia de herramientas de Google Cloud que genera recomendaciones e insights (a través de Recommender) sobre costo, seguridad, rendimiento y confiabilidad. B no tiene relación con Active Assist, C es falsa porque las recomendaciones se presentan para que tú las revises y apliques, no las aplica el soporte de Google, y D no es como funcionan los descuentos por compromiso."
+      },
+      "doc": "https://cloud.google.com/solutions/active-assist"
+    },
+    {
+      "id": "cob-034",
+      "curso": null,
+      "servicios": [
+        "active-assist",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.4-active-assist"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your project has several VMs whose CPU and memory usage has stayed very low for weeks. Which Active Assist recommendation addresses this?",
+        "es": "Tu proyecto tiene varias VMs cuyo uso de CPU y memoria se mantuvo muy bajo durante semanas. ¿Qué recomendación de Active Assist aborda esto?"
+      },
+      "opciones": [
+        {
+          "en": "Idle resource recommendations for unused persistent disks",
+          "es": "Recomendaciones de recursos inactivos para discos persistentes sin usar"
+        },
+        {
+          "en": "Machine type (rightsizing) recommendations that suggest smaller machine types",
+          "es": "Recomendaciones de tipo de máquina (rightsizing) que sugieren tipos de máquina más pequeños"
+        },
+        {
+          "en": "IAM role recommendations that remove excess permissions",
+          "es": "Recomendaciones de roles de IAM que quitan permisos excesivos"
+        },
+        {
+          "en": "Firewall insights that flag overly permissive rules",
+          "es": "Insights de firewall que marcan reglas demasiado permisivas"
+        }
+      ],
+      "respuesta": [
+        "B"
+      ],
+      "explicacion": {
+        "en": "Machine type recommendations analyze historical CPU and memory usage and propose a smaller machine type, cutting cost without changing the workload. A targets unattached disks rather than underused VMs, C is about permissions, and D is about network rules — none of them react to low VM utilization.",
+        "es": "Las recomendaciones de tipo de máquina analizan el uso histórico de CPU y memoria y proponen un tipo de máquina más pequeño, reduciendo el costo sin cambiar la carga de trabajo. A apunta a discos no conectados y no a VMs subutilizadas, C trata de permisos y D de reglas de red — ninguna reacciona a la baja utilización de una VM."
+      },
+      "doc": "https://cloud.google.com/compute/docs/instances/apply-machine-type-recommendations-for-instances"
+    },
+    {
+      "id": "cob-035",
+      "curso": null,
+      "servicios": [
+        "active-assist",
+        "iam"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.4-active-assist"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which Active Assist feature helps you enforce least privilege by detecting permissions that a principal has but never uses?",
+        "es": "¿Qué función de Active Assist te ayuda a aplicar el mínimo privilegio al detectar permisos que un principal tiene pero nunca usa?"
+      },
+      "opciones": [
+        {
+          "en": "IAM recommender (role recommendations)",
+          "es": "IAM recommender (recomendaciones de roles)"
+        },
+        {
+          "en": "Cloud Asset Inventory search",
+          "es": "La búsqueda de Cloud Asset Inventory"
+        },
+        {
+          "en": "Cloud Audit Logs retention policies",
+          "es": "Las políticas de retención de Cloud Audit Logs"
+        },
+        {
+          "en": "Organization policy constraints",
+          "es": "Las restricciones de políticas de la organización"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The IAM recommender analyzes 90 days of usage and suggests replacing a broad role with a narrower one that covers only the permissions actually used. B only searches and lists resources or policies, C controls how long logs are kept, and D restricts configurations but does not analyze permission usage.",
+        "es": "El IAM recommender analiza 90 días de uso y sugiere reemplazar un rol amplio por uno más acotado que cubra solo los permisos realmente usados. B solo busca y lista recursos o políticas, C controla cuánto tiempo se conservan los registros y D restringe configuraciones pero no analiza el uso de permisos."
+      },
+      "doc": "https://cloud.google.com/policy-intelligence/docs/role-recommendations-overview"
+    },
+    {
+      "id": "cob-036",
+      "curso": null,
+      "servicios": [
+        "active-assist",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.4-active-assist"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which command lists cost recommendations for idle VM instances in a project from the command line?",
+        "es": "¿Qué comando lista, desde la línea de comandos, las recomendaciones de costo para instancias de VM inactivas de un proyecto?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud recommender recommendations list --project=PROJECT_ID --location=ZONE --recommender=google.compute.instance.IdleResourceRecommender",
+          "es": "gcloud recommender recommendations list --project=PROJECT_ID --location=ZONE --recommender=google.compute.instance.IdleResourceRecommender"
+        },
+        {
+          "en": "gcloud compute instances list --filter=idle=true",
+          "es": "gcloud compute instances list --filter=idle=true"
+        },
+        {
+          "en": "gcloud billing recommendations list --project=PROJECT_ID",
+          "es": "gcloud billing recommendations list --project=PROJECT_ID"
+        },
+        {
+          "en": "gcloud monitoring recommendations describe --idle",
+          "es": "gcloud monitoring recommendations describe --idle"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Recommendations are read through the Recommender API, selecting the recommender ID and the location the resources live in. B invents a filter field that does not exist, and C and D are not real gcloud command groups for recommendations.",
+        "es": "Las recomendaciones se leen a través de la API de Recommender, indicando el ID del recommender y la ubicación donde viven los recursos. B inventa un campo de filtro que no existe, y C y D no son grupos de comandos reales de gcloud para recomendaciones."
+      },
+      "doc": "https://cloud.google.com/recommender/docs/using-api"
+    },
+    {
+      "id": "cob-037",
+      "curso": null,
+      "servicios": [
+        "active-assist",
+        "billing",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.4-active-assist"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Finance asks you to reduce Compute Engine spend on a stable, always-on workload. Which Active Assist recommendation is designed for that decision?",
+        "es": "El área de finanzas te pide reducir el gasto de Compute Engine en una carga de trabajo estable y siempre activa. ¿Qué recomendación de Active Assist está diseñada para esa decisión?"
+      },
+      "opciones": [
+        {
+          "en": "Committed use discount (CUD) recommendations, which size a commitment based on your historical usage",
+          "es": "Recomendaciones de descuentos por uso comprometido (CUD), que dimensionan un compromiso según tu uso histórico"
+        },
+        {
+          "en": "Idle resource recommendations, which delete the running instances",
+          "es": "Recomendaciones de recursos inactivos, que borran las instancias en ejecución"
+        },
+        {
+          "en": "Firewall insights, which reduce network egress charges",
+          "es": "Insights de firewall, que reducen los cargos de salida de red"
+        },
+        {
+          "en": "Unattended project recommendations, which shut down the project",
+          "es": "Recomendaciones de proyectos desatendidos, que apagan el proyecto"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "CUD recommendations analyze steady historical usage and propose a commitment size that lowers the rate for capacity you were going to run anyway. B does not apply because the workload is actively used, C affects network rules rather than compute cost, and D targets abandoned projects, not a production workload.",
+        "es": "Las recomendaciones de CUD analizan el uso histórico estable y proponen un tamaño de compromiso que baja la tarifa de una capacidad que ibas a ejecutar de todos modos. B no aplica porque la carga se usa activamente, C afecta reglas de red y no el costo de cómputo, y D apunta a proyectos abandonados, no a una carga de producción."
+      },
+      "doc": "https://cloud.google.com/docs/cuds-recommender"
+    },
+    {
+      "id": "cob-038",
+      "curso": null,
+      "servicios": [
+        "active-assist",
+        "vpc",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.4-active-assist"
+      ],
+      "nivel": "intermedio",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO of the following are idle resource recommendations that Active Assist can surface?",
+        "es": "¿Cuáles DOS de las siguientes son recomendaciones de recursos inactivos que Active Assist puede mostrar?"
+      },
+      "opciones": [
+        {
+          "en": "Unattached persistent disks that are still being billed",
+          "es": "Discos persistentes no conectados que se siguen facturando"
+        },
+        {
+          "en": "Reserved static external IP addresses that are not in use",
+          "es": "Direcciones IP externas estáticas reservadas que no están en uso"
+        },
+        {
+          "en": "Cloud Storage objects that were never downloaded",
+          "es": "Objetos de Cloud Storage que nunca se descargaron"
+        },
+        {
+          "en": "BigQuery queries that scanned too many bytes",
+          "es": "Consultas de BigQuery que escanearon demasiados bytes"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Idle resource recommenders detect resources that keep incurring charges while providing no value, such as unattached disks and reserved-but-unused static IPs. C is handled by Cloud Storage lifecycle policies and storage class analysis, and D is a query optimization concern surfaced elsewhere.",
+        "es": "Los recommenders de recursos inactivos detectan recursos que siguen generando cargos sin aportar valor, como discos no conectados e IPs estáticas reservadas sin uso. C se maneja con políticas de ciclo de vida y análisis de clases de almacenamiento de Cloud Storage, y D es un tema de optimización de consultas que se aborda en otro lugar."
+      },
+      "doc": "https://cloud.google.com/recommender/docs/unattached-pd-recommender"
+    },
+    {
+      "id": "cob-039",
+      "curso": null,
+      "servicios": [
+        "active-assist",
+        "iam",
+        "resource-manager"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.4-active-assist"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A security review requires removing excess permissions across hundreds of projects with minimal risk of breaking workloads. What is the BEST way to use Active Assist here?",
+        "es": "Una revisión de seguridad exige quitar permisos excesivos en cientos de proyectos con el mínimo riesgo de romper cargas de trabajo. ¿Cuál es la MEJOR forma de usar Active Assist en este caso?"
+      },
+      "opciones": [
+        {
+          "en": "Export IAM role recommendations at the organization level, review them, and apply the suggested narrower roles gradually",
+          "es": "Exportar las recomendaciones de roles de IAM a nivel de organización, revisarlas y aplicar gradualmente los roles más acotados sugeridos"
+        },
+        {
+          "en": "Immediately revoke every role flagged as excessive across all projects in a single change",
+          "es": "Revocar de inmediato todos los roles marcados como excesivos en todos los proyectos en un solo cambio"
+        },
+        {
+          "en": "Replace all predefined roles with the basic Viewer role everywhere",
+          "es": "Reemplazar todos los roles predefinidos por el rol básico Viewer en todas partes"
+        },
+        {
+          "en": "Disable the IAM recommender so recommendations stop appearing in the audit",
+          "es": "Deshabilitar el IAM recommender para que las recomendaciones dejen de aparecer en la auditoría"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Recommendations are evidence based on observed usage, but they still need human review and staged rollout, because a permission unused in the observation window may be needed by a rare job. B risks breaking production in bulk, C would break anything that writes data while also ignoring least privilege for read access, and D hides the problem instead of fixing it.",
+        "es": "Las recomendaciones son evidencia basada en el uso observado, pero aun así requieren revisión humana y aplicación por etapas, porque un permiso no usado en la ventana de observación puede necesitarlo un trabajo poco frecuente. B arriesga romper producción de forma masiva, C rompería cualquier proceso que escriba datos y además ignora el mínimo privilegio para lectura, y D esconde el problema en vez de resolverlo."
+      },
+      "doc": "https://cloud.google.com/policy-intelligence/docs/role-recommendations-overview"
+    },
+    {
+      "id": "cob-040",
+      "curso": null,
+      "servicios": [
+        "active-assist",
+        "compute-engine",
+        "cloud-monitoring"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.4-active-assist"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Active Assist recommends downsizing a VM that runs a nightly batch job which briefly saturates CPU once a day. What should you do BEFORE applying it?",
+        "es": "Active Assist recomienda reducir el tamaño de una VM que ejecuta un trabajo batch nocturno que satura la CPU brevemente una vez al día. ¿Qué deberías hacer ANTES de aplicarla?"
+      },
+      "opciones": [
+        {
+          "en": "Check the observation window and peak metrics, since averages can hide short but critical spikes",
+          "es": "Revisar la ventana de observación y las métricas de pico, ya que los promedios pueden ocultar picos cortos pero críticos"
+        },
+        {
+          "en": "Apply it right away, because recommendations already account for every workload pattern",
+          "es": "Aplicarla de inmediato, porque las recomendaciones ya contemplan todos los patrones de carga de trabajo"
+        },
+        {
+          "en": "Delete the VM and recreate it from a snapshot with the recommended type",
+          "es": "Borrar la VM y recrearla desde una instantánea con el tipo recomendado"
+        },
+        {
+          "en": "Disable Cloud Monitoring on the instance so the recommendation is recalculated",
+          "es": "Deshabilitar Cloud Monitoring en la instancia para que se recalcule la recomendación"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Rightsizing is based on observed utilization over a window, so you should confirm that peaks fit the smaller machine type before resizing a spiky workload. B treats a recommendation as an order rather than evidence, C is disruptive and unnecessary since machine types can be changed on a stopped instance, and D removes the very data the recommender depends on.",
+        "es": "El rightsizing se basa en la utilización observada durante una ventana, así que conviene confirmar que los picos caben en el tipo de máquina más pequeño antes de redimensionar una carga con picos. B trata una recomendación como una orden en lugar de evidencia, C es disruptivo e innecesario porque el tipo de máquina se puede cambiar con la instancia detenida, y D elimina justamente los datos de los que depende el recommender."
+      },
+      "doc": "https://cloud.google.com/compute/docs/instances/apply-machine-type-recommendations-for-instances"
     }
   ]
 }
