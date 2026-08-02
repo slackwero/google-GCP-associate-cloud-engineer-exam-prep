@@ -1,4 +1,9 @@
-# Google Cloud Associate Cloud Engineer — Certification Exam Prep
+# Google Cloud Platform (GCP) - Associate Cloud Engineer — Certification Exam Prep
+
+![platform](https://img.shields.io/badge/platform-Linux%20%7C%20macOS-blue)
+![python](https://img.shields.io/badge/python-%E2%89%A53.10-green)
+![questions](https://img.shields.io/badge/questions-1%2C465-blue)
+![license](https://img.shields.io/badge/license-MIT-lightgrey)
 
 A local, bilingual (English / Latin American Spanish) practice app for the
 **Google Cloud Associate Cloud Engineer** certification: 1,465 exam-style
@@ -111,8 +116,8 @@ recursos/               official exam guides, coverage analysis, study plan
 
 ## License
 
-**Not yet decided.** Until a license file is added, default copyright applies and
-no reuse rights are granted.
+[MIT](LICENSE) — code and question bank alike. Use it, fork it, build on it,
+including commercially; just keep the copyright notice.
 
 The bundled Roboto font files are a separate matter: they are distributed under
 the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0), as

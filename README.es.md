@@ -1,4 +1,9 @@
-# Google Cloud Associate Cloud Engineer — Preparación para el examen
+# Google Cloud Platform (GCP) - Associate Cloud Engineer — Preparación para el examen
+
+![plataforma](https://img.shields.io/badge/plataforma-Linux%20%7C%20macOS-blue)
+![python](https://img.shields.io/badge/python-%E2%89%A53.10-green)
+![preguntas](https://img.shields.io/badge/preguntas-1%2C465-blue)
+![licencia](https://img.shields.io/badge/licencia-MIT-lightgrey)
 
 Una app local y bilingüe (inglés / español latinoamericano) para preparar la
 certificación **Google Cloud Associate Cloud Engineer**: 1.465 preguntas tipo
@@ -113,8 +118,8 @@ recursos/               guías oficiales del examen, análisis de cobertura, pla
 
 ## Licencia
 
-**Aún sin decidir.** Mientras no exista un archivo de licencia, aplica el
-copyright por defecto y no se conceden derechos de reutilización.
+[MIT](LICENSE) — tanto el código como el banco de preguntas. Úsalo, forkéalo,
+construye sobre él, incluso comercialmente; solo conserva el aviso de copyright.
 
 Los archivos de la fuente Roboto son un caso aparte: se distribuyen bajo la
 [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0), como documenta
