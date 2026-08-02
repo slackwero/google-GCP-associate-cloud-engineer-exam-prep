@@ -1756,6 +1756,357 @@
         "es": "Administrar los node pools por separado hace que un cambio de machine type o de autoescalado toque solo el recurso del node pool, mientras el clúster permanece igual; el pool predeterminado se crea y se elimina de inmediato porque la API exige un pool inicial. B es la restricción de la API que obliga al rodeo, no la razón del patrón. C es falsa: el precio depende de los nodos, no del pool que los creó. D es falsa: Autopilot administra los nodos por ti, así que no declaras node pools."
       },
       "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/node-pools"
+    },
+    {
+      "id": "tfi-041",
+      "curso": "badge-terraform-infra",
+      "servicios": [
+        "terraform-iac",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.4-iac-tooling"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "During an incident an engineer resized a Terraform-managed VM in the console. The next plan shows the machine type reverting. The resize must stay. What is the BEST option?",
+        "es": "Durante un incidente, un ingeniero cambió el tamaño de una VM administrada por Terraform desde la consola. El siguiente plan muestra que el machine type vuelve atrás. El cambio de tamaño debe conservarse. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        {
+          "en": "Update the machine_type in the configuration to the new size, review the plan until it is empty, and merge the change",
+          "es": "Actualizar el machine_type en la configuración al nuevo tamaño, revisar el plan hasta que quede vacío y fusionar el cambio"
+        },
+        {
+          "en": "Add ignore_changes on machine_type so the plan stops reporting the difference",
+          "es": "Agregar ignore_changes en machine_type para que el plan deje de informar la diferencia"
+        },
+        {
+          "en": "Run terraform state rm on the VM so Terraform forgets it",
+          "es": "Ejecutar terraform state rm sobre la VM para que Terraform la olvide"
+        },
+        {
+          "en": "Run terraform apply -refresh-only, which makes the configuration adopt the console value",
+          "es": "Ejecutar terraform apply -refresh-only, que hace que la configuración adopte el valor de la consola"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Drift is resolved by making code the source of truth again: encode the intended size in HCL so the plan is empty and the change is reviewable and reproducible. B hides the drift permanently and future resizes through code would silently stop working. C abandons the VM to unmanaged status, which is worse than the drift. D refresh-only updates state to match reality but never edits your .tf files, so the very next plan would still propose reverting the size.",
+        "es": "La deriva se resuelve devolviendo la fuente de verdad al código: registra el tamaño deseado en HCL para que el plan quede vacío y el cambio sea revisable y reproducible. B oculta la deriva de forma permanente y los cambios de tamaño futuros por código dejarían de funcionar en silencio. C abandona la VM a un estado no administrado, peor que la deriva. D refresh-only actualiza el estado para reflejar la realidad, pero nunca edita tus archivos .tf, así que el siguiente plan seguiría proponiendo revertir el tamaño."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/best-practices/operations"
+    },
+    {
+      "id": "tfi-042",
+      "curso": "badge-terraform-infra",
+      "servicios": [
+        "terraform-iac",
+        "cloud-storage"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.4-iac-tooling"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Three engineers each keep a local state file for the same production environment and have already created duplicate resources. What is the BEST way to fix this permanently?",
+        "es": "Tres ingenieros mantienen cada uno un archivo de estado local del mismo entorno de producción y ya crearon recursos duplicados. ¿Cuál es la MEJOR forma de corregirlo de manera permanente?"
+      },
+      "opciones": [
+        {
+          "en": "Pick the authoritative state, configure a gcs backend with versioning enabled, run terraform init -migrate-state, and have everyone init against it",
+          "es": "Elegir el estado autoritativo, configurar un backend gcs con versiones habilitadas, ejecutar terraform init -migrate-state y que todos hagan init contra él"
+        },
+        {
+          "en": "Commit the terraform.tfstate file to Git so everyone pulls the latest version",
+          "es": "Versionar el archivo terraform.tfstate en Git para que todos obtengan la última versión"
+        },
+        {
+          "en": "Give each engineer a separate Terraform workspace on their own laptop",
+          "es": "Dar a cada ingeniero un workspace de Terraform separado en su propia laptop"
+        },
+        {
+          "en": "Agree on a rule that only one person runs apply, keeping local state",
+          "es": "Acordar la regla de que solo una persona ejecute apply, manteniendo el estado local"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "A shared gcs backend gives one state per environment plus locking, and object versioning on the bucket protects against a corrupt write; migrating with init -migrate-state moves the chosen state in place. B is unsafe: state contains sensitive values, Git offers no locking, and merge conflicts corrupt it. C multiplies the problem by creating more independent states. D relies on human discipline, has no technical enforcement, and still loses the state if that laptop dies.",
+        "es": "Un backend gcs compartido da un estado por entorno más bloqueo, y las versiones de objetos del bucket protegen ante una escritura corrupta; migrar con init -migrate-state traslada el estado elegido. B es inseguro: el estado contiene valores sensibles, Git no ofrece bloqueo y los conflictos de fusión lo corrompen. C multiplica el problema al crear más estados independientes. D depende de la disciplina humana, no tiene control técnico y el estado igual se pierde si esa laptop falla."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/resource-management/store-state"
+    },
+    {
+      "id": "tfi-043",
+      "curso": "badge-terraform-infra",
+      "servicios": [
+        "terraform-iac",
+        "cloud-sql"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.4-iac-tooling"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A merge request changes the name of a production google_sql_database_instance. The plan reads \"must be replaced\" and shows a destroy followed by a create. What is the BEST response?",
+        "es": "Un merge request cambia el nombre de una instancia google_sql_database_instance de producción. El plan indica \"must be replaced\" y muestra una destrucción seguida de una creación. ¿Cuál es la MEJOR respuesta?"
+      },
+      "opciones": [
+        {
+          "en": "Reject the change, keep the original name, and guard the resource with prevent_destroy so an accidental rename can never delete the database",
+          "es": "Rechazar el cambio, conservar el nombre original y proteger el recurso con prevent_destroy para que un cambio de nombre accidental nunca borre la base de datos"
+        },
+        {
+          "en": "Approve it, since Terraform migrates the data to the new instance automatically",
+          "es": "Aprobarlo, ya que Terraform migra los datos a la instancia nueva automáticamente"
+        },
+        {
+          "en": "Add create_before_destroy so there is no downtime",
+          "es": "Agregar create_before_destroy para que no haya tiempo de inactividad"
+        },
+        {
+          "en": "Run terraform apply with -auto-approve outside working hours",
+          "es": "Ejecutar terraform apply con -auto-approve fuera del horario laboral"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Name is an immutable, force new attribute on a Cloud SQL instance, so replacement means deleting the database and losing its data. The reviewer's job is to stop the change and add a technical guard rail for the future. B is false: Terraform never copies data between instances. C would still destroy the original at the end, and a duplicate instance does not carry the data across. D just schedules the data loss for a quieter hour.",
+        "es": "El nombre es un atributo inmutable que fuerza recreación en una instancia de Cloud SQL, así que el reemplazo implica borrar la base de datos y perder sus datos. La tarea del revisor es detener el cambio y agregar una barrera técnica para el futuro. B es falsa: Terraform nunca copia datos entre instancias. C igual destruiría la original al final, y una instancia duplicada no traslada los datos. D solo programa la pérdida de datos para una hora más tranquila."
+      },
+      "doc": "https://cloud.google.com/sql/docs/postgres/instance-settings"
+    },
+    {
+      "id": "tfi-044",
+      "curso": "badge-terraform-infra",
+      "servicios": [
+        "terraform-iac",
+        "vpc"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.4-iac-tooling"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A plan fails with \"Cycle\": module A has depends_on = [module.B] while module B references an output of module A. What is the BEST fix?",
+        "es": "Un plan falla con \"Cycle\": el módulo A tiene depends_on = [module.B] mientras el módulo B referencia un output del módulo A. ¿Cuál es la MEJOR corrección?"
+      },
+      "opciones": [
+        {
+          "en": "Remove the redundant depends_on and let attribute references define the single correct direction of the dependency",
+          "es": "Quitar el depends_on redundante y dejar que las referencias de atributos definan la única dirección correcta de la dependencia"
+        },
+        {
+          "en": "Add depends_on in both directions so Terraform can resolve the order",
+          "es": "Agregar depends_on en ambas direcciones para que Terraform pueda resolver el orden"
+        },
+        {
+          "en": "Apply each module with -target in the order you believe is right, on every run",
+          "es": "Aplicar cada módulo con -target en el orden que creas correcto, en cada ejecución"
+        },
+        {
+          "en": "Delete the state file and start over",
+          "es": "Borrar el archivo de estado y empezar de nuevo"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "A dependency graph must be acyclic, and the cycle here comes from a hand written depends_on that contradicts the real data flow; removing it leaves one clear edge. If both modules genuinely need something from each other, the shared resource belongs in a third module they both consume. B makes the cycle worse. C is an emergency escape hatch that Terraform itself warns against as a routine workflow. D destroys the record of your infrastructure without touching the actual cycle in the code.",
+        "es": "Un grafo de dependencias debe ser acíclico, y aquí el ciclo proviene de un depends_on escrito a mano que contradice el flujo real de datos; al quitarlo queda una sola arista clara. Si ambos módulos realmente necesitan algo del otro, el recurso compartido debe vivir en un tercer módulo que ambos consuman. B empeora el ciclo. C es una salida de emergencia que el propio Terraform desaconseja como flujo de trabajo habitual. D destruye el registro de tu infraestructura sin tocar el ciclo real en el código."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/best-practices/general-style-structure"
+    },
+    {
+      "id": "tfi-045",
+      "curso": "badge-terraform-infra",
+      "servicios": [
+        "terraform-iac",
+        "vpc"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-vpc-subnets"
+      ],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "A legacy VPC and its subnets were built by hand and must come under Terraform without disturbing running workloads. Which TWO steps are required?",
+        "es": "Una VPC heredada y sus subredes se construyeron a mano y deben quedar bajo Terraform sin afectar las cargas de trabajo en ejecución. ¿Cuáles DOS pasos se requieren?"
+      },
+      "opciones": [
+        {
+          "en": "Write resource blocks whose arguments match the existing network and subnets",
+          "es": "Escribir bloques de recurso cuyos argumentos coincidan con la red y las subredes existentes"
+        },
+        {
+          "en": "Import each resource into state and iterate on the HCL until terraform plan reports no changes",
+          "es": "Importar cada recurso al estado e iterar el HCL hasta que terraform plan no informe cambios"
+        },
+        {
+          "en": "Delete the VPC first so Terraform can create a clean replacement",
+          "es": "Borrar primero la VPC para que Terraform cree un reemplazo limpio"
+        },
+        {
+          "en": "Set ignore_changes on every argument so the plan is always empty",
+          "es": "Definir ignore_changes en todos los argumentos para que el plan siempre quede vacío"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Adoption is a two part job: describe the resource in code, then bind the real object to that address and close the gap until the plan is clean, which proves code and reality agree. C would drop every VM's connectivity and is exactly what the requirement forbids. D fakes agreement, so any later change in code would never be applied and real drift would be invisible.",
+        "es": "La adopción tiene dos partes: describir el recurso en código y luego vincular el objeto real a esa dirección y cerrar la brecha hasta que el plan quede limpio, lo que demuestra que código y realidad coinciden. C dejaría sin conectividad a todas las VMs y es justo lo que la restricción prohíbe. D finge coincidencia, así que cualquier cambio posterior en el código nunca se aplicaría y la deriva real sería invisible."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/resource-management/import"
+    },
+    {
+      "id": "tfi-046",
+      "curso": "badge-terraform-infra",
+      "servicios": [
+        "terraform-iac"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.4-iac-tooling"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Reviewers approve a plan posted in a merge request, but by the time the deploy job runs, someone has merged another change and the apply does more than was approved. What is the BEST way to prevent this?",
+        "es": "Los revisores aprueban un plan publicado en un merge request, pero cuando se ejecuta el job de despliegue alguien ya fusionó otro cambio y el apply hace más de lo aprobado. ¿Cuál es la MEJOR forma de evitarlo?"
+      },
+      "opciones": [
+        {
+          "en": "Have the pipeline run terraform plan -out=tfplan, publish that file as an artifact, and make the deploy job run terraform apply tfplan",
+          "es": "Hacer que el pipeline ejecute terraform plan -out=tfplan, publique ese archivo como artefacto y que el job de despliegue ejecute terraform apply tfplan"
+        },
+        {
+          "en": "Ask reviewers to approve faster so the window is smaller",
+          "es": "Pedir a los revisores que aprueben más rápido para reducir la ventana"
+        },
+        {
+          "en": "Run terraform apply -auto-approve directly in the deploy job",
+          "es": "Ejecutar terraform apply -auto-approve directamente en el job de despliegue"
+        },
+        {
+          "en": "Have each engineer run apply from their laptop after the merge request is approved",
+          "es": "Hacer que cada ingeniero ejecute apply desde su laptop después de aprobado el merge request"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The saved plan file is the contract between review and execution: apply of a plan file performs exactly the recorded actions and fails if the state has moved on, so the surprise becomes a visible error instead of an unreviewed change. B shrinks the race window but never closes it. C recomputes the diff at apply time, which is the root cause. D adds untracked local credentials and inconsistent runs on top of the same problem.",
+        "es": "El archivo de plan guardado es el contrato entre la revisión y la ejecución: aplicar un archivo de plan ejecuta exactamente las acciones registradas y falla si el estado avanzó, de modo que la sorpresa se convierte en un error visible en vez de un cambio sin revisar. B reduce la ventana de carrera pero no la cierra. C recalcula el diff al aplicar, que es la causa raíz. D suma credenciales locales sin trazabilidad y ejecuciones inconsistentes sobre el mismo problema."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/basic-commands"
+    },
+    {
+      "id": "tfi-047",
+      "curso": "badge-terraform-infra",
+      "servicios": [
+        "terraform-iac"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.4-iac-tooling"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A team runs dev, staging, and production in three separate Google Cloud projects and needs different IAM and approval rules per environment. What is the BEST structure?",
+        "es": "Un equipo ejecuta dev, staging y producción en tres proyectos de Google Cloud separados y necesita reglas de IAM y aprobación distintas por entorno. ¿Cuál es la MEJOR estructura?"
+      },
+      "opciones": [
+        {
+          "en": "One shared module library plus a root configuration per environment, each with its own backend prefix and service account",
+          "es": "Una biblioteca de módulos compartida más una configuración raíz por entorno, cada una con su propio prefix de backend y cuenta de servicio"
+        },
+        {
+          "en": "A single root configuration with three Terraform workspaces sharing one state bucket path",
+          "es": "Una sola configuración raíz con tres workspaces de Terraform compartiendo una misma ruta de bucket de estado"
+        },
+        {
+          "en": "Three complete copies of the configuration, maintained independently",
+          "es": "Tres copias completas de la configuración, mantenidas de forma independiente"
+        },
+        {
+          "en": "One configuration with count = 3 to create every resource three times",
+          "es": "Una configuración con count = 3 para crear cada recurso tres veces"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Google's guidance for strongly separated environments is a root module per environment reusing shared modules: the code stays common while state, credentials, and permissions are isolated, so a mistake in dev cannot reach production. B keeps a single credential and code path, and a wrong workspace selection touches production. C is the duplication problem that causes environments to drift apart. D puts all three environments in one state and one project boundary, which defeats the isolation requirement.",
+        "es": "La recomendación de Google para entornos fuertemente separados es un módulo raíz por entorno que reutiliza módulos compartidos: el código permanece común mientras el estado, las credenciales y los permisos quedan aislados, de modo que un error en dev no puede alcanzar producción. B mantiene una sola credencial y ruta de código, y elegir el workspace equivocado toca producción. C es el problema de duplicación que hace que los entornos se separen con el tiempo. D pone los tres entornos en un solo estado y un solo límite de proyecto, lo que anula el requisito de aislamiento."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/best-practices/root-modules"
+    },
+    {
+      "id": "tfi-048",
+      "curso": "badge-terraform-infra",
+      "servicios": [
+        "terraform-iac",
+        "cloud-storage"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-gcs-management"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Buckets are created with count over a list of team names. Removing a team from the middle of the list makes the plan destroy and recreate several unrelated buckets. What is the BEST fix?",
+        "es": "Los buckets se crean con count sobre una lista de nombres de equipo. Quitar un equipo del medio de la lista hace que el plan destruya y recree varios buckets no relacionados. ¿Cuál es la MEJOR corrección?"
+      },
+      "opciones": [
+        {
+          "en": "Switch to for_each keyed by team name, so each bucket has a stable address independent of list position",
+          "es": "Cambiar a for_each con clave por nombre de equipo, para que cada bucket tenga una dirección estable independiente de su posición en la lista"
+        },
+        {
+          "en": "Always append new teams to the end of the list and never remove any",
+          "es": "Agregar siempre los equipos nuevos al final de la lista y nunca quitar ninguno"
+        },
+        {
+          "en": "Add prevent_destroy to the bucket resource",
+          "es": "Agregar prevent_destroy al recurso del bucket"
+        },
+        {
+          "en": "Add ignore_changes on the bucket name",
+          "es": "Agregar ignore_changes en el nombre del bucket"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "With count, a resource's identity is its numeric index, so deleting an element shifts every later item and Terraform sees renames as replacements. for_each keys instances by a meaningful string, so only the removed key is destroyed. B is an unenforceable convention that also leaves dead resources behind. C would turn the same plan into a hard error rather than solving the addressing problem. D hides the diff but the underlying index shift, and the data loss it causes, remains.",
+        "es": "Con count, la identidad de un recurso es su índice numérico, así que borrar un elemento desplaza a todos los siguientes y Terraform interpreta los renombres como reemplazos. for_each identifica las instancias con una clave significativa, de modo que solo se destruye la clave quitada. B es una convención imposible de hacer cumplir y además deja recursos muertos. C convertiría el mismo plan en un error duro en vez de resolver el problema de direccionamiento. D oculta el diff, pero el desplazamiento de índices subyacente, y la pérdida de datos que provoca, siguen ahí."
+      },
+      "doc": "https://cloud.google.com/storage/docs/creating-buckets"
     }
   ]
 }

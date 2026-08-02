@@ -1750,6 +1750,445 @@
         "es": "Con CMEK las llamadas de encriptación y desencriptación las realiza el agente de servicio del propio producto, no el usuario que ejecuta el comando, por lo que el agente necesita roles/cloudkms.cryptoKeyEncrypterDecrypter acotado a esa clave. B te da derechos administrativos sobre el key ring, pero el agente de servicio sigue sin poder usar la clave y la creación continúa fallando. C apunta a la identidad equivocada con un rol de solo lectura que no permite operaciones criptográficas. D funcionaría técnicamente, pero otorga propiedad sobre todo el proyecto que contiene el material de la clave, una grave violación del menor privilegio."
       },
       "doc": "https://cloud.google.com/sql/docs/mysql/cmek"
+    },
+    {
+      "id": "ref3-041",
+      "curso": null,
+      "servicios": [
+        "cloud-dns",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-dns-nat"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "In a Cloud DNS managed zone you must make shop.example.com resolve to the same target as www.example.com, so that changing the target later only requires one edit. Which record set do you create?",
+        "es": "En una zona administrada de Cloud DNS debes hacer que shop.example.com se resuelva al mismo destino que www.example.com, de modo que cambiar el destino más adelante requiera una sola edición. ¿Qué conjunto de registros creas?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud dns record-sets create shop.example.com. --zone=ZONE --type=CNAME --ttl=300 --rrdatas=www.example.com.",
+          "es": "gcloud dns record-sets create shop.example.com. --zone=ZONE --type=CNAME --ttl=300 --rrdatas=www.example.com."
+        },
+        {
+          "en": "gcloud dns record-sets create shop.example.com. --zone=ZONE --type=A --ttl=300 --rrdatas=203.0.113.10",
+          "es": "gcloud dns record-sets create shop.example.com. --zone=ZONE --type=A --ttl=300 --rrdatas=203.0.113.10"
+        },
+        {
+          "en": "gcloud dns record-sets create shop.example.com. --zone=ZONE --type=MX --ttl=300 --rrdatas='10 www.example.com.'",
+          "es": "gcloud dns record-sets create shop.example.com. --zone=ZONE --type=MX --ttl=300 --rrdatas='10 www.example.com.'"
+        },
+        {
+          "en": "gcloud dns record-sets create shop.example.com. --zone=ZONE --type=NS --ttl=300 --rrdatas=www.example.com.",
+          "es": "gcloud dns record-sets create shop.example.com. --zone=ZONE --type=NS --ttl=300 --rrdatas=www.example.com."
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "A CNAME record aliases one hostname to another, so shop.example.com follows whatever www.example.com resolves to and only one record has to change later. B hard-codes an IP address, which is exactly the duplication the requirement forbids. C is a mail exchanger record, used only to route email for a domain. D delegates a subdomain to authoritative name servers and is not an alias mechanism.",
+        "es": "Un registro CNAME crea un alias de un nombre de host hacia otro, de modo que shop.example.com sigue lo que resuelva www.example.com y más adelante solo hay que cambiar un registro. B fija una dirección IP, que es justamente la duplicación que el requisito prohíbe. C es un registro de servidor de correo, usado solo para enrutar el correo de un dominio. D delega un subdominio a servidores de nombres autoritativos y no es un mecanismo de alias."
+      },
+      "doc": "https://cloud.google.com/dns/docs/records"
+    },
+    {
+      "id": "ref3-042",
+      "curso": null,
+      "servicios": [
+        "vpc"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-custom-routes"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A VPC has a custom static route to 10.50.0.0/16 with priority 900 and a dynamic route learned by Cloud Router for the same 10.50.0.0/16 with priority 100. Which route does Google Cloud use?",
+        "es": "Una VPC tiene una ruta estática personalizada hacia 10.50.0.0/16 con prioridad 900 y una ruta dinámica aprendida por Cloud Router para el mismo 10.50.0.0/16 con prioridad 100. ¿Qué ruta usa Google Cloud?"
+      },
+      "opciones": [
+        {
+          "en": "The dynamic route, because with identical destinations the lower priority value wins",
+          "es": "La ruta dinámica, porque con destinos idénticos gana el valor de prioridad más bajo"
+        },
+        {
+          "en": "The static route, because static routes always take precedence over dynamic routes",
+          "es": "La ruta estática, porque las rutas estáticas siempre tienen precedencia sobre las dinámicas"
+        },
+        {
+          "en": "The static route, because the higher priority number means higher preference",
+          "es": "La ruta estática, porque el número de prioridad más alto significa mayor preferencia"
+        },
+        {
+          "en": "Neither; the conflicting routes are rejected and traffic is dropped",
+          "es": "Ninguna; las rutas en conflicto se rechazan y el tráfico se descarta"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "When two routes have the same destination prefix, Google Cloud picks the one with the numerically lowest priority value, so 100 beats 900 regardless of route type. B is a common misconception: route type is not a tie-breaker, priority is. C inverts the rule; in VPC routing a lower number means higher preference. D is false: overlapping routes are perfectly legal and are resolved by longest prefix match first and then by priority.",
+        "es": "Cuando dos rutas tienen el mismo prefijo de destino, Google Cloud elige la del valor de prioridad numéricamente más bajo, así que 100 gana sobre 900 sin importar el tipo de ruta. B es un concepto erróneo frecuente: el tipo de ruta no es criterio de desempate, la prioridad sí. C invierte la regla; en el enrutamiento de VPC un número más bajo significa mayor preferencia. D es falsa: las rutas superpuestas son perfectamente válidas y se resuelven primero por la coincidencia de prefijo más larga y luego por prioridad."
+      },
+      "doc": "https://cloud.google.com/vpc/docs/routes"
+    },
+    {
+      "id": "ref3-043",
+      "curso": null,
+      "servicios": [
+        "alloydb",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-db-backup-restore"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Before a risky schema migration you want an immediate, restorable copy of an AlloyDB for PostgreSQL cluster. Which pair of commands covers taking it and using it?",
+        "es": "Antes de una migración de esquema riesgosa quieres una copia inmediata y restaurable de un clúster de AlloyDB para PostgreSQL. ¿Qué par de comandos cubre tomarla y usarla?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud alloydb backups create BACKUP --cluster=CLUSTER --region=REGION, then gcloud alloydb clusters restore NEW_CLUSTER --backup=BACKUP --region=REGION",
+          "es": "gcloud alloydb backups create BACKUP --cluster=CLUSTER --region=REGION y luego gcloud alloydb clusters restore NEW_CLUSTER --backup=BACKUP --region=REGION"
+        },
+        {
+          "en": "gcloud alloydb instances create BACKUP --instance-type=BACKUP, then gcloud alloydb instances promote BACKUP",
+          "es": "gcloud alloydb instances create BACKUP --instance-type=BACKUP y luego gcloud alloydb instances promote BACKUP"
+        },
+        {
+          "en": "gcloud sql backups create --instance=CLUSTER, then gcloud sql backups restore --instance=CLUSTER",
+          "es": "gcloud sql backups create --instance=CLUSTER y luego gcloud sql backups restore --instance=CLUSTER"
+        },
+        {
+          "en": "gcloud alloydb clusters export CLUSTER --gcs-uri=gs://BUCKET, then gcloud alloydb clusters import",
+          "es": "gcloud alloydb clusters export CLUSTER --gcs-uri=gs://BUCKET y luego gcloud alloydb clusters import"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "AlloyDB supports on-demand backups at cluster scope, and a backup is restored into a new cluster, which is what you want before a migration because the original cluster stays untouched while you validate. B invents an instance type; AlloyDB instance types are PRIMARY, READ_POOL and SECONDARY. C uses Cloud SQL commands against an AlloyDB resource. D describes an export/import flow, which is slower, not transactionally consistent in the same way, and is not how you take a point-in-time safety copy.",
+        "es": "AlloyDB admite copias de seguridad bajo demanda a nivel de clúster, y una copia se restaura en un clúster nuevo, que es lo que quieres antes de una migración porque el clúster original queda intacto mientras validas. B inventa un tipo de instancia; los tipos de instancia de AlloyDB son PRIMARY, READ_POOL y SECONDARY. C usa comandos de Cloud SQL contra un recurso de AlloyDB. D describe un flujo de exportación/importación, más lento, sin la misma consistencia transaccional y que no es la forma de tomar una copia de seguridad puntual."
+      },
+      "doc": "https://cloud.google.com/alloydb/docs/backup/create-on-demand-backup"
+    },
+    {
+      "id": "ref3-044",
+      "curso": null,
+      "servicios": [
+        "cmek-kms",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-cmek"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A policy requires that a CMEK used by Cloud Storage be rotated automatically every 90 days. Which command configures that?",
+        "es": "Una política exige que una CMEK usada por Cloud Storage se rote automáticamente cada 90 días. ¿Qué comando lo configura?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud kms keys update KEY --keyring=RING --location=LOC --rotation-period=90d --next-rotation-time=<timestamp>",
+          "es": "gcloud kms keys update KEY --keyring=RING --location=LOC --rotation-period=90d --next-rotation-time=<timestamp>"
+        },
+        {
+          "en": "gcloud kms keys versions destroy 1 --key=KEY --keyring=RING --location=LOC every 90 days",
+          "es": "gcloud kms keys versions destroy 1 --key=KEY --keyring=RING --location=LOC cada 90 días"
+        },
+        {
+          "en": "gcloud storage buckets update gs://BUCKET --rotate-encryption-key=90d",
+          "es": "gcloud storage buckets update gs://BUCKET --rotate-encryption-key=90d"
+        },
+        {
+          "en": "gcloud kms keyrings update RING --location=LOC --rotation-period=90d",
+          "es": "gcloud kms keyrings update RING --location=LOC --rotation-period=90d"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Automatic rotation is a property of the key itself: --rotation-period plus --next-rotation-time makes Cloud KMS create a new primary key version on schedule, and new writes use it while old versions stay available to decrypt existing data. B destroys key material and would make data encrypted with that version unrecoverable. C is not a Cloud Storage flag; the bucket only points at the key. D is wrong scope: rotation is configured per key, not per key ring.",
+        "es": "La rotación automática es una propiedad de la clave: --rotation-period junto con --next-rotation-time hace que Cloud KMS cree una nueva versión primaria según el calendario, y las escrituras nuevas la usan mientras las versiones anteriores siguen disponibles para desencriptar los datos existentes. B destruye material criptográfico y dejaría irrecuperables los datos encriptados con esa versión. C no es una marca de Cloud Storage; el bucket solo apunta a la clave. D tiene el alcance equivocado: la rotación se configura por clave, no por key ring."
+      },
+      "doc": "https://cloud.google.com/kms/docs/rotate-key"
+    },
+    {
+      "id": "ref3-045",
+      "curso": null,
+      "servicios": [
+        "compute-engine",
+        "vpc"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-subnets-ips"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A running VM already has the ephemeral external IP 34.72.10.5 and a partner has allowlisted it. How do you keep that exact address permanently without recreating the VM?",
+        "es": "Una VM en ejecución ya tiene la IP externa efímera 34.72.10.5 y un socio la agregó a su lista de permitidos. ¿Cómo conservas esa dirección exacta de forma permanente sin volver a crear la VM?"
+      },
+      "opciones": [
+        {
+          "en": "Promote it with gcloud compute addresses create ADDR_NAME --addresses=34.72.10.5 --region=REGION",
+          "es": "Promoverla con gcloud compute addresses create ADDR_NAME --addresses=34.72.10.5 --region=REGION"
+        },
+        {
+          "en": "Reserve any new static IP and ask the partner to allowlist the new address instead",
+          "es": "Reservar cualquier IP estática nueva y pedir al socio que agregue esa nueva dirección a la lista de permitidos"
+        },
+        {
+          "en": "Stop the VM and start it again; addresses become static after the first restart",
+          "es": "Detener la VM y volver a iniciarla; las direcciones se vuelven estáticas después del primer reinicio"
+        },
+        {
+          "en": "Create a global static address with gcloud compute addresses create ADDR_NAME --global --addresses=34.72.10.5",
+          "es": "Crear una dirección estática global con gcloud compute addresses create ADDR_NAME --global --addresses=34.72.10.5"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Reserving the address you are already using, in the same region and with --addresses set to that exact IP, promotes the ephemeral address to static in place; the VM keeps serving and the partner's allowlist stays valid. B works but forces avoidable coordination with the partner, which the question rules out. C is false: stopping a VM with an ephemeral address is precisely what makes it lose the address. D fails because a regional VM address cannot be reserved as a global address; global external addresses are for global load balancers.",
+        "es": "Reservar la dirección que ya estás usando, en la misma región y con --addresses apuntando a esa IP exacta, promueve la dirección efímera a estática en el lugar; la VM sigue sirviendo y la lista de permitidos del socio continúa válida. B funciona pero obliga a una coordinación evitable con el socio, que el enunciado descarta. C es falsa: detener una VM con dirección efímera es justamente lo que hace que la pierda. D falla porque una dirección regional de VM no puede reservarse como dirección global; las direcciones externas globales son para balanceadores de cargas globales."
+      },
+      "doc": "https://cloud.google.com/compute/docs/ip-addresses/reserve-static-external-ip-address"
+    },
+    {
+      "id": "ref3-046",
+      "curso": null,
+      "servicios": [
+        "database-center"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-database-center"
+      ],
+      "nivel": "intermedio",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO capabilities does Database Center give an operator managing a multi-engine database fleet?",
+        "es": "¿Cuáles DOS capacidades ofrece Database Center a un operador que administra una flota de bases de datos de varios motores?"
+      },
+      "opciones": [
+        {
+          "en": "A ranked list of security and reliability issues, such as instances missing backups, missing high availability, or exposed to broad network ranges",
+          "es": "Una lista priorizada de problemas de seguridad y confiabilidad, como instancias sin copias de seguridad, sin alta disponibilidad o expuestas a rangos de red amplios"
+        },
+        {
+          "en": "An inventory and health view of Cloud SQL, AlloyDB, Spanner, Bigtable, Firestore and Memorystore resources across projects, with filtering by engine, location and environment",
+          "es": "Una vista de inventario y salud de recursos de Cloud SQL, AlloyDB, Spanner, Bigtable, Firestore y Memorystore entre proyectos, con filtros por motor, ubicación y entorno"
+        },
+        {
+          "en": "Automatic rewriting of slow SQL statements in the application source code",
+          "es": "Reescritura automática de sentencias SQL lentas en el código fuente de la aplicación"
+        },
+        {
+          "en": "A managed migration engine that moves on-premises databases into Google Cloud",
+          "es": "Un motor de migración administrado que traslada bases de datos on-premises a Google Cloud"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Database Center is a fleet console: it inventories managed databases across engines and projects with health signals, and it surfaces prioritized recommendations for security, availability and data protection gaps. C is not what it does; query tuning belongs to Query Insights and the index advisor, and no Google Cloud service edits your source code. D describes Database Migration Service, a separate product.",
+        "es": "Database Center es una consola de flota: inventaría las bases de datos administradas de todos los motores y proyectos con señales de salud, y expone recomendaciones priorizadas para brechas de seguridad, disponibilidad y protección de datos. C no es lo que hace; el ajuste de consultas corresponde a Query Insights y al index advisor, y ningún servicio de Google Cloud edita tu código fuente. D describe Database Migration Service, un producto distinto."
+      },
+      "doc": "https://cloud.google.com/database-center/docs/overview"
+    },
+    {
+      "id": "ref3-047",
+      "curso": null,
+      "servicios": [
+        "bigquery",
+        "billing"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-storage-costs"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "When estimating the monthly cost of a BigQuery dataset, how should you model storage and compute?",
+        "es": "Al estimar el costo mensual de un conjunto de datos de BigQuery, ¿cómo debes modelar el almacenamiento y el procesamiento?"
+      },
+      "opciones": [
+        {
+          "en": "As two independent line items: storage billed per GB per month (with a cheaper long-term rate for partitions untouched for 90 days), and compute billed separately per bytes scanned on demand or per slot capacity",
+          "es": "Como dos rubros independientes: el almacenamiento facturado por GB al mes (con una tarifa más barata a largo plazo para las particiones no modificadas durante 90 días) y el procesamiento facturado aparte por bytes analizados bajo demanda o por capacidad de slots"
+        },
+        {
+          "en": "As a single bundled price per GB stored that already includes all queries run against the data",
+          "es": "Como un precio único por GB almacenado que ya incluye todas las consultas ejecutadas sobre los datos"
+        },
+        {
+          "en": "Only as compute, because BigQuery does not charge for storage",
+          "es": "Solo como procesamiento, porque BigQuery no cobra por el almacenamiento"
+        },
+        {
+          "en": "Only as storage, because on-demand queries are free up to unlimited volume",
+          "es": "Solo como almacenamiento, porque las consultas bajo demanda son gratuitas sin límite de volumen"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "BigQuery separates storage from compute: you pay per GB stored per month, with an automatic long-term storage discount for table partitions not modified for 90 consecutive days, and you pay compute either on demand per bytes processed or through reserved slot capacity. This separation is why a rarely queried archive is cheap and a heavily queried small table can be expensive. B, C and D each collapse the two dimensions into one and would produce badly wrong estimates.",
+        "es": "BigQuery separa el almacenamiento del procesamiento: pagas por GB almacenado al mes, con un descuento automático de almacenamiento a largo plazo para las particiones de tabla que no se modifican durante 90 días consecutivos, y pagas el procesamiento bajo demanda por bytes procesados o mediante capacidad reservada de slots. Esa separación explica por qué un archivo histórico poco consultado es barato y una tabla pequeña muy consultada puede ser cara. B, C y D reducen las dos dimensiones a una sola y producirían estimaciones muy equivocadas."
+      },
+      "doc": "https://cloud.google.com/bigquery/docs/storage-overview"
+    },
+    {
+      "id": "ref3-048",
+      "curso": null,
+      "servicios": [
+        "cloud-workstations",
+        "artifact-registry"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-cloud-workstations"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your team needs every workstation to ship with the same JDK, linters and internal CLI tools, and you want the image to be scanned and versioned. What is the correct setup?",
+        "es": "Tu equipo necesita que cada estación de trabajo incluya el mismo JDK, linters y herramientas CLI internas, y quieres que la imagen se analice y se versione. ¿Cuál es la configuración correcta?"
+      },
+      "opciones": [
+        {
+          "en": "Build a custom container image based on a Cloud Workstations base image, push it to Artifact Registry, and reference that image in the workstation configuration",
+          "es": "Compilar una imagen de contenedor personalizada basada en una imagen base de Cloud Workstations, subirla a Artifact Registry y referenciarla en la configuración de la estación de trabajo"
+        },
+        {
+          "en": "Have each developer run an onboarding shell script the first time their workstation starts",
+          "es": "Hacer que cada desarrollador ejecute un script de shell de incorporación la primera vez que inicia su estación de trabajo"
+        },
+        {
+          "en": "Create a Compute Engine custom image from a configured VM and select it in the workstation configuration",
+          "es": "Crear una imagen personalizada de Compute Engine a partir de una VM configurada y seleccionarla en la configuración de la estación de trabajo"
+        },
+        {
+          "en": "Store the tools in a Cloud Storage bucket and mount it into each workstation at startup",
+          "es": "Guardar las herramientas en un bucket de Cloud Storage y montarlo en cada estación de trabajo al iniciar"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Cloud Workstations runs container images, so the supported way to standardize tooling is a custom image derived from a Cloud Workstations base image, stored in Artifact Registry where it gets immutable tags and vulnerability scanning, and then referenced by the workstation configuration. B produces drift and unrepeatable environments, the exact problem being solved. C is wrong because workstations consume container images, not Compute Engine images. D leaves you with unversioned binaries and no scanning, and does not configure the environment (PATH, runtimes, IDE extensions).",
+        "es": "Cloud Workstations ejecuta imágenes de contenedor, por lo que la forma admitida de estandarizar el herramental es una imagen personalizada derivada de una imagen base de Cloud Workstations, almacenada en Artifact Registry donde obtiene etiquetas inmutables y análisis de vulnerabilidades, y luego referenciada por la configuración de la estación de trabajo. B genera desviaciones y entornos irrepetibles, justamente el problema que se busca resolver. C es incorrecta porque las estaciones de trabajo consumen imágenes de contenedor, no imágenes de Compute Engine. D deja binarios sin versionar ni analizar y no configura el entorno (PATH, entornos de ejecución, extensiones del IDE)."
+      },
+      "doc": "https://cloud.google.com/workstations/docs/customize-container-images"
+    },
+    {
+      "id": "ref3-049",
+      "curso": null,
+      "servicios": [
+        "notebooks",
+        "gpus-tpus"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-ai-workloads"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A researcher needs a JupyterLab environment with a GPU, root access to install custom system packages, and the ability to shut it down at night to save money. Which option fits best?",
+        "es": "Un investigador necesita un entorno de JupyterLab con GPU, acceso root para instalar paquetes de sistema personalizados y la posibilidad de apagarlo por la noche para ahorrar. ¿Qué opción se ajusta mejor?"
+      },
+      "opciones": [
+        {
+          "en": "A Workbench instance with an attached GPU and an idle-shutdown setting, stopped and started like any managed VM",
+          "es": "Una instancia de Workbench con una GPU adjunta y una configuración de apagado por inactividad, que se detiene e inicia como cualquier VM administrada"
+        },
+        {
+          "en": "A BigQuery notebook, adding a GPU to the Colab Enterprise runtime with sudo apt-get",
+          "es": "Un notebook de BigQuery, agregando una GPU al entorno de ejecución de Colab Enterprise con sudo apt-get"
+        },
+        {
+          "en": "A Cloud Run service running JupyterLab from a container image",
+          "es": "Un servicio de Cloud Run que ejecuta JupyterLab desde una imagen de contenedor"
+        },
+        {
+          "en": "A Cloud Workstations workstation, which is the only Google Cloud product that can attach GPUs to a notebook",
+          "es": "Una estación de trabajo de Cloud Workstations, el único producto de Google Cloud que puede adjuntar GPUs a un notebook"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Workbench instances are managed JupyterLab VMs: you choose the machine type and GPU, you have full OS-level control to install packages, and idle shutdown plus manual stop/start keep costs down. B is wrong because BigQuery notebooks run on managed Colab Enterprise runtimes where you do not administer the underlying OS. C is a poor fit: Cloud Run is stateless and request-driven, so a long-lived interactive session with local files is the wrong shape. D is false; Cloud Workstations is for general development environments and is not the only GPU-capable option.",
+        "es": "Las instancias de Workbench son VMs administradas con JupyterLab: eliges el tipo de máquina y la GPU, tienes control total a nivel del sistema operativo para instalar paquetes, y el apagado por inactividad más el detener/iniciar manual reducen el costo. B es incorrecta porque los notebooks de BigQuery se ejecutan en entornos administrados de Colab Enterprise donde no administras el sistema operativo subyacente. C encaja mal: Cloud Run es sin estado y orientado a solicitudes, así que una sesión interactiva de larga duración con archivos locales tiene la forma equivocada. D es falsa; Cloud Workstations es para entornos de desarrollo generales y no es la única opción con GPU."
+      },
+      "doc": "https://cloud.google.com/vertex-ai/docs/workbench/introduction"
+    },
+    {
+      "id": "ref3-050",
+      "curso": null,
+      "servicios": [
+        "observability-tools",
+        "cloud-run"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.4-diagnostics"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "In the Cloud Trace console you open a trace for a slow request. What does that trace let you determine?",
+        "es": "En la consola de Cloud Trace abres un seguimiento de una solicitud lenta. ¿Qué te permite determinar ese seguimiento?"
+      },
+      "opciones": [
+        {
+          "en": "Which spans (service calls, RPCs, database calls) consumed the request's time, and how their durations nest, so you can see where the latency accumulates",
+          "es": "Qué intervalos (llamadas a servicios, RPCs, llamadas a bases de datos) consumieron el tiempo de la solicitud y cómo se anidan sus duraciones, para ver dónde se acumula la latencia"
+        },
+        {
+          "en": "Which lines of code consumed the most CPU across the fleet over the last week",
+          "es": "Qué líneas de código consumieron más CPU en toda la flota durante la última semana"
+        },
+        {
+          "en": "Which SQL statements were the most expensive on a Cloud SQL instance",
+          "es": "Qué sentencias SQL fueron las más costosas en una instancia de Cloud SQL"
+        },
+        {
+          "en": "Which firewall rules dropped packets destined for the service",
+          "es": "Qué reglas de firewall descartaron paquetes destinados al servicio"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "A trace is a tree of timed spans for a single request, so it answers 'which hop is slow' in a distributed call chain. B is Cloud Profiler's job, which aggregates CPU and heap usage by function over time rather than per request. C is Query Insights, scoped to the database engine. D is answered by firewall rules logging and VPC Flow Logs, at the network layer.",
+        "es": "Un seguimiento es un árbol de intervalos cronometrados de una única solicitud, así que responde a la pregunta de qué salto es lento dentro de una cadena de llamadas distribuida. B es tarea de Cloud Profiler, que agrega el uso de CPU y memoria por función a lo largo del tiempo y no por solicitud. C corresponde a Query Insights, acotado al motor de base de datos. D se responde con el registro de reglas de firewall y VPC Flow Logs, en la capa de red."
+      },
+      "doc": "https://cloud.google.com/trace/docs/overview"
     }
   ]
 }

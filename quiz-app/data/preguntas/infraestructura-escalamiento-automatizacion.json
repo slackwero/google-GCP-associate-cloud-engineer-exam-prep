@@ -2453,6 +2453,406 @@
         "es": "El intercambio entre redes de VPC no se establece cuando los rangos IP de las subredes se superponen, así que el camino práctico es mover las aplicaciones específicas que necesitan conectividad a un rango sin superposición y luego emparejar, limitando el readdressing al alcance más pequeño posible. A es sencillamente falsa: el peering se rechaza ante superposición y no realiza NAT. C no tiene relación, ya que el Acceso privado a Google solo alcanza APIs y servicios de Google. D empeora el problema al agrandar justamente los rangos que ya chocan."
       },
       "doc": "https://cloud.google.com/vpc/docs/vpc-peering#restrictions"
+    },
+    {
+      "id": "elas-057",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "load-balancing",
+        "cloud-storage"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A news site serves large images and videos from a Cloud Storage bucket. Origin egress bills are high and readers in distant regions complain about slow loads. Which is the BEST solution?",
+        "es": "Un sitio de noticias entrega imágenes y videos grandes desde un bucket de Cloud Storage. Las facturas de salida del origen son altas y los lectores de regiones lejanas se quejan de cargas lentas. ¿Cuál es la MEJOR solución?"
+      },
+      "opciones": [
+        {
+          "en": "Put a global external Application Load Balancer with a backend bucket in front of the bucket and enable Cloud CDN",
+          "es": "Poner un balanceador de cargas de aplicaciones externo global con un backend bucket delante del bucket y habilitar Cloud CDN"
+        },
+        {
+          "en": "Copy the bucket to every region and let clients pick the closest one manually",
+          "es": "Copiar el bucket a cada región y dejar que los clientes elijan manualmente el más cercano"
+        },
+        {
+          "en": "Move the bucket to the Nearline storage class to reduce cost",
+          "es": "Mover el bucket a la clase de almacenamiento Nearline para reducir el costo"
+        },
+        {
+          "en": "Serve the objects from a managed instance group of VMs that read from the bucket",
+          "es": "Entregar los objetos desde un grupo de instancias administrado de VMs que leen del bucket"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "A backend bucket behind a global external Application Load Balancer with Cloud CDN caches objects at Google's edge, so repeat requests are served near the reader and never touch the bucket, cutting both latency and origin egress. B pushes routing logic onto clients, multiplies storage cost and creates a consistency problem. C lowers storage price but raises retrieval cost for frequently accessed objects and does nothing for latency. D adds VMs, autoscaling and operational burden to do what the CDN does natively, and still pays origin egress on every miss and hit.",
+        "es": "Un backend bucket detrás de un balanceador de cargas de aplicaciones externo global con Cloud CDN almacena los objetos en caché en el borde de Google, de modo que las solicitudes repetidas se atienden cerca del lector y nunca tocan el bucket, lo que reduce latencia y salida del origen. B traslada la lógica de enrutamiento a los clientes, multiplica el costo de almacenamiento y crea un problema de consistencia. C baja el precio de almacenamiento, pero eleva el costo de recuperación de objetos de acceso frecuente y no mejora la latencia. D agrega VMs, autoescalado y carga operativa para hacer lo que la CDN hace de forma nativa, y aun así paga salida del origen en cada acierto y fallo de caché."
+      },
+      "doc": "https://cloud.google.com/cdn/docs/setting-up-cdn-with-bucket"
+    },
+    {
+      "id": "elas-058",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "compute-engine",
+        "load-balancing"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-migs-autoscaling"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "An e-commerce site expects a flash sale that will multiply traffic by 20 within two minutes. The application takes about 3 minutes to become ready and the group currently runs at its minimum size. Which is the BEST preparation?",
+        "es": "Un sitio de comercio electrónico espera una venta relámpago que multiplicará el tráfico por 20 en dos minutos. La aplicación tarda unos 3 minutos en quedar lista y el grupo funciona actualmente en su tamaño mínimo. ¿Cuál es la MEJOR preparación?"
+      },
+      "opciones": [
+        {
+          "en": "Rely on the CPU-based autoscaler and lower the target utilization to 40%",
+          "es": "Confiar en el autoescalador basado en CPU y bajar el objetivo de uso a 40%"
+        },
+        {
+          "en": "Configure a scaling schedule that raises the minimum number of instances before the sale starts, keeping the metric-based autoscaler for the traffic beyond that baseline",
+          "es": "Configurar una programación de escalado que eleve la cantidad mínima de instancias antes de que inicie la venta, conservando el autoescalador basado en métricas para el tráfico que supere esa base"
+        },
+        {
+          "en": "Set the group to a fixed size equal to 20 times the current capacity permanently",
+          "es": "Fijar el grupo en un tamaño estático igual a 20 veces la capacidad actual de forma permanente"
+        },
+        {
+          "en": "Disable health checks during the sale so no instance is removed",
+          "es": "Deshabilitar las verificaciones de estado durante la venta para que no se quite ninguna instancia"
+        }
+      ],
+      "respuesta": [
+        "B"
+      ],
+      "explicacion": {
+        "en": "A scaling schedule pre-warms capacity for a known event, so instances are already initialized when the spike arrives, while the metric-based policy still handles demand above the planned baseline and scales back afterwards. A cannot help because reactive scaling plus a 3-minute startup is far slower than a 2-minute ramp, so requests fail during the gap. C over-provisions permanently and wastes money outside the sale window. D removes autohealing and lets the load balancer keep sending traffic to broken instances, which worsens the outage risk exactly when it matters.",
+        "es": "Una programación de escalado precalienta la capacidad para un evento conocido, de modo que las instancias ya están inicializadas cuando llega el pico, mientras la política basada en métricas sigue atendiendo la demanda por encima de la base planificada y reduce el tamaño después. A no ayuda porque el escalado reactivo más un arranque de 3 minutos es mucho más lento que una rampa de 2 minutos, así que las solicitudes fallan durante ese lapso. C sobreaprovisiona de forma permanente y desperdicia dinero fuera de la ventana de la venta. D elimina la reparación automática y deja que el balanceador siga enviando tráfico a instancias rotas, lo que agrava el riesgo de interrupción justo cuando más importa."
+      },
+      "doc": "https://cloud.google.com/compute/docs/instance-groups/scheduling-mig-autoscaling"
+    },
+    {
+      "id": "elas-059",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "vpc",
+        "cloud-ngfw"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-firewall-mgmt"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "In a Shared VPC, the security team must guarantee that a deny rule for a risky port applies to every current and future service project, and that application teams cannot override it. Which is the BEST approach?",
+        "es": "En una VPC compartida, el equipo de seguridad debe garantizar que una regla de denegación para un puerto riesgoso se aplique a todos los proyectos de servicio actuales y futuros, y que los equipos de aplicación no puedan anularla. ¿Cuál es el MEJOR enfoque?"
+      },
+      "opciones": [
+        {
+          "en": "Ask each application team to add the same VPC firewall rule in its own project",
+          "es": "Pedir a cada equipo de aplicación que agregue la misma regla de firewall de VPC en su propio proyecto"
+        },
+        {
+          "en": "Create a hierarchical firewall policy at the organization or folder level with a deny rule, so it is evaluated before project-level VPC firewall rules",
+          "es": "Crear una política de firewall jerárquica a nivel de organización o carpeta con una regla de denegación, de modo que se evalúe antes que las reglas de firewall de VPC a nivel de proyecto"
+        },
+        {
+          "en": "Grant the security team the Owner role on every service project so it can audit the rules",
+          "es": "Otorgar al equipo de seguridad el rol Owner en cada proyecto de servicio para que pueda auditar las reglas"
+        },
+        {
+          "en": "Configure a custom static route that drops traffic on that port",
+          "es": "Configurar una ruta estática personalizada que descarte el tráfico en ese puerto"
+        }
+      ],
+      "respuesta": [
+        "B"
+      ],
+      "explicacion": {
+        "en": "Hierarchical firewall policies are attached to the organization or a folder, are evaluated before VPC-level rules and are inherited by all projects underneath, including projects created later, so teams cannot override the deny. A depends on every team acting correctly forever and is unenforceable, and in Shared VPC the firewall rules live in the host project anyway. C grants excessive privilege and detects violations after the fact instead of preventing them. D is not possible: routes select a next hop by destination range and cannot match ports or drop traffic as a security control.",
+        "es": "Las políticas de firewall jerárquicas se adjuntan a la organización o a una carpeta, se evalúan antes que las reglas a nivel de VPC y las heredan todos los proyectos que están debajo, incluidos los creados después, por lo que los equipos no pueden anular la denegación. A depende de que cada equipo actúe correctamente para siempre y no es exigible, y en la VPC compartida las reglas de firewall viven de todos modos en el proyecto host. C otorga privilegios excesivos y detecta las violaciones después de ocurridas en lugar de prevenirlas. D no es posible: las rutas eligen un siguiente salto según el rango de destino y no pueden coincidir por puerto ni descartar tráfico como control de seguridad."
+      },
+      "doc": "https://cloud.google.com/firewall/docs/firewall-policies"
+    },
+    {
+      "id": "elas-060",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "hybrid-connectivity",
+        "vpc"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-connectivity"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "After adding a new subnet 10.30.0.0/20 in a VPC connected to on-premises through HA VPN, on-premises hosts cannot reach the new VMs, while older subnets still work. What is the MOST likely cause?",
+        "es": "Después de agregar una subred nueva 10.30.0.0/20 en una VPC conectada a on-premises mediante HA VPN, los hosts on-premises no alcanzan las VMs nuevas, mientras que las subredes anteriores siguen funcionando. ¿Cuál es la causa MÁS probable?"
+      },
+      "opciones": [
+        {
+          "en": "The Cloud Router is not advertising the new subnet range, because it uses custom route advertisements that were not updated",
+          "es": "El Cloud Router no está anunciando el rango de la subred nueva, porque usa anuncios de rutas personalizados que no se actualizaron"
+        },
+        {
+          "en": "HA VPN supports a maximum of two subnets per VPC network",
+          "es": "HA VPN admite un máximo de dos subredes por red de VPC"
+        },
+        {
+          "en": "The new subnet needs Private Google Access enabled to be reachable from on-premises",
+          "es": "La subred nueva necesita el Acceso privado a Google habilitado para ser accesible desde on-premises"
+        },
+        {
+          "en": "Cloud NAT must be configured for the new subnet before on-premises hosts can connect",
+          "es": "Debe configurarse Cloud NAT para la subred nueva antes de que los hosts on-premises puedan conectarse"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "With default advertisement mode a Cloud Router announces all subnets automatically, but when custom advertised routes are configured the list is explicit and a new subnet must be added, otherwise on-premises never learns the prefix. B is invented; there is no such subnet limit. C is wrong because Private Google Access governs VM access to Google APIs, not inbound reachability from on-premises. D is wrong because Cloud NAT provides outbound internet access and plays no role in inbound private connectivity over a VPN.",
+        "es": "Con el modo de anuncio predeterminado, un Cloud Router anuncia todas las subredes automáticamente, pero cuando se configuran rutas anunciadas personalizadas la lista es explícita y hay que agregar la subred nueva; de lo contrario, on-premises nunca aprende el prefijo. B es inventada; no existe tal límite de subredes. C es incorrecta porque el Acceso privado a Google rige el acceso de las VMs a las APIs de Google, no la accesibilidad entrante desde on-premises. D es incorrecta porque Cloud NAT provee acceso saliente a internet y no interviene en la conectividad privada entrante por una VPN."
+      },
+      "doc": "https://cloud.google.com/network-connectivity/docs/router/how-to/advertising-overview"
+    },
+    {
+      "id": "elas-061",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "load-balancing",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "You must publish a new version of an application behind a global external Application Load Balancer, sending only 5% of traffic to it at first and rolling back quickly if error rates rise. Which TWO mechanisms support this?",
+        "es": "Debes publicar una versión nueva de una aplicación detrás de un balanceador de cargas de aplicaciones externo global, enviando al principio solo el 5% del tráfico y revirtiendo rápido si suben las tasas de error. ¿Cuáles DOS mecanismos permiten hacerlo?"
+      },
+      "opciones": [
+        {
+          "en": "Weighted traffic splitting in the URL map between the old and the new backend service",
+          "es": "División ponderada del tráfico en el mapa de URL entre el servicio de backend antiguo y el nuevo"
+        },
+        {
+          "en": "A canary managed instance group running the new instance template, added as an additional backend with a small capacity share",
+          "es": "Un grupo de instancias administrado de canario que ejecuta la plantilla de instancias nueva, agregado como backend adicional con una participación pequeña de capacidad"
+        },
+        {
+          "en": "Increasing the autoscaler maximum replicas on the existing group",
+          "es": "Aumentar el máximo de réplicas del autoescalador en el grupo existente"
+        },
+        {
+          "en": "Switching the load balancer from Premium Tier to Standard Tier during the rollout",
+          "es": "Cambiar el balanceador del nivel Premium al nivel Standard durante el despliegue"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Weighted routing in the URL map sends a defined percentage of requests to the new backend service and reverting the weights is an instant rollback, while a separate canary MIG with a small share of backend capacity exposes the new template to a fraction of users and can be removed just as fast. C only changes how large the existing group can grow and does not separate versions or shift traffic. D changes where traffic enters Google's network, does nothing for release control, and would actually break the global load balancer since Standard Tier does not support it.",
+        "es": "El enrutamiento ponderado en el mapa de URL envía un porcentaje definido de solicitudes al servicio de backend nuevo y revertir los pesos es una reversión instantánea, mientras que un MIG de canario aparte con una participación pequeña de la capacidad de backend expone la plantilla nueva a una fracción de usuarios y se puede quitar igual de rápido. C solo cambia cuánto puede crecer el grupo existente y no separa versiones ni desplaza tráfico. D cambia dónde entra el tráfico a la red de Google, no aporta nada al control de la publicación y de hecho rompería el balanceador global, ya que el nivel Standard no lo admite."
+      },
+      "doc": "https://cloud.google.com/load-balancing/docs/https/traffic-management-global"
+    },
+    {
+      "id": "elas-062",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "terraform-iac",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.4-iac-tooling"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A platform team must deploy the same network and autoscaled instance group topology to dev, staging and production, with different machine sizes and instance counts per environment, and the least duplication of code. What is the BEST practice?",
+        "es": "Un equipo de plataforma debe implementar la misma topología de red y de grupo de instancias con autoescalado en dev, staging y producción, con distintos tamaños de máquina y cantidades de instancias por entorno, y la menor duplicación de código. ¿Cuál es la MEJOR práctica?"
+      },
+      "opciones": [
+        {
+          "en": "Copy the Terraform configuration into three directories and edit the values in each copy",
+          "es": "Copiar la configuración de Terraform en tres directorios y editar los valores en cada copia"
+        },
+        {
+          "en": "Write a reusable Terraform module for the topology and instantiate it once per environment with different input variables and separate state",
+          "es": "Escribir un módulo de Terraform reutilizable para la topología e instanciarlo una vez por entorno con distintas variables de entrada y estado separado"
+        },
+        {
+          "en": "Create the resources manually in the console for dev and use Terraform only in production",
+          "es": "Crear los recursos manualmente en la consola para dev y usar Terraform solo en producción"
+        },
+        {
+          "en": "Use a single Terraform configuration and a single state file that creates all three environments together",
+          "es": "Usar una sola configuración de Terraform y un solo archivo de estado que cree los tres entornos juntos"
+        }
+      ],
+      "respuesta": [
+        "B"
+      ],
+      "explicacion": {
+        "en": "A module captures the topology once and each environment supplies its own variables, while separate state files keep the blast radius of an apply confined to one environment. A triples the maintenance cost and lets the copies drift apart over time. C guarantees that dev never matches production, defeating the purpose of pre-production testing. D shares one state across environments, so a mistaken apply or a state corruption can damage production while changing dev.",
+        "es": "Un módulo captura la topología una sola vez y cada entorno aporta sus propias variables, mientras que los archivos de estado separados confinan el radio de impacto de un apply a un solo entorno. A triplica el costo de mantenimiento y permite que las copias se desvíen con el tiempo. C garantiza que dev nunca coincida con producción, lo que anula el propósito de las pruebas previas. D comparte un estado entre entornos, así que un apply equivocado o una corrupción de estado puede dañar producción mientras se cambia dev."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/best-practices/general-style-structure"
+    },
+    {
+      "id": "elas-063",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "cloud-dns",
+        "load-balancing",
+        "cloud-nat"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-dns-nat"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A partner API only accepts calls from a short allowlist of source IP addresses. Your calls come from an autoscaled managed instance group whose VMs have no external IPs and are replaced constantly. What is the BEST way to present a stable set of source addresses?",
+        "es": "Una API de un socio solo acepta llamadas desde una lista corta de direcciones IP de origen permitidas. Tus llamadas provienen de un grupo de instancias administrado con autoescalado cuyas VMs no tienen IP externa y se reemplazan constantemente. ¿Cuál es la MEJOR forma de presentar un conjunto estable de direcciones de origen?"
+      },
+      "opciones": [
+        {
+          "en": "Assign a static external IP address to every VM in the group",
+          "es": "Asignar una dirección IP externa estática a cada VM del grupo"
+        },
+        {
+          "en": "Configure Cloud NAT with manually reserved static external IP addresses, so all egress from the group is translated to those addresses",
+          "es": "Configurar Cloud NAT con direcciones IP externas estáticas reservadas manualmente, de modo que toda la salida del grupo se traduzca a esas direcciones"
+        },
+        {
+          "en": "Publish the VMs behind a global external Application Load Balancer and give the partner the load balancer IP",
+          "es": "Publicar las VMs detrás de un balanceador de cargas de aplicaciones externo global y dar al socio la IP del balanceador"
+        },
+        {
+          "en": "Create a Cloud DNS record for each VM so the partner can allowlist the names",
+          "es": "Crear un registro de Cloud DNS por cada VM para que el socio pueda incluir los nombres en la lista permitida"
+        }
+      ],
+      "respuesta": [
+        "B"
+      ],
+      "explicacion": {
+        "en": "Cloud NAT with manually allocated static IPs gives every outbound connection from the group a predictable source address that survives instance churn, which is exactly what an IP allowlist requires. A is unmanageable with autoscaling, since each new VM would need a new address added to the partner's list, and it also re-exposes the VMs. C addresses inbound traffic: a load balancer frontend IP is not the source address of outbound calls. D fails because the allowlist matches source IP addresses at connection time, and the VMs' addresses still change.",
+        "es": "Cloud NAT con IPs estáticas asignadas manualmente da a cada conexión saliente del grupo una dirección de origen predecible que sobrevive a la rotación de instancias, que es justo lo que exige una lista de IPs permitidas. A es inmanejable con autoescalado, ya que cada VM nueva requeriría agregar una dirección a la lista del socio, y además vuelve a exponer las VMs. C atiende el tráfico entrante: la IP del frontend de un balanceador no es la dirección de origen de las llamadas salientes. D falla porque la lista permitida coincide por dirección IP de origen al momento de la conexión, y las direcciones de las VMs siguen cambiando."
+      },
+      "doc": "https://cloud.google.com/nat/docs/ports-and-addresses"
+    },
+    {
+      "id": "elas-064",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "vpc",
+        "hybrid-connectivity"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-custom-routes"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A VPC has a custom static route for 192.168.0.0/16 with priority 1000 pointing to a VPN tunnel, and Cloud Router learns the same prefix through BGP over a new Interconnect. Traffic must prefer the Interconnect and fall back to the VPN only if the Interconnect fails. What is the BEST configuration?",
+        "es": "Una VPC tiene una ruta estática personalizada para 192.168.0.0/16 con prioridad 1000 que apunta a un túnel VPN, y el Cloud Router aprende el mismo prefijo por BGP a través de un Interconnect nuevo. El tráfico debe preferir el Interconnect y usar la VPN solo si el Interconnect falla. ¿Cuál es la MEJOR configuración?"
+      },
+      "opciones": [
+        {
+          "en": "Delete the static VPN route so only the Interconnect route exists",
+          "es": "Borrar la ruta estática de la VPN para que solo exista la ruta del Interconnect"
+        },
+        {
+          "en": "Give the BGP-learned Interconnect route a better (lower) priority than the static VPN route, keeping the VPN route as the higher-priority-number backup",
+          "es": "Dar a la ruta del Interconnect aprendida por BGP una prioridad mejor (número menor) que la de la ruta estática de la VPN, y conservar la ruta de la VPN con un número de prioridad mayor como respaldo"
+        },
+        {
+          "en": "Configure both paths with the same priority so traffic is load balanced equally",
+          "es": "Configurar ambas rutas con la misma prioridad para que el tráfico se balancee por igual"
+        },
+        {
+          "en": "Replace both with Cloud NAT so egress is handled automatically",
+          "es": "Reemplazar ambas con Cloud NAT para que la salida se gestione automáticamente"
+        }
+      ],
+      "respuesta": [
+        "B"
+      ],
+      "explicacion": {
+        "en": "In a VPC the route with the lowest priority value wins for a given destination, so setting a better priority on the Interconnect's advertised route makes it the active path while the VPN route stays installed and takes over automatically when the Interconnect route is withdrawn. A removes the failover path entirely, so an Interconnect failure becomes an outage. C creates equal-cost multipath, which sends part of the traffic over the VPN at all times instead of preferring the Interconnect. D is unrelated, since Cloud NAT provides outbound access to the internet, not routing to on-premises prefixes.",
+        "es": "En una VPC gana la ruta con el valor de prioridad más bajo para un destino dado, así que asignar una prioridad mejor a la ruta anunciada del Interconnect la convierte en la ruta activa, mientras la ruta de la VPN permanece instalada y toma el relevo automáticamente cuando se retira la ruta del Interconnect. A elimina por completo la ruta de respaldo, por lo que una falla del Interconnect se vuelve una interrupción. C crea múltiples rutas de igual costo, lo que envía parte del tráfico por la VPN todo el tiempo en lugar de preferir el Interconnect. D no tiene relación, ya que Cloud NAT provee acceso saliente a internet, no enrutamiento hacia prefijos on-premises."
+      },
+      "doc": "https://cloud.google.com/vpc/docs/routes"
+    },
+    {
+      "id": "elas-065",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "load-balancing",
+        "network-service-tiers",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-load-balancers",
+        "2.3-network-tiers"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A government agency serves an internal-facing HTTPS portal to users in one country only. Requirements: lowest possible cost, no global footprint, HTTPS termination with a managed certificate, and autoscaled VM backends. Which is the BEST architecture?",
+        "es": "Una agencia gubernamental atiende un portal HTTPS orientado a usuarios de un solo país. Requisitos: el menor costo posible, sin huella global, terminación HTTPS con un certificado administrado y backends de VM con autoescalado. ¿Cuál es la MEJOR arquitectura?"
+      },
+      "opciones": [
+        {
+          "en": "A global external Application Load Balancer in Premium Tier with Cloud CDN and backends in three regions",
+          "es": "Un balanceador de cargas de aplicaciones externo global en el nivel Premium con Cloud CDN y backends en tres regiones"
+        },
+        {
+          "en": "A regional external Application Load Balancer in Standard Tier, with a regional managed instance group with autoscaling in the local region",
+          "es": "Un balanceador de cargas de aplicaciones externo regional en el nivel Standard, con un grupo de instancias administrado regional con autoescalado en la región local"
+        },
+        {
+          "en": "An external passthrough Network Load Balancer with TLS terminated on each VM",
+          "es": "Un balanceador de cargas de red externo passthrough con TLS terminado en cada VM"
+        },
+        {
+          "en": "A single large VM with a static external IP address and a self-managed certificate",
+          "es": "Una sola VM grande con una dirección IP externa estática y un certificado autoadministrado"
+        }
+      ],
+      "respuesta": [
+        "B"
+      ],
+      "explicacion": {
+        "en": "A regional external Application Load Balancer terminates HTTPS with a regional managed certificate, works in Standard Tier for cheaper egress, and pairs with a regional autoscaled MIG that survives a zone failure, matching every constraint without paying for global reach. A buys global anycast, Premium Tier and multi-region backends the agency explicitly does not need, at the highest cost. C pushes certificate management onto every VM and cannot do Layer 7 routing or use managed certificates. D has no load balancing, no autoscaling and no redundancy, so a single VM failure takes down the portal.",
+        "es": "Un balanceador de cargas de aplicaciones externo regional termina HTTPS con un certificado administrado regional, funciona en el nivel Standard para abaratar la salida y se combina con un MIG regional con autoescalado que sobrevive a la falla de una zona, lo que cumple todas las restricciones sin pagar alcance global. A compra anycast global, nivel Premium y backends multirregión que la agencia explícitamente no necesita, al costo más alto. C traslada la gestión de certificados a cada VM y no puede hacer enrutamiento de capa 7 ni usar certificados administrados. D no tiene balanceo de cargas, ni autoescalado, ni redundancia, por lo que la falla de una sola VM tumba el portal."
+      },
+      "doc": "https://cloud.google.com/load-balancing/docs/l7-internal/setup-regional-ext-https"
     }
   ]
 }

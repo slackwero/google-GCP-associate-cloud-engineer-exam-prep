@@ -2190,6 +2190,450 @@
         "es": "Los aumentos de cuota los revisa Google y pueden tardar, así que solicitar con anticipación la cuota, la región y el valor exactos con una justificación es la práctica que garantiza capacidad el día de la ejecución. La opción B abusa de la jerarquía: multiplica la carga operativa y de gobernanza, y la cuota no es la restricción real que deberías estar diseñando. La opción C garantiza fallas y desperdicia la ventana del lote. La opción D confunde precios con límites: los descuentos por uso comprometido cambian lo que pagas, no tu cuota."
       },
       "doc": "https://cloud.google.com/docs/quotas/quota-increase"
+    },
+    {
+      "id": "ref1-051",
+      "curso": null,
+      "servicios": [
+        "asset-inventory",
+        "pubsub",
+        "cloud-run-functions"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-asset-inventory-gemini"
+      ],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Security needs to be notified within minutes whenever a firewall rule that allows 0.0.0.0/0 is created anywhere in the organization. Which TWO components form the BEST solution?",
+        "es": "Seguridad necesita ser notificada en minutos cada vez que se cree, en cualquier parte de la organización, una regla de firewall que permita 0.0.0.0/0. ¿Cuáles DOS componentes forman la MEJOR solución?"
+      },
+      "opciones": [
+        {
+          "en": "A Cloud Asset Inventory feed at the organization scope for firewall asset types, publishing to a Pub/Sub topic",
+          "es": "Un feed de Cloud Asset Inventory con alcance de organización para los tipos de asset de firewall, publicando en un tema de Pub/Sub"
+        },
+        {
+          "en": "A Cloud Run function subscribed to that topic that inspects the change and alerts the security channel",
+          "es": "Una Cloud Run function suscrita a ese tema que inspecciona el cambio y alerta al canal de seguridad"
+        },
+        {
+          "en": "A nightly gcloud asset export to BigQuery reviewed by an analyst the next morning",
+          "es": "Una exportación nocturna con gcloud asset export a BigQuery que un analista revisa a la mañana siguiente"
+        },
+        {
+          "en": "An organization policy that sends an email whenever a firewall rule changes",
+          "es": "Una política de la organización que envía un correo cada vez que cambia una regla de firewall"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Feeds deliver near real-time change notifications for the asset types you select, and a Pub/Sub subscriber such as a Cloud Run function can evaluate the new configuration and notify security within seconds, which satisfies the minutes requirement. Option C is a batch pattern with up to a day of latency, useful for reporting but not for alerting. Option D is not something organization policies do: they prevent or allow configurations, they never send notifications.",
+        "es": "Los feeds entregan notificaciones de cambio casi en tiempo real para los tipos de asset que selecciones, y un suscriptor de Pub/Sub como una Cloud Run function puede evaluar la nueva configuración y avisar a seguridad en segundos, lo que cumple el requisito de minutos. La opción C es un patrón por lotes con hasta un día de latencia, útil para reportes pero no para alertar. La opción D no es algo que hagan las políticas de la organización: previenen o permiten configuraciones, nunca envían notificaciones."
+      },
+      "doc": "https://cloud.google.com/asset-inventory/docs/monitoring-asset-changes"
+    },
+    {
+      "id": "ref1-052",
+      "curso": null,
+      "servicios": [
+        "billing",
+        "pubsub",
+        "cloud-run-functions"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.2-budgets-alerts"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A sandbox project used for experiments must stop generating charges automatically if its monthly spend reaches USD 200. What is the BEST way to implement this?",
+        "es": "Un proyecto sandbox usado para experimentos debe dejar de generar cargos automáticamente si su gasto mensual llega a USD 200. ¿Cuál es la MEJOR forma de implementarlo?"
+      },
+      "opciones": [
+        {
+          "en": "Create a budget scoped to that project, connect it to a Pub/Sub topic, and have a Cloud Run function disable billing on the project when the threshold message arrives",
+          "es": "Crear un presupuesto acotado a ese proyecto, conectarlo a un tema de Pub/Sub y hacer que una Cloud Run function deshabilite la facturación del proyecto cuando llegue el mensaje del umbral"
+        },
+        {
+          "en": "Create a budget of USD 200; Cloud Billing stops the project automatically at 100%",
+          "es": "Crear un presupuesto de USD 200; Cloud Billing detiene el proyecto automáticamente al 100%"
+        },
+        {
+          "en": "Set an allocation quota of USD 200 on the project in the Quotas page",
+          "es": "Fijar una cuota de asignación de USD 200 en el proyecto desde la página Cuotas"
+        },
+        {
+          "en": "Configure an organization policy that denies resource creation above USD 200",
+          "es": "Configurar una política de la organización que rechace la creación de recursos por encima de USD 200"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Google's documented cap-spending pattern is budget plus programmatic notifications: the budget publishes threshold messages to Pub/Sub and your function calls the Cloud Billing API to unlink the billing account, which stops further charges. Option B is the classic trap: budgets only notify. Option C does not exist, quotas limit resource units and API calls, never currency. Option D is not what organization policies do; constraints govern configuration values, not spend.",
+        "es": "El patrón documentado por Google para limitar el gasto es presupuesto más notificaciones programáticas: el presupuesto publica mensajes de umbral en Pub/Sub y tu función llama a la API de Cloud Billing para desvincular la cuenta de facturación, lo que detiene cargos adicionales. La opción B es la trampa clásica: los presupuestos solo notifican. La opción C no existe, las cuotas limitan unidades de recursos y llamadas a APIs, nunca moneda. La opción D no es lo que hacen las políticas de la organización; las restricciones gobiernan valores de configuración, no el gasto."
+      },
+      "doc": "https://cloud.google.com/billing/docs/how-to/disable-billing-with-notifications"
+    },
+    {
+      "id": "ref1-053",
+      "curso": null,
+      "servicios": [
+        "resource-manager",
+        "service-accounts"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-resource-hierarchy"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Security wants service account key creation blocked everywhere, except in one legacy project that still needs keys for an on-premises integration. What is the BEST configuration?",
+        "es": "Seguridad quiere bloquear la creación de claves de cuentas de servicio en todas partes, excepto en un proyecto heredado que aún necesita claves para una integración on-premises. ¿Cuál es la MEJOR configuración?"
+      },
+      "opciones": [
+        {
+          "en": "Enforce iam.disableServiceAccountKeyCreation at the organization, and set the same constraint to not enforced on that single project",
+          "es": "Aplicar iam.disableServiceAccountKeyCreation en la organización y fijar la misma restricción como no aplicada en ese único proyecto"
+        },
+        {
+          "en": "Enforce the constraint project by project on every project except the legacy one",
+          "es": "Aplicar la restricción proyecto por proyecto en todos los proyectos, excepto el heredado"
+        },
+        {
+          "en": "Remove roles/iam.serviceAccountKeyAdmin from all users in the organization",
+          "es": "Quitar roles/iam.serviceAccountKeyAdmin a todos los usuarios de la organización"
+        },
+        {
+          "en": "Move the legacy project out of the organization so the constraint does not reach it",
+          "es": "Sacar el proyecto heredado de la organización para que la restricción no lo alcance"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Enforcing at the organization gives secure-by-default coverage for every current and future project, and a project-level policy that turns enforcement off creates a narrow, explicit, auditable exception. Option B is the same outcome with far more maintenance and a guaranteed gap: new projects would be unprotected by default. Option C relies on nobody ever regaining the permission and does not stop Owners, so it is weaker than a constraint. Option D removes the project from all central governance and billing structure to solve one exception.",
+        "es": "Aplicarla en la organización da cobertura segura por defecto para todos los proyectos actuales y futuros, y una política a nivel de proyecto que desactiva la aplicación crea una excepción estrecha, explícita y auditable. La opción B logra lo mismo con mucho más mantenimiento y una brecha garantizada: los proyectos nuevos quedarían desprotegidos por defecto. La opción C depende de que nadie recupere nunca el permiso y no detiene a los Owners, por lo que es más débil que una restricción. La opción D saca al proyecto de toda la gobernanza central y de la estructura de facturación para resolver una sola excepción."
+      },
+      "doc": "https://cloud.google.com/resource-manager/docs/organization-policy/restricting-service-accounts"
+    },
+    {
+      "id": "ref1-054",
+      "curso": null,
+      "servicios": [
+        "cloud-monitoring",
+        "iam"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-observability-setup"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A platform team must run alerting and dashboards for 40 application projects from one place, with minimal changes to the applications. What is the BEST setup?",
+        "es": "Un equipo de plataforma debe operar alertas y paneles de 40 proyectos de aplicaciones desde un solo lugar, con cambios mínimos en las aplicaciones. ¿Cuál es la MEJOR configuración?"
+      },
+      "opciones": [
+        {
+          "en": "Create a dedicated scoping project, add the 40 projects to its metrics scope, and build dashboards and alerting policies there",
+          "es": "Crear un proyecto de alcance dedicado, agregar los 40 proyectos a su permiso de métricas y construir ahí los paneles y las políticas de alertas"
+        },
+        {
+          "en": "Configure each application to write its metrics directly into the platform team's project",
+          "es": "Configurar cada aplicación para que escriba sus métricas directamente en el proyecto del equipo de plataforma"
+        },
+        {
+          "en": "Export all metrics to BigQuery and rebuild the dashboards with a BI tool",
+          "es": "Exportar todas las métricas a BigQuery y reconstruir los paneles con una herramienta de BI"
+        },
+        {
+          "en": "Give the platform team Owner on the 40 projects so they can open each project's Monitoring page",
+          "es": "Dar al equipo de plataforma el rol Owner en los 40 proyectos para que puedan abrir la página de Monitoring de cada uno"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "A scoping project with a broad metrics scope is the native multi-project pattern: applications keep writing metrics to their own projects, and the platform team charts and alerts on all of them from one console page. Option B requires rewriting instrumentation in 40 apps and loses the per-project ownership of telemetry. Option C is expensive, adds latency, and gives up native alerting. Option D grants excessive privileges and still forces the team to jump between 40 separate views.",
+        "es": "Un proyecto de alcance con un permiso de métricas amplio es el patrón multiproyecto nativo: las aplicaciones siguen escribiendo métricas en sus propios proyectos y el equipo de plataforma grafica y alerta sobre todas desde una sola página de la consola. La opción B obliga a reescribir la instrumentación de 40 apps y pierde la propiedad por proyecto de la telemetría. La opción C es cara, agrega latencia y renuncia a las alertas nativas. La opción D otorga privilegios excesivos y aun así obliga al equipo a saltar entre 40 vistas separadas."
+      },
+      "doc": "https://cloud.google.com/monitoring/settings/multiple-projects"
+    },
+    {
+      "id": "ref1-055",
+      "curso": null,
+      "servicios": [
+        "billing",
+        "bigquery"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.2-billing-exports"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Finance needs a monthly chargeback report that attributes cost to individual VMs and disks per cost center, refreshed automatically and with the least operational effort. What is the BEST approach?",
+        "es": "Finanzas necesita un informe mensual de chargeback que atribuya el costo a VMs y discos individuales por centro de costo, actualizado automáticamente y con el menor esfuerzo operativo. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        {
+          "en": "Enable the detailed usage cost export to BigQuery, label resources with the cost center, and build a scheduled query over the export",
+          "es": "Habilitar la exportación detallada de costos de uso a BigQuery, etiquetar los recursos con el centro de costo y crear una consulta programada sobre la exportación"
+        },
+        {
+          "en": "Download the monthly CSV from the billing console and pivot it in a spreadsheet",
+          "es": "Descargar el CSV mensual de la consola de facturación y hacer una tabla dinámica en una hoja de cálculo"
+        },
+        {
+          "en": "Use the standard usage cost export, which already includes the resource name of every VM and disk",
+          "es": "Usar la exportación estándar de costos de uso, que ya incluye el nombre de recurso de cada VM y disco"
+        },
+        {
+          "en": "Create one budget per cost center and use the alert emails as the report",
+          "es": "Crear un presupuesto por centro de costo y usar los correos de alerta como informe"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Only the detailed usage cost export carries resource-level rows, and combining it with labels lets a scheduled query produce the chargeback table with no manual work each month. Option B is manual, must be repeated, and offers no resource-level detail. Option C is wrong on the key fact: the standard export stops at the service and SKU level within a project, which is why the detailed export exists. Option D misuses budgets: alert emails report threshold crossings, not itemized cost.",
+        "es": "Solo la exportación detallada de costos de uso incluye filas a nivel de recurso, y combinarla con etiquetas permite que una consulta programada produzca la tabla de chargeback sin trabajo manual cada mes. La opción B es manual, hay que repetirla y no ofrece detalle por recurso. La opción C es incorrecta en el dato clave: la exportación estándar llega hasta el nivel de servicio y SKU dentro de un proyecto, y por eso existe la detallada. La opción D usa mal los presupuestos: los correos de alerta informan cruces de umbral, no costos desglosados."
+      },
+      "doc": "https://cloud.google.com/billing/docs/how-to/export-data-bigquery-tables/detailed-usage"
+    },
+    {
+      "id": "ref1-056",
+      "curso": null,
+      "servicios": [
+        "gemini-cloud-assist",
+        "asset-inventory"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-asset-inventory-gemini"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You inherit an unfamiliar project and must understand quickly what is deployed, how the parts relate, and where the obvious cost and reliability risks are. Which approach fits BEST as a first step?",
+        "es": "Heredas un proyecto desconocido y debes entender rápido qué está implementado, cómo se relacionan las partes y dónde están los riesgos evidentes de costo y confiabilidad. ¿Qué enfoque encaja MEJOR como primer paso?"
+      },
+      "opciones": [
+        {
+          "en": "Ask Gemini Cloud Assist in the console about the project's resources and recommendations, and confirm the inventory with Cloud Asset Inventory",
+          "es": "Preguntar a Gemini Cloud Assist en la consola por los recursos del proyecto y sus recomendaciones, y confirmar el inventario con Cloud Asset Inventory"
+        },
+        {
+          "en": "Read six months of Cloud Logging entries to reconstruct the architecture",
+          "es": "Leer seis meses de entradas de Cloud Logging para reconstruir la arquitectura"
+        },
+        {
+          "en": "Run terraform import over the whole project to generate the state and read it",
+          "es": "Ejecutar terraform import sobre todo el proyecto para generar el estado y leerlo"
+        },
+        {
+          "en": "Delete resources that nobody claims and observe what breaks",
+          "es": "Borrar los recursos que nadie reclama y observar qué se rompe"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Gemini Cloud Assist answers natural-language questions about your deployed resources and surfaces cost, security, and reliability insights in context, and Asset Inventory gives the authoritative list to verify what it tells you, which is the fastest low-risk way in. Option B is slow and shows events rather than current state. Option C is a heavy migration exercise that assumes the project should be managed by Terraform and still needs interpretation. Option D is reckless: it causes the outage it is supposed to prevent.",
+        "es": "Gemini Cloud Assist responde preguntas en lenguaje natural sobre tus recursos implementados y muestra información de costo, seguridad y confiabilidad en contexto, y Asset Inventory entrega la lista autoritativa para verificar lo que dice, que es la vía más rápida y de menor riesgo. La opción B es lenta y muestra eventos en lugar del estado actual. La opción C es un ejercicio pesado de migración que asume que el proyecto debe administrarse con Terraform y aun así requiere interpretación. La opción D es temeraria: provoca la interrupción que se supone debe prevenir."
+      },
+      "doc": "https://cloud.google.com/gemini/docs/cloud-assist/overview"
+    },
+    {
+      "id": "ref1-057",
+      "curso": null,
+      "servicios": [
+        "identity-federation",
+        "iam"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-workforce-identity-federation"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your IdP contains 12,000 employees, but only the members of the IdP group 'cloud-ops' may obtain Google Cloud credentials through the workforce pool. What is the BEST way to enforce this?",
+        "es": "Tu IdP contiene 12,000 empleados, pero solo los miembros del grupo 'cloud-ops' del IdP pueden obtener credenciales de Google Cloud a través del workforce pool. ¿Cuál es la MEJOR forma de aplicarlo?"
+      },
+      "opciones": [
+        {
+          "en": "Add an attribute condition on the workforce pool provider that only accepts assertions carrying that group, and map the group claim to an attribute",
+          "es": "Agregar una condición de atributos en el proveedor del workforce pool que solo acepte aserciones que lleven ese grupo, y mapear el claim del grupo a un atributo"
+        },
+        {
+          "en": "Grant IAM roles only to the 'cloud-ops' users and let everyone else authenticate with no roles",
+          "es": "Otorgar roles de IAM solo a los usuarios de 'cloud-ops' y dejar que el resto se autentique sin roles"
+        },
+        {
+          "en": "Create one workforce pool per employee to control access individually",
+          "es": "Crear un workforce pool por empleado para controlar el acceso de forma individual"
+        },
+        {
+          "en": "Ask the IdP administrators to delete the other 11,000 users",
+          "es": "Pedir a los administradores del IdP que borren a los otros 11,000 usuarios"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "An attribute condition is a CEL expression evaluated during the credential exchange, so assertions that do not satisfy it are rejected before any token is issued, which is exactly the requirement to obtain credentials. Option B lets all 12,000 authenticate and merely leaves them without permissions, a weaker posture that also floods audit logs. Option C is unmanageable and misunderstands pools, which are organization-level and meant to hold many identities. Option D breaks the IdP for the rest of the company.",
+        "es": "Una condición de atributos es una expresión CEL evaluada durante el intercambio de credenciales, así que las aserciones que no la satisfacen se rechazan antes de emitir cualquier token, que es exactamente el requisito de obtener credenciales. La opción B deja que los 12,000 se autentiquen y solo los deja sin permisos, una postura más débil que además inunda los registros de auditoría. La opción C es inmanejable y malinterpreta los pools, que son a nivel de organización y están pensados para contener muchas identidades. La opción D rompe el IdP para el resto de la empresa."
+      },
+      "doc": "https://cloud.google.com/iam/docs/manage-workforce-identity-pools-providers"
+    },
+    {
+      "id": "ref1-058",
+      "curso": null,
+      "servicios": [
+        "resource-manager",
+        "cloud-identity"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-resource-hierarchy"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A startup has 25 projects created with personal Google Accounts and no organization. They just signed up for Cloud Identity and want central governance without downtime. What is the BEST plan?",
+        "es": "Una startup tiene 25 proyectos creados con Cuentas de Google personales y sin organización. Acaban de contratar Cloud Identity y quieren gobernanza centralizada sin tiempo de inactividad. ¿Cuál es el MEJOR plan?"
+      },
+      "opciones": [
+        {
+          "en": "Create the organization from the verified domain, then migrate the existing projects into it and organize them in folders",
+          "es": "Crear la organización a partir del dominio verificado y luego migrar los proyectos existentes hacia ella y organizarlos en carpetas"
+        },
+        {
+          "en": "Recreate all 25 projects inside the organization and redeploy the workloads",
+          "es": "Volver a crear los 25 proyectos dentro de la organización y volver a implementar las cargas de trabajo"
+        },
+        {
+          "en": "Leave the projects where they are; organization policies apply to any project of the domain automatically",
+          "es": "Dejar los proyectos donde están; las políticas de la organización aplican automáticamente a cualquier proyecto del dominio"
+        },
+        {
+          "en": "Create a folder first and attach the projects to it, then create the organization above the folder",
+          "es": "Crear primero una carpeta y adjuntar los proyectos a ella, y luego crear la organización por encima de la carpeta"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Once Cloud Identity provisions the Organization resource for the verified domain, existing projects can be moved into it (gcloud beta projects move) with no effect on running resources, and folders then give the governance structure. Option B causes avoidable downtime and data migration for something that is a metadata change. Option C is false: a project outside the organization inherits nothing from it. Option D is impossible, folders cannot exist without an organization above them.",
+        "es": "Una vez que Cloud Identity aprovisiona el recurso de Organización para el dominio verificado, los proyectos existentes se pueden mover a ella (gcloud beta projects move) sin afectar los recursos en ejecución, y las carpetas aportan luego la estructura de gobernanza. La opción B provoca tiempo de inactividad y migración de datos evitables para algo que es un cambio de metadatos. La opción C es falsa: un proyecto fuera de la organización no hereda nada de ella. La opción D es imposible, las carpetas no pueden existir sin una organización por encima."
+      },
+      "doc": "https://cloud.google.com/resource-manager/docs/project-migration"
+    },
+    {
+      "id": "ref1-059",
+      "curso": null,
+      "servicios": [
+        "quotas-apis"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-apis-quotas"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A batch client receives RESOURCE_EXHAUSTED errors during traffic peaks, although the total daily volume is small. The failing quota is 'read requests per minute'. What is the BEST response?",
+        "es": "Un cliente por lotes recibe errores RESOURCE_EXHAUSTED durante los picos de tráfico, aunque el volumen diario total es pequeño. La cuota que falla es 'solicitudes de lectura por minuto'. ¿Cuál es la MEJOR respuesta?"
+      },
+      "opciones": [
+        {
+          "en": "Smooth the request rate with client-side throttling and exponential backoff with retries, and request a rate quota increase if the peak is legitimate",
+          "es": "Suavizar la tasa de solicitudes con limitación del lado del cliente y reintentos con retirada exponencial, y solicitar un aumento de la cuota de tasa si el pico es legítimo"
+        },
+        {
+          "en": "Distribute the calls across several projects so each one keeps its own per-minute quota",
+          "es": "Distribuir las llamadas entre varios proyectos para que cada uno conserve su propia cuota por minuto"
+        },
+        {
+          "en": "Ignore the errors, because rate quotas reset automatically and the data will arrive eventually",
+          "es": "Ignorar los errores, porque las cuotas de tasa se restablecen automáticamente y los datos llegarán de todas formas"
+        },
+        {
+          "en": "Request an allocation quota increase for the number of instances of the client",
+          "es": "Solicitar un aumento de la cuota de asignación de la cantidad de instancias del cliente"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Rate quotas are per unit of time, so a burst can exhaust them while daily volume stays low; the recommended handling is retrying with exponential backoff and spreading the load, and asking for an increase when the peak reflects real demand. Option B is a quota-evasion anti-pattern that fragments the workload and its monitoring, and can breach terms of use. Option C loses data or delays it unpredictably, since failed requests are not retried by themselves. Option D targets the wrong quota type: the limit being hit is the request rate, not a resource count.",
+        "es": "Las cuotas de tasa son por unidad de tiempo, así que una ráfaga puede agotarlas aunque el volumen diario sea bajo; el manejo recomendado es reintentar con retirada exponencial y repartir la carga, y pedir un aumento cuando el pico refleje demanda real. La opción B es un antipatrón de evasión de cuotas que fragmenta la carga de trabajo y su supervisión, y puede violar los términos de uso. La opción C pierde datos o los retrasa de forma impredecible, ya que las solicitudes fallidas no se reintentan solas. La opción D apunta al tipo de cuota equivocado: el límite que se alcanza es la tasa de solicitudes, no una cantidad de recursos."
+      },
+      "doc": "https://cloud.google.com/docs/quotas/overview"
+    },
+    {
+      "id": "ref1-060",
+      "curso": null,
+      "servicios": [
+        "identity-federation",
+        "cloud-identity"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-workforce-identity-federation",
+        "1.1-cloud-identity"
+      ],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "You are deciding between Workforce Identity Federation and synchronizing users into Cloud Identity with Google Cloud Directory Sync. Which TWO statements should drive the decision?",
+        "es": "Estás decidiendo entre Workforce Identity Federation y sincronizar usuarios a Cloud Identity con Google Cloud Directory Sync. ¿Cuáles DOS afirmaciones deberían guiar la decisión?"
+      },
+      "opciones": [
+        {
+          "en": "Workforce Identity Federation requires no user provisioning in Google Cloud, so it suits short-lived or external populations",
+          "es": "Workforce Identity Federation no requiere aprovisionar usuarios en Google Cloud, por lo que sirve para poblaciones externas o de corta duración"
+        },
+        {
+          "en": "Users that also need Google Workspace services such as Gmail or Drive require Cloud Identity or Workspace identities, which federation alone does not provide",
+          "es": "Los usuarios que además necesitan servicios de Google Workspace como Gmail o Drive requieren identidades de Cloud Identity o Workspace, que la federación por sí sola no proporciona"
+        },
+        {
+          "en": "Workforce Identity Federation replaces IAM: roles are assigned in the external IdP",
+          "es": "Workforce Identity Federation reemplaza a IAM: los roles se asignan en el IdP externo"
+        },
+        {
+          "en": "Google Cloud Directory Sync issues short-lived credentials without creating accounts",
+          "es": "Google Cloud Directory Sync emite credenciales de corta duración sin crear cuentas"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Federation avoids provisioning and deprovisioning accounts, which is its main advantage for contractors and partners, while synchronized Cloud Identity accounts remain necessary when the person also consumes Workspace services. Option C is wrong: authorization always stays in Google Cloud IAM, federation only establishes who the caller is. Option D describes the opposite of what GCDS does: it creates and keeps in sync real Cloud Identity accounts.",
+        "es": "La federación evita aprovisionar y desaprovisionar cuentas, que es su principal ventaja para contratistas y socios, mientras que las cuentas sincronizadas de Cloud Identity siguen siendo necesarias cuando la persona además consume servicios de Workspace. La opción C es incorrecta: la autorización siempre permanece en IAM de Google Cloud, la federación solo establece quién es el llamador. La opción D describe lo contrario de lo que hace GCDS: crea y mantiene sincronizadas cuentas reales de Cloud Identity."
+      },
+      "doc": "https://cloud.google.com/iam/docs/workforce-identity-federation"
     }
   ]
 }

@@ -1746,6 +1746,709 @@
         "es": "Filestore sirve recursos compartidos NFS y Managed Lustre sirve un sistema de archivos paralelo; ambos se montan desde muchos clientes a la vez, y Lustre apunta a un rendimiento agregado mucho mayor. Coldline es una clase de almacenamiento de objetos de archivo sin semántica de archivos nativa, y Hyperdisk Balanced es almacenamiento en bloque pensado para conectarse a una VM y no para un espacio de nombres compartido."
       },
       "doc": "https://cloud.google.com/architecture/filers-on-compute-engine"
+    },
+    {
+      "id": "iadep-041",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "agent-runtime",
+        "cloud-run"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-ai-workloads"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A team built a customer-support agent with ADK. It needs per-user session state, long-term memory, autoscaling, and request tracing, and the team has no platform engineers. What is the BEST deployment option?",
+        "es": "Un equipo creó un agente de atención al cliente con ADK. Necesita estado de sesión por usuario, memoria de largo plazo, autoescalado y trazado de solicitudes, y el equipo no tiene ingenieros de plataforma. ¿Cuál es la MEJOR opción de implementación?"
+      },
+      "opciones": [
+        {
+          "en": "Deploy the agent to Agent Runtime",
+          "es": "Implementar el agente en Agent Runtime"
+        },
+        {
+          "en": "Containerize the agent and run it on Cloud Run, adding Firestore for sessions and Cloud Trace instrumentation",
+          "es": "Empaquetar el agente en un contenedor y ejecutarlo en Cloud Run, agregando Firestore para las sesiones e instrumentación de Cloud Trace"
+        },
+        {
+          "en": "Run the agent as a Deployment on a GKE Standard cluster with a custom HPA",
+          "es": "Ejecutar el agente como un Deployment en un clúster de GKE Standard con un HPA personalizado"
+        },
+        {
+          "en": "Run the agent on a managed instance group of Compute Engine VMs behind a load balancer",
+          "es": "Ejecutar el agente en un grupo de instancias administrado de Compute Engine detrás de un balanceador de cargas"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Agent Runtime delivers exactly the listed requirements as managed features, so the team ships without building platform plumbing. B works but forces the team to build and operate sessions, memory, and tracing themselves. C and D add cluster or VM operations that a team with no platform engineers should avoid, and they still lack agent-specific capabilities.",
+        "es": "Agent Runtime entrega justamente los requisitos listados como funciones administradas, así que el equipo publica sin construir plomería de plataforma. B funciona, pero obliga al equipo a construir y operar por su cuenta las sesiones, la memoria y el trazado. C y D agregan operación de clúster o de VMs que un equipo sin ingenieros de plataforma debería evitar, y aun así no tienen las capacidades específicas para agentes."
+      },
+      "doc": "https://cloud.google.com/vertex-ai/generative-ai/docs/agent-engine/overview"
+    },
+    {
+      "id": "iadep-042",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "file-storage",
+        "cloud-storage"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-storage-products"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A research group trains a large model on hundreds of GPU nodes. The job stalls because all nodes read the same dataset and write checkpoints simultaneously, saturating storage. Which storage option BEST addresses this?",
+        "es": "Un grupo de investigación entrena un modelo grande en cientos de nodos con GPU. El trabajo se atasca porque todos los nodos leen el mismo conjunto de datos y escriben checkpoints al mismo tiempo, saturando el almacenamiento. ¿Qué opción de almacenamiento resuelve MEJOR esto?"
+      },
+      "opciones": [
+        {
+          "en": "Google Cloud Managed Lustre as the shared high-throughput file system, staging data from Cloud Storage",
+          "es": "Google Cloud Managed Lustre como sistema de archivos compartido de alto rendimiento, con datos preparados desde Cloud Storage"
+        },
+        {
+          "en": "A single large Filestore Basic instance shared by all nodes",
+          "es": "Una única instancia grande de Filestore Basic compartida por todos los nodos"
+        },
+        {
+          "en": "A regional Persistent Disk attached in read-only mode to every node",
+          "es": "Un Persistent Disk regional conectado en modo de solo lectura a cada nodo"
+        },
+        {
+          "en": "Cloud Storage Coldline with parallel composite uploads",
+          "es": "Cloud Storage Coldline con cargas compuestas paralelas"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Managed Lustre is built for exactly this pattern: many clients hitting one namespace with very high aggregate throughput and low latency, which is why it is the AI/HPC training answer. Filestore Basic tops out well below that scale, a regional Persistent Disk in read-only mode cannot take the checkpoint writes and has limited attachment scale, and Coldline is an archival class with retrieval costs and latency that make it wrong for hot training data.",
+        "es": "Managed Lustre está hecho justo para este patrón: muchos clientes sobre un mismo espacio de nombres con rendimiento agregado muy alto y baja latencia, y por eso es la respuesta para entrenamiento de IA/HPC. Filestore Basic se queda muy por debajo de esa escala, un Persistent Disk regional en solo lectura no puede recibir las escrituras de checkpoints y tiene un límite de conexiones, y Coldline es una clase de archivo con costos y latencia de recuperación que la hacen inadecuada para datos de entrenamiento activos."
+      },
+      "doc": "https://cloud.google.com/managed-lustre/docs/overview"
+    },
+    {
+      "id": "iadep-043",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "compute-engine",
+        "gpus-tpus"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A nightly batch inference job runs for about three hours on GPUs, writes results to Cloud Storage, and can restart from the last processed shard. Cost must be as low as possible. What is the BEST provisioning choice?",
+        "es": "Un trabajo nocturno de inferencia por lotes se ejecuta unas tres horas en GPUs, escribe resultados en Cloud Storage y puede reiniciarse desde el último fragmento procesado. El costo debe ser lo más bajo posible. ¿Cuál es la MEJOR opción de aprovisionamiento?"
+      },
+      "opciones": [
+        {
+          "en": "Run the job on Spot VMs with GPUs and make the job resume from the last checkpoint after preemption",
+          "es": "Ejecutar el trabajo en VMs Spot con GPU y hacer que retome desde el último checkpoint tras una interrupción"
+        },
+        {
+          "en": "Buy a one-year committed use discount for the GPU machine type",
+          "es": "Comprar un descuento por uso comprometido de un año para el tipo de máquina con GPU"
+        },
+        {
+          "en": "Create a reservation that keeps the GPUs available around the clock",
+          "es": "Crear una reserva que mantenga las GPUs disponibles las 24 horas"
+        },
+        {
+          "en": "Keep an on-demand GPU VM running permanently so the job starts instantly",
+          "es": "Mantener una VM con GPU bajo demanda encendida de forma permanente para que el trabajo inicie de inmediato"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The workload is interruption tolerant and short-lived, which is the canonical Spot use case and gives the largest discount. B commits to spend for a year for three hours of nightly use, C pays for reserved capacity that sits idle 21 hours a day, and D pays full on-demand price for idle time as well.",
+        "es": "La carga tolera interrupciones y es de corta duración, que es el caso de uso clásico de Spot y da el mayor descuento. B compromete gasto por un año para un uso de tres horas por noche, C paga capacidad reservada que queda inactiva 21 horas al día y D también paga precio completo bajo demanda por tiempo inactivo."
+      },
+      "doc": "https://cloud.google.com/compute/docs/instances/spot"
+    },
+    {
+      "id": "iadep-044",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "cloud-run",
+        "gpus-tpus"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A startup serves an open-weights model behind an HTTPS API. Traffic is bursty and often zero for hours, the container image is under 10 GB, and the two-person team wants minimal operations. What is the BEST option?",
+        "es": "Una startup sirve un modelo de pesos abiertos detrás de una API HTTPS. El tráfico es intermitente y muchas veces nulo durante horas, la imagen del contenedor pesa menos de 10 GB y el equipo de dos personas quiere operación mínima. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        {
+          "en": "Deploy the container to Cloud Run with a GPU attached, letting it scale to zero between bursts",
+          "es": "Implementar el contenedor en Cloud Run con una GPU conectada y dejar que escale a cero entre picos"
+        },
+        {
+          "en": "Create a GKE Standard cluster with a GPU node pool and a Deployment",
+          "es": "Crear un clúster de GKE Standard con un node pool con GPU y un Deployment"
+        },
+        {
+          "en": "Run the model on a managed instance group of GPU VMs with autoscaling based on CPU",
+          "es": "Ejecutar el modelo en un grupo de instancias administrado de VMs con GPU y autoescalado basado en CPU"
+        },
+        {
+          "en": "Deploy the model to Agent Runtime",
+          "es": "Implementar el modelo en Agent Runtime"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Cloud Run with GPU matches every constraint: request-driven autoscaling, scale to zero so idle hours cost nothing, and no cluster or VM to operate. B and C both leave GPU nodes running and require the team to manage a cluster or instance group, and CPU-based autoscaling is a poor signal for GPU inference. D is the wrong product because Agent Runtime hosts agents, not an arbitrary model-serving container.",
+        "es": "Cloud Run con GPU cumple todas las restricciones: autoescalado por solicitudes, escalado a cero para que las horas inactivas no cuesten y ningún clúster ni VM que operar. B y C dejan nodos con GPU encendidos y obligan al equipo a administrar un clúster o un grupo de instancias, y el autoescalado por CPU es una mala señal para inferencia con GPU. D es el producto equivocado porque Agent Runtime aloja agentes, no un contenedor arbitrario de serving de modelos."
+      },
+      "doc": "https://cloud.google.com/run/docs/configuring/services/gpu"
+    },
+    {
+      "id": "iadep-045",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "cloud-workstations"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-cloud-workstations"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A regulated company must ensure contractors never store source code on personal laptops, that every environment is identical, and that development traffic reaches internal services only over the corporate VPC. What is the BEST approach?",
+        "es": "Una empresa regulada debe asegurar que los contratistas nunca almacenen código fuente en laptops personales, que todos los entornos sean idénticos y que el tráfico de desarrollo llegue a los servicios internos solo por la VPC corporativa. ¿Cuál es el MEJOR enfoque?"
+      },
+      "opciones": [
+        {
+          "en": "Provide Cloud Workstations built from an approved container image, running in the corporate VPC and accessed from the browser",
+          "es": "Proveer Cloud Workstations creadas a partir de una imagen de contenedor aprobada, ejecutadas en la VPC corporativa y accedidas desde el navegador"
+        },
+        {
+          "en": "Give each contractor a Compute Engine VM and let them install their own tools over SSH",
+          "es": "Dar a cada contratista una VM de Compute Engine y dejar que instalen sus propias herramientas por SSH"
+        },
+        {
+          "en": "Ask contractors to use Cloud Shell for all development work",
+          "es": "Pedir a los contratistas que usen Cloud Shell para todo el trabajo de desarrollo"
+        },
+        {
+          "en": "Distribute a documented setup script that contractors run on their own laptops",
+          "es": "Distribuir un script de configuración documentado que los contratistas ejecuten en sus propias laptops"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Cloud Workstations centralizes the environment definition, keeps code and data inside Google Cloud, and attaches the workstation to your VPC so private services are reachable without exposing them. B gives no standardization and drifts per contractor, C is a convenience shell with an ephemeral home and limited resources rather than a governed dev platform, and D leaves the code on unmanaged laptops, which is precisely what the policy forbids.",
+        "es": "Cloud Workstations centraliza la definición del entorno, mantiene el código y los datos dentro de Google Cloud y conecta la workstation a tu VPC para alcanzar servicios privados sin exponerlos. B no da estandarización y cada contratista deriva por su cuenta, C es una shell de conveniencia con home efímero y recursos limitados, no una plataforma de desarrollo gobernada, y D deja el código en laptops no administradas, que es justo lo que la política prohíbe."
+      },
+      "doc": "https://cloud.google.com/workstations/docs/overview"
+    },
+    {
+      "id": "iadep-046",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "bigquery",
+        "notebooks"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-ai-workloads"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "An analyst must explore a 20 TB BigQuery table with SQL and a little Python for charts. She has no infrastructure permissions and needs results today. What is the BEST option?",
+        "es": "Una analista debe explorar una tabla de BigQuery de 20 TB con SQL y algo de Python para gráficos. No tiene permisos de infraestructura y necesita resultados hoy. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        {
+          "en": "Use a notebook in BigQuery Studio, which runs on a managed runtime and queries the table in place",
+          "es": "Usar un notebook en BigQuery Studio, que se ejecuta en un runtime administrado y consulta la tabla en su lugar"
+        },
+        {
+          "en": "Create a Workbench instance with a large machine type and download the table with the BigQuery client",
+          "es": "Crear una instancia de Workbench con un tipo de máquina grande y descargar la tabla con el cliente de BigQuery"
+        },
+        {
+          "en": "Export the table to Cloud Storage and analyze the files on a GPU VM",
+          "es": "Exportar la tabla a Cloud Storage y analizar los archivos en una VM con GPU"
+        },
+        {
+          "en": "Load the table into a Cloud SQL instance and query it from a local client",
+          "es": "Cargar la tabla en una instancia de Cloud SQL y consultarla desde un cliente local"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "BigQuery notebooks need no VM provisioning, so they fit an analyst without infrastructure permissions, and the heavy scan stays inside BigQuery instead of moving 20 TB anywhere. B requires provisioning rights and pulling an enormous dataset over the wire, C adds an export plus a GPU she does not need for SQL analytics, and D moves warehouse-scale data into an operational database that is not sized for it.",
+        "es": "Los notebooks de BigQuery no requieren aprovisionar VMs, así que encajan con una analista sin permisos de infraestructura, y el escaneo pesado se queda dentro de BigQuery en lugar de mover 20 TB a otro lado. B exige permisos de aprovisionamiento y traer un conjunto de datos enorme por la red, C agrega una exportación más una GPU que no necesita para analítica SQL, y D traslada datos a escala de data warehouse a una base de datos operativa que no está dimensionada para eso."
+      },
+      "doc": "https://cloud.google.com/bigquery/docs/notebooks-introduction"
+    },
+    {
+      "id": "iadep-047",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "compute-engine",
+        "gpus-tpus"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A team must run a distributed training job that requires 128 GPUs to start at the same time. Recent attempts failed with stockout errors in the zone. Which approach BEST guarantees the job can start without paying for idle capacity year round?",
+        "es": "Un equipo debe ejecutar un trabajo de entrenamiento distribuido que requiere que 128 GPUs inicien al mismo tiempo. Los intentos recientes fallaron con errores de falta de capacidad en la zona. ¿Qué enfoque garantiza MEJOR que el trabajo pueda iniciar sin pagar capacidad inactiva todo el año?"
+      },
+      "opciones": [
+        {
+          "en": "Submit the request through Dynamic Workload Scheduler so the accelerators are provisioned together when the full amount is available",
+          "es": "Enviar la solicitud mediante Dynamic Workload Scheduler para que los aceleradores se aprovisionen juntos cuando esté disponible la cantidad completa"
+        },
+        {
+          "en": "Retry instance creation in a loop until enough GPUs happen to be free",
+          "es": "Reintentar la creación de instancias en bucle hasta que por casualidad haya suficientes GPUs libres"
+        },
+        {
+          "en": "Create a permanent reservation for 128 GPUs and keep it all year",
+          "es": "Crear una reserva permanente de 128 GPUs y mantenerla todo el año"
+        },
+        {
+          "en": "Split the job so each GPU starts independently whenever capacity appears",
+          "es": "Dividir el trabajo para que cada GPU inicie de forma independiente cuando aparezca capacidad"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "DWS queues the request and delivers the accelerators atomically, which is designed for gang-scheduled distributed training and avoids paying for capacity between runs. B wastes effort and still fails under contention and partially acquires nodes, C guarantees capacity but pays for it continuously, contradicting the cost constraint, and D breaks the job because synchronous distributed training needs all workers at once.",
+        "es": "DWS encola la solicitud y entrega los aceleradores de forma atómica, algo diseñado para entrenamiento distribuido con programación en grupo y que evita pagar capacidad entre ejecuciones. B desperdicia esfuerzo, igual falla ante contención y adquiere nodos parcialmente; C garantiza capacidad pero se paga de forma continua, lo que contradice la restricción de costo; y D rompe el trabajo porque el entrenamiento distribuido sincrónico necesita todos los workers a la vez."
+      },
+      "doc": "https://cloud.google.com/ai-hypercomputer/docs/workloads/dynamic-workload-scheduler"
+    },
+    {
+      "id": "iadep-048",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "compute-engine",
+        "gke"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "An HPC team runs an MPI simulation that needs specific kernel tuning, a custom NVIDIA driver version, and low-latency host networking between nodes. What is the BEST compute option?",
+        "es": "Un equipo de HPC ejecuta una simulación MPI que necesita ajustes específicos del kernel, una versión personalizada del controlador NVIDIA y red de baja latencia entre hosts. ¿Cuál es la MEJOR opción de cómputo?"
+      },
+      "opciones": [
+        {
+          "en": "Compute Engine VMs with attached GPUs, where the team controls the image, drivers, and OS configuration",
+          "es": "VMs de Compute Engine con GPUs conectadas, donde el equipo controla la imagen, los controladores y la configuración del SO"
+        },
+        {
+          "en": "Cloud Run with GPU",
+          "es": "Cloud Run con GPU"
+        },
+        {
+          "en": "GKE Autopilot with GPU Pods",
+          "es": "GKE Autopilot con Pods con GPU"
+        },
+        {
+          "en": "Agent Runtime with a custom container",
+          "es": "Agent Runtime con un contenedor personalizado"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Kernel tuning, custom drivers, and host-level networking require control of the guest OS, which only VMs give you. Cloud Run is a sandboxed serverless runtime with no kernel access and a request-oriented model, GKE Autopilot deliberately locks down nodes so kernel and driver customization is not available, and Agent Runtime is for agents rather than MPI simulations.",
+        "es": "El ajuste del kernel, los controladores personalizados y la red a nivel de host requieren control del sistema operativo invitado, y eso solo lo dan las VMs. Cloud Run es un runtime serverless en sandbox sin acceso al kernel y con un modelo orientado a solicitudes, GKE Autopilot bloquea deliberadamente los nodos por lo que no permite personalizar kernel ni controladores, y Agent Runtime es para agentes, no para simulaciones MPI."
+      },
+      "doc": "https://cloud.google.com/compute/docs/gpus"
+    },
+    {
+      "id": "iadep-049",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "cloud-storage",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-storage-products"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A training script expects a local directory of image files, but the 40 TB dataset already lives in a Cloud Storage bucket and is read once per epoch. Rewriting the data loader is not an option this quarter. What is the BEST approach?",
+        "es": "Un script de entrenamiento espera un directorio local con archivos de imagen, pero el conjunto de datos de 40 TB ya está en un bucket de Cloud Storage y se lee una vez por época. Reescribir el cargador de datos no es opción este trimestre. ¿Cuál es el MEJOR enfoque?"
+      },
+      "opciones": [
+        {
+          "en": "Mount the bucket with Cloud Storage FUSE so the script reads objects through file paths",
+          "es": "Montar el bucket con Cloud Storage FUSE para que el script lea los objetos mediante rutas de archivo"
+        },
+        {
+          "en": "Copy the 40 TB to a Persistent Disk on every training node before each run",
+          "es": "Copiar los 40 TB a un Persistent Disk en cada nodo de entrenamiento antes de cada ejecución"
+        },
+        {
+          "en": "Load the images into BigQuery as bytes and query them from the script",
+          "es": "Cargar las imágenes en BigQuery como bytes y consultarlas desde el script"
+        },
+        {
+          "en": "Bake the dataset into the container image used by the training job",
+          "es": "Incluir el conjunto de datos en la imagen de contenedor que usa el trabajo de entrenamiento"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Cloud Storage FUSE is designed for this: it presents the bucket as a mounted file system so existing file-based code works unchanged, with caching options to improve read performance. B duplicates 40 TB per node and adds long startup delays and disk cost, C misuses a data warehouse for binary blobs, and D produces an unmanageable image and still requires a rebuild whenever the dataset changes.",
+        "es": "Cloud Storage FUSE está pensado para esto: presenta el bucket como un sistema de archivos montado para que el código basado en archivos funcione sin cambios, con opciones de caché para mejorar el rendimiento de lectura. B duplica 40 TB por nodo y agrega demoras de inicio y costo de disco, C usa mal un data warehouse para blobs binarios y D produce una imagen inmanejable que además hay que recompilar cada vez que cambian los datos."
+      },
+      "doc": "https://cloud.google.com/storage/docs/cloud-storage-fuse/overview"
+    },
+    {
+      "id": "iadep-050",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "agent-runtime",
+        "cloud-run"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO situations justify hosting an AI agent on Cloud Run instead of Agent Runtime?",
+        "es": "¿Cuáles DOS situaciones justifican alojar un agente de IA en Cloud Run en lugar de Agent Runtime?"
+      },
+      "opciones": [
+        {
+          "en": "The workload is packaged as an arbitrary container with custom system dependencies and processes that must run alongside the agent",
+          "es": "La carga viene empaquetada como un contenedor arbitrario con dependencias del sistema y procesos propios que deben ejecutarse junto al agente"
+        },
+        {
+          "en": "The service must be deployed with the same container build, revision, and traffic-splitting workflow the team already uses for its other microservices",
+          "es": "El servicio debe implementarse con el mismo flujo de compilación de contenedor, revisiones y división de tráfico que el equipo ya usa para sus otros microservicios"
+        },
+        {
+          "en": "The team wants managed agent sessions and a memory bank without building them",
+          "es": "El equipo quiere sesiones de agente administradas y un banco de memoria sin construirlos"
+        },
+        {
+          "en": "The team wants built-in agent tracing and evaluation integrated with the agent framework",
+          "es": "El equipo quiere trazado y evaluación de agentes integrados con el framework de agentes"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Cloud Run wins when you need full control of the container and want the agent to live in the same deployment pipeline as the rest of your services, including revisions and gradual traffic migration. C and D describe managed capabilities that Agent Runtime provides out of the box and that you would otherwise have to implement yourself on Cloud Run, so they argue for Agent Runtime instead.",
+        "es": "Cloud Run gana cuando necesitas control total del contenedor y quieres que el agente viva en el mismo pipeline de implementación que el resto de tus servicios, con revisiones y migración gradual de tráfico. C y D describen capacidades administradas que Agent Runtime ofrece de fábrica y que en Cloud Run tendrías que implementar por tu cuenta, así que son argumentos a favor de Agent Runtime."
+      },
+      "doc": "https://cloud.google.com/vertex-ai/generative-ai/docs/agent-engine/overview"
+    },
+    {
+      "id": "iadep-051",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "gpus-tpus"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-gpus-tpus-choice"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A team pretrains a very large transformer written in JAX. The model is dominated by dense matrix multiplication, runs for weeks, and must scale to thousands of chips with the best price-performance. Which accelerator should they choose?",
+        "es": "Un equipo preentrena un transformer muy grande escrito en JAX. El modelo está dominado por multiplicación matricial densa, se ejecuta durante semanas y debe escalar a miles de chips con la mejor relación precio-rendimiento. ¿Qué acelerador deberían elegir?"
+      },
+      "opciones": [
+        {
+          "en": "Cloud TPU slices",
+          "es": "Slices de Cloud TPU"
+        },
+        {
+          "en": "A single very large GPU VM",
+          "es": "Una sola VM con GPU muy grande"
+        },
+        {
+          "en": "CPU-only C4 instances with many vCPUs",
+          "es": "Instancias C4 solo con CPU y muchas vCPUs"
+        },
+        {
+          "en": "Cloud Run instances with GPUs",
+          "es": "Instancias de Cloud Run con GPUs"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "TPUs are purpose-built for large dense matrix workloads and are natively targeted by JAX and XLA, and TPU slices with high-speed interconnect are the intended path for training at thousands of chips. A single GPU VM cannot reach that scale, CPUs are orders of magnitude slower for this math, and Cloud Run is a request-driven serving platform, not a multi-week distributed training environment.",
+        "es": "Las TPU están hechas para cargas de matrices densas grandes y son el destino nativo de JAX y XLA, y las slices de TPU con interconexión de alta velocidad son la ruta prevista para entrenar con miles de chips. Una sola VM con GPU no alcanza esa escala, las CPU son órdenes de magnitud más lentas para esta matemática y Cloud Run es una plataforma de serving por solicitudes, no un entorno de entrenamiento distribuido de semanas."
+      },
+      "doc": "https://cloud.google.com/tpu/docs/intro-to-tpu"
+    },
+    {
+      "id": "iadep-052",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "gpus-tpus",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-gpus-tpus-choice"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A computer vision team relies on hand-written CUDA kernels and third-party libraries that only ship CUDA binaries. Which accelerator strategy is BEST?",
+        "es": "Un equipo de visión por computadora depende de kernels CUDA escritos a mano y de bibliotecas de terceros que solo distribuyen binarios CUDA. ¿Qué estrategia de aceleradores es la MEJOR?"
+      },
+      "opciones": [
+        {
+          "en": "Use NVIDIA GPUs, because CUDA kernels and CUDA-only libraries run on GPUs",
+          "es": "Usar GPUs NVIDIA, porque los kernels CUDA y las bibliotecas solo-CUDA se ejecutan en GPUs"
+        },
+        {
+          "en": "Use Cloud TPUs, because they are always faster than GPUs",
+          "es": "Usar Cloud TPUs, porque siempre son más rápidas que las GPUs"
+        },
+        {
+          "en": "Use CPU instances and rely on vectorized libraries",
+          "es": "Usar instancias con CPU y apoyarse en bibliotecas vectorizadas"
+        },
+        {
+          "en": "Use TPUs for training and GPUs for the custom kernels in the same job",
+          "es": "Usar TPUs para entrenar y GPUs para los kernels personalizados en el mismo trabajo"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "CUDA is NVIDIA's programming model, so custom kernels and CUDA-only dependencies require GPUs; TPUs run XLA-compiled graphs and cannot execute CUDA code. B is a false generalization since the right accelerator depends on the workload and software stack, C throws away the acceleration entirely, and D adds complexity for a job that would still need porting the kernels to run any part on TPUs.",
+        "es": "CUDA es el modelo de programación de NVIDIA, así que los kernels personalizados y las dependencias solo-CUDA requieren GPUs; las TPU ejecutan grafos compilados con XLA y no pueden correr código CUDA. B es una generalización falsa, porque el acelerador correcto depende de la carga y del stack de software; C renuncia por completo a la aceleración; y D agrega complejidad para un trabajo que igual exigiría portar los kernels para ejecutar algo en TPU."
+      },
+      "doc": "https://cloud.google.com/compute/docs/gpus"
+    },
+    {
+      "id": "iadep-053",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "gemini-cloud-assist",
+        "terraform-iac"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.4-ai-assisted-tooling"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "An architect must standardize how a dozen application teams provision environments, keep designs consistent with company patterns, and hand teams something they can deploy without hand-writing Terraform. What is the BEST tool?",
+        "es": "Un arquitecto debe estandarizar cómo una docena de equipos de aplicaciones aprovisionan entornos, mantener los diseños alineados con los patrones de la empresa y entregarles algo que puedan implementar sin escribir Terraform a mano. ¿Cuál es la MEJOR herramienta?"
+      },
+      "opciones": [
+        {
+          "en": "Application Design Center, publishing approved architectures as templates that teams deploy",
+          "es": "Application Design Center, publicando arquitecturas aprobadas como plantillas que los equipos implementan"
+        },
+        {
+          "en": "Gemini Cloud Assist chat sessions in each team's console",
+          "es": "Sesiones de chat de Gemini Cloud Assist en la consola de cada equipo"
+        },
+        {
+          "en": "A shared document describing the reference architecture in prose",
+          "es": "Un documento compartido que describe la arquitectura de referencia en prosa"
+        },
+        {
+          "en": "Granting each team the Editor role so they can build what they need quickly",
+          "es": "Otorgar a cada equipo el rol de Editor para que construyan rápido lo que necesiten"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Application Design Center turns a governed design into a reusable, deployable template, which is what standardizes provisioning across many teams. B helps individuals in the moment but produces no shared, versioned artifact, C relies on humans reimplementing prose and drifting, and D is a permissions change that increases risk and does nothing for standardization.",
+        "es": "Application Design Center convierte un diseño gobernado en una plantilla reutilizable e implementable, que es lo que estandariza el aprovisionamiento entre muchos equipos. B ayuda a personas en el momento pero no produce un artefacto compartido y versionado, C depende de que la gente reimplemente un texto y se desvíe, y D es un cambio de permisos que aumenta el riesgo y no aporta nada a la estandarización."
+      },
+      "doc": "https://cloud.google.com/application-design-center/docs/overview"
+    },
+    {
+      "id": "iadep-054",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "gemini-cloud-assist",
+        "cloud-monitoring"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.4-ai-assisted-tooling"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "During an incident, an on-call engineer needs to understand which recent configuration change could explain elevated latency, using natural language and without writing log queries. Which tool BEST fits?",
+        "es": "Durante un incidente, un ingeniero de guardia necesita entender qué cambio de configuración reciente podría explicar la latencia elevada, usando lenguaje natural y sin escribir consultas de registros. ¿Qué herramienta encaja MEJOR?"
+      },
+      "opciones": [
+        {
+          "en": "Gemini Cloud Assist in the Google Cloud console, which can summarize context and help investigate the issue",
+          "es": "Gemini Cloud Assist en la consola de Google Cloud, que puede resumir el contexto y ayudar a investigar el problema"
+        },
+        {
+          "en": "Google Antigravity, to have agents rewrite the application code",
+          "es": "Google Antigravity, para que los agentes reescriban el código de la aplicación"
+        },
+        {
+          "en": "Cloud Workstations, to reproduce the issue locally first",
+          "es": "Cloud Workstations, para reproducir primero el problema de forma local"
+        },
+        {
+          "en": "Application Design Center, to redraw the architecture",
+          "es": "Application Design Center, para volver a dibujar la arquitectura"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Gemini Cloud Assist is the console-native assistant for operational questions: it reasons over the project's telemetry and configuration within the caller's IAM permissions and explains findings in natural language. B is a development platform for building software, C would slow down an active incident and does not surface production telemetry, and D is a design tool with no role in live troubleshooting.",
+        "es": "Gemini Cloud Assist es el asistente nativo de la consola para preguntas operativas: razona sobre la telemetría y la configuración del proyecto dentro de los permisos de IAM del solicitante y explica los hallazgos en lenguaje natural. B es una plataforma de desarrollo para construir software, C retrasaría un incidente activo y no expone la telemetría de producción, y D es una herramienta de diseño sin papel en la solución de problemas en vivo."
+      },
+      "doc": "https://cloud.google.com/gemini/docs/cloud-assist/overview"
+    },
+    {
+      "id": "iadep-055",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "gemini-cloud-assist",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.4-ai-assisted-tooling"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A developer works mostly in a terminal over SSH, has no browser access to the console, and wants AI help refactoring scripts and generating gcloud commands. Which tool is the BEST fit?",
+        "es": "Un desarrollador trabaja principalmente en una terminal por SSH, no tiene acceso al navegador para la consola y quiere ayuda de IA para refactorizar scripts y generar comandos de gcloud. ¿Qué herramienta encaja MEJOR?"
+      },
+      "opciones": [
+        {
+          "en": "Gemini CLI",
+          "es": "Gemini CLI"
+        },
+        {
+          "en": "Gemini Cloud Assist in the console",
+          "es": "Gemini Cloud Assist en la consola"
+        },
+        {
+          "en": "Application Design Center",
+          "es": "Application Design Center"
+        },
+        {
+          "en": "A Workbench notebook instance",
+          "es": "Una instancia de notebook de Workbench"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Gemini CLI is the terminal-native agent, so it works over SSH and can read the working directory, propose edits, and draft commands. B requires the console UI the developer cannot reach, C is a browser-based architecture design surface, and D is a notebook environment for data work rather than terminal-based development.",
+        "es": "Gemini CLI es el agente nativo de la terminal, así que funciona por SSH y puede leer el directorio de trabajo, proponer ediciones y redactar comandos. B requiere la interfaz de la consola a la que el desarrollador no puede llegar, C es una superficie de diseño de arquitectura basada en navegador y D es un entorno de notebooks para trabajo de datos, no para desarrollo en terminal."
+      },
+      "doc": "https://cloud.google.com/gemini/docs/codeassist/gemini-cli"
+    },
+    {
+      "id": "iadep-056",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "gke",
+        "gpus-tpus"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A platform team already runs microservices on Kubernetes and now must add GPU inference workloads. They want Google to handle node sizing and upgrades while keeping Kubernetes APIs. What is the BEST option?",
+        "es": "Un equipo de plataforma ya ejecuta microservicios en Kubernetes y ahora debe agregar cargas de inferencia con GPU. Quieren que Google se encargue del dimensionamiento y las actualizaciones de nodos, conservando las APIs de Kubernetes. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        {
+          "en": "GKE Autopilot, requesting GPUs in the Pod specification so nodes are provisioned automatically",
+          "es": "GKE Autopilot, solicitando GPUs en la especificación del Pod para que los nodos se aprovisionen automáticamente"
+        },
+        {
+          "en": "GKE Standard with manually sized GPU node pools that the team upgrades",
+          "es": "GKE Standard con node pools de GPU dimensionados manualmente que el equipo actualiza"
+        },
+        {
+          "en": "Move all workloads to Cloud Run with GPU",
+          "es": "Mover todas las cargas a Cloud Run con GPU"
+        },
+        {
+          "en": "Deploy GPU VMs in a managed instance group and drop Kubernetes",
+          "es": "Implementar VMs con GPU en un grupo de instancias administrado y abandonar Kubernetes"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Autopilot keeps the Kubernetes API surface the team already uses while Google provisions, sizes, and upgrades nodes, including GPU nodes created from Pod resource requests. B works but puts node lifecycle back on the team, which is exactly what they want to avoid, C discards Kubernetes semantics their microservices depend on, and D abandons the platform entirely and increases operational load.",
+        "es": "Autopilot conserva la superficie de API de Kubernetes que el equipo ya usa mientras Google aprovisiona, dimensiona y actualiza los nodos, incluidos los nodos con GPU creados a partir de las solicitudes de recursos del Pod. B funciona pero devuelve el ciclo de vida de los nodos al equipo, que es justo lo que quieren evitar; C descarta la semántica de Kubernetes de la que dependen sus microservicios; y D abandona por completo la plataforma y aumenta la carga operativa."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/how-to/autopilot-gpus"
     }
   ]
 }

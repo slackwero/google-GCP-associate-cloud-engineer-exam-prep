@@ -2105,6 +2105,539 @@
         "es": "Reutilizar la plataforma de GKE mantiene un solo plano de control, un solo modelo de identidad y un solo stack de observabilidad, por lo que el costo operativo marginal de sumar entrenamiento es bajo. B duplica herramientas que la organización ya tiene y aumenta la carga de mantenimiento. C es una migración grande y disruptiva en la dirección equivocada que abandona una plataforma de contenedores que funciona. D ignora el requisito de TPU y volvería el entrenamiento impracticablemente lento en nodos con CPU."
       },
       "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/tpus"
+    },
+    {
+      "id": "tpu-049",
+      "curso": "ia-tpu",
+      "servicios": [
+        "gpus-tpus",
+        "cloud-storage"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-ai-workloads"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A multi-host TPU slice job restarts from scratch every time a single worker fails, losing days of progress. What is the BEST way to make the job resilient?",
+        "es": "Un trabajo en un slice de TPU multihost reinicia desde cero cada vez que falla un solo worker, perdiendo días de avance. ¿Cuál es la MEJOR forma de hacerlo resiliente?"
+      },
+      "opciones": [
+        {
+          "en": "Checkpoint model and optimizer state to Cloud Storage on a regular cadence and make the job restart from the last checkpoint automatically",
+          "es": "Guardar checkpoints del estado del modelo y del optimizador en Cloud Storage con una cadencia regular y hacer que el trabajo se reinicie automáticamente desde el último checkpoint"
+        },
+        {
+          "en": "Store checkpoints only on the local disk of the first worker",
+          "es": "Guardar los checkpoints solo en el disco local del primer worker"
+        },
+        {
+          "en": "Reduce the slice size until failures stop occurring",
+          "es": "Reducir el tamaño del slice hasta que dejen de ocurrir fallas"
+        },
+        {
+          "en": "Increase logging verbosity so failures can be reproduced later",
+          "es": "Aumentar el detalle de los registros para poder reproducir las fallas después"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Durable, regular checkpoints in Cloud Storage plus automatic resume are the standard resilience pattern for long distributed training, because any worker can be replaced and the job continues from the last saved state. B is fragile: local disk on one worker disappears with that worker. C reduces exposure only by shrinking the job, which lengthens training and does not eliminate failures. D helps post-mortem analysis but recovers no lost progress.",
+        "es": "Checkpoints duraderos y regulares en Cloud Storage más la reanudación automática son el patrón estándar de resiliencia para entrenamientos distribuidos largos, porque cualquier worker puede reemplazarse y el trabajo continúa desde el último estado guardado. B es frágil: el disco local de un worker desaparece con ese worker. C reduce la exposición solo achicando el trabajo, lo que alarga el entrenamiento y no elimina las fallas. D ayuda al análisis posterior, pero no recupera avance perdido."
+      },
+      "doc": "https://cloud.google.com/tpu/docs/storage-options"
+    },
+    {
+      "id": "tpu-050",
+      "curso": "ia-tpu",
+      "servicios": [
+        "gpus-tpus"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-gpus-tpus-choice"
+      ],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "A company must decide between TPUs and GPUs for a new training platform. Which TWO factors should weigh most heavily in favor of TPUs?",
+        "es": "Una empresa debe decidir entre TPU y GPU para una plataforma de entrenamiento nueva. ¿Cuáles DOS factores deberían pesar más a favor de las TPU?"
+      },
+      "opciones": [
+        {
+          "en": "The main workloads are large transformer models written in JAX and trained for long periods",
+          "es": "Las cargas principales son modelos transformer grandes escritos en JAX y entrenados durante períodos largos"
+        },
+        {
+          "en": "Jobs need to scale to hundreds of chips with heavy collective communication between them",
+          "es": "Los trabajos deben escalar a cientos de chips con comunicación colectiva intensa entre ellos"
+        },
+        {
+          "en": "The platform must support arbitrary community libraries that ship precompiled CUDA extensions",
+          "es": "La plataforma debe admitir bibliotecas arbitrarias de la comunidad que incluyen extensiones CUDA precompiladas"
+        },
+        {
+          "en": "Most jobs last under two minutes and change dependencies daily",
+          "es": "La mayoría de los trabajos dura menos de dos minutos y cambia de dependencias a diario"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "TPUs are strongest for long-running, large matrix-heavy models in XLA-native frameworks such as JAX, and for jobs that scale across many chips using the dedicated interconnect. C argues for GPUs, since precompiled CUDA extensions cannot execute on TPU hardware. D also argues for GPUs, because very short, constantly changing jobs favor ecosystem flexibility over specialized scale.",
+        "es": "Las TPU son más fuertes en modelos largos y con mucha carga matricial en frameworks nativos de XLA como JAX, y en trabajos que escalan a muchos chips usando la interconexión dedicada. C apunta a GPU, ya que las extensiones CUDA precompiladas no se ejecutan en hardware TPU. D también apunta a GPU, porque los trabajos muy cortos y en cambio constante favorecen la flexibilidad del ecosistema por encima de la escala especializada."
+      },
+      "doc": "https://cloud.google.com/tpu/docs/intro-to-tpu"
+    },
+    {
+      "id": "tpu-051",
+      "curso": "ia-tpu",
+      "servicios": [
+        "gpus-tpus",
+        "quotas-apis"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-apis-quotas"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A batch of TPU creation calls intermittently fails because capacity is momentarily unavailable, and an engineer wrote a retry loop that runs every few seconds. What is the BEST alternative?",
+        "es": "Un lote de llamadas de creación de TPU falla de forma intermitente porque la capacidad no está disponible en ese instante, y un ingeniero escribió un bucle de reintentos que corre cada pocos segundos. ¿Cuál es la MEJOR alternativa?"
+      },
+      "opciones": [
+        {
+          "en": "Use queued resources so the request is fulfilled when capacity appears, instead of polling the API",
+          "es": "Usar recursos en cola (queued resources) para que la solicitud se cumpla cuando aparezca capacidad, en lugar de sondear la API"
+        },
+        {
+          "en": "Reduce the retry interval to once per second so the request wins the race",
+          "es": "Reducir el intervalo de reintento a una vez por segundo para que la solicitud gane la carrera"
+        },
+        {
+          "en": "Request a quota increase, which guarantees capacity is reserved",
+          "es": "Solicitar un aumento de cuota, lo que garantiza que la capacidad quede reservada"
+        },
+        {
+          "en": "Create the TPU in a random zone on every retry",
+          "es": "Crear la TPU en una zona aleatoria en cada reintento"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Queued resources exist precisely for this situation: you submit the request once and it is provisioned when capacity is available, avoiding hand-rolled polling. B increases API load and can hit rate limits without improving the odds meaningfully. C confuses two different things, because quota authorizes how much you may create but does not reserve physical capacity. D scatters resources unpredictably across zones, which breaks locality with data and complicates operations.",
+        "es": "Los recursos en cola existen justamente para esta situación: envías la solicitud una vez y se aprovisiona cuando hay capacidad, evitando el sondeo artesanal. B aumenta la carga sobre la API y puede chocar con límites de frecuencia sin mejorar las probabilidades de forma significativa. C confunde dos cosas distintas, porque la cuota autoriza cuánto puedes crear pero no reserva capacidad física. D dispersa recursos de forma impredecible entre zonas, lo que rompe la cercanía con los datos y complica la operación."
+      },
+      "doc": "https://cloud.google.com/tpu/docs/queued-resources"
+    },
+    {
+      "id": "tpu-052",
+      "curso": "ia-tpu",
+      "servicios": [
+        "gpus-tpus",
+        "gke",
+        "billing"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-spot-custom-machines"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A GKE platform serves both a latency-sensitive inference service and nightly training jobs, both needing accelerators. Cost must be minimized without risking the production service. What is the BEST design?",
+        "es": "Una plataforma de GKE atiende un servicio de inferencia sensible a la latencia y trabajos de entrenamiento nocturnos, ambos con necesidad de aceleradores. Hay que minimizar el costo sin poner en riesgo el servicio de producción. ¿Cuál es el MEJOR diseño?"
+      },
+      "opciones": [
+        {
+          "en": "Two node pools: on-demand accelerator nodes for the inference service, and a Spot accelerator node pool that scales to zero for the nightly training",
+          "es": "Dos node pools: nodos con acelerador on-demand para el servicio de inferencia y un node pool con acelerador Spot que se reduce a cero para el entrenamiento nocturno"
+        },
+        {
+          "en": "One Spot accelerator node pool shared by both workloads to maximize the discount",
+          "es": "Un único node pool con acelerador Spot compartido por ambas cargas para maximizar el descuento"
+        },
+        {
+          "en": "One on-demand accelerator node pool sized for the sum of both workloads, running all day",
+          "es": "Un único node pool con acelerador on-demand dimensionado para la suma de ambas cargas y encendido todo el día"
+        },
+        {
+          "en": "Run the inference service on Spot nodes and the training on on-demand nodes",
+          "es": "Ejecutar el servicio de inferencia en nodos Spot y el entrenamiento en nodos on-demand"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Splitting by criticality gives the production service stable on-demand capacity while the interruption-tolerant training rides cheaper Spot capacity that costs nothing when scaled to zero. B puts the latency-sensitive service on preemptible capacity, risking outages the scenario forbids. C keeps peak capacity running around the clock and wastes money during the day. D inverts the correct assignment, exposing production to preemption while paying full price for the batch job that could tolerate it.",
+        "es": "Separar por criticidad da al servicio de producción capacidad on-demand estable, mientras el entrenamiento tolerante a interrupciones aprovecha capacidad Spot más barata que no cuesta nada al reducirse a cero. B pone el servicio sensible a la latencia sobre capacidad interrumpible, con el riesgo de caídas que el escenario prohíbe. C mantiene la capacidad máxima encendida todo el día y desperdicia dinero. D invierte la asignación correcta: expone producción a la interrupción y paga precio completo por el trabajo por lotes que sí la toleraría."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/spot-vms"
+    },
+    {
+      "id": "tpu-053",
+      "curso": "ia-tpu",
+      "servicios": [
+        "gpus-tpus"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-ai-workloads"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Doubling the number of TPU chips for a training job yields almost no speedup. Which explanation is MOST likely?",
+        "es": "Duplicar la cantidad de chips TPU de un trabajo de entrenamiento casi no aporta aceleración. ¿Qué explicación es la MÁS probable?"
+      },
+      "opciones": [
+        {
+          "en": "The job is limited by the input pipeline or by communication overhead rather than by accelerator compute, so adding chips cannot help",
+          "es": "El trabajo está limitado por el pipeline de entrada o por la sobrecarga de comunicación y no por el cálculo del acelerador, así que agregar chips no ayuda"
+        },
+        {
+          "en": "TPUs cannot scale beyond a single host under any circumstances",
+          "es": "Las TPU no pueden escalar más allá de un solo host bajo ninguna circunstancia"
+        },
+        {
+          "en": "The Cloud Storage bucket ran out of capacity",
+          "es": "El bucket de Cloud Storage se quedó sin capacidad"
+        },
+        {
+          "en": "Doubling chips always halves throughput because of scheduling overhead",
+          "es": "Duplicar los chips siempre reduce el rendimiento a la mitad por la sobrecarga de programación"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Scaling only pays off when compute is the bottleneck; if the job is starved by input or dominated by collective communication, extra chips just idle. B is false, since multi-host slices and Pods exist precisely to scale beyond one host. C is false because Cloud Storage buckets do not have a fixed capacity limit that fills up. D states a fabricated rule; scaling efficiency degrades gradually and depends on the workload, it does not invert.",
+        "es": "Escalar solo rinde cuando el cuello de botella es el cálculo; si el trabajo está sin datos o dominado por la comunicación colectiva, los chips adicionales quedan ociosos. B es falsa, ya que los slices multihost y los Pods existen justamente para escalar más allá de un host. C es falsa porque los buckets de Cloud Storage no tienen un límite fijo de capacidad que se llene. D enuncia una regla inventada; la eficiencia de escalado se degrada de forma gradual y depende de la carga, no se invierte."
+      },
+      "doc": "https://cloud.google.com/tpu/docs/performance-guide"
+    },
+    {
+      "id": "tpu-054",
+      "curso": "ia-tpu",
+      "servicios": [
+        "gpus-tpus",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A small team with no Kubernetes experience needs to run a single long TPU training job with minimal operational overhead. What is the BEST option?",
+        "es": "Un equipo pequeño sin experiencia en Kubernetes necesita ejecutar un solo trabajo largo de entrenamiento en TPU con la mínima carga operativa. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        {
+          "en": "Provision a TPU VM in Compute Engine, run the job over SSH, and delete the resource when it finishes",
+          "es": "Aprovisionar una TPU VM en Compute Engine, ejecutar el trabajo por SSH y borrar el recurso al terminar"
+        },
+        {
+          "en": "Build a GKE Standard cluster with a TPU node pool and package the job as a Kubernetes Job",
+          "es": "Construir un clúster GKE Standard con un node pool de TPU y empaquetar el trabajo como un Job de Kubernetes"
+        },
+        {
+          "en": "Deploy the training loop as a Cloud Run service",
+          "es": "Implementar el bucle de entrenamiento como un servicio de Cloud Run"
+        },
+        {
+          "en": "Schedule the training as a BigQuery job",
+          "es": "Programar el entrenamiento como un trabajo de BigQuery"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "For one job and a team without Kubernetes skills, a TPU VM is the shortest path: create it, run the script, delete it. B is a sound platform choice for many recurring jobs, but it imposes cluster operations the team is not equipped for and is overkill for a single run. C is wrong because Cloud Run targets request-driven containers and is not a TPU training path. D is wrong: BigQuery runs SQL analytics, not TPU training loops.",
+        "es": "Para un solo trabajo y un equipo sin conocimientos de Kubernetes, una TPU VM es el camino más corto: crearla, ejecutar el script y borrarla. B es una buena elección de plataforma para muchos trabajos recurrentes, pero impone una operación de clúster para la que el equipo no está preparado y resulta excesiva para una sola ejecución. C es incorrecta porque Cloud Run está orientado a contenedores impulsados por solicitudes y no es una vía de entrenamiento en TPU. D es incorrecta: BigQuery ejecuta analítica SQL, no bucles de entrenamiento en TPU."
+      },
+      "doc": "https://cloud.google.com/tpu/docs/managing-tpus-tpu-vm"
+    },
+    {
+      "id": "tpu-055",
+      "curso": "ia-tpu",
+      "servicios": [
+        "gpus-tpus",
+        "cloud-monitoring"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-ai-workloads"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You must give an ML platform team early warning when TPU jobs waste money. What is the BEST monitoring setup?",
+        "es": "Debes avisar de forma temprana a un equipo de plataforma de ML cuando los trabajos de TPU desperdician dinero. ¿Cuál es la MEJOR configuración de supervisión?"
+      },
+      "opciones": [
+        {
+          "en": "Alerting policies in Cloud Monitoring on sustained low accelerator utilization and on TPU resources that stay allocated after jobs end",
+          "es": "Políticas de alertas en Cloud Monitoring sobre utilización baja sostenida del acelerador y sobre recursos TPU que siguen asignados después de terminar los trabajos"
+        },
+        {
+          "en": "A weekly manual review of the billing export spreadsheet",
+          "es": "Una revisión manual semanal de la planilla de exportación de facturación"
+        },
+        {
+          "en": "VPC Flow Logs filtered by the TPU host subnet",
+          "es": "VPC Flow Logs filtrados por la subred del host de la TPU"
+        },
+        {
+          "en": "A Cloud Logging sink that stores all training logs in Cloud Storage",
+          "es": "Un receptor de Cloud Logging que guarda todos los registros de entrenamiento en Cloud Storage"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Utilization metrics with alerting catch waste while it is happening, which is what early warning means, and idle-but-allocated capacity is the dominant source of TPU waste. B detects the problem only after the money is spent, often weeks later. C shows network traffic and says nothing about accelerator efficiency. D preserves logs for later analysis but generates no proactive signal.",
+        "es": "Las métricas de utilización con alertas detectan el desperdicio mientras ocurre, que es lo que significa aviso temprano, y la capacidad asignada pero inactiva es la principal fuente de desperdicio en TPU. B detecta el problema solo después de gastar el dinero, a menudo semanas más tarde. C muestra tráfico de red y no dice nada sobre la eficiencia del acelerador. D conserva registros para análisis posterior, pero no genera ninguna señal proactiva."
+      },
+      "doc": "https://cloud.google.com/tpu/docs/monitoring-tpus"
+    },
+    {
+      "id": "tpu-056",
+      "curso": "ia-tpu",
+      "servicios": [
+        "gpus-tpus",
+        "gke"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-gke-node-pools"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A multi-host TPU training job on GKE must have all of its Pods scheduled together or not at all, because partial placement wastes accelerator capacity. What is the BEST approach?",
+        "es": "Un trabajo de entrenamiento en TPU multihost sobre GKE debe programar todos sus Pods juntos o ninguno, porque una ubicación parcial desperdicia capacidad de acelerador. ¿Cuál es el MEJOR enfoque?"
+      },
+      "opciones": [
+        {
+          "en": "Use a workload API that supports gang scheduling of the whole slice, so the job starts only when every worker Pod can be placed",
+          "es": "Usar una API de cargas de trabajo que admita programación en grupo (gang scheduling) de todo el slice, de modo que el trabajo inicie solo cuando todos los Pods worker puedan ubicarse"
+        },
+        {
+          "en": "Submit the Pods one by one and let each wait until a node appears",
+          "es": "Enviar los Pods uno por uno y dejar que cada uno espere hasta que aparezca un nodo"
+        },
+        {
+          "en": "Increase the Pod priority so the scheduler places them faster",
+          "es": "Aumentar la prioridad de los Pods para que el programador los ubique más rápido"
+        },
+        {
+          "en": "Set a long readiness probe timeout on each worker",
+          "es": "Definir un tiempo de espera largo en el readiness probe de cada worker"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Tightly coupled multi-host training needs all-or-nothing placement, which is what gang scheduling provides, so half a slice is never left running and billed while waiting. B is the failure mode described in the question: partially placed workers hold expensive capacity while doing nothing. C changes ordering and preemption but never guarantees that the whole group lands together. D only delays traffic readiness checks and has no effect on scheduling semantics.",
+        "es": "El entrenamiento multihost fuertemente acoplado necesita una ubicación de todo o nada, que es lo que ofrece el gang scheduling, de modo que nunca queda medio slice en ejecución y facturándose mientras espera. B es exactamente el modo de falla descrito en la pregunta: workers parcialmente ubicados retienen capacidad costosa sin hacer nada. C cambia el orden y la expulsión, pero nunca garantiza que todo el grupo se ubique junto. D solo retrasa las verificaciones de disponibilidad de tráfico y no altera la semántica de programación."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/how-to/tpus"
+    },
+    {
+      "id": "tpu-057",
+      "curso": "ia-tpu",
+      "servicios": [
+        "gpus-tpus",
+        "quotas-apis",
+        "billing"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-apis-quotas"
+      ],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Before committing to a large TPU program in a specific region, which TWO checks are most important?",
+        "es": "Antes de comprometerse con un programa grande de TPU en una región específica, ¿cuáles DOS verificaciones son las más importantes?"
+      },
+      "opciones": [
+        {
+          "en": "Confirm the required TPU generation is offered in that region and zone",
+          "es": "Confirmar que la generación de TPU requerida se ofrece en esa región y zona"
+        },
+        {
+          "en": "Confirm the project has, or can obtain, enough accelerator quota for the planned scale",
+          "es": "Confirmar que el proyecto tiene, o puede obtener, cuota de aceleradores suficiente para la escala planificada"
+        },
+        {
+          "en": "Confirm the region supports Cloud DNS private zones",
+          "es": "Confirmar que la región admite zonas privadas de Cloud DNS"
+        },
+        {
+          "en": "Confirm the billing account currency matches the region",
+          "es": "Confirmar que la moneda de la cuenta de facturación coincide con la región"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Regional availability of the specific TPU generation and sufficient per-project quota are the two hard gates that block a deployment outright, so both must be validated before planning. C is irrelevant, since Cloud DNS is a global service and unrelated to accelerator capacity. D invents a constraint: billing currency does not restrict which regions you may deploy to.",
+        "es": "La disponibilidad regional de la generación específica de TPU y una cuota por proyecto suficiente son las dos barreras duras que bloquean una implementación por completo, así que ambas deben validarse antes de planificar. C es irrelevante, ya que Cloud DNS es un servicio global y no tiene relación con la capacidad de aceleradores. D inventa una restricción: la moneda de facturación no limita en qué regiones puedes implementar."
+      },
+      "doc": "https://cloud.google.com/tpu/docs/regions-zones"
+    },
+    {
+      "id": "tpu-058",
+      "curso": "ia-tpu",
+      "servicios": [
+        "gpus-tpus",
+        "compute-engine",
+        "billing"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-gpus-tpus-choice"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A company serves a large language model for high-volume, steady inference traffic and wants the lowest cost per request while keeping latency predictable. What is the BEST approach?",
+        "es": "Una empresa sirve un modelo de lenguaje grande con tráfico de inferencia alto y estable, y quiere el menor costo por solicitud manteniendo la latencia predecible. ¿Cuál es el MEJOR enfoque?"
+      },
+      "opciones": [
+        {
+          "en": "Benchmark the model on both accelerator families, then standardize on the one with the best cost per request at the required latency, using stable non-preemptible capacity",
+          "es": "Comparar el modelo en ambas familias de aceleradores y luego estandarizar en la que dé el mejor costo por solicitud con la latencia requerida, usando capacidad estable no interrumpible"
+        },
+        {
+          "en": "Serve the model from Spot capacity, since it is always the cheapest option",
+          "es": "Servir el modelo desde capacidad Spot, ya que siempre es la opción más barata"
+        },
+        {
+          "en": "Assume TPUs are cheaper for every workload and deploy without measuring",
+          "es": "Suponer que las TPU son más baratas para cualquier carga e implementar sin medir"
+        },
+        {
+          "en": "Serve the model from CPU instances and add more replicas until latency is acceptable",
+          "es": "Servir el modelo desde instancias con CPU y agregar réplicas hasta que la latencia sea aceptable"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Serving economics depend on the specific model, batch behavior, and latency target, so measuring both options and then standardizing on stable capacity is the defensible engineering answer. B ignores the predictability requirement, because preemption of a production serving fleet causes user-visible errors. C skips measurement and can easily pick the wrong hardware for an inference profile. D scales the wrong resource: LLM inference on CPUs is slow and typically far more expensive per request once you add enough replicas.",
+        "es": "La economía del serving depende del modelo específico, del comportamiento de los lotes y del objetivo de latencia, así que medir ambas opciones y luego estandarizar sobre capacidad estable es la respuesta de ingeniería defendible. B ignora el requisito de previsibilidad, porque la interrupción de una flota de serving en producción provoca errores visibles para el usuario. C omite la medición y puede elegir fácilmente el hardware equivocado para un perfil de inferencia. D escala el recurso equivocado: la inferencia de un LLM en CPU es lenta y suele salir mucho más cara por solicitud una vez que agregas suficientes réplicas."
+      },
+      "doc": "https://cloud.google.com/tpu/docs/intro-to-tpu"
+    },
+    {
+      "id": "tpu-059",
+      "curso": "ia-tpu",
+      "servicios": [
+        "gpus-tpus",
+        "cloud-storage",
+        "file-storage"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-ai-workloads"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A large TPU slice trains on a dataset that must be read repeatedly at very high aggregate throughput, and Cloud Storage reads have become the bottleneck. What is the BEST change to evaluate first?",
+        "es": "Un slice grande de TPU entrena sobre un dataset que debe leerse repetidamente con un rendimiento agregado muy alto, y las lecturas desde Cloud Storage se volvieron el cuello de botella. ¿Cuál es el MEJOR cambio a evaluar primero?"
+      },
+      "opciones": [
+        {
+          "en": "Reshape the data into fewer, larger sharded files read in parallel, and consider a high-throughput parallel file system such as Managed Lustre for the hot dataset",
+          "es": "Reestructurar los datos en menos archivos particionados y más grandes leídos en paralelo, y evaluar un sistema de archivos paralelo de alto rendimiento como Managed Lustre para el dataset activo"
+        },
+        {
+          "en": "Move the dataset to a Nearline storage class to reduce storage cost",
+          "es": "Mover el dataset a la clase de almacenamiento Nearline para reducir el costo de almacenamiento"
+        },
+        {
+          "en": "Load the entire dataset into a Cloud SQL instance",
+          "es": "Cargar el dataset completo en una instancia de Cloud SQL"
+        },
+        {
+          "en": "Add more TPU chips so each one reads a smaller share of the data",
+          "es": "Agregar más chips TPU para que cada uno lea una porción menor de los datos"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "When aggregate read throughput is the limit, the fix is on the data layout and storage layer: larger shards read in parallel, and a parallel file system designed for high-throughput training when object storage is not enough. B optimizes for a cost dimension that is not the problem and adds retrieval cost for data read constantly. C is a poor fit, since relational databases are not built to feed bulk training reads. D adds cost on the compute side while the storage path stays the bottleneck, so utilization drops further.",
+        "es": "Cuando el límite es el rendimiento agregado de lectura, la solución está en el diseño de los datos y en la capa de almacenamiento: shards más grandes leídos en paralelo y un sistema de archivos paralelo pensado para entrenamiento de alto rendimiento cuando el almacenamiento de objetos no alcanza. B optimiza una dimensión de costo que no es el problema y agrega cargos de recuperación para datos que se leen constantemente. C encaja mal, ya que las bases de datos relacionales no están hechas para alimentar lecturas masivas de entrenamiento. D suma costo del lado del cómputo mientras la ruta de almacenamiento sigue siendo el cuello de botella, así que la utilización baja todavía más."
+      },
+      "doc": "https://cloud.google.com/tpu/docs/storage-options"
+    },
+    {
+      "id": "tpu-060",
+      "curso": "ia-tpu",
+      "servicios": [
+        "gpus-tpus",
+        "gke",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "An organization must run dozens of independent TPU training jobs per week, each submitted by a different team, with quota governance and shared observability. What is the BEST platform choice?",
+        "es": "Una organización debe ejecutar decenas de trabajos independientes de entrenamiento en TPU por semana, cada uno enviado por un equipo distinto, con gobernanza de cuotas y observabilidad compartida. ¿Cuál es la MEJOR elección de plataforma?"
+      },
+      "opciones": [
+        {
+          "en": "A shared GKE cluster with TPU node pools, namespaces and resource quotas per team, and centralized monitoring and logging",
+          "es": "Un clúster de GKE compartido con node pools de TPU, namespaces y cuotas de recursos por equipo, y monitoreo y registros centralizados"
+        },
+        {
+          "en": "Let each team create its own TPU VMs manually with no shared platform",
+          "es": "Dejar que cada equipo cree sus propias TPU VM manualmente sin plataforma compartida"
+        },
+        {
+          "en": "One permanently allocated TPU Pod that teams take turns using by agreement",
+          "es": "Un TPU Pod asignado de forma permanente que los equipos usan por turnos según un acuerdo"
+        },
+        {
+          "en": "A single TPU VM shared by all teams through SSH access",
+          "es": "Una única TPU VM compartida por todos los equipos mediante acceso SSH"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Many independent jobs from many teams is the classic case for a shared scheduler: GKE gives per-namespace quotas, IAM boundaries, autoscaling accelerator pools, and one observability stack. B produces sprawl with no governance and no shared visibility, which is exactly what the requirement rules out. C wastes a permanently allocated Pod and replaces scheduling with a manual booking process that will not scale. D creates contention and security problems on one machine and cannot isolate teams or enforce quotas.",
+        "es": "Muchos trabajos independientes de muchos equipos es el caso clásico para un programador compartido: GKE aporta cuotas por namespace, límites de IAM, pools de aceleradores con autoescalado y un único stack de observabilidad. B genera dispersión sin gobernanza ni visibilidad compartida, justo lo que el requisito descarta. C desperdicia un Pod asignado de forma permanente y reemplaza la programación por un proceso manual de turnos que no escala. D crea contención y problemas de seguridad en una sola máquina y no puede aislar equipos ni aplicar cuotas."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/tpus"
     }
   ]
 }

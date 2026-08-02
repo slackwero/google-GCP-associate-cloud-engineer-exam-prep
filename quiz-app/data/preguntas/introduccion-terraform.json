@@ -1299,6 +1299,331 @@
         "es": "Fabric FAST ofrece planos por etapas y con opiniones definidas justamente para este problema de fundación, así la organización hereda la estructura recomendada por Google en lugar de inventarla, y todo queda declarativo desde el primer día. B crea una base no administrada que después habrá que importar, y la capa más sensible termina con el menor rigor. C requiere que exista un clúster antes que la organización, lo que invierte el orden de arranque y agrega una dependencia pesada para una construcción única. D es imperativo y no idempotente, por lo que volver a ejecutarlo es inseguro y las desviaciones son invisibles."
       },
       "doc": "https://cloud.google.com/docs/terraform/blueprints/terraform-blueprints"
+    },
+    {
+      "id": "tf-053",
+      "curso": "introduccion-terraform",
+      "servicios": ["service-accounts", "iam"],
+      "seccion_blueprint": 4,
+      "subtopicos": ["4.2-sa-least-privilege"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A CI/CD pipeline runs Terraform to manage networking and Compute Engine resources in one project. Which IAM configuration BEST follows least privilege?",
+        "es": "Un pipeline de CI/CD ejecuta Terraform para administrar recursos de redes y Compute Engine en un proyecto. ¿Qué configuración de IAM sigue MEJOR el mínimo privilegio?"
+      },
+      "opciones": [
+        { "en": "A dedicated service account granted only the predefined roles it needs, such as Compute Network Admin and Compute Instance Admin, scoped to that project", "es": "Una cuenta de servicio dedicada a la que solo se le otorgan los roles predefinidos que necesita, como Compute Network Admin y Compute Instance Admin, acotados a ese proyecto" },
+        { "en": "A service account with the Editor role at the project level so no apply can fail on permissions", "es": "Una cuenta de servicio con el rol Editor a nivel de proyecto para que ningún apply falle por permisos" },
+        { "en": "A service account with the Owner role at the organization level to cover future expansion", "es": "Una cuenta de servicio con el rol Owner a nivel de organización para cubrir la expansión futura" },
+        { "en": "The personal account of the engineer who set up the pipeline, using their existing permissions", "es": "La cuenta personal del ingeniero que configuró el pipeline, usando sus permisos existentes" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Least privilege means a purpose-built identity holding only the specific roles required, at the narrowest resource scope, so a compromised pipeline cannot reach unrelated services. B is convenient but grants broad write access across nearly every service in the project. C is far worse, extending full control to the entire organization for a single-project pipeline. D ties automation to a human identity that breaks when the person leaves, and it usually carries far more access than the pipeline needs while destroying attribution in audit logs.",
+        "es": "El mínimo privilegio significa una identidad creada para el propósito que solo tiene los roles específicos requeridos, en el alcance de recursos más estrecho, de modo que un pipeline comprometido no pueda alcanzar servicios ajenos. B es cómodo pero otorga acceso amplio de escritura a casi todos los servicios del proyecto. C es mucho peor, ya que extiende el control total a toda la organización para un pipeline de un solo proyecto. D ata la automatización a una identidad humana que se rompe cuando la persona se va, y normalmente conlleva mucho más acceso del necesario además de destruir la atribución en los registros de auditoría."
+      },
+      "doc": "https://cloud.google.com/iam/docs/service-account-overview"
+    },
+    {
+      "id": "tf-054",
+      "curso": "introduccion-terraform",
+      "servicios": ["cloud-storage", "terraform-iac"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.2-gcs-management"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "An engineer accidentally overwrote the Terraform state object in the Cloud Storage backend with a truncated file, and plan now wants to recreate everything. Object versioning is enabled on the bucket. What is the BEST recovery step?",
+        "es": "Un ingeniero sobrescribió por accidente el objeto de estado de Terraform en el backend de Cloud Storage con un archivo truncado, y ahora plan quiere volver a crear todo. El bucket tiene habilitado el versionamiento de objetos. ¿Cuál es el MEJOR paso de recuperación?"
+      },
+      "opciones": [
+        { "en": "Restore the previous generation of the state object from the bucket's noncurrent versions, then run plan to confirm no changes", "es": "Restaurar la generación anterior del objeto de estado desde las versiones no actuales del bucket y luego ejecutar plan para confirmar que no hay cambios" },
+        { "en": "Run terraform apply so the missing resources are created again and state is rebuilt", "es": "Ejecutar terraform apply para que los recursos faltantes se creen de nuevo y el estado se reconstruya" },
+        { "en": "Delete the state object and run terraform init to regenerate it from the live infrastructure", "es": "Borrar el objeto de estado y ejecutar terraform init para regenerarlo a partir de la infraestructura en vivo" },
+        { "en": "Run terraform destroy to clean up, then apply from an empty state", "es": "Ejecutar terraform destroy para limpiar y luego aplicar desde un estado vacío" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Object versioning keeps the prior generations of the state object precisely for this failure, and restoring the last good generation makes Terraform aware of the existing resources again; a clean plan confirms the recovery. B would create duplicate resources alongside the live ones and may fail on name conflicts. C is wrong because init never discovers existing infrastructure; without state you would have to import every resource by hand. D destroys nothing useful since state is broken, and it risks deleting production while abandoning the recoverable data.",
+        "es": "El versionamiento de objetos conserva las generaciones anteriores del objeto de estado justamente para esta falla, y restaurar la última generación buena hace que Terraform vuelva a conocer los recursos existentes; un plan limpio confirma la recuperación. B crearía recursos duplicados junto a los reales y podría fallar por conflictos de nombre. C es incorrecta porque init nunca descubre infraestructura existente; sin estado habría que importar cada recurso a mano. D no destruye nada útil porque el estado está roto, y arriesga borrar producción mientras se abandonan los datos recuperables."
+      },
+      "doc": "https://cloud.google.com/storage/docs/object-versioning"
+    },
+    {
+      "id": "tf-055",
+      "curso": "introduccion-terraform",
+      "servicios": ["terraform-iac", "cloud-storage"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-iac-tooling"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A pipeline run fails with 'Error acquiring the state lock'. A previous job was cancelled mid-apply an hour ago. What is the BEST course of action?",
+        "es": "Una ejecución del pipeline falla con 'Error acquiring the state lock'. Un job anterior se canceló a mitad de un apply hace una hora. ¿Cuál es el MEJOR curso de acción?"
+      },
+      "opciones": [
+        { "en": "Confirm that no Terraform process is still running, then release the stale lock with terraform force-unlock using the reported lock ID", "es": "Confirmar que ningún proceso de Terraform siga en ejecución y luego liberar el bloqueo obsoleto con terraform force-unlock usando el ID de bloqueo informado" },
+        { "en": "Run all future applies with the -lock=false flag so the error cannot happen again", "es": "Ejecutar todos los applies futuros con el flag -lock=false para que el error no pueda repetirse" },
+        { "en": "Delete the state object from the bucket so a fresh lock can be created", "es": "Borrar el objeto de estado del bucket para que se pueda crear un bloqueo nuevo" },
+        { "en": "Switch the backend to local state so locking is no longer involved", "es": "Cambiar el backend a estado local para que el bloqueo deje de estar involucrado" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "A cancelled apply can leave a lock behind, and force-unlock exists for exactly this; verifying no run is active first is essential because unlocking during a live apply is what causes real corruption. B disables the protection that prevents concurrent writes, turning an occasional stale lock into a risk of permanent state corruption. C destroys the record of the managed infrastructure, which is far worse than the lock. D removes team-shared state and locking together, regressing to the problem remote backends solve.",
+        "es": "Un apply cancelado puede dejar un bloqueo huérfano, y force-unlock existe justamente para eso; verificar primero que no haya ejecuciones activas es esencial porque desbloquear durante un apply en curso es lo que provoca corrupción real. B desactiva la protección que evita escrituras concurrentes, convirtiendo un bloqueo obsoleto ocasional en un riesgo de corrupción permanente del estado. C destruye el registro de la infraestructura administrada, algo mucho peor que el bloqueo. D elimina a la vez el estado compartido del equipo y el bloqueo, retrocediendo al problema que los backends remotos resuelven."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/resource-management/store-state"
+    },
+    {
+      "id": "tf-056",
+      "curso": "introduccion-terraform",
+      "servicios": ["terraform-iac", "cloud-ngfw"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-iac-tooling"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "During an incident, an on-call engineer widened a firewall rule directly in the console. The rule is managed by Terraform. What is the BEST way to handle this afterwards?",
+        "es": "Durante un incidente, un ingeniero de guardia amplió una regla de firewall directamente en la consola. La regla la administra Terraform. ¿Cuál es la MEJOR forma de manejarlo después?"
+      },
+      "opciones": [
+        { "en": "Run terraform plan to surface the drift, then decide whether to codify the change in HCL or let apply revert it", "es": "Ejecutar terraform plan para exponer la desviación y luego decidir si codificar el cambio en HCL o dejar que apply lo revierta" },
+        { "en": "Run terraform apply immediately with -auto-approve so the environment matches the code again", "es": "Ejecutar terraform apply de inmediato con -auto-approve para que el entorno vuelva a coincidir con el código" },
+        { "en": "Remove the firewall rule from Terraform management with terraform state rm so the manual change persists", "es": "Quitar la regla de firewall de la administración de Terraform con terraform state rm para que el cambio manual persista" },
+        { "en": "Edit the state file directly so it records the new rule configuration", "es": "Editar el archivo de estado directamente para que registre la nueva configuración de la regla" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "plan is the drift-detection tool: it shows exactly what diverged so a human can judge whether the emergency change should become permanent code or be rolled back. B reverts blindly and could re-break whatever the on-call engineer was fixing, and skipping approval on a firewall change is risky. C abandons IaC for a security-critical resource, so the rule silently escapes review and future audits. D is unsafe hand-editing of a machine-managed file and leaves configuration and reality still out of sync.",
+        "es": "plan es la herramienta de detección de desviaciones: muestra exactamente qué divergió para que una persona juzgue si el cambio de emergencia debe volverse código permanente o revertirse. B revierte a ciegas y podría volver a romper lo que el ingeniero de guardia estaba arreglando, y omitir la aprobación en un cambio de firewall es riesgoso. C abandona la IaC en un recurso crítico de seguridad, así que la regla escapa en silencio a la revisión y a auditorías futuras. D es una edición manual insegura de un archivo administrado por la máquina y deja la configuración y la realidad igualmente desincronizadas."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/basic-commands"
+    },
+    {
+      "id": "tf-057",
+      "curso": "introduccion-terraform",
+      "servicios": ["terraform-iac"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-iac-tooling"],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO practices are recommended when a team manages Google Cloud infrastructure with Terraform?",
+        "es": "¿Cuáles DOS prácticas se recomiendan cuando un equipo administra infraestructura de Google Cloud con Terraform?"
+      },
+      "opciones": [
+        { "en": "Require that every change goes through a reviewed plan before it is applied", "es": "Exigir que todo cambio pase por un plan revisado antes de aplicarse" },
+        { "en": "Pin provider and module versions and commit the dependency lock file", "es": "Fijar las versiones de providers y módulos y versionar el archivo de bloqueo de dependencias" },
+        { "en": "Store service account keys in the repository so any engineer can run applies", "es": "Guardar claves de cuentas de servicio en el repositorio para que cualquier ingeniero pueda ejecutar applies" },
+        { "en": "Let engineers make urgent changes in the console and update the code whenever there is time", "es": "Permitir que los ingenieros hagan cambios urgentes en la consola y actualicen el código cuando haya tiempo" }
+      ],
+      "respuesta": ["A", "B"],
+      "explicacion": {
+        "en": "Reviewing the plan is what catches destructive diffs before they run, and pinning versions with a committed lock file makes runs reproducible across engineers and CI. C is a serious security failure, because keys in a repository are long-lived credentials that leak; impersonation or workload identity federation should be used instead. D institutionalizes drift, so the code stops describing reality and plans become untrustworthy.",
+        "es": "Revisar el plan es lo que detecta diffs destructivos antes de que se ejecuten, y fijar versiones con un archivo de bloqueo versionado hace reproducibles las ejecuciones entre ingenieros y CI. C es una falla de seguridad grave, porque las claves en un repositorio son credenciales de larga duración que se filtran; en su lugar se debe usar suplantación o workload identity federation. D institucionaliza la desviación, así el código deja de describir la realidad y los planes se vuelven poco confiables."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/best-practices/general-style-structure"
+    },
+    {
+      "id": "tf-058",
+      "curso": "introduccion-terraform",
+      "servicios": ["cloud-storage", "iam"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.2-gcs-management"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your Terraform state contains a generated database password, and all 40 engineers currently have read access to the state bucket. What is the BEST way to reduce this exposure?",
+        "es": "Tu estado de Terraform contiene una contraseña de base de datos generada y los 40 ingenieros tienen actualmente acceso de lectura al bucket de estado. ¿Cuál es la MEJOR forma de reducir esta exposición?"
+      },
+      "opciones": [
+        { "en": "Restrict bucket IAM to the automation service account and a small set of administrators, and move the secret into Secret Manager referenced by the application", "es": "Restringir el IAM del bucket a la cuenta de servicio de automatización y a un grupo reducido de administradores, y mover el secreto a Secret Manager para que la aplicación lo referencie" },
+        { "en": "Mark the output that exposes the password as sensitive so it is hidden from the console output", "es": "Marcar como sensitive el output que expone la contraseña para ocultarla de la salida en consola" },
+        { "en": "Move the state bucket to a different region so fewer engineers can reach it", "es": "Mover el bucket de estado a otra región para que menos ingenieros puedan alcanzarlo" },
+        { "en": "Enable object versioning on the bucket so previous states can be audited", "es": "Habilitar el versionamiento de objetos en el bucket para poder auditar los estados anteriores" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Anyone who can read state can read the secret, so the fix is to narrow bucket IAM and stop treating state as a secret store by keeping the credential in Secret Manager. B only hides the value from terminal output; it is still written to state in plain text, so every reader still sees it. C is irrelevant because bucket location has nothing to do with access control. D is a good practice for recovery but adds no confidentiality and actually preserves more copies of the exposed secret.",
+        "es": "Quien pueda leer el estado puede leer el secreto, así que la solución es acotar el IAM del bucket y dejar de tratar el estado como almacén de secretos manteniendo la credencial en Secret Manager. B solo oculta el valor de la salida de la terminal; igual se escribe en el estado en texto plano, así que todo lector lo sigue viendo. C es irrelevante porque la ubicación del bucket no tiene relación con el control de acceso. D es una buena práctica de recuperación pero no aporta confidencialidad y de hecho conserva más copias del secreto expuesto."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/resource-management/store-state"
+    },
+    {
+      "id": "tf-059",
+      "curso": "introduccion-terraform",
+      "servicios": ["gemini-cloud-assist", "terraform-iac"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-ai-assisted-tooling"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "An architect must propose a three-tier application design to stakeholders, keep it as a reusable standard, and hand the team something deployable. What is the BEST option?",
+        "es": "Un arquitecto debe proponer un diseño de aplicación de tres capas a las partes interesadas, conservarlo como un estándar reutilizable y entregar al equipo algo implementable. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        { "en": "Design the architecture in Application Design Center, save it as a template, and use the generated infrastructure as code to deploy it", "es": "Diseñar la arquitectura en Application Design Center, guardarla como plantilla y usar la infraestructura como código generada para implementarla" },
+        { "en": "Draw the architecture in a diagramming tool and let each team write its own Terraform from the picture", "es": "Dibujar la arquitectura en una herramienta de diagramas y dejar que cada equipo escriba su propio Terraform a partir de la imagen" },
+        { "en": "Build the environment manually in the console and take screenshots as the reference standard", "es": "Construir el entorno manualmente en la consola y tomar capturas de pantalla como estándar de referencia" },
+        { "en": "Write a text document describing the required resources and attach it to the project wiki", "es": "Escribir un documento de texto que describa los recursos requeridos y adjuntarlo a la wiki del proyecto" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Application Design Center closes the gap between a design review and a deployment, because the canvas design becomes a reusable template and produces infrastructure as code rather than a picture. B guarantees each team interprets the diagram differently, so the standard is not actually enforced. C leaves an unmanaged environment and screenshots that go stale immediately. D has the same problem: prose cannot be validated, planned, or applied, so drift starts on day one.",
+        "es": "Application Design Center cierra la brecha entre una revisión de diseño y una implementación, porque el diseño en el lienzo se vuelve una plantilla reutilizable y produce infraestructura como código en lugar de una imagen. B garantiza que cada equipo interprete el diagrama de forma distinta, así que el estándar no se aplica realmente. C deja un entorno no administrado y capturas que quedan obsoletas de inmediato. D tiene el mismo problema: la prosa no se puede validar, planificar ni aplicar, así que la desviación empieza el primer día."
+      },
+      "doc": "https://cloud.google.com/application-design-center/docs/overview"
+    },
+    {
+      "id": "tf-060",
+      "curso": "introduccion-terraform",
+      "servicios": ["gemini-cloud-assist", "cloud-monitoring"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-ai-assisted-tooling"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "After a Terraform-driven release, latency rose across several services and the cause is unclear. Which use of AI-assisted tooling is MOST appropriate?",
+        "es": "Después de un lanzamiento impulsado por Terraform, la latencia subió en varios servicios y la causa no está clara. ¿Qué uso de las herramientas asistidas por IA es el MÁS apropiado?"
+      },
+      "opciones": [
+        { "en": "Use Gemini Cloud Assist investigations to correlate logs, metrics, and recent changes, and review its findings before acting", "es": "Usar las investigaciones de Gemini Cloud Assist para correlacionar registros, métricas y cambios recientes, y revisar sus hallazgos antes de actuar" },
+        { "en": "Ask Gemini CLI to run terraform destroy and rebuild the environment from scratch", "es": "Pedirle a Gemini CLI que ejecute terraform destroy y reconstruya el entorno desde cero" },
+        { "en": "Let an AI assistant apply configuration changes automatically until latency returns to normal", "es": "Dejar que un asistente de IA aplique cambios de configuración automáticamente hasta que la latencia vuelva a la normalidad" },
+        { "en": "Disable Cloud Monitoring alerts so the team can focus on the release without noise", "es": "Deshabilitar las alertas de Cloud Monitoring para que el equipo se concentre en el lanzamiento sin ruido" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Gemini Cloud Assist is designed to reason across your observability signals and recent configuration changes to propose likely causes, while the operator validates and decides on the remediation. B is destructive and disproportionate, since rebuilding production discards evidence and causes an outage. C removes human judgment from production changes and can amplify the incident through unreviewed applies. D deliberately blinds the team during an active incident, which is the opposite of what monitoring is for.",
+        "es": "Gemini Cloud Assist está diseñado para razonar sobre tus señales de observabilidad y los cambios recientes de configuración y proponer causas probables, mientras el operador valida y decide la remediación. B es destructivo y desproporcionado, ya que reconstruir producción descarta evidencia y provoca una interrupción. C quita el criterio humano de los cambios en producción y puede amplificar el incidente con applies no revisados. D ciega deliberadamente al equipo durante un incidente activo, lo contrario de para lo que sirve la supervisión."
+      },
+      "doc": "https://cloud.google.com/gemini/docs/cloud-assist/overview"
+    },
+    {
+      "id": "tf-061",
+      "curso": "introduccion-terraform",
+      "servicios": ["terraform-iac", "helm", "gke"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-iac-tooling"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A platform team must provision the GKE cluster and its VPC, while the application team deploys its own workloads into that cluster. Which division of tooling is BEST?",
+        "es": "Un equipo de plataforma debe aprovisionar el clúster de GKE y su VPC, mientras el equipo de aplicaciones implementa sus propias cargas de trabajo en ese clúster. ¿Qué división de herramientas es la MEJOR?"
+      },
+      "opciones": [
+        { "en": "Terraform for the cluster and VPC, and Helm for packaging and releasing the in-cluster application workloads", "es": "Terraform para el clúster y la VPC, y Helm para empaquetar y liberar las cargas de trabajo dentro del clúster" },
+        { "en": "Helm for the cluster and VPC, and Terraform for the in-cluster workloads", "es": "Helm para el clúster y la VPC, y Terraform para las cargas de trabajo dentro del clúster" },
+        { "en": "Terraform for everything, including every Kubernetes Deployment and Service", "es": "Terraform para todo, incluidos cada Deployment y Service de Kubernetes" },
+        { "en": "gcloud and kubectl scripts for both layers, with no declarative tooling", "es": "Scripts de gcloud y kubectl para ambas capas, sin herramientas declarativas" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Terraform is the right fit for Google Cloud infrastructure such as VPCs and clusters, while Helm is built for packaging and versioning workloads inside a cluster, and the split also matches the two teams' ownership boundaries. B inverts the tools: Helm cannot create a VPC or a GKE cluster because it only renders Kubernetes objects. C is technically possible but couples fast-moving application releases to the infrastructure state, so an app rollout can block or endanger cluster changes. D discards idempotency and reviewable plans entirely for both layers.",
+        "es": "Terraform es lo adecuado para la infraestructura de Google Cloud, como VPCs y clústeres, mientras que Helm está hecho para empaquetar y versionar cargas de trabajo dentro de un clúster, y la división además coincide con los límites de responsabilidad de los dos equipos. B invierte las herramientas: Helm no puede crear una VPC ni un clúster de GKE porque solo renderiza objetos de Kubernetes. C es técnicamente posible pero acopla los lanzamientos frecuentes de la aplicación al estado de la infraestructura, así que una implementación de la app puede bloquear o poner en riesgo cambios del clúster. D descarta por completo la idempotencia y los planes revisables en ambas capas."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/terraform-overview"
+    },
+    {
+      "id": "tf-062",
+      "curso": "introduccion-terraform",
+      "servicios": ["service-accounts", "identity-federation"],
+      "seccion_blueprint": 4,
+      "subtopicos": ["4.2-sa-impersonation"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your Terraform pipeline runs on an external CI system outside Google Cloud, and company policy forbids service account keys. What is the BEST way to authenticate?",
+        "es": "Tu pipeline de Terraform se ejecuta en un sistema de CI externo fuera de Google Cloud y la política de la empresa prohíbe las claves de cuentas de servicio. ¿Cuál es la MEJOR forma de autenticarse?"
+      },
+      "opciones": [
+        { "en": "Configure Workload Identity Federation so the CI system's own tokens are exchanged for short-lived credentials that impersonate the Terraform service account", "es": "Configurar Workload Identity Federation para que los tokens propios del sistema de CI se intercambien por credenciales de corta duración que suplanten a la cuenta de servicio de Terraform" },
+        { "en": "Create a service account key and store it as an encrypted CI secret", "es": "Crear una clave de cuenta de servicio y guardarla como un secreto encriptado del CI" },
+        { "en": "Have the pipeline use a shared engineer account with a stored password", "es": "Hacer que el pipeline use una cuenta de ingeniero compartida con una contraseña almacenada" },
+        { "en": "Run terraform apply from a Compute Engine VM that anyone on the team can SSH into", "es": "Ejecutar terraform apply desde una VM de Compute Engine a la que cualquiera del equipo pueda acceder por SSH" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Workload Identity Federation lets an external workload trade its native OIDC token for short-lived Google Cloud credentials through impersonation, which satisfies the no-keys policy and removes any standing secret. B directly violates the stated policy, and an encrypted CI secret is still a long-lived credential that can be exfiltrated. C is worse: user accounts should never back automation, and shared passwords destroy attribution and break MFA. D creates a shared, broadly accessible machine whose attached service account effectively becomes a key anyone with SSH can use.",
+        "es": "Workload Identity Federation permite que una carga de trabajo externa intercambie su token OIDC nativo por credenciales de corta duración de Google Cloud mediante suplantación, lo que cumple la política de no usar claves y elimina cualquier secreto permanente. B viola directamente la política declarada, y un secreto encriptado del CI sigue siendo una credencial de larga duración que se puede exfiltrar. C es peor: las cuentas de usuario nunca deben respaldar la automatización, y las contraseñas compartidas destruyen la atribución y rompen la MFA. D crea una máquina compartida y ampliamente accesible cuya cuenta de servicio adjunta se convierte de hecho en una clave que puede usar cualquiera con SSH."
+      },
+      "doc": "https://cloud.google.com/iam/docs/workload-identity-federation"
+    },
+    {
+      "id": "tf-063",
+      "curso": "introduccion-terraform",
+      "servicios": ["terraform-iac", "cloud-storage"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-iac-tooling"],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO advantages does a remote state backend in Cloud Storage provide over local state?",
+        "es": "¿Cuáles DOS ventajas ofrece un backend de estado remoto en Cloud Storage frente al estado local?"
+      },
+      "opciones": [
+        { "en": "State locking prevents concurrent operations from corrupting the state", "es": "El bloqueo de estado evita que operaciones concurrentes corrompan el estado" },
+        { "en": "Access to the state can be controlled centrally with IAM and audited", "es": "El acceso al estado se puede controlar de forma centralizada con IAM y auditar" },
+        { "en": "Terraform applies run faster because Google Cloud executes them server-side", "es": "Los applies de Terraform se ejecutan más rápido porque Google Cloud los ejecuta del lado del servidor" },
+        { "en": "Secrets are automatically stripped from the state before it is written", "es": "Los secretos se eliminan automáticamente del estado antes de escribirlo" }
+      ],
+      "respuesta": ["A", "B"],
+      "explicacion": {
+        "en": "A GCS backend adds locking so simultaneous runs serialize, and it puts state behind IAM with Cloud Audit Logs for access visibility. C is false: Terraform still executes locally or in your CI runner, and the backend only stores state. D is false and a dangerous assumption, because sensitive attributes remain in state in plain text, which is why bucket access must be tightly restricted.",
+        "es": "Un backend de GCS agrega bloqueo para que las ejecuciones simultáneas se serialicen, y coloca el estado detrás de IAM con Cloud Audit Logs para dar visibilidad de los accesos. C es falsa: Terraform sigue ejecutándose localmente o en tu runner de CI, y el backend solo almacena el estado. D es falsa y es una suposición peligrosa, porque los atributos sensibles permanecen en el estado en texto plano, y por eso el acceso al bucket debe restringirse estrictamente."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/resource-management/store-state"
+    },
+    {
+      "id": "tf-064",
+      "curso": "introduccion-terraform",
+      "servicios": ["terraform-iac"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-iac-tooling"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A configuration that applied cleanly last month now fails in CI with unexpected argument errors, although nobody changed the HCL. What is the MOST likely cause and the BEST fix?",
+        "es": "Una configuración que se aplicó sin problemas el mes pasado ahora falla en CI con errores de argumentos inesperados, aunque nadie cambió el HCL. ¿Cuál es la causa MÁS probable y la MEJOR solución?"
+      },
+      "opciones": [
+        { "en": "The provider version floated to a newer release; pin the version in required_providers and commit the .terraform.lock.hcl file", "es": "La versión del provider avanzó a una versión más nueva; fijar la versión en required_providers y versionar el archivo .terraform.lock.hcl" },
+        { "en": "The state file became corrupted; delete it and run terraform init to rebuild it", "es": "El archivo de estado se corrompió; borrarlo y ejecutar terraform init para reconstruirlo" },
+        { "en": "The service account lost permissions; grant it the Owner role on the project", "es": "La cuenta de servicio perdió permisos; otorgarle el rol Owner en el proyecto" },
+        { "en": "The CI runner is out of disk space; increase the machine size", "es": "El runner de CI se quedó sin espacio en disco; aumentar el tamaño de la máquina" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Unchanged code that suddenly rejects arguments is the classic symptom of an unpinned provider resolving to a new major version with renamed or removed fields; version constraints plus a committed lock file make CI reproducible. B misdiagnoses the problem and the proposed fix is destructive, since deleting state orphans every managed resource and init does not rebuild it. C confuses a schema error with an authorization error, and granting Owner is an unjustified privilege escalation. D does not match the symptom, because a disk-space failure produces I/O errors rather than argument validation errors.",
+        "es": "Que un código sin cambios rechace de golpe ciertos argumentos es el síntoma clásico de un provider sin fijar que resolvió a una nueva versión mayor con campos renombrados o eliminados; las restricciones de versión más un archivo de bloqueo versionado hacen reproducible el CI. B diagnostica mal el problema y la solución propuesta es destructiva, ya que borrar el estado deja huérfano cada recurso administrado e init no lo reconstruye. C confunde un error de esquema con uno de autorización, y otorgar Owner es una escalación de privilegios injustificada. D no coincide con el síntoma, porque una falla de espacio en disco produce errores de E/S y no de validación de argumentos."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/best-practices/general-style-structure"
+    },
+    {
+      "id": "tf-065",
+      "curso": "introduccion-terraform",
+      "servicios": ["gemini-cloud-assist", "terraform-iac"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-ai-assisted-tooling"],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO statements correctly describe how AI-assisted tools such as Gemini CLI and Gemini Cloud Assist should be used in an infrastructure-as-code workflow?",
+        "es": "¿Cuáles DOS afirmaciones describen correctamente cómo se deben usar las herramientas asistidas por IA como Gemini CLI y Gemini Cloud Assist en un flujo de infraestructura como código?"
+      },
+      "opciones": [
+        { "en": "They accelerate drafting and explaining configuration, but the generated output must still be reviewed and validated by an engineer", "es": "Aceleran la redacción y explicación de la configuración, pero la salida generada igual debe ser revisada y validada por un ingeniero" },
+        { "en": "They can help interpret errors and correlate signals during troubleshooting, while the operator decides on and approves the remediation", "es": "Pueden ayudar a interpretar errores y correlacionar señales durante la resolución de problemas, mientras el operador decide y aprueba la remediación" },
+        { "en": "They replace the need for terraform plan, because generated configuration is guaranteed to be correct", "es": "Eliminan la necesidad de terraform plan, porque la configuración generada tiene la corrección garantizada" },
+        { "en": "They automatically grant the IAM permissions a configuration needs so applies never fail", "es": "Otorgan automáticamente los permisos de IAM que una configuración necesita para que los applies nunca fallen" }
+      ],
+      "respuesta": ["A", "B"],
+      "explicacion": {
+        "en": "These tools speed up authoring and investigation while accountability stays with the engineer, so normal review, validate, and plan gates remain in force. C is false: nothing guarantees generated HCL is correct or safe, and plan is the control that reveals destructive diffs before they run. D is false and would be a serious security problem, since IAM changes are deliberate, least-privilege decisions made by humans and are themselves best managed as code.",
+        "es": "Estas herramientas aceleran la escritura y la investigación mientras la responsabilidad sigue siendo del ingeniero, así que se mantienen los controles normales de revisión, validate y plan. C es falsa: nada garantiza que el HCL generado sea correcto o seguro, y plan es el control que revela los diffs destructivos antes de ejecutarse. D es falsa y sería un problema de seguridad grave, ya que los cambios de IAM son decisiones deliberadas de mínimo privilegio tomadas por personas y conviene administrarlos también como código."
+      },
+      "doc": "https://cloud.google.com/gemini/docs/codeassist/gemini-cli"
     }
   ]
 }

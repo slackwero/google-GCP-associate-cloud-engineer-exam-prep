@@ -1747,6 +1747,447 @@
         "es": "Una regla de firewall de VPC se aplica a todas las instancias de la red, a las instancias que llevan determinados network tags o a las instancias que se ejecutan con determinadas cuentas de servicio; esos son los selectores de destino admitidos (una misma regla usa uno de ellos, no ambos a la vez). C es incorrecta: las etiquetas son metadatos de organización y facturación y el firewall nunca las evalúa. D es incorrecta: el tipo de máquina no influye en la evaluación del firewall."
       },
       "doc": "https://cloud.google.com/firewall/docs/firewalls"
+    },
+    {
+      "id": "ref2-041",
+      "curso": null,
+      "servicios": [
+        "cloud-ngfw",
+        "vpc"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-firewall-ngfw"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A VPC network has a rule denying tcp:443 to all instances with priority 1000, and a rule allowing tcp:443 to instances tagged 'web' with priority 900. What happens to HTTPS traffic reaching a VM tagged 'web'?",
+        "es": "Una red de VPC tiene una regla que deniega tcp:443 a todas las instancias con prioridad 1000 y una regla que permite tcp:443 a las instancias etiquetadas 'web' con prioridad 900. ¿Qué ocurre con el tráfico HTTPS que llega a una VM etiquetada 'web'?"
+      },
+      "opciones": [
+        {
+          "en": "It is allowed, because the lower priority number (900) is evaluated first and wins",
+          "es": "Se permite, porque el número de prioridad más bajo (900) se evalúa primero y prevalece"
+        },
+        {
+          "en": "It is denied, because deny rules always take precedence over allow rules",
+          "es": "Se deniega, porque las reglas de denegación siempre tienen precedencia sobre las de permiso"
+        },
+        {
+          "en": "It is denied, because the higher priority number (1000) means higher priority",
+          "es": "Se deniega, porque el número de prioridad más alto (1000) significa mayor prioridad"
+        },
+        {
+          "en": "It is non-deterministic, and you must delete one of the two rules",
+          "es": "Es no determinista y debes borrar una de las dos reglas"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "In Google Cloud firewall rules the priority is a number from 0 to 65535 where a lower number means higher precedence; the first matching rule decides and evaluation stops. The allow rule at 900 matches the tagged VM before the deny at 1000 is considered, so HTTPS is allowed on that VM while other VMs remain denied. B is a common misconception: action does not decide precedence, priority does. C inverts the meaning of the priority number. D is wrong because evaluation is fully deterministic.",
+        "es": "En las reglas de firewall de Google Cloud la prioridad es un número de 0 a 65535 donde un valor más bajo significa mayor precedencia; la primera regla que coincide decide y la evaluación se detiene. La regla de permiso en 900 coincide con la VM etiquetada antes de considerar la denegación en 1000, así que HTTPS se permite en esa VM mientras el resto sigue denegado. B es un error común: la acción no define la precedencia, la prioridad sí. C invierte el significado del número de prioridad. D es incorrecta porque la evaluación es completamente determinista."
+      },
+      "doc": "https://cloud.google.com/firewall/docs/firewalls#priority_order_for_firewall_rules"
+    },
+    {
+      "id": "ref2-042",
+      "curso": null,
+      "servicios": [
+        "memorystore"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-data-products"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A Memorystore for Valkey cluster is running out of memory and the team wants more capacity and more throughput without downtime. What do you change?",
+        "es": "Un clúster de Memorystore for Valkey se está quedando sin memoria y el equipo quiere más capacidad y más throughput sin tiempo fuera de servicio. ¿Qué cambias?"
+      },
+      "opciones": [
+        {
+          "en": "Increase the number of shards in the cluster, so data and traffic are redistributed across more nodes",
+          "es": "Aumentar la cantidad de shards del clúster, para que los datos y el tráfico se redistribuyan en más nodos"
+        },
+        {
+          "en": "Create a second independent instance and have the application write to both",
+          "es": "Crear una segunda instancia independiente y hacer que la aplicación escriba en ambas"
+        },
+        {
+          "en": "Attach a larger Hyperdisk volume to the instance",
+          "es": "Adjuntar un volumen de Hyperdisk más grande a la instancia"
+        },
+        {
+          "en": "Switch the eviction policy to noeviction so that no keys are lost",
+          "es": "Cambiar la política de expulsión a noeviction para que no se pierdan claves"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Memorystore for Valkey (like Memorystore for Redis Cluster) scales horizontally by changing the shard count, which grows total memory and throughput and is applied online with data redistribution. B forces the application to implement sharding and consistency by hand and doubles operational risk. C is wrong: Memorystore is an in-memory service and you do not attach disks to it. D makes it worse: with noeviction the instance starts rejecting writes when memory is full instead of freeing space.",
+        "es": "Memorystore for Valkey (igual que Memorystore for Redis Cluster) escala horizontalmente cambiando la cantidad de shards, lo que aumenta la memoria total y el throughput y se aplica en línea con redistribución de datos. B obliga a la aplicación a implementar sharding y consistencia a mano y duplica el riesgo operativo. C es incorrecta: Memorystore es un servicio en memoria y no se le adjuntan discos. D empeora la situación: con noeviction la instancia empieza a rechazar escrituras cuando la memoria se llena en lugar de liberar espacio."
+      },
+      "doc": "https://cloud.google.com/memorystore/docs/valkey/scale-instance-capacity"
+    },
+    {
+      "id": "ref2-043",
+      "curso": null,
+      "servicios": [
+        "spanner"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-multiregion-redundancy"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You are provisioning Spanner for a workload that must survive the loss of an entire region while keeping strong consistency. What do you do at instance creation time?",
+        "es": "Estás aprovisionando Spanner para una carga de trabajo que debe sobrevivir la pérdida de una región completa manteniendo consistencia sólida. ¿Qué haces al crear la instancia?"
+      },
+      "opciones": [
+        {
+          "en": "Create the instance with a multi-region instance configuration, for example gcloud spanner instances create --config=nam3",
+          "es": "Crear la instancia con una configuración de instancia multirregión, por ejemplo gcloud spanner instances create --config=nam3"
+        },
+        {
+          "en": "Create a regional instance and add a cross-region read replica afterwards",
+          "es": "Crear una instancia regional y agregar después una réplica de lectura entre regiones"
+        },
+        {
+          "en": "Create a regional instance and schedule exports to a multi-region bucket",
+          "es": "Crear una instancia regional y programar exportaciones a un bucket multi-region"
+        },
+        {
+          "en": "Create two regional instances and enable VPC Network Peering between them",
+          "es": "Crear dos instancias regionales y habilitar VPC Network Peering entre ellas"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Spanner's replication topology is fixed by the instance configuration: a multi-region configuration places read-write and witness replicas in different regions and keeps external consistency with automatic failover, and the configuration cannot be improvised later. B is not how Spanner works: you do not bolt cross-region replicas onto a regional instance; the configuration defines the replicas. C only provides backup-style recovery with an RPO equal to the export interval and heavy downtime. D confuses networking with data replication: peering VPC networks does nothing to replicate a database.",
+        "es": "La topología de replicación de Spanner queda fijada por la configuración de instancia: una configuración multirregión coloca réplicas de lectura-escritura y testigos en distintas regiones y mantiene consistencia externa con failover automático; esa configuración no se improvisa después. B no es como funciona Spanner: no se agregan réplicas entre regiones a una instancia regional, la configuración define las réplicas. C solo brinda recuperación tipo respaldo, con un RPO igual al intervalo de exportación y mucho tiempo fuera de servicio. D confunde redes con replicación de datos: intercambiar redes de VPC no replica una base de datos."
+      },
+      "doc": "https://cloud.google.com/spanner/docs/instance-configurations"
+    },
+    {
+      "id": "ref2-044",
+      "curso": null,
+      "servicios": [
+        "file-storage",
+        "gke"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-storage-products"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "An HPC simulation runs on hundreds of VMs and needs a POSIX file system delivering hundreds of GB/s aggregate throughput with sub-millisecond latency. What do you provision?",
+        "es": "Una simulación de HPC corre en cientos de VMs y necesita un sistema de archivos POSIX que entregue cientos de GB/s de throughput agregado con latencia inferior al milisegundo. ¿Qué aprovisionas?"
+      },
+      "opciones": [
+        {
+          "en": "A Google Cloud Managed Lustre instance, mounted by the compute nodes",
+          "es": "Una instancia de Google Cloud Managed Lustre, montada por los nodos de cómputo"
+        },
+        {
+          "en": "A Filestore Basic HDD instance sized for the total capacity",
+          "es": "Una instancia de Filestore Basic HDD dimensionada para la capacidad total"
+        },
+        {
+          "en": "A Cloud Storage bucket accessed with the JSON API from each node",
+          "es": "Un bucket de Cloud Storage accedido con la API JSON desde cada nodo"
+        },
+        {
+          "en": "A regional Persistent Disk attached to a head node and re-exported over NFS",
+          "es": "Un Persistent Disk regional adjunto a un nodo maestro y reexportado por NFS"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Managed Lustre is the fully managed parallel file system built for HPC and AI workloads: it scales throughput with capacity across many clients and offers the low-latency POSIX semantics that simulation and checkpointing need. B is the wrong tier and the wrong architecture: Basic HDD targets modest throughput file sharing, not hundreds of GB/s. C gives high aggregate bandwidth but is object storage with an HTTP API and no POSIX semantics or low-latency small-file access. D creates a single-node bottleneck and a single point of failure, and it hands you the operational burden of an NFS server.",
+        "es": "Managed Lustre es el sistema de archivos paralelo totalmente administrado creado para cargas de HPC e IA: escala el throughput junto con la capacidad entre muchos clientes y ofrece la semántica POSIX de baja latencia que necesitan la simulación y los checkpoints. B es el tier y la arquitectura equivocados: Basic HDD apunta a compartir archivos con throughput modesto, no a cientos de GB/s. C entrega buen ancho de banda agregado, pero es almacenamiento de objetos con API HTTP, sin semántica POSIX ni acceso de baja latencia a archivos pequeños. D crea un cuello de botella y un punto único de falla en un solo nodo, y te deja la carga operativa de un servidor NFS."
+      },
+      "doc": "https://cloud.google.com/managed-lustre/docs/overview"
+    },
+    {
+      "id": "ref2-045",
+      "curso": null,
+      "servicios": [
+        "hybrid-connectivity",
+        "vpc"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-connectivity"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A branch office needs encrypted connectivity to a VPC over the public internet, with the 99.99% availability SLA. How do you configure it?",
+        "es": "Una sucursal necesita conectividad cifrada hacia una VPC por Internet público, con el SLA de disponibilidad de 99.99%. ¿Cómo lo configuras?"
+      },
+      "opciones": [
+        {
+          "en": "Deploy an HA VPN gateway with two interfaces and two tunnels to redundant peer devices, using a Cloud Router with BGP",
+          "es": "Implementar una puerta de enlace de HA VPN con dos interfaces y dos túneles hacia dispositivos peer redundantes, usando un Cloud Router con BGP"
+        },
+        {
+          "en": "Deploy a Classic VPN gateway with a single tunnel and static routes",
+          "es": "Implementar una puerta de enlace de VPN clásica con un solo túnel y rutas estáticas"
+        },
+        {
+          "en": "Order a Dedicated Interconnect circuit, since encrypted traffic requires a private circuit",
+          "es": "Contratar un circuito de Dedicated Interconnect, ya que el tráfico cifrado exige un circuito privado"
+        },
+        {
+          "en": "Configure VPC Network Peering between the branch router and the VPC",
+          "es": "Configurar VPC Network Peering entre el router de la sucursal y la VPC"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "HA VPN provides the 99.99% SLA when you use a gateway with two interfaces, redundant tunnels to peer devices and dynamic routing through Cloud Router with BGP. B is Classic VPN with a single tunnel, which carries a lower SLA and no automatic failover. C is a valid hybrid product but it is a private circuit for bandwidth and latency, not the IPsec-over-internet requirement stated, and Interconnect traffic is not encrypted by default. D is impossible: VPC Network Peering only connects two Google Cloud VPC networks.",
+        "es": "HA VPN alcanza el SLA de 99.99% cuando usas una puerta de enlace con dos interfaces, túneles redundantes hacia dispositivos peer y enrutamiento dinámico con Cloud Router y BGP. B es VPN clásica con un solo túnel, que tiene un SLA menor y no ofrece failover automático. C es un producto híbrido válido, pero es un circuito privado orientado a ancho de banda y latencia, no al requisito de IPsec sobre Internet planteado, y el tráfico de Interconnect no va cifrado de forma predeterminada. D es imposible: VPC Network Peering solo conecta dos redes de VPC de Google Cloud."
+      },
+      "doc": "https://cloud.google.com/network-connectivity/docs/vpn/concepts/topologies"
+    },
+    {
+      "id": "ref2-046",
+      "curso": null,
+      "servicios": [
+        "dataflow",
+        "pubsub",
+        "bigquery"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-data-products"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Events published to a Pub/Sub topic must land in BigQuery continuously, with schema transformation applied on the way. Which is the most appropriate managed setup?",
+        "es": "Los eventos publicados en un tema de Pub/Sub deben llegar continuamente a BigQuery, aplicando una transformación de esquema en el camino. ¿Cuál es la configuración administrada más apropiada?"
+      },
+      "opciones": [
+        {
+          "en": "Run the Pub/Sub Subscription to BigQuery Dataflow template as a streaming job with a UDF for the transformation",
+          "es": "Ejecutar la plantilla de Dataflow de suscripción de Pub/Sub a BigQuery como trabajo de streaming, con una UDF para la transformación"
+        },
+        {
+          "en": "Create a pull subscription and a cron job that runs a batch Dataflow job once a day",
+          "es": "Crear una suscripción pull y un cron que ejecute un trabajo batch de Dataflow una vez al día"
+        },
+        {
+          "en": "Export the topic to Cloud Storage and load the files with the bq command line tool",
+          "es": "Exportar el tema a Cloud Storage y cargar los archivos con la herramienta de línea de comandos bq"
+        },
+        {
+          "en": "Have every publisher write directly to BigQuery and drop Pub/Sub from the design",
+          "es": "Hacer que cada publicador escriba directamente en BigQuery y quitar Pub/Sub del diseño"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The Google-provided Pub/Sub to BigQuery template runs as a streaming Dataflow job, supports a user-defined function for per-message transformation and writes continuously with a dead-letter path for bad records. B violates the continuous requirement by turning a stream into a daily batch. C adds latency and two extra hops, and still needs load jobs and scheduling. D removes the buffering and fan-out that Pub/Sub provides, couples producers to the warehouse and loses the ability to transform in flight or replay.",
+        "es": "La plantilla provista por Google de Pub/Sub a BigQuery se ejecuta como trabajo de streaming en Dataflow, admite una función definida por el usuario para transformar cada mensaje y escribe de forma continua, con una ruta de mensajes fallidos. B viola el requisito de continuidad al convertir un flujo en un batch diario. C agrega latencia y dos saltos extra, y aún requiere trabajos de carga y programación. D elimina el amortiguamiento y la distribución que aporta Pub/Sub, acopla los productores al almacén y pierde la capacidad de transformar en vuelo o de reprocesar."
+      },
+      "doc": "https://cloud.google.com/dataflow/docs/guides/templates/provided/pubsub-to-bigquery"
+    },
+    {
+      "id": "ref2-047",
+      "curso": null,
+      "servicios": [
+        "cloud-ngfw",
+        "cloud-logging"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-firewall-ngfw"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Security asks you to record which connections a specific deny rule is dropping, keeping the log volume as low as possible. What do you do?",
+        "es": "Seguridad te pide registrar qué conexiones está descartando una regla de denegación específica, manteniendo el volumen de registros lo más bajo posible. ¿Qué haces?"
+      },
+      "opciones": [
+        {
+          "en": "Enable logging on that single rule with gcloud compute firewall-rules update RULE --enable-logging, and review the entries in Cloud Logging",
+          "es": "Habilitar el registro solo en esa regla con gcloud compute firewall-rules update REGLA --enable-logging y revisar las entradas en Cloud Logging"
+        },
+        {
+          "en": "Enable VPC Flow Logs on every subnet of the network",
+          "es": "Habilitar VPC Flow Logs en todas las subredes de la red"
+        },
+        {
+          "en": "Enable Data Access audit logs for the Compute Engine API",
+          "es": "Habilitar los registros de auditoría de acceso a datos para la API de Compute Engine"
+        },
+        {
+          "en": "Install the Ops Agent on the VMs and collect the guest OS firewall logs",
+          "es": "Instalar el Ops Agent en las VMs y recolectar los registros del firewall del sistema operativo invitado"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Firewall Rules Logging is enabled per rule, so turning it on for just that deny rule records exactly the connections it evaluates, with the rule reference and the allow/deny verdict, and keeps volume and cost minimal. B produces far more data: flow logs sample all traffic in the subnet and do not tell you which rule made the decision. C records API activity such as who edited the rule, not the packets it drops. D sees only the guest OS firewall; Cloud NGFW enforcement happens outside the guest and never reaches those logs.",
+        "es": "El registro de reglas de firewall se habilita por regla, así que activarlo solo en esa regla de denegación registra exactamente las conexiones que evalúa, con la referencia a la regla y el veredicto de permiso o denegación, y mantiene el volumen y el costo al mínimo. B genera muchos más datos: los flow logs muestrean todo el tráfico de la subred y no indican qué regla tomó la decisión. C registra actividad de API, como quién editó la regla, no los paquetes descartados. D solo ve el firewall del sistema operativo invitado; la aplicación de Cloud NGFW ocurre fuera del invitado y nunca llega a esos registros."
+      },
+      "doc": "https://cloud.google.com/firewall/docs/firewall-rules-logging"
+    },
+    {
+      "id": "ref2-048",
+      "curso": null,
+      "servicios": [
+        "managed-kafka",
+        "iam",
+        "service-accounts"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-data-products"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A Compute Engine consumer must read from a topic in Managed Service for Apache Kafka. How is access authorized?",
+        "es": "Un consumidor en Compute Engine debe leer de un tema en Managed Service for Apache Kafka. ¿Cómo se autoriza el acceso?"
+      },
+      "opciones": [
+        {
+          "en": "Grant the VM's service account a Managed Kafka IAM role and let the client authenticate with Google Cloud credentials over SASL",
+          "es": "Otorgar a la cuenta de servicio de la VM un rol de IAM de Managed Kafka y dejar que el cliente se autentique con credenciales de Google Cloud mediante SASL"
+        },
+        {
+          "en": "Create Kafka users and ACLs in a ZooKeeper ensemble that you manage",
+          "es": "Crear usuarios y ACLs de Kafka en un conjunto de ZooKeeper que administras"
+        },
+        {
+          "en": "Add the VM's external IP to an allowlist on the cluster; Managed Kafka does not use IAM",
+          "es": "Agregar la IP externa de la VM a una lista de permitidos del clúster; Managed Kafka no usa IAM"
+        },
+        {
+          "en": "Share a static username and password stored in the cluster configuration",
+          "es": "Compartir un usuario y contraseña estáticos guardados en la configuración del clúster"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Managed Service for Apache Kafka integrates with Google Cloud IAM: you grant the client's service account the appropriate Managed Kafka role and the Kafka client authenticates with Google Cloud credentials, so there are no long-lived passwords to distribute. B describes self-managed Kafka administration, which the managed service removes. C is wrong: connectivity is private within the VPC and authorization is IAM-based, not IP allowlisting. D reintroduces static credentials, which is exactly what IAM-based authentication avoids.",
+        "es": "Managed Service for Apache Kafka se integra con IAM de Google Cloud: otorgas a la cuenta de servicio del cliente el rol de Managed Kafka adecuado y el cliente de Kafka se autentica con credenciales de Google Cloud, así que no hay contraseñas de larga duración que distribuir. B describe la administración de un Kafka autoadministrado, que el servicio administrado elimina. C es incorrecta: la conectividad es privada dentro de la VPC y la autorización se basa en IAM, no en listas de IP. D reintroduce credenciales estáticas, que es justo lo que evita la autenticación basada en IAM."
+      },
+      "doc": "https://cloud.google.com/managed-service-for-apache-kafka/docs/authentication"
+    },
+    {
+      "id": "ref2-049",
+      "curso": null,
+      "servicios": [
+        "persistent-disk",
+        "gpus-tpus"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-storage"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Dozens of inference VMs must all read the same 2 TB set of model weights with very high aggregate throughput, and the data never changes. Which storage configuration fits best?",
+        "es": "Decenas de VMs de inferencia deben leer el mismo conjunto de 2 TB de pesos de modelo con throughput agregado muy alto, y los datos nunca cambian. ¿Qué configuración de almacenamiento encaja mejor?"
+      },
+      "opciones": [
+        {
+          "en": "A Hyperdisk ML volume attached in read-only mode to many instances at once",
+          "es": "Un volumen Hyperdisk ML adjunto en modo de solo lectura a muchas instancias a la vez"
+        },
+        {
+          "en": "One Hyperdisk Extreme volume per VM, each created from the same snapshot",
+          "es": "Un volumen Hyperdisk Extreme por VM, cada uno creado desde la misma instantánea"
+        },
+        {
+          "en": "A Local SSD on each VM, repopulated at boot from Cloud Storage",
+          "es": "Un SSD local en cada VM, repoblado al arrancar desde Cloud Storage"
+        },
+        {
+          "en": "A Filestore Basic HDD instance shared by all the VMs",
+          "es": "Una instancia de Filestore Basic HDD compartida por todas las VMs"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Hyperdisk ML is designed exactly for this pattern: a read-only volume that many VMs or GKE nodes attach simultaneously to load static AI/ML artifacts, delivering very high aggregate read throughput without duplicating the data. B works but multiplies cost and management by the number of VMs and wastes capacity storing the same bytes many times. C is fast per node but Local SSD is ephemeral, capacity-limited and forces a slow repopulation on every boot. D would serve the files, but Basic HDD is the low-throughput Filestore tier and is not intended to feed dozens of accelerated inference nodes.",
+        "es": "Hyperdisk ML está diseñado justo para este patrón: un volumen de solo lectura que muchas VMs o nodos de GKE adjuntan al mismo tiempo para cargar artefactos estáticos de IA/AA, con throughput de lectura agregado muy alto y sin duplicar los datos. B funciona, pero multiplica el costo y la administración por la cantidad de VMs y desperdicia capacidad guardando los mismos bytes muchas veces. C es rápida por nodo, pero el SSD local es efímero, tiene capacidad limitada y obliga a una repoblación lenta en cada arranque. D serviría los archivos, pero Basic HDD es el tier de menor throughput de Filestore y no está pensado para alimentar decenas de nodos de inferencia acelerados."
+      },
+      "doc": "https://cloud.google.com/compute/docs/disks/hyperdisk-ml-overview"
+    },
+    {
+      "id": "ref2-050",
+      "curso": null,
+      "servicios": [
+        "storage-transfer",
+        "cloud-storage"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-data-loading"
+      ],
+      "nivel": "intermedio",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO steps are required to move data from an on-premises POSIX file system into Cloud Storage with Storage Transfer Service?",
+        "es": "¿Cuáles DOS pasos se requieren para mover datos desde un sistema de archivos POSIX local hacia Cloud Storage con Storage Transfer Service?"
+      },
+      "opciones": [
+        {
+          "en": "Create an agent pool for the transfer",
+          "es": "Crear un agent pool para la transferencia"
+        },
+        {
+          "en": "Install and run transfer agents on machines that can read the source file system",
+          "es": "Instalar y ejecutar agentes de transferencia en máquinas que puedan leer el sistema de archivos de origen"
+        },
+        {
+          "en": "Order a Transfer Appliance and wait for it to be shipped",
+          "es": "Solicitar un Transfer Appliance y esperar a que lo envíen"
+        },
+        {
+          "en": "Create a Cloud Interconnect VLAN attachment, which is mandatory for the agents",
+          "es": "Crear un VLAN attachment de Cloud Interconnect, obligatorio para los agentes"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Transfers from a file system are agent-based: you create an agent pool and run one or more transfer agents (as containers) on hosts with access to the source data; the agents move the bytes and the service orchestrates and tracks the job. C is a different product, used when the network cannot carry the volume in a reasonable time, and it is not required here. D is wrong: agents work over any connectivity to Google Cloud, including the public internet; Interconnect only improves bandwidth and predictability.",
+        "es": "Las transferencias desde un sistema de archivos se basan en agentes: creas un agent pool y ejecutas uno o más agentes de transferencia (como contenedores) en hosts con acceso a los datos de origen; los agentes mueven los bytes y el servicio orquesta y da seguimiento al trabajo. C es otro producto, usado cuando la red no puede mover el volumen en un tiempo razonable, y aquí no es necesario. D es incorrecta: los agentes funcionan sobre cualquier conectividad hacia Google Cloud, incluido Internet público; Interconnect solo mejora el ancho de banda y la previsibilidad."
+      },
+      "doc": "https://cloud.google.com/storage-transfer/docs/on-prem-agent-pools"
     }
   ]
 }

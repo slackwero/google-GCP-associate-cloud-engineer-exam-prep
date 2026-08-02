@@ -2280,6 +2280,357 @@
         "es": "La VPC compartida está diseñada exactamente para esta división: el proyecto host centraliza la administración de red mientras los proyectos de servicio conservan su propio IAM, cuotas y facturación, y sus VMs usan IPs internas de las subredes compartidas. B descentraliza el control de red a cada equipo, exige rangos sin superposición, no es transitivo y multiplica la malla de peering al crecer los equipos. C pierde la separación de facturación e IAM por proyecto que el escenario exige, y las etiquetas no son un límite de aislamiento. D agrega costo de túneles, límites de ancho de banda y carga operativa para tráfico que nunca necesita salir de la red de Google."
       },
       "doc": "https://cloud.google.com/vpc/docs/shared-vpc"
+    },
+    {
+      "id": "infra-053",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "compute-engine"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-snapshots-images"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "New VMs must always boot with the company hardened OS build, security agents preinstalled, and boot time under a minute. The build is updated monthly and teams must not have to change their automation each time. What is the BEST option?",
+        "es": "Las VMs nuevas siempre deben arrancar con la compilación endurecida del sistema operativo de la empresa, con los agentes de seguridad preinstalados y en menos de un minuto. La compilación se actualiza cada mes y los equipos no deben cambiar su automatización cada vez. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        {
+          "en": "Publish each monthly build as a new custom image in the same image family, and have teams reference the image family",
+          "es": "Publicar cada compilación mensual como una imagen personalizada nueva dentro de la misma familia de imágenes y hacer que los equipos referencien la familia de imágenes"
+        },
+        {
+          "en": "Have every team reference the specific image name and send them a change request each month",
+          "es": "Hacer que cada equipo referencie el nombre específico de la imagen y enviarles una solicitud de cambio cada mes"
+        },
+        {
+          "en": "Boot from a public Google image and install the hardening and agents with a startup script",
+          "es": "Arrancar desde una imagen pública de Google e instalar el endurecimiento y los agentes con un script de inicio"
+        },
+        {
+          "en": "Keep a snapshot of the golden boot disk and ask teams to restore it manually before each deployment",
+          "es": "Conservar una instantánea del disco de arranque dorado y pedir a los equipos que la restauren manualmente antes de cada implementación"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "An image family always resolves to the latest non-deprecated image in it, so publishing a new image each month updates every consumer automatically while keeping rollback available by deprecating the bad version. B works but pushes a manual coordination cost onto every team each month. C reinstalls software at every boot, which is slow, depends on package repositories being reachable, and produces drift between VMs. D is the wrong artifact and the wrong workflow: snapshots are for backup and restore, not for templating new instances, and the process is manual.",
+        "es": "Una familia de imágenes siempre resuelve a la última imagen no obsoleta que contiene, por lo que publicar una imagen nueva cada mes actualiza a todos los consumidores de forma automática y mantiene disponible la reversión al marcar como obsoleta la versión defectuosa. B funciona pero traslada un costo de coordinación manual a cada equipo todos los meses. C reinstala software en cada arranque, lo que es lento, depende de que los repositorios de paquetes estén accesibles y genera desviación entre VMs. D usa el artefacto y el flujo equivocados: las instantáneas son para respaldo y restauración, no para crear plantillas de instancias nuevas, y el proceso es manual."
+      },
+      "doc": "https://cloud.google.com/compute/docs/images/image-families-best-practices"
+    },
+    {
+      "id": "infra-054",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "persistent-disk",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-snapshots-images"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "An auditor requires daily backups of 200 VM boot disks, kept for 30 days, stored outside the source region, with no scripts to maintain. What is the BEST option?",
+        "es": "Un auditor exige copias de seguridad diarias de 200 discos de arranque de VMs, conservadas 30 días, almacenadas fuera de la región de origen y sin scripts que mantener. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        {
+          "en": "Create a snapshot schedule resource policy with daily frequency, 30-day retention and a multi-regional storage location, and attach it to the disks",
+          "es": "Crear una política de recursos de programación de instantáneas con frecuencia diaria, retención de 30 días y ubicación de almacenamiento multirregional, y adjuntarla a los discos"
+        },
+        {
+          "en": "Run a Cloud Scheduler job that calls a script to snapshot each disk and delete old snapshots",
+          "es": "Ejecutar un trabajo de Cloud Scheduler que llame a un script para crear instantáneas de cada disco y borrar las antiguas"
+        },
+        {
+          "en": "Create a custom image of each boot disk every day and delete images older than 30 days",
+          "es": "Crear una imagen personalizada de cada disco de arranque cada día y borrar las imágenes con más de 30 días"
+        },
+        {
+          "en": "Copy the contents of each boot disk to a Coldline bucket with a nightly cron job inside each VM",
+          "es": "Copiar el contenido de cada disco de arranque a un bucket Coldline con un cron nocturno dentro de cada VM"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Snapshot schedules are the managed answer: one policy defines frequency, retention and the storage location (regional or multi-regional, which satisfies the off-region requirement), snapshots are incremental so cost stays low, and the same policy attaches to all 200 disks. B and C rebuild that feature with custom automation the auditor's 'no scripts' requirement rules out, and C is also far more expensive since images are full copies, not incremental. D produces file-level copies from inside a running guest, which is not crash consistent for a boot disk and multiplies operational burden across 200 VMs.",
+        "es": "Las programaciones de instantáneas son la respuesta administrada: una sola política define frecuencia, retención y ubicación de almacenamiento (regional o multirregional, lo que satisface el requisito de estar fuera de la región), las instantáneas son incrementales por lo que el costo se mantiene bajo, y la misma política se adjunta a los 200 discos. B y C reconstruyen esa función con automatización propia que el requisito de 'sin scripts' descarta, y C además es mucho más cara porque las imágenes son copias completas, no incrementales. D produce copias a nivel de archivo desde dentro de un sistema invitado en ejecución, algo que no es consistente ante caídas para un disco de arranque y multiplica la carga operativa en 200 VMs."
+      },
+      "doc": "https://cloud.google.com/compute/docs/disks/scheduled-snapshots"
+    },
+    {
+      "id": "infra-055",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "service-accounts",
+        "cloud-storage"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.2-sa-resources"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "An application on a VM must upload files to one Cloud Storage bucket and do nothing else in the project. Security forbids long-lived credentials on disk. What is the BEST option?",
+        "es": "Una aplicación en una VM debe subir archivos a un solo bucket de Cloud Storage y nada más en el proyecto. Seguridad prohíbe credenciales de larga duración en disco. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        {
+          "en": "Attach a dedicated service account to the VM with the cloud-platform scope, and grant it roles/storage.objectCreator on that bucket only",
+          "es": "Asociar a la VM una cuenta de servicio dedicada con el alcance cloud-platform y otorgarle roles/storage.objectCreator solo en ese bucket"
+        },
+        {
+          "en": "Create a service account key file, store it on the VM, and grant the service account roles/storage.admin on the project",
+          "es": "Crear un archivo de clave de cuenta de servicio, guardarlo en la VM y otorgar a la cuenta de servicio roles/storage.admin en el proyecto"
+        },
+        {
+          "en": "Use the default Compute Engine service account with the default scopes and grant it roles/editor",
+          "es": "Usar la cuenta de servicio predeterminada de Compute Engine con los alcances predeterminados y otorgarle roles/editor"
+        },
+        {
+          "en": "Make the bucket writable by allUsers so the application needs no credentials at all",
+          "es": "Hacer el bucket escribible por allUsers para que la aplicación no necesite credenciales"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "An attached service account gives the VM short-lived tokens from the metadata server with nothing to store or rotate, and binding roles/storage.objectCreator at the bucket level is the least privilege that satisfies 'upload only'. B contradicts the no-key requirement and grants project-wide storage administration. C reuses a shared identity and roles/editor, which is a massive over-grant, and the default scopes add confusing restrictions. D allows anyone on the internet to write to the bucket, which is an unacceptable security and cost exposure.",
+        "es": "Una cuenta de servicio asociada entrega a la VM tokens de corta duración desde el servidor de metadatos, sin nada que almacenar ni rotar, y vincular roles/storage.objectCreator a nivel de bucket es el mínimo privilegio que satisface el 'solo subir'. B contradice el requisito de no usar claves y otorga administración de almacenamiento en todo el proyecto. C reutiliza una identidad compartida y roles/editor, una concesión enormemente excesiva, y los alcances predeterminados agregan restricciones confusas. D permite que cualquiera en internet escriba en el bucket, una exposición inaceptable de seguridad y de costo."
+      },
+      "doc": "https://cloud.google.com/compute/docs/access/service-accounts#best_practices"
+    },
+    {
+      "id": "infra-056",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "service-accounts",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.2-sa-resources"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A VM created long ago runs as a service account that already has roles/bigquery.dataViewer, yet calls to BigQuery from the VM fail with a 403 insufficient authentication scopes error. What is the BEST fix?",
+        "es": "Una VM creada hace tiempo se ejecuta con una cuenta de servicio que ya tiene roles/bigquery.dataViewer, pero las llamadas a BigQuery desde la VM fallan con un error 403 de alcances de autenticación insuficientes. ¿Cuál es la MEJOR corrección?"
+      },
+      "opciones": [
+        {
+          "en": "Stop the VM and set its access scopes to cloud-platform, keeping permissions controlled by IAM roles",
+          "es": "Detener la VM y definir sus alcances de acceso en cloud-platform, manteniendo los permisos controlados por roles de IAM"
+        },
+        {
+          "en": "Grant the service account roles/owner on the project",
+          "es": "Otorgar a la cuenta de servicio roles/owner en el proyecto"
+        },
+        {
+          "en": "Create a service account key and configure the application to authenticate with it",
+          "es": "Crear una clave de cuenta de servicio y configurar la aplicación para autenticarse con ella"
+        },
+        {
+          "en": "Recreate the VM in another region where the BigQuery API is enabled",
+          "es": "Recrear la VM en otra región donde la API de BigQuery esté habilitada"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The error names scopes, not permissions: the legacy access scopes on the instance are narrower than the IAM role, and the effective permission is the intersection. Scopes can only be changed on a stopped VM, and cloud-platform is the recommended value so IAM alone governs access. B adds enormous privilege without touching the scope restriction, so the call still fails. C works around the platform control with a long-lived key that Google discourages and that security teams must then manage. D misdiagnoses the problem: API enablement is per project, not per region, and the region is irrelevant to the scope check.",
+        "es": "El error menciona alcances, no permisos: los alcances de acceso heredados de la instancia son más restrictivos que el rol de IAM, y el permiso efectivo es la intersección. Los alcances solo se pueden cambiar con la VM detenida, y cloud-platform es el valor recomendado para que solo IAM gobierne el acceso. B agrega un privilegio enorme sin tocar la restricción de alcance, por lo que la llamada seguiría fallando. C evade el control de la plataforma con una clave de larga duración que Google desaconseja y que luego los equipos de seguridad deben administrar. D diagnostica mal el problema: la habilitación de APIs es por proyecto, no por región, y la región es irrelevante para la verificación de alcances."
+      },
+      "doc": "https://cloud.google.com/compute/docs/access/service-accounts#accesscopesiam"
+    },
+    {
+      "id": "infra-057",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "persistent-disk",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-storage"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A rendering pipeline writes large temporary files that are deleted at the end of each job. The bottleneck is disk latency, and losing the temporary data on a restart is acceptable. What is the BEST storage choice?",
+        "es": "Un pipeline de renderizado escribe archivos temporales grandes que se borran al terminar cada trabajo. El cuello de botella es la latencia de disco y perder los datos temporales en un reinicio es aceptable. ¿Cuál es la MEJOR opción de almacenamiento?"
+      },
+      "opciones": [
+        {
+          "en": "Local SSD attached to the instance for the scratch data",
+          "es": "Local SSD conectado a la instancia para los datos temporales"
+        },
+        {
+          "en": "A regional Persistent Disk sized for maximum IOPS",
+          "es": "Un Persistent Disk regional dimensionado para IOPS máximos"
+        },
+        {
+          "en": "A Cloud Storage bucket mounted with Cloud Storage FUSE",
+          "es": "Un bucket de Cloud Storage montado con Cloud Storage FUSE"
+        },
+        {
+          "en": "A Filestore Basic HDD instance shared by the render nodes",
+          "es": "Una instancia Filestore Basic HDD compartida por los nodos de renderizado"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Local SSD is physically attached to the host and delivers the lowest latency and highest IOPS, and its only real drawback — data does not survive the VM — is explicitly acceptable here. B pays for synchronous cross-zone replication that scratch data does not need and still goes over the network, so latency is higher. C adds object-storage semantics and network round trips, which is the worst fit for latency-bound temporary writes. D is a shared HDD-backed NFS tier optimized for capacity sharing, not for low-latency scratch I/O.",
+        "es": "El Local SSD está conectado físicamente al host y entrega la menor latencia y los mayores IOPS, y su única desventaja real (los datos no sobreviven a la VM) es explícitamente aceptable aquí. B paga por replicación síncrona entre zonas que los datos temporales no necesitan y de todos modos viaja por la red, así que la latencia es mayor. C agrega semántica de almacenamiento de objetos y viajes de ida y vuelta por red, lo peor para escrituras temporales limitadas por latencia. D es un nivel NFS compartido respaldado por HDD, optimizado para compartir capacidad y no para E/S temporal de baja latencia."
+      },
+      "doc": "https://cloud.google.com/compute/docs/disks/local-ssd"
+    },
+    {
+      "id": "infra-058",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "file-storage",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-storage-products"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A legacy application is being migrated to Compute Engine. Twelve VMs must read and write the same directory tree concurrently using standard POSIX file semantics, and the code cannot be modified. What is the BEST option?",
+        "es": "Se está migrando una aplicación heredada a Compute Engine. Doce VMs deben leer y escribir el mismo árbol de directorios de forma concurrente con semántica POSIX estándar y el código no se puede modificar. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        {
+          "en": "Provision a Filestore instance and mount the NFS share on all twelve VMs",
+          "es": "Aprovisionar una instancia de Filestore y montar el recurso compartido NFS en las doce VMs"
+        },
+        {
+          "en": "Store the data in a Cloud Storage bucket and rewrite the application to use the client library",
+          "es": "Guardar los datos en un bucket de Cloud Storage y reescribir la aplicación para usar la biblioteca cliente"
+        },
+        {
+          "en": "Attach the same zonal Persistent Disk to all twelve VMs in read-only mode",
+          "es": "Conectar el mismo Persistent Disk zonal a las doce VMs en modo de solo lectura"
+        },
+        {
+          "en": "Give each VM its own Persistent Disk and synchronize them with a periodic rsync job",
+          "es": "Dar a cada VM su propio Persistent Disk y sincronizarlos con un trabajo periódico de rsync"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Filestore is managed NFS: it provides concurrent read-write access with POSIX semantics such as file locking, so an unmodified application sees an ordinary mounted directory. B is explicitly ruled out by 'the code cannot be modified', and object storage has no POSIX semantics. C only allows reads, so the write requirement fails. D gives each VM a divergent copy; rsync is eventually consistent at best and will silently lose concurrent writes.",
+        "es": "Filestore es NFS administrado: entrega acceso concurrente de lectura y escritura con semántica POSIX, incluido el bloqueo de archivos, de modo que una aplicación sin modificar ve un directorio montado común. B queda descartada explícitamente por 'el código no se puede modificar', y el almacenamiento de objetos no tiene semántica POSIX. C solo permite lecturas, así que incumple el requisito de escritura. D entrega a cada VM una copia divergente; rsync es, en el mejor de los casos, consistente en el tiempo y perderá escrituras concurrentes de forma silenciosa."
+      },
+      "doc": "https://cloud.google.com/filestore/docs/overview"
+    },
+    {
+      "id": "infra-059",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "cloud-storage"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-gcs-management"
+      ],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "A bucket holding a machine learning dataset costs far more than expected. Access logs show the data is read once a month and versioning was enabled a year ago. Which TWO actions reduce cost without losing the current data?",
+        "es": "Un bucket con un conjunto de datos de machine learning cuesta mucho más de lo esperado. Los registros de acceso muestran que los datos se leen una vez al mes y el control de versiones se habilitó hace un año. ¿Cuáles DOS acciones reducen el costo sin perder los datos actuales?"
+      },
+      "opciones": [
+        {
+          "en": "Add a lifecycle rule that deletes noncurrent versions after a short number of days",
+          "es": "Agregar una regla de ciclo de vida que borre las versiones no actuales después de unos pocos días"
+        },
+        {
+          "en": "Transition the current objects to Nearline, which matches a monthly access pattern",
+          "es": "Transicionar los objetos actuales a Nearline, que se ajusta a un patrón de acceso mensual"
+        },
+        {
+          "en": "Move the objects to Archive to obtain the lowest possible storage price",
+          "es": "Mover los objetos a Archive para obtener el precio de almacenamiento más bajo posible"
+        },
+        {
+          "en": "Turn off versioning, which retroactively deletes all existing noncurrent versions",
+          "es": "Desactivar el control de versiones, lo que borra retroactivamente todas las versiones no actuales existentes"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "A year of unmanaged noncurrent versions is usually the hidden cost, and a lifecycle rule on noncurrent versions removes it while the live objects stay untouched; moving the live data to Nearline matches its 30-day minimum duration to a once-a-month read pattern. C would cut the per-GB price further but twelve retrievals a year against Archive's 365-day minimum and high retrieval fees typically cost more overall. D is factually wrong: disabling versioning stops creating new noncurrent versions but the existing ones remain stored and billed until a lifecycle rule or an explicit delete removes them.",
+        "es": "Un año de versiones no actuales sin administrar suele ser el costo oculto, y una regla de ciclo de vida sobre versiones no actuales lo elimina mientras los objetos vigentes quedan intactos; mover los datos vigentes a Nearline ajusta su duración mínima de 30 días a un patrón de lectura mensual. C bajaría más el precio por GB, pero doce recuperaciones al año frente al mínimo de 365 días de Archive y sus altos cargos de recuperación suelen costar más en total. D es factualmente incorrecta: desactivar el control de versiones detiene la creación de versiones no actuales nuevas, pero las existentes siguen almacenadas y facturadas hasta que una regla de ciclo de vida o un borrado explícito las elimine."
+      },
+      "doc": "https://cloud.google.com/storage/docs/lifecycle"
+    },
+    {
+      "id": "infra-060",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "cloud-ngfw",
+        "vpc"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-firewall-mgmt"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You add an ingress allow rule for tcp:8080 at priority 1000 targeting the tag 'api', but traffic is still blocked. A deny rule for tcp:0-65535 at priority 500 also targets the same tag. What is the BEST way to make the intended traffic work while keeping the broad deny in place?",
+        "es": "Agregas una regla de entrada que permite tcp:8080 con prioridad 1000 dirigida a la etiqueta 'api', pero el tráfico sigue bloqueado. Una regla de denegar tcp:0-65535 con prioridad 500 también apunta a la misma etiqueta. ¿Cuál es la MEJOR forma de que el tráfico previsto funcione conservando la denegación amplia?"
+      },
+      "opciones": [
+        {
+          "en": "Recreate the allow rule with a priority lower than 500, for example 400, so it is evaluated before the deny rule",
+          "es": "Recrear la regla de permitir con una prioridad menor que 500, por ejemplo 400, para que se evalúe antes que la regla de denegar"
+        },
+        {
+          "en": "Delete the deny rule, since allow rules cannot coexist with deny rules on the same tag",
+          "es": "Borrar la regla de denegar, ya que las reglas de permitir no pueden coexistir con las de denegar en la misma etiqueta"
+        },
+        {
+          "en": "Raise the priority number of the allow rule to 2000 so it is evaluated last and wins",
+          "es": "Subir el número de prioridad de la regla de permitir a 2000 para que se evalúe al final y gane"
+        },
+        {
+          "en": "Add the 'api' tag to the source VMs as well, so the allow rule matches both ends",
+          "es": "Agregar también la etiqueta 'api' a las VMs de origen para que la regla de permitir coincida en ambos extremos"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Evaluation stops at the highest-priority match, and a lower number means higher priority, so a narrow allow at 400 wins for tcp:8080 while the broad deny at 500 keeps blocking everything else — the standard deny-by-default pattern. B throws away the security control the scenario says to keep. C makes the allow rule even weaker, since 2000 is evaluated after 500 and never reached. D confuses source selection with priority: the deny rule would still match first regardless of tags on the sender.",
+        "es": "La evaluación se detiene en la coincidencia de mayor prioridad, y un número menor significa mayor prioridad, así que un permitir acotado en 400 gana para tcp:8080 mientras la denegación amplia en 500 sigue bloqueando todo lo demás: el patrón estándar de denegar por defecto. B descarta el control de seguridad que el escenario pide conservar. C debilita aún más la regla de permitir, ya que 2000 se evalúa después de 500 y nunca se alcanza. D confunde la selección de origen con la prioridad: la regla de denegar seguiría coincidiendo primero sin importar las etiquetas del emisor."
+      },
+      "doc": "https://cloud.google.com/firewall/docs/firewalls#priority_order_for_firewall_rules"
     }
   ]
 }

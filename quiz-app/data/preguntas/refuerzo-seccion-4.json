@@ -1956,6 +1956,456 @@
         "es": "Vincular el rol más acotado sobre el bucket individual limita el acceso solo a ese recurso, que es justo lo que pide el requisito. B usa el rol correcto pero a nivel de proyecto, así que la cuenta podría leer objetos de todos los buckets del proyecto. C es aún peor: storage.admin permite crear y borrar buckets y objetos en todo el proyecto. D vuelve los datos legibles públicamente por cualquiera en internet, una exposición grave que ni siquiera otorga un rol a la cuenta de servicio."
       },
       "doc": "https://cloud.google.com/storage/docs/access-control/using-iam-permissions"
+    },
+    {
+      "id": "ref4-045",
+      "curso": null,
+      "servicios": [
+        "service-accounts",
+        "iam"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.2-sa-impersonation"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Two external contractors need to run a data migration in production for three weeks. Company policy forbids downloading service account keys and requires that every action they perform be attributable to them personally. What is the BEST approach?",
+        "es": "Dos contratistas externos deben ejecutar una migración de datos en producción durante tres semanas. La política de la empresa prohíbe descargar llaves de cuentas de servicio y exige que cada acción que realicen sea atribuible a ellos personalmente. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        {
+          "en": "Create a migration service account with only the required roles, grant the contractors' group roles/iam.serviceAccountTokenCreator on that account with an IAM condition that expires in three weeks, and have them work with --impersonate-service-account",
+          "es": "Crear una cuenta de servicio de migración con solo los roles necesarios, otorgar al grupo de los contratistas roles/iam.serviceAccountTokenCreator sobre esa cuenta con una condición de IAM que expire en tres semanas, y hacer que trabajen con --impersonate-service-account"
+        },
+        {
+          "en": "Create one service account, download its JSON key, and share it with both contractors over an encrypted channel",
+          "es": "Crear una cuenta de servicio, descargar su llave JSON y compartirla con ambos contratistas por un canal cifrado"
+        },
+        {
+          "en": "Grant each contractor roles/editor on the production project and remove it manually when the work ends",
+          "es": "Otorgar a cada contratista roles/editor en el proyecto de producción y quitarlo manualmente al terminar el trabajo"
+        },
+        {
+          "en": "Create one Google account shared by both contractors and grant it the migration roles",
+          "es": "Crear una cuenta de Google compartida por ambos contratistas y otorgarle los roles de la migración"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Impersonation keeps the contractors' own identities as the authenticated callers of the token request, so audit logs record who impersonated the account and when, while the conditional binding removes the access automatically after three weeks and no key ever exists. B violates the no-keys policy and destroys attribution, since both contractors present the identical credential. C both over-grants (Editor is far wider than a migration needs) and relies on someone remembering to revoke it. D destroys attribution completely and shared credentials are explicitly discouraged; it also breaks any per-user security controls.",
+        "es": "La suplantación mantiene las identidades propias de los contratistas como invocadores autenticados de la solicitud del token, de modo que los registros de auditoría capturan quién suplantó la cuenta y cuándo, mientras la vinculación condicional retira el acceso automáticamente a las tres semanas y nunca existe una llave. B viola la política de no usar llaves y destruye la atribución, porque ambos contratistas presentan la misma credencial. C otorga de más (Editor es mucho más amplio que lo que requiere una migración) y depende de que alguien recuerde revocarlo. D elimina por completo la atribución y las credenciales compartidas están explícitamente desaconsejadas; además rompe cualquier control de seguridad por usuario."
+      },
+      "doc": "https://cloud.google.com/iam/docs/service-account-impersonation"
+    },
+    {
+      "id": "ref4-046",
+      "curso": null,
+      "servicios": [
+        "identity-federation",
+        "service-accounts",
+        "iam"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.2-short-lived-credentials",
+        "4.2-sa-gke-workload-identity"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A SaaS vendor's platform, running outside Google Cloud on an OIDC-capable identity provider, must read from one BigQuery dataset. Your security team refuses to hand over any long-lived secret. What is the MOST secure design that meets the requirement?",
+        "es": "La plataforma de un proveedor SaaS, que se ejecuta fuera de Google Cloud sobre un proveedor de identidad compatible con OIDC, debe leer un dataset de BigQuery. Tu equipo de seguridad se niega a entregar cualquier secreto de larga duración. ¿Cuál es el diseño MÁS seguro que cumple el requisito?"
+      },
+      "opciones": [
+        {
+          "en": "Configure Workload Identity Federation with an OIDC provider, restrict it with an attribute condition matching the vendor's specific workload, and grant BigQuery Data Viewer on that dataset to the corresponding principalSet",
+          "es": "Configurar Workload Identity Federation con un proveedor OIDC, restringirlo con una condición de atributos que corresponda a la carga de trabajo específica del proveedor, y otorgar BigQuery Data Viewer sobre ese dataset al principalSet correspondiente"
+        },
+        {
+          "en": "Create a service account key, store it in Secret Manager, and give the vendor read access to the secret",
+          "es": "Crear una llave de cuenta de servicio, guardarla en Secret Manager y dar al proveedor acceso de lectura al secreto"
+        },
+        {
+          "en": "Create an API key restricted to the BigQuery API and send it to the vendor",
+          "es": "Crear una API key restringida a la API de BigQuery y enviarla al proveedor"
+        },
+        {
+          "en": "Export the dataset nightly to a Cloud Storage bucket with uniform bucket-level access disabled and a public read ACL",
+          "es": "Exportar el dataset cada noche a un bucket de Cloud Storage con el acceso uniforme a nivel de bucket desactivado y una ACL de lectura pública"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Workload Identity Federation lets the vendor exchange its own OIDC token for short-lived Google credentials, so no secret leaves your organization; the attribute condition narrows trust to one workload instead of every identity the provider can issue, and the principalSet binding scopes access to a single dataset. B still creates a long-lived key and merely relocates it — the vendor ends up holding a credential that never expires. C is invalid because API keys do not authorize BigQuery data access. D exposes the data to the entire internet, which is far worse than the problem being solved.",
+        "es": "Workload Identity Federation permite que el proveedor intercambie su propio token OIDC por credenciales de Google de corta duración, así que ningún secreto sale de tu organización; la condición de atributos reduce la confianza a una sola carga de trabajo en lugar de a toda identidad que el proveedor pueda emitir, y la vinculación al principalSet acota el acceso a un único dataset. B sigue creando una llave de larga duración y solo la reubica: el proveedor termina con una credencial que nunca expira. C es inválida porque las API keys no autorizan el acceso a datos de BigQuery. D expone los datos a todo internet, mucho peor que el problema que se intenta resolver."
+      },
+      "doc": "https://cloud.google.com/iam/docs/workload-identity-federation"
+    },
+    {
+      "id": "ref4-047",
+      "curso": null,
+      "servicios": [
+        "identity-federation",
+        "iam",
+        "cloud-storage"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.2-sa-gke-workload-identity"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "An application on Amazon EC2 writes to a Cloud Storage bucket using a service account key that a security scan just flagged. You must remove the key with minimal application changes and no stored credentials. What should you do?",
+        "es": "Una aplicación en Amazon EC2 escribe en un bucket de Cloud Storage usando una llave de cuenta de servicio que un análisis de seguridad acaba de marcar. Debes eliminar la llave con cambios mínimos en la aplicación y sin credenciales almacenadas. ¿Qué deberías hacer?"
+      },
+      "opciones": [
+        {
+          "en": "Create a workload identity pool with an AWS provider, generate a credential configuration file for Application Default Credentials, deploy it to the EC2 instances, and delete the service account key",
+          "es": "Crear un workload identity pool con un proveedor de AWS, generar un archivo de configuración de credenciales para Application Default Credentials, desplegarlo en las instancias EC2 y borrar la llave de la cuenta de servicio"
+        },
+        {
+          "en": "Rotate the service account key every 30 days with a scheduled job",
+          "es": "Rotar la llave de la cuenta de servicio cada 30 días con un trabajo programado"
+        },
+        {
+          "en": "Move the application to Compute Engine so it can use the attached service account",
+          "es": "Mover la aplicación a Compute Engine para que pueda usar la cuenta de servicio asociada"
+        },
+        {
+          "en": "Set up a Cloud VPN tunnel between AWS and Google Cloud and allow the EC2 subnet in the bucket's IAM policy",
+          "es": "Configurar un túnel de Cloud VPN entre AWS y Google Cloud y permitir la subred de EC2 en la política de IAM del bucket"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Workload Identity Federation with an AWS provider lets the EC2 instance role prove its identity and receive short-lived Google credentials; because the client libraries read the credential configuration through Application Default Credentials, the application code usually does not change at all, and the flagged key can be deleted. B keeps a long-lived secret in existence and only shortens its exposure window. C is a large, unnecessary migration when federation solves the problem in place. D confuses networking with identity: a VPN provides connectivity, and IAM policies bind principals, not subnets.",
+        "es": "Workload Identity Federation con un proveedor de AWS permite que el rol de la instancia EC2 demuestre su identidad y reciba credenciales de Google de corta duración; como las bibliotecas cliente leen la configuración de credenciales a través de Application Default Credentials, el código de la aplicación normalmente no cambia y la llave marcada puede borrarse. B mantiene existente un secreto de larga duración y solo acorta su ventana de exposición. C es una migración grande e innecesaria cuando la federación resuelve el problema en el sitio. D confunde redes con identidad: una VPN da conectividad, y las políticas de IAM vinculan principales, no subredes."
+      },
+      "doc": "https://cloud.google.com/iam/docs/workload-identity-federation-with-other-clouds"
+    },
+    {
+      "id": "ref4-048",
+      "curso": null,
+      "servicios": [
+        "compute-engine",
+        "service-accounts",
+        "iam"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.2-sa-creation",
+        "4.2-sa-least-privilege"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "An audit finds dozens of VMs running as the Compute Engine default service account, which holds the Editor role on the project. Each VM only needs to publish messages to one Pub/Sub topic. What is the BEST remediation?",
+        "es": "Una auditoría encuentra decenas de VMs que se ejecutan con la cuenta de servicio predeterminada de Compute Engine, que tiene el rol Editor en el proyecto. Cada VM solo necesita publicar mensajes en un tema de Pub/Sub. ¿Cuál es la MEJOR remediación?"
+      },
+      "opciones": [
+        {
+          "en": "Create a dedicated service account granted roles/pubsub.publisher on that topic only, reattach the VMs to it, then remove the Editor role from the default service account and enforce constraints/iam.automaticIamGrantsForDefaultServiceAccounts",
+          "es": "Crear una cuenta de servicio dedicada con roles/pubsub.publisher solo sobre ese tema, reasociar las VMs a ella y luego quitar el rol Editor de la cuenta predeterminada y aplicar constraints/iam.automaticIamGrantsForDefaultServiceAccounts"
+        },
+        {
+          "en": "Keep the default service account but restrict the VMs' access scopes to pubsub only",
+          "es": "Mantener la cuenta predeterminada pero restringir los scopes de acceso de las VMs solo a pubsub"
+        },
+        {
+          "en": "Delete the default service account so the VMs are forced to use a new one",
+          "es": "Borrar la cuenta de servicio predeterminada para forzar a las VMs a usar una nueva"
+        },
+        {
+          "en": "Replace the Editor role on the default service account with Owner so the grant is explicit and auditable",
+          "es": "Reemplazar el rol Editor de la cuenta predeterminada por Owner para que el otorgamiento sea explícito y auditable"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Least privilege here means a purpose-built identity holding one narrow role on one resource; removing Editor from the default account and enforcing the organization policy that disables the automatic Editor grant prevents the problem from reappearing in new projects. B is a common trap: access scopes are a legacy, coarse control layered on top of IAM, so the account still holds Editor and anything that bypasses or widens the scope regains broad power. C is destructive and does not reassign anything — the VMs simply lose the ability to authenticate. D makes the situation strictly worse by escalating from Editor to Owner.",
+        "es": "El mínimo privilegio aquí significa una identidad creada para ese propósito con un único rol acotado sobre un único recurso; quitar Editor de la cuenta predeterminada y aplicar la política de la organización que desactiva el otorgamiento automático de Editor evita que el problema reaparezca en proyectos nuevos. B es una trampa común: los scopes de acceso son un control heredado y grueso que se superpone a IAM, así que la cuenta sigue teniendo Editor y cualquier cambio que amplíe o evada el scope recupera ese poder amplio. C es destructiva y no reasigna nada: las VMs simplemente pierden la capacidad de autenticarse. D empeora la situación al escalar de Editor a Owner."
+      },
+      "doc": "https://cloud.google.com/compute/docs/access/service-accounts"
+    },
+    {
+      "id": "ref4-049",
+      "curso": null,
+      "servicios": [
+        "iam",
+        "resource-manager"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.1-policy-inheritance"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A project owner keeps granting roles/owner to teammates in a sandbox folder, and each time the security team removes it manually. You must guarantee that no principal outside the security group can hold owner-level permissions in that folder, without preventing project owners from doing their other work. What is the BEST solution?",
+        "es": "El propietario de un proyecto sigue otorgando roles/owner a compañeros en una carpeta de pruebas, y cada vez el equipo de seguridad lo quita manualmente. Debes garantizar que ningún principal fuera del grupo de seguridad tenga permisos de nivel owner en esa carpeta, sin impedir que los propietarios de proyecto hagan el resto de su trabajo. ¿Cuál es la MEJOR solución?"
+      },
+      "opciones": [
+        {
+          "en": "Attach an IAM deny policy to the folder that denies resourcemanager.projects.setIamPolicy for everyone except the security group",
+          "es": "Adjuntar a la carpeta una deny policy de IAM que deniegue resourcemanager.projects.setIamPolicy a todos excepto al grupo de seguridad"
+        },
+        {
+          "en": "Create an alert on Admin Activity audit logs and revoke the role when it fires",
+          "es": "Crear una alerta sobre los registros de auditoría de Actividad del administrador y revocar el rol cuando se dispare"
+        },
+        {
+          "en": "Create a custom role that copies Owner minus the IAM permissions and ask everyone to use it",
+          "es": "Crear un rol personalizado que copie Owner sin los permisos de IAM y pedir a todos que lo usen"
+        },
+        {
+          "en": "Move the folder under a different organization so its policies are separate",
+          "es": "Mover la carpeta a otra organización para que sus políticas sean independientes"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "A deny policy on the folder is evaluated before any allow policy and is inherited by every project inside, so the ability to change IAM bindings is structurally removed from everyone except the exception principals, while all other Owner permissions keep working. B is detective, not preventive: the over-grant exists until someone reacts. C depends on voluntary compliance and does nothing to stop an existing Owner from granting Owner. D is a huge organizational change that does not stop the same behavior from continuing in the new organization.",
+        "es": "Una deny policy en la carpeta se evalúa antes que cualquier allow policy y la heredan todos los proyectos internos, así que la capacidad de cambiar vinculaciones de IAM se elimina estructuralmente para todos salvo los principales exceptuados, mientras el resto de los permisos de Owner sigue funcionando. B es detectiva, no preventiva: el otorgamiento excesivo existe hasta que alguien reacciona. C depende del cumplimiento voluntario y no impide que un Owner existente otorgue Owner. D es un cambio organizacional enorme que no evita que la misma conducta continúe en la nueva organización."
+      },
+      "doc": "https://cloud.google.com/iam/docs/deny-overview"
+    },
+    {
+      "id": "ref4-050",
+      "curso": null,
+      "servicios": [
+        "iam",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.1-role-types"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A support team must be able to start, stop, and reset Compute Engine instances, but must never be able to create, delete, or modify them. No predefined role matches this exactly. What is the BEST approach?",
+        "es": "Un equipo de soporte debe poder iniciar, detener y reiniciar instancias de Compute Engine, pero nunca crearlas, borrarlas ni modificarlas. Ningún rol predefinido coincide exactamente. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        {
+          "en": "Create a custom role containing compute.instances.start, compute.instances.stop, compute.instances.reset, compute.instances.get, and compute.instances.list, and grant it to the support group",
+          "es": "Crear un rol personalizado con compute.instances.start, compute.instances.stop, compute.instances.reset, compute.instances.get y compute.instances.list, y otorgarlo al grupo de soporte"
+        },
+        {
+          "en": "Grant roles/compute.instanceAdmin.v1 to the support group",
+          "es": "Otorgar roles/compute.instanceAdmin.v1 al grupo de soporte"
+        },
+        {
+          "en": "Grant roles/editor and add an IAM condition restricting it to Compute Engine resources",
+          "es": "Otorgar roles/editor y agregar una condición de IAM que lo restrinja a recursos de Compute Engine"
+        },
+        {
+          "en": "Grant roles/compute.viewer and let the team ask an administrator to run every start or stop",
+          "es": "Otorgar roles/compute.viewer y que el equipo pida a un administrador que ejecute cada inicio o detención"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Custom roles exist precisely for this case: assembling the exact permission set a job function needs when no predefined role fits. B grants full instance administration, including create and delete, which the requirement forbids. C is both over-broad and misuses conditions — Editor covers far more than Compute Engine, and conditions restrict which resources a role applies to, not which permissions it contains. D does not meet the requirement at all, since Viewer cannot start or stop anything, and routing every action through an administrator is an operational bottleneck rather than an access design.",
+        "es": "Los roles personalizados existen justo para este caso: armar el conjunto exacto de permisos que necesita una función cuando ningún rol predefinido se ajusta. B otorga administración completa de instancias, incluidas la creación y la eliminación, que el requisito prohíbe. C es demasiado amplia y además usa mal las condiciones: Editor cubre mucho más que Compute Engine, y las condiciones restringen a qué recursos aplica un rol, no qué permisos contiene. D no cumple el requisito en absoluto, ya que Viewer no puede iniciar ni detener nada, y canalizar cada acción a través de un administrador es un cuello de botella operativo, no un diseño de acceso."
+      },
+      "doc": "https://cloud.google.com/iam/docs/creating-custom-roles"
+    },
+    {
+      "id": "ref4-051",
+      "curso": null,
+      "servicios": [
+        "iam",
+        "cloud-storage"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.1-iam-policies",
+        "4.1-policy-inheritance"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A user who is a member of a group that holds Storage Object Viewer at the folder level still gets permission denied when reading an object. You have already confirmed the group binding exists. What is the MOST efficient next step to find the cause?",
+        "es": "Una usuaria que pertenece a un grupo con Storage Object Viewer a nivel de carpeta sigue recibiendo permiso denegado al leer un objeto. Ya confirmaste que la vinculación del grupo existe. ¿Cuál es el siguiente paso MÁS eficiente para encontrar la causa?"
+      },
+      "opciones": [
+        {
+          "en": "Run Policy Troubleshooter for that principal, the storage.objects.get permission, and the object's full resource name, and read the verdict, which also reports deny policies and unsatisfied conditions",
+          "es": "Ejecutar Policy Troubleshooter para ese principal, el permiso storage.objects.get y el nombre completo del recurso del objeto, y leer el veredicto, que también reporta deny policies y condiciones no cumplidas"
+        },
+        {
+          "en": "Grant the user roles/storage.admin directly on the project to confirm that IAM is working",
+          "es": "Otorgar a la usuaria roles/storage.admin directamente en el proyecto para confirmar que IAM funciona"
+        },
+        {
+          "en": "Recreate the bucket with uniform bucket-level access disabled and add an object ACL for the user",
+          "es": "Recrear el bucket con el acceso uniforme a nivel de bucket desactivado y agregar una ACL de objeto para la usuaria"
+        },
+        {
+          "en": "Export all IAM policies to BigQuery and write a query that joins bindings to group memberships",
+          "es": "Exportar todas las políticas de IAM a BigQuery y escribir una consulta que una las vinculaciones con las membresías de los grupos"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Policy Troubleshooter evaluates the complete decision — inherited allow bindings, group membership, IAM conditions, and any deny policy — and states which one produced the result, which is exactly the missing information. B is a blunt escalation that masks the real cause and leaves an over-permissive grant behind. C weakens the security posture by reverting to legacy ACLs, and if a deny policy or condition is the cause it will not help anyway. D can eventually reach an answer but is a large analytics effort for a question a single command answers.",
+        "es": "Policy Troubleshooter evalúa la decisión completa —vinculaciones heredadas, membresía de grupos, condiciones de IAM y cualquier deny policy— e indica cuál produjo el resultado, que es justo la información que falta. B es una escalada burda que oculta la causa real y deja un otorgamiento excesivo. C debilita la postura de seguridad al volver a las ACLs heredadas y, si la causa es una deny policy o una condición, tampoco ayuda. D puede llegar a una respuesta, pero es un esfuerzo analítico enorme para una pregunta que responde un solo comando."
+      },
+      "doc": "https://cloud.google.com/policy-intelligence/docs/troubleshoot-access"
+    },
+    {
+      "id": "ref4-052",
+      "curso": null,
+      "servicios": [
+        "service-accounts",
+        "iam",
+        "cloud-run"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.2-sa-impersonation"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A Cloud Run job runs as job-sa. It must occasionally perform a privileged operation that only admin-sa is allowed to do, and the security team wants that elevation to be explicit, revocable, and visible in audit logs. What is the BEST design?",
+        "es": "Un job de Cloud Run se ejecuta como job-sa. Ocasionalmente debe realizar una operación privilegiada que solo admin-sa tiene permitida, y el equipo de seguridad quiere que esa elevación sea explícita, revocable y visible en los registros de auditoría. ¿Cuál es el MEJOR diseño?"
+      },
+      "opciones": [
+        {
+          "en": "Grant job-sa roles/iam.serviceAccountTokenCreator on admin-sa and have the job impersonate admin-sa only for the privileged call",
+          "es": "Otorgar a job-sa el rol roles/iam.serviceAccountTokenCreator sobre admin-sa y hacer que el job suplante a admin-sa solo para la llamada privilegiada"
+        },
+        {
+          "en": "Add all of admin-sa's roles directly to job-sa",
+          "es": "Agregar todos los roles de admin-sa directamente a job-sa"
+        },
+        {
+          "en": "Store an admin-sa JSON key in Secret Manager and load it inside the job when the operation is needed",
+          "es": "Guardar una llave JSON de admin-sa en Secret Manager y cargarla dentro del job cuando se necesite la operación"
+        },
+        {
+          "en": "Run the job as admin-sa and drop privileges in application code for the non-privileged parts",
+          "es": "Ejecutar el job como admin-sa y renunciar a los privilegios en el código de la aplicación para las partes no privilegiadas"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Impersonation creates a narrow, named path from one identity to another: the elevation is one revocable binding, it applies only to the calls that request the token, and every token request is recorded with job-sa as the caller. B makes the elevated permissions permanent for the whole job, so any bug or compromise runs with them all the time. C reintroduces a long-lived key, and anything that can read the secret effectively becomes admin-sa. D is the same over-privilege problem: IAM permissions cannot be dropped by application code, so the entire job runs as admin-sa.",
+        "es": "La suplantación crea un camino acotado y nombrado de una identidad a otra: la elevación es una única vinculación revocable, aplica solo a las llamadas que solicitan el token y cada solicitud queda registrada con job-sa como invocador. B vuelve permanentes los permisos elevados para todo el job, así que cualquier error o compromiso corre siempre con ellos. C reintroduce una llave de larga duración, y todo lo que pueda leer el secreto se convierte de hecho en admin-sa. D es el mismo problema de exceso de privilegios: los permisos de IAM no se pueden renunciar desde el código, por lo que el job completo corre como admin-sa."
+      },
+      "doc": "https://cloud.google.com/iam/docs/service-account-impersonation"
+    },
+    {
+      "id": "ref4-053",
+      "curso": null,
+      "servicios": [
+        "cloud-run",
+        "service-accounts",
+        "iam"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.2-short-lived-credentials",
+        "4.2-sa-least-privilege"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Service A on Cloud Run must call private service B on Cloud Run. The team wants no shared secrets and wants B to reject calls from anything except A. What is the BEST configuration?",
+        "es": "El servicio A en Cloud Run debe llamar al servicio privado B en Cloud Run. El equipo no quiere secretos compartidos y quiere que B rechace llamadas de cualquier cosa que no sea A. ¿Cuál es la MEJOR configuración?"
+      },
+      "opciones": [
+        {
+          "en": "Run A with its own service account, grant only that service account roles/run.invoker on B, and have A attach an OIDC ID token minted for B's URL from the metadata server",
+          "es": "Ejecutar A con su propia cuenta de servicio, otorgar solo a esa cuenta el rol roles/run.invoker sobre B, y hacer que A adjunte un ID token de OIDC emitido para la URL de B desde el servidor de metadatos"
+        },
+        {
+          "en": "Grant allUsers roles/run.invoker on B and validate a shared header token inside B's code",
+          "es": "Otorgar a allUsers el rol roles/run.invoker sobre B y validar un token compartido en un encabezado dentro del código de B"
+        },
+        {
+          "en": "Give both services the same service account and rely on the identity being identical",
+          "es": "Dar a ambos servicios la misma cuenta de servicio y confiar en que la identidad sea idéntica"
+        },
+        {
+          "en": "Put both services behind an internal load balancer and allow only that subnet in B's IAM policy",
+          "es": "Poner ambos servicios detrás de un balanceador interno y permitir solo esa subred en la política de IAM de B"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "This is the documented service-to-service pattern: the caller's runtime identity fetches a short-lived ID token audienced to the callee's URL, and Cloud Run enforces run.invoker against that identity, so authorization is IAM-based and no secret is shared. B makes B publicly invocable and replaces IAM with hand-rolled authentication and a shared secret — exactly what was ruled out. C removes the ability to distinguish A from B, so the invoker check can no longer express 'only A'. D again confuses network reachability with identity: IAM policies do not accept subnets as principals, and internal networking alone does not authenticate the caller.",
+        "es": "Este es el patrón documentado de servicio a servicio: la identidad de ejecución del invocador obtiene un ID token de corta duración con la URL del destino como audiencia, y Cloud Run verifica run.invoker contra esa identidad, así que la autorización es de IAM y no se comparte ningún secreto. B vuelve a B invocable públicamente y reemplaza IAM por una autenticación artesanal con secreto compartido, justo lo que se descartó. C elimina la posibilidad de distinguir A de B, así que la verificación de invocador ya no puede expresar 'solo A'. D vuelve a confundir alcance de red con identidad: las políticas de IAM no aceptan subredes como principales, y la red interna por sí sola no autentica al invocador."
+      },
+      "doc": "https://cloud.google.com/run/docs/authenticating/service-to-service"
+    },
+    {
+      "id": "ref4-054",
+      "curso": null,
+      "servicios": [
+        "gke",
+        "identity-federation",
+        "service-accounts"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.2-sa-gke-workload-identity"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A GKE cluster hosts three teams' workloads in separate namespaces. Today every Pod uses the node's service account, which has broad project permissions. You must give each workload only the permissions it needs, with no keys mounted in Pods. What is the BEST approach?",
+        "es": "Un clúster de GKE aloja cargas de tres equipos en namespaces separados. Hoy todos los Pods usan la cuenta de servicio del nodo, que tiene permisos amplios en el proyecto. Debes dar a cada carga solo los permisos que necesita, sin llaves montadas en los Pods. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        {
+          "en": "Enable Workload Identity Federation for GKE, create one IAM service account per workload with minimal roles, and bind each Kubernetes ServiceAccount to its IAM service account",
+          "es": "Habilitar Workload Identity Federation para GKE, crear una cuenta de servicio de IAM por carga con roles mínimos, y vincular cada ServiceAccount de Kubernetes con su cuenta de servicio de IAM"
+        },
+        {
+          "en": "Create three node pools, each with a different service account, and schedule each team's Pods onto its own pool",
+          "es": "Crear tres node pools, cada uno con una cuenta de servicio distinta, y programar los Pods de cada equipo en su propio pool"
+        },
+        {
+          "en": "Create one IAM service account per team, export keys, and mount each key as a Kubernetes Secret in the matching namespace",
+          "es": "Crear una cuenta de servicio de IAM por equipo, exportar llaves y montar cada llave como un Secret de Kubernetes en el namespace correspondiente"
+        },
+        {
+          "en": "Keep the node service account but restrict the node pools' access scopes",
+          "es": "Mantener la cuenta de servicio del nodo pero restringir los scopes de acceso de los node pools"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Workload Identity Federation for GKE maps a Kubernetes ServiceAccount to an IAM service account, so identity follows the workload rather than the machine, permissions can differ per Pod, and no credential is ever stored in the cluster. B ties identity to infrastructure: it works only if scheduling is perfectly enforced, adds cost and operational overhead, and any Pod landing on the wrong pool inherits the wrong permissions. C explicitly violates the no-keys requirement and turns every Secret into a long-lived credential to protect and rotate. D leaves all Pods sharing one identity, so per-workload least privilege is impossible, and scopes are a coarse legacy control rather than an authorization model.",
+        "es": "Workload Identity Federation para GKE asocia un ServiceAccount de Kubernetes con una cuenta de servicio de IAM, así la identidad sigue a la carga de trabajo y no a la máquina, los permisos pueden diferir por Pod y nunca se almacena una credencial en el clúster. B ata la identidad a la infraestructura: solo funciona si la programación se aplica perfectamente, agrega costo y trabajo operativo, y cualquier Pod que caiga en el pool equivocado hereda los permisos equivocados. C viola explícitamente el requisito de no usar llaves y convierte cada Secret en una credencial de larga duración que hay que proteger y rotar. D deja a todos los Pods compartiendo una identidad, con lo que el mínimo privilegio por carga es imposible, y los scopes son un control heredado y grueso, no un modelo de autorización."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/workload-identity"
     }
   ]
 }
