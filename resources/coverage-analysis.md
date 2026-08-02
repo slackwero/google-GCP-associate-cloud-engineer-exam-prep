@@ -1,69 +1,80 @@
-# Análisis de cobertura: blueprint 2026 vs path oficial
+# Coverage analysis: 2026 blueprint vs. the official learning path
 
-Fecha: 2026-08-02. Cruce entre la guía oficial vigente del examen (2026-06-30, 4 secciones) y las 17 actividades del learning path oficial (skills.google/paths/11). Este análisis origina los archivos de refuerzo del banco de preguntas.
+Date: 2026-08-02. A cross-check between the current official exam guide
+(2026-06-30, 4 sections) and the 17 activities of the official learning path
+(skills.google/paths/11). This analysis is what the reinforcement files of the
+question bank come from.
 
-## Validación de concordancia
+## Do they match?
 
-- El path oficial **ya está alineado al examen nuevo**: incluye los 3 cursos de Infraestructura de IA (GPU/TPU/tipos de implementación) que corresponden a los temas de IA agregados en la guía 2026, y fue actualizado recientemente.
-- La guía en español de 5 secciones es la versión **anterior** — solo referencia histórica.
+- The official path **is already aligned with the new exam**: it includes the
+  three AI Infrastructure courses (GPU / TPU / deployment types) matching the AI
+  topics added in the 2026 guide, and it was updated recently.
+- The 5-section Spanish guide is the **previous** version — historical reference
+  only.
 
-## Cubierto bien por el path (~70% del blueprint)
+## Well covered by the path (~70% of the blueprint)
 
-| Tema del blueprint | Actividad del path |
+| Blueprint topic | Path activity |
 |---|---|
-| IAM, proyectos, jerarquía, APIs (S1) | Infraestructura esencial: conceptos básicos |
-| Compute Engine, discos, VPC, Load Balancing (S2/S3) | Esencial: servicios principales + Elástica + badge LB |
-| MIGs, autoscaling, Spot VMs (S2) | Infraestructura elástica |
-| GKE: clústeres, kubectl, node pools, HPA/VPA (S2/S3) | Cómo comenzar a usar GKE + badge Kubernetes |
-| Cloud Run / Cloud Run functions, Eventarc, eventos (S2/S3) | 2 cursos de Cloud Run |
-| Elección de BDs: Cloud SQL, AlloyDB, Spanner, Firestore, Bigtable (S2) | Selecciona una base de datos |
-| GPUs vs TPUs, implementación de IA (S2/S3) | 3 cursos de Infraestructura de IA |
-| Monitoring, Logging, Ops Agent, Prometheus (S3.4) | Registro y supervisión |
-| Terraform, IaC (S2.4) | Intro a Terraform + badge Terraform |
+| IAM, projects, hierarchy, APIs (S1) | Essential Infrastructure: Foundation |
+| Compute Engine, disks, VPC, Load Balancing (S2/S3) | Essential: Core Services + Elastic + LB badge |
+| MIGs, autoscaling, Spot VMs (S2) | Elastic Infrastructure |
+| GKE: clusters, kubectl, node pools, HPA/VPA (S2/S3) | Getting Started with GKE + Kubernetes badge |
+| Cloud Run / Cloud Run functions, Eventarc, events (S2/S3) | The two Cloud Run courses |
+| Database choice: Cloud SQL, AlloyDB, Spanner, Firestore, Bigtable (S2) | Choose a database |
+| GPUs vs TPUs, AI deployment (S2/S3) | The three AI Infrastructure courses |
+| Monitoring, Logging, Ops Agent, Prometheus (S3.4) | Logging and Monitoring |
+| Terraform, IaC (S2.4) | Intro to Terraform + Terraform badge |
 
-## Huecos del path → archivos de refuerzo del banco
+## Gaps in the path → reinforcement files in the bank
 
-Subtópicos presentes en la guía oficial pero ausentes o superficiales en el path:
+Sub-topics present in the official guide but missing or only touched on by the
+path:
 
-### Sección 1 (~20%)
-- Facturación a fondo: presupuestos, alertas, exportaciones a BigQuery
-- Políticas de organización, organizaciones standalone
-- Cloud Identity (gestión de usuarios/grupos), cuotas y aumentos
-- **Cloud Asset Inventory + Gemini Cloud Assist para análisis de recursos**
+### Section 1 (~20%)
+- Billing in depth: budgets, alerts, BigQuery exports
+- Organization policies, standalone organizations
+- Cloud Identity (user/group management), quotas and quota increases
+- **Cloud Asset Inventory + Gemini Cloud Assist for resource analysis**
 - **Workforce Identity Federation**
 
-### Sección 2 (~30%)
-- **Hyperdisk** (vs PD zonal/regional)
-- **Agent Runtime en Gemini Enterprise Agent Platform**
+### Section 2 (~30%)
+- **Hyperdisk** (vs. zonal/regional PD)
+- **Agent Runtime on the Gemini Enterprise Agent Platform**
 - **Memorystore, Managed Service for Apache Kafka, Dataflow**
 - **Filestore, NetApp Volumes, Managed Lustre**
-- Redundancia multirregión en soluciones de datos
-- **Cloud NGFW**: políticas, secure Tags, cuentas de servicio en reglas
+- Multi-region redundancy in data solutions
+- **Cloud NGFW**: policies, secure tags, service accounts in rules
 - **Cloud Interconnect**, Network Service Tiers
 - **Fabric FAST, Config Connector, Helm**
 - **Gemini CLI, Google Antigravity, Application Design Center**
 
-### Sección 3 (~30%)
+### Section 3 (~30%)
 - **Database Center**, **CMEK**
-- Estimación de costos de almacenamiento
-- Rutas estáticas personalizadas
+- Storage cost estimation
+- Custom static routes
 - **Cloud Trace, Cloud Profiler, Query Insights, index advisor**
 - **Active Assist**, **Cloud Hub**, **Personalized Service Health**
 - **Cloud Workstations**, notebooks (Workbench / BigQuery)
 - Audit logs, VPC Flow Logs, firewall logs
 
-### Sección 4 (~20%)
-- Impersonación de cuentas de servicio y credenciales de corta duración
-- **Cuentas de servicio con apps GKE + Workload Identity Federation**
-- Herencia de políticas IAM en la jerarquía de la organización
+### Section 4 (~20%)
+- Service account impersonation and short-lived credentials
+- **Service accounts with GKE apps + Workload Identity Federation**
+- IAM policy inheritance across the organization hierarchy
 
-## Mitigación en la herramienta
+## How the tool makes up for it
 
-1. `data/blueprint.json` con los ~60 subtópicos oficiales; cada pregunta etiquetada con subtópico.
-2. **Test de cobertura**: pytest falla si algún subtópico tiene <5 preguntas → cobertura del 100% del blueprint verificada, no prometida.
-3. 250-300 preguntas de refuerzo dedicadas a los huecos listados (banco total ~1,200).
-4. Dashboard con cobertura por subtópico y doble meta (70% corte / 95% personal).
+1. `data/blueprint.json` holds the official sub-topics; every question is tagged
+   with its sub-topic.
+2. **Coverage test**: pytest fails if any sub-topic has fewer than 5 questions →
+   100% blueprint coverage is verified, not promised.
+3. Dedicated reinforcement questions for the gaps listed above.
+4. A dashboard with per-sub-topic coverage and two targets (70% pass mark / 95%
+   personal goal).
 
-## Criterio de "listo para el examen"
+## "Ready for the exam" criterion
 
-≥90% consistente en simulacros full (50 preguntas, 2 h, pesos 20/30/30/20) durante la recta final.
+A consistent ≥90% on full mock exams (50 questions, 2 h, weights 20/30/30/20)
+through the final stretch.

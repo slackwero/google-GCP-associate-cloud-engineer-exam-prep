@@ -1,40 +1,58 @@
-# Plan de estudio — Google Associate Cloud Engineer (10 semanas)
+# Study plan — Google Associate Cloud Engineer (10 weeks)
 
-Objetivo: presentar el examen en **octubre-noviembre 2026** con el blueprint vigente (guía 2026-06-30). Columna vertebral: el [learning path oficial](https://www.skills.google/paths/11) (~70 h) + la app de quizzes local (`quiz-app/`).
+Goal: sit the exam against the current blueprint (guide effective 2026-06-30).
+Backbone: the [official learning path](https://www.skills.google/paths/11) (~70 h)
+plus the local quiz app (`quiz-app/`).
 
-**Ritmo sugerido:** ~7-8 h/semana (cursos + labs + quizzes). Ajustable: lo que manda es el criterio de salida de cada semana, no el calendario.
+**Suggested pace:** ~7-8 h/week (courses + labs + quizzes). Adjustable — what
+rules is each week's exit criterion, not the calendar.
 
-## Criterio para agendar el examen
+## When to book the exam
 
-**≥90% consistente en 3 simulacros full seguidos** (50 preguntas / 2 h). Con eso, el margen sobre el corte real (~70%) absorbe los nervios del día del examen. Agenda en [certmetrics](https://cp.certmetrics.com/google/en/login) con ~2 semanas de anticipación.
+**A consistent ≥90% across 3 back-to-back full mock exams** (50 questions / 2 h).
+At that level the margin over the real cut (~70%) absorbs exam-day nerves. Book
+at [certmetrics](https://cp.certmetrics.com/google/en/login) about two weeks ahead.
 
-## Semana a semana
+## Week by week
 
-| Semana | Cursos del path (Google Skills) | Práctica en la app |
+| Week | Learning path courses (Google Skills) | Practice in the app |
 |---|---|---|
-| 1 | Lab intro (45 min) + Crea una guía de estudio con NotebookLM (1 h) + **Infraestructura esencial: conceptos básicos** (6:45) | Quiz por curso: `conceptos básicos` (3 niveles) |
-| 2 | **Infraestructura esencial: servicios principales** (8:15) | Quiz por curso + quiz por servicio: IAM, VPC, Compute Engine |
-| 3 | **Infraestructura elástica: escalamiento y automatización** (7:00) + **badge Load Balancing** (0:30) | Quiz por curso + servicios: Load Balancing, MIGs/autoscaling |
-| 4 | **Cómo comenzar a usar GKE** (5:00) + **badge Kubernetes** (1:45) | Quiz por curso GKE + **examen corto** de calibración |
-| 5 | **Cloud Run: conceptos básicos** (5:00) + **Cloud Run Functions** (7:15) | Quizzes por curso + servicios: Cloud Run, Eventarc, Pub/Sub |
-| 6 | **Selecciona una base de datos** (6:00) | Quiz por curso + servicios: Cloud SQL, Spanner, Bigtable, Firestore, AlloyDB, Memorystore |
-| 7 | **IA: GPU** (1:00) + **IA: TPU** (1:15) + **IA: implementación** (1:30) | Quizzes IA + refuerzo por servicio: Gemini Cloud Assist, Agent Runtime, GPUs/TPUs + **examen corto** |
-| 8 | **Registro y supervisión** (8:30) | Quiz por curso + servicios: Monitoring, Logging, Ops Agent + **examen medio** |
-| 9 | **Intro a Terraform** (6:30) + **badge Terraform** (1:45) | Quiz Terraform + **refuerzo de huecos**: facturación, Cloud NGFW, CMEK, Workforce/Workload Identity Federation, Database Center, Active Assist, Cloud Hub (estudiar por servicio) |
-| 10 | Repaso dirigido por el dashboard (semáforo débil primero) | **Simulacros full** día por medio + revisión de falladas; también las [preguntas de ejemplo oficiales](https://docs.google.com/forms/d/e/1FAIpQLSewdU5twM8Y9zY4Z7Syo1M7oikGuKACB_UN5XBRJDlnpAV9Bw/viewform) |
+| 1 | Labs intro (45 min) + Build a study guide with NotebookLM (1 h) + **Essential Infrastructure: Foundation** (6:45) | Quiz by course: foundation (3 levels) |
+| 2 | **Essential Infrastructure: Core Services** (8:15) | Quiz by course + quiz by service: IAM, VPC, Compute Engine |
+| 3 | **Elastic Infrastructure: Scaling and Automation** (7:00) + **Load Balancing badge** (0:30) | Quiz by course + services: Load Balancing, MIGs/autoscaling |
+| 4 | **Getting Started with GKE** (5:00) + **Kubernetes badge** (1:45) | GKE quiz by course + a calibration **short exam** |
+| 5 | **Cloud Run: fundamentals** (5:00) + **Cloud Run Functions** (7:15) | Quizzes by course + services: Cloud Run, Eventarc, Pub/Sub |
+| 6 | **Choose a database** (6:00) | Quiz by course + services: Cloud SQL, Spanner, Bigtable, Firestore, AlloyDB, Memorystore |
+| 7 | **AI: GPUs** (1:00) + **AI: TPUs** (1:15) + **AI: deployment types** (1:30) | AI quizzes + reinforcement by service: Gemini Cloud Assist, Agent Runtime, GPUs/TPUs + a **short exam** |
+| 8 | **Logging and Monitoring** (8:30) | Quiz by course + services: Monitoring, Logging, Ops Agent + a **medium exam** |
+| 9 | **Intro to Terraform** (6:30) + **Terraform badge** (1:45) | Terraform quiz + **gap reinforcement**: billing, Cloud NGFW, CMEK, Workforce/Workload Identity Federation, Database Center, Active Assist, Cloud Hub (study by service) |
+| 10 | Review driven by the dashboard (weakest topics first) | **Full mock exams** every other day plus a review of what you missed; also the [official sample questions](https://docs.google.com/forms/d/e/1FAIpQLSewdU5twM8Y9zY4Z7Syo1M7oikGuKACB_UN5XBRJDlnpAV9Bw/viewform) |
 
-Si a la semana 10 el promedio de simulacros está bajo 90%, extiende 1-2 semanas repitiendo el ciclo de la semana 10 — el dashboard te dice exactamente qué repasar (enfoque recomendado).
+If by week 10 the mock average is still under 90%, extend one or two weeks
+repeating the week-10 cycle — the dashboard tells you exactly what to review
+(recommended focus).
 
-## Reglas de práctica
+## Practice rules
 
-1. **Termina cada curso → quiz por curso el mismo día** (niveles principiante → intermedio → avanzado).
-2. **Toda pregunta fallada se relee con su explicación y el link a la doc** — la explicación de por qué las otras opciones fallan es donde más se aprende.
-3. **Los exámenes se hacen sin pausa y con temporizador** — simular condiciones reales desde la semana 4.
-4. **Revisa el dashboard cada semana**: los temas en rojo/sin practicar definen la sesión siguiente.
-5. **Hands-on real**: usa tu proyecto GCP (o el [free tier](https://console.cloud.google.com/freetrial)) para ejecutar los comandos que aparezcan en preguntas intermedias que falles — memoria muscular > memoria visual.
+1. **Finish a course → take its quiz the same day** (beginner → intermediate →
+   advanced levels).
+2. **Every missed question gets re-read with its explanation and doc link** — the
+   explanation of why the other options fail is where most of the learning is.
+3. **Exams are taken in one sitting, with the timer on** — simulate real
+   conditions from week 4 onwards.
+4. **Check the dashboard every week**: whatever is red or unpracticed defines the
+   next session.
+5. **Real hands-on**: use your own GCP project (or the
+   [free tier](https://console.cloud.google.com/freetrial)) to run the commands
+   from intermediate questions you get wrong — muscle memory beats visual memory.
 
-## El día del examen
+## On exam day
 
-- 2 h / 50-60 preguntas → ~2 min por pregunta; marca y sigue si dudas más de 3 min.
-- Lee la última frase del escenario primero: ahí suele estar la pregunta real ("¿MÁS económico?", "¿MENOS esfuerzo operativo?", "¿siguiendo las prácticas recomendadas de Google?").
-- Descarta primero las opciones absurdas (producto equivocado) — casi siempre quedan 2 plausibles y la diferencia es un requisito del escenario.
+- 2 h / 50-60 questions → ~2 min per question; flag it and move on if one takes
+  more than 3 minutes.
+- Read the last sentence of the scenario first: that is usually where the real
+  question is ("MOST cost-effective?", "LEAST operational effort?", "following
+  Google-recommended practices?").
+- Discard the absurd options first (wrong product) — you are almost always left
+  with two plausible ones, and the difference is a requirement stated in the
+  scenario.

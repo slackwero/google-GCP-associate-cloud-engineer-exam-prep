@@ -43,7 +43,7 @@ print('  refuerzo (curso null):', sum(1 for p in b.preguntas if not p.get('curso
 
 ## Archivos de refuerzo (`"curso": null`)
 
-Cubren temas de la guía oficial que el path NO cubre (ver `recursos/analisis-cobertura.md`).
+Cubren temas de la guía oficial que el path NO cubre (ver `resources/coverage-analysis.md`).
 
 | Archivo | Prefijo | Temas |
 |---|---|---|
