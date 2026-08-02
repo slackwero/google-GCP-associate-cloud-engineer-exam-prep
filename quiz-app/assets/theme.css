@@ -1,0 +1,683 @@
+/* ============================================================================
+   DIRECTION CONTRACT — Google ACE Certification Exam
+   ----------------------------------------------------------------------------
+   THESIS: A study console, not a quiz toy. It refuses the category default of
+     equal-size icon+heading+text cards on a landing page; the home screen opens
+     on your standing and the single next action, because the user came to work.
+   OWN-WORLD: Material 3 built on Google's real brand palette. Google Blue
+     (#4285F4 brand, #0B57D0 actionable) carries structure and action; green,
+     amber and red are never decoration — they mean mastered / in progress /
+     weak, everywhere, always. Roboto, self-hosted. Tonal surfaces (#F8FAFD
+     light, #131314 dark), 1px outlines, 12/16/28px corners, M3 elevation.
+   STORY: The visitor sees where they stand against the official blueprint,
+     believes the number because it traces to real sections, and starts the one
+     activity that closes the gap.
+   FIRST VIEWPORT: Standing panel (score + weakest area + primary action) above
+     the fold; practice modes as a dense action list below, never a card grid.
+   FORM: Material 3, brief-pinned by the user; no concept roll was run because a
+     brief-pinned direction beats the roll.
+   FINISH: unreviewed and undocumented is unfinished; this build ends with the
+   ============================================================================ */
+
+/* ---------------------------------------------------------------- Roboto
+   Roboto, Apache License 2.0 — see assets/fonts/README.md.
+   Self-hosted so the app works with no network (offline study is a real use). */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/roboto-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/roboto-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+    U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* ================================================================= TOKENS
+   Light. Values are Google's own product palette, not approximations. */
+:root,
+.light,
+.light-theme {
+  /* Brand + action. #4285F4 is the mark; #0B57D0 is what text and fills use,
+     because white on #4285F4 is 3.6:1 and fails WCAG AA for button text. */
+  --g-blue: #4285f4;
+  --g-primary: #0b57d0;
+  --g-on-primary: #ffffff;
+  --g-primary-container: #d3e3fd;
+  --g-on-primary-container: #041e49;
+  --g-primary-hover: #1b6ef3;
+
+  /* Semantic trio. These three NEVER decorate. */
+  --g-strong: #34a853;          /* mastered */
+  --g-strong-text: #146c2e;
+  --g-strong-container: #c4eed0;
+  --g-on-strong-container: #072711;
+
+  --g-medium: #fbbc04;          /* in progress */
+  --g-medium-text: #8f6a00;
+  --g-medium-container: #fdeec5;
+  --g-on-medium-container: #3f2e00;
+
+  --g-weak: #ea4335;            /* weak / error */
+  --g-weak-text: #b3261e;
+  --g-weak-container: #fadad7;
+  --g-on-weak-container: #410e0b;
+
+  --g-neutral-text: #5f6368;
+  --g-neutral-container: #e8eaed;
+
+  /* Tonal surfaces — the Google Cloud Console / Gmail ground. */
+  --g-background: #f8fafd;
+  --g-surface: #ffffff;
+  --g-surface-container-low: #f8fafd;
+  --g-surface-container: #f1f3f4;
+  --g-surface-container-high: #e8eaed;
+  --g-on-surface: #1f1f1f;
+  --g-on-surface-variant: #444746;
+  --g-outline: #747775;
+  --g-outline-variant: #dadce0;
+  --g-scrim: rgba(31, 31, 31, 0.32);
+
+  /* Shape */
+  --g-corner-xs: 4px;
+  --g-corner-sm: 8px;
+  --g-corner-md: 12px;
+  --g-corner-lg: 16px;
+  --g-corner-xl: 28px;
+  --g-corner-full: 999px;
+
+  /* Elevation — offset + soft blur, per M3. */
+  --g-elev-1: 0 1px 2px 0 rgba(31, 31, 31, 0.14), 0 1px 3px 1px rgba(31, 31, 31, 0.06);
+  --g-elev-2: 0 1px 2px 0 rgba(31, 31, 31, 0.16), 0 2px 6px 2px rgba(31, 31, 31, 0.08);
+  --g-elev-3: 0 4px 8px 3px rgba(31, 31, 31, 0.10), 0 1px 3px 0 rgba(31, 31, 31, 0.16);
+
+  /* Motion */
+  --g-ease-emphasized: cubic-bezier(0.2, 0, 0, 1);
+  --g-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --g-dur-short: 150ms;
+  --g-dur-medium: 300ms;
+  --g-dur-long: 450ms;
+
+  /* Layout */
+  --g-measure: 68ch;
+}
+
+.dark,
+.dark-theme {
+  --g-blue: #4285f4;
+  --g-primary: #a8c7fa;         /* M3 dark: primary lightens, text goes dark */
+  --g-on-primary: #062e6f;
+  --g-primary-container: #0842a0;
+  --g-on-primary-container: #d3e3fd;
+  --g-primary-hover: #c2d7fb;
+
+  --g-strong: #6dd58c;
+  --g-strong-text: #6dd58c;
+  --g-strong-container: #0f5223;
+  --g-on-strong-container: #c4eed0;
+
+  --g-medium: #fbbc04;
+  --g-medium-text: #f2c94c;
+  --g-medium-container: #5c4300;
+  --g-on-medium-container: #fdeec5;
+
+  --g-weak: #f2b8b5;
+  --g-weak-text: #f2b8b5;
+  --g-weak-container: #8c1d18;
+  --g-on-weak-container: #f9dedc;
+
+  --g-neutral-text: #c4c7c5;
+  --g-neutral-container: #3c4043;
+
+  --g-background: #131314;
+  --g-surface: #1e1f20;
+  --g-surface-container-low: #1b1b1b;
+  --g-surface-container: #1e1f20;
+  --g-surface-container-high: #282a2c;
+  --g-on-surface: #e3e3e3;
+  --g-on-surface-variant: #c4c7c5;
+  --g-outline: #8e918f;
+  --g-outline-variant: #444746;
+  --g-scrim: rgba(0, 0, 0, 0.5);
+
+  --g-elev-1: 0 1px 2px 0 rgba(0, 0, 0, 0.5), 0 1px 3px 1px rgba(0, 0, 0, 0.3);
+  --g-elev-2: 0 1px 2px 0 rgba(0, 0, 0, 0.5), 0 2px 6px 2px rgba(0, 0, 0, 0.34);
+  --g-elev-3: 0 4px 8px 3px rgba(0, 0, 0, 0.34), 0 1px 3px 0 rgba(0, 0, 0, 0.5);
+}
+
+/* ====================================================== RADIX REMAPPING
+   Radix Themes powers the stock components (button, card, badge, select,
+   dialog, table, progress). Remapping its scales to Google's palette makes
+   every one of them inherit this world instead of shipping Radix blue. */
+.radix-themes {
+  --default-font-family: 'Roboto', system-ui, -apple-system, sans-serif;
+  --heading-font-family: 'Roboto', system-ui, -apple-system, sans-serif;
+  --strong-font-family: 'Roboto', system-ui, -apple-system, sans-serif;
+  --em-font-family: 'Roboto', system-ui, -apple-system, sans-serif;
+  --quote-font-family: 'Roboto', system-ui, -apple-system, sans-serif;
+  --default-font-weight-medium: 500;
+
+  --color-background: var(--g-background);
+  --color-surface: var(--g-surface);
+  --color-panel-solid: var(--g-surface);
+  --color-overlay: var(--g-scrim);
+  --cursor-button: pointer;
+  --cursor-link: pointer;
+}
+
+:root:not(.dark) .radix-themes,
+.light .radix-themes,
+.light-theme {
+  --accent-1: #fafcff;
+  --accent-2: #f3f8fe;
+  --accent-3: #e8f0fe;
+  --accent-4: #d3e3fd;
+  --accent-5: #bfd9fc;
+  --accent-6: #a8c7fa;
+  --accent-7: #8ab4f8;
+  --accent-8: #669df6;
+  --accent-9: #4285f4;
+  --accent-10: #1b6ef3;
+  --accent-11: #0b57d0;
+  --accent-12: #041e49;
+  --accent-contrast: #ffffff;
+  --accent-surface: #e8f0fecc;
+  --accent-indicator: #0b57d0;
+  --accent-track: #0b57d0;
+  --accent-a3: #4285f41f;
+  --accent-a4: #4285f42e;
+  --accent-a5: #4285f43d;
+  --accent-a9: #4285f4;
+
+  --gray-1: #fcfcfc;
+  --gray-2: #f8fafd;
+  --gray-3: #f1f3f4;
+  --gray-4: #e8eaed;
+  --gray-5: #dadce0;
+  --gray-6: #d2d5d9;
+  --gray-7: #bdc1c6;
+  --gray-8: #9aa0a6;
+  --gray-9: #80868b;
+  --gray-10: #5f6368;
+  --gray-11: #444746;
+  --gray-12: #1f1f1f;
+  --gray-a3: #1f1f1f0f;
+  --gray-a4: #1f1f1f17;
+
+  --green-3: #c4eed0;
+  --green-4: #c4eed0;
+  --green-9: #34a853;
+  --green-11: #146c2e;
+  --amber-3: #fdeec5;
+  --amber-4: #fdeec5;
+  --amber-9: #fbbc04;
+  --amber-11: #8f6a00;
+  --red-3: #fadad7;
+  --red-4: #fadad7;
+  --red-9: #ea4335;
+  --red-11: #b3261e;
+}
+
+.dark .radix-themes,
+.dark-theme {
+  --accent-1: #101418;
+  --accent-2: #131a24;
+  --accent-3: #04305c;
+  --accent-4: #062e6f;
+  --accent-5: #0842a0;
+  --accent-6: #0b57d0;
+  --accent-7: #1b6ef3;
+  --accent-8: #4285f4;
+  --accent-9: #4285f4;
+  --accent-10: #669df6;
+  --accent-11: #a8c7fa;
+  --accent-12: #d3e3fd;
+  --accent-contrast: #ffffff;
+  --accent-surface: #0842a066;
+  --accent-indicator: #4285f4;
+  --accent-track: #4285f4;
+  --accent-a3: #4285f43d;
+  --accent-a4: #4285f44d;
+  --accent-a5: #4285f45c;
+  --accent-a9: #4285f4;
+
+  --gray-1: #131314;
+  --gray-2: #1b1b1b;
+  --gray-3: #1e1f20;
+  --gray-4: #282a2c;
+  --gray-5: #303134;
+  --gray-6: #3c4043;
+  --gray-7: #444746;
+  --gray-8: #5f6368;
+  --gray-9: #8e918f;
+  --gray-10: #9aa0a6;
+  --gray-11: #c4c7c5;
+  --gray-12: #e3e3e3;
+  --gray-a3: #ffffff14;
+  --gray-a4: #ffffff1f;
+
+  --green-3: #0f5223;
+  --green-4: #0f5223;
+  --green-9: #34a853;
+  --green-11: #6dd58c;
+  --amber-3: #5c4300;
+  --amber-4: #5c4300;
+  --amber-9: #fbbc04;
+  --amber-11: #f2c94c;
+  --red-3: #8c1d18;
+  --red-4: #8c1d18;
+  --red-9: #ea4335;
+  --red-11: #f2b8b5;
+}
+
+/* ==================================================================== BASE */
+html,
+body {
+  background: var(--g-background);
+  color: var(--g-on-surface);
+  font-family: 'Roboto', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* M3 type scale. Roboto's tracking is designed in, so only the display and
+   headline steps get negative tracking; body text stays at 0. */
+.g-display {
+  font-size: clamp(2rem, 1.4rem + 2.6vw, 3.25rem);
+  line-height: 1.12;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+.g-headline {
+  font-size: clamp(1.5rem, 1.25rem + 1.1vw, 2rem);
+  line-height: 1.25;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+.g-title-lg {
+  font-size: 1.375rem;
+  line-height: 1.27;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.g-title {
+  font-size: 1rem;
+  line-height: 1.5;
+  font-weight: 500;
+  letter-spacing: 0.009em;
+}
+.g-body {
+  font-size: 1rem;
+  line-height: 1.5;
+  font-weight: 400;
+  letter-spacing: 0.03125em;
+}
+.g-body-sm {
+  font-size: 0.875rem;
+  line-height: 1.43;
+  font-weight: 400;
+  letter-spacing: 0.0178em;
+}
+.g-label {
+  font-size: 0.6875rem;
+  line-height: 1.45;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+.g-numeral {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
+}
+
+/* =============================================================== APP BAR */
+.g-appbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--g-background);
+  border-bottom: 1px solid var(--g-outline-variant);
+}
+
+/* The four-dot mark: our own geometry in Google's palette. Not Google's logo. */
+.g-mark {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+  width: 20px;
+  height: 20px;
+  flex: none;
+}
+.g-mark span {
+  border-radius: 50%;
+  display: block;
+}
+.g-mark span:nth-child(1) { background: var(--g-blue); }
+.g-mark span:nth-child(2) { background: var(--g-weak); }
+.g-mark span:nth-child(3) { background: var(--g-medium); }
+.g-mark span:nth-child(4) { background: var(--g-strong); }
+
+/* ============================================================== SURFACES */
+.g-card {
+  background: var(--g-surface);
+  border: 1px solid var(--g-outline-variant);
+  border-radius: var(--g-corner-md);
+  transition: box-shadow var(--g-dur-short) var(--g-ease-standard),
+    border-color var(--g-dur-short) var(--g-ease-standard);
+}
+.g-card--flat {
+  background: var(--g-surface-container-low);
+  border-color: transparent;
+}
+.g-card--interactive:hover {
+  box-shadow: var(--g-elev-2);
+  border-color: transparent;
+}
+
+.g-panel {
+  background: var(--g-surface);
+  border: 1px solid var(--g-outline-variant);
+  border-radius: var(--g-corner-xl);
+}
+
+/* ================================================================= STATES
+   One vocabulary for mastered / in progress / weak, used by badges, bars,
+   list rows and the dashboard alike. */
+.g-state {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 10px;
+  border-radius: var(--g-corner-full);
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+.g-state::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex: none;
+  background: currentColor;
+}
+.g-state--fuerte { background: var(--g-strong-container); color: var(--g-strong-text); }
+.g-state--medio  { background: var(--g-medium-container); color: var(--g-medium-text); }
+.g-state--debil  { background: var(--g-weak-container);   color: var(--g-weak-text); }
+.g-state--none   { background: var(--g-neutral-container); color: var(--g-neutral-text); }
+.dark .g-state--fuerte { color: var(--g-on-strong-container); }
+.dark .g-state--medio  { color: var(--g-on-medium-container); }
+.dark .g-state--debil  { color: var(--g-on-weak-container); }
+
+/* Meter: the same trio as a bar. Fill is animated once, on mount. */
+.g-meter {
+  height: 6px;
+  border-radius: var(--g-corner-full);
+  background: var(--g-surface-container-high);
+  overflow: hidden;
+}
+.g-meter > i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  transform-origin: left center;
+  animation: g-fill var(--g-dur-long) var(--g-ease-emphasized) both;
+}
+.g-meter--fuerte > i { background: var(--g-strong); }
+.g-meter--medio  > i { background: var(--g-medium); }
+.g-meter--debil  > i { background: var(--g-weak); }
+.g-meter--none   > i { background: var(--g-outline); }
+.g-meter--brand  > i { background: var(--g-blue); }
+
+@keyframes g-fill {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+/* ================================================================ OPTIONS
+   The authored moment: answering. The chosen answer's verdict wipes in from
+   the left instead of simply recolouring, so the eye lands on the reveal. */
+.g-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100%;
+  text-align: left;
+  padding: 14px 16px;
+  border: 1px solid var(--g-outline-variant);
+  border-radius: var(--g-corner-md);
+  background: var(--g-surface);
+  color: var(--g-on-surface);
+  font: inherit;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: border-color var(--g-dur-short) var(--g-ease-standard),
+    background-color var(--g-dur-short) var(--g-ease-standard);
+}
+.g-option:hover:not(:disabled) { background: var(--g-surface-container); }
+.g-option:focus-visible {
+  outline: 3px solid var(--g-primary);
+  outline-offset: 2px;
+}
+.g-option[data-selected='true'] {
+  border-color: var(--g-primary);
+  background: var(--g-primary-container);
+  color: var(--g-on-primary-container);
+}
+.g-option[data-verdict] { animation: g-reveal var(--g-dur-medium) var(--g-ease-emphasized) both; }
+.g-option[data-verdict='correcta'] {
+  border-color: var(--g-strong);
+  background: var(--g-strong-container);
+  color: var(--g-on-strong-container);
+}
+.g-option[data-verdict='fallada'] {
+  border-color: var(--g-weak);
+  background: var(--g-weak-container);
+  color: var(--g-on-weak-container);
+}
+.g-option[data-verdict='descartada'] { opacity: 0.55; }
+
+@keyframes g-reveal {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .g-option[data-verdict],
+  .g-meter > i {
+    animation: none;
+  }
+}
+
+/* The letter chip inside an option. */
+.g-option-letter {
+  flex: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 0.75rem;
+  font-weight: 500;
+  background: var(--g-surface-container-high);
+  color: var(--g-on-surface-variant);
+}
+.g-option[data-selected='true'] .g-option-letter { background: var(--g-primary); color: var(--g-on-primary); }
+.g-option[data-verdict='correcta'] .g-option-letter { background: var(--g-strong); color: #ffffff; }
+.g-option[data-verdict='fallada'] .g-option-letter { background: var(--g-weak); color: #ffffff; }
+
+/* ============================================================= QUESTION NAV
+   Exam question grid: touch-sized targets that wrap instead of overflowing. */
+.g-navgrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+  gap: 6px;
+}
+.g-navdot {
+  height: 40px;
+  border-radius: var(--g-corner-sm);
+  border: 1px solid var(--g-outline-variant);
+  background: var(--g-surface);
+  color: var(--g-on-surface-variant);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color var(--g-dur-short) var(--g-ease-standard);
+}
+.g-navdot:hover { background: var(--g-surface-container); }
+.g-navdot:focus-visible { outline: 3px solid var(--g-primary); outline-offset: 2px; }
+.g-navdot[data-answered='true'] {
+  background: var(--g-primary-container);
+  color: var(--g-on-primary-container);
+  border-color: transparent;
+}
+.g-navdot[data-flagged='true'] {
+  background: var(--g-medium-container);
+  color: var(--g-on-medium-container);
+  border-color: transparent;
+}
+.g-navdot[data-current='true'] {
+  background: var(--g-primary);
+  color: var(--g-on-primary);
+  border-color: transparent;
+}
+
+/* ================================================================ BUTTONS
+   M3 buttons are pill-shaped; that silhouette is most of the recognition. */
+.g-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 24px;
+  border-radius: var(--g-corner-full);
+  border: 1px solid transparent;
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.00714em;
+  line-height: 1;
+  cursor: pointer;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: background-color var(--g-dur-short) var(--g-ease-standard),
+    box-shadow var(--g-dur-short) var(--g-ease-standard),
+    border-color var(--g-dur-short) var(--g-ease-standard);
+}
+.g-btn:focus-visible { outline: 3px solid var(--g-primary); outline-offset: 2px; }
+.g-btn:disabled { opacity: 0.38; cursor: not-allowed; }
+
+.g-btn--filled { background: var(--g-primary); color: var(--g-on-primary); }
+.g-btn--filled:hover:not(:disabled) { background: var(--g-primary-hover); box-shadow: var(--g-elev-1); }
+
+.g-btn--tonal { background: var(--g-primary-container); color: var(--g-on-primary-container); }
+.g-btn--tonal:hover:not(:disabled) { box-shadow: var(--g-elev-1); }
+
+.g-btn--outlined {
+  background: transparent;
+  color: var(--g-primary);
+  border-color: var(--g-outline);
+}
+.g-btn--outlined:hover:not(:disabled) { background: var(--g-primary-container); border-color: transparent; }
+
+.g-btn--text { background: transparent; color: var(--g-primary); padding: 0 12px; }
+.g-btn--text:hover:not(:disabled) { background: var(--g-surface-container); }
+
+.g-btn--danger { background: var(--g-weak); color: #ffffff; }
+.dark .g-btn--danger { color: var(--g-on-weak-container); }
+
+.g-btn--block { width: 100%; }
+.g-btn--sm { height: 32px; padding: 0 16px; font-size: 0.8125rem; }
+
+/* Icon-only control (theme toggle, back). */
+.g-iconbtn {
+  display: inline-grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 0;
+  background: transparent;
+  color: var(--g-on-surface-variant);
+  cursor: pointer;
+  transition: background-color var(--g-dur-short) var(--g-ease-standard);
+}
+.g-iconbtn:hover { background: var(--g-surface-container); }
+.g-iconbtn:focus-visible { outline: 3px solid var(--g-primary); outline-offset: 2px; }
+
+/* ================================================================== CHIPS
+   Filter chips: level selector, language switch. */
+.g-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 14px;
+  border-radius: var(--g-corner-sm);
+  border: 1px solid var(--g-outline);
+  background: transparent;
+  color: var(--g-on-surface-variant);
+  font-family: inherit;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color var(--g-dur-short) var(--g-ease-standard),
+    border-color var(--g-dur-short) var(--g-ease-standard);
+}
+.g-chip:hover { background: var(--g-surface-container); }
+.g-chip:focus-visible { outline: 3px solid var(--g-primary); outline-offset: 2px; }
+.g-chip[data-active='true'] {
+  background: var(--g-primary-container);
+  color: var(--g-on-primary-container);
+  border-color: transparent;
+}
+
+/* ================================================================== ROWS
+   The dense action list that replaces a grid of identical cards. */
+.g-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: var(--g-corner-md);
+  background: var(--g-surface);
+  border: 1px solid var(--g-outline-variant);
+  transition: background-color var(--g-dur-short) var(--g-ease-standard),
+    box-shadow var(--g-dur-short) var(--g-ease-standard);
+}
+.g-row:hover { box-shadow: var(--g-elev-1); }
+
+/* =================================================================== MISC */
+.g-measure { max-width: var(--g-measure); }
+
+.g-divider {
+  height: 1px;
+  background: var(--g-outline-variant);
+  border: 0;
+}
+
+/* Keyboard focus for everything Radix renders. */
+.radix-themes button:focus-visible,
+.radix-themes a:focus-visible,
+.radix-themes select:focus-visible {
+  outline: 3px solid var(--g-primary);
+  outline-offset: 2px;
+}
+
+/* Recharts inherits the type system rather than shipping its own. */
+.recharts-text { fill: var(--g-on-surface-variant); font-size: 12px; }
+.recharts-cartesian-axis-line,
+.recharts-cartesian-axis-tick-line { stroke: var(--g-outline-variant); }

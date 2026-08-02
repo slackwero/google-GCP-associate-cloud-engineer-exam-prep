@@ -2,95 +2,178 @@
 
 import reflex as rx
 
+from ..components import ui
 from ..components.pregunta import texto_bilingue
 from ..states.exam_state import ExamState
 from ..states.lang_state import LangState
 from ..templates.base_layout import base_layout
 
 
-def _hero_puntaje() -> rx.Component:
-    return rx.flex(
-        rx.heading(LangState.t["resultado"], size="6", color=rx.color("gray", 11)),
-        rx.heading(ExamState.puntaje, "%", size="9"),
-        rx.badge(
-            rx.cond(ExamState.aprobado, LangState.t["aprobado"], LangState.t["reprobado"]),
-            color_scheme=rx.cond(ExamState.aprobado, "green", "red"),
-            size="3",
+def _panel_puntaje() -> rx.Component:
+    """El puntaje contra las dos líneas que importan: el corte y tu meta."""
+    return ui.panel(
+        rx.el.div(
+            rx.el.div(
+                rx.el.span(
+                    ExamState.puntaje,
+                    "%",
+                    class_name="g-display g-numeral",
+                    color=rx.cond(ExamState.aprobado, "var(--g-strong-text)", "var(--g-weak-text)"),
+                ),
+                rx.el.p(
+                    ExamState.correctas,
+                    " / ",
+                    ExamState.total_resultado,
+                    " ",
+                    LangState.t["correctas"],
+                    class_name="g-body-sm g-numeral",
+                    color="var(--g-on-surface-variant)",
+                    margin="4px 0 0",
+                ),
+                display="flex",
+                flex_direction="column",
+            ),
+            ui.state_badge(
+                rx.cond(ExamState.aprobado, "fuerte", "debil"),
+                rx.cond(ExamState.aprobado, LangState.t["aprobado"], LangState.t["reprobado"]),
+            ),
+            display="flex",
+            align_items="center",
+            gap="20px",
+            flex_wrap="wrap",
         ),
-        rx.text(
-            ExamState.correctas, " / ", ExamState.total_resultado, " ", LangState.t["correctas"],
-            size="3",
-            color=rx.color("gray", 11),
+        rx.el.div(
+            ui.meter(
+                ExamState.puntaje,
+                estado=rx.cond(ExamState.aprobado, "fuerte", "debil"),
+            ),
+            rx.el.div(
+                rx.el.span(
+                    LangState.t["meta_aprobacion"],
+                    class_name="g-body-sm",
+                    color="var(--g-on-surface-variant)",
+                ),
+                rx.el.span(
+                    LangState.t["meta_personal"],
+                    class_name="g-body-sm",
+                    color="var(--g-on-surface-variant)",
+                ),
+                display="flex",
+                justify_content="space-between",
+                gap="12px",
+                margin_top="8px",
+                flex_wrap="wrap",
+            ),
+            margin_top="20px",
         ),
-        direction="column",
-        align="center",
-        gap="2",
     )
 
 
 def _fila_desglose(fila: rx.Var) -> rx.Component:
-    return rx.table.row(
-        rx.table.cell(texto_bilingue(fila["nombre_en"], fila["nombre_es"])),
-        rx.table.cell(fila["aciertos"], " / ", fila["total"]),
+    return rx.el.div(
+        rx.el.span(
+            texto_bilingue(fila["nombre_en"], fila["nombre_es"]),
+            class_name="g-body-sm",
+            flex="1",
+            min_width="0",
+        ),
+        rx.el.span(
+            fila["aciertos"],
+            " / ",
+            fila["total"],
+            class_name="g-body-sm g-numeral",
+            color="var(--g-on-surface-variant)",
+        ),
+        display="flex",
+        align_items="center",
+        gap="12px",
+        padding="10px 0",
+        border_bottom="1px solid var(--g-outline-variant)",
     )
 
 
 def _tabla_desglose(titulo: rx.Var, filas: rx.Var) -> rx.Component:
-    return rx.box(
-        rx.heading(titulo, size="4", margin_bottom="2"),
-        rx.table.root(rx.table.body(rx.foreach(filas, _fila_desglose)), width="100%"),
-        width="100%",
+    return ui.card(
+        rx.el.h2(
+            titulo,
+            class_name="g-title",
+            margin="0 0 4px",
+        ),
+        rx.foreach(filas, _fila_desglose),
+        plana=True,
+        flex="1",
+        min_width="260px",
     )
 
 
 def _fallada(item: rx.Var) -> rx.Component:
-    return rx.card(
-        rx.text(texto_bilingue(item["texto_en"], item["texto_es"]), weight="medium", size="3"),
-        rx.flex(
-            rx.badge(LangState.t["tu_respuesta"], ": ", item["respuesta_dada"], color_scheme="red"),
-            rx.badge(LangState.t["respuesta_correcta"], ": ", item["respuesta_correcta"], color_scheme="green"),
-            gap="3",
-            margin_y="2",
+    """Cada fallo trae su explicación: es donde de verdad se aprende."""
+    return ui.card(
+        rx.el.p(
+            texto_bilingue(item["texto_en"], item["texto_es"]),
+            class_name="g-title g-measure",
+            margin="0 0 12px",
         ),
-        rx.text(
+        ui.cluster(
+            rx.el.span(
+                LangState.t["tu_respuesta"],
+                ": ",
+                item["respuesta_dada"],
+                class_name="g-state g-state--debil",
+            ),
+            rx.el.span(
+                LangState.t["respuesta_correcta"],
+                ": ",
+                item["respuesta_correcta"],
+                class_name="g-state g-state--fuerte",
+            ),
+            gap="8px",
+        ),
+        rx.el.p(
             texto_bilingue(item["explicacion_en"], item["explicacion_es"]),
-            size="2",
-            color=rx.color("gray", 11),
+            class_name="g-body-sm g-measure",
+            color="var(--g-on-surface-variant)",
+            margin="12px 0 0",
         ),
-        rx.link(LangState.t["ver_doc"], href=item["doc"], is_external=True, size="2"),
-        width="100%",
+        rx.link(
+            LangState.t["ver_doc"],
+            rx.icon(tag="external-link", size=14),
+            href=item["doc"],
+            is_external=True,
+            class_name="g-body-sm",
+            color="var(--g-primary)",
+            display="inline-flex",
+            align_items="center",
+            gap="6px",
+            margin_top="12px",
+        ),
     )
 
 
-@rx.page(route="/resultados", title="Results · ACE Quiz")
+@rx.page(route="/resultados", title="Results · Google Cloud ACE Certification Exam")
 def resultados() -> rx.Component:
     return base_layout(
-        rx.flex(
-            _hero_puntaje(),
-            rx.grid(
+        ui.stack(
+            ui.headline(LangState.t["resultado"], margin="0"),
+            _panel_puntaje(),
+            ui.cluster(
                 _tabla_desglose(LangState.t["desglose_seccion"], ExamState.desglose_seccion),
                 _tabla_desglose(LangState.t["desglose_servicio"], ExamState.desglose_servicio),
-                columns="2",
-                gap="5",
-                width="100%",
+                align_items="flex-start",
+                gap="16px",
             ),
             rx.cond(
                 ExamState.falladas.length() > 0,
-                rx.box(
-                    rx.heading(LangState.t["revision_falladas"], size="4", margin_bottom="2"),
-                    rx.flex(rx.foreach(ExamState.falladas, _fallada), direction="column", gap="3"),
-                    width="100%",
+                ui.section(
+                    ui.title(LangState.t["revision_falladas"], nivel=2, margin="0"),
+                    ui.stack(rx.foreach(ExamState.falladas, _fallada), gap="12px"),
                 ),
                 rx.fragment(),
             ),
-            rx.flex(
-                rx.link(rx.button(LangState.t["volver_inicio"], variant="soft"), href="/"),
-                rx.link(rx.button(LangState.t["nav_dashboard"]), href="/dashboard"),
-                gap="3",
-                justify="center",
+            ui.cluster(
+                ui.link_button(LangState.t["nav_dashboard"], href="/dashboard", variante="filled"),
+                ui.link_button(LangState.t["volver_inicio"], href="/", variante="outlined"),
             ),
-            direction="column",
-            gap="6",
-            padding_y="5",
+            gap="28px",
         ),
     )

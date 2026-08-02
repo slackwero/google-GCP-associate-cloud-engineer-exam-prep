@@ -2,98 +2,100 @@
 
 import reflex as rx
 
+from ..components import ui
 from ..components.pregunta import texto_bilingue
+from ..components.tarjetas import fila_accion
 from ..states.catalog_state import CatalogState
 from ..states.lang_state import LangState
 from ..states.quiz_state import QuizState
 from ..templates.base_layout import base_layout
 
 NIVELES_OPCIONES = ["todos", "principiante", "intermedio", "avanzado"]
+ETIQUETA_NIVEL = {
+    "todos": "nivel_todos",
+    "principiante": "nivel_principiante",
+    "intermedio": "nivel_intermedio",
+    "avanzado": "nivel_avanzado",
+}
 
 
 def _selector_nivel() -> rx.Component:
-    return rx.flex(
-        rx.text(LangState.t["nivel"], size="2", weight="medium"),
-        rx.select(
-            NIVELES_OPCIONES,
-            value=QuizState.nivel_filtro,
-            on_change=QuizState.set_nivel_filtro,
-            size="2",
+    """Chips de filtro M3 en vez de un select: se ven todas las opciones."""
+    return rx.el.div(
+        rx.el.span(
+            LangState.t["nivel"],
+            class_name="g-label",
+            color="var(--g-on-surface-variant)",
+            text_transform="uppercase",
         ),
-        align="center",
-        gap="3",
+        ui.cluster(
+            *[
+                ui.chip(
+                    LangState.t[ETIQUETA_NIVEL[nivel]],
+                    activo=QuizState.nivel_filtro == nivel,
+                    on_click=QuizState.set_nivel_filtro(nivel),
+                )
+                for nivel in NIVELES_OPCIONES
+            ],
+            gap="8px",
+        ),
+        display="flex",
+        flex_direction="column",
+        gap="8px",
+        width="100%",
     )
 
 
 def _fila_curso(curso: rx.Var) -> rx.Component:
-    return rx.card(
-        rx.flex(
-            rx.box(
-                rx.text(texto_bilingue(curso["nombre_en"], curso["nombre_es"]), size="3", weight="medium"),
-                rx.text(
-                    curso["disponibles"], " ", LangState.t["preguntas_disponibles"],
-                    size="1",
-                    color=rx.color("gray", 10),
-                ),
-            ),
-            rx.spacer(),
-            rx.button(
-                LangState.t["comenzar"],
-                on_click=QuizState.iniciar_por_curso(curso["slug"]),
-                disabled=curso["disponibles"] == 0,
-            ),
-            align="center",
-            width="100%",
-            gap="3",
+    return fila_accion(
+        texto_bilingue(curso["nombre_en"], curso["nombre_es"]),
+        curso["disponibles"].to_string() + " " + LangState.t["preguntas"],
+        ui.button(
+            LangState.t["comenzar"],
+            on_click=QuizState.iniciar_por_curso(curso["slug"]),
+            disabled=curso["disponibles"] == 0,
+            variante="tonal",
         ),
-        width="100%",
     )
 
 
 def _fila_servicio(servicio: rx.Var) -> rx.Component:
-    return rx.card(
-        rx.flex(
-            rx.box(
-                rx.text(texto_bilingue(servicio["nombre_en"], servicio["nombre_es"]), size="3", weight="medium"),
-                rx.text(
-                    servicio["disponibles"], " ", LangState.t["preguntas_disponibles"],
-                    size="1",
-                    color=rx.color("gray", 10),
+    return fila_accion(
+        texto_bilingue(servicio["nombre_en"], servicio["nombre_es"]),
+        servicio["disponibles"].to_string() + " " + LangState.t["preguntas"],
+        ui.button(
+            LangState.t["comenzar"],
+            on_click=QuizState.iniciar_por_servicio(servicio["slug"]),
+            disabled=servicio["disponibles"] == 0,
+            variante="tonal",
+        ),
+    )
+
+
+def _pagina(titulo, filas, plantilla) -> rx.Component:
+    return base_layout(
+        ui.stack(
+            rx.el.div(
+                ui.headline(titulo, margin="0"),
+                rx.el.p(
+                    LangState.t["practicar_desc"],
+                    class_name="g-body-sm",
+                    color="var(--g-on-surface-variant)",
+                    margin="8px 0 0",
                 ),
             ),
-            rx.spacer(),
-            rx.button(LangState.t["comenzar"], on_click=QuizState.iniciar_por_servicio(servicio["slug"])),
-            align="center",
-            width="100%",
-            gap="3",
+            _selector_nivel(),
+            ui.stack(rx.foreach(filas, plantilla), gap="8px"),
+            gap="24px",
         ),
-        width="100%",
     )
 
 
-@rx.page(route="/estudiar/curso", title="Study by course · ACE Quiz")
+@rx.page(route="/estudiar/curso", title="Study by course · Google Cloud ACE Certification Exam")
 def estudiar_curso() -> rx.Component:
-    return base_layout(
-        rx.flex(
-            rx.heading(LangState.t["por_curso"], size="7"),
-            _selector_nivel(),
-            rx.foreach(CatalogState.cursos, _fila_curso),
-            direction="column",
-            gap="3",
-            padding_y="4",
-        ),
-    )
+    return _pagina(LangState.t["por_curso"], CatalogState.cursos, _fila_curso)
 
 
-@rx.page(route="/estudiar/servicio", title="Study by service · ACE Quiz")
+@rx.page(route="/estudiar/servicio", title="Study by service · Google Cloud ACE Certification Exam")
 def estudiar_servicio() -> rx.Component:
-    return base_layout(
-        rx.flex(
-            rx.heading(LangState.t["por_servicio"], size="7"),
-            _selector_nivel(),
-            rx.foreach(CatalogState.servicios, _fila_servicio),
-            direction="column",
-            gap="3",
-            padding_y="4",
-        ),
-    )
+    return _pagina(LangState.t["por_servicio"], CatalogState.servicios, _fila_servicio)

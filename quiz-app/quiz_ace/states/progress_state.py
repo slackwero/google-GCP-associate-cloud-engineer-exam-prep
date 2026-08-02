@@ -32,6 +32,24 @@ class ProgressState(rx.State):
     enfoque: list[dict] = []
     hay_datos: bool = False
 
+    # Indexar una lista de dicts dentro de un componente devuelve Any, así que
+    # el foco recomendado se expone como vars tipadas para la home.
+    @rx.var
+    def tiene_foco(self) -> bool:
+        return bool(self.enfoque)
+
+    @rx.var
+    def foco_nombre_en(self) -> str:
+        return self.enfoque[0]["nombre_en"] if self.enfoque else ""
+
+    @rx.var
+    def foco_nombre_es(self) -> str:
+        return self.enfoque[0]["nombre_es"] if self.enfoque else ""
+
+    @rx.var
+    def foco_estado(self) -> str:
+        return self.enfoque[0]["estado"] if self.enfoque else "sin_datos"
+
     @rx.event
     def cargar(self):
         with abrir_sesion() as session:

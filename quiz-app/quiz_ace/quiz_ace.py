@@ -7,4 +7,6 @@ from .services.db import init_db
 
 init_db()
 
-app = rx.App()
+# theme.css define los tokens Material 3 sobre la paleta de Google y remapea las
+# escalas de Radix, para que los componentes de stock hereden el mismo mundo.
+app = rx.App(stylesheets=["/theme.css"])

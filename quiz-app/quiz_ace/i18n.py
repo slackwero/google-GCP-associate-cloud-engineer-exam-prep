@@ -8,7 +8,10 @@ IDIOMA_DEFAULT = "en"
 IDIOMAS = ("en", "es")
 
 TEXTOS: dict[str, dict[str, str]] = {
-    "app_titulo": {"en": "ACE Quiz", "es": "Quiz ACE"},
+    # Forma corta para la barra. El nombre completo del producto —"Google Cloud
+    # Associate Cloud Engineer Certification Exam"— va en el título del
+    # navegador y en el encabezado de la home, donde sí cabe.
+    "app_titulo": {"en": "Associate Cloud Engineer", "es": "Associate Cloud Engineer"},
     "app_subtitulo": {
         "en": "Google Associate Cloud Engineer exam prep",
         "es": "Preparación para el examen Google Associate Cloud Engineer",
@@ -113,6 +116,39 @@ TEXTOS: dict[str, dict[str, str]] = {
     "preguntas_disponibles": {"en": "questions available", "es": "preguntas disponibles"},
     "terminar_sesion": {"en": "Finish session", "es": "Terminar sesión"},
     "sesion_completada": {"en": "Session complete", "es": "Sesión completada"},
+    # --- Rediseño Material 3 -------------------------------------------------
+    "multiple_aviso": {
+        "en": "Select all that apply",
+        "es": "Selecciona todas las que apliquen",
+    },
+    "como_vas": {"en": "Where you stand", "es": "Cómo vas"},
+    "primer_paso": {
+        "en": "Take a short exam to see where you stand against the official blueprint.",
+        "es": "Haz un examen corto para ver cómo vas frente al blueprint oficial.",
+    },
+    "punto_debil": {"en": "Weakest area", "es": "Punto más débil"},
+    "practicar": {"en": "Practice", "es": "Practicar"},
+    "practicar_desc": {
+        "en": "Answer with the explanation right after each question",
+        "es": "Responde con la explicación justo después de cada pregunta",
+    },
+    "simulacros": {"en": "Timed exams", "es": "Simulacros cronometrados"},
+    "simulacros_desc": {
+        "en": "No feedback until you submit, like the real thing",
+        "es": "Sin feedback hasta enviar, como en el examen real",
+    },
+    "ver_avances": {"en": "See progress", "es": "Ver avances"},
+    "banco_total": {"en": "questions in the bank", "es": "preguntas en el banco"},
+    "preguntas": {"en": "questions", "es": "preguntas"},
+    "sobre_el_examen": {
+        "en": "Official guide effective 2026-06-30 · 4 sections · weights 20/30/30/20",
+        "es": "Guía oficial vigente desde 2026-06-30 · 4 secciones · pesos 20/30/30/20",
+    },
+    "respondidas": {"en": "answered", "es": "respondidas"},
+    "sin_marcar": {"en": "Flag", "es": "Marcar"},
+    "navegador_preguntas": {"en": "Question navigator", "es": "Navegador de preguntas"},
+    "de_cobertura": {"en": "covered", "es": "cubierto"},
+    "aciertos": {"en": "correct", "es": "aciertos"},
 }
 
 

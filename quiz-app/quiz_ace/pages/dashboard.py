@@ -2,8 +2,9 @@
 
 import reflex as rx
 
+from ..components import ui
 from ..components.pregunta import texto_bilingue
-from ..components.tarjetas import badge_estado, stat_card
+from ..components.tarjetas import cifra, etiqueta_estado
 from ..states.lang_state import LangState
 from ..states.progress_state import ProgressState
 from ..styles import META_APROBACION, META_PERSONAL
@@ -11,24 +12,31 @@ from ..templates.base_layout import base_layout
 
 
 def _grafica_evolucion() -> rx.Component:
-    return rx.box(
-        rx.heading(LangState.t["evolucion"], size="4", margin_bottom="2"),
+    """Tus intentos contra las dos líneas de referencia: el corte y tu meta."""
+    return ui.card(
+        rx.el.h2(LangState.t["evolucion"], class_name="g-title", margin="0 0 12px"),
         rx.recharts.line_chart(
-            rx.recharts.line(data_key="puntaje", stroke=rx.color("accent", 9), stroke_width=2),
+            rx.recharts.cartesian_grid(stroke="var(--g-outline-variant)", vertical=False),
+            rx.recharts.line(
+                data_key="puntaje",
+                stroke="var(--g-blue)",
+                stroke_width=2,
+                dot={"fill": "var(--g-blue)", "r": 3},
+            ),
             rx.recharts.reference_line(
                 y=META_APROBACION,
-                stroke=rx.color("amber", 9),
+                stroke="var(--g-medium)",
                 stroke_dasharray="4 4",
                 label=LangState.t["meta_aprobacion"],
             ),
             rx.recharts.reference_line(
                 y=META_PERSONAL,
-                stroke=rx.color("green", 9),
+                stroke="var(--g-strong)",
                 stroke_dasharray="4 4",
                 label=LangState.t["meta_personal"],
             ),
-            rx.recharts.x_axis(data_key="fecha"),
-            rx.recharts.y_axis(domain=[0, 100]),
+            rx.recharts.x_axis(data_key="fecha", stroke="var(--g-on-surface-variant)"),
+            rx.recharts.y_axis(domain=[0, 100], stroke="var(--g-on-surface-variant)"),
             rx.recharts.graphing_tooltip(),
             data=ProgressState.evolucion,
             height=280,
@@ -39,118 +47,136 @@ def _grafica_evolucion() -> rx.Component:
 
 
 def _fila_dominio(fila: rx.Var) -> rx.Component:
-    return rx.flex(
-        rx.text(texto_bilingue(fila["nombre_en"], fila["nombre_es"]), size="2"),
-        rx.spacer(),
-        rx.text(fila["pct"], "%", size="2", color=rx.color("gray", 11)),
-        badge_estado(
-            fila["estado"],
-            rx.match(
-                fila["estado"],
-                ("fuerte", LangState.t["fuerte"]),
-                ("medio", LangState.t["medio"]),
-                ("debil", LangState.t["debil"]),
-                LangState.t["sin_practicar"],
+    """Nombre, barra y estado: el porcentaje se lee sin buscarlo."""
+    return rx.el.div(
+        rx.el.div(
+            rx.el.span(
+                texto_bilingue(fila["nombre_en"], fila["nombre_es"]),
+                class_name="g-body-sm",
+                flex="1",
+                min_width="0",
             ),
+            rx.el.span(
+                fila["pct"],
+                "%",
+                class_name="g-body-sm g-numeral",
+                color="var(--g-on-surface-variant)",
+            ),
+            display="flex",
+            align_items="baseline",
+            gap="12px",
+            margin_bottom="6px",
         ),
-        align="center",
-        gap="3",
-        width="100%",
+        ui.meter(fila["pct"], estado=fila["estado"]),
+        padding="10px 0",
     )
 
 
 def _lista_dominio(titulo: rx.Var, filas: rx.Var) -> rx.Component:
-    return rx.card(
-        rx.heading(titulo, size="3", margin_bottom="2"),
-        rx.flex(rx.foreach(filas, _fila_dominio), direction="column", gap="2"),
-        width="100%",
+    return ui.card(
+        rx.el.h2(titulo, class_name="g-title", margin="0 0 4px"),
+        rx.foreach(filas, _fila_dominio),
+        flex="1",
+        min_width="280px",
     )
 
 
 def _fila_cobertura(fila: rx.Var) -> rx.Component:
-    return rx.box(
-        rx.flex(
-            rx.text(texto_bilingue(fila["nombre_en"], fila["nombre_es"]), size="2"),
-            rx.spacer(),
-            rx.text(fila["vistas"], " / ", fila["total"], size="2", color=rx.color("gray", 11)),
-            width="100%",
+    return rx.el.div(
+        rx.el.div(
+            rx.el.span(
+                texto_bilingue(fila["nombre_en"], fila["nombre_es"]),
+                class_name="g-body-sm",
+                flex="1",
+                min_width="0",
+            ),
+            rx.el.span(
+                fila["vistas"],
+                " / ",
+                fila["total"],
+                class_name="g-body-sm g-numeral",
+                color="var(--g-on-surface-variant)",
+            ),
+            display="flex",
+            align_items="baseline",
+            gap="12px",
+            margin_bottom="6px",
         ),
-        rx.progress(value=fila["pct"], width="100%"),
-        width="100%",
+        ui.meter(fila["pct"], estado="brand"),
+        padding="10px 0",
     )
 
 
 def _fila_enfoque(fila: rx.Var, indice: rx.Var) -> rx.Component:
-    return rx.flex(
-        rx.badge(indice + 1, variant="solid"),
-        rx.text(texto_bilingue(fila["nombre_en"], fila["nombre_es"]), size="2"),
-        rx.spacer(),
-        badge_estado(
-            fila["estado"],
-            rx.match(
-                fila["estado"],
-                ("fuerte", LangState.t["fuerte"]),
-                ("medio", LangState.t["medio"]),
-                ("debil", LangState.t["debil"]),
-                LangState.t["sin_practicar"],
-            ),
+    """Orden de ataque: lo que más te conviene estudiar ahora, y por qué."""
+    return ui.row(
+        rx.el.span(
+            indice + 1,
+            class_name="g-option-letter g-numeral",
+            aria_hidden="true",
         ),
-        align="center",
-        gap="3",
-        width="100%",
+        rx.el.span(
+            texto_bilingue(fila["nombre_en"], fila["nombre_es"]),
+            class_name="g-body-sm",
+            flex="1",
+            min_width="0",
+        ),
+        ui.state_badge(fila["estado"], etiqueta_estado(fila["estado"])),
+        flex_wrap="wrap",
     )
 
 
-@rx.page(route="/dashboard", title="Progress · ACE Quiz", on_load=ProgressState.cargar)
+def _con_datos() -> rx.Component:
+    return ui.stack(
+        ui.panel(
+            ui.cluster(
+                cifra(ProgressState.intentos_totales, LangState.t["intentos"], tono="neutro"),
+                cifra(
+                    ProgressState.promedio_examenes.to_string() + "%",
+                    LangState.t["promedio"],
+                    tono="brand",
+                ),
+                gap="48px",
+            ),
+        ),
+        _grafica_evolucion(),
+        ui.section(
+            ui.title(LangState.t["enfoque_recomendado"], nivel=2, margin="0"),
+            ui.stack(rx.foreach(ProgressState.enfoque, _fila_enfoque), gap="8px"),
+        ),
+        # flex-start y no stretch: forzar la misma altura dejaba media columna
+        # vacía cuando una lista es mucho más larga que la otra.
+        ui.cluster(
+            _lista_dominio(LangState.t["dominio_seccion"], ProgressState.dominio_seccion),
+            _lista_dominio(LangState.t["dominio_servicio"], ProgressState.dominio_servicio),
+            align_items="flex-start",
+            gap="16px",
+        ),
+        _lista_dominio(LangState.t["dominio_curso"], ProgressState.dominio_curso),
+        ui.card(
+            rx.el.h2(LangState.t["cobertura"], class_name="g-title", margin="0 0 4px"),
+            rx.foreach(ProgressState.cobertura_curso, _fila_cobertura),
+        ),
+        gap="28px",
+    )
+
+
+def _sin_datos() -> rx.Component:
+    return ui.panel(
+        rx.el.p(LangState.t["sin_datos"], class_name="g-title g-measure", margin="0 0 16px"),
+        ui.cluster(
+            ui.link_button(LangState.t["practicar"], href="/estudiar/curso", variante="filled"),
+            ui.link_button(LangState.t["volver_inicio"], href="/", variante="outlined"),
+        ),
+    )
+
+
+@rx.page(route="/dashboard", title="Progress · Google Cloud ACE Certification Exam", on_load=ProgressState.cargar)
 def dashboard() -> rx.Component:
     return base_layout(
-        rx.flex(
-            rx.heading(LangState.t["dashboard_titulo"], size="7"),
-            rx.cond(
-                ProgressState.hay_datos,
-                rx.flex(
-                    rx.grid(
-                        stat_card(LangState.t["intentos"], ProgressState.intentos_totales),
-                        stat_card(LangState.t["promedio"], rx.text(ProgressState.promedio_examenes, "%")),
-                        columns="2",
-                        gap="4",
-                        width="100%",
-                    ),
-                    _grafica_evolucion(),
-                    rx.card(
-                        rx.heading(LangState.t["enfoque_recomendado"], size="3", margin_bottom="2"),
-                        rx.flex(
-                            rx.foreach(ProgressState.enfoque, _fila_enfoque),
-                            direction="column",
-                            gap="2",
-                        ),
-                        width="100%",
-                    ),
-                    rx.grid(
-                        _lista_dominio(LangState.t["dominio_seccion"], ProgressState.dominio_seccion),
-                        _lista_dominio(LangState.t["dominio_servicio"], ProgressState.dominio_servicio),
-                        columns="2",
-                        gap="4",
-                        width="100%",
-                    ),
-                    _lista_dominio(LangState.t["dominio_curso"], ProgressState.dominio_curso),
-                    rx.card(
-                        rx.heading(LangState.t["cobertura"], size="3", margin_bottom="2"),
-                        rx.flex(
-                            rx.foreach(ProgressState.cobertura_curso, _fila_cobertura),
-                            direction="column",
-                            gap="3",
-                        ),
-                        width="100%",
-                    ),
-                    direction="column",
-                    gap="5",
-                    width="100%",
-                ),
-                rx.center(rx.text(LangState.t["sin_datos"], color=rx.color("gray", 11)), padding_y="9"),
-            ),
-            direction="column",
-            gap="5",
-            padding_y="4",
+        ui.stack(
+            ui.headline(LangState.t["dashboard_titulo"], margin="0"),
+            rx.cond(ProgressState.hay_datos, _con_datos(), _sin_datos()),
+            gap="24px",
         ),
     )
