@@ -1749,6 +1749,447 @@
         "es": "machine-types list muestra qué familias y tamaños de máquina existen por zona, y accelerator-types list muestra qué modelos de GPU se pueden adjuntar en esa zona; juntos confirman que la implementación es viable antes de escribir automatización. La opción C solo indica que la zona existe y está activa, lo que no dice nada del hardware que se ofrece ahí. La opción D lista las APIs que se pueden habilitar en el proyecto, no la disponibilidad de hardware por región."
       },
       "doc": "https://cloud.google.com/compute/docs/gpus/gpu-regions-zones"
+    },
+    {
+      "id": "ref1-041",
+      "curso": null,
+      "servicios": [
+        "billing",
+        "bigquery"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.2-billing-exports"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Finance wants cost split by team using the BigQuery billing export. What must you do so that the export can attribute cost per team?",
+        "es": "Finanzas quiere el costo dividido por equipo usando la exportación de facturación a BigQuery. ¿Qué debes hacer para que la exportación pueda atribuir el costo por equipo?"
+      },
+      "opciones": [
+        {
+          "en": "Apply labels such as team:payments to the projects and resources; the export carries them in the labels field for grouping",
+          "es": "Aplicar etiquetas como team:payments a los proyectos y recursos; la exportación las incluye en el campo labels para agrupar"
+        },
+        {
+          "en": "Create one BigQuery dataset per team and enable a separate export into each one",
+          "es": "Crear un dataset de BigQuery por equipo y habilitar una exportación separada hacia cada uno"
+        },
+        {
+          "en": "Rename the projects using the team name as a prefix, since the export only reports project names",
+          "es": "Renombrar los proyectos usando el nombre del equipo como prefijo, ya que la exportación solo informa nombres de proyecto"
+        },
+        {
+          "en": "Grant each team the Billing Account Viewer role; the export then filters rows per viewer",
+          "es": "Otorgar a cada equipo el rol Billing Account Viewer; la exportación filtra entonces las filas por visualizador"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Labels applied to projects and resources flow into the billing export rows, so a GROUP BY on the label value gives per-team cost without changing the resource layout. Option B is not possible: a billing account exports to one destination dataset, and splitting would still not tell you which cost belongs to which team. Option C is a fragile naming convention that breaks as soon as a project serves two teams, and the export already includes labels for this. Option D confuses access control with data modeling: IAM roles never reshape exported rows.",
+        "es": "Las etiquetas aplicadas a proyectos y recursos se propagan a las filas de la exportación de facturación, así que un GROUP BY sobre el valor de la etiqueta entrega el costo por equipo sin cambiar la disposición de los recursos. La opción B no es posible: una cuenta de facturación exporta a un dataset de destino, y dividirla igual no diría qué costo pertenece a qué equipo. La opción C es una convención de nombres frágil que se rompe apenas un proyecto sirve a dos equipos, y la exportación ya incluye etiquetas para esto. La opción D confunde control de acceso con modelado de datos: los roles de IAM nunca reestructuran las filas exportadas."
+      },
+      "doc": "https://cloud.google.com/billing/docs/how-to/export-data-bigquery-tables/standard-usage"
+    },
+    {
+      "id": "ref1-042",
+      "curso": null,
+      "servicios": [
+        "asset-inventory",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-asset-inventory-gemini"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A firewall rule was changed at some point last week and nobody knows its previous configuration. Which Cloud Asset Inventory command reconstructs it?",
+        "es": "Una regla de firewall se cambió en algún momento de la semana pasada y nadie sabe cuál era su configuración anterior. ¿Qué comando de Cloud Asset Inventory la reconstruye?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud asset get-history --asset-names=... --start-time=... --content-type=resource",
+          "es": "gcloud asset get-history --asset-names=... --start-time=... --content-type=resource"
+        },
+        {
+          "en": "gcloud asset search-all-resources with a query on the current configuration",
+          "es": "gcloud asset search-all-resources con una consulta sobre la configuración actual"
+        },
+        {
+          "en": "gcloud compute firewall-rules describe RULE_NAME",
+          "es": "gcloud compute firewall-rules describe RULE_NAME"
+        },
+        {
+          "en": "gcloud asset feeds create with a start time in the past",
+          "es": "gcloud asset feeds create con una hora de inicio en el pasado"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "get-history returns the timestamped metadata snapshots that Asset Inventory keeps for an asset (35 days of history), which lets you see the configuration before and after the change. Option B and option C only return the current state, so the old configuration is already lost to them. Option D creates a feed, and feeds only notify about changes from the moment they are created onward; they cannot look backwards.",
+        "es": "get-history devuelve las instantáneas de metadatos con marca de tiempo que Asset Inventory guarda de un asset (35 días de historial), lo que permite ver la configuración antes y después del cambio. Las opciones B y C solo devuelven el estado actual, así que para ellas la configuración anterior ya se perdió. La opción D crea un feed, y los feeds solo notifican cambios desde el momento en que se crean hacia adelante; no pueden mirar hacia atrás."
+      },
+      "doc": "https://cloud.google.com/asset-inventory/docs/overview"
+    },
+    {
+      "id": "ref1-043",
+      "curso": null,
+      "servicios": [
+        "resource-manager",
+        "iam"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-resource-hierarchy",
+        "1.1-iam-project-roles"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A platform engineer must be able to create and modify organization policies, but must not be able to manage IAM for the whole organization. Which role do you grant, and where?",
+        "es": "Un ingeniero de plataforma debe poder crear y modificar políticas de la organización, pero no debe poder administrar IAM de toda la organización. ¿Qué rol otorgas y dónde?"
+      },
+      "opciones": [
+        {
+          "en": "roles/orgpolicy.policyAdmin at the organization level",
+          "es": "roles/orgpolicy.policyAdmin a nivel de organización"
+        },
+        {
+          "en": "roles/resourcemanager.organizationAdmin at the organization level",
+          "es": "roles/resourcemanager.organizationAdmin a nivel de organización"
+        },
+        {
+          "en": "roles/owner on every project of the organization",
+          "es": "roles/owner en todos los proyectos de la organización"
+        },
+        {
+          "en": "roles/orgpolicy.policyAdmin on a single project, which is enough to set policies anywhere",
+          "es": "roles/orgpolicy.policyAdmin en un solo proyecto, lo que basta para fijar políticas en cualquier lugar"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The Organization Policy Administrator role contains exactly the orgpolicy.* permissions needed to define and enforce constraints, and granting it at the organization level lets the engineer manage policies across the hierarchy without any IAM administration power. Option B is far broader: Organization Administrator can also set IAM policy for the whole organization. Option C grants excessive rights on every project and still does not include organization policy permissions. Option D is wrong because IAM permissions apply downward: a project-level grant cannot set policies on the organization or on other projects.",
+        "es": "El rol Organization Policy Administrator contiene exactamente los permisos orgpolicy.* necesarios para definir y aplicar restricciones, y otorgarlo a nivel de organización permite administrar políticas en toda la jerarquía sin ningún poder de administración de IAM. La opción B es mucho más amplia: Organization Administrator también puede fijar la política de IAM de toda la organización. La opción C otorga derechos excesivos en cada proyecto y aun así no incluye los permisos de políticas de la organización. La opción D es incorrecta porque los permisos de IAM aplican hacia abajo: una concesión a nivel de proyecto no puede fijar políticas en la organización ni en otros proyectos."
+      },
+      "doc": "https://cloud.google.com/resource-manager/docs/organization-policy/using-constraints"
+    },
+    {
+      "id": "ref1-044",
+      "curso": null,
+      "servicios": [
+        "identity-federation",
+        "iam"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-workforce-identity-federation"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You must grant roles/viewer on a project to all federated users of the workforce pool 'partners'. Which member identifier do you use in the IAM binding?",
+        "es": "Debes otorgar roles/viewer en un proyecto a todos los usuarios federados del workforce pool 'partners'. ¿Qué identificador de miembro usas en la vinculación de IAM?"
+      },
+      "opciones": [
+        {
+          "en": "principalSet://iam.googleapis.com/locations/global/workforcePools/partners/*",
+          "es": "principalSet://iam.googleapis.com/locations/global/workforcePools/partners/*"
+        },
+        {
+          "en": "group:partners@example.com",
+          "es": "group:partners@example.com"
+        },
+        {
+          "en": "serviceAccount:partners@PROJECT_ID.iam.gserviceaccount.com",
+          "es": "serviceAccount:partners@PROJECT_ID.iam.gserviceaccount.com"
+        },
+        {
+          "en": "domain:partners.example.com",
+          "es": "domain:partners.example.com"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Workforce pool identities are referenced with principal:// for a single subject and principalSet:// for a set, such as all users of the pool or all users carrying a given attribute value; that is the syntax IAM expects. Option B refers to a Cloud Identity or Workspace group, which federated users do not have. Option C impersonates a service account, a different identity type entirely. Option D targets a verified Cloud Identity domain, again requiring Google identities that federation deliberately avoids creating.",
+        "es": "Las identidades de un workforce pool se referencian con principal:// para un solo sujeto y principalSet:// para un conjunto, como todos los usuarios del pool o todos los que llevan cierto valor de atributo; esa es la sintaxis que IAM espera. La opción B se refiere a un grupo de Cloud Identity o Workspace, que los usuarios federados no tienen. La opción C suplanta una cuenta de servicio, un tipo de identidad completamente distinto. La opción D apunta a un dominio verificado de Cloud Identity, lo que otra vez exige identidades de Google que la federación evita crear a propósito."
+      },
+      "doc": "https://cloud.google.com/iam/docs/workforce-identity-federation"
+    },
+    {
+      "id": "ref1-045",
+      "curso": null,
+      "servicios": [
+        "billing",
+        "iam"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.2-billing-accounts",
+        "1.1-iam-project-roles"
+      ],
+      "nivel": "intermedio",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "A team lead must be able to link her new projects to the shared billing account, without gaining the ability to change payment settings. Which TWO grants does she need?",
+        "es": "Una líder de equipo debe poder vincular sus proyectos nuevos a la cuenta de facturación compartida, sin obtener la capacidad de cambiar la configuración de pagos. ¿Cuáles DOS concesiones necesita?"
+      },
+      "opciones": [
+        {
+          "en": "roles/billing.projectManager (Project Billing Manager) on the project or its parent folder",
+          "es": "roles/billing.projectManager (Project Billing Manager) en el proyecto o en su carpeta padre"
+        },
+        {
+          "en": "roles/billing.user (Billing Account User) on the billing account",
+          "es": "roles/billing.user (Billing Account User) en la cuenta de facturación"
+        },
+        {
+          "en": "roles/billing.admin (Billing Account Administrator) on the billing account",
+          "es": "roles/billing.admin (Billing Account Administrator) en la cuenta de facturación"
+        },
+        {
+          "en": "roles/billing.viewer (Billing Account Viewer) on the organization",
+          "es": "roles/billing.viewer (Billing Account Viewer) en la organización"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Linking a project to a billing account is a two-sided operation: Project Billing Manager authorizes the change on the project side, and Billing Account User authorizes attaching projects on the billing account side, neither of which allows editing payment settings. Option C would work but grants full control of the billing account, violating least privilege and the stated restriction. Option D only grants read access to cost data and does not permit linking at all.",
+        "es": "Vincular un proyecto a una cuenta de facturación es una operación de dos lados: Project Billing Manager autoriza el cambio del lado del proyecto y Billing Account User autoriza adjuntar proyectos del lado de la cuenta de facturación, y ninguno permite editar la configuración de pagos. La opción C funcionaría, pero otorga control total de la cuenta de facturación, violando el privilegio mínimo y la restricción indicada. La opción D solo otorga lectura de datos de costos y no permite vincular nada."
+      },
+      "doc": "https://cloud.google.com/billing/docs/how-to/billing-access"
+    },
+    {
+      "id": "ref1-046",
+      "curso": null,
+      "servicios": [
+        "asset-inventory"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-asset-inventory-gemini"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "An auditor gives you 48 hours to report every VM with an external IP address across 300 projects in the organization. You have organization-level read access. What is the BEST approach?",
+        "es": "Un auditor te da 48 horas para reportar todas las VMs con dirección IP externa en 300 proyectos de la organización. Tienes acceso de lectura a nivel de organización. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        {
+          "en": "Run a Cloud Asset Inventory search at the organization scope filtering Compute Engine instances by external IP, and export the result",
+          "es": "Ejecutar una búsqueda de Cloud Asset Inventory con alcance de organización filtrando instancias de Compute Engine por IP externa y exportar el resultado"
+        },
+        {
+          "en": "Write a script that iterates over the 300 projects calling gcloud compute instances list",
+          "es": "Escribir un script que itere sobre los 300 proyectos llamando a gcloud compute instances list"
+        },
+        {
+          "en": "Enable VPC Flow Logs in every VPC and analyze the traffic to infer which VMs are public",
+          "es": "Habilitar VPC Flow Logs en todas las VPC y analizar el tráfico para inferir qué VMs son públicas"
+        },
+        {
+          "en": "Ask each project owner to send a spreadsheet with their VMs",
+          "es": "Pedir a cada propietario de proyecto que envíe una hoja de cálculo con sus VMs"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Asset Inventory is built for exactly this: one organization-scoped query returns the current inventory across all projects in seconds, and the result can be exported to BigQuery or CSV for the auditor. Option B eventually produces the same answer but is slow, rate-limited, and breaks whenever a project is added or your access differs. Option C is indirect and unreliable: flow logs show traffic, not IP configuration, and enabling them everywhere adds cost. Option D depends on humans, cannot be verified, and will not finish in 48 hours.",
+        "es": "Asset Inventory está hecho exactamente para esto: una consulta con alcance de organización devuelve el inventario actual de todos los proyectos en segundos, y el resultado se puede exportar a BigQuery o CSV para el auditor. La opción B llega a la misma respuesta, pero es lenta, está sujeta a límites de tasa y se rompe cada vez que se agrega un proyecto o cambia tu acceso. La opción C es indirecta y poco confiable: los flow logs muestran tráfico, no la configuración de IP, y habilitarlos en todas partes agrega costo. La opción D depende de personas, no se puede verificar y no terminará en 48 horas."
+      },
+      "doc": "https://cloud.google.com/asset-inventory/docs/searching-resources"
+    },
+    {
+      "id": "ref1-047",
+      "curso": null,
+      "servicios": [
+        "billing",
+        "resource-manager"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.2-billing-accounts"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A holding company has three subsidiaries under one Google Cloud organization. Each subsidiary is a separate legal entity that must receive its own invoice, but central IT wants to keep one organization and one set of policies. What is the BEST design?",
+        "es": "Un holding tiene tres filiales bajo una sola organización de Google Cloud. Cada filial es una entidad legal distinta que debe recibir su propia factura, pero TI central quiere mantener una sola organización y un solo conjunto de políticas. ¿Cuál es el MEJOR diseño?"
+      },
+      "opciones": [
+        {
+          "en": "Create one Cloud Billing account per subsidiary in the same organization and link each subsidiary's projects to its own billing account",
+          "es": "Crear una cuenta de facturación de Cloud por filial en la misma organización y vincular los proyectos de cada filial a su propia cuenta de facturación"
+        },
+        {
+          "en": "Create three separate organizations, one per subsidiary, each with its own billing account",
+          "es": "Crear tres organizaciones separadas, una por filial, cada una con su propia cuenta de facturación"
+        },
+        {
+          "en": "Use one billing account and send each subsidiary a manual report built from the BigQuery billing export",
+          "es": "Usar una sola cuenta de facturación y enviar a cada filial un informe manual construido desde la exportación de facturación a BigQuery"
+        },
+        {
+          "en": "Create one budget per subsidiary; budgets generate separate invoices",
+          "es": "Crear un presupuesto por filial; los presupuestos generan facturas separadas"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "An organization can own many billing accounts, and the billing account is the unit that produces an invoice and holds its own payments profile, so one account per legal entity meets the invoicing requirement while folders and organization policies stay centralized. Option B fragments governance: three organizations mean duplicating hierarchy, policies, and identity administration for a purely financial requirement. Option C produces reports, not legally separate invoices. Option D is false: budgets only send alerts and never affect invoicing.",
+        "es": "Una organización puede tener muchas cuentas de facturación, y la cuenta de facturación es la unidad que produce una factura y tiene su propio perfil de pagos, así que una cuenta por entidad legal cumple el requisito de facturación mientras las carpetas y las políticas de organización siguen centralizadas. La opción B fragmenta la gobernanza: tres organizaciones implican duplicar jerarquía, políticas y administración de identidades por un requisito puramente financiero. La opción C produce informes, no facturas legalmente separadas. La opción D es falsa: los presupuestos solo envían alertas y nunca afectan la facturación."
+      },
+      "doc": "https://cloud.google.com/billing/docs/concepts"
+    },
+    {
+      "id": "ref1-048",
+      "curso": null,
+      "servicios": [
+        "resource-manager"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-resource-hierarchy"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Regulation requires that all resources of the folder 'eu-workloads' be created only in European regions, including in projects created next year. What is the BEST way to enforce it?",
+        "es": "Una regulación exige que todos los recursos de la carpeta 'eu-workloads' se creen solo en regiones europeas, incluso en proyectos creados el próximo año. ¿Cuál es la MEJOR forma de aplicarlo?"
+      },
+      "opciones": [
+        {
+          "en": "Set the gcp.resourceLocations list constraint on the folder, allowing only the in:eu-locations value group",
+          "es": "Fijar la restricción de lista gcp.resourceLocations en la carpeta, permitiendo solo el grupo de valores in:eu-locations"
+        },
+        {
+          "en": "Create a Cloud Monitoring alert that fires when a resource appears outside Europe",
+          "es": "Crear una alerta de Cloud Monitoring que se dispare cuando aparezca un recurso fuera de Europa"
+        },
+        {
+          "en": "Document the rule in the internal wiki and review it in code review",
+          "es": "Documentar la regla en la wiki interna y revisarla en la revisión de código"
+        },
+        {
+          "en": "Grant roles/compute.admin only to European teams",
+          "es": "Otorgar roles/compute.admin solo a equipos europeos"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "gcp.resourceLocations is a list constraint that rejects create requests for locations outside the allowed values, and value groups such as in:eu-locations keep the policy correct as Google adds regions; set on the folder, it is inherited by every current and future project below. Option B is detective, not preventive: the resource already exists and the violation already happened. Option C has no technical enforcement. Option D controls who can act, not where they create resources; an authorized European team can still pick a US region.",
+        "es": "gcp.resourceLocations es una restricción de lista que rechaza las solicitudes de creación en ubicaciones fuera de los valores permitidos, y los grupos de valores como in:eu-locations mantienen la política correcta a medida que Google agrega regiones; fijada en la carpeta, se hereda en todos los proyectos actuales y futuros. La opción B es detectiva, no preventiva: el recurso ya existe y la violación ya ocurrió. La opción C no tiene aplicación técnica. La opción D controla quién puede actuar, no dónde crea recursos; un equipo europeo autorizado igual puede elegir una región de EE. UU."
+      },
+      "doc": "https://cloud.google.com/resource-manager/docs/organization-policy/defining-locations"
+    },
+    {
+      "id": "ref1-049",
+      "curso": null,
+      "servicios": [
+        "identity-federation",
+        "cloud-identity"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-workforce-identity-federation"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Eighty external contractors managed in the client's Okta directory need six months of console and CLI access to your Google Cloud projects. Security forbids creating Google identities for them and forbids service account keys. What is the BEST solution?",
+        "es": "Ochenta contratistas externos administrados en el directorio Okta del cliente necesitan seis meses de acceso a la consola y la CLI de tus proyectos de Google Cloud. Seguridad prohíbe crear identidades de Google para ellos y prohíbe las claves de cuentas de servicio. ¿Cuál es la MEJOR solución?"
+      },
+      "opciones": [
+        {
+          "en": "Configure Workforce Identity Federation with a workforce pool and an Okta provider, and grant IAM roles to the pool principals",
+          "es": "Configurar Workforce Identity Federation con un workforce pool y un proveedor de Okta, y otorgar roles de IAM a los principales del pool"
+        },
+        {
+          "en": "Use Google Cloud Directory Sync to import the contractors into Cloud Identity as managed users",
+          "es": "Usar Google Cloud Directory Sync para importar a los contratistas a Cloud Identity como usuarios administrados"
+        },
+        {
+          "en": "Create one service account per contractor and distribute JSON keys",
+          "es": "Crear una cuenta de servicio por contratista y distribuir claves JSON"
+        },
+        {
+          "en": "Create a shared Google Account and give the password to the whole contractor team",
+          "es": "Crear una Cuenta de Google compartida y dar la contraseña a todo el equipo de contratistas"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Workforce Identity Federation gives human users from an external IdP short-lived credentials for the console and gcloud without provisioning Google identities, and access disappears automatically when the contractor is deactivated in Okta. Option B directly violates the no-Google-identities requirement and creates 80 accounts to deprovision later. Option C violates the no-keys requirement and misuses service accounts, which are meant for workloads, not people. Option D destroys individual accountability and is a serious security anti-pattern.",
+        "es": "Workforce Identity Federation entrega a usuarios humanos de un IdP externo credenciales de corta duración para la consola y gcloud sin aprovisionar identidades de Google, y el acceso desaparece automáticamente cuando el contratista se desactiva en Okta. La opción B viola directamente el requisito de no crear identidades de Google y genera 80 cuentas que habrá que desaprovisionar. La opción C viola el requisito de no usar claves y usa mal las cuentas de servicio, pensadas para cargas de trabajo, no para personas. La opción D destruye la trazabilidad individual y es un antipatrón de seguridad grave."
+      },
+      "doc": "https://cloud.google.com/iam/docs/workforce-identity-federation"
+    },
+    {
+      "id": "ref1-050",
+      "curso": null,
+      "servicios": [
+        "quotas-apis",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-apis-quotas"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "In three weeks a one-off batch job will need 4,000 vCPUs in europe-west4 for two days. Your current quota there is 500. What is the BEST course of action?",
+        "es": "En tres semanas, un trabajo por lotes puntual necesitará 4,000 vCPUs en europe-west4 durante dos días. Tu cuota actual ahí es de 500. ¿Cuál es la MEJOR acción?"
+      },
+      "opciones": [
+        {
+          "en": "Request a quota increase now for the specific CPU quota in europe-west4, stating the justification and the timeframe",
+          "es": "Solicitar ahora un aumento de cuota para la cuota específica de CPUs en europe-west4, indicando la justificación y el período"
+        },
+        {
+          "en": "Create eight additional projects so each one stays under the 500 vCPU quota",
+          "es": "Crear ocho proyectos adicionales para que cada uno quede debajo de la cuota de 500 vCPUs"
+        },
+        {
+          "en": "Start the job anyway and open a support case when the requests begin to fail",
+          "es": "Iniciar el trabajo igualmente y abrir un caso de soporte cuando las solicitudes empiecen a fallar"
+        },
+        {
+          "en": "Buy committed use discounts, which automatically raise quotas",
+          "es": "Comprar descuentos por uso comprometido, que aumentan las cuotas automáticamente"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Quota increases are reviewed by Google and can take time, so requesting the exact quota, region, and value in advance with a justification is the practice that guarantees capacity on the day of the run. Option B abuses the hierarchy: it multiplies operational and governance overhead, and quota is not the real constraint you should be designing around. Option C guarantees failures and wastes the batch window. Option D confuses pricing with limits: committed use discounts change what you pay, not your quota.",
+        "es": "Los aumentos de cuota los revisa Google y pueden tardar, así que solicitar con anticipación la cuota, la región y el valor exactos con una justificación es la práctica que garantiza capacidad el día de la ejecución. La opción B abusa de la jerarquía: multiplica la carga operativa y de gobernanza, y la cuota no es la restricción real que deberías estar diseñando. La opción C garantiza fallas y desperdicia la ventana del lote. La opción D confunde precios con límites: los descuentos por uso comprometido cambian lo que pagas, no tu cuota."
+      },
+      "doc": "https://cloud.google.com/docs/quotas/quota-increase"
     }
   ]
 }

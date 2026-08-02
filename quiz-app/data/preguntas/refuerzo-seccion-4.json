@@ -1686,6 +1686,276 @@
         "es": "serviceAccountUser incluye iam.serviceAccounts.actAs, el permiso que se verifica al asociar una cuenta a un recurso que estás creando; serviceAccountTokenCreator incluye getAccessToken, getOpenIdToken y signJwt/signBlob, que producen credenciales de corta duración bajo demanda. C es incorrecta porque borrar una cuenta de servicio requiere permisos de administración de roles como serviceAccountAdmin. D es incorrecta y es un mal consejo: la práctica recomendada es la contraria, otorgar estos roles sobre la cuenta de servicio individual en lugar de forma amplia."
       },
       "doc": "https://cloud.google.com/iam/docs/service-account-permissions"
+    },
+    {
+      "id": "ref4-039",
+      "curso": null,
+      "servicios": [
+        "iam",
+        "gcloud-cli",
+        "resource-manager"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.1-iam-policies"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You are scripting a bulk IAM change and want to read a project's allow policy, edit it offline, and write it back safely so a concurrent change by someone else is not silently overwritten. Which pair of commands supports that?",
+        "es": "Estás automatizando un cambio masivo de IAM y quieres leer la allow policy de un proyecto, editarla sin conexión y escribirla de vuelta de forma segura para que un cambio simultáneo de otra persona no se sobrescriba en silencio. ¿Qué par de comandos lo permite?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud projects get-iam-policy my-proj --format=json > policy.json, then gcloud projects set-iam-policy my-proj policy.json, relying on the etag field included in the file",
+          "es": "gcloud projects get-iam-policy my-proj --format=json > policy.json y luego gcloud projects set-iam-policy my-proj policy.json, apoyándose en el campo etag incluido en el archivo"
+        },
+        {
+          "en": "gcloud projects add-iam-policy-binding my-proj repeated once per binding, which locks the policy for the duration of the script",
+          "es": "gcloud projects add-iam-policy-binding my-proj repetido una vez por vinculación, lo que bloquea la política durante la ejecución del script"
+        },
+        {
+          "en": "gcloud iam roles update, which rewrites all bindings that reference the role",
+          "es": "gcloud iam roles update, que reescribe todas las vinculaciones que referencian el rol"
+        },
+        {
+          "en": "gcloud asset export followed by gcloud asset import of the modified policy",
+          "es": "gcloud asset export seguido de gcloud asset import de la política modificada"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The read-modify-write pattern is get-iam-policy, edit, set-iam-policy; the etag returned in the policy acts as an optimistic concurrency token, so if the policy changed in the meantime the write is rejected instead of clobbering it. B does not lock anything — each add-iam-policy-binding is an independent read-modify-write, and it also cannot remove bindings. C changes what a role contains, not who is bound to it. D is invalid because Cloud Asset Inventory is an export and analysis service; there is no gcloud asset import that writes policies back.",
+        "es": "El patrón leer-modificar-escribir es get-iam-policy, editar y set-iam-policy; el etag devuelto en la política funciona como token de concurrencia optimista, así que si la política cambió mientras tanto la escritura se rechaza en lugar de pisarla. B no bloquea nada: cada add-iam-policy-binding es un leer-modificar-escribir independiente, y además no puede quitar vinculaciones. C cambia el contenido de un rol, no quién está vinculado a él. D es inválida porque Cloud Asset Inventory es un servicio de exportación y análisis; no existe un gcloud asset import que reescriba políticas."
+      },
+      "doc": "https://cloud.google.com/iam/docs/policies"
+    },
+    {
+      "id": "ref4-040",
+      "curso": null,
+      "servicios": [
+        "identity-federation",
+        "gcloud-cli",
+        "service-accounts"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.2-sa-gke-workload-identity",
+        "4.2-short-lived-credentials"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "After configuring a workload identity pool and provider, what do you generate so that an application using a Google Cloud client library on an external machine can authenticate automatically?",
+        "es": "Después de configurar un workload identity pool y su proveedor, ¿qué generas para que una aplicación que usa una biblioteca cliente de Google Cloud en una máquina externa pueda autenticarse automáticamente?"
+      },
+      "opciones": [
+        {
+          "en": "A service account JSON key stored next to the application binary",
+          "es": "Una llave JSON de cuenta de servicio guardada junto al binario de la aplicación"
+        },
+        {
+          "en": "A credential configuration file created with gcloud iam workload-identity-pools create-cred-config, referenced by GOOGLE_APPLICATION_CREDENTIALS",
+          "es": "Un archivo de configuración de credenciales creado con gcloud iam workload-identity-pools create-cred-config y referenciado por GOOGLE_APPLICATION_CREDENTIALS"
+        },
+        {
+          "en": "An API key restricted to the client's IP address",
+          "es": "Una API key restringida a la dirección IP del cliente"
+        },
+        {
+          "en": "A kubeconfig entry produced by gcloud container clusters get-credentials",
+          "es": "Una entrada de kubeconfig producida por gcloud container clusters get-credentials"
+        }
+      ],
+      "respuesta": [
+        "B"
+      ],
+      "explicacion": {
+        "en": "create-cred-config writes a configuration file that tells the client library where to find the external token and which pool, provider, and optional service account to exchange it with; Application Default Credentials then handles the exchange transparently and no secret is stored. A defeats the entire purpose of federation by reintroducing a long-lived key. C is wrong because API keys identify a project for certain APIs and cannot represent a workload identity. D configures kubectl access to a GKE cluster and has nothing to do with authenticating an external workload to Google APIs.",
+        "es": "create-cred-config escribe un archivo de configuración que indica a la biblioteca cliente dónde encontrar el token externo y con qué pool, proveedor y cuenta de servicio opcional intercambiarlo; Application Default Credentials realiza el intercambio de forma transparente y no se almacena ningún secreto. A anula todo el propósito de la federación al reintroducir una llave de larga duración. C es incorrecta porque las API keys identifican un proyecto para ciertas APIs y no pueden representar la identidad de una carga de trabajo. D configura el acceso de kubectl a un clúster de GKE y no tiene relación con autenticar una carga externa ante las APIs de Google."
+      },
+      "doc": "https://cloud.google.com/iam/docs/workload-identity-federation-with-other-clouds"
+    },
+    {
+      "id": "ref4-041",
+      "curso": null,
+      "servicios": [
+        "iam",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.1-role-types"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Before writing a custom role for a project, you need the list of permissions that can actually be included in a custom role at that project. Which command gives you that list?",
+        "es": "Antes de escribir un rol personalizado para un proyecto, necesitas la lista de permisos que realmente pueden incluirse en un rol personalizado en ese proyecto. ¿Qué comando te da esa lista?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud iam list-testable-permissions //cloudresourcemanager.googleapis.com/projects/my-proj",
+          "es": "gcloud iam list-testable-permissions //cloudresourcemanager.googleapis.com/projects/my-proj"
+        },
+        {
+          "en": "gcloud projects get-iam-policy my-proj",
+          "es": "gcloud projects get-iam-policy my-proj"
+        },
+        {
+          "en": "gcloud services list --enabled --project=my-proj",
+          "es": "gcloud services list --enabled --project=my-proj"
+        },
+        {
+          "en": "gcloud iam roles list --filter=\"stage:GA\"",
+          "es": "gcloud iam roles list --filter=\"stage:GA\""
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "list-testable-permissions returns the permissions that can be tested and, filtered by custom role support, included in a custom role for the given resource, which is the check you need because some permissions are not usable in custom roles. B shows current bindings, not the catalogue of permissions. C lists enabled APIs, which is related but far coarser and does not tell you which individual permissions are supported. D lists role definitions filtered by launch stage, not permissions.",
+        "es": "list-testable-permissions devuelve los permisos que pueden probarse y, filtrando por compatibilidad con roles personalizados, incluirse en uno para el recurso indicado, que es justo la verificación necesaria porque algunos permisos no son utilizables en roles personalizados. B muestra las vinculaciones actuales, no el catálogo de permisos. C lista las APIs habilitadas, algo relacionado pero mucho más grueso, y no indica qué permisos individuales son compatibles. D lista definiciones de roles filtradas por etapa de lanzamiento, no permisos."
+      },
+      "doc": "https://cloud.google.com/iam/docs/creating-custom-roles"
+    },
+    {
+      "id": "ref4-042",
+      "curso": null,
+      "servicios": [
+        "service-accounts",
+        "resource-manager",
+        "iam"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.2-short-lived-credentials"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "By default, what is the maximum lifetime of an access token obtained by impersonating a service account, and how can it be extended?",
+        "es": "Por defecto, ¿cuál es la vida útil máxima de un access token obtenido al suplantar una cuenta de servicio, y cómo puede extenderse?"
+      },
+      "opciones": [
+        {
+          "en": "1 hour; it can be extended up to 12 hours only for service accounts allowed by the organization policy constraint constraints/iam.allowServiceAccountCredentialLifetimeExtension",
+          "es": "1 hora; puede extenderse hasta 12 horas solo para las cuentas de servicio permitidas por la restricción de política de la organización constraints/iam.allowServiceAccountCredentialLifetimeExtension"
+        },
+        {
+          "en": "24 hours; it cannot be changed",
+          "es": "24 horas; no puede cambiarse"
+        },
+        {
+          "en": "1 hour; it can be extended to any value by passing a longer --lifetime, with no additional configuration",
+          "es": "1 hora; puede extenderse a cualquier valor pasando un --lifetime mayor, sin configuración adicional"
+        },
+        {
+          "en": "10 minutes; extension requires downloading a JSON key instead",
+          "es": "10 minutes; para extenderla hay que descargar una llave JSON"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Short-lived access tokens default to a maximum of one hour, and going beyond that up to twelve hours is an explicit, audited exception controlled by an organization policy that lists the eligible service accounts. B is wrong on both the default and the immutability. C is wrong because a longer lifetime is rejected unless the account is allowed by that constraint. D invents a ten-minute limit and proposes the long-lived key anti-pattern as the workaround.",
+        "es": "Los access tokens de corta duración tienen por defecto un máximo de una hora, y superarlo hasta doce horas es una excepción explícita y auditada, controlada por una política de la organización que enumera las cuentas de servicio elegibles. B es incorrecta tanto en el valor por defecto como en la inmutabilidad. C es incorrecta porque una vigencia mayor se rechaza salvo que la cuenta esté permitida por esa restricción. D inventa un límite de diez minutos y propone como solución el antipatrón de la llave de larga duración."
+      },
+      "doc": "https://cloud.google.com/iam/docs/create-short-lived-credentials-direct"
+    },
+    {
+      "id": "ref4-043",
+      "curso": null,
+      "servicios": [
+        "resource-manager",
+        "iam",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.1-policy-inheritance"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "The platform team must be able to view every project in the folder folders/456, including projects created next year, with a single grant. Which command should you run?",
+        "es": "El equipo de plataforma debe poder ver todos los proyectos de la carpeta folders/456, incluidos los que se creen el próximo año, con un solo otorgamiento. ¿Qué comando deberías ejecutar?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud resource-manager folders add-iam-policy-binding 456 --member=\"group:platform@example.com\" --role=\"roles/viewer\"",
+          "es": "gcloud resource-manager folders add-iam-policy-binding 456 --member=\"group:platform@example.com\" --role=\"roles/viewer\""
+        },
+        {
+          "en": "A loop that runs gcloud projects add-iam-policy-binding for each project currently in the folder",
+          "es": "Un bucle que ejecute gcloud projects add-iam-policy-binding para cada proyecto que hoy está en la carpeta"
+        },
+        {
+          "en": "gcloud organizations add-iam-policy-binding ORG_ID --member=\"group:platform@example.com\" --role=\"roles/owner\"",
+          "es": "gcloud organizations add-iam-policy-binding ORG_ID --member=\"group:platform@example.com\" --role=\"roles/owner\""
+        },
+        {
+          "en": "gcloud iam service-accounts add-iam-policy-binding for the folder's default service account",
+          "es": "gcloud iam service-accounts add-iam-policy-binding sobre la cuenta de servicio predeterminada de la carpeta"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "A binding on the folder is inherited by every project beneath it, now and in the future, which satisfies both the single-grant and the future-projects requirements. B is a maintenance burden and covers only projects that exist today. C works but grossly overshoots: it grants Owner over the whole organization, far beyond view access to one folder. D is nonsense in this context — folders do not have a default service account, and the team members are users, not a service account.",
+        "es": "Una vinculación en la carpeta es heredada por cada proyecto que está debajo, ahora y en el futuro, lo que cumple tanto el requisito de un solo otorgamiento como el de los proyectos futuros. B es una carga de mantenimiento y cubre solo los proyectos que existen hoy. C funciona pero se excede enormemente: otorga Owner sobre toda la organización, mucho más que ver una carpeta. D no tiene sentido aquí: las carpetas no tienen cuenta de servicio predeterminada, y los integrantes del equipo son usuarios, no una cuenta de servicio."
+      },
+      "doc": "https://cloud.google.com/resource-manager/docs/access-control-folders"
+    },
+    {
+      "id": "ref4-044",
+      "curso": null,
+      "servicios": [
+        "cloud-storage",
+        "service-accounts",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.2-sa-least-privilege"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "An application service account must read objects from exactly one bucket, gs://reports-2026, and nothing else. Which command applies least privilege?",
+        "es": "Una cuenta de servicio de una aplicación debe leer objetos de exactamente un bucket, gs://reports-2026, y de nada más. ¿Qué comando aplica el mínimo privilegio?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud storage buckets add-iam-policy-binding gs://reports-2026 --member=\"serviceAccount:app-sa@my-proj.iam.gserviceaccount.com\" --role=\"roles/storage.objectViewer\"",
+          "es": "gcloud storage buckets add-iam-policy-binding gs://reports-2026 --member=\"serviceAccount:app-sa@my-proj.iam.gserviceaccount.com\" --role=\"roles/storage.objectViewer\""
+        },
+        {
+          "en": "gcloud projects add-iam-policy-binding my-proj --member=\"serviceAccount:app-sa@my-proj.iam.gserviceaccount.com\" --role=\"roles/storage.objectViewer\"",
+          "es": "gcloud projects add-iam-policy-binding my-proj --member=\"serviceAccount:app-sa@my-proj.iam.gserviceaccount.com\" --role=\"roles/storage.objectViewer\""
+        },
+        {
+          "en": "gcloud projects add-iam-policy-binding my-proj --member=\"serviceAccount:app-sa@my-proj.iam.gserviceaccount.com\" --role=\"roles/storage.admin\"",
+          "es": "gcloud projects add-iam-policy-binding my-proj --member=\"serviceAccount:app-sa@my-proj.iam.gserviceaccount.com\" --role=\"roles/storage.admin\""
+        },
+        {
+          "en": "gcloud storage buckets update gs://reports-2026 --predefined-default-object-acl=publicRead",
+          "es": "gcloud storage buckets update gs://reports-2026 --predefined-default-object-acl=publicRead"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Binding the narrowest role on the individual bucket limits access to that resource only, which is exactly what the requirement asks. B uses the right role but at the project level, so the account can read objects in every bucket of the project. C is worse still: storage.admin allows creating and deleting buckets and objects project-wide. D makes the data publicly readable by anyone on the internet, a serious exposure that does not even grant the service account a role.",
+        "es": "Vincular el rol más acotado sobre el bucket individual limita el acceso solo a ese recurso, que es justo lo que pide el requisito. B usa el rol correcto pero a nivel de proyecto, así que la cuenta podría leer objetos de todos los buckets del proyecto. C es aún peor: storage.admin permite crear y borrar buckets y objetos en todo el proyecto. D vuelve los datos legibles públicamente por cualquiera en internet, una exposición grave que ni siquiera otorga un rol a la cuenta de servicio."
+      },
+      "doc": "https://cloud.google.com/storage/docs/access-control/using-iam-permissions"
     }
   ]
 }

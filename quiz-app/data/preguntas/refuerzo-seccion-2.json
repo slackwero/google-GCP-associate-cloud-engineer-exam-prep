@@ -1308,6 +1308,445 @@
         "es": "Las políticas de firewall de red son contenedores de reglas que no hacen nada hasta que las asocias a una red de VPC, y la misma política global puede asociarse a varias redes, que es lo que las hace reutilizables. B es falsa: las reglas de las políticas de firewall de red y las reglas de firewall de VPC se evalúan en conjunto, en un orden definido. C es innecesaria; los cambios de firewall los aplica la capa de aplicación distribuida sin reiniciar instancias. D es falsa justamente porque hace falta el paso de asociación."
       },
       "doc": "https://cloud.google.com/firewall/docs/network-firewall-policies"
+    },
+    {
+      "id": "ref2-031",
+      "curso": null,
+      "servicios": [
+        "cloud-ngfw",
+        "resource-manager"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-ngfw-tags-sa"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You want a network firewall policy rule that applies only to VMs carrying the secure Tag env/prod. Which approach is correct?",
+        "es": "Quieres una regla de política de firewall de red que se aplique solo a las VMs que llevan el secure Tag env/prod. ¿Qué enfoque es correcto?"
+      },
+      "opciones": [
+        {
+          "en": "Create the tag key and value with gcloud resource-manager tags, bind the value to the VMs, and reference it in the rule with --target-secure-tags",
+          "es": "Crear la clave y el valor del tag con gcloud resource-manager tags, vincular el valor a las VMs y referenciarlo en la regla con --target-secure-tags"
+        },
+        {
+          "en": "Add the string env/prod to the VMs with gcloud compute instances add-tags and reference it with --target-tags",
+          "es": "Agregar la cadena env/prod a las VMs con gcloud compute instances add-tags y referenciarla con --target-tags"
+        },
+        {
+          "en": "Add a label env=prod to the VMs and reference it in the rule with --target-labels",
+          "es": "Agregar una etiqueta env=prod a las VMs y referenciarla en la regla con --target-labels"
+        },
+        {
+          "en": "Put the VMs in their own subnet and use the subnet range as the rule target",
+          "es": "Colocar las VMs en su propia subred y usar el rango de la subred como destino de la regla"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Secure Tags are Resource Manager tags (key/value) created at the organization or project level, bound to instances and referenced in firewall policy rules with --target-secure-tags; because they are IAM-governed resources, only principals with the tag user role can apply them. B describes classic network tags: they are free-form strings on the instance that any user with instance edit permission can add, and they work with VPC firewall rules, not with secure Tag targeting. C is wrong: labels are for billing and organization and are never evaluated by the firewall. D works only as a coarse approximation by IP range and breaks as soon as workloads share a subnet.",
+        "es": "Los secure Tags son tags de Resource Manager (clave/valor) creados a nivel de organización o proyecto, vinculados a instancias y referenciados en las reglas de política de firewall con --target-secure-tags; al ser recursos gobernados por IAM, solo los principales con el rol de usuario de tags pueden aplicarlos. B describe los network tags clásicos: son cadenas libres en la instancia que cualquier usuario con permiso de edición puede agregar, y funcionan con reglas de firewall de VPC, no con la segmentación por secure Tags. C es incorrecta: las etiquetas (labels) sirven para facturación y organización y nunca las evalúa el firewall. D solo funciona como aproximación gruesa por rango de IP y se rompe apenas varias cargas de trabajo comparten una subred."
+      },
+      "doc": "https://cloud.google.com/firewall/docs/tags-firewalls-overview"
+    },
+    {
+      "id": "ref2-032",
+      "curso": null,
+      "servicios": [
+        "cloud-ngfw",
+        "service-accounts"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-ngfw-tags-sa"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A VPC firewall rule must allow traffic on tcp:8080 only from VMs running as frontend-sa@project.iam.gserviceaccount.com toward VMs running as backend-sa@project.iam.gserviceaccount.com. Which configuration works?",
+        "es": "Una regla de firewall de VPC debe permitir tráfico en tcp:8080 solo desde VMs que se ejecutan como frontend-sa@project.iam.gserviceaccount.com hacia VMs que se ejecutan como backend-sa@project.iam.gserviceaccount.com. ¿Qué configuración funciona?"
+      },
+      "opciones": [
+        {
+          "en": "--direction=INGRESS --action=allow --rules=tcp:8080 --source-service-accounts=frontend-sa@... --target-service-accounts=backend-sa@...",
+          "es": "--direction=INGRESS --action=allow --rules=tcp:8080 --source-service-accounts=frontend-sa@... --target-service-accounts=backend-sa@..."
+        },
+        {
+          "en": "--direction=INGRESS --action=allow --rules=tcp:8080 --source-service-accounts=frontend-sa@... --target-tags=backend",
+          "es": "--direction=INGRESS --action=allow --rules=tcp:8080 --source-service-accounts=frontend-sa@... --target-tags=backend"
+        },
+        {
+          "en": "--direction=EGRESS --action=allow --rules=tcp:8080 --destination-service-accounts=backend-sa@...",
+          "es": "--direction=EGRESS --action=allow --rules=tcp:8080 --destination-service-accounts=backend-sa@..."
+        },
+        {
+          "en": "Grant the roles/compute.networkUser role to frontend-sa on the backend VMs; no firewall rule is needed",
+          "es": "Otorgar el rol roles/compute.networkUser a frontend-sa en las VMs de backend; no hace falta ninguna regla de firewall"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "VPC firewall rules can use service accounts on both sides: --source-service-accounts for the originating VMs and --target-service-accounts for the VMs the rule protects, which gives identity-based segmentation that survives IP changes. B is invalid because a single rule cannot mix service-account filtering with network tags; you must use one mechanism consistently. C does not exist: egress rules filter destinations by IP range, not by service account, and the destination service account is not a supported filter. D confuses IAM with network policy: IAM roles grant API permissions, they never open a data-plane port.",
+        "es": "Las reglas de firewall de VPC pueden usar cuentas de servicio en ambos lados: --source-service-accounts para las VMs que originan el tráfico y --target-service-accounts para las VMs que la regla protege, lo que da segmentación basada en identidad que sobrevive a los cambios de IP. B es inválida porque una misma regla no puede mezclar filtrado por cuentas de servicio con network tags; hay que usar un solo mecanismo de forma coherente. C no existe: las reglas de egreso filtran destinos por rango de IP, no por cuenta de servicio. D confunde IAM con la política de red: los roles de IAM otorgan permisos de API, nunca abren un puerto del plano de datos."
+      },
+      "doc": "https://cloud.google.com/firewall/docs/firewalls#serviceaccounts"
+    },
+    {
+      "id": "ref2-033",
+      "curso": null,
+      "servicios": [
+        "persistent-disk",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-storage"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A Hyperdisk Balanced volume was provisioned with 5,000 IOPS and the database now needs 15,000. What is the least disruptive way to get there?",
+        "es": "Un volumen Hyperdisk Balanced se aprovisionó con 5,000 IOPS y ahora la base de datos necesita 15,000. ¿Cuál es la forma menos disruptiva de lograrlo?"
+      },
+      "opciones": [
+        {
+          "en": "Run gcloud compute disks update DISK --provisioned-iops=15000 to raise the provisioned performance of the existing volume",
+          "es": "Ejecutar gcloud compute disks update DISCO --provisioned-iops=15000 para elevar el rendimiento aprovisionado del volumen existente"
+        },
+        {
+          "en": "Grow the disk with gcloud compute disks resize until the size delivers the required IOPS",
+          "es": "Aumentar el disco con gcloud compute disks resize hasta que el tamaño entregue las IOPS requeridas"
+        },
+        {
+          "en": "Snapshot the disk, create a new one from the snapshot with more IOPS and swap it into the VM",
+          "es": "Tomar una instantánea del disco, crear uno nuevo a partir de ella con más IOPS e intercambiarlo en la VM"
+        },
+        {
+          "en": "Change the VM machine type to a larger one, since IOPS scale with vCPU count on Hyperdisk",
+          "es": "Cambiar el tipo de máquina de la VM a uno más grande, ya que en Hyperdisk las IOPS escalan con la cantidad de vCPUs"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Hyperdisk performance is a mutable attribute of the volume: you update provisioned IOPS or throughput in place, without detaching the disk or migrating data. B is the Persistent Disk mental model, where performance follows capacity; on Hyperdisk you would pay for unused space and still not control IOPS directly. C works but is far more disruptive: it requires downtime, a copy and a swap for something that is a single update call. D is only partially related: the machine type imposes a ceiling on the performance a VM can consume, but it is not how you raise the disk's provisioned IOPS.",
+        "es": "El rendimiento de Hyperdisk es un atributo mutable del volumen: actualizas las IOPS o el throughput aprovisionados en caliente, sin desconectar el disco ni migrar datos. B es el modelo mental de Persistent Disk, donde el rendimiento sigue a la capacidad; en Hyperdisk pagarías espacio sin usar y aun así no controlarías las IOPS directamente. C funciona pero es mucho más disruptiva: exige tiempo fuera de servicio, una copia y un intercambio para algo que es una sola llamada de actualización. D solo está parcialmente relacionada: el tipo de máquina impone un techo al rendimiento que la VM puede consumir, pero no es la forma de subir las IOPS aprovisionadas del disco."
+      },
+      "doc": "https://cloud.google.com/compute/docs/disks/modify-hyperdisk"
+    },
+    {
+      "id": "ref2-034",
+      "curso": null,
+      "servicios": [
+        "hybrid-connectivity",
+        "vpc"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-connectivity"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You are setting up Partner Interconnect. After creating the VLAN attachment in Google Cloud, what do you do with the pairing key it returns?",
+        "es": "Estás configurando Partner Interconnect. Después de crear el VLAN attachment en Google Cloud, ¿qué haces con la pairing key que devuelve?"
+      },
+      "opciones": [
+        {
+          "en": "Give it to the service provider so they can provision the circuit, and then activate the attachment once it is provisioned",
+          "es": "Entregarla al proveedor de servicios para que aprovisione el circuito y luego activar el attachment una vez aprovisionado"
+        },
+        {
+          "en": "Store it as an SSH key on the Cloud Router so BGP sessions can authenticate",
+          "es": "Guardarla como clave SSH en el Cloud Router para que las sesiones BGP puedan autenticarse"
+        },
+        {
+          "en": "Use it as the pre-shared key of an HA VPN tunnel to the partner",
+          "es": "Usarla como clave precompartida de un túnel de HA VPN hacia el partner"
+        },
+        {
+          "en": "Nothing: the pairing key is informational and the attachment activates by itself",
+          "es": "Nada: la pairing key es informativa y el attachment se activa solo"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "In Partner Interconnect you create the VLAN attachment first, receive a pairing key, and hand it to your service provider so they can bind their circuit to your attachment; depending on the configuration you then activate the attachment. B is wrong: BGP sessions on Cloud Router do not use SSH keys, and the pairing key is not a credential for the router. C is wrong: the pairing key belongs to Interconnect, not to the IKE configuration of a VPN tunnel. D is wrong because without giving the key to the partner the circuit is never provisioned.",
+        "es": "En Partner Interconnect creas primero el VLAN attachment, recibes una pairing key y se la entregas al proveedor de servicios para que asocie su circuito a tu attachment; según la configuración, luego activas el attachment. B es incorrecta: las sesiones BGP del Cloud Router no usan claves SSH y la pairing key no es una credencial del router. C es incorrecta: la pairing key pertenece a Interconnect, no a la configuración IKE de un túnel de VPN. D es incorrecta porque, sin entregar la clave al partner, el circuito nunca se aprovisiona."
+      },
+      "doc": "https://cloud.google.com/network-connectivity/docs/interconnect/concepts/partner-overview"
+    },
+    {
+      "id": "ref2-035",
+      "curso": null,
+      "servicios": [
+        "file-storage"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-storage-products"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A team migrating a Windows and Linux application needs shared volumes reachable over both SMB and NFS, with ONTAP-style snapshots. Which managed service do you deploy?",
+        "es": "Un equipo que migra una aplicación de Windows y Linux necesita volúmenes compartidos accesibles por SMB y NFS, con instantáneas al estilo ONTAP. ¿Qué servicio administrado implementas?"
+      },
+      "opciones": [
+        {
+          "en": "Google Cloud NetApp Volumes, creating a storage pool and then the volumes with the required protocol",
+          "es": "Google Cloud NetApp Volumes, creando un storage pool y luego los volúmenes con el protocolo requerido"
+        },
+        {
+          "en": "Filestore Basic HDD, which exposes SMB shares when the instance is created in a Windows subnet",
+          "es": "Filestore Basic HDD, que expone recursos compartidos SMB cuando la instancia se crea en una subred de Windows"
+        },
+        {
+          "en": "Cloud Storage buckets mounted with Cloud Storage FUSE on every client",
+          "es": "Buckets de Cloud Storage montados con Cloud Storage FUSE en cada cliente"
+        },
+        {
+          "en": "Managed Lustre, because it is the only service that supports multiple protocols",
+          "es": "Managed Lustre, porque es el único servicio que admite múltiples protocolos"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Google Cloud NetApp Volumes is the managed ONTAP-based file service: you create a storage pool and carve volumes from it, and it supports NFS and SMB (including dual-protocol) plus NetApp features such as snapshots and replication. B is wrong: Filestore serves NFS only. C is wrong because Cloud Storage FUSE is neither SMB nor NFS and does not provide POSIX file-locking semantics that the migrated application expects. D is wrong: Managed Lustre is a parallel POSIX file system for HPC and AI throughput, not an SMB server.",
+        "es": "Google Cloud NetApp Volumes es el servicio administrado de archivos basado en ONTAP: creas un storage pool y desde ahí generas los volúmenes, y admite NFS y SMB (incluido el modo dual) además de funciones NetApp como snapshots y replicación. B es incorrecta: Filestore solo sirve NFS. C es incorrecta porque Cloud Storage FUSE no es SMB ni NFS y no ofrece la semántica POSIX de bloqueo de archivos que espera la aplicación migrada. D es incorrecta: Managed Lustre es un sistema de archivos paralelo POSIX para throughput de HPC e IA, no un servidor SMB."
+      },
+      "doc": "https://cloud.google.com/netapp/volumes/docs/discover/overview"
+    },
+    {
+      "id": "ref2-036",
+      "curso": null,
+      "servicios": [
+        "cloud-sql"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-multiregion-redundancy"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your Cloud SQL for PostgreSQL primary runs in us-central1 and you need a copy in europe-west1 that can be promoted if the region is lost. What do you create?",
+        "es": "Tu instancia principal de Cloud SQL para PostgreSQL está en us-central1 y necesitas una copia en europe-west1 que se pueda promover si se pierde la región. ¿Qué creas?"
+      },
+      "opciones": [
+        {
+          "en": "A cross-region read replica: gcloud sql instances create replica-eu --master-instance-name=primary --region=europe-west1",
+          "es": "Una réplica de lectura entre regiones: gcloud sql instances create replica-eu --master-instance-name=primary --region=europe-west1"
+        },
+        {
+          "en": "High availability on the primary instance with --availability-type=REGIONAL",
+          "es": "Alta disponibilidad en la instancia principal con --availability-type=REGIONAL"
+        },
+        {
+          "en": "An automated backup schedule with the backup location set to europe-west1",
+          "es": "Un calendario de copias de seguridad automáticas con la ubicación de respaldo en europe-west1"
+        },
+        {
+          "en": "A second independent instance in europe-west1 with the same flags, synchronized by the application",
+          "es": "Una segunda instancia independiente en europe-west1 con las mismas marcas, sincronizada por la aplicación"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "A cross-region read replica continuously replicates from the primary into another region, can serve read traffic and can be promoted to a standalone primary for regional disaster recovery. B only protects against zonal failure: the REGIONAL availability type keeps a standby in another zone of the same region. C stores backups elsewhere but restoring is slow and the RPO equals the backup interval, so it is disaster recovery, not a promotable copy. D pushes replication into the application, which is error-prone and unsupported for consistency.",
+        "es": "Una réplica de lectura entre regiones replica de forma continua desde la instancia principal hacia otra región, puede atender tráfico de lectura y se puede promover a instancia principal independiente para recuperación ante desastres regionales. B solo protege ante fallas zonales: el tipo de disponibilidad REGIONAL mantiene un standby en otra zona de la misma región. C guarda respaldos en otro lugar, pero restaurar es lento y el RPO equivale al intervalo de respaldo, así que es recuperación ante desastres, no una copia promovible. D traslada la replicación a la aplicación, lo que es propenso a errores y no está soportado en términos de consistencia."
+      },
+      "doc": "https://cloud.google.com/sql/docs/postgres/replication/cross-region-replicas"
+    },
+    {
+      "id": "ref2-037",
+      "curso": null,
+      "servicios": [
+        "gpus-tpus",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-gpus-tpus-choice"
+      ],
+      "nivel": "intermedio",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO things must you take care of when you create a Compute Engine VM with an attached GPU?",
+        "es": "¿Cuáles DOS aspectos debes atender al crear una VM de Compute Engine con una GPU adjunta?"
+      },
+      "opciones": [
+        {
+          "en": "Set the host maintenance policy to TERMINATE, because GPU VMs cannot live migrate",
+          "es": "Configurar la política de mantenimiento del host en TERMINATE, porque las VMs con GPU no admiten migración en vivo"
+        },
+        {
+          "en": "Install the NVIDIA driver, or use an image that already includes it",
+          "es": "Instalar el controlador de NVIDIA o usar una imagen que ya lo incluya"
+        },
+        {
+          "en": "Enable Confidential Computing, which is required for any accelerator",
+          "es": "Habilitar Confidential Computing, requisito para cualquier acelerador"
+        },
+        {
+          "en": "Attach a Hyperdisk Extreme boot disk, which is mandatory on GPU machine types",
+          "es": "Adjuntar un disco de arranque Hyperdisk Extreme, obligatorio en los tipos de máquina con GPU"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "GPU-attached VMs do not support live migration, so the on-host maintenance policy must be TERMINATE (with automatic restart if you want them to come back), and the guest needs the NVIDIA driver, either installed by you or bundled in a Deep Learning VM image. C is wrong: Confidential Computing is an independent, optional feature with its own machine-type requirements. D is wrong: the boot disk type is a free choice and Hyperdisk Extreme is not mandatory for accelerators.",
+        "es": "Las VMs con GPU no admiten migración en vivo, así que la política de mantenimiento del host debe ser TERMINATE (con reinicio automático si quieres que vuelvan), y el sistema invitado necesita el controlador de NVIDIA, instalado por ti o incluido en una imagen de Deep Learning VM. C es incorrecta: Confidential Computing es una función independiente y opcional, con sus propios requisitos de tipo de máquina. D es incorrecta: el tipo de disco de arranque es una elección libre y Hyperdisk Extreme no es obligatorio para los aceleradores."
+      },
+      "doc": "https://cloud.google.com/compute/docs/gpus/create-vm-with-gpus"
+    },
+    {
+      "id": "ref2-038",
+      "curso": null,
+      "servicios": [
+        "agent-runtime"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You built an AI agent with an agent framework and want it hosted on Agent Runtime in the Gemini Enterprise Agent Platform. What do you deploy?",
+        "es": "Creaste un agente de IA con un framework de agentes y quieres alojarlo en Agent Runtime de Gemini Enterprise Agent Platform. ¿Qué implementas?"
+      },
+      "opciones": [
+        {
+          "en": "The agent itself, packaged with its dependencies, so the managed runtime handles sessions, scaling and identity",
+          "es": "El agente mismo, empaquetado con sus dependencias, para que el runtime administrado se encargue de sesiones, escalado e identidad"
+        },
+        {
+          "en": "A GKE Deployment manifest that Agent Runtime applies to a cluster you own",
+          "es": "Un manifiesto de Deployment de GKE que Agent Runtime aplica a un clúster tuyo"
+        },
+        {
+          "en": "A Compute Engine instance template, since Agent Runtime is a managed instance group for agents",
+          "es": "Una plantilla de instancia de Compute Engine, ya que Agent Runtime es un grupo de instancias administrado para agentes"
+        },
+        {
+          "en": "A Dataflow template, because agent invocations are processed as a streaming pipeline",
+          "es": "Una plantilla de Dataflow, porque las invocaciones del agente se procesan como un pipeline de streaming"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Agent Runtime is a managed runtime for agents: you deploy the agent code and its dependencies, and the platform provides the serving endpoint, session and state management, scaling and identity, with no cluster or VM to size. B is wrong because you do not bring a GKE cluster; that is what the managed runtime removes. C is wrong: there are no instance templates or managed instance groups involved. D confuses an agent serving runtime with a data processing service.",
+        "es": "Agent Runtime es un runtime administrado para agentes: implementas el código del agente y sus dependencias, y la plataforma aporta el endpoint de servicio, la administración de sesiones y estado, el escalado y la identidad, sin clúster ni VM que dimensionar. B es incorrecta porque no aportas un clúster de GKE; eso es justamente lo que elimina el runtime administrado. C es incorrecta: no intervienen plantillas de instancia ni grupos de instancias administrados. D confunde un runtime de servicio de agentes con un servicio de procesamiento de datos."
+      },
+      "doc": "https://cloud.google.com/vertex-ai/generative-ai/docs/agent-engine/overview"
+    },
+    {
+      "id": "ref2-039",
+      "curso": null,
+      "servicios": [
+        "cloud-storage",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-data-loading"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A build server must upload a local directory to a bucket every hour, sending only the files that changed and deleting from the bucket what was deleted locally. Which command fits best?",
+        "es": "Un servidor de compilación debe subir un directorio local a un bucket cada hora, enviando solo los archivos que cambiaron y borrando del bucket lo que se eliminó localmente. ¿Qué comando encaja mejor?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud storage rsync ./artifacts gs://my-bucket/artifacts --recursive --delete-unmatched-destination-objects",
+          "es": "gcloud storage rsync ./artifacts gs://my-bucket/artifacts --recursive --delete-unmatched-destination-objects"
+        },
+        {
+          "en": "gcloud storage cp --recursive ./artifacts gs://my-bucket/artifacts on every run",
+          "es": "gcloud storage cp --recursive ./artifacts gs://my-bucket/artifacts en cada ejecución"
+        },
+        {
+          "en": "A Storage Transfer Service job with the local directory as the source and no agents installed",
+          "es": "Un trabajo de Storage Transfer Service con el directorio local como origen y sin agentes instalados"
+        },
+        {
+          "en": "gcloud storage buckets update gs://my-bucket --sync-from=./artifacts",
+          "es": "gcloud storage buckets update gs://my-bucket --sync-from=./artifacts"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "gcloud storage rsync compares source and destination and transfers only differences, and the delete flag mirrors local deletions into the bucket, which is exactly the requested behavior. B re-uploads everything each hour, wasting bandwidth and time, and never deletes stale objects. C is wrong as written: transfers from a file system require installed transfer agents and an agent pool, so 'no agents' cannot work. D is not a real command or flag.",
+        "es": "gcloud storage rsync compara origen y destino y transfiere solo las diferencias, y la marca de borrado refleja en el bucket las eliminaciones locales, que es exactamente el comportamiento pedido. B vuelve a subir todo cada hora, desperdiciando ancho de banda y tiempo, y nunca borra objetos obsoletos. C es incorrecta tal como está escrita: las transferencias desde un sistema de archivos requieren agentes de transferencia instalados y un agent pool, así que 'sin agentes' no puede funcionar. D no es un comando ni una marca real."
+      },
+      "doc": "https://cloud.google.com/sdk/gcloud/reference/storage/rsync"
+    },
+    {
+      "id": "ref2-040",
+      "curso": null,
+      "servicios": [
+        "cloud-ngfw",
+        "vpc"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-firewall-ngfw"
+      ],
+      "nivel": "intermedio",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO attributes can be used to define the targets of a VPC firewall rule, so it applies to a subset of the instances in the network?",
+        "es": "¿Cuáles DOS atributos pueden definir los destinos (targets) de una regla de firewall de VPC, para que se aplique a un subconjunto de las instancias de la red?"
+      },
+      "opciones": [
+        {
+          "en": "Network tags on the instances",
+          "es": "Network tags en las instancias"
+        },
+        {
+          "en": "The service account attached to the instances",
+          "es": "La cuenta de servicio asociada a las instancias"
+        },
+        {
+          "en": "The instance labels",
+          "es": "Las etiquetas (labels) de las instancias"
+        },
+        {
+          "en": "The machine type of the instances",
+          "es": "El tipo de máquina de las instancias"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "A VPC firewall rule applies either to all instances in the network, to instances carrying specific network tags, or to instances running as specific service accounts; those are the supported target selectors (a single rule uses one of them, not both at once). C is wrong: labels are metadata for organization and billing and are never evaluated by the firewall. D is wrong: the machine type has no bearing on firewall evaluation.",
+        "es": "Una regla de firewall de VPC se aplica a todas las instancias de la red, a las instancias que llevan determinados network tags o a las instancias que se ejecutan con determinadas cuentas de servicio; esos son los selectores de destino admitidos (una misma regla usa uno de ellos, no ambos a la vez). C es incorrecta: las etiquetas son metadatos de organización y facturación y el firewall nunca las evalúa. D es incorrecta: el tipo de máquina no influye en la evaluación del firewall."
+      },
+      "doc": "https://cloud.google.com/firewall/docs/firewalls"
     }
   ]
 }

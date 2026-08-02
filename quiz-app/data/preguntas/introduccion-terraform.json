@@ -949,6 +949,356 @@
         "es": "state rm hace que Terraform olvide el recurso sin tocar la infraestructura real; quitar el bloque después mantiene la configuración y el estado consistentes. B borra el recurso real, lo que el escenario prohíbe. C hace lo contrario, al poner un recurso no administrado bajo Terraform. D es una trampa: si se quita el bloque mientras el recurso sigue en el estado, el siguiente apply planifica destruirlo."
       },
       "doc": "https://cloud.google.com/docs/terraform/resource-management/import"
+    },
+    {
+      "id": "tf-039",
+      "curso": "introduccion-terraform",
+      "servicios": ["terraform-iac", "vpc"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-iac-tooling"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A subnet resource references google_compute_network.main.id in its network argument. What does Terraform do with that reference?",
+        "es": "Un recurso de subred referencia google_compute_network.main.id en su argumento network. ¿Qué hace Terraform con esa referencia?"
+      },
+      "opciones": [
+        { "en": "It infers an implicit dependency and creates the network before the subnet", "es": "Infiere una dependencia implícita y crea la red antes que la subred" },
+        { "en": "It creates both resources in parallel because HCL has no ordering", "es": "Crea ambos recursos en paralelo porque HCL no tiene orden" },
+        { "en": "It fails unless you also add an explicit depends_on argument", "es": "Falla a menos que también agregues un argumento depends_on explícito" },
+        { "en": "It creates the subnet first and then attaches the network during a second apply", "es": "Crea primero la subred y luego adjunta la red en un segundo apply" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Terraform builds a dependency graph from references between resources, so a value that comes from another resource forces the correct creation order automatically. B is wrong: Terraform does parallelize independent resources, but referenced ones are ordered. C is wrong because depends_on is only needed for hidden dependencies that are not expressed through a reference. D is invented; a single apply handles ordering, no second run is required.",
+        "es": "Terraform construye un grafo de dependencias a partir de las referencias entre recursos, así que un valor que proviene de otro recurso fuerza el orden de creación correcto de forma automática. B es incorrecta: Terraform sí paraleliza recursos independientes, pero los referenciados se ordenan. C es incorrecta porque depends_on solo se necesita para dependencias ocultas que no se expresan mediante una referencia. D es inventada; un solo apply resuelve el orden, no hace falta una segunda ejecución."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/best-practices/general-style-structure"
+    },
+    {
+      "id": "tf-040",
+      "curso": "introduccion-terraform",
+      "servicios": ["terraform-iac", "cloud-storage"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-iac-tooling"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You must create one bucket per entry in a list of team names, and teams are added and removed over time. Which approach is most appropriate?",
+        "es": "Debes crear un bucket por cada entrada de una lista de nombres de equipos, y los equipos se agregan y se quitan con el tiempo. ¿Qué enfoque es el más adecuado?"
+      },
+      "opciones": [
+        { "en": "Use for_each over the set of names so each bucket is tracked by a stable key", "es": "Usar for_each sobre el conjunto de nombres para que cada bucket se rastree con una clave estable" },
+        { "en": "Use count with the list length so each bucket is tracked by its numeric index", "es": "Usar count con la longitud de la lista para que cada bucket se rastree por su índice numérico" },
+        { "en": "Copy and paste one resource block per team and edit the names manually", "es": "Copiar y pegar un bloque resource por equipo y editar los nombres manualmente" },
+        { "en": "Create the buckets with gcloud storage buckets create and import them later", "es": "Crear los buckets con gcloud storage buckets create e importarlos después" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "for_each keys each instance by name, so removing a team in the middle of the list only destroys that bucket. B is the classic pitfall: with count, deleting an element shifts every later index and Terraform plans to destroy and recreate unrelated buckets. C does not scale and invites copy-paste errors. D abandons IaC for the initial creation and adds needless import work.",
+        "es": "for_each identifica cada instancia por nombre, así que quitar un equipo en medio de la lista solo destruye ese bucket. B es la trampa clásica: con count, borrar un elemento desplaza todos los índices posteriores y Terraform planifica destruir y recrear buckets no relacionados. C no escala e invita a errores de copiar y pegar. D abandona la IaC para la creación inicial y agrega trabajo de importación innecesario."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/best-practices/general-style-structure"
+    },
+    {
+      "id": "tf-041",
+      "curso": "introduccion-terraform",
+      "servicios": ["terraform-iac"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-iac-tooling"],
+      "nivel": "intermedio",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO entries should a Terraform repository include in its .gitignore file?",
+        "es": "¿Cuáles DOS entradas debería incluir un repositorio de Terraform en su archivo .gitignore?"
+      },
+      "opciones": [
+        { "en": "*.tfstate and *.tfstate.backup", "es": "*.tfstate y *.tfstate.backup" },
+        { "en": "The .terraform/ directory with downloaded providers and modules", "es": "El directorio .terraform/ con los providers y módulos descargados" },
+        { "en": "The main.tf file that declares the resources", "es": "El archivo main.tf que declara los recursos" },
+        { "en": "The .terraform.lock.hcl provider dependency lock file", "es": "El archivo de bloqueo de dependencias .terraform.lock.hcl" }
+      ],
+      "respuesta": ["A", "B"],
+      "explicacion": {
+        "en": "State files may contain secrets and must not be versioned, and the .terraform directory holds large regenerable plugin downloads. C is wrong: your configuration is the whole point of the repository and must be committed. D is a common mistake, because the lock file should be committed so every engineer and CI job resolves identical provider versions.",
+        "es": "Los archivos de estado pueden contener secretos y no se deben versionar, y el directorio .terraform guarda descargas de complementos grandes y regenerables. C es incorrecta: tu configuración es la razón de ser del repositorio y debe estar versionada. D es un error frecuente, porque el archivo de bloqueo sí debe versionarse para que cada ingeniero y cada job de CI resuelvan versiones idénticas de los providers."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/best-practices/general-style-structure"
+    },
+    {
+      "id": "tf-042",
+      "curso": "introduccion-terraform",
+      "servicios": ["terraform-iac", "resource-manager"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-iac-tooling"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is Fabric FAST in the Google Cloud ecosystem?",
+        "es": "¿Qué es Fabric FAST en el ecosistema de Google Cloud?"
+      },
+      "opciones": [
+        { "en": "An opinionated Terraform framework of blueprints for building an organization-wide foundation, covering the resource hierarchy, IAM, networking, and security", "es": "Un framework de Terraform con opiniones definidas y planos para construir una base a nivel de organización, que cubre la jerarquía de recursos, IAM, redes y seguridad" },
+        { "en": "A network acceleration feature that increases throughput between VPCs", "es": "Una función de aceleración de red que aumenta el rendimiento entre VPCs" },
+        { "en": "A managed CI/CD product that replaces Cloud Build for Terraform pipelines", "es": "Un producto de CI/CD administrado que reemplaza a Cloud Build en pipelines de Terraform" },
+        { "en": "A migration tool that converts CloudFormation templates into HCL", "es": "Una herramienta de migración que convierte plantillas de CloudFormation en HCL" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Fabric FAST provides ready-made, staged Terraform blueprints so an organization can bootstrap folders, projects, IAM, networking, and guardrails consistently instead of designing a foundation from zero. B is unrelated to IaC and mixes up the word 'fast' with network performance. C is wrong: FAST is configuration, and it is typically executed by a CI system such as Cloud Build. D is invented, there is no such conversion product here.",
+        "es": "Fabric FAST ofrece planos de Terraform listos y por etapas para que una organización inicialice carpetas, proyectos, IAM, redes y controles de forma consistente en vez de diseñar una base desde cero. B no tiene relación con IaC y confunde la palabra 'fast' con el rendimiento de red. C es incorrecta: FAST es configuración y normalmente lo ejecuta un sistema de CI como Cloud Build. D es inventada, no existe tal producto de conversión aquí."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/blueprints/terraform-blueprints"
+    },
+    {
+      "id": "tf-043",
+      "curso": "introduccion-terraform",
+      "servicios": ["terraform-iac"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-iac-tooling"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What does terraform validate check, and what does it NOT check?",
+        "es": "¿Qué verifica terraform validate y qué NO verifica?"
+      },
+      "opciones": [
+        { "en": "It checks that the configuration is syntactically valid and internally consistent, but it does not contact Google Cloud APIs to verify the resources can be created", "es": "Verifica que la configuración sea sintácticamente válida y coherente internamente, pero no contacta las APIs de Google Cloud para verificar que los recursos se puedan crear" },
+        { "en": "It checks that every declared resource already exists in the project", "es": "Verifica que cada recurso declarado ya exista en el proyecto" },
+        { "en": "It checks IAM permissions of the caller before any apply", "es": "Verifica los permisos de IAM de quien invoca antes de cualquier apply" },
+        { "en": "It checks the cost of the resources against the billing budget", "es": "Verifica el costo de los recursos contra el presupuesto de facturación" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "validate is an offline check of syntax, argument names, and type consistency, which makes it fast and safe to run in CI before any credentials exist. B is wrong, that comparison is what plan does against state and the real API. C is wrong: permission problems only surface when the provider actually calls the API during plan or apply. D is wrong, cost analysis requires separate tooling such as the pricing calculator or billing budgets.",
+        "es": "validate es una verificación offline de sintaxis, nombres de argumentos y coherencia de tipos, lo que la hace rápida y segura de ejecutar en CI antes de que existan credenciales. B es incorrecta, esa comparación la hace plan contra el estado y la API real. C es incorrecta: los problemas de permisos solo aparecen cuando el provider realmente llama a la API durante plan o apply. D es incorrecta, el análisis de costos requiere herramientas aparte como la calculadora de precios o los presupuestos de facturación."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/basic-commands"
+    },
+    {
+      "id": "tf-044",
+      "curso": "introduccion-terraform",
+      "servicios": ["gemini-cloud-assist", "terraform-iac"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-ai-assisted-tooling"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You use Gemini CLI in your terminal to draft a Terraform module for a new VPC. What should you do before applying the generated configuration?",
+        "es": "Usas Gemini CLI en tu terminal para redactar un módulo de Terraform para una VPC nueva. ¿Qué deberías hacer antes de aplicar la configuración generada?"
+      },
+      "opciones": [
+        { "en": "Review the generated HCL, run terraform validate and terraform plan, and confirm the proposed changes match your intent", "es": "Revisar el HCL generado, ejecutar terraform validate y terraform plan, y confirmar que los cambios propuestos coincidan con tu intención" },
+        { "en": "Apply it directly with -auto-approve, since AI-generated configuration is validated by Google before delivery", "es": "Aplicarla directamente con -auto-approve, ya que Google valida la configuración generada por IA antes de entregarla" },
+        { "en": "Commit the generated state file so the team shares the same starting point", "es": "Versionar el archivo de estado generado para que el equipo comparta el mismo punto de partida" },
+        { "en": "Grant the Owner role to your service account so the apply cannot fail on permissions", "es": "Otorgar el rol Owner a tu cuenta de servicio para que el apply no pueda fallar por permisos" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "AI-assisted tools accelerate authoring but the human stays accountable, so the normal review, validate, and plan gates still apply. B is false: generated code is a suggestion, not a certified artifact, and -auto-approve removes the one checkpoint that catches destructive diffs. C is wrong on two counts, since state should not be committed and a module does not ship state. D violates least privilege and hides the real permission requirements instead of scoping them.",
+        "es": "Las herramientas asistidas por IA aceleran la escritura, pero la persona sigue siendo responsable, así que se mantienen los controles normales de revisión, validate y plan. B es falsa: el código generado es una sugerencia, no un artefacto certificado, y -auto-approve elimina el único punto de control que detecta diffs destructivos. C es incorrecta por dos motivos, ya que el estado no debe versionarse y un módulo no entrega estado. D viola el mínimo privilegio y oculta los requisitos reales de permisos en lugar de acotarlos."
+      },
+      "doc": "https://cloud.google.com/gemini/docs/codeassist/gemini-cli"
+    },
+    {
+      "id": "tf-045",
+      "curso": "introduccion-terraform",
+      "servicios": ["terraform-iac", "cloud-storage"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-iac-tooling"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Five engineers share a Terraform repository and each keeps state on their own laptop. Applies have started overwriting each other's changes. What is the BEST option?",
+        "es": "Cinco ingenieros comparten un repositorio de Terraform y cada uno guarda el estado en su propia laptop. Los applies comenzaron a sobrescribir los cambios de los demás. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        { "en": "Configure a backend \"gcs\" block so all runs share one remote state with automatic locking", "es": "Configurar un bloque backend \"gcs\" para que todas las ejecuciones compartan un único estado remoto con bloqueo automático" },
+        { "en": "Commit terraform.tfstate to the Git repository and require a pull request for every change", "es": "Versionar terraform.tfstate en el repositorio de Git y exigir un pull request para cada cambio" },
+        { "en": "Agree on a rotation in which only one engineer runs Terraform each day", "es": "Acordar una rotación en la que solo un ingeniero ejecute Terraform cada día" },
+        { "en": "Have each engineer work in a separate Google Cloud project so states never overlap", "es": "Hacer que cada ingeniero trabaje en un proyecto de Google Cloud separado para que los estados nunca se superpongan" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "A Cloud Storage backend gives one authoritative state plus locking, so concurrent applies serialize instead of clobbering each other, and IAM controls who can touch it. B leaks any secrets in state, still has no locking during an apply, and produces constant merge conflicts on a machine-generated file. C is a manual convention with no technical enforcement, so a single mistake reintroduces the problem. D changes the environment topology instead of fixing state sharing, and the team still cannot manage one shared environment.",
+        "es": "Un backend de Cloud Storage entrega un único estado autoritativo más bloqueo, así los applies concurrentes se serializan en lugar de pisarse, e IAM controla quién puede tocarlo. B filtra cualquier secreto del estado, sigue sin bloqueo durante un apply y genera conflictos de merge constantes sobre un archivo generado por máquina. C es una convención manual sin ninguna imposición técnica, así que un solo error reintroduce el problema. D cambia la topología del entorno en lugar de resolver el uso compartido del estado, y el equipo sigue sin poder administrar un entorno común."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/resource-management/store-state"
+    },
+    {
+      "id": "tf-046",
+      "curso": "introduccion-terraform",
+      "servicios": ["terraform-iac", "compute-engine"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-iac-tooling"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A production environment was built manually over two years. Leadership wants it managed as code with no downtime and no resource recreation. What is the BEST approach?",
+        "es": "Un entorno de producción se construyó manualmente durante dos años. La dirección quiere administrarlo como código sin tiempo de inactividad y sin volver a crear recursos. ¿Cuál es el MEJOR enfoque?"
+      },
+      "opciones": [
+        { "en": "Write configuration that matches the existing resources, import them into state incrementally, and verify with terraform plan that no changes are proposed", "es": "Escribir configuración que coincida con los recursos existentes, importarlos al estado de forma incremental y verificar con terraform plan que no se propongan cambios" },
+        { "en": "Write the configuration and run terraform apply, letting Terraform rebuild the environment from scratch during a maintenance window", "es": "Escribir la configuración y ejecutar terraform apply, dejando que Terraform reconstruya el entorno desde cero durante una ventana de mantenimiento" },
+        { "en": "Keep the environment manual and use Terraform only for new projects", "es": "Mantener el entorno manual y usar Terraform solo para proyectos nuevos" },
+        { "en": "Export the resources with gcloud and commit the exported JSON as the source of truth", "es": "Exportar los recursos con gcloud y versionar el JSON exportado como la fuente de verdad" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Import binds live resources to configuration without recreating them, and a clean plan is the proof that your HCL faithfully describes reality; doing it incrementally limits blast radius. B violates the explicit no-downtime and no-recreation constraints and risks data loss. C abandons the stated goal and leaves production drifting. D produces an inventory snapshot, not an executable configuration, so nothing can be planned or applied from it.",
+        "es": "Import vincula los recursos en vivo con la configuración sin volver a crearlos, y un plan limpio es la prueba de que tu HCL describe fielmente la realidad; hacerlo de forma incremental limita el radio de impacto. B viola las restricciones explícitas de no tener tiempo de inactividad ni recreación, y arriesga pérdida de datos. C abandona el objetivo declarado y deja producción a la deriva. D produce una instantánea de inventario, no una configuración ejecutable, así que no se puede planificar ni aplicar nada a partir de ella."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/resource-management/import"
+    },
+    {
+      "id": "tf-047",
+      "curso": "introduccion-terraform",
+      "servicios": ["service-accounts", "iam"],
+      "seccion_blueprint": 4,
+      "subtopicos": ["4.2-sa-impersonation"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A security audit found a service account JSON key committed in the Terraform repository. The team still needs to run Terraform locally. What is the BEST remediation?",
+        "es": "Una auditoría de seguridad encontró una clave JSON de cuenta de servicio versionada en el repositorio de Terraform. El equipo aún necesita ejecutar Terraform localmente. ¿Cuál es la MEJOR solución?"
+      },
+      "opciones": [
+        { "en": "Delete and rotate the exposed key, then have engineers authenticate with ADC and impersonate the Terraform service account", "es": "Borrar y rotar la clave expuesta y luego hacer que los ingenieros se autentiquen con ADC y suplanten la cuenta de servicio de Terraform" },
+        { "en": "Move the key file out of the repository into a shared team drive and reference it with the credentials argument", "es": "Mover el archivo de clave fuera del repositorio a una unidad compartida del equipo y referenciarlo con el argumento credentials" },
+        { "en": "Add the key file to .gitignore so it stops being committed in the future", "es": "Agregar el archivo de clave a .gitignore para que deje de versionarse en el futuro" },
+        { "en": "Encrypt the key file with a passphrase and keep it in the repository", "es": "Encriptar el archivo de clave con una frase de contraseña y mantenerlo en el repositorio" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "The exposed key must be rotated because it is already compromised in history, and impersonation removes the need for any key at all by issuing short-lived tokens to authenticated humans. B keeps a long-lived credential in circulation and merely changes where it is stored. C does not revoke the already-leaked key, which remains valid in the Git history forever. D still ships credential material in the repository and only adds a passphrase that must itself be shared.",
+        "es": "La clave expuesta debe rotarse porque ya está comprometida en el historial, y la suplantación elimina la necesidad de cualquier clave al emitir tokens de corta duración a personas autenticadas. B mantiene una credencial de larga duración en circulación y solo cambia dónde se guarda. C no revoca la clave ya filtrada, que sigue siendo válida en el historial de Git para siempre. D sigue distribuyendo material de credenciales en el repositorio y solo agrega una frase de contraseña que también hay que compartir."
+      },
+      "doc": "https://cloud.google.com/docs/authentication/use-service-account-impersonation"
+    },
+    {
+      "id": "tf-048",
+      "curso": "introduccion-terraform",
+      "servicios": ["terraform-iac", "cloud-sql"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-iac-tooling"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A routine terraform plan for a small tag change unexpectedly shows that the production Cloud SQL instance will be destroyed and recreated. What is the BEST next action?",
+        "es": "Un terraform plan rutinario por un pequeño cambio de etiqueta muestra inesperadamente que la instancia de Cloud SQL de producción se destruirá y volverá a crear. ¿Cuál es la MEJOR acción siguiente?"
+      },
+      "opciones": [
+        { "en": "Do not apply; investigate which argument forces replacement and adjust the configuration or import path so the change is in-place", "es": "No aplicar; investigar qué argumento fuerza el reemplazo y ajustar la configuración o la ruta de importación para que el cambio sea en el lugar" },
+        { "en": "Apply during off-hours so the recreation affects fewer users", "es": "Aplicar fuera del horario laboral para que la recreación afecte a menos usuarios" },
+        { "en": "Run terraform apply -auto-approve because plan output is only an estimate", "es": "Ejecutar terraform apply -auto-approve porque la salida de plan es solo una estimación" },
+        { "en": "Run terraform state rm on the Cloud SQL instance and then apply", "es": "Ejecutar terraform state rm sobre la instancia de Cloud SQL y luego aplicar" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "The plan is a warning that the intended change does not match the actual diff, and reviewing it before applying is exactly the safeguard that exists; the fix is to find the force-new argument and correct it. B accepts destroying a production database and its data, which no maintenance window justifies. C is false and reckless: plan output is authoritative, and -auto-approve removes the last checkpoint. D makes Terraform forget the real instance, so the apply creates a duplicate and leaves an unmanaged orphan behind.",
+        "es": "El plan es una advertencia de que el cambio pretendido no coincide con el diff real, y revisarlo antes de aplicar es justamente la salvaguarda que existe; la solución es encontrar el argumento que fuerza el reemplazo y corregirlo. B acepta destruir una base de datos de producción y sus datos, lo que ninguna ventana de mantenimiento justifica. C es falsa e imprudente: la salida de plan es autoritativa y -auto-approve elimina el último punto de control. D hace que Terraform olvide la instancia real, así que el apply crea un duplicado y deja un recurso huérfano sin administrar."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/basic-commands"
+    },
+    {
+      "id": "tf-049",
+      "curso": "introduccion-terraform",
+      "servicios": ["terraform-iac"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-iac-tooling"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You need dev, staging, and production environments that are structurally identical but sized differently, and an error in dev must never affect production. What is the BEST design?",
+        "es": "Necesitas entornos de dev, staging y producción estructuralmente idénticos pero con distinto tamaño, y un error en dev nunca debe afectar a producción. ¿Cuál es el MEJOR diseño?"
+      },
+      "opciones": [
+        { "en": "Factor the infrastructure into shared modules and give each environment its own tfvars file and its own state backend", "es": "Factorizar la infraestructura en módulos compartidos y dar a cada entorno su propio archivo tfvars y su propio backend de estado" },
+        { "en": "Keep one configuration and one state file, using count expressions to enable or disable production resources", "es": "Mantener una sola configuración y un solo archivo de estado, usando expresiones count para habilitar o deshabilitar los recursos de producción" },
+        { "en": "Maintain three completely separate copies of the code, edited independently by each environment owner", "es": "Mantener tres copias completamente separadas del código, editadas de forma independiente por el dueño de cada entorno" },
+        { "en": "Use a single state file but restrict production changes through code review only", "es": "Usar un solo archivo de estado pero restringir los cambios en producción solo mediante revisión de código" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Shared modules keep the environments structurally identical while per-environment variables handle sizing, and separate state files mean a bad apply in dev cannot reach production resources. B puts every environment in one blast radius, so a single mistaken apply can destroy production. C guarantees the environments drift apart, which defeats the goal of parity and makes promotion unreliable. D leaves the shared blast radius intact, since review is a process control and does not stop a destructive apply once it runs.",
+        "es": "Los módulos compartidos mantienen los entornos estructuralmente idénticos mientras las variables por entorno resuelven el dimensionamiento, y los estados separados hacen que un mal apply en dev no pueda alcanzar los recursos de producción. B pone todos los entornos en un mismo radio de impacto, así que un solo apply equivocado puede destruir producción. C garantiza que los entornos se desvíen entre sí, lo que anula el objetivo de paridad y vuelve poco confiable la promoción. D deja intacto el radio de impacto compartido, ya que la revisión es un control de proceso y no detiene un apply destructivo una vez que se ejecuta."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/best-practices/general-style-structure"
+    },
+    {
+      "id": "tf-050",
+      "curso": "introduccion-terraform",
+      "servicios": ["gke", "kubectl"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-iac-tooling"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "An application team already deploys everything to GKE with GitOps and kubectl. They now need their app to own a Pub/Sub topic and a Cloud Storage bucket, managed with the same workflow and continuously reconciled. What is the BEST option?",
+        "es": "Un equipo de aplicaciones ya implementa todo en GKE con GitOps y kubectl. Ahora necesitan que su app sea dueña de un tema de Pub/Sub y un bucket de Cloud Storage, administrados con el mismo flujo y reconciliados continuamente. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        { "en": "Install Config Connector in the cluster and declare the Pub/Sub topic and bucket as Kubernetes custom resources", "es": "Instalar Config Connector en el clúster y declarar el tema de Pub/Sub y el bucket como recursos personalizados de Kubernetes" },
+        { "en": "Have the platform team create the resources with Terraform on request through a ticket", "es": "Que el equipo de plataforma cree los recursos con Terraform bajo pedido mediante un ticket" },
+        { "en": "Package the resources in a Helm chart so they deploy alongside the application", "es": "Empaquetar los recursos en un chart de Helm para que se implementen junto con la aplicación" },
+        { "en": "Create the topic and bucket with gcloud commands in the application's startup script", "es": "Crear el tema y el bucket con comandos gcloud en el script de inicio de la aplicación" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Config Connector is designed for exactly this: Google Cloud resources become CRDs, so the team keeps its existing GitOps and kubectl workflow while controllers reconcile drift continuously. B works but reintroduces a manual handoff and breaks the self-service workflow the scenario asks for. C is wrong because Helm only templates Kubernetes objects; without Config Connector CRDs installed there is nothing that creates Google Cloud resources. D is imperative, not idempotent, runs with excessive application privileges, and leaves no declarative record.",
+        "es": "Config Connector está diseñado justamente para esto: los recursos de Google Cloud se vuelven CRDs, así el equipo conserva su flujo de GitOps y kubectl mientras los controladores reconcilian las desviaciones de forma continua. B funciona pero reintroduce un traspaso manual y rompe el flujo de autoservicio que pide el escenario. C es incorrecta porque Helm solo genera plantillas de objetos de Kubernetes; sin los CRDs de Config Connector instalados no hay nada que cree recursos de Google Cloud. D es imperativo, no idempotente, se ejecuta con privilegios excesivos de la aplicación y no deja registro declarativo."
+      },
+      "doc": "https://cloud.google.com/config-connector/docs/overview"
+    },
+    {
+      "id": "tf-051",
+      "curso": "introduccion-terraform",
+      "servicios": ["helm", "gke"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-iac-tooling"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You must deploy the same third-party monitoring stack, which ships roughly 30 Kubernetes manifests, to twelve GKE clusters with per-cluster differences and the ability to roll back. What is the BEST option?",
+        "es": "Debes implementar el mismo stack de supervisión de terceros, que incluye unos 30 manifiestos de Kubernetes, en doce clústeres de GKE con diferencias por clúster y con capacidad de rollback. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        { "en": "Install the vendor's Helm chart in each cluster with a per-cluster values file, using helm upgrade and helm rollback to manage revisions", "es": "Instalar el chart de Helm del proveedor en cada clúster con un archivo de values por clúster, usando helm upgrade y helm rollback para administrar las revisiones" },
+        { "en": "Copy the 30 manifests into twelve folders and apply each folder with kubectl apply -f", "es": "Copiar los 30 manifiestos en doce carpetas y aplicar cada carpeta con kubectl apply -f" },
+        { "en": "Translate all 30 manifests into Terraform kubernetes_manifest resources and manage them from one state file", "es": "Traducir los 30 manifiestos a recursos kubernetes_manifest de Terraform y administrarlos desde un solo archivo de estado" },
+        { "en": "Create a custom container image per cluster with the manifests baked in", "es": "Crear una imagen de contenedor personalizada por clúster con los manifiestos incorporados" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Helm is purpose-built for packaged third-party applications: one chart plus twelve values files handles the variation, and releases give versioned upgrades and one-command rollback. B duplicates 360 files that must all be hand-edited on every vendor update and offers no rollback primitive. C is a large manual translation effort that must be redone for each upstream release and puts twelve clusters in one blast radius. D confuses application packaging with cluster configuration and still requires a mechanism to apply the manifests.",
+        "es": "Helm está hecho justamente para aplicaciones de terceros empaquetadas: un chart más doce archivos de values cubre la variación, y los releases dan actualizaciones versionadas y rollback con un solo comando. B duplica 360 archivos que hay que editar a mano en cada actualización del proveedor y no ofrece ninguna primitiva de rollback. C es un gran esfuerzo de traducción manual que debe rehacerse en cada versión del origen y pone doce clústeres en un mismo radio de impacto. D confunde el empaquetado de la aplicación con la configuración del clúster y de todos modos requiere un mecanismo para aplicar los manifiestos."
+      },
+      "doc": "https://cloud.google.com/artifact-registry/docs/helm"
+    },
+    {
+      "id": "tf-052",
+      "curso": "introduccion-terraform",
+      "servicios": ["terraform-iac", "resource-manager"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-iac-tooling"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A company is starting its first Google Cloud organization and needs a folder hierarchy, IAM model, Shared VPC networking, org policies, and billing structure built consistently and quickly. What is the BEST option?",
+        "es": "Una empresa está iniciando su primera organización de Google Cloud y necesita una jerarquía de carpetas, un modelo de IAM, redes con VPC compartida, políticas de organización y una estructura de facturación construidas de forma consistente y rápida. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        { "en": "Adopt the Fabric FAST Terraform blueprints as the foundation and customize them for the company's requirements", "es": "Adoptar los planos de Terraform de Fabric FAST como base y personalizarlos según los requisitos de la empresa" },
+        { "en": "Build the hierarchy by hand in the Google Cloud console and write Terraform later for workloads only", "es": "Construir la jerarquía a mano en la consola de Google Cloud y escribir Terraform después solo para las cargas de trabajo" },
+        { "en": "Use Config Connector from a bootstrap GKE cluster to create the folders and org policies", "es": "Usar Config Connector desde un clúster de GKE de arranque para crear las carpetas y las políticas de organización" },
+        { "en": "Write a shell script of gcloud commands that provisions the hierarchy in order", "es": "Escribir un script de shell con comandos gcloud que aprovisione la jerarquía en orden" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Fabric FAST provides staged, opinionated blueprints for exactly this foundation problem, so the organization inherits Google's recommended structure instead of inventing it, and everything stays declarative from day one. B creates an unmanaged foundation that must later be imported, and the most sensitive layer ends up with the least rigor. C requires a cluster to exist before the organization does, which inverts the bootstrap order and adds a heavy dependency for a one-time build. D is imperative and not idempotent, so re-running it is unsafe and drift is invisible.",
+        "es": "Fabric FAST ofrece planos por etapas y con opiniones definidas justamente para este problema de fundación, así la organización hereda la estructura recomendada por Google en lugar de inventarla, y todo queda declarativo desde el primer día. B crea una base no administrada que después habrá que importar, y la capa más sensible termina con el menor rigor. C requiere que exista un clúster antes que la organización, lo que invierte el orden de arranque y agrega una dependencia pesada para una construcción única. D es imperativo y no idempotente, por lo que volver a ejecutarlo es inseguro y las desviaciones son invisibles."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/blueprints/terraform-blueprints"
     }
   ]
 }

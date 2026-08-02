@@ -1931,6 +1931,355 @@
         "es": "TERMINATE impide la migración en vivo, por lo que la VM se detiene durante el mantenimiento del host en lugar de moverse, y --restart-on-failure (el reinicio automático predeterminado) la levanta de nuevo tras una caída del host o del sistema invitado. B permite justamente la migración que la aplicación no tolera y desactiva el reinicio automático. C convierte la carga en interrumpible, mucho peor para una aplicación de producción con licencia. D respeta la restricción de no migrar, pero deja la VM caída tras un fallo e incumple el segundo requisito."
       },
       "doc": "https://cloud.google.com/compute/docs/instances/setting-vm-host-options"
+    },
+    {
+      "id": "infra-045",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "vpc"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-subnets-ips"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A production subnet (10.20.0.0/24) hosts 200 running VMs and is nearly out of addresses. New VMs must be created this week, and no existing workload can be interrupted. What is the BEST option?",
+        "es": "Una subred de producción (10.20.0.0/24) aloja 200 VMs en ejecución y casi no tiene direcciones. Esta semana se deben crear VMs nuevas y ninguna carga existente puede interrumpirse. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        {
+          "en": "Expand the primary IP range of the existing subnet to a shorter prefix, such as /22, with expand-ip-range",
+          "es": "Expandir el rango de IP principal de la subred existente a un prefijo más corto, por ejemplo /22, con expand-ip-range"
+        },
+        {
+          "en": "Create a second VPC network with a larger subnet and peer it with the current one",
+          "es": "Crear una segunda red de VPC con una subred mayor e intercambiar tráfico (peering) con la actual"
+        },
+        {
+          "en": "Delete the subnet and recreate it as 10.20.0.0/22 during a maintenance window",
+          "es": "Borrar la subred y recrearla como 10.20.0.0/22 durante una ventana de mantenimiento"
+        },
+        {
+          "en": "Add a secondary IP range to the subnet and place the new VMs in it",
+          "es": "Agregar un rango de IP secundario a la subred y colocar en él las VMs nuevas"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Expanding the primary range is an online, non-disruptive operation: existing VMs keep their addresses and the larger range immediately serves new instances, provided the new range does not overlap other subnets or routes. B adds a peering, extra address planning and cross-network complexity for a problem solved with one command. C requires deleting every resource in the subnet, which is exactly the interruption the scenario forbids. D is the wrong tool: secondary ranges are for alias IP ranges (for example GKE Pods and Services), not for the primary NIC address of a VM.",
+        "es": "Expandir el rango principal es una operación en línea y sin interrupciones: las VMs existentes conservan sus direcciones y el rango ampliado sirve de inmediato a las instancias nuevas, siempre que el nuevo rango no se superponga con otras subredes o rutas. B agrega peering, planificación de direcciones adicional y complejidad entre redes para un problema que se resuelve con un comando. C exige borrar todos los recursos de la subred, justo la interrupción que el escenario prohíbe. D es la herramienta equivocada: los rangos secundarios son para rangos de IP de alias (por ejemplo Pods y Services de GKE), no para la dirección de la NIC principal de una VM."
+      },
+      "doc": "https://cloud.google.com/vpc/docs/create-modify-vpc-networks#expand-subnet"
+    },
+    {
+      "id": "infra-046",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-spot-custom-machines"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A nightly video-encoding batch job splits work into small independent chunks, checkpoints its progress, and can restart any chunk. The team wants the lowest possible compute cost. What is the BEST option?",
+        "es": "Un trabajo por lotes nocturno de codificación de video divide el trabajo en fragmentos pequeños e independientes, guarda puntos de control y puede reiniciar cualquier fragmento. El equipo quiere el menor costo de cómputo posible. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        {
+          "en": "Run the workers on Spot VMs and let the job re-queue any chunk whose VM is preempted",
+          "es": "Ejecutar los workers en VMs Spot y dejar que el trabajo vuelva a encolar cualquier fragmento cuya VM sea interrumpida"
+        },
+        {
+          "en": "Run the workers on on-demand VMs and buy a three-year committed use discount",
+          "es": "Ejecutar los workers en VMs bajo demanda y comprar un descuento por compromiso de uso a tres años"
+        },
+        {
+          "en": "Run the workers on sole-tenant nodes to guarantee dedicated capacity",
+          "es": "Ejecutar los workers en nodos de un solo usuario (sole-tenant) para garantizar capacidad dedicada"
+        },
+        {
+          "en": "Run the workers on the largest available memory-optimized machine type to finish faster",
+          "es": "Ejecutar los workers en el tipo de máquina optimizado para memoria más grande disponible para terminar antes"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The workload has every property Spot VMs require — fault tolerant, checkpointed, restartable, not latency sensitive — so the deep Spot discount applies with no architectural change. B commits to paying for capacity 24/7 for three years to run a job a few hours a night, which is more expensive overall. C is the premium option for licensing or compliance isolation and costs more, not less. D increases the hourly price and does not match the workload profile: encoding is CPU bound and already parallelized across chunks.",
+        "es": "La carga tiene todas las propiedades que requieren las VMs Spot (tolerante a fallas, con puntos de control, reiniciable y sin sensibilidad a la latencia), así que el descuento profundo de Spot aplica sin cambios de arquitectura. B compromete el pago de capacidad 24/7 durante tres años para ejecutar un trabajo unas pocas horas por noche, lo que resulta más caro en total. C es la opción premium para aislamiento por licencias o cumplimiento y cuesta más, no menos. D sube el precio por hora y no coincide con el perfil de la carga: la codificación depende de CPU y ya está paralelizada por fragmentos."
+      },
+      "doc": "https://cloud.google.com/compute/docs/instances/spot"
+    },
+    {
+      "id": "infra-047",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "compute-engine",
+        "active-assist"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-spot-custom-machines"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "An in-memory analytics service consistently uses 5 vCPUs and 40 GB of RAM. The predefined types available are either 8 vCPU / 32 GB or 8 vCPU / 64 GB, both of which waste resources. What is the BEST option to reduce cost while meeting the requirement?",
+        "es": "Un servicio de analítica en memoria usa de forma constante 5 vCPUs y 40 GB de RAM. Los tipos predefinidos disponibles son de 8 vCPU / 32 GB o de 8 vCPU / 64 GB, y ambos desperdician recursos. ¿Cuál es la MEJOR opción para reducir el costo cumpliendo el requisito?"
+      },
+      "opciones": [
+        {
+          "en": "Create a custom machine type with 6 vCPUs and 40 GB of memory, using extended memory if the ratio exceeds the family limit",
+          "es": "Crear un tipo de máquina personalizado con 6 vCPUs y 40 GB de memoria, usando memoria extendida si la relación supera el límite de la familia"
+        },
+        {
+          "en": "Use the 8 vCPU / 32 GB type and add swap space on a Local SSD to cover the missing memory",
+          "es": "Usar el tipo de 8 vCPU / 32 GB y agregar espacio de intercambio (swap) en un Local SSD para cubrir la memoria faltante"
+        },
+        {
+          "en": "Use the 8 vCPU / 64 GB type and rely on sustained use discounts to offset the waste",
+          "es": "Usar el tipo de 8 vCPU / 64 GB y confiar en los descuentos por uso sostenido para compensar el desperdicio"
+        },
+        {
+          "en": "Split the service across two 4 vCPU / 16 GB instances behind a load balancer",
+          "es": "Dividir el servicio en dos instancias de 4 vCPU / 16 GB detrás de un balanceador de cargas"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Custom machine types exist precisely for shapes that fall between predefined types: you pay for the vCPU and memory you request (vCPU counts are even above 1, so 6 is the next valid value), and extended memory covers ratios above the family default. B trades RAM for swap on ephemeral storage, which destroys the performance of an in-memory service and risks data loss. C keeps paying for 24 GB of unused RAM; sustained use discounts apply to the price you already overpay. D changes the architecture and gives 32 GB total, still short of the 40 GB working set, which an in-memory service cannot simply shard by adding a load balancer.",
+        "es": "Los tipos de máquina personalizados existen justamente para formas que caen entre los tipos predefinidos: pagas la vCPU y la memoria que pides (los conteos de vCPU son pares por encima de 1, así que 6 es el siguiente valor válido) y la memoria extendida cubre relaciones superiores a la predeterminada de la familia. B cambia RAM por swap en almacenamiento efímero, lo que destruye el rendimiento de un servicio en memoria y arriesga pérdida de datos. C sigue pagando 24 GB de RAM sin usar; los descuentos por uso sostenido se aplican al precio que ya estás pagando de más. D cambia la arquitectura y entrega 32 GB en total, aún por debajo del conjunto de trabajo de 40 GB, que un servicio en memoria no puede fragmentar solo agregando un balanceador."
+      },
+      "doc": "https://cloud.google.com/compute/docs/instances/creating-instance-with-custom-machine-type"
+    },
+    {
+      "id": "infra-048",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "cloud-storage"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-gcs-management"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Compliance logs must be kept for five years. They are read frequently during the first 30 days, occasionally in the following months, and essentially never afterwards. What is the BEST option to minimize total cost with the least operational effort?",
+        "es": "Los registros de cumplimiento deben conservarse cinco años. Se leen con frecuencia los primeros 30 días, de forma ocasional en los meses siguientes y prácticamente nunca después. ¿Cuál es la MEJOR opción para minimizar el costo total con el menor esfuerzo operativo?"
+      },
+      "opciones": [
+        {
+          "en": "Store them in Standard and use a lifecycle rule to move objects to Nearline at 30 days, Coldline at 90 days, and Archive at 365 days, deleting them at 5 years",
+          "es": "Guardarlos en Standard y usar una regla de ciclo de vida que mueva los objetos a Nearline a los 30 días, a Coldline a los 90 y a Archive a los 365, borrándolos a los 5 años"
+        },
+        {
+          "en": "Store everything in Archive from the beginning to get the lowest storage price",
+          "es": "Guardar todo en Archive desde el inicio para obtener el precio de almacenamiento más bajo"
+        },
+        {
+          "en": "Store everything in Standard and run a monthly script that rewrites old objects into a Coldline bucket",
+          "es": "Guardar todo en Standard y ejecutar un script mensual que reescriba los objetos antiguos en un bucket Coldline"
+        },
+        {
+          "en": "Keep the logs on a regional Persistent Disk attached to a small always-on VM",
+          "es": "Mantener los registros en un Persistent Disk regional conectado a una VM pequeña siempre encendida"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Autoclass or an explicit lifecycle configuration matches each access phase to the cheapest suitable class and deletes the data when retention ends, all managed by Cloud Storage with no code. B looks cheapest per GB but the first 30 days of frequent reads incur heavy retrieval charges plus early-deletion exposure against the 365-day minimum. C reimplements a built-in feature and pays for rewriting every object, plus the risk of a broken cron. D is the most expensive per GB, offers no tiering, and adds a VM to operate and patch.",
+        "es": "Autoclass o una configuración explícita de ciclo de vida hace coincidir cada fase de acceso con la clase más barata adecuada y borra los datos al terminar la retención, todo administrado por Cloud Storage y sin código. B parece lo más barato por GB, pero los primeros 30 días de lecturas frecuentes generan cargos fuertes de recuperación además de la exposición al borrado anticipado frente al mínimo de 365 días. C reimplementa una función integrada y paga por reescribir cada objeto, con el riesgo adicional de un cron roto. D es lo más caro por GB, no ofrece niveles y suma una VM que operar y parchear."
+      },
+      "doc": "https://cloud.google.com/storage/docs/lifecycle"
+    },
+    {
+      "id": "infra-049",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "persistent-disk",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-storage"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A self-managed database runs on a single VM. The business requires that a zone failure lose no committed data and that recovery need only a VM restart in another zone, with minimal operational effort. What is the BEST option?",
+        "es": "Una base de datos autoadministrada se ejecuta en una sola VM. El negocio exige que una falla de zona no pierda datos confirmados y que la recuperación solo requiera iniciar una VM en otra zona, con el mínimo esfuerzo operativo. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        {
+          "en": "Store the data on a regional Persistent Disk and force-attach it to a standby VM in the second zone during a failover",
+          "es": "Guardar los datos en un Persistent Disk regional y forzar su conexión a una VM en espera en la segunda zona durante la conmutación"
+        },
+        {
+          "en": "Take hourly snapshots of the zonal Persistent Disk and restore them into a new VM when the zone fails",
+          "es": "Tomar instantáneas cada hora del Persistent Disk zonal y restaurarlas en una VM nueva cuando falle la zona"
+        },
+        {
+          "en": "Move the data to Local SSD to get better performance and copy it to Cloud Storage every night",
+          "es": "Mover los datos a Local SSD para obtener mejor rendimiento y copiarlos a Cloud Storage cada noche"
+        },
+        {
+          "en": "Attach the same zonal Persistent Disk in read-write mode to VMs in two different zones",
+          "es": "Conectar el mismo Persistent Disk zonal en modo lectura-escritura a VMs de dos zonas distintas"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Regional Persistent Disk replicates every write synchronously to a second zone, so committed data survives the loss of one zone and recovery is a force-attach plus a VM start — no data pipeline to build. B loses up to an hour of committed transactions, violating the zero-loss requirement. C is worse on both counts: Local SSD data disappears with the VM and a nightly copy loses a whole day. D is impossible: a zonal disk exists in one zone and cannot be attached from another, and concurrent read-write attachment would corrupt the file system anyway.",
+        "es": "El Persistent Disk regional replica cada escritura de forma síncrona a una segunda zona, por lo que los datos confirmados sobreviven a la pérdida de una zona y la recuperación es una conexión forzada más el inicio de una VM, sin ningún pipeline de datos que construir. B pierde hasta una hora de transacciones confirmadas e incumple el requisito de cero pérdida. C es peor en ambos aspectos: los datos de Local SSD desaparecen con la VM y una copia nocturna pierde un día completo. D es imposible: un disco zonal existe en una sola zona y no se puede conectar desde otra, y la conexión simultánea de lectura-escritura corrompería el sistema de archivos de todas formas."
+      },
+      "doc": "https://cloud.google.com/compute/docs/disks/high-availability-regional-persistent-disk"
+    },
+    {
+      "id": "infra-050",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "compute-engine",
+        "iam"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-instance-ops"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Security requires that no production VM have an external IP address, that SSH access be granted per user and be fully audited, and that no extra infrastructure be maintained. What is the BEST option?",
+        "es": "Seguridad exige que ninguna VM de producción tenga IP externa, que el acceso SSH se otorgue por usuario y quede totalmente auditado, y que no haya infraestructura adicional que mantener. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        {
+          "en": "Use IAP TCP forwarding with OS Login, granting roles/iap.tunnelResourceAccessor and roles/compute.osLogin to the right users",
+          "es": "Usar el reenvío TCP de IAP con OS Login, otorgando roles/iap.tunnelResourceAccessor y roles/compute.osLogin a los usuarios correspondientes"
+        },
+        {
+          "en": "Deploy a bastion host with an external IP and share its SSH key with the operations team",
+          "es": "Implementar un host bastión con IP externa y compartir su clave SSH con el equipo de operaciones"
+        },
+        {
+          "en": "Give each VM an external IP but restrict SSH with a firewall rule limited to the office IP range",
+          "es": "Dar una IP externa a cada VM pero restringir SSH con una regla de firewall limitada al rango de IP de la oficina"
+        },
+        {
+          "en": "Set up a Cloud VPN tunnel from the office and add every engineer public key to project metadata",
+          "es": "Configurar un túnel de Cloud VPN desde la oficina y agregar la clave pública de cada ingeniero a los metadatos del proyecto"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "IAP TCP forwarding needs no external IPs and no bastion, authorizes each connection through IAM per user, and both IAP and OS Login write audit logs; the only network change is allowing 35.235.240.0/20 on port 22. B violates the no-external-IP rule, adds a VM to patch, and a shared key destroys per-user attribution. C directly violates the first requirement and an office IP allowlist does not identify individual users. D keeps a VPN to operate and returns to metadata SSH keys, which are not per-user revocable through IAM and are exactly what OS Login replaces.",
+        "es": "El reenvío TCP de IAP no requiere IPs externas ni bastión, autoriza cada conexión por usuario mediante IAM y tanto IAP como OS Login escriben registros de auditoría; el único cambio de red es permitir 35.235.240.0/20 en el puerto 22. B viola la regla de no tener IP externa, agrega una VM que parchear y una clave compartida elimina la atribución por usuario. C incumple directamente el primer requisito y una lista de permitidos por IP de oficina no identifica a los usuarios. D deja una VPN que operar y vuelve a las claves SSH en metadatos, que no se revocan por usuario mediante IAM y son justamente lo que OS Login reemplaza."
+      },
+      "doc": "https://cloud.google.com/iap/docs/using-tcp-forwarding"
+    },
+    {
+      "id": "infra-051",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "cloud-ngfw",
+        "service-accounts"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-firewall-ngfw"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "In a three-tier application, only the web tier may reach the database tier on TCP 3306, and the tiers share the same subnet. Instance counts change constantly due to autoscaling. What is the BEST option?",
+        "es": "En una aplicación de tres capas, solo la capa web puede alcanzar la capa de base de datos en TCP 3306, y las capas comparten la misma subred. La cantidad de instancias cambia constantemente por el autoescalado. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        {
+          "en": "Create an ingress allow rule for tcp:3306 whose source is the web tier service account and whose target is the database tier service account",
+          "es": "Crear una regla de entrada que permita tcp:3306 con la cuenta de servicio de la capa web como origen y la de la capa de base de datos como destino"
+        },
+        {
+          "en": "Create an ingress allow rule for tcp:3306 with --source-ranges set to the individual IP addresses of the current web VMs",
+          "es": "Crear una regla de entrada que permita tcp:3306 con --source-ranges definido con las IPs individuales de las VMs web actuales"
+        },
+        {
+          "en": "Create an ingress allow rule for tcp:3306 with --source-ranges set to the subnet CIDR",
+          "es": "Crear una regla de entrada que permita tcp:3306 con --source-ranges definido con el CIDR de la subred"
+        },
+        {
+          "en": "Rely on the implied deny ingress rule and configure iptables on each database VM",
+          "es": "Apoyarse en la regla implícita de denegar entrada y configurar iptables en cada VM de base de datos"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Service-account-based rules follow the workload identity, so autoscaled instances are covered the moment they start, with no rule edits, and the mapping is enforced by IAM rather than by editable metadata. B breaks on every scale event and quickly becomes unmanageable. C allows every VM in the subnet, including the app tier and any future workload, which is not the stated policy. D leaves the platform-level control open and moves security into per-VM OS configuration that drifts and is hard to audit — and the implied deny alone would also block the legitimate web traffic.",
+        "es": "Las reglas basadas en cuentas de servicio siguen a la identidad de la carga, por lo que las instancias autoescaladas quedan cubiertas apenas se inician, sin editar reglas, y la asociación la impone IAM y no metadatos editables. B se rompe en cada evento de escalado y se vuelve inmanejable. C permite a todas las VMs de la subred, incluida la capa de aplicación y cualquier carga futura, lo que no es la política indicada. D deja abierto el control a nivel de plataforma y traslada la seguridad a una configuración del SO por VM que se desvía y es difícil de auditar; además, la regla implícita de denegar por sí sola también bloquearía el tráfico web legítimo."
+      },
+      "doc": "https://cloud.google.com/firewall/docs/firewalls#serviceaccounts"
+    },
+    {
+      "id": "infra-052",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "vpc",
+        "iam"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-vpc-subnets"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Several application teams need their own projects and billing separation, but a central network team must own all subnets, routes, and firewall rules, and the workloads must communicate over internal IPs. What is the BEST option?",
+        "es": "Varios equipos de aplicaciones necesitan sus propios proyectos y separación de facturación, pero un equipo central de redes debe ser dueño de todas las subredes, rutas y reglas de firewall, y las cargas deben comunicarse por IPs internas. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        {
+          "en": "Use Shared VPC: a host project owns the network and the team projects are attached as service projects",
+          "es": "Usar VPC compartida: un proyecto host es dueño de la red y los proyectos de los equipos se adjuntan como proyectos de servicio"
+        },
+        {
+          "en": "Create one VPC network per team project and connect them all with VPC Network Peering",
+          "es": "Crear una red de VPC por proyecto de equipo y conectarlas todas con intercambio de tráfico entre redes de VPC"
+        },
+        {
+          "en": "Put every team in the same project and separate them with network tags",
+          "es": "Colocar a todos los equipos en el mismo proyecto y separarlos con etiquetas de red"
+        },
+        {
+          "en": "Create one VPC network per team and connect them with Cloud VPN tunnels",
+          "es": "Crear una red de VPC por equipo y conectarlas con túneles de Cloud VPN"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Shared VPC is designed for exactly this split: the host project centralizes network administration while service projects keep their own IAM, quotas and billing, and their VMs use internal IPs of the shared subnets. B decentralizes network control to each team, requires non-overlapping ranges, is not transitive, and multiplies the peering mesh as teams grow. C loses the project-level billing and IAM separation the scenario requires, and tags are not an isolation boundary. D adds tunnel cost, bandwidth limits and operational overhead for traffic that never needs to leave Google's network.",
+        "es": "La VPC compartida está diseñada exactamente para esta división: el proyecto host centraliza la administración de red mientras los proyectos de servicio conservan su propio IAM, cuotas y facturación, y sus VMs usan IPs internas de las subredes compartidas. B descentraliza el control de red a cada equipo, exige rangos sin superposición, no es transitivo y multiplica la malla de peering al crecer los equipos. C pierde la separación de facturación e IAM por proyecto que el escenario exige, y las etiquetas no son un límite de aislamiento. D agrega costo de túneles, límites de ancho de banda y carga operativa para tráfico que nunca necesita salir de la red de Google."
+      },
+      "doc": "https://cloud.google.com/vpc/docs/shared-vpc"
     }
   ]
 }

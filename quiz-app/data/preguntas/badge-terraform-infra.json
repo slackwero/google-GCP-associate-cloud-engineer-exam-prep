@@ -1052,6 +1052,710 @@
         "es": "import escribe el recurso real en el estado bajo la dirección que indiques; luego ejecutas plan y ajustas el HCL hasta que el diff quede vacío. B es falsa: Terraform solo conoce los recursos listados en el estado. C provoca tiempo de inactividad y pierde los datos y la IP de la VM. D no está soportado y es propenso a errores: el estado es un formato interno que no debe editarse a mano."
       },
       "doc": "https://cloud.google.com/docs/terraform/resource-management/import"
+    },
+    {
+      "id": "tfi-025",
+      "curso": "badge-terraform-infra",
+      "servicios": [
+        "terraform-iac",
+        "cloud-storage"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-gcs-management"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You must create one bucket per team, where each team has its own storage class. Which construct fits best in a single resource block?",
+        "es": "Debes crear un bucket por equipo, donde cada equipo tiene su propia clase de almacenamiento. ¿Qué construcción encaja mejor en un solo bloque de recurso?"
+      },
+      "opciones": [
+        {
+          "en": "for_each over a map of team name to storage class, using each.key and each.value",
+          "es": "for_each sobre un mapa de nombre de equipo a clase de almacenamiento, usando each.key y each.value"
+        },
+        {
+          "en": "count with the number of teams and a hardcoded storage class",
+          "es": "count con la cantidad de equipos y una clase de almacenamiento fija"
+        },
+        {
+          "en": "One resource block per team, copied and edited by hand",
+          "es": "Un bloque de recurso por equipo, copiado y editado a mano"
+        },
+        {
+          "en": "A dynamic provider block per team",
+          "es": "Un bloque dynamic de provider por equipo"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "for_each iterates a map or set and gives each instance a stable key, so per team attributes are easy and removing one team does not disturb the others. B cannot vary the storage class per instance and indexes shift when the list changes. C is the duplication for_each was designed to eliminate. D is invalid: dynamic generates nested blocks, and provider blocks are not repeated this way.",
+        "es": "for_each itera un mapa o conjunto y da a cada instancia una clave estable, así los atributos por equipo son fáciles y quitar un equipo no afecta a los demás. B no puede variar la clase de almacenamiento por instancia y los índices se desplazan cuando cambia la lista. C es la duplicación que for_each fue diseñado para eliminar. D es inválida: dynamic genera bloques anidados y los bloques provider no se repiten así."
+      },
+      "doc": "https://cloud.google.com/storage/docs/creating-buckets"
+    },
+    {
+      "id": "tfi-026",
+      "curso": "badge-terraform-infra",
+      "servicios": [
+        "terraform-iac",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-instance-config"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "With count = 3 on a google_compute_instance, how do you give each VM a distinct name?",
+        "es": "Con count = 3 en un google_compute_instance, ¿cómo le das a cada VM un nombre distinto?"
+      },
+      "opciones": [
+        {
+          "en": "Interpolate count.index into the name, for example name = \"worker-${count.index}\"",
+          "es": "Interpolar count.index en el nombre, por ejemplo name = \"worker-${count.index}\""
+        },
+        {
+          "en": "Set name = each.key, which count provides automatically",
+          "es": "Definir name = each.key, que count proporciona automáticamente"
+        },
+        {
+          "en": "Leave name unset so Compute Engine generates random names",
+          "es": "Dejar name sin definir para que Compute Engine genere nombres aleatorios"
+        },
+        {
+          "en": "Add three separate name arguments in the same block",
+          "es": "Agregar tres argumentos name distintos en el mismo bloque"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "count exposes count.index (0 based) inside the block, which is the standard way to build unique names and to index into a list of values. B is wrong: each.key belongs to for_each, not count. C is wrong: name is required on a Compute Engine instance. D is invalid HCL, since an argument can appear only once per block.",
+        "es": "count expone count.index (base cero) dentro del bloque, que es la forma estándar de construir nombres únicos e indexar una lista de valores. B es incorrecta: each.key pertenece a for_each, no a count. C es incorrecta: name es obligatorio en una instancia de Compute Engine. D es HCL inválido, ya que un argumento solo puede aparecer una vez por bloque."
+      },
+      "doc": "https://cloud.google.com/compute/docs/naming-resources"
+    },
+    {
+      "id": "tfi-027",
+      "curso": "badge-terraform-infra",
+      "servicios": [
+        "terraform-iac"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.4-iac-tooling"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You want Terraform to reject any machine_type value that does not start with \"e2-\" before contacting the API. What do you add?",
+        "es": "Quieres que Terraform rechace cualquier valor de machine_type que no empiece con \"e2-\" antes de contactar la API. ¿Qué agregas?"
+      },
+      "opciones": [
+        {
+          "en": "A validation block inside the variable, with a condition and an error_message",
+          "es": "Un bloque validation dentro de la variable, con una condition y un error_message"
+        },
+        {
+          "en": "A lifecycle block with prevent_destroy on the instance",
+          "es": "Un bloque lifecycle con prevent_destroy en la instancia"
+        },
+        {
+          "en": "An output block that prints the value so a reviewer can check it",
+          "es": "Un bloque output que imprima el valor para que un revisor lo verifique"
+        },
+        {
+          "en": "A depends_on entry pointing at the variable",
+          "es": "Una entrada depends_on que apunte a la variable"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "A validation block runs during plan and fails fast with your own message, which catches bad input long before the provider returns an obscure API error. B protects a resource from destruction and has nothing to do with input checking. C only displays a value after apply, so it enforces nothing. D is invalid: depends_on takes resource references, never variables.",
+        "es": "Un bloque validation se ejecuta durante el plan y falla de inmediato con tu propio mensaje, lo que detecta entradas incorrectas mucho antes de que el proveedor devuelva un error críptico de la API. B protege un recurso de la destrucción y no tiene relación con validar entradas. C solo muestra un valor después del apply, así que no exige nada. D es inválida: depends_on recibe referencias a recursos, nunca variables."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/best-practices/general-style-structure"
+    },
+    {
+      "id": "tfi-028",
+      "curso": "badge-terraform-infra",
+      "servicios": [
+        "terraform-iac",
+        "vpc"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.4-iac-tooling"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A network module outputs subnet_self_link. How does an app module in the same root configuration consume it?",
+        "es": "Un módulo de red expone el output subnet_self_link. ¿Cómo lo consume un módulo de aplicación en la misma configuración raíz?"
+      },
+      "opciones": [
+        {
+          "en": "The root module passes subnetwork = module.network.subnet_self_link as an input variable to the app module",
+          "es": "El módulo raíz pasa subnetwork = module.network.subnet_self_link como variable de entrada al módulo de aplicación"
+        },
+        {
+          "en": "The app module reads the network module's state file directly from disk",
+          "es": "El módulo de aplicación lee directamente el archivo de estado del módulo de red desde el disco"
+        },
+        {
+          "en": "Any module can reference google_compute_subnetwork.app.self_link from another module without an output",
+          "es": "Cualquier módulo puede referenciar google_compute_subnetwork.app.self_link de otro módulo sin necesidad de un output"
+        },
+        {
+          "en": "You must copy the self link into a .tfvars file after the first apply",
+          "es": "Debes copiar el self link en un archivo .tfvars después del primer apply"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Modules communicate through inputs and outputs, and wiring module.network.subnet_self_link into the app module also creates the dependency that orders the applies. B is wrong: modules never read each other's state files, and inside one configuration there is a single state anyway. C is wrong: resources inside a module are not addressable from outside, only its outputs are. D is a manual two pass workaround that breaks automation.",
+        "es": "Los módulos se comunican mediante entradas y salidas, y conectar module.network.subnet_self_link al módulo de aplicación también crea la dependencia que ordena los applies. B es incorrecta: los módulos nunca leen el archivo de estado de otro y, dentro de una misma configuración, el estado es uno solo. C es incorrecta: los recursos dentro de un módulo no son direccionables desde afuera, solo lo son sus outputs. D es una solución manual en dos pasos que rompe la automatización."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/best-practices/root-modules"
+    },
+    {
+      "id": "tfi-029",
+      "curso": "badge-terraform-infra",
+      "servicios": [
+        "terraform-iac",
+        "cloud-sql"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.4-iac-tooling"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What happens when a plan would destroy a resource that declares lifecycle { prevent_destroy = true }?",
+        "es": "¿Qué ocurre cuando un plan destruiría un recurso que declara lifecycle { prevent_destroy = true }?"
+      },
+      "opciones": [
+        {
+          "en": "Terraform errors out during plan and refuses to continue until the flag or the change is removed",
+          "es": "Terraform genera un error durante el plan y se niega a continuar hasta que se quite la marca o el cambio"
+        },
+        {
+          "en": "Terraform destroys the resource but prints a warning",
+          "es": "Terraform destruye el recurso pero imprime una advertencia"
+        },
+        {
+          "en": "Terraform creates a replacement first and then destroys the original",
+          "es": "Terraform crea primero un reemplazo y después destruye el original"
+        },
+        {
+          "en": "Terraform removes the resource from state without deleting it in Google Cloud",
+          "es": "Terraform quita el recurso del estado sin borrarlo en Google Cloud"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "prevent_destroy is a hard guard rail that turns any destroy or forced replacement of that resource into a plan time error, which is why it is used on production databases and state buckets. B is wrong: it is an error, not a warning. C describes create_before_destroy. D describes terraform state rm, an entirely different operation.",
+        "es": "prevent_destroy es una barrera dura que convierte cualquier destrucción o reemplazo forzado de ese recurso en un error en tiempo de plan, por eso se usa en bases de datos de producción y buckets de estado. B es incorrecta: es un error, no una advertencia. C describe create_before_destroy. D describe terraform state rm, una operación totalmente distinta."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/best-practices/operations"
+    },
+    {
+      "id": "tfi-030",
+      "curso": "badge-terraform-infra",
+      "servicios": [
+        "terraform-iac",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-instance-config"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What does lifecycle { create_before_destroy = true } change about a replacement?",
+        "es": "¿Qué cambia lifecycle { create_before_destroy = true } en un reemplazo?"
+      },
+      "opciones": [
+        {
+          "en": "The new resource is created before the old one is destroyed, reducing the outage window",
+          "es": "El recurso nuevo se crea antes de destruir el anterior, reduciendo la ventana de indisponibilidad"
+        },
+        {
+          "en": "The resource is never replaced, only updated in place",
+          "es": "El recurso nunca se reemplaza, solo se actualiza en el lugar"
+        },
+        {
+          "en": "Terraform keeps both resources forever",
+          "es": "Terraform conserva ambos recursos para siempre"
+        },
+        {
+          "en": "Terraform skips the resource during plan",
+          "es": "Terraform omite el recurso durante el plan"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "By default Terraform destroys then creates, which leaves a gap; create_before_destroy inverts the order so the replacement exists first. Watch out for name or IP collisions, which is why such resources often use a name_prefix. B is wrong: the flag does not stop replacement, it reorders it. C is wrong: the old resource is still destroyed at the end. D is invented behavior.",
+        "es": "Por defecto Terraform destruye y luego crea, lo que deja un hueco; create_before_destroy invierte el orden para que el reemplazo exista primero. Hay que cuidar los conflictos de nombre o IP, por eso esos recursos suelen usar name_prefix. B es incorrecta: la marca no impide el reemplazo, lo reordena. C es incorrecta: el recurso viejo igual se destruye al final. D es un comportamiento inventado."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/best-practices/operations"
+    },
+    {
+      "id": "tfi-031",
+      "curso": "badge-terraform-infra",
+      "servicios": [
+        "terraform-iac"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.4-iac-tooling"
+      ],
+      "nivel": "intermedio",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO situations are appropriate uses of lifecycle { ignore_changes = [...] }?",
+        "es": "¿Cuáles DOS situaciones son usos apropiados de lifecycle { ignore_changes = [...] }?"
+      },
+      "opciones": [
+        {
+          "en": "Labels that an external tagging system writes to the resource after creation",
+          "es": "Etiquetas que un sistema externo de etiquetado escribe en el recurso después de crearlo"
+        },
+        {
+          "en": "A node_count that the GKE cluster autoscaler adjusts continuously",
+          "es": "Un node_count que el escalador automático del clúster de GKE ajusta continuamente"
+        },
+        {
+          "en": "The machine_type, so nobody can ever change VM sizing",
+          "es": "El machine_type, para que nadie pueda cambiar nunca el tamaño de la VM"
+        },
+        {
+          "en": "Every attribute of every resource, to keep plans always empty",
+          "es": "Todos los atributos de todos los recursos, para que los planes queden siempre vacíos"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "ignore_changes is for attributes legitimately managed outside Terraform, so the plan stops fighting the external system on every run. C is a misuse: to freeze sizing you control the variable and review the diff, not hide it. D destroys the value of Terraform, since real drift would become invisible.",
+        "es": "ignore_changes sirve para atributos legítimamente administrados fuera de Terraform, de modo que el plan deje de pelear con el sistema externo en cada ejecución. C es un mal uso: para congelar el tamaño se controla la variable y se revisa el diff, no se oculta. D destruye el valor de Terraform, porque la deriva real se volvería invisible."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/best-practices/operations"
+    },
+    {
+      "id": "tfi-032",
+      "curso": "badge-terraform-infra",
+      "servicios": [
+        "terraform-iac",
+        "cloud-ngfw"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-firewall-ngfw"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You need a firewall rule that lets only the load balancer health check ranges reach TCP 8080 on VMs carrying a specific network tag. Which combination of google_compute_firewall arguments expresses that?",
+        "es": "Necesitas una regla de firewall que permita solo a los rangos de verificación de estado del balanceador de cargas llegar al puerto TCP 8080 en VMs con una etiqueta de red específica. ¿Qué combinación de argumentos de google_compute_firewall lo expresa?"
+      },
+      "opciones": [
+        {
+          "en": "direction INGRESS, source_ranges with the health check CIDRs, target_tags with the tag, and an allow block for tcp port 8080",
+          "es": "direction INGRESS, source_ranges con los CIDR de verificación de estado, target_tags con la etiqueta y un bloque allow para tcp puerto 8080"
+        },
+        {
+          "en": "direction EGRESS, destination_ranges 0.0.0.0/0, and an allow block for tcp port 8080",
+          "es": "direction EGRESS, destination_ranges 0.0.0.0/0 y un bloque allow para tcp puerto 8080"
+        },
+        {
+          "en": "direction INGRESS, source_ranges 0.0.0.0/0, and a deny block for tcp port 8080",
+          "es": "direction INGRESS, source_ranges 0.0.0.0/0 y un bloque deny para tcp puerto 8080"
+        },
+        {
+          "en": "Only target_tags and priority, letting Google infer the ports",
+          "es": "Solo target_tags y priority, dejando que Google infiera los puertos"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Health checks arrive as inbound traffic from Google's documented probe ranges, so the rule is ingress, scoped by source_ranges and target_tags, allowing exactly tcp 8080. B controls outbound traffic and opens it to the whole internet. C denies the traffic you need and would also apply broadly. D is incomplete: a rule requires an allow or deny block with protocols, and ports are never inferred.",
+        "es": "Las verificaciones de estado llegan como tráfico entrante desde los rangos de sondeo documentados por Google, así que la regla es de ingreso, acotada por source_ranges y target_tags, y permite exactamente tcp 8080. B controla el tráfico saliente y lo abre a todo internet. C deniega el tráfico que necesitas y además aplicaría de forma amplia. D es incompleta: una regla exige un bloque allow o deny con protocolos, y los puertos nunca se infieren."
+      },
+      "doc": "https://cloud.google.com/load-balancing/docs/health-check-concepts"
+    },
+    {
+      "id": "tfi-033",
+      "curso": "badge-terraform-infra",
+      "servicios": [
+        "terraform-iac",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-instance-config"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Inside google_compute_instance, what does an access_config block nested in network_interface do?",
+        "es": "Dentro de google_compute_instance, ¿qué hace un bloque access_config anidado en network_interface?"
+      },
+      "opciones": [
+        {
+          "en": "Assigns an external IP address to the interface; omitting the block leaves the VM with only an internal IP",
+          "es": "Asigna una dirección IP externa a la interfaz; omitir el bloque deja la VM solo con IP interna"
+        },
+        {
+          "en": "Grants the VM IAM access to other Google Cloud services",
+          "es": "Otorga a la VM acceso de IAM a otros servicios de Google Cloud"
+        },
+        {
+          "en": "Opens firewall ports for inbound traffic",
+          "es": "Abre puertos de firewall para el tráfico entrante"
+        },
+        {
+          "en": "Enables OS Login for SSH access control",
+          "es": "Habilita OS Login para el control de acceso por SSH"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "An empty access_config block attaches an ephemeral external IP, and you can point nat_ip at a reserved google_compute_address instead; leaving it out is the private by default pattern used with Cloud NAT. B is the role of the service_account block plus IAM bindings. C requires google_compute_firewall resources. D is set through metadata with enable-oslogin.",
+        "es": "Un bloque access_config vacío adjunta una IP externa efímera, y puedes apuntar nat_ip a una google_compute_address reservada; omitirlo es el patrón privado por defecto que se usa junto con Cloud NAT. B corresponde al bloque service_account más las vinculaciones de IAM. C requiere recursos google_compute_firewall. D se configura por metadatos con enable-oslogin."
+      },
+      "doc": "https://cloud.google.com/compute/docs/ip-addresses/configure-static-external-ip-address"
+    },
+    {
+      "id": "tfi-034",
+      "curso": "badge-terraform-infra",
+      "servicios": [
+        "terraform-iac",
+        "cloud-storage"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.4-iac-tooling"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Two root configurations, network and app, must share one state bucket without overwriting each other. What do you change in each backend \"gcs\" block?",
+        "es": "Dos configuraciones raíz, network y app, deben compartir un mismo bucket de estado sin sobrescribirse. ¿Qué cambias en cada bloque backend \"gcs\"?"
+      },
+      "opciones": [
+        {
+          "en": "Keep the same bucket and give each configuration a different prefix",
+          "es": "Mantener el mismo bucket y dar a cada configuración un prefix distinto"
+        },
+        {
+          "en": "Keep the same prefix and change the credentials for each configuration",
+          "es": "Mantener el mismo prefix y cambiar las credenciales de cada configuración"
+        },
+        {
+          "en": "Disable state locking in one of the two configurations",
+          "es": "Deshabilitar el bloqueo de estado en una de las dos configuraciones"
+        },
+        {
+          "en": "Use the same bucket and prefix, because Terraform separates states by directory name",
+          "es": "Usar el mismo bucket y prefix, porque Terraform separa los estados por nombre de directorio"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "prefix is the object path inside the bucket, so distinct prefixes such as env/prod/network and env/prod/app keep the state objects apart while sharing one versioned bucket. B changes who can write but not where, so both would still target the same object. C invites concurrent writes and corruption. D is false: Terraform has no idea what your local directory is called.",
+        "es": "prefix es la ruta del objeto dentro del bucket, así que prefijos distintos como env/prod/network y env/prod/app mantienen separados los objetos de estado mientras comparten un mismo bucket con versiones. B cambia quién puede escribir, no dónde, por lo que ambos apuntarían al mismo objeto. C invita a escrituras concurrentes y corrupción. D es falsa: Terraform no sabe cómo se llama tu directorio local."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/resource-management/store-state"
+    },
+    {
+      "id": "tfi-035",
+      "curso": "badge-terraform-infra",
+      "servicios": [
+        "terraform-iac"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.4-iac-tooling"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Before importing a resource you want to confirm which addresses Terraform already tracks. Which command do you run?",
+        "es": "Antes de importar un recurso quieres confirmar qué direcciones ya rastrea Terraform. ¿Qué comando ejecutas?"
+      },
+      "opciones": [
+        {
+          "en": "terraform state list",
+          "es": "terraform state list"
+        },
+        {
+          "en": "terraform providers",
+          "es": "terraform providers"
+        },
+        {
+          "en": "gcloud asset search-all-resources",
+          "es": "gcloud asset search-all-resources"
+        },
+        {
+          "en": "terraform fmt -check",
+          "es": "terraform fmt -check"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "state list prints every resource address recorded in state, and terraform state show ADDRESS then dumps one resource's attributes. B lists provider requirements, not managed resources. C inventories what exists in Google Cloud, which is useful for discovery but says nothing about state. D only checks formatting.",
+        "es": "state list imprime cada dirección de recurso registrada en el estado, y terraform state show DIRECCION muestra luego los atributos de un recurso. B lista los requisitos de proveedores, no los recursos administrados. C inventaría lo que existe en Google Cloud, útil para descubrir, pero no dice nada del estado. D solo verifica el formato."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/resource-management/import"
+    },
+    {
+      "id": "tfi-036",
+      "curso": "badge-terraform-infra",
+      "servicios": [
+        "terraform-iac",
+        "service-accounts",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.2-sa-creation"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You create a service account in Terraform and want a VM to run as that identity. What do you add to the google_compute_instance?",
+        "es": "Creas una cuenta de servicio en Terraform y quieres que una VM se ejecute con esa identidad. ¿Qué agregas al google_compute_instance?"
+      },
+      "opciones": [
+        {
+          "en": "A service_account block with email = google_service_account.app.email and the cloud-platform scope",
+          "es": "Un bloque service_account con email = google_service_account.app.email y el alcance cloud-platform"
+        },
+        {
+          "en": "A metadata entry containing a downloaded service account key file",
+          "es": "Una entrada de metadata con un archivo de clave de cuenta de servicio descargado"
+        },
+        {
+          "en": "A google_project_iam_member resource alone, which attaches the identity to the VM",
+          "es": "Solo un recurso google_project_iam_member, que adjunta la identidad a la VM"
+        },
+        {
+          "en": "A depends_on entry pointing to the service account",
+          "es": "Una entrada depends_on que apunte a la cuenta de servicio"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Attaching the service account lets the VM fetch short lived tokens from the metadata server, with no key material anywhere; access scopes plus IAM roles then decide what it can do. B reintroduces a downloadable key, the practice Google recommends avoiding. C grants roles to the identity but never attaches it to the VM. D only orders creation and grants nothing.",
+        "es": "Adjuntar la cuenta de servicio permite que la VM obtenga tokens de corta duración desde el servidor de metadatos, sin material de clave en ninguna parte; luego los alcances de acceso más los roles de IAM deciden qué puede hacer. B reintroduce una clave descargable, la práctica que Google recomienda evitar. C otorga roles a la identidad pero nunca la adjunta a la VM. D solo ordena la creación y no otorga nada."
+      },
+      "doc": "https://cloud.google.com/compute/docs/access/create-enable-service-accounts-for-instances"
+    },
+    {
+      "id": "tfi-037",
+      "curso": "badge-terraform-infra",
+      "servicios": [
+        "terraform-iac",
+        "iam",
+        "cloud-storage"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.2-sa-creation"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which member expression correctly grants a role to a service account created in the same configuration?",
+        "es": "¿Qué expresión de member otorga correctamente un rol a una cuenta de servicio creada en la misma configuración?"
+      },
+      "opciones": [
+        {
+          "en": "member = \"serviceAccount:${google_service_account.app.email}\"",
+          "es": "member = \"serviceAccount:${google_service_account.app.email}\""
+        },
+        {
+          "en": "member = google_service_account.app.account_id",
+          "es": "member = google_service_account.app.account_id"
+        },
+        {
+          "en": "member = \"user:${google_service_account.app.email}\"",
+          "es": "member = \"user:${google_service_account.app.email}\""
+        },
+        {
+          "en": "member = \"serviceAccount:${google_service_account.app.id}\"",
+          "es": "member = \"serviceAccount:${google_service_account.app.id}\""
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "IAM members need a type prefix followed by the identity, and for a service account that is serviceAccount: plus its full email. B passes the short account_id with no prefix or domain. C uses the user: prefix, which is reserved for Google Accounts and will be rejected. D uses the Terraform resource id, which is an internal path such as projects/PROJECT/serviceAccounts/EMAIL and not the expected member format.",
+        "es": "Los miembros de IAM necesitan un prefijo de tipo seguido de la identidad, y para una cuenta de servicio ese prefijo es serviceAccount: más su correo completo. B pasa el account_id corto sin prefijo ni dominio. C usa el prefijo user:, reservado para Cuentas de Google, y será rechazado. D usa el id del recurso de Terraform, que es una ruta interna como projects/PROYECTO/serviceAccounts/CORREO y no el formato esperado de member."
+      },
+      "doc": "https://cloud.google.com/iam/docs/principal-identifiers"
+    },
+    {
+      "id": "tfi-038",
+      "curso": "badge-terraform-infra",
+      "servicios": [
+        "terraform-iac"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.4-iac-tooling"
+      ],
+      "nivel": "intermedio",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "You are adding Terraform checks to a merge request pipeline that must fail fast and never touch infrastructure. Which TWO commands belong in that stage?",
+        "es": "Estás agregando verificaciones de Terraform a un pipeline de merge request que debe fallar rápido y nunca tocar la infraestructura. ¿Cuáles DOS comandos corresponden a esa etapa?"
+      },
+      "opciones": [
+        {
+          "en": "terraform fmt -check -recursive",
+          "es": "terraform fmt -check -recursive"
+        },
+        {
+          "en": "terraform validate",
+          "es": "terraform validate"
+        },
+        {
+          "en": "terraform apply -auto-approve",
+          "es": "terraform apply -auto-approve"
+        },
+        {
+          "en": "terraform destroy -auto-approve",
+          "es": "terraform destroy -auto-approve"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "fmt -check reports unformatted files with a non zero exit code without rewriting them, and validate catches syntax and reference errors offline, so both are safe pre-merge gates. C would provision real resources from an unreviewed branch. D would delete infrastructure. Neither belongs in a validation stage.",
+        "es": "fmt -check informa los archivos sin formato con un código de salida distinto de cero y sin reescribirlos, y validate detecta errores de sintaxis y referencias sin conexión, así que ambos son controles seguros antes de fusionar. C aprovisionaría recursos reales desde una rama sin revisar. D borraría infraestructura. Ninguno corresponde a una etapa de validación."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/basic-commands"
+    },
+    {
+      "id": "tfi-039",
+      "curso": "badge-terraform-infra",
+      "servicios": [
+        "terraform-iac",
+        "cloud-storage"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-gcs-management"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Security asks you to disable per object ACLs on every bucket you provision, so access is governed only by IAM. Which google_storage_bucket setting do you use?",
+        "es": "Seguridad te pide deshabilitar las ACL por objeto en cada bucket que aprovisiones, para que el acceso lo gobierne solo IAM. ¿Qué configuración de google_storage_bucket usas?"
+      },
+      "opciones": [
+        {
+          "en": "uniform_bucket_level_access = true",
+          "es": "uniform_bucket_level_access = true"
+        },
+        {
+          "en": "versioning { enabled = true }",
+          "es": "versioning { enabled = true }"
+        },
+        {
+          "en": "force_destroy = true",
+          "es": "force_destroy = true"
+        },
+        {
+          "en": "storage_class = \"NEARLINE\"",
+          "es": "storage_class = \"NEARLINE\""
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Uniform bucket level access turns off object ACLs so all permissions come from IAM policies on the bucket and project, which is the recommended configuration. B keeps noncurrent object versions, a data protection feature. C lets Terraform delete a non empty bucket, which is a destructive convenience, not a control. D changes the pricing and access tier of the data.",
+        "es": "El acceso uniforme a nivel de bucket desactiva las ACL de objetos para que todos los permisos provengan de políticas de IAM en el bucket y el proyecto, que es la configuración recomendada. B conserva versiones no actuales de los objetos, una función de protección de datos. C permite que Terraform borre un bucket no vacío, una comodidad destructiva, no un control. D cambia el nivel de precios y acceso de los datos."
+      },
+      "doc": "https://cloud.google.com/storage/docs/uniform-bucket-level-access"
+    },
+    {
+      "id": "tfi-040",
+      "curso": "badge-terraform-infra",
+      "servicios": [
+        "terraform-iac",
+        "gke"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.4-iac-tooling"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "In a Standard mode GKE cluster, why do Terraform examples set remove_default_node_pool = true and initial_node_count = 1 on google_container_cluster, then declare a separate google_container_node_pool?",
+        "es": "En un clúster de GKE en modo Standard, ¿por qué los ejemplos de Terraform definen remove_default_node_pool = true e initial_node_count = 1 en google_container_cluster y luego declaran un google_container_node_pool aparte?"
+      },
+      "opciones": [
+        {
+          "en": "So the node pool is a resource of its own and can be changed or replaced without recreating the cluster",
+          "es": "Para que el node pool sea un recurso propio y pueda cambiarse o reemplazarse sin recrear el clúster"
+        },
+        {
+          "en": "Because a cluster cannot exist without exactly one node pool defined inline",
+          "es": "Porque un clúster no puede existir sin exactamente un node pool definido en línea"
+        },
+        {
+          "en": "Because the default node pool is billed at a higher rate",
+          "es": "Porque el node pool predeterminado se factura a una tarifa más alta"
+        },
+        {
+          "en": "Because Autopilot clusters require the same pattern",
+          "es": "Porque los clústeres de Autopilot requieren el mismo patrón"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Managing node pools separately means a machine type or autoscaling change touches only the node pool resource, while the cluster stays put; the default pool is created and immediately removed because the API requires an initial pool. B is the API constraint that forces the workaround, not the reason for the pattern. C is false: pricing depends on nodes, not on which pool created them. D is false: Autopilot manages nodes for you, so you declare no node pools at all.",
+        "es": "Administrar los node pools por separado hace que un cambio de machine type o de autoescalado toque solo el recurso del node pool, mientras el clúster permanece igual; el pool predeterminado se crea y se elimina de inmediato porque la API exige un pool inicial. B es la restricción de la API que obliga al rodeo, no la razón del patrón. C es falsa: el precio depende de los nodos, no del pool que los creó. D es falsa: Autopilot administra los nodos por ti, así que no declaras node pools."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/node-pools"
     }
   ]
 }

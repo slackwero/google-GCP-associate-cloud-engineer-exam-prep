@@ -1308,6 +1308,448 @@
         "es": "--default-encryption-key establece la CMEK predeterminada del bucket, por lo que cada objeto escrito después se encripta con esa clave (aún debes otorgar al agente de servicio de Cloud Storage el rol Cloud KMS CryptoKey Encrypter/Decrypter). B selecciona encriptación proporcionada por el cliente (CSEK), un modelo distinto en el que envías la clave en bruto en cada solicitud. C solo edita una política de IAM y no tiene una marca de bucket. D reescribiría los objetos existentes uno por uno y aun así dejaría las cargas futuras sin clave predeterminada."
       },
       "doc": "https://cloud.google.com/storage/docs/encryption/using-customer-managed-keys"
+    },
+    {
+      "id": "ref3-031",
+      "curso": null,
+      "servicios": [
+        "cloud-nat",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-dns-nat"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Security asks you to keep a record of which VM used which NAT IP address and source port for every outbound connection. Which command configures Cloud NAT accordingly?",
+        "es": "Seguridad te pide llevar un registro de qué VM usó qué dirección IP de NAT y qué puerto de origen en cada conexión saliente. ¿Qué comando configura Cloud NAT para lograrlo?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud compute routers nats create nat-cfg --router=RTR --region=REGION --auto-allocate-nat-external-ips --nat-all-subnet-ip-ranges --enable-logging",
+          "es": "gcloud compute routers nats create nat-cfg --router=RTR --region=REGION --auto-allocate-nat-external-ips --nat-all-subnet-ip-ranges --enable-logging"
+        },
+        {
+          "en": "gcloud compute networks subnets update SUBNET --region=REGION --enable-flow-logs",
+          "es": "gcloud compute networks subnets update SUBNET --region=REGION --enable-flow-logs"
+        },
+        {
+          "en": "gcloud logging sinks create nat-sink storage.googleapis.com/BUCKET --log-filter='resource.type=nat_gateway'",
+          "es": "gcloud logging sinks create nat-sink storage.googleapis.com/BUCKET --log-filter='resource.type=nat_gateway'"
+        },
+        {
+          "en": "gcloud compute firewall-rules create nat-log --network=NET --enable-logging --direction=EGRESS",
+          "es": "gcloud compute firewall-rules create nat-log --network=NET --enable-logging --direction=EGRESS"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Cloud NAT logging is turned on with --enable-logging on the NAT configuration (optionally narrowed with --log-filter=TRANSLATIONS_ONLY or ERRORS_ONLY); the entries include the VM, the NAT IP and the translated source port. B enables VPC Flow Logs, which record the pre-NAT 5-tuple but not the NAT translation. C only routes logs that are already being produced; with NAT logging off there is nothing to route. D logs firewall allow/deny decisions, not NAT port mappings.",
+        "es": "El registro de Cloud NAT se activa con --enable-logging en la configuración de NAT (opcionalmente acotado con --log-filter=TRANSLATIONS_ONLY o ERRORS_ONLY); las entradas incluyen la VM, la IP de NAT y el puerto de origen traducido. B habilita VPC Flow Logs, que registran la 5-tupla previa a la NAT pero no la traducción. C solo enruta registros que ya se están generando; con el registro de NAT desactivado no hay nada que enrutar. D registra decisiones de permitir/denegar del firewall, no las asignaciones de puertos de NAT."
+      },
+      "doc": "https://cloud.google.com/nat/docs/monitoring"
+    },
+    {
+      "id": "ref3-032",
+      "curso": null,
+      "servicios": [
+        "cmek-kms",
+        "bigquery"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-cmek"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which command creates a BigQuery dataset whose tables are encrypted with your own Cloud KMS key by default?",
+        "es": "¿Qué comando crea un conjunto de datos de BigQuery cuyas tablas se encriptan de forma predeterminada con tu propia clave de Cloud KMS?"
+      },
+      "opciones": [
+        {
+          "en": "bq mk --dataset --default_kms_key=projects/P/locations/us/keyRings/R/cryptoKeys/K PROJECT:DATASET",
+          "es": "bq mk --dataset --default_kms_key=projects/P/locations/us/keyRings/R/cryptoKeys/K PROJECT:DATASET"
+        },
+        {
+          "en": "bq mk --dataset --encryption=CMEK PROJECT:DATASET",
+          "es": "bq mk --dataset --encryption=CMEK PROJECT:DATASET"
+        },
+        {
+          "en": "gcloud kms keys update K --keyring=R --location=us --add-dataset=PROJECT:DATASET",
+          "es": "gcloud kms keys update K --keyring=R --location=us --add-dataset=PROJECT:DATASET"
+        },
+        {
+          "en": "bq query --destination_kms_key=projects/P/locations/us/keyRings/R/cryptoKeys/K 'CREATE SCHEMA DATASET'",
+          "es": "bq query --destination_kms_key=projects/P/locations/us/keyRings/R/cryptoKeys/K 'CREATE SCHEMA DATASET'"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "--default_kms_key on bq mk sets the dataset's default CMEK, so every table created in it inherits that key; the BigQuery service account also needs the Cloud KMS CryptoKey Encrypter/Decrypter role on the key, and the key location must be compatible with the dataset location. B is not a valid flag. C is fabricated: keys do not track the resources that use them. D applies a key to a single query's destination table, not to the dataset as a default.",
+        "es": "--default_kms_key en bq mk establece la CMEK predeterminada del conjunto de datos, de modo que cada tabla creada en él hereda esa clave; la cuenta de servicio de BigQuery también necesita el rol Cloud KMS CryptoKey Encrypter/Decrypter sobre la clave, y la ubicación de la clave debe ser compatible con la del conjunto de datos. B no es una marca válida. C es inventada: las claves no llevan registro de los recursos que las usan. D aplica una clave a la tabla de destino de una sola consulta, no al conjunto de datos como valor predeterminado."
+      },
+      "doc": "https://cloud.google.com/bigquery/docs/customer-managed-encryption"
+    },
+    {
+      "id": "ref3-033",
+      "curso": null,
+      "servicios": [
+        "notebooks",
+        "bigquery"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-ai-workloads",
+        "3.2-data-queries"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "An analyst creates a notebook inside BigQuery Studio to mix SQL cells and Python cells over BigQuery tables. What actually executes the notebook's code?",
+        "es": "Un analista crea un notebook dentro de BigQuery Studio para combinar celdas SQL y celdas Python sobre tablas de BigQuery. ¿Qué ejecuta realmente el código del notebook?"
+      },
+      "opciones": [
+        {
+          "en": "A Colab Enterprise runtime provisioned from a runtime template in the project; the notebook itself is saved as a BigQuery Studio code asset",
+          "es": "Un entorno de ejecución de Colab Enterprise aprovisionado desde una plantilla de entorno de ejecución del proyecto; el notebook se guarda como un recurso de código de BigQuery Studio"
+        },
+        {
+          "en": "A Compute Engine VM that you must create yourself and connect to over SSH",
+          "es": "Una VM de Compute Engine que debes crear tú mismo y a la que te conectas por SSH"
+        },
+        {
+          "en": "A Cloud Run service that is automatically deployed from the .ipynb file",
+          "es": "Un servicio de Cloud Run que se implementa automáticamente a partir del archivo .ipynb"
+        },
+        {
+          "en": "A Dataflow job that BigQuery creates for each notebook cell",
+          "es": "Un trabajo de Dataflow que BigQuery crea para cada celda del notebook"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "BigQuery notebooks run on Colab Enterprise runtimes, which are managed and started for you from a runtime template, while the notebook is stored and versioned as a BigQuery Studio asset alongside saved queries. B describes the self-managed model you would use with a Workbench instance, not BigQuery notebooks. C and D are invented execution models; Cloud Run serves containers and Dataflow runs Apache Beam pipelines, neither of which backs notebook cells.",
+        "es": "Los notebooks de BigQuery se ejecutan en entornos de ejecución de Colab Enterprise, administrados y creados por ti a partir de una plantilla de entorno de ejecución, mientras que el notebook se almacena y versiona como un recurso de BigQuery Studio junto a las consultas guardadas. B describe el modelo autoadministrado que usarías con una instancia de Workbench, no los notebooks de BigQuery. C y D son modelos de ejecución inventados; Cloud Run sirve contenedores y Dataflow ejecuta canalizaciones de Apache Beam, y ninguno respalda las celdas de un notebook."
+      },
+      "doc": "https://cloud.google.com/bigquery/docs/notebooks-introduction"
+    },
+    {
+      "id": "ref3-034",
+      "curso": null,
+      "servicios": [
+        "dataflow",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-job-status"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You need to confirm from the command line that a streaming pipeline is still running in us-central1. Which command shows only the active Dataflow jobs in that region?",
+        "es": "Necesitas confirmar desde la línea de comandos que una canalización de streaming sigue en ejecución en us-central1. ¿Qué comando muestra solo los trabajos activos de Dataflow en esa región?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud dataflow jobs list --region=us-central1 --status=active",
+          "es": "gcloud dataflow jobs list --region=us-central1 --status=active"
+        },
+        {
+          "en": "gcloud dataflow jobs describe --all --region=us-central1",
+          "es": "gcloud dataflow jobs describe --all --region=us-central1"
+        },
+        {
+          "en": "gcloud compute instances list --filter='name~dataflow' --zones=us-central1-a",
+          "es": "gcloud compute instances list --filter='name~dataflow' --zones=us-central1-a"
+        },
+        {
+          "en": "bq ls -j --dataflow --max_results=50",
+          "es": "bq ls -j --dataflow --max_results=50"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "gcloud dataflow jobs list with --status=active returns jobs in running/draining states for the region, and gcloud dataflow jobs describe JOB_ID then gives full detail. B is invalid because describe requires a single job ID. C inspects worker VMs, an unreliable proxy that misses jobs using Streaming Engine and shows nothing about job state. D is a BigQuery command with a flag that does not exist; Dataflow jobs are not BigQuery jobs.",
+        "es": "gcloud dataflow jobs list con --status=active devuelve los trabajos en estado de ejecución o drenaje de la región, y luego gcloud dataflow jobs describe JOB_ID da el detalle completo. B es inválida porque describe requiere el ID de un único trabajo. C inspecciona VMs de trabajadores, un indicador poco confiable que omite los trabajos que usan Streaming Engine y no dice nada del estado del trabajo. D es un comando de BigQuery con una marca inexistente; los trabajos de Dataflow no son trabajos de BigQuery."
+      },
+      "doc": "https://cloud.google.com/dataflow/docs/guides/monitoring-overview"
+    },
+    {
+      "id": "ref3-035",
+      "curso": null,
+      "servicios": [
+        "vpc",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-subnets-ips"
+      ],
+      "nivel": "intermedio",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "An internal API server must always keep the private address 10.10.0.25. Which TWO statements about reserving that static internal IP address are correct?",
+        "es": "Un servidor de API interno debe conservar siempre la dirección privada 10.10.0.25. ¿Cuáles DOS afirmaciones sobre reservar esa dirección IP interna estática son correctas?"
+      },
+      "opciones": [
+        {
+          "en": "You reserve it with gcloud compute addresses create --region=REGION --subnet=SUBNET --addresses=10.10.0.25 and then assign it when creating or updating the VM",
+          "es": "La reservas con gcloud compute addresses create --region=REGION --subnet=SUBNET --addresses=10.10.0.25 y luego se la asignas al crear o actualizar la VM"
+        },
+        {
+          "en": "Once reserved, the address stays allocated to your project and cannot be handed to another VM, even while the original VM is stopped or deleted",
+          "es": "Una vez reservada, la dirección queda asignada a tu proyecto y no puede entregarse a otra VM, incluso mientras la VM original esté detenida o eliminada"
+        },
+        {
+          "en": "Static internal IP addresses are reserved with the --global flag because internal addressing is not regional",
+          "es": "Las direcciones IP internas estáticas se reservan con la marca --global porque el direccionamiento interno no es regional"
+        },
+        {
+          "en": "A VM's ephemeral internal IP automatically becomes static after the VM has been running for 24 hours",
+          "es": "La IP interna efímera de una VM se vuelve estática automáticamente después de que la VM lleva 24 horas en ejecución"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "A static internal address is a regional resource created inside a specific subnet, and reserving it holds it for your project independently of any VM's lifecycle, which is precisely why the address survives a stop/start or a rebuild. C is wrong: internal IP reservations are regional and require --region and --subnet (--global applies to global external addresses and to internal ranges used by global load balancers). D is invented; ephemeral addresses stay ephemeral and can change when the VM is stopped and started.",
+        "es": "Una dirección interna estática es un recurso regional creado dentro de una subred específica, y reservarla la retiene para tu proyecto con independencia del ciclo de vida de cualquier VM, que es justamente por lo que la dirección sobrevive a un detener/iniciar o a una reconstrucción. C es incorrecta: las reservas de IP interna son regionales y requieren --region y --subnet (--global aplica a direcciones externas globales y a rangos internos de balanceadores globales). D es inventada; las direcciones efímeras siguen siendo efímeras y pueden cambiar al detener e iniciar la VM."
+      },
+      "doc": "https://cloud.google.com/compute/docs/ip-addresses/reserve-static-internal-ip-address"
+    },
+    {
+      "id": "ref3-036",
+      "curso": null,
+      "servicios": [
+        "database-center",
+        "cloud-sql"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-database-center"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Database Center flags a production Cloud SQL for PostgreSQL instance with the issue 'instance is not highly available'. Which command remediates exactly that finding?",
+        "es": "Database Center marca una instancia de producción de Cloud SQL para PostgreSQL con el problema 'la instancia no tiene alta disponibilidad'. ¿Qué comando corrige exactamente ese hallazgo?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud sql instances patch INSTANCE --availability-type=REGIONAL",
+          "es": "gcloud sql instances patch INSTANCE --availability-type=REGIONAL"
+        },
+        {
+          "en": "gcloud sql instances patch INSTANCE --backup-start-time=02:00",
+          "es": "gcloud sql instances patch INSTANCE --backup-start-time=02:00"
+        },
+        {
+          "en": "gcloud sql instances create replica-1 --master-instance-name=INSTANCE",
+          "es": "gcloud sql instances create replica-1 --master-instance-name=INSTANCE"
+        },
+        {
+          "en": "gcloud sql instances patch INSTANCE --enable-point-in-time-recovery",
+          "es": "gcloud sql instances patch INSTANCE --enable-point-in-time-recovery"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "High availability in Cloud SQL means the REGIONAL availability type, which provisions a standby instance in a second zone with automatic failover. B configures automated backups, a different Database Center finding. C creates a read replica: it scales reads and can be promoted manually, but it provides no automatic failover and does not satisfy the HA check. D enables point-in-time recovery, a data-recovery capability rather than an availability one.",
+        "es": "La alta disponibilidad en Cloud SQL corresponde al tipo de disponibilidad REGIONAL, que aprovisiona una instancia en espera en otra zona con conmutación por error automática. B configura copias de seguridad automatizadas, que es otro hallazgo distinto de Database Center. C crea una réplica de lectura: escala lecturas y puede promoverse manualmente, pero no ofrece conmutación por error automática ni satisface la verificación de HA. D habilita la recuperación a un momento determinado, una capacidad de recuperación de datos y no de disponibilidad."
+      },
+      "doc": "https://cloud.google.com/sql/docs/postgres/high-availability"
+    },
+    {
+      "id": "ref3-037",
+      "curso": null,
+      "servicios": [
+        "cloud-sql",
+        "observability-tools"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.4-diagnostics"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "In Query Insights you identified a Cloud SQL for MySQL query that performs full table scans. Which Cloud SQL feature then tells you which indexes to create?",
+        "es": "En Query Insights identificaste una consulta de Cloud SQL para MySQL que hace análisis completos de tabla. ¿Qué función de Cloud SQL te indica después qué índices crear?"
+      },
+      "opciones": [
+        {
+          "en": "The Cloud SQL index advisor, which analyzes query patterns and recommends indexes together with their estimated benefit",
+          "es": "El index advisor de Cloud SQL, que analiza los patrones de consulta y recomienda índices junto con su beneficio estimado"
+        },
+        {
+          "en": "Cloud Profiler, by sampling the database engine's CPU stacks",
+          "es": "Cloud Profiler, muestreando las pilas de CPU del motor de base de datos"
+        },
+        {
+          "en": "Cloud Trace, by breaking the query into spans",
+          "es": "Cloud Trace, dividiendo la consulta en intervalos"
+        },
+        {
+          "en": "The Active Assist idle-instance recommender",
+          "es": "El recomendador de instancias inactivas de Active Assist"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The index advisor is the Cloud SQL feature that examines recurring query patterns and proposes concrete indexes, which is the natural follow-up to spotting an expensive query in Query Insights. B is wrong because Cloud Profiler profiles your own application code, not the managed database engine. C traces application request latency and cannot see the database's query plan. D recommends shutting down or resizing underused resources and has nothing to do with query tuning.",
+        "es": "El index advisor es la función de Cloud SQL que examina patrones de consulta recurrentes y propone índices concretos, el paso natural después de detectar una consulta costosa en Query Insights. B es incorrecta porque Cloud Profiler perfila el código de tu propia aplicación, no el motor de base de datos administrado. C rastrea la latencia de las solicitudes de la aplicación y no puede ver el plan de consulta de la base de datos. D recomienda apagar o redimensionar recursos poco usados y no tiene relación con el ajuste de consultas."
+      },
+      "doc": "https://cloud.google.com/sql/docs/mysql/index-advisor"
+    },
+    {
+      "id": "ref3-038",
+      "curso": null,
+      "servicios": [
+        "cloud-storage",
+        "billing"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-storage-costs"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A 10 TB dataset stored in the Archive class must be fully read once for a compliance audit. Which cost statement is correct?",
+        "es": "Un conjunto de datos de 10 TB almacenado en la clase Archive debe leerse por completo una vez para una auditoría de cumplimiento. ¿Qué afirmación sobre los costos es correcta?"
+      },
+      "opciones": [
+        {
+          "en": "You pay Archive data-retrieval charges for every byte read, on top of the normal at-rest storage cost and any network egress",
+          "es": "Pagas cargos de recuperación de datos de Archive por cada byte leído, además del costo normal de almacenamiento en reposo y de cualquier salida de red"
+        },
+        {
+          "en": "Reads from Archive are free; only writes and deletions are charged",
+          "es": "Las lecturas desde Archive son gratuitas; solo se cobran las escrituras y las eliminaciones"
+        },
+        {
+          "en": "You must first change the objects to Standard, and storage class changes are free",
+          "es": "Primero debes cambiar los objetos a Standard, y los cambios de clase de almacenamiento son gratuitos"
+        },
+        {
+          "en": "Archive objects are offline and must be restored in a job that can take several hours before any read is possible",
+          "es": "Los objetos de Archive están sin conexión y deben restaurarse en un trabajo que puede tardar varias horas antes de poder leerlos"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Colder classes trade a lower at-rest price for a per-byte retrieval fee, so reading 10 TB of Archive data incurs retrieval charges in addition to storage and egress. B is false: retrieval fees are exactly what distinguishes Nearline/Coldline/Archive from Standard. C is doubly wrong: a class change is a rewrite that costs money and, done before the Archive minimum duration of 365 days, also triggers an early deletion charge. D repeats a tape-archive misconception; Cloud Storage Archive objects are online with millisecond first-byte latency.",
+        "es": "Las clases más frías cambian un precio menor en reposo por una tarifa de recuperación por byte, así que leer 10 TB de datos en Archive genera cargos de recuperación además del almacenamiento y la salida. B es falsa: las tarifas de recuperación son justamente lo que distingue a Nearline/Coldline/Archive de Standard. C es doblemente incorrecta: un cambio de clase es una reescritura que cuesta dinero y, si se hace antes de la duración mínima de 365 días de Archive, también genera un cargo por eliminación temprana. D repite un concepto erróneo heredado de las cintas; los objetos de Archive en Cloud Storage están en línea con latencia de milisegundos al primer byte."
+      },
+      "doc": "https://cloud.google.com/storage/docs/storage-classes"
+    },
+    {
+      "id": "ref3-039",
+      "curso": null,
+      "servicios": [
+        "spanner",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-db-backup-restore"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which command takes an on-demand backup of a Spanner database and keeps it for 30 days?",
+        "es": "¿Qué comando toma una copia de seguridad bajo demanda de una base de datos de Spanner y la conserva durante 30 días?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud spanner backups create BACKUP_ID --instance=INSTANCE --database=DB --retention-period=30d --async",
+          "es": "gcloud spanner backups create BACKUP_ID --instance=INSTANCE --database=DB --retention-period=30d --async"
+        },
+        {
+          "en": "gcloud spanner databases export DB --instance=INSTANCE --destination=gs://BUCKET --retention=30d",
+          "es": "gcloud spanner databases export DB --instance=INSTANCE --destination=gs://BUCKET --retention=30d"
+        },
+        {
+          "en": "gcloud sql backups create --instance=INSTANCE --retention-period=30d",
+          "es": "gcloud sql backups create --instance=INSTANCE --retention-period=30d"
+        },
+        {
+          "en": "gcloud spanner instances update INSTANCE --enable-backups --retention-period=30d",
+          "es": "gcloud spanner instances update INSTANCE --enable-backups --retention-period=30d"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "gcloud spanner backups create makes a consistent, Spanner-managed backup whose lifetime is set by --retention-period; it can later be restored into a new database with gcloud spanner databases restore. B confuses backups with exports: an export writes portable files to Cloud Storage through a Dataflow template and has no retention flag. C is the Cloud SQL command, a different product. D is not a real flag; backups in Spanner are per-database operations or scheduled backup schedules, not an instance toggle.",
+        "es": "gcloud spanner backups create crea una copia de seguridad consistente administrada por Spanner cuya vigencia se define con --retention-period; después puede restaurarse en una base de datos nueva con gcloud spanner databases restore. B confunde copias de seguridad con exportaciones: una exportación escribe archivos portables en Cloud Storage mediante una plantilla de Dataflow y no tiene marca de retención. C es el comando de Cloud SQL, otro producto. D no es una marca real; en Spanner las copias de seguridad son operaciones por base de datos o programaciones de copias, no un interruptor de la instancia."
+      },
+      "doc": "https://cloud.google.com/spanner/docs/backup"
+    },
+    {
+      "id": "ref3-040",
+      "curso": null,
+      "servicios": [
+        "cmek-kms",
+        "cloud-sql"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-cmek"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Creating a Cloud SQL instance with a CMEK fails with a permission error on the Cloud KMS key. Which grant fixes it with least privilege?",
+        "es": "La creación de una instancia de Cloud SQL con una CMEK falla con un error de permisos sobre la clave de Cloud KMS. ¿Qué otorgamiento lo resuelve con el menor privilegio?"
+      },
+      "opciones": [
+        {
+          "en": "Grant the Cloud SQL service agent (service-PROJECT_NUMBER@gcp-sa-cloud-sql.iam.gserviceaccount.com) roles/cloudkms.cryptoKeyEncrypterDecrypter on that key",
+          "es": "Otorgar al agente de servicio de Cloud SQL (service-PROJECT_NUMBER@gcp-sa-cloud-sql.iam.gserviceaccount.com) el rol roles/cloudkms.cryptoKeyEncrypterDecrypter sobre esa clave"
+        },
+        {
+          "en": "Grant your own user account roles/cloudkms.admin on the key ring",
+          "es": "Otorgar a tu propia cuenta de usuario el rol roles/cloudkms.admin sobre el key ring"
+        },
+        {
+          "en": "Grant the default Compute Engine service account roles/cloudkms.viewer on the key",
+          "es": "Otorgar a la cuenta de servicio predeterminada de Compute Engine el rol roles/cloudkms.viewer sobre la clave"
+        },
+        {
+          "en": "Grant the Cloud SQL service agent roles/owner on the project that hosts Cloud KMS",
+          "es": "Otorgar al agente de servicio de Cloud SQL el rol roles/owner en el proyecto que aloja Cloud KMS"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "With CMEK the encryption and decryption calls are made by the product's own service agent, not by the user who runs the command, so the agent needs roles/cloudkms.cryptoKeyEncrypterDecrypter scoped to the specific key. B gives you administrative rights over the key ring but the service agent still cannot use the key, so creation keeps failing. C targets the wrong identity with a read-only role that permits no cryptographic operations. D would technically work but grants project-wide ownership over the key material, a serious least-privilege violation.",
+        "es": "Con CMEK las llamadas de encriptación y desencriptación las realiza el agente de servicio del propio producto, no el usuario que ejecuta el comando, por lo que el agente necesita roles/cloudkms.cryptoKeyEncrypterDecrypter acotado a esa clave. B te da derechos administrativos sobre el key ring, pero el agente de servicio sigue sin poder usar la clave y la creación continúa fallando. C apunta a la identidad equivocada con un rol de solo lectura que no permite operaciones criptográficas. D funcionaría técnicamente, pero otorga propiedad sobre todo el proyecto que contiene el material de la clave, una grave violación del menor privilegio."
+      },
+      "doc": "https://cloud.google.com/sql/docs/mysql/cmek"
     }
   ]
 }

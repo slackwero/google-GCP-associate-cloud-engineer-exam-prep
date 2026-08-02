@@ -1748,6 +1748,711 @@
         "es": "Los permisos ya son correctos, así que la falla es de accesibilidad de red: habilitar el Acceso privado a Google en la subred permite que VMs con solo IP interna alcancen las APIs de Google, incluida storage.googleapis.com. B otorga permisos excesivos y no resuelve un problema de red. C adjunta una IP externa, lo que funciona pero expone la VM y contradice el diseño de VMs privadas. D amplía el rango IP, algo ajeno al acceso a las APIs de Google."
       },
       "doc": "https://cloud.google.com/vpc/docs/configure-private-google-access"
+    },
+    {
+      "id": "elas-041",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "compute-engine",
+        "cloud-monitoring",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-migs-autoscaling"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A worker managed instance group pulls jobs from a Pub/Sub subscription. You want the group to scale on the number of undelivered messages. What must you configure?",
+        "es": "Un grupo de instancias administrado de workers toma trabajos de una suscripción de Pub/Sub. Quieres que el grupo escale según la cantidad de mensajes sin entregar. ¿Qué debes configurar?"
+      },
+      "opciones": [
+        {
+          "en": "An autoscaling policy based on a Cloud Monitoring metric, using --update-stackdriver-metric with the target value per instance",
+          "es": "Una política de autoescalado basada en una métrica de Cloud Monitoring, con --update-stackdriver-metric y el valor objetivo por instancia"
+        },
+        {
+          "en": "An autoscaling policy with --target-cpu-utilization=0.1 so the group grows whenever there is any work",
+          "es": "Una política de autoescalado con --target-cpu-utilization=0.1 para que el grupo crezca cuando haya cualquier trabajo"
+        },
+        {
+          "en": "An autohealing health check that probes the Pub/Sub subscription",
+          "es": "Una verificación de estado de reparación automática que sondee la suscripción de Pub/Sub"
+        },
+        {
+          "en": "A scheduled scaling policy that doubles the group size every night",
+          "es": "Una política de escalado programado que duplique el tamaño del grupo cada noche"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Compute Engine autoscalers can scale on any Cloud Monitoring metric, and the Pub/Sub num_undelivered_messages metric with a per-instance target is the standard pattern for queue-driven workers. B is a hack: a very low CPU target scales on the wrong signal and oscillates because CPU does not track queue depth. C is wrong because health checks probe instance endpoints and only recreate unhealthy VMs. D ignores actual backlog and cannot react to unpredictable bursts.",
+        "es": "Los autoescaladores de Compute Engine pueden escalar con cualquier métrica de Cloud Monitoring, y la métrica num_undelivered_messages de Pub/Sub con un objetivo por instancia es el patrón estándar para workers guiados por cola. B es un truco: un objetivo de CPU muy bajo escala con la señal equivocada y oscila, porque la CPU no sigue la profundidad de la cola. C es incorrecta porque las verificaciones de estado sondean extremos de la instancia y solo recrean VMs en mal estado. D ignora el trabajo pendiente real y no puede reaccionar a ráfagas impredecibles."
+      },
+      "doc": "https://cloud.google.com/compute/docs/autoscaler/scaling-cloud-monitoring-metrics"
+    },
+    {
+      "id": "elas-042",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "load-balancing",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You must reserve a static IP address that will front a global external Application Load Balancer. Which command is correct?",
+        "es": "Debes reservar una dirección IP estática que estará al frente de un balanceador de cargas de aplicaciones externo global. ¿Qué comando es correcto?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud compute addresses create lb-ip --region=us-central1 --network-tier=STANDARD",
+          "es": "gcloud compute addresses create lb-ip --region=us-central1 --network-tier=STANDARD"
+        },
+        {
+          "en": "gcloud compute addresses create lb-ip --global --ip-version=IPV4",
+          "es": "gcloud compute addresses create lb-ip --global --ip-version=IPV4"
+        },
+        {
+          "en": "gcloud dns record-sets create lb-ip --type=A --zone=my-zone",
+          "es": "gcloud dns record-sets create lb-ip --type=A --zone=my-zone"
+        },
+        {
+          "en": "gcloud compute addresses create lb-ip --subnet=default --purpose=GCE_ENDPOINT --region=us-central1",
+          "es": "gcloud compute addresses create lb-ip --subnet=default --purpose=GCE_ENDPOINT --region=us-central1"
+        }
+      ],
+      "respuesta": [
+        "B"
+      ],
+      "explicacion": {
+        "en": "A global external Application Load Balancer needs a global external IP, reserved with --global; it is always Premium Tier and is anycast from Google's edge. A reserves a regional Standard Tier address, which can only front regional load balancers. C creates a DNS record, which points a name at an address but does not reserve one. D reserves a static internal IP for a VM endpoint, not an external load balancer frontend.",
+        "es": "Un balanceador de cargas de aplicaciones externo global necesita una IP externa global, reservada con --global; siempre es del nivel Premium y se anuncia por anycast desde el borde de Google. A reserva una dirección regional del nivel Standard, que solo puede estar al frente de balanceadores regionales. C crea un registro DNS, que apunta un nombre a una dirección pero no reserva ninguna. D reserva una IP interna estática para un extremo de VM, no un frontend externo de balanceador."
+      },
+      "doc": "https://cloud.google.com/compute/docs/ip-addresses/reserve-static-external-ip-address"
+    },
+    {
+      "id": "elas-043",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "hybrid-connectivity",
+        "vpc"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-connectivity"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Network vpc-a is peered with vpc-b, and vpc-b has an HA VPN tunnel to the on-premises data center. Resources in vpc-a cannot reach on-premises hosts. Why?",
+        "es": "La red vpc-a está emparejada con vpc-b, y vpc-b tiene un túnel de HA VPN hacia el centro de datos on-premises. Los recursos de vpc-a no alcanzan los hosts on-premises. ¿Por qué?"
+      },
+      "opciones": [
+        {
+          "en": "Because VPC Network Peering is not transitive, so vpc-a does not learn routes reachable through vpc-b's VPN unless custom route exchange is enabled and the design still requires its own connectivity",
+          "es": "Porque el intercambio entre redes de VPC no es transitivo, de modo que vpc-a no aprende las rutas alcanzables por la VPN de vpc-b, salvo que se habilite el intercambio de rutas personalizadas, y el diseño igualmente requiere su propia conectividad"
+        },
+        {
+          "en": "Because peered networks cannot use internal IP addresses",
+          "es": "Porque las redes emparejadas no pueden usar direcciones IP internas"
+        },
+        {
+          "en": "Because HA VPN only supports traffic originating in the same subnet as the gateway",
+          "es": "Porque HA VPN solo admite tráfico originado en la misma subred que la puerta de enlace"
+        },
+        {
+          "en": "Because the peering must be created twice in the same project",
+          "es": "Porque el peering debe crearse dos veces en el mismo proyecto"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Peering is non-transitive: vpc-a can reach vpc-b's own subnets but not networks behind vpc-b's VPN or its other peers. The usual solutions are giving vpc-a its own hybrid connection, or replacing the design with Shared VPC or Network Connectivity Center. B is false because peering exists precisely to allow internal IP communication. C is false because HA VPN carries traffic from any subnet whose range is advertised by Cloud Router. D is wrong: each side creates one peering, in its own project, not two in the same one.",
+        "es": "El peering no es transitivo: vpc-a alcanza las subredes propias de vpc-b, pero no las redes que están detrás de la VPN de vpc-b ni sus otros pares. Las soluciones habituales son dar a vpc-a su propia conexión híbrida o reemplazar el diseño con VPC compartida o Network Connectivity Center. B es falsa porque el peering existe justamente para permitir la comunicación por IP interna. C es falsa porque HA VPN transporta tráfico de cualquier subred cuyo rango anuncie el Cloud Router. D es incorrecta: cada lado crea un peering, en su propio proyecto, no dos en el mismo."
+      },
+      "doc": "https://cloud.google.com/vpc/docs/vpc-peering#restrictions"
+    },
+    {
+      "id": "elas-044",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "terraform-iac",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.4-iac-tooling"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Several engineers run Terraform against the same Google Cloud environment from their laptops and keep overwriting each other's changes. What is the recommended configuration?",
+        "es": "Varios ingenieros ejecutan Terraform contra el mismo entorno de Google Cloud desde sus laptops y se sobrescriben los cambios entre sí. ¿Cuál es la configuración recomendada?"
+      },
+      "opciones": [
+        {
+          "en": "Store the state in a Cloud Storage bucket configured as the remote backend, which provides shared state with locking",
+          "es": "Almacenar el estado en un bucket de Cloud Storage configurado como backend remoto, que provee estado compartido con bloqueo"
+        },
+        {
+          "en": "Commit the local terraform.tfstate file to the Git repository after every apply",
+          "es": "Confirmar el archivo local terraform.tfstate en el repositorio de Git después de cada apply"
+        },
+        {
+          "en": "Give each engineer a separate Google Cloud project so their states never collide",
+          "es": "Dar a cada ingeniero un proyecto de Google Cloud distinto para que sus estados nunca choquen"
+        },
+        {
+          "en": "Ask engineers to always run terraform apply -auto-approve to reduce the time the state is open",
+          "es": "Pedir a los ingenieros que siempre ejecuten terraform apply -auto-approve para reducir el tiempo en que el estado está abierto"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The Cloud Storage backend keeps one authoritative state, versioned and protected by object locking, so concurrent applies are serialized instead of clobbering each other. B is a known anti-pattern: state can hold sensitive values and Git offers no locking, so merge conflicts corrupt it. C avoids the symptom by abandoning the shared environment and does not help when a real shared environment must be managed. D removes the review step and makes races more likely, not less.",
+        "es": "El backend de Cloud Storage mantiene un único estado autoritativo, versionado y protegido con bloqueo de objetos, de modo que los apply concurrentes se serializan en lugar de pisarse. B es un antipatrón conocido: el estado puede contener valores sensibles y Git no ofrece bloqueo, por lo que los conflictos de fusión lo corrompen. C evita el síntoma abandonando el entorno compartido y no sirve cuando hay que administrar un entorno compartido real. D elimina el paso de revisión y hace las condiciones de carrera más probables, no menos."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/resource-management/store-state"
+    },
+    {
+      "id": "elas-045",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "load-balancing",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-load-balancers",
+        "2.1-migs-autoscaling"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A retail company serves an HTTPS storefront to customers in North America, Europe and Asia. They want one IP address and one certificate, users routed to the nearest healthy region, static assets cached at the edge, and automatic failover if a region degrades. Which is the BEST solution?",
+        "es": "Una empresa minorista atiende una tienda HTTPS a clientes de Norteamérica, Europa y Asia. Quieren una sola dirección IP y un solo certificado, que los usuarios lleguen a la región sana más cercana, que los recursos estáticos se almacenen en caché en el borde y que haya conmutación por error automática si una región se degrada. ¿Cuál es la MEJOR solución?"
+      },
+      "opciones": [
+        {
+          "en": "Deploy one regional external Application Load Balancer per region and use Cloud DNS weighted routing to distribute users",
+          "es": "Implementar un balanceador de cargas de aplicaciones externo regional por región y usar enrutamiento ponderado de Cloud DNS para distribuir a los usuarios"
+        },
+        {
+          "en": "Deploy a global external Application Load Balancer in Premium Tier with regional managed instance group backends in each region, and enable Cloud CDN on the backend service",
+          "es": "Implementar un balanceador de cargas de aplicaciones externo global en el nivel Premium con backends de grupos de instancias administrados regionales en cada región, y habilitar Cloud CDN en el servicio de backend"
+        },
+        {
+          "en": "Deploy an external passthrough Network Load Balancer in one region and enlarge the managed instance group",
+          "es": "Implementar un balanceador de cargas de red externo passthrough en una región y agrandar el grupo de instancias administrado"
+        },
+        {
+          "en": "Deploy a global external Application Load Balancer in Standard Tier with backends in a single region",
+          "es": "Implementar un balanceador de cargas de aplicaciones externo global en el nivel Standard con backends en una sola región"
+        }
+      ],
+      "respuesta": [
+        "B"
+      ],
+      "explicacion": {
+        "en": "Only the global external Application Load Balancer in Premium Tier gives a single anycast IP and certificate, routes each user to the closest healthy backend, fails over across regions automatically and integrates with Cloud CDN. A needs a separate IP and certificate per region and DNS failover is slow and cache-dependent, breaking the single-IP and automatic-failover requirements. C is Layer 4 and single-region, so there is no TLS termination, no CDN and no cross-region failover. D is invalid because Standard Tier does not support global external load balancing, and a single region would not meet the latency or failover goals anyway.",
+        "es": "Solo el balanceador de cargas de aplicaciones externo global en el nivel Premium ofrece una sola IP anycast y un solo certificado, enruta a cada usuario al backend sano más cercano, conmuta por error entre regiones de forma automática y se integra con Cloud CDN. A exige una IP y un certificado por región, y la conmutación por DNS es lenta y depende de la caché, lo que incumple los requisitos de IP única y conmutación automática. C es de capa 4 y de una sola región, por lo que no hay terminación TLS, ni CDN, ni conmutación entre regiones. D es inválida porque el nivel Standard no admite balanceo de cargas externo global y, de todos modos, una sola región no cumpliría los objetivos de latencia ni de conmutación por error."
+      },
+      "doc": "https://cloud.google.com/load-balancing/docs/choosing-load-balancer"
+    },
+    {
+      "id": "elas-046",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "hybrid-connectivity"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-connectivity"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A bank must move 8 Gbps of sustained replication traffic between its data center and Google Cloud, with predictable latency and no exposure to the public internet. It already occupies rack space in a colocation facility where Google offers Interconnect. Which is the BEST connectivity option?",
+        "es": "Un banco debe mover 8 Gbps sostenidos de tráfico de replicación entre su centro de datos y Google Cloud, con latencia predecible y sin exposición a internet pública. Ya ocupa espacio de rack en una instalación de colocación donde Google ofrece Interconnect. ¿Cuál es la MEJOR opción de conectividad?"
+      },
+      "opciones": [
+        {
+          "en": "Several HA VPN tunnels in parallel to aggregate bandwidth",
+          "es": "Varios túneles de HA VPN en paralelo para agregar ancho de banda"
+        },
+        {
+          "en": "Dedicated Interconnect with redundant 10 Gbps circuits and Cloud Router BGP sessions",
+          "es": "Dedicated Interconnect con circuitos redundantes de 10 Gbps y sesiones BGP de Cloud Router"
+        },
+        {
+          "en": "Direct Peering with Google plus VMs holding external IP addresses",
+          "es": "Peering directo con Google más VMs con direcciones IP externas"
+        },
+        {
+          "en": "VPC Network Peering between the on-premises network and the VPC",
+          "es": "Intercambio entre redes de VPC entre la red on-premises y la VPC"
+        }
+      ],
+      "respuesta": [
+        "B"
+      ],
+      "explicacion": {
+        "en": "Dedicated Interconnect provides a private physical circuit into Google's network with the throughput and predictable latency the workload needs, and the bank already meets the colocation prerequisite; redundant circuits protect the link. A rides the public internet, where each HA VPN tunnel is capped and aggregate throughput and latency are not guaranteed, failing the requirements. C gives access to Google public services with external IPs, which contradicts the no-public-internet and private-addressing goals and does not reach the VPC privately. D is impossible: VPC Network Peering connects two VPC networks inside Google Cloud, never an on-premises network.",
+        "es": "Dedicated Interconnect entrega un circuito físico privado hacia la red de Google con el rendimiento y la latencia predecible que la carga necesita, y el banco ya cumple el prerrequisito de colocación; los circuitos redundantes protegen el enlace. A viaja por internet pública, donde cada túnel de HA VPN tiene un tope y no se garantizan el rendimiento agregado ni la latencia, lo que incumple los requisitos. C da acceso a servicios públicos de Google con IPs externas, lo que contradice los objetivos de no usar internet pública ni direccionamiento público, y no alcanza la VPC de forma privada. D es imposible: el intercambio entre redes de VPC conecta dos redes de VPC dentro de Google Cloud, nunca una red on-premises."
+      },
+      "doc": "https://cloud.google.com/network-connectivity/docs/interconnect/concepts/dedicated-overview"
+    },
+    {
+      "id": "elas-047",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "compute-engine",
+        "load-balancing"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-migs-autoscaling"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A stateless web tier runs on a zonal managed instance group with autoscaling. During a zone outage the whole service went down, and afterwards the group took several minutes to add capacity because instances need 4 minutes to boot the application. What is the BEST combination of changes?",
+        "es": "Un nivel web sin estado se ejecuta en un grupo de instancias administrado zonal con autoescalado. Durante una interrupción de zona todo el servicio se cayó y, después, el grupo tardó varios minutos en agregar capacidad porque las instancias necesitan 4 minutos para iniciar la aplicación. ¿Cuál es la MEJOR combinación de cambios?"
+      },
+      "opciones": [
+        {
+          "en": "Convert the group to a regional managed instance group and set the autoscaler cool-down period to match the 4-minute initialization time",
+          "es": "Convertir el grupo en un grupo de instancias administrado regional y ajustar el período de enfriamiento del autoescalador para que coincida con los 4 minutos de inicialización"
+        },
+        {
+          "en": "Keep the zonal group and raise the maximum number of replicas",
+          "es": "Mantener el grupo zonal y aumentar la cantidad máxima de réplicas"
+        },
+        {
+          "en": "Keep the zonal group and lower the target CPU utilization to 20%",
+          "es": "Mantener el grupo zonal y bajar el objetivo de uso de CPU a 20%"
+        },
+        {
+          "en": "Replace autoscaling with a fixed group size equal to the historical peak",
+          "es": "Reemplazar el autoescalado por un tamaño de grupo fijo igual al pico histórico"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "A regional MIG spreads instances across zones so a single zone failure leaves capacity running, and setting the cool-down to the real initialization time stops the autoscaler from reacting to boot-time CPU and over-scaling, while a baked image or startup optimization further shortens the 4 minutes. B leaves every instance in one zone, so the outage repeats. C also stays zonal and merely burns money by keeping many idle instances, without fixing availability. D pays for peak capacity permanently, still lives in one zone and abandons elasticity.",
+        "es": "Un MIG regional distribuye las instancias entre zonas, de modo que la falla de una zona deja capacidad en ejecución, y fijar el enfriamiento en el tiempo real de inicialización evita que el autoescalador reaccione a la CPU de arranque y escale de más, mientras que una imagen preconstruida u optimizar el arranque acorta aún más esos 4 minutos. B deja todas las instancias en una zona, por lo que la interrupción se repite. C también sigue siendo zonal y solo gasta dinero manteniendo muchas instancias ociosas, sin corregir la disponibilidad. D paga capacidad de pico de forma permanente, sigue en una sola zona y renuncia a la elasticidad."
+      },
+      "doc": "https://cloud.google.com/compute/docs/instance-groups/regional-migs"
+    },
+    {
+      "id": "elas-048",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "vpc",
+        "iam"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-vpc-subnets"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "An organization wants a central network team to own subnets, firewall rules and hybrid connectivity, while ten application teams deploy workloads in their own projects with separate billing and IAM. Which is the BEST design?",
+        "es": "Una organización quiere que un equipo central de red sea dueño de las subredes, las reglas de firewall y la conectividad híbrida, mientras diez equipos de aplicación implementan cargas de trabajo en sus propios proyectos con facturación e IAM separados. ¿Cuál es el MEJOR diseño?"
+      },
+      "opciones": [
+        {
+          "en": "Put every team in one project and separate them with network tags",
+          "es": "Poner a todos los equipos en un solo proyecto y separarlos con etiquetas de red"
+        },
+        {
+          "en": "Give each team its own VPC and create a full mesh of VPC Network Peering connections between all of them",
+          "es": "Dar a cada equipo su propia VPC y crear una malla completa de conexiones de intercambio entre todas ellas"
+        },
+        {
+          "en": "Create a Shared VPC host project owned by the network team and attach the ten application projects as service projects, granting each team the Network User role on only the subnets it needs",
+          "es": "Crear un proyecto host de VPC compartida propiedad del equipo de red y adjuntar los diez proyectos de aplicación como proyectos de servicio, otorgando a cada equipo el rol Network User solo en las subredes que necesita"
+        },
+        {
+          "en": "Create a VPC in each project and connect them all with HA VPN tunnels",
+          "es": "Crear una VPC en cada proyecto y conectarlas todas con túneles de HA VPN"
+        }
+      ],
+      "respuesta": [
+        "C"
+      ],
+      "explicacion": {
+        "en": "Shared VPC is designed exactly for this split: the host project centralizes subnets, firewall policy and hybrid links, while each service project keeps its own billing, IAM and quota, and subnet-level Network User grants enforce least privilege. A destroys the billing and IAM separation, since a single project shares quotas and project-level roles. B requires 45 peering connections, is non-transitive and cannot centralize firewall rules or hybrid connectivity. D is even heavier operationally, adds tunnel cost and latency, and still leaves network policy scattered across projects.",
+        "es": "La VPC compartida está diseñada exactamente para esta división: el proyecto host centraliza subredes, política de firewall y enlaces híbridos, mientras cada proyecto de servicio conserva su facturación, IAM y cuotas, y las concesiones de Network User a nivel de subred imponen el mínimo privilegio. A destruye la separación de facturación e IAM, porque un solo proyecto comparte cuotas y roles a nivel de proyecto. B requiere 45 conexiones de peering, no es transitiva y no permite centralizar reglas de firewall ni conectividad híbrida. D es aún más pesada operativamente, agrega costo y latencia de túneles, y deja la política de red dispersa entre proyectos."
+      },
+      "doc": "https://cloud.google.com/architecture/best-practices-vpc-design"
+    },
+    {
+      "id": "elas-049",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "network-service-tiers",
+        "load-balancing"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-network-tiers"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A media company runs a nightly batch job in us-central1 that pushes several terabytes of processed files to a partner endpoint located in the same metropolitan area. Latency is irrelevant because the job runs unattended overnight, but egress cost must be as low as possible. What is the BEST choice?",
+        "es": "Una empresa de medios ejecuta un trabajo por lotes nocturno en us-central1 que envía varios terabytes de archivos procesados a un extremo de un socio ubicado en la misma área metropolitana. La latencia es irrelevante porque el trabajo corre sin supervisión de noche, pero el costo de salida debe ser lo más bajo posible. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        {
+          "en": "Use Premium Tier so traffic stays on Google's backbone as long as possible",
+          "es": "Usar el nivel Premium para que el tráfico permanezca en la red troncal de Google el mayor tiempo posible"
+        },
+        {
+          "en": "Use Standard Tier with a regional external IP address in us-central1",
+          "es": "Usar el nivel Standard con una dirección IP externa regional en us-central1"
+        },
+        {
+          "en": "Use a global external Application Load Balancer with Cloud CDN in front of the job's output",
+          "es": "Usar un balanceador de cargas de aplicaciones externo global con Cloud CDN al frente de la salida del trabajo"
+        },
+        {
+          "en": "Use Cloud NAT with dynamic port allocation to reduce egress charges",
+          "es": "Usar Cloud NAT con asignación dinámica de puertos para reducir los cargos de salida"
+        }
+      ],
+      "respuesta": [
+        "B"
+      ],
+      "explicacion": {
+        "en": "Standard Tier hands traffic to the internet close to the source region, costs less per GB, and its regional scope and internet-quality path are acceptable for an unattended overnight transfer to a nearby partner. A buys premium global routing and its higher price for a latency benefit the workload explicitly does not need. C adds a load balancer and CDN, which serve inbound cacheable content and would only add cost to an outbound push. D provides outbound connectivity for private VMs but does not change egress pricing, and dynamic port allocation only addresses port exhaustion.",
+        "es": "El nivel Standard entrega el tráfico a internet cerca de la región de origen, cuesta menos por GB, y su alcance regional y su ruta con calidad de internet son aceptables para una transferencia nocturna sin supervisión hacia un socio cercano. A paga enrutamiento global premium y su precio más alto por un beneficio de latencia que la carga explícitamente no necesita. C agrega un balanceador y una CDN, que sirven contenido entrante almacenable en caché y solo sumarían costo a un envío saliente. D provee conectividad saliente a VMs privadas pero no cambia el precio de salida, y la asignación dinámica de puertos solo atiende el agotamiento de puertos."
+      },
+      "doc": "https://cloud.google.com/network-tiers/docs/overview"
+    },
+    {
+      "id": "elas-050",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "load-balancing"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A microservices platform in a single region needs an internal entry point that routes requests to different backend services based on the URL path, enforces mutual TLS at the edge of the mesh, and is not reachable from the internet. Which load balancer is the BEST fit?",
+        "es": "Una plataforma de microservicios en una sola región necesita un punto de entrada interno que enrute solicitudes a distintos servicios de backend según la ruta de la URL, aplique TLS mutuo en el borde de la malla y no sea accesible desde internet. ¿Qué balanceador de cargas es el MÁS adecuado?"
+      },
+      "opciones": [
+        {
+          "en": "Regional internal Application Load Balancer",
+          "es": "Balanceador de cargas de aplicaciones interno regional"
+        },
+        {
+          "en": "Internal passthrough Network Load Balancer",
+          "es": "Balanceador de cargas de red interno de tipo passthrough"
+        },
+        {
+          "en": "Global external Application Load Balancer restricted with firewall rules",
+          "es": "Balanceador de cargas de aplicaciones externo global restringido con reglas de firewall"
+        },
+        {
+          "en": "External proxy Network Load Balancer with a private DNS name",
+          "es": "Balanceador de cargas de red externo de tipo proxy con un nombre DNS privado"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The internal Application Load Balancer is a Layer 7 proxy reachable only from within the VPC, so it supports URL maps, header-based routing and TLS termination for internal clients without any internet exposure. B works at Layer 4 and cannot inspect URL paths or terminate TLS. C is internet-facing by definition; firewall rules on the backends do not prevent the frontend IP from being publicly advertised and reachable. D is also external, and a private DNS name does not make a public IP private.",
+        "es": "El balanceador de cargas de aplicaciones interno es un proxy de capa 7 accesible solo desde dentro de la VPC, por lo que admite mapas de URL, enrutamiento por encabezados y terminación TLS para clientes internos sin exposición a internet. B opera en capa 4 y no puede inspeccionar rutas de URL ni terminar TLS. C es de cara a internet por definición; las reglas de firewall en los backends no evitan que la IP del frontend se anuncie públicamente y sea accesible. D también es externo, y un nombre DNS privado no vuelve privada una IP pública."
+      },
+      "doc": "https://cloud.google.com/load-balancing/docs/l7-internal"
+    },
+    {
+      "id": "elas-051",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "cloud-nat",
+        "vpc",
+        "cloud-ngfw"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-dns-nat",
+        "3.3-firewall-mgmt"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A compliance rule states that no VM may have an external IP address, yet the fleet must download OS security patches from vendor repositories on the internet and write logs to Cloud Logging. Which is the BEST configuration?",
+        "es": "Una regla de cumplimiento establece que ninguna VM puede tener dirección IP externa, pero la flota debe descargar parches de seguridad del sistema operativo desde repositorios de proveedores en internet y escribir registros en Cloud Logging. ¿Cuál es la MEJOR configuración?"
+      },
+      "opciones": [
+        {
+          "en": "Enable Private Google Access on the subnets and rely on it for the vendor repositories as well",
+          "es": "Habilitar el Acceso privado a Google en las subredes y confiar en él también para los repositorios de los proveedores"
+        },
+        {
+          "en": "Configure Cloud NAT on a Cloud Router for the subnets, enable Private Google Access, and keep egress firewall rules restricted to the required destinations",
+          "es": "Configurar Cloud NAT en un Cloud Router para las subredes, habilitar el Acceso privado a Google y mantener las reglas de firewall de salida restringidas a los destinos necesarios"
+        },
+        {
+          "en": "Attach ephemeral external IP addresses only during the patch window and remove them afterwards",
+          "es": "Adjuntar direcciones IP externas efímeras solo durante la ventana de parches y quitarlas después"
+        },
+        {
+          "en": "Route all egress through an HA VPN tunnel to the on-premises proxy and let it reach the internet",
+          "es": "Enrutar toda la salida por un túnel de HA VPN hacia el proxy on-premises y dejar que este alcance internet"
+        }
+      ],
+      "respuesta": [
+        "B"
+      ],
+      "explicacion": {
+        "en": "Cloud NAT gives outbound-only internet access with no external IPs, Private Google Access covers Google APIs such as Cloud Logging, and egress firewall rules keep the allowed destinations narrow, satisfying both the compliance rule and the operational need. A alone fails because Private Google Access reaches only Google APIs and services, not third-party vendor repositories. C violates the policy during the window and adds fragile automation. D technically works but forces all patch traffic across the hybrid link, adding latency, tunnel cost and a dependency on on-premises availability, so it is not the best option when Cloud NAT solves it natively.",
+        "es": "Cloud NAT da acceso a internet solo de salida sin IPs externas, el Acceso privado a Google cubre las APIs de Google como Cloud Logging, y las reglas de firewall de salida mantienen acotados los destinos permitidos, con lo que se satisfacen la regla de cumplimiento y la necesidad operativa. A por sí sola falla porque el Acceso privado a Google solo alcanza APIs y servicios de Google, no repositorios de terceros. C viola la política durante la ventana y agrega automatización frágil. D funciona técnicamente, pero fuerza todo el tráfico de parches por el enlace híbrido, con más latencia, costo de túnel y dependencia de la disponibilidad on-premises, así que no es la mejor opción cuando Cloud NAT lo resuelve de forma nativa."
+      },
+      "doc": "https://cloud.google.com/nat/docs/overview"
+    },
+    {
+      "id": "elas-052",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "compute-engine",
+        "load-balancing"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-migs-autoscaling"
+      ],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "A managed instance group behind a load balancer flaps: it scales out, then immediately scales in, repeatedly. Which TWO changes are most likely to stabilize it?",
+        "es": "Un grupo de instancias administrado detrás de un balanceador de cargas oscila: escala hacia arriba y de inmediato hacia abajo, una y otra vez. ¿Cuáles DOS cambios tienen más probabilidad de estabilizarlo?"
+      },
+      "opciones": [
+        {
+          "en": "Set the cool-down (initialization) period to the real time the application needs to start serving traffic",
+          "es": "Fijar el período de enfriamiento (inicialización) en el tiempo real que la aplicación necesita para empezar a atender tráfico"
+        },
+        {
+          "en": "Configure a scale-in control that limits how many instances can be removed within a time window",
+          "es": "Configurar un control de reducción de escala que limite cuántas instancias se pueden quitar dentro de una ventana de tiempo"
+        },
+        {
+          "en": "Delete the health check attached to the backend service",
+          "es": "Borrar la verificación de estado asociada al servicio de backend"
+        },
+        {
+          "en": "Reduce the minimum number of replicas to 1",
+          "es": "Reducir la cantidad mínima de réplicas a 1"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Flapping usually comes from the autoscaler counting startup CPU as real load and from aggressive scale-in right after a spike; a correct initialization period ignores boot metrics, and scale-in controls cap how fast capacity is removed so the group settles. C would make things worse: without health checks the load balancer sends traffic to instances that are not ready and cannot autoheal. D lowers the floor, which makes the group even more prone to dropping to a size that immediately triggers another scale-out.",
+        "es": "La oscilación suele venir de que el autoescalador cuenta la CPU de arranque como carga real y de una reducción agresiva justo después de un pico; un período de inicialización correcto ignora las métricas de arranque, y los controles de reducción limitan la velocidad con que se quita capacidad para que el grupo se estabilice. C empeoraría la situación: sin verificaciones de estado, el balanceador envía tráfico a instancias que no están listas y no hay reparación automática. D baja el piso, lo que hace al grupo aún más propenso a caer a un tamaño que dispara de inmediato otro escalamiento."
+      },
+      "doc": "https://cloud.google.com/compute/docs/autoscaler/understanding-autoscaler-decisions"
+    },
+    {
+      "id": "elas-053",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "terraform-iac",
+        "vpc"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.4-iac-tooling"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A team manages its network with Terraform. An engineer changed a firewall rule directly in the Google Cloud console to fix an incident. What is the BEST way to return to a consistent, code-driven state?",
+        "es": "Un equipo administra su red con Terraform. Un ingeniero cambió una regla de firewall directamente en la consola de Google Cloud para resolver un incidente. ¿Cuál es la MEJOR forma de volver a un estado consistente y guiado por código?"
+      },
+      "opciones": [
+        {
+          "en": "Run terraform apply immediately so the configuration silently overwrites whatever exists",
+          "es": "Ejecutar terraform apply de inmediato para que la configuración sobrescriba en silencio lo que exista"
+        },
+        {
+          "en": "Run terraform plan to see the drift, update the configuration to reflect the intended rule, review it, and then apply",
+          "es": "Ejecutar terraform plan para ver la desviación, actualizar la configuración para reflejar la regla deseada, revisarla y luego aplicar"
+        },
+        {
+          "en": "Delete the Terraform state file so Terraform starts fresh on the next run",
+          "es": "Borrar el archivo de estado de Terraform para que Terraform empiece de cero en la próxima ejecución"
+        },
+        {
+          "en": "Stop managing firewall rules with Terraform and document the manual change in a wiki",
+          "es": "Dejar de administrar las reglas de firewall con Terraform y documentar el cambio manual en un wiki"
+        }
+      ],
+      "respuesta": [
+        "B"
+      ],
+      "explicacion": {
+        "en": "plan surfaces the drift, and deciding deliberately whether the emergency change should become permanent, then encoding it and applying, keeps code as the source of truth with a reviewable audit trail. A applies blindly and can revert a fix that is still needed, causing a second incident. C is destructive: without state Terraform loses track of existing resources and may try to recreate or duplicate them. D abandons IaC for that resource type, guaranteeing more drift and losing review and reproducibility.",
+        "es": "plan expone la desviación, y decidir deliberadamente si el cambio de emergencia debe volverse permanente, codificarlo y aplicarlo mantiene el código como fuente de verdad con un historial revisable. A aplica a ciegas y puede revertir una corrección que sigue siendo necesaria, provocando un segundo incidente. C es destructiva: sin estado, Terraform pierde el rastro de los recursos existentes y puede intentar recrearlos o duplicarlos. D abandona la IaC para ese tipo de recurso, lo que garantiza más desviaciones y pierde revisión y reproducibilidad."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/best-practices-for-terraform"
+    },
+    {
+      "id": "elas-054",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "hybrid-connectivity",
+        "vpc"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-connectivity"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A startup needs connectivity from its office to a VPC for an internal admin tool. Traffic is under 100 Mbps, the budget is small, and the setup must be running this week without any physical installation. Which is the BEST option?",
+        "es": "Una startup necesita conectividad desde su oficina hacia una VPC para una herramienta de administración interna. El tráfico es menor a 100 Mbps, el presupuesto es reducido y la configuración debe estar operativa esta semana sin ninguna instalación física. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        {
+          "en": "Dedicated Interconnect with a 10 Gbps circuit",
+          "es": "Dedicated Interconnect con un circuito de 10 Gbps"
+        },
+        {
+          "en": "HA VPN with Cloud Router and BGP over the existing internet connection",
+          "es": "HA VPN con Cloud Router y BGP sobre la conexión a internet existente"
+        },
+        {
+          "en": "Partner Interconnect with a 50 Mbps VLAN attachment",
+          "es": "Partner Interconnect con un adjunto de VLAN de 50 Mbps"
+        },
+        {
+          "en": "Give the admin tool an external IP address and restrict it with firewall rules to the office IP",
+          "es": "Dar a la herramienta de administración una dirección IP externa y restringirla con reglas de firewall a la IP de la oficina"
+        }
+      ],
+      "respuesta": [
+        "B"
+      ],
+      "explicacion": {
+        "en": "HA VPN is provisioned in minutes over the existing internet link, needs no physical work, costs far less than any Interconnect and comfortably covers sub-100 Mbps with encrypted, routed private connectivity. A requires colocation, weeks of provisioning and pays for capacity 100 times larger than needed. C still requires ordering a circuit from a partner, taking days to weeks and costing more than a VPN for this volume. D exposes an admin tool to the public internet, and IP allowlists break with dynamic office addresses and provide no encryption or private routing.",
+        "es": "HA VPN se aprovisiona en minutos sobre el enlace a internet existente, no requiere trabajo físico, cuesta mucho menos que cualquier Interconnect y cubre con holgura menos de 100 Mbps con conectividad privada encriptada y enrutada. A exige colocación, semanas de aprovisionamiento y paga capacidad 100 veces mayor de la necesaria. C igual requiere solicitar un circuito a un socio, toma días o semanas y cuesta más que una VPN para este volumen. D expone una herramienta de administración a internet pública, y las listas de IPs permitidas se rompen con direcciones de oficina dinámicas y no ofrecen encriptación ni enrutamiento privado."
+      },
+      "doc": "https://cloud.google.com/network-connectivity/docs/how-to/choose-product"
+    },
+    {
+      "id": "elas-055",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "load-balancing"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A gaming company must expose a UDP-based game server to the internet. Sessions are long-lived, throughput matters, and the servers must log the players' real source IP addresses. Which is the BEST load balancing choice?",
+        "es": "Una empresa de videojuegos debe exponer a internet un servidor de juego basado en UDP. Las sesiones son de larga duración, el rendimiento importa y los servidores deben registrar las direcciones IP de origen reales de los jugadores. ¿Cuál es la MEJOR opción de balanceo de cargas?"
+      },
+      "opciones": [
+        {
+          "en": "Global external Application Load Balancer with a UDP backend service",
+          "es": "Balanceador de cargas de aplicaciones externo global con un servicio de backend UDP"
+        },
+        {
+          "en": "External passthrough Network Load Balancer",
+          "es": "Balanceador de cargas de red externo de tipo passthrough"
+        },
+        {
+          "en": "External proxy Network Load Balancer",
+          "es": "Balanceador de cargas de red externo de tipo proxy"
+        },
+        {
+          "en": "Internal passthrough Network Load Balancer with a public DNS record",
+          "es": "Balanceador de cargas de red interno de tipo passthrough con un registro DNS público"
+        }
+      ],
+      "respuesta": [
+        "B"
+      ],
+      "explicacion": {
+        "en": "The external passthrough Network Load Balancer handles UDP, does not proxy the packets so backends observe the player's real source IP, and forwards traffic with minimal overhead. A is Layer 7 and only supports HTTP, HTTPS and HTTP/2, never raw UDP. C proxies TCP or SSL traffic, so it neither supports UDP nor preserves the client IP without extra protocols. D is internal only, so a public DNS name pointing at an internal address is unreachable from the internet.",
+        "es": "El balanceador de cargas de red externo passthrough admite UDP, no hace proxy de los paquetes (por lo que los backends ven la IP de origen real del jugador) y reenvía el tráfico con sobrecarga mínima. A es de capa 7 y solo admite HTTP, HTTPS y HTTP/2, nunca UDP puro. C hace proxy de tráfico TCP o SSL, así que no admite UDP ni conserva la IP del cliente sin protocolos adicionales. D es solo interno, por lo que un nombre DNS público que apunte a una dirección interna es inalcanzable desde internet."
+      },
+      "doc": "https://cloud.google.com/load-balancing/docs/network"
+    },
+    {
+      "id": "elas-056",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "vpc"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-subnets-ips"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Two companies merge. Both use 10.0.0.0/16 in their VPC networks and need private connectivity between a handful of applications, with minimal readdressing effort. What is the BEST approach?",
+        "es": "Dos empresas se fusionan. Ambas usan 10.0.0.0/16 en sus redes de VPC y necesitan conectividad privada entre un puñado de aplicaciones, con el mínimo esfuerzo de readdressing. ¿Cuál es el MEJOR enfoque?"
+      },
+      "opciones": [
+        {
+          "en": "Create VPC Network Peering between the two networks; overlapping ranges are resolved automatically",
+          "es": "Crear un intercambio entre redes de VPC entre ambas redes; los rangos superpuestos se resuelven automáticamente"
+        },
+        {
+          "en": "Readdress one side into a non-overlapping range for the applications that must communicate, then establish VPC Network Peering",
+          "es": "Readdresar un lado hacia un rango sin superposición para las aplicaciones que deben comunicarse y luego establecer el intercambio entre redes de VPC"
+        },
+        {
+          "en": "Enable Private Google Access on both networks so the applications can reach each other",
+          "es": "Habilitar el Acceso privado a Google en ambas redes para que las aplicaciones se alcancen entre sí"
+        },
+        {
+          "en": "Expand both subnets to /12 so the ranges become large enough to coexist",
+          "es": "Ampliar ambas subredes a /12 para que los rangos sean lo bastante grandes como para coexistir"
+        }
+      ],
+      "respuesta": [
+        "B"
+      ],
+      "explicacion": {
+        "en": "VPC Network Peering refuses to establish when subnet IP ranges overlap, so the practical path is to move the specific applications that need connectivity into a non-overlapping range and then peer, limiting the readdressing to the smallest possible scope. A is simply false: peering is rejected on overlap and performs no NAT. C is unrelated, since Private Google Access only reaches Google APIs and services. D makes the problem worse by enlarging the very ranges that already collide.",
+        "es": "El intercambio entre redes de VPC no se establece cuando los rangos IP de las subredes se superponen, así que el camino práctico es mover las aplicaciones específicas que necesitan conectividad a un rango sin superposición y luego emparejar, limitando el readdressing al alcance más pequeño posible. A es sencillamente falsa: el peering se rechaza ante superposición y no realiza NAT. C no tiene relación, ya que el Acceso privado a Google solo alcanza APIs y servicios de Google. D empeora el problema al agrandar justamente los rangos que ya chocan."
+      },
+      "doc": "https://cloud.google.com/vpc/docs/vpc-peering#restrictions"
     }
   ]
 }

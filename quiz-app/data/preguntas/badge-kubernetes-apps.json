@@ -1398,6 +1398,712 @@
         "es": "La marca -l (--selector) recibe una lista separada por comas de requisitos de labels que deben cumplirse todos. B y D usan marcas que no existen en kubectl, y C trata las expresiones de labels como nombres de recursos, así que no encontraría ningún objeto."
       },
       "doc": "https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors"
+    },
+    {
+      "id": "k8s-033",
+      "curso": "badge-kubernetes-apps",
+      "servicios": [
+        "gke",
+        "kubectl"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-gke-deploy-containers"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your manifests live in a directory k8s/ with several YAML files. Which command applies all of them at once?",
+        "es": "Tus manifiestos están en un directorio k8s/ con varios archivos YAML. ¿Qué comando los aplica todos a la vez?"
+      },
+      "opciones": [
+        {
+          "en": "kubectl apply -f k8s/",
+          "es": "kubectl apply -f k8s/"
+        },
+        {
+          "en": "kubectl apply --all k8s/",
+          "es": "kubectl apply --all k8s/"
+        },
+        {
+          "en": "kubectl create namespace k8s && kubectl apply",
+          "es": "kubectl create namespace k8s && kubectl apply"
+        },
+        {
+          "en": "kubectl apply -f k8s/*.yaml --dry-run=server",
+          "es": "kubectl apply -f k8s/*.yaml --dry-run=server"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Passing a directory to -f applies every manifest it contains (add -R for subdirectories). B is not a valid flag combination, C confuses a directory name with a namespace and applies nothing, and D would only simulate the request on the server without persisting the objects.",
+        "es": "Pasar un directorio a -f aplica todos los manifiestos que contiene (usa -R para subdirectorios). B no es una combinación de marcas válida, C confunde el nombre del directorio con un namespace y no aplica nada, y D solo simularía la solicitud en el servidor sin persistir los objetos."
+      },
+      "doc": "https://kubernetes.io/docs/tasks/manage-kubernetes-objects/declarative-config/"
+    },
+    {
+      "id": "k8s-034",
+      "curso": "badge-kubernetes-apps",
+      "servicios": [
+        "gke"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-k8s-resources"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "In a Deployment manifest, where do you declare that each container needs 250m CPU and 256Mi of memory guaranteed?",
+        "es": "En un manifiesto de Deployment, ¿dónde declaras que cada contenedor necesita 250m de CPU y 256Mi de memoria garantizados?"
+      },
+      "opciones": [
+        {
+          "en": "Under spec.template.spec.containers[].resources.requests",
+          "es": "En spec.template.spec.containers[].resources.requests"
+        },
+        {
+          "en": "Under spec.replicas",
+          "es": "En spec.replicas"
+        },
+        {
+          "en": "Under metadata.annotations of the Deployment",
+          "es": "En metadata.annotations del Deployment"
+        },
+        {
+          "en": "Under spec.selector.matchLabels",
+          "es": "En spec.selector.matchLabels"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Resource requests belong to each container inside the Pod template, which is what the scheduler reads to place the Pod. B sets how many Pods run, C stores arbitrary metadata that the scheduler ignores, and D declares which Pods the Deployment owns.",
+        "es": "Las requests de recursos pertenecen a cada contenedor dentro de la plantilla del Pod, que es lo que lee el programador para ubicarlo. B define cuántos Pods se ejecutan, C guarda metadatos arbitrarios que el programador ignora y D declara qué Pods pertenecen al Deployment."
+      },
+      "doc": "https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/"
+    },
+    {
+      "id": "k8s-035",
+      "curso": "badge-kubernetes-apps",
+      "servicios": [
+        "gcloud-cli",
+        "artifact-registry"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-gke-deploy-containers"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You want a new image to be built automatically every time a commit is pushed to the main branch of your repository. What should you configure?",
+        "es": "Quieres que se construya una imagen nueva automáticamente cada vez que se envíe un commit a la rama main de tu repositorio. ¿Qué deberías configurar?"
+      },
+      "opciones": [
+        {
+          "en": "A Cloud Build trigger connected to the repository, filtered on the main branch, that runs your cloudbuild.yaml",
+          "es": "Un activador de Cloud Build conectado al repositorio, filtrado por la rama main, que ejecute tu cloudbuild.yaml"
+        },
+        {
+          "en": "A Cloud Scheduler job that runs gcloud builds submit every hour",
+          "es": "Un trabajo de Cloud Scheduler que ejecute gcloud builds submit cada hora"
+        },
+        {
+          "en": "A CronJob in GKE that rebuilds the image inside the cluster",
+          "es": "Un CronJob en GKE que reconstruya la imagen dentro del clúster"
+        },
+        {
+          "en": "An Artifact Registry cleanup policy set to rebuild on new tags",
+          "es": "Una política de limpieza de Artifact Registry configurada para reconstruir con etiquetas nuevas"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Triggers are the event-driven mechanism of Cloud Build: they watch a connected repository and start a build on matching pushes or pull requests. B builds on a clock instead of on commits and wastes builds, C puts build infrastructure inside your runtime cluster for no benefit, and D only deletes artifacts and cannot start builds.",
+        "es": "Los activadores son el mecanismo orientado a eventos de Cloud Build: observan un repositorio conectado e inician una compilación con los push o pull requests que coincidan. B compila por reloj en lugar de por commit y desperdicia compilaciones, C coloca infraestructura de compilación dentro de tu clúster de ejecución sin beneficio, y D solo borra artefactos y no puede iniciar compilaciones."
+      },
+      "doc": "https://cloud.google.com/build/docs/triggers"
+    },
+    {
+      "id": "k8s-036",
+      "curso": "badge-kubernetes-apps",
+      "servicios": [
+        "artifact-registry",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-gke-ops"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "An image validated in the repository staging must be promoted to the repository prod without rebuilding it. What is the correct approach?",
+        "es": "Una imagen validada en el repositorio staging debe promoverse al repositorio prod sin volver a construirla. ¿Cuál es el enfoque correcto?"
+      },
+      "opciones": [
+        {
+          "en": "Pull the exact image, re-tag it with the prod repository path, and push it, so the same digest ends up in both repositories",
+          "es": "Descargar la imagen exacta, volver a etiquetarla con la ruta del repositorio prod y publicarla, para que el mismo digest quede en ambos repositorios"
+        },
+        {
+          "en": "Run gcloud builds submit again pointing at the prod repository",
+          "es": "Ejecutar gcloud builds submit otra vez apuntando al repositorio prod"
+        },
+        {
+          "en": "Rename the staging repository to prod in the console",
+          "es": "Cambiar el nombre del repositorio staging a prod en la consola"
+        },
+        {
+          "en": "Export the image to a Cloud Storage bucket and import it into prod",
+          "es": "Exportar la imagen a un bucket de Cloud Storage e importarla en prod"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Re-tagging and pushing copies the already validated bits, so the promoted artifact is byte-for-byte the one you tested. B rebuilds from source and can produce a different image, C destroys the staging repository instead of promoting one artifact, and D is a convoluted path that Artifact Registry does not require and that loses registry metadata.",
+        "es": "Volver a etiquetar y publicar copia los bits ya validados, así el artefacto promovido es exactamente el que probaste. B reconstruye desde el código y puede producir una imagen distinta, C elimina el repositorio staging en lugar de promover un artefacto y D es un camino enredado que Artifact Registry no requiere y que pierde los metadatos del registro."
+      },
+      "doc": "https://cloud.google.com/artifact-registry/docs/docker/pushing-and-pulling"
+    },
+    {
+      "id": "k8s-037",
+      "curso": "badge-kubernetes-apps",
+      "servicios": [
+        "gke",
+        "kubectl"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-gke-deploy-containers"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is the practical difference between kubectl create -f app.yaml and kubectl apply -f app.yaml?",
+        "es": "¿Cuál es la diferencia práctica entre kubectl create -f app.yaml y kubectl apply -f app.yaml?"
+      },
+      "opciones": [
+        {
+          "en": "create fails if the object already exists, while apply creates it or reconciles the existing object with the manifest",
+          "es": "create falla si el objeto ya existe, mientras que apply lo crea o reconcilia el objeto existente con el manifiesto"
+        },
+        {
+          "en": "create is declarative and apply is imperative",
+          "es": "create es declarativo y apply es imperativo"
+        },
+        {
+          "en": "create works only with Deployments and apply works with any resource",
+          "es": "create solo funciona con Deployments y apply funciona con cualquier recurso"
+        },
+        {
+          "en": "They are aliases of the same operation",
+          "es": "Son alias de la misma operación"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "create is imperative and errors with AlreadyExists, whereas apply performs a declarative merge and is the command to use for repeatable pipelines. B inverts the two models, C is false because create accepts any resource type, and D is false because their behavior on existing objects differs.",
+        "es": "create es imperativo y falla con AlreadyExists, mientras que apply realiza una fusión declarativa y es el comando indicado para canalizaciones repetibles. B invierte ambos modelos, C es falsa porque create acepta cualquier tipo de recurso y D es falsa porque su comportamiento con objetos existentes difiere."
+      },
+      "doc": "https://kubernetes.io/docs/tasks/manage-kubernetes-objects/imperative-config/"
+    },
+    {
+      "id": "k8s-038",
+      "curso": "badge-kubernetes-apps",
+      "servicios": [
+        "gke",
+        "kubectl"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-gke-deploy-containers"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You have a Service selecting app=web. To run a canary, which configuration sends a small share of that Service's traffic to the new version?",
+        "es": "Tienes un Service que selecciona app=web. Para hacer un canary, ¿qué configuración envía una porción pequeña del tráfico de ese Service a la versión nueva?"
+      },
+      "opciones": [
+        {
+          "en": "A second Deployment with few replicas whose Pods also carry app=web plus a distinct version label",
+          "es": "Un segundo Deployment con pocas réplicas cuyos Pods también lleven app=web más una label de versión distinta"
+        },
+        {
+          "en": "A second Service of type LoadBalancer pointing to the new Deployment",
+          "es": "Un segundo Service de tipo LoadBalancer que apunte al Deployment nuevo"
+        },
+        {
+          "en": "Changing the existing Service selector to version=canary",
+          "es": "Cambiar el selector del Service existente a version=canary"
+        },
+        {
+          "en": "Setting maxSurge to 1 on the stable Deployment",
+          "es": "Configurar maxSurge en 1 en el Deployment estable"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Because a Service load-balances across every Pod matching its selector, a small canary Deployment sharing the app=web label receives traffic roughly in proportion to its replica count, while the version label lets you inspect each group separately. B creates a separate endpoint that real users are not sent to, C moves 100% of traffic to the canary, and D only affects how the stable rollout replaces Pods.",
+        "es": "Como un Service balancea entre todos los Pods que coinciden con su selector, un Deployment canary pequeño que comparte la label app=web recibe tráfico aproximadamente en proporción a su cantidad de réplicas, mientras que la label de versión permite inspeccionar cada grupo por separado. B crea un endpoint aparte al que los usuarios reales no llegan, C envía el 100% del tráfico al canary y D solo afecta cómo el despliegue estable reemplaza sus Pods."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/how-to/updating-apps#perform_a_canary_deployment"
+    },
+    {
+      "id": "k8s-039",
+      "curso": "badge-kubernetes-apps",
+      "servicios": [
+        "gke",
+        "kubectl"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-gke-deploy-containers"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which command updates only the image of the container named web inside the Deployment web without editing the manifest by hand?",
+        "es": "¿Qué comando actualiza solo la imagen del contenedor llamado web dentro del Deployment web sin editar el manifiesto a mano?"
+      },
+      "opciones": [
+        {
+          "en": "kubectl set image deployment/web web=us-central1-docker.pkg.dev/my-proj/apps/web:v2",
+          "es": "kubectl set image deployment/web web=us-central1-docker.pkg.dev/my-proj/apps/web:v2"
+        },
+        {
+          "en": "kubectl patch pod web --image=us-central1-docker.pkg.dev/my-proj/apps/web:v2",
+          "es": "kubectl patch pod web --image=us-central1-docker.pkg.dev/my-proj/apps/web:v2"
+        },
+        {
+          "en": "kubectl replace deployment web --image v2",
+          "es": "kubectl replace deployment web --image v2"
+        },
+        {
+          "en": "gcloud container clusters update my-cluster --image=v2",
+          "es": "gcloud container clusters update my-cluster --image=v2"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "kubectl set image edits the container image in the Pod template and triggers a new rollout. B uses an invalid flag for patch and would target a single Pod that the controller recreates anyway, C is not valid syntax for replace (which needs a full manifest), and D changes cluster node settings, not the application image.",
+        "es": "kubectl set image modifica la imagen del contenedor en la plantilla del Pod y dispara un nuevo despliegue. B usa una marca inválida para patch y apuntaría a un solo Pod que el controlador recrea igual, C no es sintaxis válida de replace (que requiere un manifiesto completo) y D cambia la configuración de los nodos del clúster, no la imagen de la aplicación."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/how-to/updating-apps"
+    },
+    {
+      "id": "k8s-040",
+      "curso": "badge-kubernetes-apps",
+      "servicios": [
+        "gke",
+        "artifact-registry"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-gke-cluster-configs"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your GKE cluster runs in us-central1 and your team is choosing a location for the Artifact Registry repository that will serve its images. What should you choose and why?",
+        "es": "Tu clúster de GKE se ejecuta en us-central1 y tu equipo debe elegir la ubicación del repositorio de Artifact Registry que servirá sus imágenes. ¿Qué deberías elegir y por qué?"
+      },
+      "opciones": [
+        {
+          "en": "A repository in us-central1, because keeping images in the same region as the cluster reduces pull latency and cross-region network cost",
+          "es": "Un repositorio en us-central1, porque mantener las imágenes en la misma región del clúster reduce la latencia de descarga y el costo de red entre regiones"
+        },
+        {
+          "en": "A repository in any region, because image pull performance does not depend on location",
+          "es": "Un repositorio en cualquier región, porque el rendimiento de descarga de imágenes no depende de la ubicación"
+        },
+        {
+          "en": "A repository in a different continent, to improve disaster recovery for node startup",
+          "es": "Un repositorio en otro continente, para mejorar la recuperación ante desastres del arranque de nodos"
+        },
+        {
+          "en": "One repository per node pool, so each pool has a local copy",
+          "es": "Un repositorio por node pool, para que cada pool tenga una copia local"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Co-locating the repository with the cluster shortens pulls, which directly affects Pod startup and scale-out time, and avoids inter-region egress charges. B is false because distance adds latency and cost, C makes every node start slower for a benefit Artifact Registry already provides through its own durability, and D is impossible since repositories are regional resources, not per node pool.",
+        "es": "Ubicar el repositorio junto al clúster acorta las descargas, lo que afecta directamente el arranque de los Pods y el tiempo de escalado, y evita cargos de salida entre regiones. B es falsa porque la distancia agrega latencia y costo, C hace que cada nodo inicie más lento por un beneficio que Artifact Registry ya cubre con su propia durabilidad, y D es imposible porque los repositorios son recursos regionales, no por node pool."
+      },
+      "doc": "https://cloud.google.com/artifact-registry/docs/repositories/repo-locations"
+    },
+    {
+      "id": "k8s-041",
+      "curso": "badge-kubernetes-apps",
+      "servicios": [
+        "gke",
+        "artifact-registry"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-gke-deploy-containers"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your pipeline pushes a new build to the same tag web:latest and then runs kubectl apply with an unchanged manifest. Some Pods serve old code while others serve new code. What is the BEST fix?",
+        "es": "Tu canalización publica una compilación nueva en la misma etiqueta web:latest y luego ejecuta kubectl apply con un manifiesto sin cambios. Algunos Pods sirven código viejo y otros código nuevo. ¿Cuál es la MEJOR solución?"
+      },
+      "opciones": [
+        {
+          "en": "Publish each build with a unique immutable tag or digest and reference it in the manifest so every deploy is an explicit, reproducible change",
+          "es": "Publicar cada compilación con una etiqueta inmutable única o un digest y referenciarlo en el manifiesto para que cada despliegue sea un cambio explícito y reproducible"
+        },
+        {
+          "en": "Delete all Pods after every apply so they restart and pull the image again",
+          "es": "Borrar todos los Pods después de cada apply para que reinicien y descarguen la imagen otra vez"
+        },
+        {
+          "en": "Set imagePullPolicy to Never so nodes always use the same cached copy",
+          "es": "Configurar imagePullPolicy en Never para que los nodos usen siempre la misma copia en caché"
+        },
+        {
+          "en": "Increase maxSurge so more new Pods are created during the rollout",
+          "es": "Aumentar maxSurge para que se creen más Pods nuevos durante el despliegue"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "With an unchanged Pod template Kubernetes sees no reason to roll out, and nodes may hold different cached copies of a mutable tag; unique tags or digests make the template change and pin every replica to identical bits. B forces downtime and still leaves the tag ambiguous, C makes Pods fail on nodes without the cached image and freezes the version, and D changes rollout speed but never triggers a rollout in the first place.",
+        "es": "Con la plantilla del Pod sin cambios, Kubernetes no ve motivo para desplegar, y los nodos pueden tener copias distintas en caché de una etiqueta mutable; las etiquetas únicas o los digests hacen que la plantilla cambie y fijan todas las réplicas a los mismos bits. B fuerza inactividad y deja la etiqueta igual de ambigua, C hace fallar los Pods en nodos sin la imagen en caché y congela la versión, y D cambia la velocidad del despliegue pero nunca lo dispara."
+      },
+      "doc": "https://kubernetes.io/docs/concepts/containers/images/#image-names"
+    },
+    {
+      "id": "k8s-042",
+      "curso": "badge-kubernetes-apps",
+      "servicios": [
+        "gke",
+        "kubectl"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-gke-deploy-containers"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "kubectl rollout status never completes: new Pods are Running but never Ready, and the old Pods are still serving. What is the MOST likely cause?",
+        "es": "kubectl rollout status nunca termina: los Pods nuevos están en Running pero nunca llegan a Ready, y los Pods antiguos siguen atendiendo. ¿Cuál es la causa MÁS probable?"
+      },
+      "opciones": [
+        {
+          "en": "The readiness probe of the new version is failing, so the rollout will not proceed past maxUnavailable",
+          "es": "La sonda de readiness de la versión nueva está fallando, así que el despliegue no avanza más allá de maxUnavailable"
+        },
+        {
+          "en": "The cluster autoscaler is disabled on the node pool",
+          "es": "El autoescalador de clústeres está deshabilitado en el node pool"
+        },
+        {
+          "en": "The Service selector no longer matches any Pod",
+          "es": "El selector del Service ya no coincide con ningún Pod"
+        },
+        {
+          "en": "The image tag does not exist in Artifact Registry",
+          "es": "La etiqueta de la imagen no existe en Artifact Registry"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Pods that start but never become Ready point to a readiness probe that never succeeds; the Deployment controller waits for readiness before removing more old Pods, which is exactly why traffic is still safe. B is unrelated because the Pods are already scheduled and running, C would break traffic entirely rather than stall the rollout, and D would leave Pods in ImagePullBackOff instead of Running.",
+        "es": "Pods que inician pero nunca llegan a Ready apuntan a una sonda de readiness que nunca tiene éxito; el controlador del Deployment espera esa disponibilidad antes de retirar más Pods antiguos, que es justamente por qué el tráfico sigue a salvo. B no aplica porque los Pods ya están programados y en ejecución, C rompería el tráfico por completo en lugar de detener el despliegue, y D dejaría los Pods en ImagePullBackOff en vez de Running."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/troubleshooting/deployed-workloads"
+    },
+    {
+      "id": "k8s-043",
+      "curso": "badge-kubernetes-apps",
+      "servicios": [
+        "gke",
+        "kubectl"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-k8s-resources"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Revision 5 of a Deployment is broken and revision 3 was the last known good one. Which sequence returns production to revision 3 with the least effort?",
+        "es": "La revisión 5 de un Deployment está rota y la revisión 3 fue la última buena conocida. ¿Qué secuencia devuelve producción a la revisión 3 con el menor esfuerzo?"
+      },
+      "opciones": [
+        {
+          "en": "kubectl rollout history deployment/web to confirm the revisions, then kubectl rollout undo deployment/web --to-revision=3",
+          "es": "kubectl rollout history deployment/web para confirmar las revisiones y luego kubectl rollout undo deployment/web --to-revision=3"
+        },
+        {
+          "en": "kubectl rollout undo deployment/web twice, since each undo steps back one revision",
+          "es": "kubectl rollout undo deployment/web dos veces, ya que cada undo retrocede una revisión"
+        },
+        {
+          "en": "kubectl delete deployment web and reapply an older manifest from source control",
+          "es": "kubectl delete deployment web y volver a aplicar un manifiesto antiguo del control de versiones"
+        },
+        {
+          "en": "kubectl scale deployment/web --replicas=0 and then scale it back up",
+          "es": "kubectl scale deployment/web --replicas=0 y luego volver a escalarlo"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "rollout history lists the stored revisions and --to-revision targets an exact one in a single controlled rollback. B is wrong because a plain undo returns to the immediately previous revision and a second undo simply toggles back, C causes downtime and loses rollout history, and D takes the app offline without changing the broken image.",
+        "es": "rollout history lista las revisiones almacenadas y --to-revision apunta a una exacta en un solo rollback controlado. B es incorrecta porque un undo simple vuelve a la revisión inmediatamente anterior y un segundo undo solo alterna de regreso, C causa inactividad y pierde el historial de despliegues, y D deja la app fuera de línea sin cambiar la imagen defectuosa."
+      },
+      "doc": "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#rolling-back-to-a-previous-revision"
+    },
+    {
+      "id": "k8s-044",
+      "curso": "badge-kubernetes-apps",
+      "servicios": [
+        "gke",
+        "kubectl"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-k8s-resources"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "After a deploy, several new Pods stay in Pending and describe shows Insufficient cpu. The nodes are healthy and the old version ran fine. What is the MOST likely cause?",
+        "es": "Después de un despliegue, varios Pods nuevos quedan en Pending y describe muestra Insufficient cpu. Los nodos están sanos y la versión anterior funcionaba bien. ¿Cuál es la causa MÁS probable?"
+      },
+      "opciones": [
+        {
+          "en": "The new Pod template raised the CPU requests, so no node has enough allocatable CPU left to schedule them",
+          "es": "La plantilla nueva del Pod aumentó las requests de CPU, así que ningún nodo tiene suficiente CPU asignable disponible para programarlos"
+        },
+        {
+          "en": "The container image is missing from Artifact Registry",
+          "es": "La imagen del contenedor no está en Artifact Registry"
+        },
+        {
+          "en": "The Service has no external IP assigned yet",
+          "es": "El Service aún no tiene una IP externa asignada"
+        },
+        {
+          "en": "The readiness probe path returns HTTP 500",
+          "es": "La ruta de la sonda de readiness devuelve HTTP 500"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Scheduling uses requests, so raising them can exceed the allocatable capacity that the running old Pods are already consuming, leaving new Pods Pending. B produces ImagePullBackOff on a scheduled Pod, C affects external reachability rather than scheduling, and D would keep Pods Running but not Ready.",
+        "es": "La programación usa las requests, así que aumentarlas puede superar la capacidad asignable que los Pods antiguos en ejecución ya consumen, dejando los nuevos en Pending. B produce ImagePullBackOff en un Pod ya programado, C afecta la accesibilidad externa y no la programación, y D dejaría los Pods en Running pero no Ready."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/troubleshooting/troubleshoot-pods"
+    },
+    {
+      "id": "k8s-045",
+      "curso": "badge-kubernetes-apps",
+      "servicios": [
+        "gke",
+        "artifact-registry",
+        "service-accounts"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-gke-deploy-containers"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A Cloud Build pipeline builds the image successfully but fails at the kubectl apply step with a permissions error against the GKE cluster. Following least privilege, what is the BEST fix?",
+        "es": "Una canalización de Cloud Build construye la imagen correctamente pero falla en el paso de kubectl apply con un error de permisos contra el clúster de GKE. Siguiendo el mínimo privilegio, ¿cuál es la MEJOR solución?"
+      },
+      "opciones": [
+        {
+          "en": "Grant the service account used by the build the roles/container.developer role on the project",
+          "es": "Otorgar a la cuenta de servicio que usa la compilación el rol roles/container.developer en el proyecto"
+        },
+        {
+          "en": "Grant the build service account the Owner role on the project",
+          "es": "Otorgar a la cuenta de servicio de la compilación el rol Owner en el proyecto"
+        },
+        {
+          "en": "Download a service account key and store it in the source repository for kubectl to use",
+          "es": "Descargar una llave de cuenta de servicio y guardarla en el repositorio de código para que kubectl la use"
+        },
+        {
+          "en": "Make the cluster's control plane endpoint public so the build can reach it",
+          "es": "Hacer público el endpoint del plano de control del clúster para que la compilación pueda alcanzarlo"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "container.developer grants access to cluster objects without cluster administration rights, which is exactly what a deploy step needs. B is far broader than required, C exposes a long-lived key in source control and is explicitly discouraged, and D changes network exposure while the failure is an authorization error, not connectivity.",
+        "es": "container.developer otorga acceso a los objetos del clúster sin derechos de administración, que es justo lo que necesita un paso de despliegue. B es mucho más amplio de lo necesario, C expone una llave de larga vida en el control de versiones y está expresamente desaconsejado, y D cambia la exposición de red cuando la falla es de autorización, no de conectividad."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/how-to/iam"
+    },
+    {
+      "id": "k8s-046",
+      "curso": "badge-kubernetes-apps",
+      "servicios": [
+        "gke",
+        "kubectl",
+        "load-balancing"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-gke-deploy-containers"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your Service of type LoadBalancer has an external IP, but requests return connection errors. The Pods are Ready and respond correctly to kubectl port-forward on port 8080. What should you check FIRST?",
+        "es": "Tu Service de tipo LoadBalancer tiene una IP externa, pero las solicitudes devuelven errores de conexión. Los Pods están Ready y responden correctamente con kubectl port-forward en el puerto 8080. ¿Qué deberías revisar PRIMERO?"
+      },
+      "opciones": [
+        {
+          "en": "That the Service's targetPort matches the port the container actually listens on",
+          "es": "Que el targetPort del Service coincida con el puerto en el que realmente escucha el contenedor"
+        },
+        {
+          "en": "That the cluster has enough nodes to schedule more replicas",
+          "es": "Que el clúster tenga suficientes nodos para programar más réplicas"
+        },
+        {
+          "en": "That the image was scanned for vulnerabilities before deployment",
+          "es": "Que la imagen haya sido analizada en busca de vulnerabilidades antes de implementarla"
+        },
+        {
+          "en": "That the Deployment uses the RollingUpdate strategy",
+          "es": "Que el Deployment use la estrategia RollingUpdate"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "port-forward proves the container serves traffic on 8080, so the break is in the Service mapping: port is what clients hit and targetPort must be the container's listening port. B is irrelevant because the Pods are already running and Ready, and C and D have no effect on network routing.",
+        "es": "port-forward demuestra que el contenedor atiende en 8080, así que la falla está en el mapeo del Service: port es lo que usan los clientes y targetPort debe ser el puerto en que escucha el contenedor. B es irrelevante porque los Pods ya están en ejecución y Ready, y C y D no afectan el enrutamiento de red."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/service"
+    },
+    {
+      "id": "k8s-047",
+      "curso": "badge-kubernetes-apps",
+      "servicios": [
+        "artifact-registry"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-gke-ops"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A repository grows by hundreds of images per week from CI builds, and storage cost is rising. You must keep every release tag and recent builds. What is the BEST approach?",
+        "es": "Un repositorio crece cientos de imágenes por semana por compilaciones de CI y el costo de almacenamiento sube. Debes conservar todas las etiquetas de release y las compilaciones recientes. ¿Cuál es el MEJOR enfoque?"
+      },
+      "opciones": [
+        {
+          "en": "Define cleanup policies with a keep rule for the release tag pattern and a delete rule for untagged or older versions, running them in dry run first",
+          "es": "Definir políticas de limpieza con una regla keep para el patrón de etiquetas de release y una regla delete para versiones sin etiqueta o antiguas, ejecutándolas primero en modo de prueba"
+        },
+        {
+          "en": "Delete the repository periodically and recreate it before the next build",
+          "es": "Borrar el repositorio periódicamente y recrearlo antes de la siguiente compilación"
+        },
+        {
+          "en": "Move the repository to a multi-region location to lower the per-GB price",
+          "es": "Mover el repositorio a una ubicación multirregión para bajar el precio por GB"
+        },
+        {
+          "en": "Ask developers to run docker image prune on their workstations weekly",
+          "es": "Pedir a los desarrolladores que ejecuten docker image prune en sus estaciones de trabajo cada semana"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Cleanup policies automate retention, keep rules always win over delete rules, and dry run lets you verify what would be removed before enabling deletion. B destroys the release history you must keep, C does not reduce the amount of stored data and multi-region is not cheaper, and D prunes local caches that have nothing to do with registry storage.",
+        "es": "Las políticas de limpieza automatizan la retención, las reglas keep siempre prevalecen sobre las delete, y el modo de prueba permite verificar qué se eliminaría antes de activar el borrado. B destruye el historial de releases que debes conservar, C no reduce los datos almacenados y la multirregión no es más barata, y D limpia cachés locales que nada tienen que ver con el almacenamiento del registro."
+      },
+      "doc": "https://cloud.google.com/artifact-registry/docs/repositories/cleanup-policy"
+    },
+    {
+      "id": "k8s-048",
+      "curso": "badge-kubernetes-apps",
+      "servicios": [
+        "gke",
+        "kubectl"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-gke-ops",
+        "3.1-k8s-resources"
+      ],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "A newly deployed container exits immediately and enters CrashLoopBackOff. Which TWO actions BEST help you find the root cause?",
+        "es": "Un contenedor recién implementado termina de inmediato y entra en CrashLoopBackOff. ¿Qué DOS acciones te ayudan MEJOR a encontrar la causa raíz?"
+      },
+      "opciones": [
+        {
+          "en": "Run kubectl logs POD_NAME --previous to read the output of the crashed instance",
+          "es": "Ejecutar kubectl logs POD_NAME --previous para leer la salida de la instancia que falló"
+        },
+        {
+          "en": "Run kubectl describe pod POD_NAME to inspect exit codes, last state, and events",
+          "es": "Ejecutar kubectl describe pod POD_NAME para inspeccionar códigos de salida, el último estado y los eventos"
+        },
+        {
+          "en": "Scale the Deployment to more replicas so at least one Pod survives",
+          "es": "Escalar el Deployment a más réplicas para que al menos un Pod sobreviva"
+        },
+        {
+          "en": "Delete and recreate the Service that fronts the Deployment",
+          "es": "Borrar y recrear el Service que expone el Deployment"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "The previous container's logs usually contain the fatal error, and describe reports the termination reason, exit code, and related events such as OOMKilled or a failing command. C multiplies identical failures because every replica uses the same broken template, and D touches networking, which is irrelevant to a container that never starts successfully.",
+        "es": "Los registros del contenedor anterior suelen contener el error fatal, y describe informa el motivo de terminación, el código de salida y eventos relacionados como OOMKilled o un comando que falla. C multiplica fallas idénticas porque todas las réplicas usan la misma plantilla defectuosa, y D toca la red, que es irrelevante para un contenedor que nunca llega a iniciar bien."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/troubleshooting/troubleshoot-pods"
     }
   ]
 }

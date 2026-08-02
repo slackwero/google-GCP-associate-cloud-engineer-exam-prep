@@ -1400,6 +1400,711 @@
         "es": "La cuota tiene alcance por proyecto y por región para un acelerador específico, así que la vía correcta es solicitar el aumento y a la vez buscar otra región que ofrezca la generación que necesitas. B es incorrecta porque un proyecto nuevo también parte con cuota limitada y crear proyectos para esquivar límites no es una práctica admitida. C es incorrecta: un plan de soporte no otorga capacidad. D es incorrecta porque activar y desactivar una API no reinicia la cuota y además afectaría a los recursos existentes."
       },
       "doc": "https://cloud.google.com/tpu/docs/quota"
+    },
+    {
+      "id": "tpu-033",
+      "curso": "ia-tpu",
+      "servicios": [
+        "gpus-tpus",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What does the --accelerator-type flag define when creating a TPU VM?",
+        "es": "¿Qué define la marca --accelerator-type al crear una TPU VM?"
+      },
+      "opciones": [
+        {
+          "en": "The TPU generation and the size or topology of the slice being requested",
+          "es": "La generación de TPU y el tamaño o topología del slice que se solicita"
+        },
+        {
+          "en": "The number of vCPUs assigned to the host machine",
+          "es": "La cantidad de vCPUs asignadas a la máquina anfitriona"
+        },
+        {
+          "en": "The machine learning framework that will be installed",
+          "es": "El framework de machine learning que se instalará"
+        },
+        {
+          "en": "The Cloud Storage bucket used for checkpoints",
+          "es": "El bucket de Cloud Storage usado para los checkpoints"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The accelerator type identifies which TPU generation you want and how large a slice to allocate, which together determine the topology of the job. B is determined by the TPU host configuration, not by this flag. C is controlled by the runtime version flag, which selects the software image matching your framework. D is set inside your training code or job configuration, not on the TPU resource.",
+        "es": "El tipo de acelerador identifica qué generación de TPU quieres y qué tamaño de slice asignar, lo que en conjunto determina la topología del trabajo. B queda determinado por la configuración del host de la TPU, no por esta marca. C se controla con la marca de versión del runtime, que selecciona la imagen de software correspondiente a tu framework. D se define dentro del código de entrenamiento o en la configuración del trabajo, no en el recurso de TPU."
+      },
+      "doc": "https://cloud.google.com/tpu/docs/managing-tpus-tpu-vm"
+    },
+    {
+      "id": "tpu-034",
+      "curso": "ia-tpu",
+      "servicios": [
+        "gpus-tpus",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is the purpose of the runtime version specified with --version when creating a TPU VM?",
+        "es": "¿Cuál es el propósito de la versión de runtime que se indica con --version al crear una TPU VM?"
+      },
+      "opciones": [
+        {
+          "en": "It selects the software image on the TPU host, which must match the framework you plan to use, such as a JAX, TensorFlow, or PyTorch/XLA runtime",
+          "es": "Selecciona la imagen de software del host de la TPU, que debe coincidir con el framework que piensas usar, como un runtime de JAX, TensorFlow o PyTorch/XLA"
+        },
+        {
+          "en": "It selects the hardware generation of the TPU chips",
+          "es": "Selecciona la generación de hardware de los chips TPU"
+        },
+        {
+          "en": "It sets the API version used by gcloud to talk to the service",
+          "es": "Establece la versión de la API que usa gcloud para comunicarse con el servicio"
+        },
+        {
+          "en": "It defines how many training epochs the job will run",
+          "es": "Define cuántas épocas de entrenamiento ejecutará el trabajo"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The runtime version determines the preinstalled software stack and libraries on the TPU host, so it must be compatible with the framework you intend to run. B is what the accelerator type controls. C is an internal gcloud concern that you do not set through this flag. D is a training hyperparameter defined in your code, not in the infrastructure request.",
+        "es": "La versión del runtime determina el stack de software y las bibliotecas preinstaladas en el host de la TPU, por lo que debe ser compatible con el framework que planeas ejecutar. B es lo que controla el tipo de acelerador. C es un asunto interno de gcloud que no se define con esta marca. D es un hiperparámetro de entrenamiento definido en tu código, no en la solicitud de infraestructura."
+      },
+      "doc": "https://cloud.google.com/tpu/docs/runtimes"
+    },
+    {
+      "id": "tpu-035",
+      "curso": "ia-tpu",
+      "servicios": [
+        "gpus-tpus",
+        "cloud-storage"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-ai-workloads"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your training job runs on Spot TPUs. Which implementation detail is essential?",
+        "es": "Tu trabajo de entrenamiento corre sobre TPU Spot. ¿Qué detalle de implementación es esencial?"
+      },
+      "opciones": [
+        {
+          "en": "Write checkpoints to Cloud Storage frequently and make the job resume from the latest checkpoint on restart",
+          "es": "Escribir checkpoints en Cloud Storage con frecuencia y hacer que el trabajo se reanude desde el último checkpoint al reiniciar"
+        },
+        {
+          "en": "Increase the learning rate so the model converges before preemption",
+          "es": "Aumentar la tasa de aprendizaje para que el modelo converja antes de la interrupción"
+        },
+        {
+          "en": "Disable logging to reduce the chance of preemption",
+          "es": "Deshabilitar el registro para reducir la probabilidad de interrupción"
+        },
+        {
+          "en": "Pin the job to a single zone so preemption cannot occur",
+          "es": "Fijar el trabajo a una sola zona para que no pueda ocurrir la interrupción"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Spot capacity can be reclaimed at any time, so durable, frequent checkpoints plus automatic resume are what make the discount usable without losing work. B does not prevent preemption and would likely destabilize training. C is unrelated: logging volume has no effect on preemption decisions. D is wrong because preemption is a property of Spot capacity in every zone, not something zone pinning avoids.",
+        "es": "La capacidad Spot puede reclamarse en cualquier momento, así que checkpoints duraderos y frecuentes más la reanudación automática son lo que permite aprovechar el descuento sin perder trabajo. B no evita la interrupción y probablemente desestabilizaría el entrenamiento. C no tiene relación: el volumen de registros no influye en las decisiones de interrupción. D es incorrecta porque la interrupción es una propiedad de la capacidad Spot en todas las zonas, no algo que se evite fijando la zona."
+      },
+      "doc": "https://cloud.google.com/tpu/docs/spot"
+    },
+    {
+      "id": "tpu-036",
+      "curso": "ia-tpu",
+      "servicios": [
+        "gpus-tpus"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-ai-workloads"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is the purpose of queued resources for Cloud TPU?",
+        "es": "¿Cuál es el propósito de los recursos en cola (queued resources) de Cloud TPU?"
+      },
+      "opciones": [
+        {
+          "en": "To place a request that waits until the requested TPU capacity becomes available, instead of failing immediately when capacity is short",
+          "es": "Colocar una solicitud que espera hasta que la capacidad de TPU pedida esté disponible, en lugar de fallar de inmediato cuando falta capacidad"
+        },
+        {
+          "en": "To queue individual training batches before they reach the accelerator",
+          "es": "Poner en cola los lotes de entrenamiento individuales antes de que lleguen al acelerador"
+        },
+        {
+          "en": "To buffer log messages produced by the training job",
+          "es": "Almacenar en búfer los mensajes de registro que produce el trabajo de entrenamiento"
+        },
+        {
+          "en": "To hold billing charges until the end of the month",
+          "es": "Retener los cargos de facturación hasta el fin de mes"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "A queued resource request is fulfilled when the requested TPU capacity frees up, which removes the need to poll and retry creation calls manually. B describes a data pipeline concept, not a provisioning API. C is what Cloud Logging buffers handle. D invents a billing behavior; charges begin when capacity is actually provisioned.",
+        "es": "Una solicitud de recurso en cola se cumple cuando se libera la capacidad de TPU pedida, lo que evita tener que sondear y reintentar la creación manualmente. B describe un concepto de pipeline de datos, no una API de aprovisionamiento. C es lo que manejan los búferes de Cloud Logging. D inventa un comportamiento de facturación; los cargos comienzan cuando la capacidad se aprovisiona realmente."
+      },
+      "doc": "https://cloud.google.com/tpu/docs/queued-resources"
+    },
+    {
+      "id": "tpu-037",
+      "curso": "ia-tpu",
+      "servicios": [
+        "gke",
+        "gpus-tpus"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-gke-node-pools"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Why should a TPU node pool in GKE usually be separate from the node pool that runs the cluster's general services?",
+        "es": "¿Por qué un node pool con TPU en GKE normalmente debe estar separado del node pool que ejecuta los servicios generales del clúster?"
+      },
+      "opciones": [
+        {
+          "en": "So expensive accelerator nodes only host workloads that need TPUs and can scale down independently when no TPU job is running",
+          "es": "Para que los nodos con aceleradores costosos solo alojen cargas que necesiten TPU y puedan reducirse de forma independiente cuando no haya trabajos de TPU"
+        },
+        {
+          "en": "Because a GKE cluster can only run one workload per node pool",
+          "es": "Porque un clúster de GKE solo puede ejecutar una carga de trabajo por node pool"
+        },
+        {
+          "en": "Because system Pods are not allowed in a cluster that contains accelerators",
+          "es": "Porque los Pods del sistema no están permitidos en un clúster que contiene aceleradores"
+        },
+        {
+          "en": "Because TPU node pools require a separate Google Cloud project",
+          "es": "Porque los node pools con TPU requieren un proyecto de Google Cloud aparte"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Isolating accelerator nodes, typically with taints and tolerations, keeps general workloads off costly hardware and lets that pool scale to zero between jobs. B is false: a node pool can host many different workloads. C is false, since system Pods run normally in clusters that have accelerator node pools. D is false because node pools live inside the same cluster and project as the rest of the cluster.",
+        "es": "Aislar los nodos con aceleradores, normalmente con taints y tolerations, mantiene las cargas generales fuera del hardware costoso y permite que ese pool se reduzca a cero entre trabajos. B es falsa: un node pool puede alojar muchas cargas distintas. C es falsa, ya que los Pods del sistema se ejecutan con normalidad en clústeres con node pools de aceleradores. D es falsa porque los node pools viven en el mismo clúster y proyecto que el resto del clúster."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/node-pools"
+    },
+    {
+      "id": "tpu-038",
+      "curso": "ia-tpu",
+      "servicios": [
+        "gpus-tpus",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-gpus-tpus-choice"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A PyTorch team wants to try Cloud TPUs without rewriting their model in JAX. What is the correct approach?",
+        "es": "Un equipo de PyTorch quiere probar Cloud TPU sin reescribir su modelo en JAX. ¿Cuál es el enfoque correcto?"
+      },
+      "opciones": [
+        {
+          "en": "Use PyTorch/XLA, which compiles PyTorch computations through XLA so they can execute on TPU devices",
+          "es": "Usar PyTorch/XLA, que compila los cálculos de PyTorch a través de XLA para que se ejecuten en dispositivos TPU"
+        },
+        {
+          "en": "Install the CUDA toolkit on the TPU VM so PyTorch detects the accelerator",
+          "es": "Instalar el toolkit de CUDA en la TPU VM para que PyTorch detecte el acelerador"
+        },
+        {
+          "en": "Export the model to CSV and load it with TensorFlow",
+          "es": "Exportar el modelo a CSV y cargarlo con TensorFlow"
+        },
+        {
+          "en": "Run PyTorch unchanged, because TPUs are automatically detected as CUDA devices",
+          "es": "Ejecutar PyTorch sin cambios, porque las TPU se detectan automáticamente como dispositivos CUDA"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "PyTorch/XLA is the supported bridge that lets PyTorch code target TPUs with modest changes, mainly around the device and the training loop. B is wrong because CUDA is NVIDIA technology and is irrelevant on a TPU host. C is nonsense: CSV is a tabular data format, not a model format. D is wrong because a TPU is not a CUDA device and is never detected as one.",
+        "es": "PyTorch/XLA es el puente compatible que permite que el código de PyTorch apunte a TPU con cambios moderados, sobre todo en el dispositivo y el bucle de entrenamiento. B es incorrecta porque CUDA es tecnología de NVIDIA e irrelevante en un host de TPU. C no tiene sentido: CSV es un formato de datos tabulares, no de modelos. D es incorrecta porque una TPU no es un dispositivo CUDA y nunca se detecta como tal."
+      },
+      "doc": "https://cloud.google.com/tpu/docs/run-calculation-pytorch"
+    },
+    {
+      "id": "tpu-039",
+      "curso": "ia-tpu",
+      "servicios": [
+        "gpus-tpus",
+        "billing"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-spot-custom-machines"
+      ],
+      "nivel": "intermedio",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO actions reduce the cost of a recurring TPU training workload without changing the model?",
+        "es": "¿Cuáles DOS acciones reducen el costo de una carga de entrenamiento en TPU recurrente sin cambiar el modelo?"
+      },
+      "opciones": [
+        {
+          "en": "Run the job on Spot TPUs with frequent checkpointing",
+          "es": "Ejecutar el trabajo en TPU Spot con checkpoints frecuentes"
+        },
+        {
+          "en": "Delete or scale the TPU capacity to zero as soon as the job completes",
+          "es": "Borrar o reducir a cero la capacidad de TPU en cuanto el trabajo termina"
+        },
+        {
+          "en": "Store the dataset in a bucket in a different continent to use cheaper storage",
+          "es": "Guardar el dataset en un bucket de otro continente para usar almacenamiento más barato"
+        },
+        {
+          "en": "Keep the TPU allocated between weekly runs so startup is faster",
+          "es": "Mantener la TPU asignada entre las ejecuciones semanales para que el inicio sea más rápido"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Spot capacity cuts the hourly rate for interruption-tolerant jobs, and releasing capacity as soon as the run ends stops paying for idle accelerators, which is where most waste occurs. C backfires: cross-continent reads add latency and network egress cost, and the slow pipeline leaves the TPU idle. D is the classic anti-pattern, since an allocated TPU is billed whether or not it is computing.",
+        "es": "La capacidad Spot reduce la tarifa por hora para trabajos tolerantes a interrupciones, y liberar la capacidad apenas termina la ejecución evita pagar aceleradores ociosos, que es donde se concentra el desperdicio. C resulta contraproducente: leer desde otro continente agrega latencia y costo de salida de red, y el pipeline lento deja la TPU inactiva. D es el antipatrón clásico, ya que una TPU asignada se factura calcule o no."
+      },
+      "doc": "https://cloud.google.com/tpu/docs/spot"
+    },
+    {
+      "id": "tpu-040",
+      "curso": "ia-tpu",
+      "servicios": [
+        "gpus-tpus",
+        "notebooks"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-ai-workloads"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A data scientist wants an interactive environment to prototype a TPU training script before scaling it up. Which option is the most appropriate starting point?",
+        "es": "Un científico de datos quiere un entorno interactivo para prototipar un script de entrenamiento en TPU antes de escalarlo. ¿Qué opción es el punto de partida más apropiado?"
+      },
+      "opciones": [
+        {
+          "en": "A managed notebook environment such as Vertex AI Workbench, prototyping on a small TPU slice before moving to a larger one",
+          "es": "Un entorno de notebooks administrado como Vertex AI Workbench, prototipando en un slice pequeño de TPU antes de pasar a uno más grande"
+        },
+        {
+          "en": "A full TPU Pod slice reserved for the entire prototyping phase",
+          "es": "Un slice completo de TPU Pod reservado durante toda la fase de prototipado"
+        },
+        {
+          "en": "A Cloud SQL instance with a Python stored procedure",
+          "es": "Una instancia de Cloud SQL con un procedimiento almacenado en Python"
+        },
+        {
+          "en": "Cloud Run functions triggered by Pub/Sub messages",
+          "es": "Cloud Run functions activadas por mensajes de Pub/Sub"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Interactive notebooks with a small accelerator let you validate the model and the input pipeline cheaply, and only then do you scale to a larger slice. B wastes a large, expensive allocation on exploratory work that rarely saturates it. C is a database service and cannot train models. D is an event-driven serverless product with no TPU attachment and is unsuitable for interactive prototyping.",
+        "es": "Los notebooks interactivos con un acelerador pequeño permiten validar el modelo y el pipeline de entrada de forma económica, y solo después se escala a un slice mayor. B desperdicia una asignación grande y costosa en trabajo exploratorio que rara vez la satura. C es un servicio de base de datos y no puede entrenar modelos. D es un producto serverless orientado a eventos, sin TPU adjunta, y no sirve para prototipado interactivo."
+      },
+      "doc": "https://cloud.google.com/vertex-ai/docs/workbench/introduction"
+    },
+    {
+      "id": "tpu-041",
+      "curso": "ia-tpu",
+      "servicios": [
+        "gpus-tpus",
+        "billing"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-spot-custom-machines"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A research team runs a two-week pre-training job that can restart from checkpoints. The budget is tight and the deadline is flexible. What is the BEST option?",
+        "es": "Un equipo de investigación ejecuta un preentrenamiento de dos semanas que puede reanudarse desde checkpoints. El presupuesto es ajustado y el plazo es flexible. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        {
+          "en": "Run on Spot TPUs with frequent checkpoints to Cloud Storage and automatic resume after preemption",
+          "es": "Ejecutar en TPU Spot con checkpoints frecuentes en Cloud Storage y reanudación automática tras la interrupción"
+        },
+        {
+          "en": "Run on on-demand TPUs and accept the higher price to guarantee no interruptions",
+          "es": "Ejecutar en TPU on-demand y aceptar el precio más alto para garantizar que no haya interrupciones"
+        },
+        {
+          "en": "Run on CPU-only instances, which are the cheapest per hour",
+          "es": "Ejecutar en instancias solo con CPU, que son las más baratas por hora"
+        },
+        {
+          "en": "Split the job across several regions to spread the cost across quotas",
+          "es": "Dividir el trabajo en varias regiones para repartir el costo entre las cuotas"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The scenario states the job tolerates restarts and the deadline is flexible, which is exactly the profile Spot capacity is designed for, so it delivers the lowest cost. B is technically fine but ignores the tight budget when the workload does not need interruption-free capacity. C looks cheap per hour but would take vastly longer for a large training job, so total cost and elapsed time both explode. D does not reduce price at all: quota is a limit, not a discount, and splitting a tightly coupled training job across regions adds latency and complexity.",
+        "es": "El escenario indica que el trabajo tolera reinicios y que el plazo es flexible, que es justo el perfil para el que se diseñó la capacidad Spot, así que ofrece el costo más bajo. B es técnicamente válida, pero ignora el presupuesto ajustado cuando la carga no necesita capacidad sin interrupciones. C parece barata por hora, pero tardaría muchísimo más en un entrenamiento grande, así que se disparan tanto el costo total como el tiempo. D no reduce el precio: la cuota es un límite, no un descuento, y dividir un entrenamiento fuertemente acoplado entre regiones agrega latencia y complejidad."
+      },
+      "doc": "https://cloud.google.com/tpu/docs/spot"
+    },
+    {
+      "id": "tpu-042",
+      "curso": "ia-tpu",
+      "servicios": [
+        "gpus-tpus",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-gpus-tpus-choice"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A team must train a model that uses several third-party libraries with custom CUDA kernels, and rewriting them is not an option. Which accelerator strategy is BEST?",
+        "es": "Un equipo debe entrenar un modelo que usa varias bibliotecas de terceros con kernels CUDA personalizados, y reescribirlas no es una opción. ¿Qué estrategia de aceleradores es la MEJOR?"
+      },
+      "opciones": [
+        {
+          "en": "Use GPU-attached instances, because the CUDA ecosystem is required and TPUs cannot execute CUDA kernels",
+          "es": "Usar instancias con GPU adjuntas, porque se requiere el ecosistema CUDA y las TPU no pueden ejecutar kernels CUDA"
+        },
+        {
+          "en": "Use a large TPU slice and rely on XLA to translate the CUDA kernels automatically",
+          "es": "Usar un slice grande de TPU y confiar en que XLA traduzca los kernels CUDA automáticamente"
+        },
+        {
+          "en": "Use Spot TPUs to lower the cost of the incompatibility",
+          "es": "Usar TPU Spot para reducir el costo de la incompatibilidad"
+        },
+        {
+          "en": "Run the workload on CPUs and increase the number of vCPUs until throughput matches a GPU",
+          "es": "Ejecutar la carga en CPU y aumentar la cantidad de vCPUs hasta igualar el rendimiento de una GPU"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "A hard dependency on custom CUDA kernels is the canonical reason to choose GPUs, since that code cannot run on TPU hardware. B is false because XLA does not translate CUDA kernels; the model would have to be reexpressed in an XLA-compatible framework. C does not help, because a cheaper price on hardware that cannot run the code is still wasted money. D is impractical: matching GPU throughput for deep learning on CPUs is prohibitively expensive and slow.",
+        "es": "Una dependencia fuerte de kernels CUDA personalizados es la razón canónica para elegir GPU, ya que ese código no puede ejecutarse en hardware TPU. B es falsa porque XLA no traduce kernels CUDA; habría que reexpresar el modelo en un framework compatible con XLA. C no ayuda, porque un precio menor en hardware que no puede ejecutar el código sigue siendo dinero desperdiciado. D es impráctica: igualar el rendimiento de una GPU para deep learning con CPU resulta prohibitivamente caro y lento."
+      },
+      "doc": "https://cloud.google.com/compute/docs/gpus"
+    },
+    {
+      "id": "tpu-043",
+      "curso": "ia-tpu",
+      "servicios": [
+        "gpus-tpus",
+        "cloud-storage"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-ai-workloads"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A TPU training job reaches only a small fraction of expected throughput. Profiling shows the accelerator idle most of each step while the host reads millions of small files from a bucket in another region. What is the BEST fix?",
+        "es": "Un entrenamiento en TPU alcanza solo una fracción pequeña del rendimiento esperado. El perfilado muestra el acelerador inactivo la mayor parte de cada paso mientras el host lee millones de archivos pequeños desde un bucket en otra región. ¿Cuál es la MEJOR solución?"
+      },
+      "opciones": [
+        {
+          "en": "Consolidate the data into large sharded files in a bucket colocated with the TPU, and prefetch batches so loading overlaps computation",
+          "es": "Consolidar los datos en archivos grandes particionados en un bucket ubicado junto a la TPU y aplicar prefetch para que la carga se superponga con el cálculo"
+        },
+        {
+          "en": "Request a larger TPU slice so more chips share the same input pipeline",
+          "es": "Solicitar un slice de TPU más grande para que más chips compartan el mismo pipeline de entrada"
+        },
+        {
+          "en": "Switch the job to on-demand capacity so it is never preempted",
+          "es": "Cambiar el trabajo a capacidad on-demand para que nunca sea interrumpido"
+        },
+        {
+          "en": "Enable more verbose logging to capture each file read",
+          "es": "Habilitar registros más detallados para capturar cada lectura de archivo"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The bottleneck is clearly the input path: many small objects plus cross-region reads, so fixing file layout, locality, and prefetching addresses the actual cause. B makes it worse by adding more expensive idle chips behind the same starved pipeline. C addresses preemption, which the scenario never mentions, and does nothing for throughput. D adds overhead and cost while producing no improvement.",
+        "es": "El cuello de botella es claramente la ruta de entrada: muchos objetos pequeños más lecturas entre regiones, así que corregir el diseño de archivos, la cercanía y el prefetch ataca la causa real. B lo empeora al agregar más chips costosos e inactivos detrás del mismo pipeline sin datos. C aborda la interrupción, que el escenario nunca menciona, y no aporta nada al rendimiento. D agrega sobrecarga y costo sin producir ninguna mejora."
+      },
+      "doc": "https://cloud.google.com/tpu/docs/performance-guide"
+    },
+    {
+      "id": "tpu-044",
+      "curso": "ia-tpu",
+      "servicios": [
+        "gke",
+        "gpus-tpus"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-gke-node-pools"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A platform team runs several ML teams on one GKE cluster. TPU jobs are bursty and expensive, and idle accelerator nodes must not be billed overnight. What is the BEST configuration?",
+        "es": "Un equipo de plataforma ejecuta varios equipos de ML en un mismo clúster de GKE. Los trabajos de TPU son intermitentes y costosos, y los nodos con aceleradores inactivos no deben facturarse durante la noche. ¿Cuál es la MEJOR configuración?"
+      },
+      "opciones": [
+        {
+          "en": "A dedicated TPU node pool with autoscaling that can scale to zero, plus taints so only TPU workloads land on it",
+          "es": "Un node pool dedicado con TPU con autoescalado capaz de reducirse a cero, más taints para que solo las cargas con TPU se ubiquen allí"
+        },
+        {
+          "en": "A single node pool with TPU nodes and a fixed size that matches peak demand",
+          "es": "Un único node pool con nodos TPU y tamaño fijo dimensionado para la demanda máxima"
+        },
+        {
+          "en": "One cluster per team, each with a permanently running TPU node pool",
+          "es": "Un clúster por equipo, cada uno con un node pool con TPU siempre en ejecución"
+        },
+        {
+          "en": "Schedule TPU workloads on the default node pool and let vertical Pod autoscaling add accelerators",
+          "es": "Programar las cargas con TPU en el node pool predeterminado y dejar que el autoescalado vertical de Pods agregue aceleradores"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Isolating accelerators in their own autoscaling pool that can reach zero, with taints keeping other Pods away, means you pay for TPU nodes only while jobs are actually running. B guarantees paying peak capacity around the clock, which the scenario explicitly forbids. C multiplies both cost and operational overhead with always-on pools per team. D is not possible: vertical Pod autoscaling adjusts CPU and memory requests and cannot attach accelerators to nodes that do not have them.",
+        "es": "Aislar los aceleradores en su propio pool con autoescalado que llegue a cero, con taints que mantengan fuera a los demás Pods, hace que pagues nodos con TPU solo mientras hay trabajos en ejecución. B garantiza pagar la capacidad máxima las 24 horas, algo que el escenario prohíbe explícitamente. C multiplica el costo y la carga operativa con pools siempre encendidos por equipo. D no es posible: el autoescalado vertical de Pods ajusta solicitudes de CPU y memoria y no puede adjuntar aceleradores a nodos que no los tienen."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/cluster-autoscaler"
+    },
+    {
+      "id": "tpu-045",
+      "curso": "ia-tpu",
+      "servicios": [
+        "gpus-tpus",
+        "quotas-apis"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-apis-quotas"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A company plans a large TPU training program starting next quarter in a region where its current quota is minimal. What is the BEST planning approach?",
+        "es": "Una empresa planea un programa grande de entrenamiento en TPU para el próximo trimestre, en una región donde su cuota actual es mínima. ¿Cuál es el MEJOR enfoque de planificación?"
+      },
+      "opciones": [
+        {
+          "en": "Confirm the TPU generation is offered in the target region, request the needed quota well in advance, and validate with a small slice before scaling",
+          "es": "Confirmar que la generación de TPU se ofrece en la región objetivo, solicitar con anticipación la cuota necesaria y validar con un slice pequeño antes de escalar"
+        },
+        {
+          "en": "Wait until the program starts and request quota only when creation fails",
+          "es": "Esperar a que comience el programa y solicitar la cuota solo cuando falle la creación"
+        },
+        {
+          "en": "Create many small projects so each one contributes its default quota",
+          "es": "Crear muchos proyectos pequeños para que cada uno aporte su cuota predeterminada"
+        },
+        {
+          "en": "Assume quota is unlimited because the account has a large committed spend",
+          "es": "Suponer que la cuota es ilimitada porque la cuenta tiene un compromiso de gasto alto"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Availability by region and per-project quota are both hard prerequisites, so verifying the generation exists there, requesting capacity early, and smoke-testing on a small slice de-risks the program. B guarantees a blocked start, since quota requests take time to review. C is a workaround that fragments the environment and is not a supported way to obtain accelerator capacity. D is false: spend commitments do not remove quota limits.",
+        "es": "La disponibilidad por región y la cuota por proyecto son requisitos ineludibles, así que verificar que la generación exista allí, pedir capacidad con anticipación y hacer una prueba en un slice pequeño reduce el riesgo del programa. B garantiza un inicio bloqueado, ya que las solicitudes de cuota tardan en revisarse. C es un rodeo que fragmenta el entorno y no es una vía admitida para obtener capacidad de aceleradores. D es falsa: los compromisos de gasto no eliminan los límites de cuota."
+      },
+      "doc": "https://cloud.google.com/tpu/docs/quota"
+    },
+    {
+      "id": "tpu-046",
+      "curso": "ia-tpu",
+      "servicios": [
+        "gpus-tpus",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-gpus-tpus-choice"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A team fine-tunes many small models per day, each running for a few minutes with varied architectures and frequent library changes. Which accelerator choice is BEST?",
+        "es": "Un equipo ajusta muchos modelos pequeños al día, cada uno de pocos minutos, con arquitecturas variadas y cambios frecuentes de bibliotecas. ¿Qué elección de acelerador es la MEJOR?"
+      },
+      "opciones": [
+        {
+          "en": "GPUs, because the workloads are short, heterogeneous, and benefit from the flexibility of the broader ecosystem",
+          "es": "GPU, porque las cargas son cortas, heterogéneas y se benefician de la flexibilidad del ecosistema más amplio"
+        },
+        {
+          "en": "A large multi-host TPU slice reserved permanently for the team",
+          "es": "Un slice de TPU multihost grande reservado de forma permanente para el equipo"
+        },
+        {
+          "en": "A TPU Pod, so all the small jobs can run at once on one allocation",
+          "es": "Un TPU Pod, para que todos los trabajos pequeños se ejecuten a la vez en una sola asignación"
+        },
+        {
+          "en": "CPU-only VMs, because the models are small",
+          "es": "VMs solo con CPU, porque los modelos son pequeños"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Short, diverse jobs with churning dependencies favor GPUs, where the ecosystem is broad and each run does not need to justify a large specialized allocation. B and C both over-provision: a large TPU slice or Pod is aimed at single, long, tightly coupled jobs, and reserving one for many tiny runs wastes most of the capacity. D underestimates the workload: even small deep learning fine-tuning runs are far slower on CPUs, which hurts iteration speed.",
+        "es": "Los trabajos cortos y diversos con dependencias cambiantes favorecen a las GPU, donde el ecosistema es amplio y cada ejecución no necesita justificar una asignación especializada grande. B y C sobredimensionan: un slice grande o un Pod de TPU apuntan a trabajos únicos, largos y fuertemente acoplados, y reservar uno para muchas ejecuciones diminutas desperdicia la mayor parte de la capacidad. D subestima la carga: incluso los ajustes pequeños de deep learning son mucho más lentos en CPU, lo que perjudica la velocidad de iteración."
+      },
+      "doc": "https://cloud.google.com/compute/docs/gpus"
+    },
+    {
+      "id": "tpu-047",
+      "curso": "ia-tpu",
+      "servicios": [
+        "gpus-tpus",
+        "cloud-monitoring"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-ai-workloads"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Finance asks why TPU spend doubled while model quality did not improve. Monitoring shows accelerator utilization averaging near zero for long stretches. What is the BEST corrective action?",
+        "es": "Finanzas pregunta por qué el gasto en TPU se duplicó sin que mejorara la calidad del modelo. La supervisión muestra la utilización del acelerador cercana a cero durante períodos largos. ¿Cuál es la MEJOR acción correctiva?"
+      },
+      "opciones": [
+        {
+          "en": "Identify allocated-but-idle TPUs, release them automatically at job completion, and add alerting on low utilization so waste is caught early",
+          "es": "Identificar las TPU asignadas pero inactivas, liberarlas automáticamente al terminar cada trabajo y agregar alertas por baja utilización para detectar el desperdicio a tiempo"
+        },
+        {
+          "en": "Increase the number of chips so training completes faster",
+          "es": "Aumentar la cantidad de chips para que el entrenamiento termine más rápido"
+        },
+        {
+          "en": "Switch to a larger machine type for the TPU host",
+          "es": "Cambiar a un tipo de máquina más grande para el host de la TPU"
+        },
+        {
+          "en": "Move the checkpoints to a colder Cloud Storage class",
+          "es": "Mover los checkpoints a una clase más fría de Cloud Storage"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Near-zero utilization over long stretches points to capacity that is allocated but not computing, so reclaiming it and alerting on the pattern directly removes the waste. B adds cost to a resource that is already idle and would double down on the problem. C changes the host size without addressing the fact that nothing is running on the accelerator. D shaves a small storage bill while the dominant accelerator charge continues untouched.",
+        "es": "Una utilización cercana a cero por períodos largos indica capacidad asignada que no está calculando, así que recuperarla y alertar sobre ese patrón elimina el desperdicio de forma directa. B agrega costo sobre un recurso que ya está inactivo y profundiza el problema. C cambia el tamaño del host sin atender el hecho de que nada se ejecuta en el acelerador. D recorta una factura pequeña de almacenamiento mientras el cargo dominante del acelerador sigue intacto."
+      },
+      "doc": "https://cloud.google.com/tpu/docs/monitoring-tpus"
+    },
+    {
+      "id": "tpu-048",
+      "curso": "ia-tpu",
+      "servicios": [
+        "gpus-tpus",
+        "gke",
+        "billing"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "An organization already runs its microservices on GKE and now wants to add periodic TPU training jobs with minimal new operational tooling. What is the BEST approach?",
+        "es": "Una organización ya ejecuta sus microservicios en GKE y ahora quiere agregar trabajos periódicos de entrenamiento en TPU con la mínima cantidad de herramientas operativas nuevas. ¿Cuál es el MEJOR enfoque?"
+      },
+      "opciones": [
+        {
+          "en": "Add a TPU node pool to the existing GKE platform and run the training as Kubernetes Jobs, reusing the current CI/CD, IAM, and observability",
+          "es": "Agregar un node pool con TPU a la plataforma de GKE existente y ejecutar el entrenamiento como Jobs de Kubernetes, reutilizando el CI/CD, IAM y la observabilidad actuales"
+        },
+        {
+          "en": "Build a separate fleet of manually managed TPU VMs with its own deployment scripts",
+          "es": "Construir una flota separada de TPU VM administradas manualmente con sus propios scripts de implementación"
+        },
+        {
+          "en": "Move the microservices to Compute Engine so everything runs on VMs",
+          "es": "Mover los microservicios a Compute Engine para que todo se ejecute en VMs"
+        },
+        {
+          "en": "Run the training inside the existing microservice containers on CPU nodes",
+          "es": "Ejecutar el entrenamiento dentro de los contenedores de microservicios existentes en nodos con CPU"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Reusing the GKE platform keeps one control plane, one identity model, and one observability stack, so the marginal operational cost of adding training is small. B duplicates tooling the organization already has and increases maintenance burden. C is a large, disruptive migration in the wrong direction that abandons a working container platform. D ignores the requirement for TPUs and would make training impractically slow on CPU nodes.",
+        "es": "Reutilizar la plataforma de GKE mantiene un solo plano de control, un solo modelo de identidad y un solo stack de observabilidad, por lo que el costo operativo marginal de sumar entrenamiento es bajo. B duplica herramientas que la organización ya tiene y aumenta la carga de mantenimiento. C es una migración grande y disruptiva en la dirección equivocada que abandona una plataforma de contenedores que funciona. D ignora el requisito de TPU y volvería el entrenamiento impracticablemente lento en nodos con CPU."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/tpus"
     }
   ]
 }

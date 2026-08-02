@@ -2098,6 +2098,773 @@
         "es": "Una caché de Redis absorbe las lecturas repetidas con latencia inferior al milisegundo y las réplicas de lectura reparten la carga restante, y ambas mantienen a Cloud SQL como almacén autoritativo. C agregaría segundos de latencia y es el motor equivocado para búsquedas por solicitud, y D elimina la protección de datos y apenas afecta la CPU."
       },
       "doc": "https://cloud.google.com/memorystore/docs/redis/redis-overview"
+    },
+    {
+      "id": "db-049",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "firestore",
+        "cloud-sql",
+        "bigtable",
+        "spanner"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-data-products"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A mobile app must show updates instantly on every connected device, work while the phone is offline, and store user profiles with varying fields. Which database is the BEST option?",
+        "es": "Una app móvil debe mostrar actualizaciones al instante en cada dispositivo conectado, funcionar sin conexión y almacenar perfiles de usuario con campos variables. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        {
+          "en": "Firestore in Native mode",
+          "es": "Firestore en modo Native"
+        },
+        {
+          "en": "Cloud SQL for PostgreSQL with a JSONB column",
+          "es": "Cloud SQL para PostgreSQL con una columna JSONB"
+        },
+        {
+          "en": "Bigtable with one row per user",
+          "es": "Bigtable con una fila por usuario"
+        },
+        {
+          "en": "Spanner with an interleaved profile table",
+          "es": "Spanner con una tabla de perfiles intercalada"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Firestore Native mode provides real-time listeners, offline persistence in the mobile SDKs, and a schemaless document model, which covers all three requirements with client SDKs and Firebase Security Rules. Cloud SQL and Spanner have no built-in real-time push or offline sync to mobile clients, and Bigtable has no mobile SDK, no real-time listeners, and is aimed at analytical key-range access.",
+        "es": "El modo Native de Firestore ofrece listeners en tiempo real, persistencia sin conexión en los SDK móviles y un modelo documental sin esquema, lo que cubre los tres requisitos con SDK de cliente y reglas de seguridad de Firebase. Cloud SQL y Spanner no tienen push en tiempo real ni sincronización sin conexión hacia clientes móviles, y Bigtable no tiene SDK móvil ni listeners en tiempo real y está orientado al acceso por rango de clave."
+      },
+      "doc": "https://cloud.google.com/firestore/docs/manage-data/enable-offline"
+    },
+    {
+      "id": "db-050",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "bigquery",
+        "cloud-sql",
+        "alloydb"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-data-products"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Analysts must run ad hoc SQL over 8 years of clickstream data (petabyte scale) without managing servers, and the company wants to pay mainly for what it queries. Which service should you choose?",
+        "es": "Los analistas deben ejecutar SQL ad hoc sobre 8 años de datos de clickstream (escala de petabytes) sin administrar servidores, y la empresa quiere pagar principalmente por lo que consulta. ¿Qué servicio eliges?"
+      },
+      "opciones": [
+        {
+          "en": "BigQuery with partitioned and clustered tables",
+          "es": "BigQuery con tablas particionadas y agrupadas en clústeres"
+        },
+        {
+          "en": "AlloyDB with the columnar engine enabled",
+          "es": "AlloyDB con el motor columnar habilitado"
+        },
+        {
+          "en": "Cloud SQL for PostgreSQL on the largest machine type",
+          "es": "Cloud SQL para PostgreSQL en el tipo de máquina más grande"
+        },
+        {
+          "en": "Bigtable with an HDD cluster",
+          "es": "Bigtable con un clúster de HDD"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "BigQuery is serverless, stores petabytes cheaply, and on-demand pricing charges for bytes scanned, which partitioning and clustering reduce further. AlloyDB accelerates analytics on operational data but is provisioned per cluster and not aimed at petabyte-scale historical scans, Cloud SQL cannot hold or scan that volume, and Bigtable has no ad hoc SQL analytics engine of its own.",
+        "es": "BigQuery es serverless, almacena petabytes a bajo costo y su precio on demand cobra por bytes escaneados, que el particionado y el clustering reducen aún más. AlloyDB acelera la analítica sobre datos operativos pero se aprovisiona por clúster y no apunta a escaneos históricos a escala de petabytes, Cloud SQL no puede alojar ni escanear ese volumen y Bigtable no cuenta con un motor propio de analítica SQL ad hoc."
+      },
+      "doc": "https://cloud.google.com/bigquery/docs/introduction"
+    },
+    {
+      "id": "db-051",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "alloydb",
+        "cloud-sql"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-data-products"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A PostgreSQL workload mixes high-volume transactions with dashboards that aggregate the same live tables, and nightly ETL into a warehouse is too slow for the business. Which option is BEST?",
+        "es": "Una carga de PostgreSQL mezcla transacciones de alto volumen con dashboards que agregan las mismas tablas en vivo, y el ETL nocturno hacia un warehouse es demasiado lento para el negocio. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        {
+          "en": "Move the workload to AlloyDB for PostgreSQL and rely on its columnar engine for the analytical queries",
+          "es": "Mover la carga a AlloyDB para PostgreSQL y apoyarse en su motor columnar para las consultas analíticas"
+        },
+        {
+          "en": "Keep Cloud SQL and add more read replicas for the dashboards",
+          "es": "Mantener Cloud SQL y agregar más réplicas de lectura para los dashboards"
+        },
+        {
+          "en": "Move everything to BigQuery, including the transactional writes",
+          "es": "Mover todo a BigQuery, incluidas las escrituras transaccionales"
+        },
+        {
+          "en": "Cache the dashboard results in Memorystore for 24 hours",
+          "es": "Almacenar en caché los resultados del dashboard en Memorystore durante 24 horas"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "AlloyDB stays PostgreSQL compatible, so the application keeps working, and its columnar engine runs the aggregate queries on live data orders of magnitude faster, removing the ETL delay. Read replicas still use the row-based engine and remain slow for large aggregations, BigQuery cannot serve the OLTP writes, and a 24-hour cache reintroduces exactly the staleness the business rejected.",
+        "es": "AlloyDB mantiene la compatibilidad con PostgreSQL, así que la aplicación sigue funcionando, y su motor columnar ejecuta las consultas agregadas sobre datos en vivo órdenes de magnitud más rápido, lo que elimina el retraso del ETL. Las réplicas de lectura siguen usando el motor por filas y continúan lentas para agregaciones grandes, BigQuery no puede atender las escrituras OLTP y una caché de 24 horas reintroduce justo la desactualización que el negocio rechazó."
+      },
+      "doc": "https://cloud.google.com/alloydb/docs/columnar-engine/about"
+    },
+    {
+      "id": "db-052",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "cloud-sql",
+        "spanner"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-multiregion-redundancy"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A regulated app on Cloud SQL for PostgreSQL must keep an RPO of minutes and an RTO of under an hour if the primary region is lost, while keeping costs moderate. What do you implement?",
+        "es": "Una app regulada en Cloud SQL para PostgreSQL debe mantener un RPO de minutos y un RTO menor a una hora si se pierde la región principal, con costos moderados. ¿Qué implementas?"
+      },
+      "opciones": [
+        {
+          "en": "A cross-region read replica that you promote to primary during a regional failure, in addition to regional HA",
+          "es": "Una réplica de lectura entre regiones que promueves a principal durante una falla regional, además de la HA regional"
+        },
+        {
+          "en": "Only regional HA, because the standby covers regional outages",
+          "es": "Solo HA regional, porque la instancia en espera cubre las interrupciones regionales"
+        },
+        {
+          "en": "Daily on-demand backups restored manually in the second region",
+          "es": "Backups on demand diarios restaurados manualmente en la segunda región"
+        },
+        {
+          "en": "Migrate to Spanner multi-region, because Cloud SQL cannot leave a single region",
+          "es": "Migrar a Spanner multirregión, porque Cloud SQL no puede salir de una sola región"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "A cross-region read replica receives changes continuously (RPO of seconds to minutes) and promoting it takes minutes, which meets both objectives without the cost and rewrite of a new engine. B is wrong because HA is limited to zones inside one region, C gives an RPO of up to 24 hours, and D is an unnecessary and expensive re-platforming since Cloud SQL does support cross-region replicas.",
+        "es": "Una réplica de lectura entre regiones recibe los cambios de forma continua (RPO de segundos a minutos) y promoverla toma minutos, lo que cumple ambos objetivos sin el costo ni la reescritura de un motor nuevo. B es incorrecta porque la HA se limita a zonas dentro de una región, C entrega un RPO de hasta 24 horas y D es una replataforma innecesaria y costosa, ya que Cloud SQL sí admite réplicas entre regiones."
+      },
+      "doc": "https://cloud.google.com/sql/docs/postgres/intro-to-cloud-sql-disaster-recovery"
+    },
+    {
+      "id": "db-053",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "bigquery",
+        "cloud-storage"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-storage-costs"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A BigQuery dataset costs far more than expected. Investigation shows analysts run SELECT * on a 40 TB unpartitioned table dozens of times a day. What is the BEST first action?",
+        "es": "Un conjunto de datos de BigQuery cuesta mucho más de lo esperado. La investigación muestra que los analistas ejecutan SELECT * sobre una tabla de 40 TB sin particionar decenas de veces al día. ¿Cuál es la MEJOR primera acción?"
+      },
+      "opciones": [
+        {
+          "en": "Recreate the table partitioned by date and clustered on the most filtered columns, and coach analysts to select only needed columns",
+          "es": "Recrear la tabla particionada por fecha y agrupada por las columnas que más se filtran, y capacitar a los analistas para seleccionar solo las columnas necesarias"
+        },
+        {
+          "en": "Move the table to Cloud Storage Coldline and query it as an external table",
+          "es": "Mover la tabla a Cloud Storage Coldline y consultarla como tabla externa"
+        },
+        {
+          "en": "Delete the table and rebuild it weekly from the source system",
+          "es": "Borrar la tabla y reconstruirla semanalmente desde el sistema de origen"
+        },
+        {
+          "en": "Grant analysts the BigQuery Admin role so they can manage their own quotas",
+          "es": "Otorgar a los analistas el rol de administrador de BigQuery para que administren sus propias cuotas"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "On-demand billing is driven by bytes scanned, so partition pruning plus clustering plus column pruning cuts the scanned volume dramatically; setting custom query quotas or moving to capacity pricing can complement it. B usually makes queries slower and more expensive over cold external data, C destroys data availability, and D grants excessive privileges and does not reduce scanning.",
+        "es": "La facturación on demand depende de los bytes escaneados, así que podar particiones, aplicar clustering y seleccionar solo las columnas necesarias reduce drásticamente el volumen escaneado; definir cuotas de consulta personalizadas o pasar a precios por capacidad puede complementarlo. B suele hacer las consultas más lentas y costosas sobre datos externos fríos, C destruye la disponibilidad de los datos y D otorga privilegios excesivos y no reduce el escaneo."
+      },
+      "doc": "https://cloud.google.com/bigquery/docs/best-practices-costs"
+    },
+    {
+      "id": "db-054",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "spanner",
+        "cloud-sql",
+        "bigtable",
+        "firestore"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-data-products"
+      ],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "A gaming company needs a leaderboard updated in real time for 50 million players and a separate ledger of in-app purchases with strict transactional guarantees. Which TWO products best match these needs?",
+        "es": "Una empresa de videojuegos necesita una tabla de posiciones actualizada en tiempo real para 50 millones de jugadores y, por separado, un libro de compras dentro de la app con garantías transaccionales estrictas. ¿Cuáles DOS productos se ajustan mejor?"
+      },
+      "opciones": [
+        {
+          "en": "Memorystore for Redis for the real-time leaderboard",
+          "es": "Memorystore para Redis para la tabla de posiciones en tiempo real"
+        },
+        {
+          "en": "Spanner for the purchase ledger",
+          "es": "Spanner para el libro de compras"
+        },
+        {
+          "en": "BigQuery for the purchase ledger",
+          "es": "BigQuery para el libro de compras"
+        },
+        {
+          "en": "Cloud Storage for the real-time leaderboard",
+          "es": "Cloud Storage para la tabla de posiciones en tiempo real"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Redis sorted sets in Memorystore are the classic pattern for a leaderboard that must update and read in sub-millisecond time, while Spanner gives ACID transactions and consistency for financial records at global scale. BigQuery is analytical and not transactional, and Cloud Storage is object storage with no low-latency ranking primitives.",
+        "es": "Los sorted sets de Redis en Memorystore son el patrón clásico para una tabla de posiciones que debe actualizarse y leerse en menos de un milisegundo, mientras que Spanner ofrece transacciones ACID y consistencia para registros financieros a escala global. BigQuery es analítico y no transaccional, y Cloud Storage es almacenamiento de objetos sin primitivas de ranking de baja latencia."
+      },
+      "doc": "https://cloud.google.com/memorystore/docs/redis/redis-overview"
+    },
+    {
+      "id": "db-055",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "cloud-sql",
+        "database-center"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-database-center",
+        "3.2-db-backup-restore"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "An auditor asks which production databases in the organization lack backups or high availability. You must answer quickly and repeatably with minimal custom tooling. What do you do?",
+        "es": "Un auditor pregunta qué bases de datos de producción de la organización carecen de backups o de alta disponibilidad. Debes responder rápido y de forma repetible con la mínima herramienta personalizada. ¿Qué haces?"
+      },
+      "opciones": [
+        {
+          "en": "Use Database Center at the organization level and review its data protection and availability issue categories",
+          "es": "Usar Database Center a nivel de organización y revisar sus categorías de problemas de protección de datos y disponibilidad"
+        },
+        {
+          "en": "Write a script that calls gcloud sql instances describe in every project and parse the output",
+          "es": "Escribir un script que llame a gcloud sql instances describe en cada proyecto y analizar la salida"
+        },
+        {
+          "en": "Open a support case asking Google for the inventory",
+          "es": "Abrir un caso de soporte solicitando el inventario a Google"
+        },
+        {
+          "en": "Export Cloud Billing data to BigQuery and infer configuration from the SKUs",
+          "es": "Exportar los datos de Cloud Billing a BigQuery e inferir la configuración a partir de los SKU"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Database Center is purpose-built for exactly this: a cross-project, cross-engine inventory with issue categories such as missing backups, no HA, and security findings, refreshed continuously. B is custom tooling that misses AlloyDB, Spanner, and other engines, C is unnecessary because the data is self-service, and D infers configuration indirectly and unreliably from billing SKUs.",
+        "es": "Database Center está hecho justo para esto: un inventario entre proyectos y entre motores con categorías de problemas como falta de backups, ausencia de HA y hallazgos de seguridad, actualizado de forma continua. B es una herramienta personalizada que omite AlloyDB, Spanner y otros motores, C es innecesario porque el dato es autoservicio y D infiere la configuración de forma indirecta y poco confiable a partir de los SKU de facturación."
+      },
+      "doc": "https://cloud.google.com/database-center/docs/overview"
+    },
+    {
+      "id": "db-056",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "firestore",
+        "bigquery"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-data-queries"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Product managers want SQL analytics over data stored in Firestore, but the app must keep using Firestore for serving. What is the BEST approach?",
+        "es": "Los product managers quieren analítica SQL sobre datos almacenados en Firestore, pero la app debe seguir usando Firestore para atender el tráfico. ¿Cuál es el MEJOR enfoque?"
+      },
+      "opciones": [
+        {
+          "en": "Stream or export Firestore data into BigQuery and let analysts query it there",
+          "es": "Transmitir o exportar los datos de Firestore hacia BigQuery y dejar que los analistas consulten allí"
+        },
+        {
+          "en": "Grant analysts direct Firestore access and have them write complex aggregation queries",
+          "es": "Otorgar a los analistas acceso directo a Firestore y pedirles que escriban consultas de agregación complejas"
+        },
+        {
+          "en": "Migrate the whole application from Firestore to BigQuery",
+          "es": "Migrar toda la aplicación de Firestore a BigQuery"
+        },
+        {
+          "en": "Create composite indexes in Firestore for every possible analytical query",
+          "es": "Crear índices compuestos en Firestore para cada consulta analítica posible"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Firestore has no analytical SQL engine, so the standard pattern is to replicate documents into BigQuery through the managed export/import or a streaming extension, keeping serving and analytics separate. B fails because Firestore cannot express joins and large aggregations efficiently, C breaks the serving workload because BigQuery is not an OLTP database, and D multiplies cost and write latency without providing SQL analytics.",
+        "es": "Firestore no tiene un motor analítico SQL, así que el patrón estándar es replicar los documentos en BigQuery mediante la exportación/importación administrada o una extensión de streaming, manteniendo separadas la atención y la analítica. B falla porque Firestore no expresa joins ni agregaciones grandes de forma eficiente, C rompe la carga de atención porque BigQuery no es una base OLTP y D multiplica el costo y la latencia de escritura sin ofrecer analítica SQL."
+      },
+      "doc": "https://cloud.google.com/firestore/docs/export-import-bq"
+    },
+    {
+      "id": "db-057",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "cloud-sql",
+        "alloydb",
+        "spanner"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-data-loading"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A company migrates an Oracle system to Google Cloud. The team wants a managed relational target, minimal downtime, and no long-term license costs. Which combination is BEST?",
+        "es": "Una empresa migra un sistema Oracle a Google Cloud. El equipo quiere un destino relacional administrado, tiempo de inactividad mínimo y sin costos de licencia a largo plazo. ¿Cuál combinación es la MEJOR?"
+      },
+      "opciones": [
+        {
+          "en": "Use Database Migration Service to move the workload to Cloud SQL for PostgreSQL or AlloyDB",
+          "es": "Usar Database Migration Service para llevar la carga a Cloud SQL para PostgreSQL o AlloyDB"
+        },
+        {
+          "en": "Install Oracle on Compute Engine VMs and copy the data files manually",
+          "es": "Instalar Oracle en VMs de Compute Engine y copiar los archivos de datos manualmente"
+        },
+        {
+          "en": "Export the Oracle tables to CSV and load them into BigQuery as the new operational database",
+          "es": "Exportar las tablas de Oracle a CSV y cargarlas en BigQuery como nueva base de datos operativa"
+        },
+        {
+          "en": "Recreate the schema in Bigtable and rewrite the application to use row keys",
+          "es": "Recrear el esquema en Bigtable y reescribir la aplicación para usar row keys"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "DMS supports Oracle sources and performs continuous replication into PostgreSQL-compatible targets, so downtime is limited to the cutover and the destination is fully managed with no Oracle licensing. B keeps the licenses and all operational work, C turns an OLTP system into an analytics warehouse that cannot serve transactions, and D forces a rewrite to a NoSQL model that loses relational semantics.",
+        "es": "DMS admite orígenes Oracle y realiza replicación continua hacia destinos compatibles con PostgreSQL, así que el tiempo de inactividad se limita al cambio final y el destino es completamente administrado y sin licencias de Oracle. B conserva las licencias y todo el trabajo operativo, C convierte un sistema OLTP en un warehouse analítico que no atiende transacciones y D obliga a reescribir hacia un modelo NoSQL que pierde la semántica relacional."
+      },
+      "doc": "https://cloud.google.com/database-migration/docs/oracle-to-postgresql"
+    },
+    {
+      "id": "db-058",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "bigtable",
+        "bigquery"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-storage-costs"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A Bigtable instance stores 60 TB of historical telemetry that is scanned only in large batch jobs where latency is not critical. How do you reduce cost while keeping the data queryable in Bigtable?",
+        "es": "Una instancia de Bigtable almacena 60 TB de telemetría histórica que solo se escanea en trabajos por lotes grandes donde la latencia no es crítica. ¿Cómo reduces el costo manteniendo los datos consultables en Bigtable?"
+      },
+      "opciones": [
+        {
+          "en": "Use an HDD cluster for that instance, since HDD storage is far cheaper for large scan-oriented datasets",
+          "es": "Usar un clúster HDD para esa instancia, ya que el almacenamiento HDD es mucho más económico para conjuntos grandes orientados a escaneos"
+        },
+        {
+          "en": "Reduce the number of nodes to zero between batch jobs",
+          "es": "Reducir la cantidad de nodos a cero entre los trabajos por lotes"
+        },
+        {
+          "en": "Enable garbage collection to delete all cells older than one day",
+          "es": "Habilitar la recolección de basura para borrar todas las celdas de más de un día"
+        },
+        {
+          "en": "Convert the instance into a BigQuery dataset in place",
+          "es": "Convertir la instancia en un conjunto de datos de BigQuery en el mismo lugar"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "For large, scan-heavy datasets that tolerate higher latency, HDD clusters cut storage cost substantially compared with SSD, which is the intended tradeoff; note the storage type is chosen when the cluster is created. B is impossible because a Bigtable cluster requires at least one node, C destroys the historical data the jobs need, and D is not an in-place conversion that exists.",
+        "es": "Para conjuntos grandes con muchos escaneos que toleran mayor latencia, los clústeres HDD reducen sustancialmente el costo de almacenamiento frente a SSD, que es justamente el equilibrio buscado; ten en cuenta que el tipo de almacenamiento se elige al crear el clúster. B es imposible porque un clúster de Bigtable requiere al menos un nodo, C destruye los datos históricos que los trabajos necesitan y D no es una conversión in situ que exista."
+      },
+      "doc": "https://cloud.google.com/bigtable/docs/choosing-ssd-hdd"
+    },
+    {
+      "id": "db-059",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "spanner",
+        "cloud-sql"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-data-products"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A startup expects unpredictable growth for a relational inventory service. Today it is small, but it may need 100x capacity within a year with no downtime for resharding. Cost today matters. What is the BEST design?",
+        "es": "Una startup espera un crecimiento impredecible para un servicio relacional de inventario. Hoy es pequeño, pero podría necesitar 100 veces más capacidad en un año sin tiempo de inactividad para refragmentar. El costo actual importa. ¿Cuál es el MEJOR diseño?"
+      },
+      "opciones": [
+        {
+          "en": "Start Spanner with a small number of processing units and scale capacity as demand grows",
+          "es": "Iniciar Spanner con pocas unidades de procesamiento y escalar la capacidad conforme crece la demanda"
+        },
+        {
+          "en": "Start with Cloud SQL and plan an application-level sharding layer later",
+          "es": "Comenzar con Cloud SQL y planear después una capa de fragmentación a nivel de aplicación"
+        },
+        {
+          "en": "Start with Firestore and add SQL joins when they are needed",
+          "es": "Comenzar con Firestore y agregar joins de SQL cuando se necesiten"
+        },
+        {
+          "en": "Start with BigQuery and add transactional writes later",
+          "es": "Comenzar con BigQuery y agregar escrituras transaccionales después"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Spanner instances can begin at 100 processing units, which makes small deployments affordable, and capacity is added online with no resharding or downtime, satisfying both constraints. B pushes a painful manual sharding project onto the team, C is wrong because Firestore never gains relational joins, and D is wrong because BigQuery is not an OLTP engine.",
+        "es": "Las instancias de Spanner pueden comenzar en 100 unidades de procesamiento, lo que hace asequibles las implementaciones pequeñas, y la capacidad se agrega en línea sin refragmentar ni interrumpir el servicio, cumpliendo ambas restricciones. B empuja al equipo a un proyecto manual de sharding doloroso, C es incorrecta porque Firestore nunca obtiene joins relacionales y D es incorrecta porque BigQuery no es un motor OLTP."
+      },
+      "doc": "https://cloud.google.com/spanner/docs/compute-capacity"
+    },
+    {
+      "id": "db-060",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "cloud-sql",
+        "spanner",
+        "firestore",
+        "bigtable"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-db-backup-restore"
+      ],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO statements about backing up managed databases in Google Cloud are correct?",
+        "es": "¿Cuáles DOS afirmaciones sobre las copias de seguridad de bases de datos administradas en Google Cloud son correctas?"
+      },
+      "opciones": [
+        {
+          "en": "Spanner backups are restored into a new database rather than overwriting the existing one",
+          "es": "Los backups de Spanner se restauran en una base de datos nueva en lugar de sobrescribir la existente"
+        },
+        {
+          "en": "Firestore uses a managed export to Cloud Storage that can later be imported back",
+          "es": "Firestore usa una exportación administrada hacia Cloud Storage que después se puede volver a importar"
+        },
+        {
+          "en": "A Cloud SQL read replica removes the need for backups because it always holds a valid copy",
+          "es": "Una réplica de lectura de Cloud SQL elimina la necesidad de backups porque siempre conserva una copia válida"
+        },
+        {
+          "en": "Bigtable data can only be protected by exporting it manually to CSV files",
+          "es": "Los datos de Bigtable solo se pueden proteger exportándolos manualmente a archivos CSV"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Restoring a Spanner backup always creates a new database, and Firestore's managed export/import writes to and reads from Cloud Storage. C is dangerous and false because a replica reproduces logical errors such as an accidental DELETE, and D is false because Bigtable offers managed backups of a table in addition to export options.",
+        "es": "Restaurar un backup de Spanner siempre crea una base de datos nueva, y la exportación/importación administrada de Firestore escribe y lee desde Cloud Storage. C es peligrosa y falsa porque una réplica reproduce errores lógicos como un DELETE accidental, y D es falsa porque Bigtable ofrece backups administrados de una tabla además de las opciones de exportación."
+      },
+      "doc": "https://cloud.google.com/bigtable/docs/backups"
+    },
+    {
+      "id": "db-061",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "memorystore",
+        "firestore",
+        "cloud-sql"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-data-products"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A web tier on GKE needs shared session state with sub-millisecond reads, and sessions can be rebuilt if lost. Which option is BEST for cost and latency?",
+        "es": "Una capa web en GKE necesita estado de sesión compartido con lecturas de menos de un milisegundo, y las sesiones se pueden reconstruir si se pierden. ¿Cuál opción es la MEJOR en costo y latencia?"
+      },
+      "opciones": [
+        {
+          "en": "Memorystore for Redis, sized for the working set of active sessions",
+          "es": "Memorystore para Redis, dimensionado para el conjunto activo de sesiones"
+        },
+        {
+          "en": "Cloud SQL with a sessions table and an index on session_id",
+          "es": "Cloud SQL con una tabla de sesiones y un índice en session_id"
+        },
+        {
+          "en": "Firestore with one document per session",
+          "es": "Firestore con un documento por sesión"
+        },
+        {
+          "en": "A Cloud Storage bucket with one object per session",
+          "es": "Un bucket de Cloud Storage con un objeto por sesión"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Session state is small, hot, and disposable, which is exactly the in-memory cache profile: Redis answers in microseconds and costs far less than sustaining that request rate on a database. Cloud SQL and Firestore add milliseconds and per-operation cost for data that does not need durability, and Cloud Storage has the highest per-request latency of all.",
+        "es": "El estado de sesión es pequeño, activo y desechable, que es justamente el perfil de una caché en memoria: Redis responde en microsegundos y cuesta mucho menos que sostener esa tasa de solicitudes en una base de datos. Cloud SQL y Firestore agregan milisegundos y costo por operación para datos que no necesitan durabilidad, y Cloud Storage tiene la latencia por solicitud más alta de todas."
+      },
+      "doc": "https://cloud.google.com/memorystore/docs/redis/redis-overview"
+    },
+    {
+      "id": "db-062",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "cloud-sql",
+        "spanner",
+        "alloydb"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-multiregion-redundancy"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which requirement most strongly justifies choosing Spanner over Cloud SQL or AlloyDB?",
+        "es": "¿Qué requisito justifica con más fuerza elegir Spanner en lugar de Cloud SQL o AlloyDB?"
+      },
+      "opciones": [
+        {
+          "en": "Writes must be accepted in multiple regions with strong consistency and a 99.999% availability SLA",
+          "es": "Las escrituras deben aceptarse en varias regiones con consistencia sólida y un SLA de disponibilidad de 99.999%"
+        },
+        {
+          "en": "The application uses standard PostgreSQL extensions and must not change any code",
+          "es": "La aplicación usa extensiones estándar de PostgreSQL y no debe cambiar nada de código"
+        },
+        {
+          "en": "The team wants the lowest possible monthly cost for a 20 GB database",
+          "es": "El equipo quiere el menor costo mensual posible para una base de datos de 20 GB"
+        },
+        {
+          "en": "Analysts need a columnar engine for dashboards over the transactional tables",
+          "es": "Los analistas necesitan un motor columnar para dashboards sobre las tablas transaccionales"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Multi-region writes with external consistency and the 99.999% SLA are unique to Spanner; Cloud SQL and AlloyDB are regional with asynchronous cross-region replicas. B favors Cloud SQL or AlloyDB because of full PostgreSQL compatibility, C favors a small Cloud SQL instance, and D is the AlloyDB columnar engine use case.",
+        "es": "Las escrituras multirregión con consistencia externa y el SLA de 99.999% son exclusivas de Spanner; Cloud SQL y AlloyDB son regionales con réplicas asincrónicas entre regiones. B favorece a Cloud SQL o AlloyDB por la compatibilidad total con PostgreSQL, C favorece una instancia pequeña de Cloud SQL y D es el caso de uso del motor columnar de AlloyDB."
+      },
+      "doc": "https://cloud.google.com/spanner/sla"
+    },
+    {
+      "id": "db-063",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "bigquery",
+        "pubsub",
+        "dataflow"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-data-loading"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Clickstream events arrive continuously and analysts must see them in BigQuery within seconds, with minimal operational overhead. Which pipeline should you build?",
+        "es": "Los eventos de clickstream llegan de forma continua y los analistas deben verlos en BigQuery en segundos, con la mínima carga operativa. ¿Qué canalización deberías construir?"
+      },
+      "opciones": [
+        {
+          "en": "Publish events to Pub/Sub and stream them into BigQuery with a Pub/Sub BigQuery subscription or a Dataflow streaming template",
+          "es": "Publicar los eventos en Pub/Sub y transmitirlos a BigQuery con una suscripción de Pub/Sub a BigQuery o una plantilla de streaming de Dataflow"
+        },
+        {
+          "en": "Write hourly CSV files to Cloud Storage and run a scheduled bq load",
+          "es": "Escribir archivos CSV cada hora en Cloud Storage y ejecutar un bq load programado"
+        },
+        {
+          "en": "Insert events into Cloud SQL and export the table to BigQuery nightly",
+          "es": "Insertar los eventos en Cloud SQL y exportar la tabla a BigQuery cada noche"
+        },
+        {
+          "en": "Store events in Memorystore and have analysts query Redis directly",
+          "es": "Almacenar los eventos en Memorystore y que los analistas consulten Redis directamente"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Pub/Sub decouples producers from the warehouse and a BigQuery subscription (or a Dataflow streaming template when transformation is needed) delivers rows within seconds without servers to manage. B and C introduce hourly or nightly latency, which violates the seconds requirement, and D is a cache with no SQL analytics for analysts.",
+        "es": "Pub/Sub desacopla a los productores del warehouse y una suscripción a BigQuery (o una plantilla de streaming de Dataflow cuando hace falta transformar) entrega las filas en segundos sin servidores que administrar. B y C introducen latencia de horas o de una noche, lo que viola el requisito de segundos, y D es una caché sin analítica SQL para los analistas."
+      },
+      "doc": "https://cloud.google.com/pubsub/docs/bigquery"
+    },
+    {
+      "id": "db-064",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "cloud-sql",
+        "bigquery",
+        "spanner"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-storage-costs"
+      ],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "You are estimating the monthly cost of a data platform. Which TWO cost drivers should you include beyond the compute or node price?",
+        "es": "Estás estimando el costo mensual de una plataforma de datos. ¿Cuáles DOS factores de costo debes incluir además del precio de cómputo o de nodos?"
+      },
+      "opciones": [
+        {
+          "en": "Stored data volume, including backups and their retention period",
+          "es": "El volumen de datos almacenados, incluidos los backups y su período de retención"
+        },
+        {
+          "en": "Network egress when clients or replicas read data across regions",
+          "es": "La salida de red cuando clientes o réplicas leen datos entre regiones"
+        },
+        {
+          "en": "The number of IAM roles granted on the project",
+          "es": "La cantidad de roles de IAM otorgados en el proyecto"
+        },
+        {
+          "en": "The number of tables created in the database",
+          "es": "La cantidad de tablas creadas en la base de datos"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Managed databases bill separately for storage, including backup storage kept for the retention window, and for cross-region or internet egress, which is why estimates that only count nodes or vCPUs come out low. IAM role grants are free, and creating tables carries no direct charge; what costs money is the data those tables hold.",
+        "es": "Las bases de datos administradas facturan por separado el almacenamiento, incluido el de los backups conservados durante la ventana de retención, y la salida de red entre regiones o hacia internet, y por eso las estimaciones que solo cuentan nodos o vCPU quedan bajas. Otorgar roles de IAM es gratuito y crear tablas no tiene cargo directo; lo que cuesta es la información que esas tablas contienen."
+      },
+      "doc": "https://cloud.google.com/products/calculator"
+    },
+    {
+      "id": "db-065",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "cloud-sql",
+        "bigquery",
+        "bigtable",
+        "spanner",
+        "firestore"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-data-products"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A retailer needs: a transactional order database with joins, sub-second recommendations from 5 TB of user-event rows keyed by user, and quarterly BI reports over 5 years of sales. Which mapping is BEST?",
+        "es": "Un retailer necesita: una base de datos transaccional de pedidos con joins, recomendaciones en menos de un segundo a partir de 5 TB de filas de eventos de usuario indexadas por usuario, y reportes de BI trimestrales sobre 5 años de ventas. ¿Cuál asignación es la MEJOR?"
+      },
+      "opciones": [
+        {
+          "en": "Cloud SQL for orders, Bigtable for user events, BigQuery for BI reporting",
+          "es": "Cloud SQL para pedidos, Bigtable para eventos de usuario y BigQuery para los reportes de BI"
+        },
+        {
+          "en": "BigQuery for orders, Cloud SQL for user events, Bigtable for BI reporting",
+          "es": "BigQuery para pedidos, Cloud SQL para eventos de usuario y Bigtable para los reportes de BI"
+        },
+        {
+          "en": "Firestore for orders, BigQuery for user events, Cloud SQL for BI reporting",
+          "es": "Firestore para pedidos, BigQuery para eventos de usuario y Cloud SQL para los reportes de BI"
+        },
+        {
+          "en": "Spanner for all three workloads to keep the architecture simple",
+          "es": "Spanner para las tres cargas de trabajo para mantener la arquitectura simple"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Each workload maps to the engine designed for it: relational OLTP with joins to Cloud SQL, huge key-based low-latency lookups to Bigtable, and large historical SQL analytics to BigQuery. B and C invert the roles and put OLTP on an analytics warehouse or analytics on an OLTP engine, and D forces Spanner to serve reporting scans and event lookups it is neither optimized nor priced for, at a much higher cost than the purpose-built services.",
+        "es": "Cada carga corresponde al motor diseñado para ella: OLTP relacional con joins a Cloud SQL, búsquedas masivas por clave con baja latencia a Bigtable y analítica SQL histórica de gran volumen a BigQuery. B y C invierten los roles y colocan OLTP en un warehouse analítico o analítica en un motor OLTP, y D obliga a Spanner a atender escaneos de reportes y búsquedas de eventos para los que no está optimizado ni tarificado, con un costo mucho mayor que el de los servicios específicos."
+      },
+      "doc": "https://cloud.google.com/products/databases"
     }
   ]
 }

@@ -1396,6 +1396,356 @@
         "es": "Una VM consume una reserva solo cuando su zona, tipo de máquina, tipo y cantidad de GPU y demás propiedades reservadas coinciden exactamente; una reserva de destino específico además exige que la VM la nombre. B es falsa porque las reservas no dependen de la herramienta usada, C es inventada y D es falsa porque las reservas de aceleradores son uno de los casos de uso principales."
       },
       "doc": "https://cloud.google.com/compute/docs/instances/reservations-consume"
+    },
+    {
+      "id": "iadep-033",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "file-storage",
+        "gke"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-storage-products"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Several GKE Pods must write to the same POSIX directory at the same time with a ReadWriteMany volume. Which product should back the PersistentVolume?",
+        "es": "Varios Pods de GKE deben escribir en el mismo directorio POSIX al mismo tiempo con un volumen ReadWriteMany. ¿Qué producto debe respaldar el PersistentVolume?"
+      },
+      "opciones": [
+        {
+          "en": "Filestore, through the Filestore CSI driver",
+          "es": "Filestore, mediante el controlador CSI de Filestore"
+        },
+        {
+          "en": "A zonal Persistent Disk in ReadWriteOnce mode",
+          "es": "Un Persistent Disk zonal en modo ReadWriteOnce"
+        },
+        {
+          "en": "A Cloud SQL instance with a shared table",
+          "es": "Una instancia de Cloud SQL con una tabla compartida"
+        },
+        {
+          "en": "A local SSD on each node",
+          "es": "Un SSD local en cada nodo"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Filestore exposes NFS, which is what ReadWriteMany volumes need, and GKE ships a Filestore CSI driver to provision the shares. A zonal Persistent Disk supports ReadWriteOnce read-write from a single node, Cloud SQL is a relational database and not a file system, and Local SSD is ephemeral node-local storage that is not shared.",
+        "es": "Filestore expone NFS, que es lo que requieren los volúmenes ReadWriteMany, y GKE incluye un controlador CSI de Filestore para aprovisionar los recursos compartidos. Un Persistent Disk zonal admite lectura-escritura ReadWriteOnce desde un solo nodo, Cloud SQL es una base de datos relacional y no un sistema de archivos, y el SSD local es almacenamiento efímero del nodo que no se comparte."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/how-to/persistent-volumes/filestore-csi-driver"
+    },
+    {
+      "id": "iadep-034",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "bigquery",
+        "notebooks"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-ai-workloads"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which statement correctly describes how a BigQuery notebook executes code?",
+        "es": "¿Qué afirmación describe correctamente cómo ejecuta el código un notebook de BigQuery?"
+      },
+      "opciones": [
+        {
+          "en": "It runs on a managed Colab Enterprise runtime attached to the notebook, and it can query BigQuery directly from SQL or Python cells",
+          "es": "Se ejecuta en un runtime administrado de Colab Enterprise asociado al notebook, y puede consultar BigQuery directamente desde celdas SQL o Python"
+        },
+        {
+          "en": "It runs inside the BigQuery query engine, so Python cells are translated into SQL",
+          "es": "Se ejecuta dentro del motor de consultas de BigQuery, por lo que las celdas de Python se traducen a SQL"
+        },
+        {
+          "en": "It requires you to create and manage a Compute Engine VM first",
+          "es": "Requiere que primero crees y administres una VM de Compute Engine"
+        },
+        {
+          "en": "It only executes when triggered by a Cloud Scheduler job",
+          "es": "Solo se ejecuta cuando lo activa un trabajo de Cloud Scheduler"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "BigQuery notebooks are backed by managed Colab Enterprise runtimes, so Python executes on the runtime while SQL cells are pushed down to BigQuery. B is wrong because Python is not transpiled to SQL, C is wrong because no VM management is required, and D is wrong because notebooks run interactively although they can also be scheduled.",
+        "es": "Los notebooks de BigQuery se respaldan con runtimes administrados de Colab Enterprise, de modo que Python se ejecuta en el runtime mientras que las celdas SQL se envían a BigQuery. B es incorrecta porque Python no se traduce a SQL, C es incorrecta porque no hay que administrar VMs y D es incorrecta porque los notebooks se ejecutan de forma interactiva, aunque también pueden programarse."
+      },
+      "doc": "https://cloud.google.com/bigquery/docs/create-notebooks"
+    },
+    {
+      "id": "iadep-035",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "cloud-workstations",
+        "artifact-registry"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-cloud-workstations"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your team needs every workstation to include a specific CUDA toolkit and internal libraries. What is the recommended approach?",
+        "es": "Tu equipo necesita que cada workstation incluya un toolkit CUDA específico y bibliotecas internas. ¿Cuál es el enfoque recomendado?"
+      },
+      "opciones": [
+        {
+          "en": "Build a custom workstation container image, push it to Artifact Registry, and reference it from the workstation configuration",
+          "es": "Compilar una imagen de contenedor personalizada para la workstation, subirla a Artifact Registry y referenciarla desde la configuración de la workstation"
+        },
+        {
+          "en": "Ask every developer to install the toolkit manually after their workstation starts",
+          "es": "Pedir a cada desarrollador que instale el toolkit manualmente después de iniciar su workstation"
+        },
+        {
+          "en": "Store the toolkit in a Cloud Storage bucket and mount it as the workstation root disk",
+          "es": "Guardar el toolkit en un bucket de Cloud Storage y montarlo como disco raíz de la workstation"
+        },
+        {
+          "en": "Create one workstation cluster per developer so each can customize it",
+          "es": "Crear un clúster de workstations por desarrollador para que cada uno lo personalice"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Workstation configurations point to a container image, so baking dependencies into a custom image in Artifact Registry gives every developer the same environment and makes updates a single image change. B is unreproducible manual toil, C is not how workstation images work, and D multiplies infrastructure without solving the image problem.",
+        "es": "Las configuraciones de workstation apuntan a una imagen de contenedor, por lo que incluir las dependencias en una imagen personalizada en Artifact Registry da a todos el mismo entorno y convierte las actualizaciones en un solo cambio de imagen. B es trabajo manual no reproducible, C no es cómo funcionan las imágenes de workstation y D multiplica la infraestructura sin resolver el problema de la imagen."
+      },
+      "doc": "https://cloud.google.com/workstations/docs/customize-container-images"
+    },
+    {
+      "id": "iadep-036",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "gke",
+        "gpus-tpus"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-gpus-tpus-choice"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "When you create a TPU node pool in GKE for a multi-host training job, which property must you specify in addition to the TPU machine type?",
+        "es": "Cuando creas un node pool de TPU en GKE para un trabajo de entrenamiento multihost, ¿qué propiedad debes especificar además del tipo de máquina TPU?"
+      },
+      "opciones": [
+        {
+          "en": "The TPU topology, which defines how the TPU chips are arranged into a slice",
+          "es": "La topología de TPU, que define cómo se organizan los chips TPU en una slice"
+        },
+        {
+          "en": "The number of Cloud Storage buckets the job will use",
+          "es": "La cantidad de buckets de Cloud Storage que usará el trabajo"
+        },
+        {
+          "en": "A dedicated Cloud NAT gateway per TPU host",
+          "es": "Una puerta de enlace de Cloud NAT dedicada por host de TPU"
+        },
+        {
+          "en": "A Filestore instance, because TPUs cannot read from Cloud Storage",
+          "es": "Una instancia de Filestore, porque las TPU no pueden leer desde Cloud Storage"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "TPU node pools are defined by machine type plus topology, which together determine the slice shape and how many hosts participate; GKE then schedules the multi-host workload as a group. B and C are unrelated to TPU node pool creation, and D is false because TPU workloads commonly read training data straight from Cloud Storage.",
+        "es": "Los node pools de TPU se definen por el tipo de máquina más la topología, que juntos determinan la forma de la slice y cuántos hosts participan; luego GKE programa la carga multihost como un grupo. B y C no tienen relación con la creación del node pool de TPU y D es falsa porque las cargas con TPU suelen leer los datos de entrenamiento directamente desde Cloud Storage."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/tpus"
+    },
+    {
+      "id": "iadep-037",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "gemini-cloud-assist",
+        "terraform-iac"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.4-ai-assisted-tooling"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A platform team wants developers to launch new services from approved architecture patterns instead of writing infrastructure from scratch. Which capability of Application Design Center supports this?",
+        "es": "Un equipo de plataforma quiere que los desarrolladores lancen servicios nuevos a partir de patrones de arquitectura aprobados en lugar de escribir la infraestructura desde cero. ¿Qué capacidad de Application Design Center apoya esto?"
+      },
+      "opciones": [
+        {
+          "en": "Saving a designed architecture as a reusable template that others instantiate and deploy as infrastructure as code",
+          "es": "Guardar una arquitectura diseñada como plantilla reutilizable que otros instancian e implementan como infraestructura como código"
+        },
+        {
+          "en": "Automatically granting Owner on the project to anyone who opens a design",
+          "es": "Otorgar automáticamente el rol de Propietario del proyecto a quien abra un diseño"
+        },
+        {
+          "en": "Rewriting running workloads to a different region without redeployment",
+          "es": "Reescribir cargas en ejecución hacia otra región sin volver a implementarlas"
+        },
+        {
+          "en": "Replacing Cloud Monitoring dashboards with architecture diagrams",
+          "es": "Reemplazar los paneles de Cloud Monitoring con diagramas de arquitectura"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Application Design Center lets a platform team publish blessed designs as templates so application teams start from a governed pattern and deploy it as code. B would be a serious security anti-pattern and is not how the product works, C is not a capability of any design tool, and D confuses design artifacts with observability.",
+        "es": "Application Design Center permite que un equipo de plataforma publique diseños aprobados como plantillas para que los equipos de aplicaciones partan de un patrón gobernado y lo implementen como código. B sería un antipatrón grave de seguridad y no es como funciona el producto, C no es una capacidad de ninguna herramienta de diseño y D confunde artefactos de diseño con observabilidad."
+      },
+      "doc": "https://cloud.google.com/application-design-center/docs/overview"
+    },
+    {
+      "id": "iadep-038",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "gemini-cloud-assist"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.4-ai-assisted-tooling"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "How does Gemini Cloud Assist decide what a user is allowed to see when it answers questions about resources in a project?",
+        "es": "¿Cómo determina Gemini Cloud Assist qué puede ver un usuario cuando responde preguntas sobre los recursos de un proyecto?"
+      },
+      "opciones": [
+        {
+          "en": "It respects the caller's existing IAM permissions and only surfaces resources and data that identity can already access",
+          "es": "Respeta los permisos de IAM existentes del solicitante y solo muestra recursos y datos a los que esa identidad ya puede acceder"
+        },
+        {
+          "en": "It uses a Google-managed super-user account with organization-wide visibility",
+          "es": "Usa una cuenta de superusuario administrada por Google con visibilidad en toda la organización"
+        },
+        {
+          "en": "It requires the Owner basic role for any query",
+          "es": "Requiere el rol básico de Propietario para cualquier consulta"
+        },
+        {
+          "en": "It reads only public documentation and never inspects project resources",
+          "es": "Solo lee documentación pública y nunca inspecciona los recursos del proyecto"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Gemini Cloud Assist runs in the context of the signed-in principal, so IAM remains the access boundary and answers are scoped to what that user could look up manually. B would break the security model, C is false because narrower predefined roles are enough and Owner is discouraged, and D is wrong because Cloud Assist does reason over your project context.",
+        "es": "Gemini Cloud Assist se ejecuta en el contexto del principal que inició sesión, por lo que IAM sigue siendo el límite de acceso y las respuestas se acotan a lo que ese usuario podría consultar manualmente. B rompería el modelo de seguridad, C es falsa porque bastan roles predefinidos más acotados y el rol de Propietario se desaconseja, y D es incorrecta porque Cloud Assist sí razona sobre el contexto de tu proyecto."
+      },
+      "doc": "https://cloud.google.com/gemini/docs/cloud-assist/overview"
+    },
+    {
+      "id": "iadep-039",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "cloud-workstations"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-cloud-workstations"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which pair of settings in a workstation configuration most directly controls idle cost while preserving a developer's work?",
+        "es": "¿Qué par de opciones de una configuración de workstation controla más directamente el costo por inactividad y a la vez conserva el trabajo del desarrollador?"
+      },
+      "opciones": [
+        {
+          "en": "An idle timeout that stops the workstation plus a persistent home directory disk that survives the stop",
+          "es": "Un tiempo de espera por inactividad que detiene la workstation más un disco de directorio home persistente que sobrevive al apagado"
+        },
+        {
+          "en": "A larger machine type plus a public IP address",
+          "es": "Un tipo de máquina más grande más una dirección IP pública"
+        },
+        {
+          "en": "Disabling the persistent disk plus increasing the running timeout",
+          "es": "Deshabilitar el disco persistente más aumentar el tiempo de ejecución máximo"
+        },
+        {
+          "en": "Deleting the workstation cluster every night and recreating it each morning",
+          "es": "Borrar el clúster de workstations cada noche y volver a crearlo cada mañana"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Stopping on idle removes the compute charge while the persistent home disk keeps source code and local settings, so the developer resumes where they left off. B increases cost and attack surface, C loses the developer's data and keeps machines alive longer, and D is disruptive manual work that also destroys state.",
+        "es": "Detener por inactividad elimina el cobro de cómputo mientras el disco home persistente conserva el código fuente y la configuración local, de modo que el desarrollador retoma donde quedó. B aumenta el costo y la superficie de ataque, C pierde los datos del desarrollador y mantiene las máquinas encendidas más tiempo, y D es trabajo manual disruptivo que además destruye el estado."
+      },
+      "doc": "https://cloud.google.com/workstations/docs/manage-idle-timeouts"
+    },
+    {
+      "id": "iadep-040",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "file-storage"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-storage-products"
+      ],
+      "nivel": "intermedio",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO Google Cloud products provide a shared POSIX file system that multiple training nodes can mount concurrently?",
+        "es": "¿Cuáles DOS productos de Google Cloud proporcionan un sistema de archivos POSIX compartido que varios nodos de entrenamiento pueden montar en simultáneo?"
+      },
+      "opciones": [
+        {
+          "en": "Filestore",
+          "es": "Filestore"
+        },
+        {
+          "en": "Google Cloud Managed Lustre",
+          "es": "Google Cloud Managed Lustre"
+        },
+        {
+          "en": "Cloud Storage Coldline",
+          "es": "Cloud Storage Coldline"
+        },
+        {
+          "en": "Hyperdisk Balanced",
+          "es": "Hyperdisk Balanced"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Filestore serves NFS shares and Managed Lustre serves a parallel file system; both are mounted by many clients at once, with Lustre targeting far higher aggregate throughput. Coldline is an archival object storage class with no native file semantics, and Hyperdisk Balanced is block storage designed for attachment to a VM rather than a shared file namespace.",
+        "es": "Filestore sirve recursos compartidos NFS y Managed Lustre sirve un sistema de archivos paralelo; ambos se montan desde muchos clientes a la vez, y Lustre apunta a un rendimiento agregado mucho mayor. Coldline es una clase de almacenamiento de objetos de archivo sin semántica de archivos nativa, y Hyperdisk Balanced es almacenamiento en bloque pensado para conectarse a una VM y no para un espacio de nombres compartido."
+      },
+      "doc": "https://cloud.google.com/architecture/filers-on-compute-engine"
     }
   ]
 }
