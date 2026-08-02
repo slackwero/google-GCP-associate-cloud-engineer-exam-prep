@@ -3560,6 +3560,450 @@
         "es": "El rol dataViewer a nivel de dataset confina el acceso a los datos a esos dos datasets, jobUser a nivel de proyecto aporta la capacidad de ejecutar consultas sin derechos propios sobre los datos, y la condición temporal quita el acceso automáticamente al terminar el contrato. B otorga administración total de BigQuery, incluido borrar datasets, y la limpieza manual es justo lo que las condiciones de expiración vienen a evitar. C construye un rol personalizado innecesario que además es mucho más amplio de lo requerido y se aplica a toda la organización. D es la peor opción: Editor abarca casi todos los servicios del proyecto y sustituye un control técnico por un documento legal."
       },
       "doc": "https://cloud.google.com/bigquery/docs/access-control"
+    },
+    {
+      "id": "s4b-081",
+      "curso": null,
+      "servicios": [
+        "service-accounts",
+        "iam",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.2-sa-impersonation"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "An engineer holds roles/iam.serviceAccountUser on app-sa but not roles/iam.serviceAccountTokenCreator. What can the engineer do, and what will fail?",
+        "es": "Un ingeniero tiene roles/iam.serviceAccountUser sobre app-sa, pero no roles/iam.serviceAccountTokenCreator. ¿Qué puede hacer y qué le fallará?"
+      },
+      "opciones": [
+        {
+          "en": "He can create a VM or deploy a service that runs as app-sa, but running gcloud with --impersonate-service-account=app-sa fails because he cannot generate credentials for it",
+          "es": "Puede crear una VM o desplegar un servicio que se ejecute como app-sa, pero ejecutar gcloud con --impersonate-service-account=app-sa falla porque no puede generar credenciales para ella"
+        },
+        {
+          "en": "He can impersonate app-sa but cannot attach it to any resource",
+          "es": "Puede suplantar a app-sa pero no puede asociarla a ningún recurso"
+        },
+        {
+          "en": "Both actions succeed, because Service Account User includes token creation",
+          "es": "Ambas acciones funcionan, porque Service Account User incluye la creación de tokens"
+        },
+        {
+          "en": "Both actions fail, because impersonation is required to attach a service account",
+          "es": "Ambas acciones fallan, porque se requiere suplantación para asociar una cuenta de servicio"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The two roles authorize different operations: Service Account User provides iam.serviceAccounts.actAs, which deployment APIs check when a resource is configured to run as the account, while Token Creator provides getAccessToken and the signing methods used by impersonation. B inverts the two roles. C is the classic misconception the exam probes — actAs does not include token generation, and an engineer with only Service Account User can indirectly run code as the account but cannot obtain its credentials interactively. D is wrong because attaching an account is authorized by actAs alone, with no impersonation involved.",
+        "es": "Los dos roles autorizan operaciones distintas: Service Account User aporta iam.serviceAccounts.actAs, que las APIs de despliegue verifican cuando un recurso se configura para ejecutarse como la cuenta, mientras que Token Creator aporta getAccessToken y los métodos de firma que usa la suplantación. B invierte ambos roles. C es la confusión clásica que el examen evalúa: actAs no incluye la generación de tokens, y un ingeniero con solo Service Account User puede ejecutar código indirectamente como la cuenta pero no obtener sus credenciales de forma interactiva. D es incorrecta porque asociar una cuenta se autoriza solo con actAs, sin suplantación de por medio."
+      },
+      "doc": "https://cloud.google.com/iam/docs/service-account-permissions"
+    },
+    {
+      "id": "s4b-082",
+      "curso": null,
+      "servicios": [
+        "resource-manager",
+        "iam",
+        "cloud-identity"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.1-policy-inheritance"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "After an acquisition, the parent company requires that no administrator of its existing organization can ever obtain access to the acquired unit's cloud resources, under any circumstance. What is the BEST structure?",
+        "es": "Tras una adquisición, la empresa matriz exige que ningún administrador de su organización existente pueda obtener acceso a los recursos en la nube de la unidad adquirida bajo ninguna circunstancia. ¿Cuál es la MEJOR estructura?"
+      },
+      "opciones": [
+        {
+          "en": "Keep the acquired unit in its own separate organization, since IAM inheritance always flows down from the organization node and cannot be blocked for descendants",
+          "es": "Mantener la unidad adquirida en su propia organización separada, ya que la herencia de IAM siempre desciende desde el nodo de la organización y no se puede bloquear para los descendientes"
+        },
+        {
+          "en": "Create a folder for the acquired unit inside the existing organization and remove all organization-level bindings",
+          "es": "Crear una carpeta para la unidad adquirida dentro de la organización existente y quitar todos los bindings a nivel de organización"
+        },
+        {
+          "en": "Create a folder for the acquired unit and add a project-level allow policy that excludes the parent's administrators",
+          "es": "Crear una carpeta para la unidad adquirida y agregar una allow policy a nivel de proyecto que excluya a los administradores de la matriz"
+        },
+        {
+          "en": "Place the projects in the existing organization and rely on VPC Service Controls to isolate them",
+          "es": "Colocar los proyectos en la organización existente y confiar en VPC Service Controls para aislarlos"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Everything under an organization node is reachable by whoever holds organization-level roles, and Organization Administrators can always grant themselves access again, so an absolute isolation requirement is only satisfied by a separate organization resource. B reduces exposure today but does not prevent a future organization-level grant, and the organization admin role itself remains. C misunderstands allow policies: they cannot exclude anyone, only add access. D controls data exfiltration paths across service perimeters but does not stop an organization administrator from granting themselves IAM roles.",
+        "es": "Todo lo que cuelga del nodo de una organización es alcanzable por quien tenga roles a nivel de organización, y los Organization Administrators siempre pueden volver a otorgarse acceso, así que un requisito de aislamiento absoluto solo se satisface con un recurso de organización separado. B reduce la exposición de hoy pero no evita un otorgamiento futuro a nivel de organización, y el propio rol de administrador de la organización sigue existiendo. C malinterpreta las allow policies: no pueden excluir a nadie, solo sumar acceso. D controla rutas de exfiltración de datos entre perímetros de servicios, pero no impide que un administrador de la organización se otorgue roles de IAM."
+      },
+      "doc": "https://cloud.google.com/resource-manager/docs/cloud-platform-resource-hierarchy"
+    },
+    {
+      "id": "s4b-083",
+      "curso": null,
+      "servicios": [
+        "identity-federation",
+        "iam",
+        "cloud-storage"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.2-sa-gke-workload-identity"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "An external workload federated through a workload identity pool needs to read one Cloud Storage bucket. Your security team wants to avoid creating and maintaining an intermediary service account. What is the BEST approach?",
+        "es": "Una carga de trabajo externa federada mediante un workload identity pool necesita leer un bucket de Cloud Storage. Tu equipo de seguridad quiere evitar crear y mantener una cuenta de servicio intermedia. ¿Cuál es el MEJOR enfoque?"
+      },
+      "opciones": [
+        {
+          "en": "Grant the role directly to the federated identity on the bucket, using a principal:// or principalSet:// member that references the pool and the mapped attributes",
+          "es": "Otorgar el rol directamente a la identidad federada sobre el bucket, usando un member principal:// o principalSet:// que referencie el pool y los atributos mapeados"
+        },
+        {
+          "en": "Create a service account, grant it the role, and let the external workload impersonate it",
+          "es": "Crear una cuenta de servicio, otorgarle el rol y dejar que la carga externa la suplante"
+        },
+        {
+          "en": "Make the bucket public and filter requests in the application",
+          "es": "Hacer el bucket público y filtrar las solicitudes en la aplicación"
+        },
+        {
+          "en": "Export a service account key for the external workload and restrict it by IP",
+          "es": "Exportar una llave de cuenta de servicio para la carga externa y restringirla por IP"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Direct resource access lets you bind roles straight to federated principals — a single external identity with principal://, or a filtered set with principalSet:// — removing the intermediary account and its lifecycle entirely. B is a valid and common pattern, but it is exactly the extra object the requirement asks to avoid. C exposes the data to the internet and replaces an enforced authorization control with application logic. D reintroduces the long-lived key that federation exists to eliminate, and keys cannot be restricted by IP.",
+        "es": "El acceso directo a recursos permite vincular roles directamente a principales federados — una identidad externa concreta con principal://, o un conjunto filtrado con principalSet:// — eliminando por completo la cuenta intermedia y su ciclo de vida. B es un patrón válido y común, pero es justo el objeto extra que el requisito pide evitar. C expone los datos a internet y reemplaza un control de autorización efectivo por lógica de aplicación. D reintroduce la llave de larga duración que la federación busca eliminar, y las llaves no se pueden restringir por IP."
+      },
+      "doc": "https://cloud.google.com/iam/docs/workload-identity-federation"
+    },
+    {
+      "id": "s4b-084",
+      "curso": null,
+      "servicios": [
+        "service-accounts",
+        "iam"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.2-sa-creation"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A service account was deleted weeks ago, past the recovery window. An administrator created a new one with the identical email, but the workload still gets permission denied even though the console shows the old bindings. What is happening?",
+        "es": "Una cuenta de servicio se borró hace semanas, fuera de la ventana de recuperación. Un administrador creó otra con el mismo correo, pero la carga de trabajo sigue recibiendo permiso denegado aunque la consola muestra los bindings antiguos. ¿Qué está pasando?"
+      },
+      "opciones": [
+        {
+          "en": "IAM tracks bindings by the account's numeric unique ID, and the recreated account has a new one, so the old bindings still point at the deleted identity and must be recreated",
+          "es": "IAM rastrea los bindings por el ID numérico único de la cuenta, y la cuenta recreada tiene uno nuevo, así que los bindings antiguos siguen apuntando a la identidad borrada y hay que recrearlos"
+        },
+        {
+          "en": "The new account must wait 30 days before IAM bindings become active",
+          "es": "La cuenta nueva debe esperar 30 días antes de que sus bindings de IAM se activen"
+        },
+        {
+          "en": "The workload is caching an old token; restarting it resolves the problem",
+          "es": "La carga de trabajo está cacheando un token antiguo; reiniciarla resuelve el problema"
+        },
+        {
+          "en": "Recreated service accounts cannot be used by Compute Engine",
+          "es": "Las cuentas de servicio recreadas no pueden usarlas Compute Engine"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Bindings for a service account are resolved through its immutable unique ID, not its email, so recreating the same address produces a different principal; the stale bindings typically render as deleted:serviceAccount:... and grant nothing. The fix is to remove those entries and grant the roles again to the new account. B invents an activation delay that does not exist. C is wrong because a cached token would expire within the hour and the failure is an authorization one, not a stale credential. D is wrong because any service account can be attached to a VM.",
+        "es": "Los bindings de una cuenta de servicio se resuelven por su ID único inmutable, no por su correo, así que recrear la misma dirección produce un principal distinto; las entradas obsoletas suelen mostrarse como deleted:serviceAccount:... y no otorgan nada. La solución es quitar esas entradas y volver a otorgar los roles a la cuenta nueva. B inventa un retraso de activación inexistente. C es incorrecta porque un token cacheado expiraría dentro de la hora y la falla es de autorización, no de credencial vencida. D es incorrecta porque cualquier cuenta de servicio se puede asociar a una VM."
+      },
+      "doc": "https://cloud.google.com/iam/docs/service-accounts-delete-undelete"
+    },
+    {
+      "id": "s4b-085",
+      "curso": null,
+      "servicios": [
+        "iam"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.1-iam-policies"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You attached a deny policy that should block a permission for a group, but one member of that group still performs the action successfully. What are the MOST likely explanations to check?",
+        "es": "Adjuntaste una deny policy que debería bloquear un permiso para un grupo, pero un miembro de ese grupo sigue realizando la acción con éxito. ¿Cuáles son las explicaciones MÁS probables por revisar?"
+      },
+      "opciones": [
+        {
+          "en": "The principal is listed among the rule's exception principals, or the permission is not one that deny policies support, or the deny policy is attached below the resource where the action occurs",
+          "es": "El principal figura entre los principales de excepción de la regla, o el permiso no es de los que admiten las deny policies, o la deny policy está adjunta por debajo del recurso donde ocurre la acción"
+        },
+        {
+          "en": "Deny policies only apply to service accounts, never to human users",
+          "es": "Las deny policies solo aplican a cuentas de servicio, nunca a usuarios humanos"
+        },
+        {
+          "en": "An allow policy granting Owner overrides any deny policy",
+          "es": "Una allow policy que otorgue Owner anula cualquier deny policy"
+        },
+        {
+          "en": "Deny policies take effect only after all conflicting allow bindings are removed",
+          "es": "Las deny policies solo surten efecto después de quitar todos los bindings de allow en conflicto"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Denials are evaluated first and win over any allow, so a successful action points to the rule not applying: an explicit exception principal, a permission outside the supported set for deny policies, or an attachment point that is not an ancestor of the resource being acted on. B is wrong because deny rules accept any principal type. C is exactly backwards — a deny beats Owner, which is the main reason to use deny policies. D is wrong because deny policies are designed to work on top of existing allow bindings without removing them.",
+        "es": "Las denegaciones se evalúan primero y ganan sobre cualquier allow, así que una acción exitosa indica que la regla no está aplicando: un principal de excepción explícito, un permiso fuera del conjunto admitido por las deny policies o un punto de adjunción que no es ancestro del recurso sobre el que se actúa. B es incorrecta porque las reglas de denegación aceptan cualquier tipo de principal. C es exactamente al revés: una denegación le gana a Owner, que es la razón principal para usar deny policies. D es incorrecta porque las deny policies están diseñadas para operar sobre los bindings de allow existentes sin quitarlos."
+      },
+      "doc": "https://cloud.google.com/iam/docs/deny-overview"
+    },
+    {
+      "id": "s4b-086",
+      "curso": null,
+      "servicios": [
+        "iam",
+        "resource-manager"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.1-policy-inheritance"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A support group must have read access to every project in the organization, including projects created in the future, except for the projects in the 'legal-hold' folder, where they must have nothing at all. What is the BEST implementation?",
+        "es": "Un grupo de soporte debe tener acceso de lectura a todos los proyectos de la organización, incluidos los que se creen en el futuro, salvo los proyectos de la carpeta 'legal-hold', donde no debe tener nada. ¿Cuál es la MEJOR implementación?"
+      },
+      "opciones": [
+        {
+          "en": "Grant the read role to the group at the organization node, and attach a deny policy to the 'legal-hold' folder denying that group the corresponding permissions",
+          "es": "Otorgar el rol de lectura al grupo en el nodo de la organización y adjuntar a la carpeta 'legal-hold' una deny policy que le niegue a ese grupo los permisos correspondientes"
+        },
+        {
+          "en": "Grant the read role at the organization node and remove the group's binding inside each project of the 'legal-hold' folder",
+          "es": "Otorgar el rol de lectura en el nodo de la organización y quitar el binding del grupo dentro de cada proyecto de la carpeta 'legal-hold'"
+        },
+        {
+          "en": "Grant the read role individually on every project except those in 'legal-hold', and repeat for each new project",
+          "es": "Otorgar el rol de lectura individualmente en cada proyecto salvo los de 'legal-hold', y repetirlo con cada proyecto nuevo"
+        },
+        {
+          "en": "Grant the read role at the organization node and add an IAM condition that excludes the folder from the binding's members",
+          "es": "Otorgar el rol de lectura en el nodo de la organización y agregar una condición de IAM que excluya la carpeta de los members del binding"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "A single organization-level grant automatically covers future projects, and a deny policy on the folder is the only mechanism that can subtract inherited access for the carve-out. B cannot work: you cannot remove a binding that does not exist at the project level, and allow policies never subtract inherited access. C satisfies the requirement briefly but creates permanent toil and guarantees drift as projects are created. D misuses conditions — a condition can restrict when or on which resources a binding applies, but it cannot exclude members, and maintaining an exclusion list by resource is far more fragile than a deny policy on the folder.",
+        "es": "Un único otorgamiento a nivel de organización cubre automáticamente los proyectos futuros, y una deny policy en la carpeta es el único mecanismo capaz de restar el acceso heredado para la excepción. B no puede funcionar: no se puede quitar un binding que no existe a nivel de proyecto, y las allow policies nunca restan acceso heredado. C cumple el requisito por un rato pero crea trabajo manual permanente y garantiza desviaciones a medida que se crean proyectos. D usa mal las condiciones: una condición puede restringir cuándo o sobre qué recursos aplica un binding, pero no puede excluir members, y mantener una lista de exclusión por recurso es mucho más frágil que una deny policy en la carpeta."
+      },
+      "doc": "https://cloud.google.com/iam/docs/deny-access"
+    },
+    {
+      "id": "s4b-087",
+      "curso": null,
+      "servicios": [
+        "iam"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.1-role-types"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A team needs three permissions that live in two different predefined roles. Granting both roles would also give them the ability to delete production resources. What is the BEST approach?",
+        "es": "Un equipo necesita tres permisos que están en dos roles predefinidos distintos. Otorgar ambos roles les daría además la capacidad de borrar recursos de producción. ¿Cuál es el MEJOR enfoque?"
+      },
+      "opciones": [
+        {
+          "en": "Create a custom role containing exactly those three permissions and grant it at the narrowest scope that covers the work",
+          "es": "Crear un rol personalizado que contenga exactamente esos tres permisos y otorgarlo en el alcance más acotado que cubra el trabajo"
+        },
+        {
+          "en": "Grant both predefined roles and add a deny policy for every delete permission they contain",
+          "es": "Otorgar ambos roles predefinidos y agregar una deny policy para cada permiso de borrado que contengan"
+        },
+        {
+          "en": "Grant both predefined roles and monitor audit logs for deletions",
+          "es": "Otorgar ambos roles predefinidos y supervisar los registros de auditoría en busca de borrados"
+        },
+        {
+          "en": "Grant roles/editor, which is simpler to manage than two roles",
+          "es": "Otorgar roles/editor, que es más simple de administrar que dos roles"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Custom roles exist precisely for the case where no predefined role or combination of them matches the required permission set without over-granting; the cost is that you must maintain the permission list as services evolve, which is acceptable for a small, stable set. B works mechanically but is a convoluted design that grants excess privilege first and then patches it, and it must be revisited whenever Google adds permissions to those predefined roles. C is detective rather than preventive: the deletion still succeeds. D grants far more than both predefined roles combined and directly contradicts the constraint.",
+        "es": "Los roles personalizados existen justo para el caso en que ningún rol predefinido ni su combinación coincide con el conjunto de permisos requerido sin otorgar de más; el costo es que hay que mantener la lista de permisos conforme evolucionan los servicios, algo aceptable para un conjunto pequeño y estable. B funciona mecánicamente pero es un diseño enrevesado que primero otorga privilegios de más y luego los parcha, y debe revisarse cada vez que Google agrega permisos a esos roles predefinidos. C es detectivo y no preventivo: el borrado igual ocurre. D otorga mucho más que ambos roles predefinidos juntos y contradice directamente la restricción."
+      },
+      "doc": "https://cloud.google.com/iam/docs/creating-custom-roles"
+    },
+    {
+      "id": "s4b-088",
+      "curso": null,
+      "servicios": [
+        "service-accounts",
+        "iam",
+        "resource-manager"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.2-sa-impersonation"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A workload in project app-prod must impersonate a service account that lives in the shared project identity-prod. Which statement describes what is required?",
+        "es": "Una carga de trabajo del proyecto app-prod debe suplantar una cuenta de servicio que vive en el proyecto compartido identity-prod. ¿Qué afirmación describe lo necesario?"
+      },
+      "opciones": [
+        {
+          "en": "Grant the workload's identity roles/iam.serviceAccountTokenCreator on the service account in identity-prod; service accounts are global principals, so cross-project impersonation works as long as no organization policy blocks cross-project usage",
+          "es": "Otorgar a la identidad de la carga de trabajo el rol roles/iam.serviceAccountTokenCreator sobre la cuenta de servicio de identity-prod; las cuentas de servicio son principales globales, así que la suplantación entre proyectos funciona mientras ninguna política de la organización bloquee el uso entre proyectos"
+        },
+        {
+          "en": "Impersonation only works within a single project, so the service account must be duplicated in app-prod",
+          "es": "La suplantación solo funciona dentro de un mismo proyecto, así que hay que duplicar la cuenta de servicio en app-prod"
+        },
+        {
+          "en": "The workload must hold roles/owner on identity-prod",
+          "es": "La carga de trabajo debe tener roles/owner sobre identity-prod"
+        },
+        {
+          "en": "A JSON key must be exported from identity-prod and stored in app-prod",
+          "es": "Hay que exportar una llave JSON desde identity-prod y guardarla en app-prod"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The binding that authorizes impersonation lives on the service account resource itself, so it can name a principal from any project; the only common blocker is an organization policy such as the constraint that disables cross-project service account usage. B is wrong because service account identities are global and duplication would create a second identity with separate roles to maintain. C is a gross over-grant and still is not the specific permission that authorizes token generation. D reintroduces a long-lived key and is unnecessary when a single binding solves the problem.",
+        "es": "El binding que autoriza la suplantación vive en el propio recurso de la cuenta de servicio, así que puede nombrar a un principal de cualquier proyecto; el único bloqueo habitual es una política de la organización, como la restricción que deshabilita el uso de cuentas de servicio entre proyectos. B es incorrecta porque las identidades de cuentas de servicio son globales y duplicarlas crearía una segunda identidad con roles propios por mantener. C es un exceso enorme y además no es el permiso específico que autoriza la generación de tokens. D reintroduce una llave de larga duración y es innecesaria cuando un solo binding resuelve el problema."
+      },
+      "doc": "https://cloud.google.com/iam/docs/manage-access-service-accounts"
+    },
+    {
+      "id": "s4b-089",
+      "curso": null,
+      "servicios": [
+        "service-accounts",
+        "iam",
+        "cloud-logging"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.2-short-lived-credentials"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "An access token belonging to a highly privileged service account was found in an application log that a wide audience can read. The token is still within its lifetime. What is the BEST immediate action?",
+        "es": "Se encontró un access token de una cuenta de servicio muy privilegiada en un registro de aplicación que puede leer una audiencia amplia. El token todavía está dentro de su vida útil. ¿Cuál es la MEJOR acción inmediata?"
+      },
+      "opciones": [
+        {
+          "en": "Disable the service account, which immediately stops its credentials from being accepted, then investigate the audit logs and re-enable it once the leak is fixed",
+          "es": "Inhabilitar la cuenta de servicio, lo que hace que sus credenciales dejen de aceptarse de inmediato, luego investigar los registros de auditoría y volver a habilitarla cuando se corrija la filtración"
+        },
+        {
+          "en": "Do nothing, because access tokens expire on their own within about an hour",
+          "es": "No hacer nada, porque los access tokens expiran solos en aproximadamente una hora"
+        },
+        {
+          "en": "Delete the log entry containing the token",
+          "es": "Borrar la entrada de registro que contiene el token"
+        },
+        {
+          "en": "Rotate the service account's JSON keys",
+          "es": "Rotar las llaves JSON de la cuenta de servicio"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Disabling the account is the fastest containment lever: credentials issued for a disabled service account stop being honored, which closes the window that the token's remaining lifetime would otherwise leave open. B accepts a period of unrestricted privileged access and is unacceptable for a highly privileged identity. C removes evidence without invalidating the credential, which anyone who already copied it can still use. D is irrelevant because the leaked credential is a token, not a key, so key rotation does not affect it.",
+        "es": "Inhabilitar la cuenta es la palanca de contención más rápida: las credenciales emitidas para una cuenta de servicio inhabilitada dejan de aceptarse, lo que cierra la ventana que de otro modo dejaría abierta la vida útil restante del token. B acepta un periodo de acceso privilegiado sin restricciones, inaceptable para una identidad tan privilegiada. C elimina evidencia sin invalidar la credencial, que cualquiera que ya la haya copiado puede seguir usando. D es irrelevante porque lo filtrado es un token, no una llave, así que rotar llaves no lo afecta."
+      },
+      "doc": "https://cloud.google.com/iam/docs/service-account-creds"
+    },
+    {
+      "id": "s4b-090",
+      "curso": null,
+      "servicios": [
+        "service-accounts",
+        "iam",
+        "bigquery"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.2-sa-least-privilege"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A Cloud Run service must read one secret from Secret Manager and append rows to one BigQuery table. Which set of grants BEST applies least privilege to its service account?",
+        "es": "Un servicio de Cloud Run debe leer un secreto de Secret Manager y agregar filas a una tabla de BigQuery. ¿Qué conjunto de otorgamientos aplica MEJOR el mínimo privilegio a su cuenta de servicio?"
+      },
+      "opciones": [
+        {
+          "en": "roles/secretmanager.secretAccessor on that specific secret, roles/bigquery.dataEditor on the dataset that contains the table, and roles/bigquery.jobUser on the project",
+          "es": "roles/secretmanager.secretAccessor sobre ese secreto específico, roles/bigquery.dataEditor sobre el dataset que contiene la tabla y roles/bigquery.jobUser sobre el proyecto"
+        },
+        {
+          "en": "roles/secretmanager.admin and roles/bigquery.admin on the project",
+          "es": "roles/secretmanager.admin y roles/bigquery.admin sobre el proyecto"
+        },
+        {
+          "en": "roles/editor on the project, because it covers both services",
+          "es": "roles/editor sobre el proyecto, porque cubre ambos servicios"
+        },
+        {
+          "en": "roles/secretmanager.secretAccessor and roles/bigquery.dataViewer, both at the project level",
+          "es": "roles/secretmanager.secretAccessor y roles/bigquery.dataViewer, ambos a nivel de proyecto"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Each grant is placed at the narrowest resource that still lets the workload function: the secret itself rather than the project, the dataset for write access to its tables, and jobUser at project level because running load or query jobs is a project-scoped operation. B grants administration of both services, including creating and destroying secrets and datasets. C is a project-wide basic role and the broadest option of all. D fails functionally, since dataViewer cannot write rows, and it also widens secret access to every secret in the project.",
+        "es": "Cada otorgamiento se ubica en el recurso más acotado que aún permite operar: el propio secreto en lugar del proyecto, el dataset para la escritura en sus tablas y jobUser a nivel de proyecto porque ejecutar jobs de carga o consulta es una operación de alcance de proyecto. B otorga administración de ambos servicios, incluido crear y destruir secretos y datasets. C es un rol básico de todo el proyecto y la opción más amplia de todas. D falla funcionalmente, ya que dataViewer no puede escribir filas, y además amplía el acceso a todos los secretos del proyecto."
+      },
+      "doc": "https://cloud.google.com/secret-manager/docs/access-control"
     }
   ]
 }
