@@ -1,15 +1,10 @@
-"""Punto de entrada: registra tema, páginas y modelos."""
+"""Punto de entrada: registra páginas y prepara la base de datos."""
 
 import reflex as rx
 
 from . import pages  # noqa: F401 — registra las páginas decoradas con @rx.page
-from .models import registro  # noqa: F401 — registra los modelos para las migraciones
-from .styles import COLOR_ACENTO
+from .services.db import init_db
 
-app = rx.App(
-    theme=rx.theme(
-        appearance="inherit",
-        accent_color=COLOR_ACENTO,
-        radius="medium",
-    ),
-)
+init_db()
+
+app = rx.App()

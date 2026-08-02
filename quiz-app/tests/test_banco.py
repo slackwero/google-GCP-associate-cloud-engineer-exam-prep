@@ -92,6 +92,9 @@ class TestValidarPregunta:
         errores = validar_pregunta(pregunta_valida(curso="curso-fantasma"), catalogos)
         assert any("curso" in e for e in errores)
 
+    def test_curso_nulo_es_valido_para_refuerzo(self, catalogos):
+        assert validar_pregunta(pregunta_valida(curso=None), catalogos) == []
+
     def test_nivel_invalido(self, catalogos):
         errores = validar_pregunta(pregunta_valida(nivel="experto"), catalogos)
         assert any("nivel" in e for e in errores)

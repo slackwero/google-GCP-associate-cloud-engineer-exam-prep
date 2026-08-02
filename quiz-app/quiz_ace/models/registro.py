@@ -2,16 +2,17 @@
 
 from datetime import UTC, datetime
 
-import reflex as rx
+from sqlmodel import Field, SQLModel
 
 
 def ahora() -> datetime:
     return datetime.now(UTC)
 
 
-class Intento(rx.Model, table=True):
+class Intento(SQLModel, table=True):
     """Un intento de quiz o examen, completo o abandonado."""
 
+    id: int | None = Field(default=None, primary_key=True)
     modo: str  # estudio-curso | estudio-servicio | examen-corto | examen-medio | examen-full
     filtro: str = ""  # slug del curso/servicio y nivel usados, si aplican
     inicio: datetime
@@ -23,15 +24,17 @@ class Intento(rx.Model, table=True):
     completado: bool = False
 
 
-class Respuesta(rx.Model, table=True):
+class Respuesta(SQLModel, table=True):
     """Respuesta individual dentro de un intento.
 
     Desnormaliza los metadatos de la pregunta para que las estadísticas
     del dashboard no dependan de re-leer los JSON del banco.
     """
 
-    intento_id: int
-    pregunta_id: str
+    id: int | None = Field(default=None, primary_key=True)
+    intento_id: int = Field(index=True)
+    pregunta_id: str = Field(index=True)
+    fecha: datetime
     respuesta_dada: str = ""  # letras separadas por coma, p. ej. "A,C"
     correcta: bool = False
     tiempo_seg: int = 0

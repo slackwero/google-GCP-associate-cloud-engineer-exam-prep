@@ -20,7 +20,7 @@ def seleccionar_estudio(
     seleccion = [
         p
         for p in preguntas
-        if (curso is None or p["curso"] == curso)
+        if (curso is None or p.get("curso") == curso)
         and (servicio is None or servicio in p["servicios"])
         and (nivel is None or p["nivel"] == nivel)
     ]

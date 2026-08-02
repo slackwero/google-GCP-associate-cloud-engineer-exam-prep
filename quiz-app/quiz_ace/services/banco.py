@@ -64,8 +64,9 @@ def validar_pregunta(pregunta: dict, catalogos: Catalogos) -> list[str]:
 
     if not pregunta.get("id"):
         errores.append("falta id")
-    if pregunta.get("curso") not in catalogos.cursos:
-        errores.append(f"curso desconocido: {pregunta.get('curso')}")
+    # curso nulo = pregunta de refuerzo del blueprint (no pertenece al path)
+    if pregunta.get("curso") is not None and pregunta["curso"] not in catalogos.cursos:
+        errores.append(f"curso desconocido: {pregunta['curso']}")
     for servicio in pregunta.get("servicios") or []:
         if servicio not in catalogos.servicios:
             errores.append(f"servicio desconocido: {servicio}")
@@ -140,7 +141,8 @@ def _indexar(banco: Banco) -> None:
     por_seccion = defaultdict(list)
     por_subtopico = defaultdict(list)
     for pregunta in banco.preguntas:
-        por_curso[pregunta["curso"]].append(pregunta)
+        if pregunta.get("curso"):
+            por_curso[pregunta["curso"]].append(pregunta)
         por_nivel[pregunta["nivel"]].append(pregunta)
         por_seccion[pregunta["seccion_blueprint"]].append(pregunta)
         for servicio in pregunta["servicios"]:
