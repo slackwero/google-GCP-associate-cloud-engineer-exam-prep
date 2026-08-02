@@ -1,22 +1,14 @@
 /* ============================================================================
-   DIRECTION CONTRACT — Google ACE Certification Exam
    ----------------------------------------------------------------------------
-   THESIS: A study console, not a quiz toy. It refuses the category default of
      equal-size icon+heading+text cards on a landing page; the home screen opens
      on your standing and the single next action, because the user came to work.
-   OWN-WORLD: Material 3 built on Google's real brand palette. Google Blue
      (#4285F4 brand, #0B57D0 actionable) carries structure and action; green,
      amber and red are never decoration — they mean mastered / in progress /
      weak, everywhere, always. Roboto, self-hosted. Tonal surfaces (#F8FAFD
      light, #131314 dark), 1px outlines, 12/16/28px corners, M3 elevation.
-   STORY: The visitor sees where they stand against the official blueprint,
      believes the number because it traces to real sections, and starts the one
      activity that closes the gap.
-   FIRST VIEWPORT: Standing panel (score + weakest area + primary action) above
      the fold; practice modes as a dense action list below, never a card grid.
-   FORM: Material 3, brief-pinned by the user; no concept roll was run because a
-     brief-pinned direction beats the roll.
-   FINISH: unreviewed and undocumented is unfinished; this build ends with the
    ============================================================================ */
 
 /* ---------------------------------------------------------------- Roboto
