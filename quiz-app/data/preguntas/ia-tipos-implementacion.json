@@ -1,0 +1,1401 @@
+{
+  "preguntas": [
+    {
+      "id": "iadep-001",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "agent-runtime"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-ai-workloads"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is Agent Runtime in the Gemini Enterprise Agent Platform (formerly Vertex AI Agent Engine)?",
+        "es": "¿Qué es Agent Runtime en Gemini Enterprise Agent Platform (antes Vertex AI Agent Engine)?"
+      },
+      "opciones": [
+        {
+          "en": "A fully managed runtime for deploying, scaling, and operating AI agents, including sessions, memory, and observability",
+          "es": "Un entorno de ejecución completamente administrado para implementar, escalar y operar agentes de IA, con sesiones, memoria y observabilidad"
+        },
+        {
+          "en": "A container registry optimized for storing AI model images",
+          "es": "Un registro de contenedores optimizado para almacenar imágenes de modelos de IA"
+        },
+        {
+          "en": "A managed Kubernetes add-on that installs GPU drivers on nodes",
+          "es": "Un complemento administrado de Kubernetes que instala controladores de GPU en los nodos"
+        },
+        {
+          "en": "A batch scheduler that reserves TPU capacity for training jobs",
+          "es": "Un programador por lotes que reserva capacidad de TPU para trabajos de entrenamiento"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Agent Runtime is the managed service where you deploy agents built with frameworks such as ADK or LangGraph; Google handles scaling, sessions, memory, and tracing. B describes Artifact Registry, C describes the GKE GPU driver installation DaemonSet, and D describes capacity features such as reservations or Dynamic Workload Scheduler.",
+        "es": "Agent Runtime es el servicio administrado donde implementas agentes creados con frameworks como ADK o LangGraph; Google se encarga del escalado, las sesiones, la memoria y el trazado. B describe Artifact Registry, C describe el DaemonSet de instalación de controladores de GPU en GKE y D describe funciones de capacidad como las reservas o Dynamic Workload Scheduler."
+      },
+      "doc": "https://cloud.google.com/vertex-ai/generative-ai/docs/agent-engine/overview"
+    },
+    {
+      "id": "iadep-002",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "gpus-tpus"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-gpus-tpus-choice"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is a Cloud TPU?",
+        "es": "¿Qué es una Cloud TPU?"
+      },
+      "opciones": [
+        {
+          "en": "A Google-designed application-specific accelerator optimized for large-scale matrix operations in machine learning",
+          "es": "Un acelerador de aplicación específica diseñado por Google y optimizado para operaciones matriciales a gran escala en aprendizaje automático"
+        },
+        {
+          "en": "A general-purpose CPU platform with extra vector instructions",
+          "es": "Una plataforma de CPU de uso general con instrucciones vectoriales adicionales"
+        },
+        {
+          "en": "A managed notebook environment for data scientists",
+          "es": "Un entorno de notebooks administrado para científicos de datos"
+        },
+        {
+          "en": "A storage class designed for training datasets",
+          "es": "Una clase de almacenamiento diseñada para conjuntos de datos de entrenamiento"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "TPUs are Google's custom ASICs built for the dense matrix math behind neural networks, and they shine on large models with frameworks such as JAX, TensorFlow, and PyTorch/XLA. B describes CPU machine families, C describes Workbench or BigQuery notebooks, and D describes Cloud Storage classes.",
+        "es": "Las TPU son ASIC personalizados de Google, creados para la matemática matricial densa detrás de las redes neuronales, y destacan con modelos grandes usando frameworks como JAX, TensorFlow y PyTorch/XLA. B describe familias de máquinas con CPU, C describe los notebooks de Workbench o BigQuery y D describe clases de Cloud Storage."
+      },
+      "doc": "https://cloud.google.com/tpu/docs/intro-to-tpu"
+    },
+    {
+      "id": "iadep-003",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "cloud-workstations"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-cloud-workstations"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What does Cloud Workstations provide?",
+        "es": "¿Qué proporciona Cloud Workstations?"
+      },
+      "opciones": [
+        {
+          "en": "Fully managed, preconfigured development environments that run inside your VPC and are accessed from a browser or a local IDE",
+          "es": "Entornos de desarrollo administrados y preconfigurados que se ejecutan dentro de tu VPC y se acceden desde el navegador o un IDE local"
+        },
+        {
+          "en": "A virtual desktop service for running Windows productivity applications",
+          "es": "Un servicio de escritorio virtual para ejecutar aplicaciones de productividad de Windows"
+        },
+        {
+          "en": "A CI/CD service that builds and deploys container images",
+          "es": "Un servicio de CI/CD que compila e implementa imágenes de contenedores"
+        },
+        {
+          "en": "A serverless runtime that executes code in response to events",
+          "es": "Un entorno serverless que ejecuta código en respuesta a eventos"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Cloud Workstations delivers managed dev environments defined by a container image and a workstation configuration, running in your project and network so source code never lands on a laptop. B describes a VDI product, C describes Cloud Build, and D describes Cloud Run functions.",
+        "es": "Cloud Workstations entrega entornos de desarrollo administrados definidos por una imagen de contenedor y una configuración de workstation, que se ejecutan en tu proyecto y tu red, de modo que el código fuente nunca queda en una laptop. B describe un producto de VDI, C describe Cloud Build y D describe Cloud Run functions."
+      },
+      "doc": "https://cloud.google.com/workstations/docs/overview"
+    },
+    {
+      "id": "iadep-004",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "file-storage"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-storage-products"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which Google Cloud storage product is a managed parallel file system designed for HPC and large-scale AI training?",
+        "es": "¿Qué producto de almacenamiento de Google Cloud es un sistema de archivos paralelo administrado, diseñado para HPC y entrenamiento de IA a gran escala?"
+      },
+      "opciones": [
+        {
+          "en": "Google Cloud Managed Lustre",
+          "es": "Google Cloud Managed Lustre"
+        },
+        {
+          "en": "Cloud Storage Nearline",
+          "es": "Cloud Storage Nearline"
+        },
+        {
+          "en": "Hyperdisk Throughput",
+          "es": "Hyperdisk Throughput"
+        },
+        {
+          "en": "Firestore",
+          "es": "Firestore"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Managed Lustre is a fully managed implementation of the Lustre parallel file system, offering very high aggregate throughput and low latency for many nodes reading and writing the same dataset. Nearline is an object storage class for infrequently accessed data, Hyperdisk Throughput is block storage attached to VMs, and Firestore is a document database.",
+        "es": "Managed Lustre es una implementación completamente administrada del sistema de archivos paralelo Lustre, con rendimiento agregado muy alto y baja latencia para muchos nodos que leen y escriben el mismo conjunto de datos. Nearline es una clase de almacenamiento de objetos para datos poco accedidos, Hyperdisk Throughput es almacenamiento en bloque conectado a VMs y Firestore es una base de datos de documentos."
+      },
+      "doc": "https://cloud.google.com/managed-lustre/docs/overview"
+    },
+    {
+      "id": "iadep-005",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "notebooks"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-ai-workloads"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is a Gemini Enterprise Agent Platform Workbench (formerly Vertex AI Workbench) instance?",
+        "es": "¿Qué es una instancia de Gemini Enterprise Agent Platform Workbench (antes Vertex AI Workbench)?"
+      },
+      "opciones": [
+        {
+          "en": "A managed JupyterLab-based notebook environment running on a Google-managed VM with preinstalled data science frameworks",
+          "es": "Un entorno de notebooks administrado basado en JupyterLab que se ejecuta en una VM administrada por Google con frameworks de ciencia de datos preinstalados"
+        },
+        {
+          "en": "A Kubernetes cluster dedicated to serving models",
+          "es": "Un clúster de Kubernetes dedicado a servir modelos"
+        },
+        {
+          "en": "A BigQuery dataset that stores model artifacts",
+          "es": "Un conjunto de datos de BigQuery que almacena artefactos de modelos"
+        },
+        {
+          "en": "A command-line tool for submitting training jobs",
+          "es": "Una herramienta de línea de comandos para enviar trabajos de entrenamiento"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "A Workbench instance is a managed JupyterLab notebook VM that you can size with CPUs or GPUs, with idle shutdown, VPC integration, and preinstalled frameworks. B describes a GKE cluster, C is unrelated to what Workbench is, and D describes the gcloud CLI or a job submission tool.",
+        "es": "Una instancia de Workbench es una VM administrada de notebooks JupyterLab que puedes dimensionar con CPU o GPU, con apagado por inactividad, integración con la VPC y frameworks preinstalados. B describe un clúster de GKE, C no corresponde a Workbench y D describe la CLI de gcloud o una herramienta para enviar trabajos."
+      },
+      "doc": "https://cloud.google.com/vertex-ai/docs/workbench/instances/introduction"
+    },
+    {
+      "id": "iadep-006",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "cloud-run",
+        "gpus-tpus"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What does Cloud Run GPU support allow you to do?",
+        "es": "¿Qué permite hacer la compatibilidad con GPU de Cloud Run?"
+      },
+      "opciones": [
+        {
+          "en": "Attach GPUs to serverless container instances that scale to zero when there is no traffic",
+          "es": "Adjuntar GPUs a instancias de contenedor serverless que escalan a cero cuando no hay tráfico"
+        },
+        {
+          "en": "Train multi-node foundation models across hundreds of hosts",
+          "es": "Entrenar modelos fundacionales multinodo en cientos de hosts"
+        },
+        {
+          "en": "Share a single GPU across projects in different organizations",
+          "es": "Compartir una sola GPU entre proyectos de distintas organizaciones"
+        },
+        {
+          "en": "Run GPU workloads without any container image",
+          "es": "Ejecutar cargas con GPU sin ninguna imagen de contenedor"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Cloud Run can attach a GPU to service or job instances while keeping the serverless model: request-driven autoscaling, scale to zero, and pay for the time instances run. B is a job for GKE or Compute Engine clusters, C is not offered, and D is false because Cloud Run always runs a container image.",
+        "es": "Cloud Run puede adjuntar una GPU a las instancias de servicios o jobs y mantiene el modelo serverless: autoescalado por solicitudes, escalado a cero y pago por el tiempo de ejecución. B corresponde a GKE o a clústeres de Compute Engine, C no existe como oferta y D es falsa porque Cloud Run siempre ejecuta una imagen de contenedor."
+      },
+      "doc": "https://cloud.google.com/run/docs/configuring/services/gpu"
+    },
+    {
+      "id": "iadep-007",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "gemini-cloud-assist"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.4-ai-assisted-tooling"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is Gemini Cloud Assist?",
+        "es": "¿Qué es Gemini Cloud Assist?"
+      },
+      "opciones": [
+        {
+          "en": "An AI assistant built into the Google Cloud console that helps design, troubleshoot, and optimize cloud resources using natural language",
+          "es": "Un asistente de IA integrado en la consola de Google Cloud que ayuda a diseñar, solucionar problemas y optimizar recursos en la nube con lenguaje natural"
+        },
+        {
+          "en": "A managed service that automatically applies security patches to VMs",
+          "es": "Un servicio administrado que aplica parches de seguridad a las VMs automáticamente"
+        },
+        {
+          "en": "A billing product that forecasts spend for the next fiscal year",
+          "es": "Un producto de facturación que pronostica el gasto del próximo año fiscal"
+        },
+        {
+          "en": "A replacement for IAM that grants roles based on prompts",
+          "es": "Un reemplazo de IAM que otorga roles según instrucciones"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Gemini Cloud Assist answers questions in context, generates architecture and configuration suggestions, and assists with troubleshooting and cost optimization from the console. B describes VM Manager patch management, C describes billing forecast reports, and D is false because Gemini Cloud Assist never bypasses IAM.",
+        "es": "Gemini Cloud Assist responde preguntas en contexto, genera sugerencias de arquitectura y configuración y ayuda con la solución de problemas y la optimización de costos desde la consola. B describe la administración de parches de VM Manager, C describe los informes de pronóstico de facturación y D es falsa porque Gemini Cloud Assist nunca omite IAM."
+      },
+      "doc": "https://cloud.google.com/gemini/docs/cloud-assist/overview"
+    },
+    {
+      "id": "iadep-008",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "compute-engine",
+        "gpus-tpus"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is the defining characteristic of Spot VMs when used for AI training workloads?",
+        "es": "¿Cuál es la característica que define a las VMs Spot cuando se usan para cargas de entrenamiento de IA?"
+      },
+      "opciones": [
+        {
+          "en": "They cost far less than on-demand VMs but Compute Engine can preempt them at any time",
+          "es": "Cuestan mucho menos que las VMs bajo demanda, pero Compute Engine puede interrumpirlas en cualquier momento"
+        },
+        {
+          "en": "They guarantee capacity in a zone for a committed period",
+          "es": "Garantizan capacidad en una zona durante un período comprometido"
+        },
+        {
+          "en": "They can only be used without accelerators attached",
+          "es": "Solo se pueden usar sin aceleradores conectados"
+        },
+        {
+          "en": "They automatically restart on a different cloud provider when capacity runs out",
+          "es": "Se reinician automáticamente en otro proveedor de nube cuando se agota la capacidad"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Spot VMs offer deep discounts in exchange for preemption with a short shutdown notice, which is acceptable for checkpointed training or batch inference. B describes reservations or committed use discounts, C is false because Spot VMs can include GPUs and TPUs, and D is not a Google Cloud behavior.",
+        "es": "Las VMs Spot ofrecen grandes descuentos a cambio de poder ser interrumpidas con un aviso breve de apagado, algo aceptable para entrenamientos con checkpoints o inferencia por lotes. B describe las reservas o los descuentos por uso comprometido, C es falsa porque las VMs Spot pueden incluir GPU y TPU, y D no es un comportamiento de Google Cloud."
+      },
+      "doc": "https://cloud.google.com/compute/docs/instances/spot"
+    },
+    {
+      "id": "iadep-009",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "cloud-storage"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-storage-products"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What does Cloud Storage FUSE do?",
+        "es": "¿Qué hace Cloud Storage FUSE?"
+      },
+      "opciones": [
+        {
+          "en": "It mounts a Cloud Storage bucket as a file system so applications can read and write objects using standard file operations",
+          "es": "Monta un bucket de Cloud Storage como sistema de archivos para que las aplicaciones lean y escriban objetos con operaciones de archivo estándar"
+        },
+        {
+          "en": "It converts objects in a bucket into BigQuery tables automatically",
+          "es": "Convierte automáticamente los objetos de un bucket en tablas de BigQuery"
+        },
+        {
+          "en": "It replicates a bucket to an on-premises NFS server",
+          "es": "Replica un bucket en un servidor NFS local"
+        },
+        {
+          "en": "It encrypts objects with customer-managed keys before upload",
+          "es": "Encripta objetos con claves administradas por el cliente antes de subirlos"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Cloud Storage FUSE is an adapter that exposes a bucket as a mounted directory, which lets training code that expects local files read datasets and write checkpoints directly to object storage. B describes BigLake or external tables, C describes Storage Transfer Service or a gateway, and D describes CMEK with Cloud KMS.",
+        "es": "Cloud Storage FUSE es un adaptador que expone un bucket como un directorio montado, lo que permite que el código de entrenamiento que espera archivos locales lea conjuntos de datos y escriba checkpoints directamente en el almacenamiento de objetos. B describe BigLake o tablas externas, C describe el Servicio de transferencia de almacenamiento o una puerta de enlace, y D describe CMEK con Cloud KMS."
+      },
+      "doc": "https://cloud.google.com/storage/docs/cloud-storage-fuse/overview"
+    },
+    {
+      "id": "iadep-010",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "bigquery",
+        "notebooks"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-ai-workloads"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is a BigQuery notebook?",
+        "es": "¿Qué es un notebook de BigQuery?"
+      },
+      "opciones": [
+        {
+          "en": "A notebook code asset inside BigQuery Studio that mixes SQL and Python against BigQuery data on a managed runtime",
+          "es": "Un recurso de código tipo notebook dentro de BigQuery Studio que combina SQL y Python sobre datos de BigQuery en un entorno de ejecución administrado"
+        },
+        {
+          "en": "A scheduled query that writes results to a destination table",
+          "es": "Una consulta programada que escribe resultados en una tabla de destino"
+        },
+        {
+          "en": "A local Jupyter file that you upload to a Cloud Storage bucket",
+          "es": "Un archivo local de Jupyter que subes a un bucket de Cloud Storage"
+        },
+        {
+          "en": "A stored procedure written in JavaScript",
+          "es": "Un procedimiento almacenado escrito en JavaScript"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "BigQuery notebooks live in BigQuery Studio as code assets, run on a managed Colab Enterprise runtime, and let analysts combine SQL cells with Python for exploration and charting without provisioning a VM. B describes scheduled queries, C is just a file with no managed runtime, and D describes a user-defined routine.",
+        "es": "Los notebooks de BigQuery viven en BigQuery Studio como recursos de código, se ejecutan en un runtime administrado de Colab Enterprise y permiten combinar celdas SQL con Python para exploración y gráficos sin aprovisionar una VM. B describe consultas programadas, C es solo un archivo sin runtime administrado y D describe una rutina definida por el usuario."
+      },
+      "doc": "https://cloud.google.com/bigquery/docs/notebooks-introduction"
+    },
+    {
+      "id": "iadep-011",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "gemini-cloud-assist",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.4-ai-assisted-tooling"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is Gemini CLI?",
+        "es": "¿Qué es Gemini CLI?"
+      },
+      "opciones": [
+        {
+          "en": "An open-source AI agent that runs in your terminal and can read files, run commands, and help write code and infrastructure configuration",
+          "es": "Un agente de IA de código abierto que se ejecuta en tu terminal y puede leer archivos, ejecutar comandos y ayudar a escribir código y configuración de infraestructura"
+        },
+        {
+          "en": "A gcloud component that renames resources according to naming conventions",
+          "es": "Un componente de gcloud que renombra recursos según convenciones de nombres"
+        },
+        {
+          "en": "A browser extension that summarizes Cloud Monitoring dashboards",
+          "es": "Una extensión de navegador que resume los paneles de Cloud Monitoring"
+        },
+        {
+          "en": "A managed service that hosts AI agents in production",
+          "es": "Un servicio administrado que aloja agentes de IA en producción"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Gemini CLI brings an agentic assistant to the command line so developers can generate, explain, and refactor code and IaC without leaving the terminal. B is not a real feature, C describes Gemini Cloud Assist inside the console, and D describes Agent Runtime.",
+        "es": "Gemini CLI lleva un asistente agéntico a la línea de comandos para que los desarrolladores generen, expliquen y refactoricen código e IaC sin salir de la terminal. B no es una función real, C describe Gemini Cloud Assist dentro de la consola y D describe Agent Runtime."
+      },
+      "doc": "https://cloud.google.com/gemini/docs/codeassist/gemini-cli"
+    },
+    {
+      "id": "iadep-012",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "gke",
+        "gpus-tpus"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
+      "nivel": "principiante",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO statements about running AI workloads on GKE are correct?",
+        "es": "¿Cuáles DOS afirmaciones sobre ejecutar cargas de IA en GKE son correctas?"
+      },
+      "opciones": [
+        {
+          "en": "GKE supports node pools with attached GPUs and also supports TPU node pools",
+          "es": "GKE admite node pools con GPUs conectadas y también admite node pools con TPU"
+        },
+        {
+          "en": "GKE can schedule accelerator workloads with Kubernetes primitives such as resource requests, taints, and tolerations",
+          "es": "GKE puede programar cargas con aceleradores usando primitivas de Kubernetes como solicitudes de recursos, taints y tolerations"
+        },
+        {
+          "en": "GKE clusters cannot use Spot capacity for accelerator nodes",
+          "es": "Los clústeres de GKE no pueden usar capacidad Spot para nodos con aceleradores"
+        },
+        {
+          "en": "Every GKE Pod that needs a GPU must run on a dedicated cluster",
+          "es": "Cada Pod de GKE que necesite una GPU debe ejecutarse en un clúster dedicado"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "GKE offers both GPU and TPU node pools, and accelerators are requested like any other Kubernetes resource, with taints and tolerations keeping non-accelerator Pods off expensive nodes. C is false because Spot node pools are commonly used to cut accelerator cost, and D is false because a single cluster can hold accelerator and non-accelerator node pools side by side.",
+        "es": "GKE ofrece node pools con GPU y con TPU, y los aceleradores se solicitan como cualquier otro recurso de Kubernetes, con taints y tolerations que mantienen fuera de los nodos costosos a los Pods que no los necesitan. C es falsa porque los node pools Spot se usan habitualmente para reducir el costo de los aceleradores, y D es falsa porque un mismo clúster puede tener node pools con y sin aceleradores."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/how-to/gpus"
+    },
+    {
+      "id": "iadep-013",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "file-storage"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-storage-products"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is Filestore?",
+        "es": "¿Qué es Filestore?"
+      },
+      "opciones": [
+        {
+          "en": "A managed NFS file server that many VMs or Pods can mount at the same time",
+          "es": "Un servidor de archivos NFS administrado que muchas VMs o Pods pueden montar al mismo tiempo"
+        },
+        {
+          "en": "An object storage service with lifecycle policies",
+          "es": "Un servicio de almacenamiento de objetos con políticas de ciclo de vida"
+        },
+        {
+          "en": "A block storage volume that only one VM can attach in read-write mode",
+          "es": "Un volumen de almacenamiento en bloque que solo una VM puede conectar en modo lectura-escritura"
+        },
+        {
+          "en": "A backup service for Compute Engine disks",
+          "es": "Un servicio de copias de seguridad para discos de Compute Engine"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Filestore provides fully managed NFS shares, which is the simplest way to give many clients a shared POSIX file system, for example a ReadWriteMany volume in GKE. B describes Cloud Storage, C describes a standard Persistent Disk or Hyperdisk attachment, and D describes snapshots and Backup and DR.",
+        "es": "Filestore ofrece recursos compartidos NFS completamente administrados, la forma más simple de dar a muchos clientes un sistema de archivos POSIX compartido, por ejemplo un volumen ReadWriteMany en GKE. B describe Cloud Storage, C describe la conexión estándar de un Persistent Disk o Hyperdisk y D describe las instantáneas y Backup and DR."
+      },
+      "doc": "https://cloud.google.com/filestore/docs/overview"
+    },
+    {
+      "id": "iadep-014",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "gemini-cloud-assist",
+        "terraform-iac"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.4-ai-assisted-tooling"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is the purpose of Application Design Center?",
+        "es": "¿Cuál es el propósito de Application Design Center?"
+      },
+      "opciones": [
+        {
+          "en": "To visually design, template, and share application infrastructure architectures that can then be deployed as infrastructure as code",
+          "es": "Diseñar visualmente, crear plantillas y compartir arquitecturas de infraestructura de aplicaciones que luego se implementan como infraestructura como código"
+        },
+        {
+          "en": "To edit application source code in the browser",
+          "es": "Editar el código fuente de la aplicación en el navegador"
+        },
+        {
+          "en": "To provide a real-time dashboard of application error rates",
+          "es": "Proporcionar un panel en tiempo real de las tasas de error de la aplicación"
+        },
+        {
+          "en": "To act as the container registry for application images",
+          "es": "Funcionar como el registro de contenedores de las imágenes de la aplicación"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Application Design Center gives a canvas for designing application architectures from Google Cloud components, saving them as reusable templates, and exporting or deploying them as Terraform, with AI assistance during design. B describes Cloud Workstations or Cloud Shell Editor, C describes Cloud Monitoring, and D describes Artifact Registry.",
+        "es": "Application Design Center ofrece un lienzo para diseñar arquitecturas de aplicaciones con componentes de Google Cloud, guardarlas como plantillas reutilizables y exportarlas o implementarlas como Terraform, con asistencia de IA durante el diseño. B describe Cloud Workstations o el editor de Cloud Shell, C describe Cloud Monitoring y D describe Artifact Registry."
+      },
+      "doc": "https://cloud.google.com/application-design-center/docs/overview"
+    },
+    {
+      "id": "iadep-015",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "gemini-cloud-assist"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.4-ai-assisted-tooling"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is Google Antigravity?",
+        "es": "¿Qué es Google Antigravity?"
+      },
+      "opciones": [
+        {
+          "en": "An agent-first development platform where AI agents plan and execute coding tasks across an editor, a terminal, and a browser",
+          "es": "Una plataforma de desarrollo centrada en agentes, donde agentes de IA planifican y ejecutan tareas de programación en un editor, una terminal y un navegador"
+        },
+        {
+          "en": "A physics simulation service for scientific computing on GPUs",
+          "es": "Un servicio de simulación física para cómputo científico en GPUs"
+        },
+        {
+          "en": "A network tier that lowers egress cost for AI traffic",
+          "es": "Un nivel de red que reduce el costo de salida del tráfico de IA"
+        },
+        {
+          "en": "A managed database for storing agent conversation history",
+          "es": "Una base de datos administrada para almacenar el historial de conversaciones de agentes"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Antigravity is Google's agentic development environment: you describe a goal and agents work across editor, terminal, and browser surfaces, reporting back what they did. B, C, and D describe products that do not exist under that name; agent session and memory storage is handled by Agent Runtime, not by Antigravity.",
+        "es": "Antigravity es el entorno de desarrollo agéntico de Google: describes un objetivo y los agentes trabajan en el editor, la terminal y el navegador, e informan lo que hicieron. B, C y D describen productos que no existen con ese nombre; el almacenamiento de sesiones y memoria de agentes lo maneja Agent Runtime, no Antigravity."
+      },
+      "doc": "https://cloud.google.com/gemini/docs/codeassist/overview"
+    },
+    {
+      "id": "iadep-016",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is the main purpose of a Compute Engine reservation?",
+        "es": "¿Cuál es el propósito principal de una reserva de Compute Engine?"
+      },
+      "opciones": [
+        {
+          "en": "To guarantee that capacity for a specific machine and accelerator configuration is available in a zone when you need it",
+          "es": "Garantizar que la capacidad para una configuración específica de máquina y acelerador esté disponible en una zona cuando la necesites"
+        },
+        {
+          "en": "To lower the hourly price of a VM in exchange for accepting preemption",
+          "es": "Reducir el precio por hora de una VM a cambio de aceptar que sea interrumpida"
+        },
+        {
+          "en": "To automatically move workloads to the cheapest region every night",
+          "es": "Mover automáticamente las cargas de trabajo a la región más barata cada noche"
+        },
+        {
+          "en": "To limit how many GPUs a project can create",
+          "es": "Limitar cuántas GPUs puede crear un proyecto"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "A reservation holds zonal capacity for a given machine type and accelerator so that scarce GPU or TPU resources are there when the job starts; you pay for reserved capacity whether or not it is consumed. B describes Spot VMs, C is not a Google Cloud feature, and D describes quotas.",
+        "es": "Una reserva retiene capacidad zonal para un tipo de máquina y un acelerador determinados, de modo que los recursos escasos de GPU o TPU estén disponibles cuando inicie el trabajo; pagas por la capacidad reservada se use o no. B describe las VMs Spot, C no es una función de Google Cloud y D describe las cuotas."
+      },
+      "doc": "https://cloud.google.com/compute/docs/instances/reservations-overview"
+    },
+    {
+      "id": "iadep-017",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "notebooks",
+        "bigquery"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-ai-workloads"
+      ],
+      "nivel": "principiante",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO are managed notebook options in Google Cloud?",
+        "es": "¿Cuáles DOS son opciones de notebooks administrados en Google Cloud?"
+      },
+      "opciones": [
+        {
+          "en": "Workbench instances in the Gemini Enterprise Agent Platform",
+          "es": "Instancias de Workbench en Gemini Enterprise Agent Platform"
+        },
+        {
+          "en": "Notebooks inside BigQuery Studio",
+          "es": "Notebooks dentro de BigQuery Studio"
+        },
+        {
+          "en": "Cloud NAT gateways",
+          "es": "Puertas de enlace de Cloud NAT"
+        },
+        {
+          "en": "Artifact Registry repositories",
+          "es": "Repositorios de Artifact Registry"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Workbench instances give a managed JupyterLab VM, and BigQuery Studio notebooks give a managed runtime tightly integrated with BigQuery data. Cloud NAT provides outbound connectivity for private instances, and Artifact Registry stores container images and packages; neither hosts notebooks.",
+        "es": "Las instancias de Workbench entregan una VM administrada con JupyterLab y los notebooks de BigQuery Studio entregan un runtime administrado muy integrado con los datos de BigQuery. Cloud NAT provee conectividad de salida a instancias privadas y Artifact Registry almacena imágenes de contenedores y paquetes; ninguno aloja notebooks."
+      },
+      "doc": "https://cloud.google.com/vertex-ai/docs/workbench/introduction"
+    },
+    {
+      "id": "iadep-018",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "cloud-workstations"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-cloud-workstations"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Compared with developing on a local laptop, what is a key benefit of Cloud Workstations?",
+        "es": "En comparación con desarrollar en una laptop local, ¿cuál es un beneficio clave de Cloud Workstations?"
+      },
+      "opciones": [
+        {
+          "en": "Every developer gets an identical, centrally defined environment whose code and data stay inside Google Cloud",
+          "es": "Cada desarrollador obtiene un entorno idéntico definido de forma central, cuyo código y datos permanecen dentro de Google Cloud"
+        },
+        {
+          "en": "It removes the need to use source control for the project",
+          "es": "Elimina la necesidad de usar control de versiones en el proyecto"
+        },
+        {
+          "en": "It automatically writes unit tests for the code being edited",
+          "es": "Escribe automáticamente pruebas unitarias para el código que se edita"
+        },
+        {
+          "en": "It makes container images unnecessary because dependencies are installed on demand",
+          "es": "Hace innecesarias las imágenes de contenedores porque las dependencias se instalan bajo demanda"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The value of Cloud Workstations is reproducible, policy-controlled environments: an admin defines the image and machine type, the workstation runs in the corporate VPC, and no source code is stored on endpoints. B is false because version control is still required, C describes a coding assistant, and D is backwards because a workstation configuration is built precisely from a container image.",
+        "es": "El valor de Cloud Workstations son entornos reproducibles y controlados por políticas: un administrador define la imagen y el tipo de máquina, la workstation corre en la VPC corporativa y no queda código fuente en los equipos. B es falsa porque el control de versiones sigue siendo necesario, C describe un asistente de programación y D está invertida, porque la configuración de la workstation se basa justamente en una imagen de contenedor."
+      },
+      "doc": "https://cloud.google.com/workstations/docs/overview"
+    },
+    {
+      "id": "iadep-019",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "compute-engine",
+        "gpus-tpus"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "At a high level, what does Dynamic Workload Scheduler (DWS) do for accelerator workloads?",
+        "es": "A alto nivel, ¿qué hace Dynamic Workload Scheduler (DWS) para las cargas con aceleradores?"
+      },
+      "opciones": [
+        {
+          "en": "It queues a request for GPU or TPU capacity and provisions all of it at once when the requested amount becomes available",
+          "es": "Encola una solicitud de capacidad de GPU o TPU y la aprovisiona toda junta cuando la cantidad solicitada está disponible"
+        },
+        {
+          "en": "It rewrites training code so it can run on fewer accelerators",
+          "es": "Reescribe el código de entrenamiento para que se ejecute con menos aceleradores"
+        },
+        {
+          "en": "It converts GPU workloads into TPU workloads automatically",
+          "es": "Convierte automáticamente las cargas de GPU en cargas de TPU"
+        },
+        {
+          "en": "It provides a dashboard for GPU utilization metrics",
+          "es": "Proporciona un panel con métricas de utilización de GPU"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "DWS is a capacity scheduler: instead of failing with a stockout error, your request waits in a queue and the accelerators are delivered together (all-or-nothing) so distributed jobs can start, either in flex-start mode for short jobs or calendar mode for a future window. B and C are not features of any Google Cloud service, and D describes Cloud Monitoring.",
+        "es": "DWS es un programador de capacidad: en lugar de fallar por falta de stock, tu solicitud espera en una cola y los aceleradores se entregan juntos (todo o nada) para que los trabajos distribuidos puedan iniciar, ya sea en modo flex-start para trabajos cortos o en modo calendario para una ventana futura. B y C no son funciones de ningún servicio de Google Cloud y D describe Cloud Monitoring."
+      },
+      "doc": "https://cloud.google.com/ai-hypercomputer/docs/workloads/dynamic-workload-scheduler"
+    },
+    {
+      "id": "iadep-020",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "agent-runtime",
+        "cloud-run"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which Google Cloud option is purpose-built for deploying and managing AI agents rather than generic containers?",
+        "es": "¿Qué opción de Google Cloud está diseñada específicamente para implementar y administrar agentes de IA en lugar de contenedores genéricos?"
+      },
+      "opciones": [
+        {
+          "en": "Agent Runtime",
+          "es": "Agent Runtime"
+        },
+        {
+          "en": "Cloud Run",
+          "es": "Cloud Run"
+        },
+        {
+          "en": "Compute Engine managed instance groups",
+          "es": "Grupos de instancias administrados de Compute Engine"
+        },
+        {
+          "en": "Cloud Run functions",
+          "es": "Cloud Run functions"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Agent Runtime is the agent-specific service: it understands agent frameworks and provides sessions, memory bank, identity, and tracing out of the box. Cloud Run and Cloud Run functions can host agent code but you build those capabilities yourself, and managed instance groups are VM-level infrastructure with even more work.",
+        "es": "Agent Runtime es el servicio específico para agentes: entiende los frameworks de agentes y ofrece sesiones, memoria, identidad y trazado de fábrica. Cloud Run y Cloud Run functions pueden alojar el código del agente, pero esas capacidades las construyes tú, y los grupos de instancias administrados son infraestructura a nivel de VM con aún más trabajo."
+      },
+      "doc": "https://cloud.google.com/vertex-ai/generative-ai/docs/agent-engine/overview"
+    },
+    {
+      "id": "iadep-021",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "compute-engine",
+        "gpus-tpus"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-gpus-tpus-choice"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You are creating a Compute Engine VM with an NVIDIA L4 GPU using the gcloud CLI. Which flag attaches the accelerator?",
+        "es": "Estás creando una VM de Compute Engine con una GPU NVIDIA L4 usando la CLI de gcloud. ¿Qué marca conecta el acelerador?"
+      },
+      "opciones": [
+        {
+          "en": "--accelerator=type=nvidia-l4,count=1",
+          "es": "--accelerator=type=nvidia-l4,count=1"
+        },
+        {
+          "en": "--gpu-model=nvidia-l4 --gpu-count=1",
+          "es": "--gpu-model=nvidia-l4 --gpu-count=1"
+        },
+        {
+          "en": "--machine-features=gpu=nvidia-l4",
+          "es": "--machine-features=gpu=nvidia-l4"
+        },
+        {
+          "en": "--metadata=accelerator=nvidia-l4",
+          "es": "--metadata=accelerator=nvidia-l4"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "gcloud compute instances create uses --accelerator with type and count; GPU VMs also require an on-host maintenance policy of TERMINATE and a driver installation. B and C are not valid gcloud flags, and D would just set a metadata key that Compute Engine ignores for scheduling accelerators.",
+        "es": "gcloud compute instances create usa --accelerator con type y count; además, las VMs con GPU requieren una política de mantenimiento en host TERMINATE y la instalación del controlador. B y C no son marcas válidas de gcloud y D solo definiría una clave de metadatos que Compute Engine ignora al programar aceleradores."
+      },
+      "doc": "https://cloud.google.com/compute/docs/gpus/create-vm-with-gpus"
+    },
+    {
+      "id": "iadep-022",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "gke",
+        "gpus-tpus"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-ai-workloads"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You added a GPU node pool to a GKE Standard cluster. What else must be in place before Pods can use the GPUs?",
+        "es": "Agregaste un node pool con GPU a un clúster de GKE Standard. ¿Qué más debe estar en su lugar antes de que los Pods puedan usar las GPUs?"
+      },
+      "opciones": [
+        {
+          "en": "NVIDIA drivers must be installed on the nodes, either automatically with the gpu-driver-version setting or by applying the driver installation DaemonSet, and Pods must request nvidia.com/gpu",
+          "es": "Los controladores NVIDIA deben instalarse en los nodos, ya sea automáticamente con la opción gpu-driver-version o aplicando el DaemonSet de instalación, y los Pods deben solicitar nvidia.com/gpu"
+        },
+        {
+          "en": "The cluster must be recreated as a private cluster",
+          "es": "El clúster debe recrearse como clúster privado"
+        },
+        {
+          "en": "A Cloud NAT gateway must be attached to the node pool",
+          "es": "Debe conectarse una puerta de enlace de Cloud NAT al node pool"
+        },
+        {
+          "en": "Each Pod must run as a privileged container with hostNetwork enabled",
+          "es": "Cada Pod debe ejecutarse como contenedor privilegiado con hostNetwork habilitado"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "GPUs are exposed to Kubernetes as the extended resource nvidia.com/gpu only after the device drivers are installed; GKE can install them for you when the node pool is created. B is unrelated to GPU scheduling, C only matters for outbound internet access from private nodes, and D is unnecessary and violates least privilege.",
+        "es": "Las GPUs se exponen a Kubernetes como el recurso extendido nvidia.com/gpu solo después de instalar los controladores; GKE puede instalarlos por ti al crear el node pool. B no tiene relación con la programación de GPU, C solo importa para el acceso saliente a internet desde nodos privados y D es innecesario y viola el mínimo privilegio."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/how-to/gpus"
+    },
+    {
+      "id": "iadep-023",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "cloud-run",
+        "gpus-tpus"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which gcloud command deploys a Cloud Run service with one GPU attached?",
+        "es": "¿Qué comando de gcloud implementa un servicio de Cloud Run con una GPU conectada?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud run deploy SERVICE --image IMAGE --gpu 1 --gpu-type nvidia-l4 --region REGION",
+          "es": "gcloud run deploy SERVICE --image IMAGE --gpu 1 --gpu-type nvidia-l4 --region REGION"
+        },
+        {
+          "en": "gcloud run deploy SERVICE --image IMAGE --accelerator nvidia-l4 --zone ZONE",
+          "es": "gcloud run deploy SERVICE --image IMAGE --accelerator nvidia-l4 --zone ZONE"
+        },
+        {
+          "en": "gcloud compute instances create SERVICE --image IMAGE --gpu 1",
+          "es": "gcloud compute instances create SERVICE --image IMAGE --gpu 1"
+        },
+        {
+          "en": "gcloud container clusters create SERVICE --enable-gpu --image IMAGE",
+          "es": "gcloud container clusters create SERVICE --enable-gpu --image IMAGE"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Cloud Run uses --gpu and --gpu-type on gcloud run deploy, and the service is regional, so --region applies. B uses a flag and a zonal scope that Cloud Run does not have, C creates a VM instead of a Cloud Run service, and D creates a GKE cluster.",
+        "es": "Cloud Run usa --gpu y --gpu-type en gcloud run deploy, y el servicio es regional, por lo que corresponde --region. B usa una marca y un alcance zonal que Cloud Run no tiene, C crea una VM en lugar de un servicio de Cloud Run y D crea un clúster de GKE."
+      },
+      "doc": "https://cloud.google.com/run/docs/configuring/services/gpu"
+    },
+    {
+      "id": "iadep-024",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "cloud-workstations"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-cloud-workstations"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is the correct order of resources you must create to give a developer a Cloud Workstations environment?",
+        "es": "¿Cuál es el orden correcto de recursos que debes crear para dar a un desarrollador un entorno de Cloud Workstations?"
+      },
+      "opciones": [
+        {
+          "en": "Workstation cluster, then workstation configuration, then the workstation itself",
+          "es": "Clúster de workstations, luego configuración de workstation y luego la workstation"
+        },
+        {
+          "en": "Workstation, then workstation configuration, then workstation cluster",
+          "es": "Workstation, luego configuración de workstation y luego clúster de workstations"
+        },
+        {
+          "en": "Workstation configuration only, because clusters are created implicitly",
+          "es": "Solo la configuración de workstation, porque los clústeres se crean de forma implícita"
+        },
+        {
+          "en": "A GKE cluster, then a Deployment, then a Service",
+          "es": "Un clúster de GKE, luego un Deployment y luego un Service"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The hierarchy is cluster to configuration to workstation: the cluster anchors the service to a region and VPC, the configuration defines machine type, container image, idle timeout, and persistent disk, and the workstation is the per-developer instance. B inverts the order, C is false because the cluster must exist first, and D describes deploying an app on GKE, not Cloud Workstations resources.",
+        "es": "La jerarquía es clúster, configuración y workstation: el clúster ancla el servicio a una región y una VPC, la configuración define el tipo de máquina, la imagen de contenedor, el tiempo de inactividad y el disco persistente, y la workstation es la instancia de cada desarrollador. B invierte el orden, C es falsa porque el clúster debe existir primero y D describe implementar una app en GKE, no recursos de Cloud Workstations."
+      },
+      "doc": "https://cloud.google.com/workstations/docs/create-workstation"
+    },
+    {
+      "id": "iadep-025",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "cloud-storage",
+        "gke"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-storage-products"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A training Pod in GKE must read a dataset stored in a Cloud Storage bucket using ordinary file paths. What is the recommended way to configure this?",
+        "es": "Un Pod de entrenamiento en GKE debe leer un conjunto de datos almacenado en un bucket de Cloud Storage usando rutas de archivo normales. ¿Cuál es la forma recomendada de configurarlo?"
+      },
+      "opciones": [
+        {
+          "en": "Enable the Cloud Storage FUSE CSI driver on the cluster and mount the bucket as a volume in the Pod",
+          "es": "Habilitar el controlador CSI de Cloud Storage FUSE en el clúster y montar el bucket como volumen en el Pod"
+        },
+        {
+          "en": "Copy the entire bucket into the container image at build time",
+          "es": "Copiar todo el bucket dentro de la imagen del contenedor al compilarla"
+        },
+        {
+          "en": "Create a Filestore instance and sync it with the bucket using a cron job",
+          "es": "Crear una instancia de Filestore y sincronizarla con el bucket mediante un cron job"
+        },
+        {
+          "en": "Expose the bucket through an internal load balancer and mount it over NFS",
+          "es": "Exponer el bucket a través de un balanceador de cargas interno y montarlo por NFS"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The Cloud Storage FUSE CSI driver is the managed GKE integration that mounts buckets as volumes, with Workload Identity Federation providing access, so code keeps using file paths. B bloats images and breaks on data changes, C adds an unnecessary copy and a custom sync you must operate, and D is not possible because Cloud Storage does not speak NFS.",
+        "es": "El controlador CSI de Cloud Storage FUSE es la integración administrada de GKE que monta buckets como volúmenes, con Workload Identity Federation para el acceso, de modo que el código sigue usando rutas de archivo. B infla las imágenes y se rompe al cambiar los datos, C agrega una copia innecesaria y una sincronización propia que debes operar, y D no es posible porque Cloud Storage no habla NFS."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/how-to/cloud-storage-fuse-csi-driver"
+    },
+    {
+      "id": "iadep-026",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "file-storage",
+        "gke"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-storage-products"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which statement about connecting Google Cloud Managed Lustre to your compute is correct?",
+        "es": "¿Qué afirmación sobre conectar Google Cloud Managed Lustre a tu cómputo es correcta?"
+      },
+      "opciones": [
+        {
+          "en": "The instance is created in a VPC network and clients such as Compute Engine VMs or GKE nodes mount it as a Lustre file system over that private network",
+          "es": "La instancia se crea en una red de VPC y los clientes, como VMs de Compute Engine o nodos de GKE, la montan como sistema de archivos Lustre a través de esa red privada"
+        },
+        {
+          "en": "It is accessed through a public HTTPS endpoint with signed URLs",
+          "es": "Se accede a través de un endpoint HTTPS público con URLs firmadas"
+        },
+        {
+          "en": "It can only be attached to a single VM at a time",
+          "es": "Solo se puede conectar a una VM a la vez"
+        },
+        {
+          "en": "It replaces the need for Cloud Storage because it is an object store",
+          "es": "Reemplaza la necesidad de Cloud Storage porque es un almacén de objetos"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Managed Lustre instances are zonal resources attached to a VPC and mounted by many clients concurrently through the Lustre client, which is what makes them useful for distributed training. B describes object storage access patterns, C contradicts the whole point of a parallel file system, and D is wrong because Lustre is a file system, and datasets are usually staged to and from Cloud Storage.",
+        "es": "Las instancias de Managed Lustre son recursos zonales conectados a una VPC y montados por muchos clientes en paralelo mediante el cliente Lustre, que es justo lo que las hace útiles para el entrenamiento distribuido. B describe patrones de acceso a almacenamiento de objetos, C contradice el propósito de un sistema de archivos paralelo y D es incorrecta porque Lustre es un sistema de archivos y los conjuntos de datos suelen moverse desde y hacia Cloud Storage."
+      },
+      "doc": "https://cloud.google.com/managed-lustre/docs/create-instance"
+    },
+    {
+      "id": "iadep-027",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "gke",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You create a GKE node pool with the --spot flag for batch inference. What behavior should you design for?",
+        "es": "Creas un node pool de GKE con la marca --spot para inferencia por lotes. ¿Para qué comportamiento debes diseñar?"
+      },
+      "opciones": [
+        {
+          "en": "Nodes can be reclaimed at any time, so Pods must tolerate the Spot node taint and handle graceful termination and restarts",
+          "es": "Los nodos pueden recuperarse en cualquier momento, por lo que los Pods deben tolerar el taint de nodo Spot y manejar la terminación ordenada y los reinicios"
+        },
+        {
+          "en": "Nodes run for a guaranteed 24 hours before being reclaimed",
+          "es": "Los nodos se ejecutan durante 24 horas garantizadas antes de ser recuperados"
+        },
+        {
+          "en": "Spot nodes cannot be part of a cluster autoscaler node pool",
+          "es": "Los nodos Spot no pueden formar parte de un node pool con autoescalador de clúster"
+        },
+        {
+          "en": "The kubelet automatically migrates running Pods to on-demand nodes with no restart",
+          "es": "El kubelet migra automáticamente los Pods en ejecución a nodos bajo demanda sin reinicio"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "GKE labels and taints Spot nodes so only workloads with the matching toleration land there, and preemption sends a termination signal with a short grace period, so workloads must be restartable. B describes preemptible VMs' legacy 24-hour limit, not Spot, C is false because Spot node pools support autoscaling, and D is false because Kubernetes recreates Pods rather than live-migrating them.",
+        "es": "GKE etiqueta y aplica un taint a los nodos Spot para que solo lleguen ahí las cargas con la toleration correspondiente, y la interrupción envía una señal de terminación con un período de gracia breve, por lo que las cargas deben poder reiniciarse. B describe el límite heredado de 24 horas de las VMs preemptible, no de Spot; C es falsa porque los node pools Spot admiten autoescalado; y D es falsa porque Kubernetes vuelve a crear los Pods en lugar de migrarlos en vivo."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/spot-vms"
+    },
+    {
+      "id": "iadep-028",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "agent-runtime"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-ai-workloads"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You built an agent locally with the Agent Development Kit (ADK) and want it running as a managed, scalable endpoint. What is the typical deployment step?",
+        "es": "Creaste un agente localmente con el Agent Development Kit (ADK) y quieres ejecutarlo como un endpoint administrado y escalable. ¿Cuál es el paso de implementación típico?"
+      },
+      "opciones": [
+        {
+          "en": "Deploy the agent to Agent Runtime, which packages the agent, provisions the runtime, and exposes a managed query endpoint",
+          "es": "Implementar el agente en Agent Runtime, que empaqueta el agente, aprovisiona el entorno de ejecución y expone un endpoint de consulta administrado"
+        },
+        {
+          "en": "Upload the agent source to a Cloud Storage bucket and share a signed URL",
+          "es": "Subir el código del agente a un bucket de Cloud Storage y compartir una URL firmada"
+        },
+        {
+          "en": "Publish the agent as a BigQuery stored procedure",
+          "es": "Publicar el agente como un procedimiento almacenado de BigQuery"
+        },
+        {
+          "en": "Register the agent as an Eventarc trigger on a Pub/Sub topic",
+          "es": "Registrar el agente como un activador de Eventarc en un tema de Pub/Sub"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Agent Runtime takes the ADK agent, builds it, and runs it as a managed resource with sessions, memory, autoscaling, and tracing behind a query API. B only stores files and runs nothing, C is for SQL routines, and D wires events to a handler but provides none of the agent runtime capabilities.",
+        "es": "Agent Runtime toma el agente de ADK, lo compila y lo ejecuta como un recurso administrado con sesiones, memoria, autoescalado y trazado detrás de una API de consulta. B solo almacena archivos y no ejecuta nada, C es para rutinas SQL y D conecta eventos con un controlador pero no aporta ninguna capacidad del runtime de agentes."
+      },
+      "doc": "https://cloud.google.com/vertex-ai/generative-ai/docs/agent-engine/deploy"
+    },
+    {
+      "id": "iadep-029",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "notebooks"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-ai-workloads"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Data scientists forget to stop their Workbench instances overnight. Which built-in setting fixes this with the least effort?",
+        "es": "Los científicos de datos olvidan detener sus instancias de Workbench durante la noche. ¿Qué opción integrada resuelve esto con el menor esfuerzo?"
+      },
+      "opciones": [
+        {
+          "en": "Enable idle shutdown on the Workbench instance so it stops automatically after a period of inactivity",
+          "es": "Habilitar el apagado por inactividad en la instancia de Workbench para que se detenga automáticamente tras un período sin actividad"
+        },
+        {
+          "en": "Create a budget alert on the billing account",
+          "es": "Crear una alerta de presupuesto en la cuenta de facturación"
+        },
+        {
+          "en": "Move the instances to Spot VMs so they get preempted",
+          "es": "Mover las instancias a VMs Spot para que sean interrumpidas"
+        },
+        {
+          "en": "Reduce the project GPU quota to zero every evening",
+          "es": "Reducir a cero la cuota de GPU del proyecto cada noche"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Workbench instances support an idle shutdown timeout that stops the underlying VM when no kernel activity is detected, cutting compute charges while keeping the disk. B only notifies about spend, it does not stop anything, C is a poor fit for interactive work and preemption is not a schedule, and D is an operationally awkward abuse of quotas that would also break other workloads.",
+        "es": "Las instancias de Workbench admiten un tiempo de apagado por inactividad que detiene la VM subyacente cuando no hay actividad del kernel, lo que reduce el cobro de cómputo y conserva el disco. B solo notifica el gasto, no detiene nada; C no encaja con el trabajo interactivo y la interrupción no es una programación; y D es un abuso poco operativo de las cuotas que además rompería otras cargas."
+      },
+      "doc": "https://cloud.google.com/vertex-ai/docs/workbench/instances/idle-shutdown"
+    },
+    {
+      "id": "iadep-030",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "gemini-cloud-assist",
+        "terraform-iac"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.4-ai-assisted-tooling"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "An engineer uses Gemini CLI to generate Terraform for a new GKE cluster. What must still happen before the infrastructure exists?",
+        "es": "Un ingeniero usa Gemini CLI para generar Terraform de un nuevo clúster de GKE. ¿Qué debe ocurrir aún antes de que la infraestructura exista?"
+      },
+      "opciones": [
+        {
+          "en": "A human reviews the generated configuration and it is applied through the normal Terraform workflow with an identity that has the required IAM permissions",
+          "es": "Una persona revisa la configuración generada y esta se aplica mediante el flujo normal de Terraform con una identidad que tenga los permisos de IAM necesarios"
+        },
+        {
+          "en": "Nothing, because Gemini CLI provisions resources as soon as it generates code",
+          "es": "Nada, porque Gemini CLI aprovisiona los recursos apenas genera el código"
+        },
+        {
+          "en": "The configuration must be uploaded to Application Design Center, which is the only supported way to apply it",
+          "es": "La configuración debe subirse a Application Design Center, que es la única forma admitida de aplicarla"
+        },
+        {
+          "en": "The project must disable IAM checks so the generated plan can run",
+          "es": "El proyecto debe deshabilitar las verificaciones de IAM para que el plan generado pueda ejecutarse"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "AI-assisted tooling accelerates authoring but does not change the delivery path: code is reviewed, planned, and applied, and every action is still authorized by IAM. B overstates the tool, C is false because Terraform can be applied from any pipeline and Application Design Center is one optional path, and D is never valid since IAM cannot be turned off.",
+        "es": "Las herramientas asistidas por IA aceleran la escritura pero no cambian la ruta de entrega: el código se revisa, se planifica y se aplica, y cada acción sigue autorizada por IAM. B exagera lo que hace la herramienta, C es falsa porque Terraform puede aplicarse desde cualquier pipeline y Application Design Center es solo una ruta opcional, y D nunca es válida porque IAM no se puede desactivar."
+      },
+      "doc": "https://cloud.google.com/gemini/docs/codeassist/gemini-cli"
+    },
+    {
+      "id": "iadep-031",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "compute-engine",
+        "gpus-tpus"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
+      "nivel": "intermedio",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO provisioning strategies help reduce the cost of GPU training jobs that checkpoint frequently and can tolerate interruptions?",
+        "es": "¿Cuáles DOS estrategias de aprovisionamiento ayudan a reducir el costo de trabajos de entrenamiento con GPU que guardan checkpoints con frecuencia y toleran interrupciones?"
+      },
+      "opciones": [
+        {
+          "en": "Spot VMs with attached GPUs",
+          "es": "VMs Spot con GPUs conectadas"
+        },
+        {
+          "en": "Dynamic Workload Scheduler flex-start requests for the accelerators",
+          "es": "Solicitudes flex-start de Dynamic Workload Scheduler para los aceleradores"
+        },
+        {
+          "en": "Keeping on-demand GPU VMs running 24x7 so jobs never queue",
+          "es": "Mantener VMs con GPU bajo demanda encendidas 24x7 para que los trabajos nunca esperen en cola"
+        },
+        {
+          "en": "Buying a reservation sized for peak usage and leaving it idle between jobs",
+          "es": "Comprar una reserva dimensionada para el pico y dejarla inactiva entre trabajos"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Spot capacity is heavily discounted and DWS flex-start obtains accelerators for a bounded duration at a lower effective cost, both of which fit interruption-tolerant, checkpointed jobs. C pays full price for idle time, and D also pays for reserved capacity that is not consumed; reservations buy availability, not savings.",
+        "es": "La capacidad Spot tiene grandes descuentos y flex-start de DWS obtiene aceleradores por una duración acotada a un costo efectivo menor, y ambas encajan con trabajos con checkpoints que toleran interrupciones. C paga precio completo por tiempo inactivo y D también paga capacidad reservada que no se consume; las reservas compran disponibilidad, no ahorro."
+      },
+      "doc": "https://cloud.google.com/compute/docs/instances/spot"
+    },
+    {
+      "id": "iadep-032",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "compute-engine",
+        "gpus-tpus"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You created a Compute Engine reservation for GPU VMs but your training VMs are not consuming it. What is the most likely cause?",
+        "es": "Creaste una reserva de Compute Engine para VMs con GPU, pero tus VMs de entrenamiento no la están consumiendo. ¿Cuál es la causa más probable?"
+      },
+      "opciones": [
+        {
+          "en": "The VM properties do not match the reservation, for example a different zone, machine type, or accelerator configuration",
+          "es": "Las propiedades de la VM no coinciden con la reserva, por ejemplo una zona, un tipo de máquina o una configuración de acelerador distintos"
+        },
+        {
+          "en": "Reservations only apply to VMs created through Terraform",
+          "es": "Las reservas solo aplican a VMs creadas mediante Terraform"
+        },
+        {
+          "en": "Reservations must be renewed manually every hour",
+          "es": "Las reservas deben renovarse manualmente cada hora"
+        },
+        {
+          "en": "Reservations cannot include VMs with accelerators",
+          "es": "Las reservas no pueden incluir VMs con aceleradores"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "A VM consumes a reservation only when its zone, machine type, GPU type and count, and other reserved properties match exactly; a specifically targeted reservation additionally requires the VM to name it. B is false because reservations are independent of the tooling used, C is invented, and D is false because accelerator reservations are one of the main use cases.",
+        "es": "Una VM consume una reserva solo cuando su zona, tipo de máquina, tipo y cantidad de GPU y demás propiedades reservadas coinciden exactamente; una reserva de destino específico además exige que la VM la nombre. B es falsa porque las reservas no dependen de la herramienta usada, C es inventada y D es falsa porque las reservas de aceleradores son uno de los casos de uso principales."
+      },
+      "doc": "https://cloud.google.com/compute/docs/instances/reservations-consume"
+    }
+  ]
+}

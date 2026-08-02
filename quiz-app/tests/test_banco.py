@@ -107,6 +107,15 @@ class TestValidarPregunta:
         errores = validar_pregunta(pregunta_valida(doc="http://example.com"), catalogos)
         assert any("doc" in e for e in errores)
 
+    def test_acepta_docs_oficiales_de_tecnologias_del_examen(self, catalogos):
+        """Docker, Kubernetes y HashiCorp son las fuentes oficiales de temas evaluados."""
+        for doc in (
+            "https://docs.docker.com/reference/dockerfile/",
+            "https://kubernetes.io/docs/concepts/workloads/pods/",
+            "https://developer.hashicorp.com/terraform/language/state",
+        ):
+            assert validar_pregunta(pregunta_valida(doc=doc), catalogos) == [], doc
+
 
 class TestCargarBanco:
     def _escribir_banco(self, tmp_path: Path, preguntas: list[dict]) -> Path:

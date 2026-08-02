@@ -1,0 +1,2875 @@
+{
+  "preguntas": [
+    {
+      "id": "run-001",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is Cloud Run?",
+        "es": "¿Qué es Cloud Run?"
+      },
+      "opciones": [
+        {
+          "en": "A service for creating and managing Kubernetes clusters with full control over nodes",
+          "es": "Un servicio para crear y administrar clústeres de Kubernetes con control total sobre los nodos"
+        },
+        {
+          "en": "A fully managed platform that runs stateless containers invocable via HTTP requests or events, scaling automatically",
+          "es": "Una plataforma completamente administrada que ejecuta contenedores sin estado invocables mediante solicitudes HTTP o eventos, con escalamiento automático"
+        },
+        {
+          "en": "A service for provisioning virtual machines with custom operating systems",
+          "es": "Un servicio para aprovisionar máquinas virtuales con sistemas operativos personalizados"
+        },
+        {
+          "en": "A managed relational database for transactional applications",
+          "es": "Una base de datos relacional administrada para aplicaciones transaccionales"
+        }
+      ],
+      "respuesta": [
+        "B"
+      ],
+      "explicacion": {
+        "en": "Cloud Run is Google's fully managed serverless platform for containers: you provide a container image and it handles infrastructure, scaling, and TLS. A describes GKE, C describes Compute Engine, and D describes Cloud SQL.",
+        "es": "Cloud Run es la plataforma serverless completamente administrada de Google para contenedores: entregas una imagen de contenedor y Google gestiona la infraestructura, el escalamiento y TLS. A describe GKE, C describe Compute Engine y D describe Cloud SQL."
+      },
+      "doc": "https://cloud.google.com/run/docs/overview/what-is-cloud-run"
+    },
+    {
+      "id": "run-002",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-cloud-run-ops"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "In the Cloud Run resource model, what is a revision?",
+        "es": "En el modelo de recursos de Cloud Run, ¿qué es una revision?"
+      },
+      "opciones": [
+        {
+          "en": "An immutable snapshot of a service's container image and configuration, created on each deployment",
+          "es": "Una instantánea inmutable de la imagen de contenedor y la configuración de un servicio, creada en cada implementación"
+        },
+        {
+          "en": "A copy of the application source code stored in Artifact Registry",
+          "es": "Una copia del código fuente de la aplicación almacenada en Artifact Registry"
+        },
+        {
+          "en": "A virtual machine that hosts the service's containers",
+          "es": "Una máquina virtual que aloja los contenedores del servicio"
+        },
+        {
+          "en": "A Git branch linked to the service for continuous deployment",
+          "es": "Una rama de Git vinculada al servicio para implementación continua"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Each deployment of image or configuration changes creates a new immutable revision; instances of a revision serve traffic. B is wrong because Artifact Registry stores images, not revisions; C is wrong because Cloud Run abstracts away VMs; D is wrong because revisions are not tied to Git branches.",
+        "es": "Cada implementación de cambios de imagen o configuración crea una revision nueva e inmutable; las instancias de una revision atienden el tráfico. B es incorrecta porque Artifact Registry almacena imágenes, no revisions; C es incorrecta porque Cloud Run abstrae las VMs; D es incorrecta porque las revisions no están vinculadas a ramas de Git."
+      },
+      "doc": "https://cloud.google.com/run/docs/resource-model"
+    },
+    {
+      "id": "run-003",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which requirement must a container meet to run as a Cloud Run service?",
+        "es": "¿Qué requisito debe cumplir un contenedor para ejecutarse como un servicio de Cloud Run?"
+      },
+      "opciones": [
+        {
+          "en": "It must be written in Go or Java",
+          "es": "Debe estar escrito en Go o Java"
+        },
+        {
+          "en": "It must include an SSH server for remote administration",
+          "es": "Debe incluir un servidor SSH para administración remota"
+        },
+        {
+          "en": "It must listen for requests on the port defined by the PORT environment variable (8080 by default)",
+          "es": "Debe escuchar solicitudes en el puerto definido por la variable de entorno PORT (8080 de forma predeterminada)"
+        },
+        {
+          "en": "It must run in privileged mode as the root user",
+          "es": "Debe ejecutarse en modo privilegiado como el usuario root"
+        }
+      ],
+      "respuesta": [
+        "C"
+      ],
+      "explicacion": {
+        "en": "The Cloud Run container contract requires the service container to listen on the port provided in the PORT variable. A is wrong because any language or binary works as long as the container is Linux x86_64/arm; B is wrong because SSH is not used, access is via HTTP; D is wrong because privileged mode is not supported nor required.",
+        "es": "El contrato de contenedores de Cloud Run exige que el contenedor del servicio escuche en el puerto indicado en la variable PORT. A es incorrecta porque funciona cualquier lenguaje o binario mientras el contenedor sea Linux x86_64/arm; B es incorrecta porque no se usa SSH, el acceso es vía HTTP; D es incorrecta porque el modo privilegiado no se admite ni se requiere."
+      },
+      "doc": "https://cloud.google.com/run/docs/container-contract"
+    },
+    {
+      "id": "run-004",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-cloud-run-ops"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What does 'scale to zero' mean for a Cloud Run service?",
+        "es": "¿Qué significa 'escalar a cero' para un servicio de Cloud Run?"
+      },
+      "opciones": [
+        {
+          "en": "The service is deleted automatically after a period of inactivity",
+          "es": "El servicio se elimina automáticamente después de un período de inactividad"
+        },
+        {
+          "en": "When there are no incoming requests, instances scale down to zero and you do not pay for idle compute",
+          "es": "Cuando no hay solicitudes entrantes, las instancias se reducen a cero y no pagas por cómputo inactivo"
+        },
+        {
+          "en": "CPU drops to zero but memory keeps being billed while idle",
+          "es": "La CPU baja a cero pero la memoria se sigue facturando mientras está inactivo"
+        },
+        {
+          "en": "You must manually stop the service to avoid charges",
+          "es": "Debes detener manualmente el servicio para evitar cargos"
+        }
+      ],
+      "respuesta": [
+        "B"
+      ],
+      "explicacion": {
+        "en": "With the default minimum of zero instances, Cloud Run removes all instances when there is no traffic, so no compute charges accrue. A is wrong because the service and its configuration persist; C is wrong because with zero instances neither CPU nor memory is billed; D is wrong because scaling down is automatic.",
+        "es": "Con el mínimo predeterminado de cero instancias, Cloud Run elimina todas las instancias cuando no hay tráfico, por lo que no se generan cargos de cómputo. A es incorrecta porque el servicio y su configuración persisten; C es incorrecta porque con cero instancias no se factura ni CPU ni memoria; D es incorrecta porque la reducción es automática."
+      },
+      "doc": "https://cloud.google.com/run/docs/about-instance-autoscaling"
+    },
+    {
+      "id": "run-005",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is the main difference between a Cloud Run service and a Cloud Run job?",
+        "es": "¿Cuál es la diferencia principal entre un servicio y un job de Cloud Run?"
+      },
+      "opciones": [
+        {
+          "en": "A service listens for and responds to requests scaling with traffic; a job runs a task to completion and does not listen for requests",
+          "es": "Un servicio escucha y responde solicitudes escalando con el tráfico; un job ejecuta una tarea hasta completarla y no escucha solicitudes"
+        },
+        {
+          "en": "A service runs containers while a job can only run interpreted scripts",
+          "es": "Un servicio ejecuta contenedores mientras que un job solo puede ejecutar scripts interpretados"
+        },
+        {
+          "en": "Jobs are free of charge while services are billed per request",
+          "es": "Los jobs son gratuitos mientras que los servicios se facturan por solicitud"
+        },
+        {
+          "en": "Services run in a region while jobs always run globally",
+          "es": "Los servicios se ejecutan en una región mientras que los jobs siempre se ejecutan globalmente"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Services are for request-driven workloads (websites, APIs, webhooks); jobs are for tasks that run and exit, such as batch processing. B is wrong because both run container images; C is wrong because jobs are billed for the resources they consume; D is wrong because both are regional resources.",
+        "es": "Los servicios son para cargas impulsadas por solicitudes (sitios web, APIs, webhooks); los jobs son para tareas que se ejecutan y terminan, como procesamiento por lotes. B es incorrecta porque ambos ejecutan imágenes de contenedor; C es incorrecta porque los jobs se facturan por los recursos que consumen; D es incorrecta porque ambos son recursos regionales."
+      },
+      "doc": "https://cloud.google.com/run/docs/overview/what-is-cloud-run"
+    },
+    {
+      "id": "run-006",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run",
+        "artifact-registry",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What happens when you run 'gcloud run deploy --source .' from your application directory?",
+        "es": "¿Qué sucede cuando ejecutas 'gcloud run deploy --source .' desde el directorio de tu aplicación?"
+      },
+      "opciones": [
+        {
+          "en": "The source code is uploaded and interpreted directly by Cloud Run without creating a container",
+          "es": "El código fuente se sube y Cloud Run lo interpreta directamente sin crear un contenedor"
+        },
+        {
+          "en": "A virtual machine is created with the source code preinstalled",
+          "es": "Se crea una máquina virtual con el código fuente preinstalado"
+        },
+        {
+          "en": "The command only validates the code and you must build the image manually",
+          "es": "El comando solo valida el código y debes compilar la imagen manualmente"
+        },
+        {
+          "en": "Cloud Build builds a container image from your source, pushes it to Artifact Registry, and deploys it to Cloud Run",
+          "es": "Cloud Build compila una imagen de contenedor desde tu código fuente, la sube a Artifact Registry y la implementa en Cloud Run"
+        }
+      ],
+      "respuesta": [
+        "D"
+      ],
+      "explicacion": {
+        "en": "Deploying from source automates the build (using a Dockerfile or Google Cloud buildpacks), stores the image in Artifact Registry, and creates a new revision. A is wrong because Cloud Run always runs containers; B is wrong because no VM is exposed to you; C is wrong because the build happens automatically.",
+        "es": "La implementación desde código fuente automatiza la compilación (con un Dockerfile o buildpacks de Google Cloud), guarda la imagen en Artifact Registry y crea una revision nueva. A es incorrecta porque Cloud Run siempre ejecuta contenedores; B es incorrecta porque no se te expone ninguna VM; C es incorrecta porque la compilación ocurre automáticamente."
+      },
+      "doc": "https://cloud.google.com/run/docs/deploying-source-code"
+    },
+    {
+      "id": "run-007",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run",
+        "service-accounts"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.2-sa-resources"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which identity does a Cloud Run revision use by default to call Google Cloud APIs?",
+        "es": "¿Qué identidad usa una revision de Cloud Run de forma predeterminada para llamar a las APIs de Google Cloud?"
+      },
+      "opciones": [
+        {
+          "en": "The personal account of the user who deployed the service",
+          "es": "La cuenta personal del usuario que implementó el servicio"
+        },
+        {
+          "en": "The Compute Engine default service account, although a dedicated service account per service is recommended",
+          "es": "La cuenta de servicio predeterminada de Compute Engine, aunque se recomienda una cuenta de servicio dedicada por servicio"
+        },
+        {
+          "en": "A Google-managed service account with the Owner role",
+          "es": "Una cuenta de servicio administrada por Google con el rol de Owner"
+        },
+        {
+          "en": "No identity; Cloud Run cannot call other Google Cloud APIs",
+          "es": "Ninguna identidad; Cloud Run no puede llamar a otras APIs de Google Cloud"
+        }
+      ],
+      "respuesta": [
+        "B"
+      ],
+      "explicacion": {
+        "en": "By default revisions run as the Compute Engine default service account; Google recommends assigning a user-managed service account with minimal permissions. A is wrong because the deployer's identity is not used at runtime; C is wrong because no Owner-role Google-managed account is attached; D is wrong because the runtime identity is exactly how Cloud Run calls other APIs.",
+        "es": "De forma predeterminada las revisions se ejecutan como la cuenta de servicio predeterminada de Compute Engine; Google recomienda asignar una cuenta de servicio administrada por el usuario con permisos mínimos. A es incorrecta porque la identidad de quien implementa no se usa en tiempo de ejecución; C es incorrecta porque no se adjunta ninguna cuenta administrada por Google con rol Owner; D es incorrecta porque la identidad de ejecución es justamente cómo Cloud Run llama a otras APIs."
+      },
+      "doc": "https://cloud.google.com/run/docs/securing/service-identity"
+    },
+    {
+      "id": "run-008",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run",
+        "iam"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.2-sa-least-privilege"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What does the --allow-unauthenticated flag do when deploying a Cloud Run service?",
+        "es": "¿Qué hace la marca --allow-unauthenticated al implementar un servicio de Cloud Run?"
+      },
+      "opciones": [
+        {
+          "en": "It grants the roles/run.invoker role to allUsers, making the service publicly invocable",
+          "es": "Otorga el rol roles/run.invoker a allUsers, lo que hace que el servicio sea invocable públicamente"
+        },
+        {
+          "en": "It disables TLS so the service can be reached over plain HTTP",
+          "es": "Deshabilita TLS para que el servicio sea accesible por HTTP sin cifrar"
+        },
+        {
+          "en": "It removes the service account attached to the service",
+          "es": "Quita la cuenta de servicio asociada al servicio"
+        },
+        {
+          "en": "It allows the service to call any Google Cloud API without credentials",
+          "es": "Permite que el servicio llame a cualquier API de Google Cloud sin credenciales"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Public access in Cloud Run is an IAM decision: allUsers with roles/run.invoker. B is wrong because Cloud Run always terminates TLS on its managed URL; C is wrong because the runtime service account is unrelated to inbound access; D is wrong because outbound API calls still require the runtime identity's permissions.",
+        "es": "El acceso público en Cloud Run es una decisión de IAM: allUsers con roles/run.invoker. B es incorrecta porque Cloud Run siempre termina TLS en su URL administrada; C es incorrecta porque la cuenta de servicio de ejecución no tiene relación con el acceso entrante; D es incorrecta porque las llamadas salientes a APIs siguen requiriendo los permisos de la identidad de ejecución."
+      },
+      "doc": "https://cloud.google.com/run/docs/authenticating/public"
+    },
+    {
+      "id": "run-009",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run",
+        "billing"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "How is a Cloud Run service billed when using the default request-based billing?",
+        "es": "¿Cómo se factura un servicio de Cloud Run con la facturación basada en solicitudes predeterminada?"
+      },
+      "opciones": [
+        {
+          "en": "A flat monthly fee per deployed service",
+          "es": "Una tarifa mensual fija por servicio implementado"
+        },
+        {
+          "en": "Per node-hour, like a Kubernetes cluster",
+          "es": "Por nodo-hora, como un clúster de Kubernetes"
+        },
+        {
+          "en": "You pay for CPU and memory only while instances are processing requests, plus a per-request fee",
+          "es": "Pagas CPU y memoria solo mientras las instancias procesan solicitudes, más una tarifa por solicitud"
+        },
+        {
+          "en": "A one-time charge for each deployment",
+          "es": "Un cargo único por cada implementación"
+        }
+      ],
+      "respuesta": [
+        "C"
+      ],
+      "explicacion": {
+        "en": "With request-based billing, CPU and memory are charged only during request processing and there is an additional per-request fee; idle time with zero instances costs nothing. A and D are wrong because there is no flat or per-deployment charge; B is wrong because Cloud Run abstracts nodes entirely.",
+        "es": "Con la facturación basada en solicitudes, la CPU y la memoria se cobran solo durante el procesamiento de solicitudes y hay una tarifa adicional por solicitud; el tiempo inactivo con cero instancias no cuesta nada. A y D son incorrectas porque no existe un cargo fijo ni por implementación; B es incorrecta porque Cloud Run abstrae los nodos por completo."
+      },
+      "doc": "https://cloud.google.com/run/pricing"
+    },
+    {
+      "id": "run-010",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-cloud-run-ops"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What does the concurrency setting of a Cloud Run service control?",
+        "es": "¿Qué controla el parámetro de concurrencia (concurrency) de un servicio de Cloud Run?"
+      },
+      "opciones": [
+        {
+          "en": "The maximum number of simultaneous requests each instance can receive (80 by default)",
+          "es": "La cantidad máxima de solicitudes simultáneas que puede recibir cada instancia (80 de forma predeterminada)"
+        },
+        {
+          "en": "The number of services you can deploy in a project",
+          "es": "La cantidad de servicios que puedes implementar en un proyecto"
+        },
+        {
+          "en": "The total requests per second allowed for the whole service",
+          "es": "El total de solicitudes por segundo permitidas para todo el servicio"
+        },
+        {
+          "en": "The number of revisions that can serve traffic at the same time",
+          "es": "La cantidad de revisions que pueden atender tráfico al mismo tiempo"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Concurrency is per instance: how many requests one instance handles at once, which directly affects how many instances autoscaling creates. B is a project quota concern, C is not a Cloud Run setting (there is no service-wide RPS limit setting), and D is controlled by traffic splitting, not concurrency.",
+        "es": "La concurrencia es por instancia: cuántas solicitudes atiende una instancia a la vez, lo que afecta directamente cuántas instancias crea el autoescalado. B es un tema de cuotas del proyecto, C no es un parámetro de Cloud Run (no existe un límite de RPS por servicio) y D se controla con la división de tráfico, no con la concurrencia."
+      },
+      "doc": "https://cloud.google.com/run/docs/about-concurrency"
+    },
+    {
+      "id": "run-011",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-cloud-run-ops"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Why would you configure a minimum number of instances on a Cloud Run service?",
+        "es": "¿Para qué configurarías un número mínimo de instancias en un servicio de Cloud Run?"
+      },
+      "opciones": [
+        {
+          "en": "To reduce the total cost of the service",
+          "es": "Para reducir el costo total del servicio"
+        },
+        {
+          "en": "To increase the maximum concurrency per instance",
+          "es": "Para aumentar la concurrencia máxima por instancia"
+        },
+        {
+          "en": "To force the service to scale to zero faster",
+          "es": "Para forzar que el servicio escale a cero más rápido"
+        },
+        {
+          "en": "To keep instances warm and reduce cold-start latency for new requests",
+          "es": "Para mantener instancias listas (warm) y reducir la latencia por arranques en frío en solicitudes nuevas"
+        }
+      ],
+      "respuesta": [
+        "D"
+      ],
+      "explicacion": {
+        "en": "Min instances keeps a number of instances ready even without traffic, avoiding cold starts for latency-sensitive apps. A is wrong because idle min instances increase cost; B is wrong because concurrency is a separate setting; C is wrong because min instances greater than zero prevents scaling to zero.",
+        "es": "El mínimo de instancias mantiene instancias listas incluso sin tráfico, evitando arranques en frío en apps sensibles a la latencia. A es incorrecta porque las instancias mínimas inactivas aumentan el costo; B es incorrecta porque la concurrencia es un parámetro aparte; C es incorrecta porque un mínimo mayor que cero impide escalar a cero."
+      },
+      "doc": "https://cloud.google.com/run/docs/configuring/min-instances"
+    },
+    {
+      "id": "run-012",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run-functions",
+        "cloud-run"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "How do Cloud Run functions relate to Cloud Run?",
+        "es": "¿Cómo se relacionan las Cloud Run functions con Cloud Run?"
+      },
+      "opciones": [
+        {
+          "en": "They are a legacy product with no relation to Cloud Run",
+          "es": "Son un producto heredado sin relación con Cloud Run"
+        },
+        {
+          "en": "You write a single function in a supported language and Google builds and runs it as a container on Cloud Run infrastructure",
+          "es": "Escribes una sola función en un lenguaje compatible y Google la compila y ejecuta como contenedor sobre la infraestructura de Cloud Run"
+        },
+        {
+          "en": "Cloud Run functions run on dedicated virtual machines that you manage",
+          "es": "Las Cloud Run functions se ejecutan en máquinas virtuales dedicadas que tú administras"
+        },
+        {
+          "en": "Cloud Run functions are the paid tier of Cloud Run",
+          "es": "Las Cloud Run functions son el nivel de pago de Cloud Run"
+        }
+      ],
+      "respuesta": [
+        "B"
+      ],
+      "explicacion": {
+        "en": "Cloud Run functions are an event-driven, source-based way to run code: you provide a function and it is deployed on Cloud Run, gaining its scaling and traffic features. A is wrong because they are current and built on Cloud Run; C is wrong because there are no VMs to manage; D is wrong because both products bill for resource usage, neither is a tier of the other.",
+        "es": "Las Cloud Run functions son una forma de ejecutar código basada en código fuente y orientada a eventos: entregas una función y se implementa sobre Cloud Run, aprovechando su escalamiento y manejo de tráfico. A es incorrecta porque son actuales y se basan en Cloud Run; C es incorrecta porque no hay VMs que administrar; D es incorrecta porque ambos productos facturan por uso de recursos, ninguno es un nivel del otro."
+      },
+      "doc": "https://cloud.google.com/functions/docs/concepts/overview"
+    },
+    {
+      "id": "run-013",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "eventarc",
+        "cloud-run"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-serverless-events"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is Eventarc used for in a Cloud Run architecture?",
+        "es": "¿Para qué se usa Eventarc en una arquitectura con Cloud Run?"
+      },
+      "opciones": [
+        {
+          "en": "To route events from Google Cloud sources such as Cloud Storage or audit logs to destinations like Cloud Run services",
+          "es": "Para enrutar eventos de orígenes de Google Cloud, como Cloud Storage o registros de auditoría, hacia destinos como servicios de Cloud Run"
+        },
+        {
+          "en": "To balance HTTP traffic between Cloud Run regions",
+          "es": "Para balancear tráfico HTTP entre regiones de Cloud Run"
+        },
+        {
+          "en": "To store container images used by Cloud Run",
+          "es": "Para almacenar las imágenes de contenedor que usa Cloud Run"
+        },
+        {
+          "en": "To schedule periodic executions of virtual machines",
+          "es": "Para programar ejecuciones periódicas de máquinas virtuales"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Eventarc delivers events from Google sources (and custom sources) to targets such as Cloud Run, enabling event-driven architectures. B describes a global external Application Load Balancer, C describes Artifact Registry, and D mixes Cloud Scheduler with Compute Engine; none of them route events.",
+        "es": "Eventarc entrega eventos de orígenes de Google (y orígenes personalizados) a destinos como Cloud Run, lo que habilita arquitecturas orientadas a eventos. B describe un balanceador de cargas de aplicaciones externo global, C describe Artifact Registry y D mezcla Cloud Scheduler con Compute Engine; ninguno enruta eventos."
+      },
+      "doc": "https://cloud.google.com/eventarc/docs/overview"
+    },
+    {
+      "id": "run-014",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "pubsub",
+        "cloud-run"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-serverless-events"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "How can Pub/Sub messages trigger a Cloud Run service?",
+        "es": "¿Cómo pueden los mensajes de Pub/Sub activar un servicio de Cloud Run?"
+      },
+      "opciones": [
+        {
+          "en": "Cloud Run polls the topic automatically every few seconds",
+          "es": "Cloud Run consulta el tema automáticamente cada pocos segundos"
+        },
+        {
+          "en": "You must run a Compute Engine VM that pulls messages and forwards them",
+          "es": "Debes ejecutar una VM de Compute Engine que extraiga los mensajes y los reenvíe"
+        },
+        {
+          "en": "Through a push subscription that sends each message as an HTTPS POST request to the service endpoint",
+          "es": "Mediante una suscripción de tipo push que envía cada mensaje como una solicitud HTTPS POST al endpoint del servicio"
+        },
+        {
+          "en": "It is not possible to connect Pub/Sub with Cloud Run",
+          "es": "No es posible conectar Pub/Sub con Cloud Run"
+        }
+      ],
+      "respuesta": [
+        "C"
+      ],
+      "explicacion": {
+        "en": "A push subscription delivers messages as HTTPS requests to the service URL, which fits Cloud Run's request-driven model and lets it scale to zero. A is wrong because services do not poll; B adds unnecessary infrastructure; D is wrong because this integration is a standard, documented pattern.",
+        "es": "Una suscripción push entrega los mensajes como solicitudes HTTPS a la URL del servicio, lo que encaja con el modelo de Cloud Run impulsado por solicitudes y le permite escalar a cero. A es incorrecta porque los servicios no hacen polling; B agrega infraestructura innecesaria; D es incorrecta porque esta integración es un patrón estándar y documentado."
+      },
+      "doc": "https://cloud.google.com/run/docs/triggering/pubsub-push"
+    },
+    {
+      "id": "run-015",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-cloud-run-ops"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is traffic splitting in Cloud Run?",
+        "es": "¿Qué es la división de tráfico (traffic splitting) en Cloud Run?"
+      },
+      "opciones": [
+        {
+          "en": "Distributing requests between different Google Cloud regions",
+          "es": "Distribuir solicitudes entre diferentes regiones de Google Cloud"
+        },
+        {
+          "en": "Assigning percentages of incoming requests to different revisions of a service, for example for gradual rollouts",
+          "es": "Asignar porcentajes de las solicitudes entrantes a diferentes revisions de un servicio, por ejemplo para lanzamientos graduales"
+        },
+        {
+          "en": "Separating GET and POST requests into different services",
+          "es": "Separar las solicitudes GET y POST en servicios diferentes"
+        },
+        {
+          "en": "Limiting the requests per second each client can send",
+          "es": "Limitar las solicitudes por segundo que puede enviar cada cliente"
+        }
+      ],
+      "respuesta": [
+        "B"
+      ],
+      "explicacion": {
+        "en": "Traffic splitting sends a configurable percentage of requests to each revision, enabling canary releases and instant rollbacks. A requires a load balancer across regions, not traffic splitting; C is routing logic that Cloud Run does not do by method; D describes rate limiting, which is not what traffic splitting does.",
+        "es": "La división de tráfico envía un porcentaje configurable de solicitudes a cada revision, lo que habilita lanzamientos canary y reversiones instantáneas. A requiere un balanceador de cargas entre regiones, no división de tráfico; C es lógica de enrutamiento por método que Cloud Run no hace; D describe limitación de tasa, que no es lo que hace la división de tráfico."
+      },
+      "doc": "https://cloud.google.com/run/docs/rollouts-rollbacks-traffic-migration"
+    },
+    {
+      "id": "run-016",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which of these workloads is a good fit for a Cloud Run job rather than a Cloud Run service?",
+        "es": "¿Cuál de estas cargas de trabajo es más adecuada para un job de Cloud Run en lugar de un servicio?"
+      },
+      "opciones": [
+        {
+          "en": "A public REST API for a mobile application",
+          "es": "Una API REST pública para una aplicación móvil"
+        },
+        {
+          "en": "A marketing website with variable traffic",
+          "es": "Un sitio web de marketing con tráfico variable"
+        },
+        {
+          "en": "A webhook receiver for payment notifications",
+          "es": "Un receptor de webhooks para notificaciones de pago"
+        },
+        {
+          "en": "A nightly script that processes a batch of files and then exits",
+          "es": "Un script nocturno que procesa un lote de archivos y luego termina"
+        }
+      ],
+      "respuesta": [
+        "D"
+      ],
+      "explicacion": {
+        "en": "Jobs are designed for run-to-completion tasks like batch processing, with no HTTP endpoint. A, B, and C are all request-driven workloads that need to listen for HTTP traffic, which is exactly what Cloud Run services do.",
+        "es": "Los jobs están diseñados para tareas que se ejecutan hasta completarse, como el procesamiento por lotes, sin endpoint HTTP. A, B y C son cargas impulsadas por solicitudes que necesitan escuchar tráfico HTTP, que es exactamente lo que hacen los servicios de Cloud Run."
+      },
+      "doc": "https://cloud.google.com/run/docs/create-jobs"
+    },
+    {
+      "id": "run-017",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-cloud-run-ops"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "How should you provide a configuration value, such as a database name, to a Cloud Run container without rebuilding the image?",
+        "es": "¿Cómo deberías entregar un valor de configuración, como el nombre de una base de datos, a un contenedor de Cloud Run sin recompilar la imagen?"
+      },
+      "opciones": [
+        {
+          "en": "Set it as an environment variable on the service",
+          "es": "Definirlo como una variable de entorno en el servicio"
+        },
+        {
+          "en": "Build a different container image for each environment",
+          "es": "Compilar una imagen de contenedor diferente para cada entorno"
+        },
+        {
+          "en": "Hardcode it in the application source code",
+          "es": "Escribirlo fijo (hardcodear) en el código fuente de la aplicación"
+        },
+        {
+          "en": "Encode it in the container image tag",
+          "es": "Codificarlo en la etiqueta (tag) de la imagen de contenedor"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Environment variables are set per service or revision, so the same image works in every environment. B defeats the purpose of one portable image; C requires code changes and redeploys for every config change; D is wrong because image tags identify versions and are not injected into the container as configuration.",
+        "es": "Las variables de entorno se definen por servicio o revision, así que la misma imagen funciona en todos los entornos. B anula el propósito de una imagen portable; C exige cambios de código y reimplementaciones por cada cambio de configuración; D es incorrecta porque las etiquetas de imagen identifican versiones y no se inyectan al contenedor como configuración."
+      },
+      "doc": "https://cloud.google.com/run/docs/configuring/services/environment-variables"
+    },
+    {
+      "id": "run-018",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run",
+        "service-accounts"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.2-sa-least-privilege"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is the recommended way to give a Cloud Run service access to a database password?",
+        "es": "¿Cuál es la forma recomendada de dar a un servicio de Cloud Run acceso a una contraseña de base de datos?"
+      },
+      "opciones": [
+        {
+          "en": "Commit the password to the application repository",
+          "es": "Guardar la contraseña en el repositorio de la aplicación"
+        },
+        {
+          "en": "Store it in Secret Manager and expose it to the service as an environment variable or mounted volume",
+          "es": "Almacenarla en Secret Manager y exponerla al servicio como variable de entorno o volumen montado"
+        },
+        {
+          "en": "Bake the password into the container image",
+          "es": "Incluir la contraseña dentro de la imagen de contenedor"
+        },
+        {
+          "en": "Write it in plain text in the service description field",
+          "es": "Escribirla en texto plano en el campo de descripción del servicio"
+        }
+      ],
+      "respuesta": [
+        "B"
+      ],
+      "explicacion": {
+        "en": "Secret Manager keeps secrets encrypted, versioned, and access-controlled; Cloud Run integrates natively to expose them as env vars or volumes. A and C leak the secret to anyone with repo or image access; D stores it unprotected in metadata visible to anyone who can view the service.",
+        "es": "Secret Manager mantiene los secretos cifrados, versionados y con control de acceso; Cloud Run se integra de forma nativa para exponerlos como variables de entorno o volúmenes. A y C filtran el secreto a cualquiera con acceso al repositorio o a la imagen; D lo guarda sin protección en metadatos visibles para quien pueda ver el servicio."
+      },
+      "doc": "https://cloud.google.com/run/docs/configuring/services/secrets"
+    },
+    {
+      "id": "run-019",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "In which scope does a Cloud Run service run?",
+        "es": "¿En qué alcance se ejecuta un servicio de Cloud Run?"
+      },
+      "opciones": [
+        {
+          "en": "In a single zone that Google selects automatically",
+          "es": "En una única zona que Google selecciona automáticamente"
+        },
+        {
+          "en": "Globally, replicated in all Google Cloud regions by default",
+          "es": "Globalmente, replicado en todas las regiones de Google Cloud de forma predeterminada"
+        },
+        {
+          "en": "In the region you choose at deployment, on infrastructure fully managed by Google",
+          "es": "En la región que eliges al implementarlo, sobre infraestructura completamente administrada por Google"
+        },
+        {
+          "en": "Only on on-premises servers connected via VPN",
+          "es": "Solo en servidores on-premises conectados por VPN"
+        }
+      ],
+      "respuesta": [
+        "C"
+      ],
+      "explicacion": {
+        "en": "Cloud Run services are regional resources: you pick the region and Google manages redundancy across zones within it. A is wrong because Cloud Run is regional, not zonal; B is wrong because multi-region serving requires deploying to several regions behind a load balancer; D is wrong because Cloud Run runs on Google Cloud infrastructure.",
+        "es": "Los servicios de Cloud Run son recursos regionales: eliges la región y Google administra la redundancia entre zonas dentro de ella. A es incorrecta porque Cloud Run es regional, no zonal; B es incorrecta porque servir en varias regiones requiere implementar en varias regiones detrás de un balanceador de cargas; D es incorrecta porque Cloud Run se ejecuta en la infraestructura de Google Cloud."
+      },
+      "doc": "https://cloud.google.com/run/docs/locations"
+    },
+    {
+      "id": "run-020",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-cloud-run-ops"
+      ],
+      "nivel": "principiante",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO statements about Cloud Run revisions are true?",
+        "es": "¿Cuáles DOS afirmaciones sobre las revisions de Cloud Run son verdaderas?"
+      },
+      "opciones": [
+        {
+          "en": "Revisions are immutable: once created they cannot be modified",
+          "es": "Las revisions son inmutables: una vez creadas no se pueden modificar"
+        },
+        {
+          "en": "You can edit a revision in place to change its environment variables",
+          "es": "Puedes editar una revision existente para cambiar sus variables de entorno"
+        },
+        {
+          "en": "Deploying a change to the image or configuration creates a new revision",
+          "es": "Implementar un cambio en la imagen o en la configuración crea una revision nueva"
+        },
+        {
+          "en": "A service can only ever have one revision",
+          "es": "Un servicio solo puede tener una única revision"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "C"
+      ],
+      "explicacion": {
+        "en": "Revisions are immutable snapshots, and any image or configuration change produces a new one; this is what makes traffic splitting and rollbacks safe. B is false because editing configuration creates a new revision instead of modifying the old one; D is false because services accumulate revisions and can split traffic among them.",
+        "es": "Las revisions son instantáneas inmutables y cualquier cambio de imagen o configuración produce una nueva; eso es lo que hace seguros la división de tráfico y los rollbacks. B es falsa porque editar la configuración crea una revision nueva en lugar de modificar la anterior; D es falsa porque los servicios acumulan revisions y pueden dividir el tráfico entre ellas."
+      },
+      "doc": "https://cloud.google.com/run/docs/resource-model"
+    },
+    {
+      "id": "run-021",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
+      "nivel": "principiante",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO are supported ways to deploy an application to Cloud Run?",
+        "es": "¿Cuáles DOS son formas compatibles de implementar una aplicación en Cloud Run?"
+      },
+      "opciones": [
+        {
+          "en": "Deploying a prebuilt container image stored in Artifact Registry",
+          "es": "Implementar una imagen de contenedor ya compilada y almacenada en Artifact Registry"
+        },
+        {
+          "en": "Deploying directly from source code with 'gcloud run deploy --source'",
+          "es": "Implementar directamente desde el código fuente con 'gcloud run deploy --source'"
+        },
+        {
+          "en": "Uploading a Compute Engine VM image",
+          "es": "Subir una imagen de VM de Compute Engine"
+        },
+        {
+          "en": "Uploading a ZIP file to an App Engine staging bucket",
+          "es": "Subir un archivo ZIP a un bucket de staging de App Engine"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Cloud Run accepts container images from a registry, and can also build from source automatically using Cloud Build. C is wrong because VM images are for Compute Engine, not for a container platform; D is wrong because that is App Engine's deployment mechanism, not Cloud Run's.",
+        "es": "Cloud Run acepta imágenes de contenedor desde un registro y también puede compilar desde el código fuente automáticamente con Cloud Build. C es incorrecta porque las imágenes de VM son para Compute Engine, no para una plataforma de contenedores; D es incorrecta porque ese es el mecanismo de implementación de App Engine, no el de Cloud Run."
+      },
+      "doc": "https://cloud.google.com/run/docs/deploying"
+    },
+    {
+      "id": "run-022",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
+      "nivel": "principiante",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO capabilities does a Cloud Run service provide without any extra configuration?",
+        "es": "¿Cuáles DOS capacidades ofrece un servicio de Cloud Run sin configuración adicional?"
+      },
+      "opciones": [
+        {
+          "en": "Automatic replication of the service across multiple regions",
+          "es": "Replicación automática del servicio en varias regiones"
+        },
+        {
+          "en": "Automatic scaling of instances with traffic, including scaling to zero",
+          "es": "Escalamiento automático de instancias según el tráfico, incluido escalar a cero"
+        },
+        {
+          "en": "Automatic provisioning of a SQL database for the application",
+          "es": "Aprovisionamiento automático de una base de datos SQL para la aplicación"
+        },
+        {
+          "en": "A stable HTTPS URL with TLS certificates managed by Google",
+          "es": "Una URL HTTPS estable con certificados TLS administrados por Google"
+        }
+      ],
+      "respuesta": [
+        "B",
+        "D"
+      ],
+      "explicacion": {
+        "en": "Every Cloud Run service gets autoscaling (with a default minimum of zero) and a managed run.app HTTPS endpoint out of the box. A is wrong because multi-region serving requires deploying per region behind a load balancer; C is wrong because databases like Cloud SQL are separate products you provision yourself.",
+        "es": "Todo servicio de Cloud Run obtiene autoescalado (con mínimo predeterminado de cero) y un endpoint HTTPS administrado en run.app de fábrica. A es incorrecta porque servir en varias regiones requiere implementar por región detrás de un balanceador de cargas; C es incorrecta porque las bases de datos como Cloud SQL son productos aparte que tú aprovisionas."
+      },
+      "doc": "https://cloud.google.com/run/docs/overview/what-is-cloud-run"
+    },
+    {
+      "id": "run-023",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run",
+        "gcloud-cli",
+        "artifact-registry"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-cloud-run-ops"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which command deploys the image us-central1-docker.pkg.dev/my-proj/repo/app:v2 as a new revision of the existing service 'api' in us-central1?",
+        "es": "¿Qué comando implementa la imagen us-central1-docker.pkg.dev/my-proj/repo/app:v2 como una nueva revision del servicio existente 'api' en us-central1?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud run deploy api --image us-central1-docker.pkg.dev/my-proj/repo/app:v2 --region us-central1",
+          "es": "gcloud run deploy api --image us-central1-docker.pkg.dev/my-proj/repo/app:v2 --region us-central1"
+        },
+        {
+          "en": "gcloud deploy run api --container us-central1-docker.pkg.dev/my-proj/repo/app:v2",
+          "es": "gcloud deploy run api --container us-central1-docker.pkg.dev/my-proj/repo/app:v2"
+        },
+        {
+          "en": "kubectl apply -f app-v2.yaml --namespace cloud-run",
+          "es": "kubectl apply -f app-v2.yaml --namespace cloud-run"
+        },
+        {
+          "en": "gcloud run push api:v2 --region us-central1",
+          "es": "gcloud run push api:v2 --region us-central1"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "gcloud run deploy with --image creates a new revision of the named service; if the service does not exist, it creates it. B is not a valid command group (gcloud deploy is for Cloud Deploy pipelines); C targets a Kubernetes cluster, not fully managed Cloud Run; D is not a real gcloud run command.",
+        "es": "gcloud run deploy con --image crea una nueva revision del servicio indicado; si el servicio no existe, lo crea. B no es un grupo de comandos válido (gcloud deploy es para pipelines de Cloud Deploy); C apunta a un clúster de Kubernetes, no a Cloud Run completamente administrado; D no es un comando real de gcloud run."
+      },
+      "doc": "https://cloud.google.com/run/docs/deploying"
+    },
+    {
+      "id": "run-024",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-cloud-run-ops"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "How do you limit a Cloud Run service so it never runs more than 10 instances?",
+        "es": "¿Cómo limitas un servicio de Cloud Run para que nunca ejecute más de 10 instancias?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud run services update api --concurrency 10",
+          "es": "gcloud run services update api --concurrency 10"
+        },
+        {
+          "en": "gcloud run services update api --max-instances 10",
+          "es": "gcloud run services update api --max-instances 10"
+        },
+        {
+          "en": "gcloud run services update api --min-instances 10",
+          "es": "gcloud run services update api --min-instances 10"
+        },
+        {
+          "en": "Setting a quota of 10 CPUs in the project",
+          "es": "Configurar una cuota de 10 CPUs en el proyecto"
+        }
+      ],
+      "respuesta": [
+        "B"
+      ],
+      "explicacion": {
+        "en": "--max-instances caps how many instances autoscaling can create. A limits simultaneous requests per instance, not the instance count; C sets the floor, not the ceiling; D indirectly constrains all services in the project and is not a per-service control.",
+        "es": "--max-instances limita cuántas instancias puede crear el autoescalado. A limita las solicitudes simultáneas por instancia, no la cantidad de instancias; C define el piso, no el techo; D restringe indirectamente a todos los servicios del proyecto y no es un control por servicio."
+      },
+      "doc": "https://cloud.google.com/run/docs/configuring/max-instances"
+    },
+    {
+      "id": "run-025",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run",
+        "service-accounts",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.2-sa-resources"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which command deploys the service 'api' so its revisions run with the dedicated identity api-sa@my-proj.iam.gserviceaccount.com?",
+        "es": "¿Qué comando implementa el servicio 'api' para que sus revisions se ejecuten con la identidad dedicada api-sa@my-proj.iam.gserviceaccount.com?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud iam service-accounts attach api-sa@my-proj.iam.gserviceaccount.com --service api",
+          "es": "gcloud iam service-accounts attach api-sa@my-proj.iam.gserviceaccount.com --service api"
+        },
+        {
+          "en": "gcloud run services add-iam-policy-binding api --member serviceAccount:api-sa@my-proj.iam.gserviceaccount.com --role roles/run.invoker",
+          "es": "gcloud run services add-iam-policy-binding api --member serviceAccount:api-sa@my-proj.iam.gserviceaccount.com --role roles/run.invoker"
+        },
+        {
+          "en": "gcloud run deploy api --image IMAGE --service-account api-sa@my-proj.iam.gserviceaccount.com",
+          "es": "gcloud run deploy api --image IMAGE --service-account api-sa@my-proj.iam.gserviceaccount.com"
+        },
+        {
+          "en": "gcloud run deploy api --image IMAGE --impersonate-service-account api-sa@my-proj.iam.gserviceaccount.com",
+          "es": "gcloud run deploy api --image IMAGE --impersonate-service-account api-sa@my-proj.iam.gserviceaccount.com"
+        }
+      ],
+      "respuesta": [
+        "C"
+      ],
+      "explicacion": {
+        "en": "The --service-account flag sets the runtime identity of the revisions. A is not a real command; B grants the SA permission to invoke the service, which is inbound access, not runtime identity; D makes gcloud itself act as that SA during the deployment command, it does not change the service's identity.",
+        "es": "La marca --service-account define la identidad de ejecución de las revisions. A no es un comando real; B otorga a la cuenta de servicio permiso para invocar el servicio, que es acceso entrante, no identidad de ejecución; D hace que el propio gcloud actúe como esa cuenta durante el comando de implementación, no cambia la identidad del servicio."
+      },
+      "doc": "https://cloud.google.com/run/docs/securing/service-identity"
+    },
+    {
+      "id": "run-026",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-cloud-run-ops"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your Cloud Run service starts a background task after sending the HTTP response, but the task runs extremely slowly or stalls. What should you change?",
+        "es": "Tu servicio de Cloud Run inicia una tarea en segundo plano después de enviar la respuesta HTTP, pero la tarea se ejecuta muy lento o se detiene. ¿Qué deberías cambiar?"
+      },
+      "opciones": [
+        {
+          "en": "Increase the concurrency setting to 1000",
+          "es": "Aumentar el parámetro de concurrencia a 1000"
+        },
+        {
+          "en": "Raise the maximum number of instances",
+          "es": "Aumentar el número máximo de instancias"
+        },
+        {
+          "en": "Enable HTTP/2 on the service",
+          "es": "Habilitar HTTP/2 en el servicio"
+        },
+        {
+          "en": "Configure CPU to be always allocated (instance-based billing) instead of only during request processing",
+          "es": "Configurar la CPU como siempre asignada (facturación por instancia) en lugar de solo durante el procesamiento de solicitudes"
+        }
+      ],
+      "respuesta": [
+        "D"
+      ],
+      "explicacion": {
+        "en": "With default request-based billing, CPU is throttled outside of request processing, so background work after the response stalls; always-allocated CPU keeps the CPU available between requests. A and B change scaling behavior, not CPU throttling; C changes the protocol and has no effect on CPU allocation.",
+        "es": "Con la facturación basada en solicitudes predeterminada, la CPU se limita fuera del procesamiento de solicitudes, por lo que el trabajo en segundo plano tras la respuesta se detiene; la CPU siempre asignada mantiene la CPU disponible entre solicitudes. A y B cambian el comportamiento de escalamiento, no la limitación de CPU; C cambia el protocolo y no afecta la asignación de CPU."
+      },
+      "doc": "https://cloud.google.com/run/docs/configuring/cpu-allocation"
+    },
+    {
+      "id": "run-027",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-cloud-run-ops"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which command sends 10% of traffic to the new revision api-00042 while the rest keeps going to the current revision?",
+        "es": "¿Qué comando envía el 10% del tráfico a la nueva revision api-00042 mientras el resto sigue yendo a la revision actual?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud run services update-traffic api --to-revisions api-00042=10",
+          "es": "gcloud run services update-traffic api --to-revisions api-00042=10"
+        },
+        {
+          "en": "gcloud run deploy api --traffic 10",
+          "es": "gcloud run deploy api --traffic 10"
+        },
+        {
+          "en": "gcloud run revisions promote api-00042 --percent 10",
+          "es": "gcloud run revisions promote api-00042 --percent 10"
+        },
+        {
+          "en": "gcloud run services set-traffic api --canary api-00042",
+          "es": "gcloud run services set-traffic api --canary api-00042"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "update-traffic with --to-revisions assigns explicit percentages per revision; the remainder stays on the revisions currently serving. B is wrong because --traffic is not how gcloud run deploy expresses percentages per revision; C and D are not real gcloud run commands.",
+        "es": "update-traffic con --to-revisions asigna porcentajes explícitos por revision; el resto permanece en las revisions que ya atienden tráfico. B es incorrecta porque --traffic no es la forma en que gcloud run deploy expresa porcentajes por revision; C y D no son comandos reales de gcloud run."
+      },
+      "doc": "https://cloud.google.com/run/docs/rollouts-rollbacks-traffic-migration"
+    },
+    {
+      "id": "run-028",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "eventarc",
+        "cloud-run",
+        "cloud-storage"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-serverless-events"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You want a Cloud Run service to run automatically every time an object is uploaded to a Cloud Storage bucket. What should you configure?",
+        "es": "Quieres que un servicio de Cloud Run se ejecute automáticamente cada vez que se sube un objeto a un bucket de Cloud Storage. ¿Qué deberías configurar?"
+      },
+      "opciones": [
+        {
+          "en": "A webhook in the bucket settings pointing to the service URL",
+          "es": "Un webhook en la configuración del bucket que apunte a la URL del servicio"
+        },
+        {
+          "en": "An Eventarc trigger for the google.cloud.storage.object.v1.finalized event with the service as destination",
+          "es": "Un activador de Eventarc para el evento google.cloud.storage.object.v1.finalized con el servicio como destino"
+        },
+        {
+          "en": "A Cloud Scheduler job that polls the bucket every minute",
+          "es": "Un trabajo de Cloud Scheduler que consulte el bucket cada minuto"
+        },
+        {
+          "en": "An email notification on the bucket processed by the service",
+          "es": "Una notificación por correo en el bucket procesada por el servicio"
+        }
+      ],
+      "respuesta": [
+        "B"
+      ],
+      "explicacion": {
+        "en": "Eventarc routes the object-finalized event from Cloud Storage directly to the Cloud Run service in near real time. A is wrong because buckets do not have a generic webhook setting; C adds latency and wasted invocations by polling; D is wrong because email notifications are not a programmatic trigger mechanism for Cloud Run.",
+        "es": "Eventarc enruta el evento de objeto finalizado desde Cloud Storage directamente al servicio de Cloud Run casi en tiempo real. A es incorrecta porque los buckets no tienen una configuración genérica de webhook; C agrega latencia e invocaciones desperdiciadas por el polling; D es incorrecta porque las notificaciones por correo no son un mecanismo de activación programático para Cloud Run."
+      },
+      "doc": "https://cloud.google.com/eventarc/docs/run/route-trigger-cloud-storage"
+    },
+    {
+      "id": "run-029",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run",
+        "iam",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.2-sa-least-privilege"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You need to allow ONLY the service account invoker-sa@my-proj.iam.gserviceaccount.com to invoke the private service 'api'. Which command follows least privilege?",
+        "es": "Necesitas permitir que SOLO la cuenta de servicio invoker-sa@my-proj.iam.gserviceaccount.com invoque el servicio privado 'api'. ¿Qué comando sigue el privilegio mínimo?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud run services add-iam-policy-binding api --member allAuthenticatedUsers --role roles/run.invoker",
+          "es": "gcloud run services add-iam-policy-binding api --member allAuthenticatedUsers --role roles/run.invoker"
+        },
+        {
+          "en": "gcloud projects add-iam-policy-binding my-proj --member serviceAccount:invoker-sa@my-proj.iam.gserviceaccount.com --role roles/owner",
+          "es": "gcloud projects add-iam-policy-binding my-proj --member serviceAccount:invoker-sa@my-proj.iam.gserviceaccount.com --role roles/owner"
+        },
+        {
+          "en": "gcloud run services add-iam-policy-binding api --member serviceAccount:invoker-sa@my-proj.iam.gserviceaccount.com --role roles/run.invoker",
+          "es": "gcloud run services add-iam-policy-binding api --member serviceAccount:invoker-sa@my-proj.iam.gserviceaccount.com --role roles/run.invoker"
+        },
+        {
+          "en": "gcloud run services add-iam-policy-binding api --member serviceAccount:invoker-sa@my-proj.iam.gserviceaccount.com --role roles/run.admin",
+          "es": "gcloud run services add-iam-policy-binding api --member serviceAccount:invoker-sa@my-proj.iam.gserviceaccount.com --role roles/run.admin"
+        }
+      ],
+      "respuesta": [
+        "C"
+      ],
+      "explicacion": {
+        "en": "Granting roles/run.invoker on the specific service to the specific service account is the minimal permission needed to invoke it. A opens the service to any authenticated Google identity; B grants full project ownership, a massive over-grant; D grants administration of Cloud Run services, far more than invoking.",
+        "es": "Otorgar roles/run.invoker sobre el servicio específico a la cuenta de servicio específica es el permiso mínimo necesario para invocarlo. A abre el servicio a cualquier identidad autenticada de Google; B otorga propiedad total del proyecto, un exceso enorme; D otorga administración de los servicios de Cloud Run, mucho más que invocar."
+      },
+      "doc": "https://cloud.google.com/run/docs/securing/managing-access"
+    },
+    {
+      "id": "run-030",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-cloud-run-ops"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which command sets the environment variable DB_NAME=orders on the existing service 'api'?",
+        "es": "¿Qué comando define la variable de entorno DB_NAME=orders en el servicio existente 'api'?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud run services update api --set-env-vars DB_NAME=orders",
+          "es": "gcloud run services update api --set-env-vars DB_NAME=orders"
+        },
+        {
+          "en": "gcloud run services env-add api DB_NAME=orders",
+          "es": "gcloud run services env-add api DB_NAME=orders"
+        },
+        {
+          "en": "gcloud config set run/env DB_NAME=orders",
+          "es": "gcloud config set run/env DB_NAME=orders"
+        },
+        {
+          "en": "export DB_NAME=orders in Cloud Shell before deploying",
+          "es": "export DB_NAME=orders en Cloud Shell antes de implementar"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "gcloud run services update with --set-env-vars creates a new revision with the variable available to the container. B and C are not real commands; D only sets the variable in your local shell session, it is never propagated to the Cloud Run container.",
+        "es": "gcloud run services update con --set-env-vars crea una nueva revision con la variable disponible para el contenedor. B y C no son comandos reales; D solo define la variable en tu sesión local de shell, nunca se propaga al contenedor de Cloud Run."
+      },
+      "doc": "https://cloud.google.com/run/docs/configuring/services/environment-variables"
+    },
+    {
+      "id": "run-031",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run",
+        "cloud-sql"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is the simplest supported way to connect a Cloud Run service to a Cloud SQL instance that has a public IP?",
+        "es": "¿Cuál es la forma compatible más simple de conectar un servicio de Cloud Run a una instancia de Cloud SQL con IP pública?"
+      },
+      "opciones": [
+        {
+          "en": "Open the database port to 0.0.0.0/0 in the instance's authorized networks",
+          "es": "Abrir el puerto de la base de datos a 0.0.0.0/0 en las redes autorizadas de la instancia"
+        },
+        {
+          "en": "Deploy with --add-cloudsql-instances so the built-in Cloud SQL connection exposes a Unix socket to the container",
+          "es": "Implementar con --add-cloudsql-instances para que la conexión integrada de Cloud SQL exponga un socket Unix al contenedor"
+        },
+        {
+          "en": "Create an SSH tunnel from the container to the instance on startup",
+          "es": "Crear un túnel SSH desde el contenedor a la instancia al iniciar"
+        },
+        {
+          "en": "Copy the database into the container filesystem",
+          "es": "Copiar la base de datos al sistema de archivos del contenedor"
+        }
+      ],
+      "respuesta": [
+        "B"
+      ],
+      "explicacion": {
+        "en": "The --add-cloudsql-instances flag enables the built-in Cloud SQL connection (based on the Cloud SQL Auth Proxy), giving the container a secure Unix socket without managing IPs or certificates. A exposes the database to the whole internet; C adds fragile manual plumbing that the platform already provides; D is wrong because container filesystems are ephemeral and per-instance.",
+        "es": "La marca --add-cloudsql-instances habilita la conexión integrada de Cloud SQL (basada en el Cloud SQL Auth Proxy), que da al contenedor un socket Unix seguro sin administrar IPs ni certificados. A expone la base de datos a todo internet; C agrega plomería manual frágil que la plataforma ya provee; D es incorrecta porque el sistema de archivos del contenedor es efímero y por instancia."
+      },
+      "doc": "https://cloud.google.com/sql/docs/mysql/connect-run"
+    },
+    {
+      "id": "run-032",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run",
+        "vpc"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-cloud-run-ops"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A Cloud Run service must reach a Memorystore instance that only has an internal IP in your VPC. Which feature enables this with the least infrastructure to manage?",
+        "es": "Un servicio de Cloud Run debe alcanzar una instancia de Memorystore que solo tiene una IP interna en tu VPC. ¿Qué función lo permite con la menor infraestructura por administrar?"
+      },
+      "opciones": [
+        {
+          "en": "Cloud NAT on the VPC",
+          "es": "Cloud NAT en la VPC"
+        },
+        {
+          "en": "Assigning an external IP to the Memorystore instance",
+          "es": "Asignar una IP externa a la instancia de Memorystore"
+        },
+        {
+          "en": "A Cloud VPN tunnel between Cloud Run and the VPC",
+          "es": "Un túnel de Cloud VPN entre Cloud Run y la VPC"
+        },
+        {
+          "en": "Direct VPC egress, so the service sends traffic into the VPC network directly",
+          "es": "Direct VPC egress, para que el servicio envíe tráfico directamente a la red de VPC"
+        }
+      ],
+      "respuesta": [
+        "D"
+      ],
+      "explicacion": {
+        "en": "Direct VPC egress lets Cloud Run send outbound traffic straight into a VPC subnet without managing connector instances, reaching internal IPs like Memorystore. A is for outbound internet access from VPC resources, not for Cloud Run entering a VPC; B is not supported for Memorystore and would weaken security anyway; C connects networks to on-premises or other networks, not a serverless service to its own VPC.",
+        "es": "Direct VPC egress permite que Cloud Run envíe tráfico saliente directamente a una subred de la VPC sin administrar instancias de conector, alcanzando IPs internas como Memorystore. A es para salida a internet de recursos de la VPC, no para que Cloud Run entre a una VPC; B no es compatible con Memorystore y además debilitaría la seguridad; C conecta redes con on-premises u otras redes, no un servicio serverless con su propia VPC."
+      },
+      "doc": "https://cloud.google.com/run/docs/configuring/vpc-direct-vpc"
+    },
+    {
+      "id": "run-033",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which pair of commands creates and then runs a Cloud Run job from a container image?",
+        "es": "¿Qué par de comandos crea y luego ejecuta un job de Cloud Run desde una imagen de contenedor?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud run jobs create my-job --image IMAGE, then gcloud run jobs execute my-job",
+          "es": "gcloud run jobs create my-job --image IMAGE, y luego gcloud run jobs execute my-job"
+        },
+        {
+          "en": "gcloud run deploy my-job --image IMAGE --type job, then gcloud run start my-job",
+          "es": "gcloud run deploy my-job --image IMAGE --type job, y luego gcloud run start my-job"
+        },
+        {
+          "en": "gcloud scheduler jobs create http my-job, then gcloud scheduler jobs run my-job",
+          "es": "gcloud scheduler jobs create http my-job, y luego gcloud scheduler jobs run my-job"
+        },
+        {
+          "en": "gcloud batch jobs submit my-job --image IMAGE",
+          "es": "gcloud batch jobs submit my-job --image IMAGE"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Cloud Run jobs have their own command group: 'gcloud run jobs create' defines the job and 'gcloud run jobs execute' starts an execution. B uses flags and commands that do not exist; C creates a Cloud Scheduler HTTP job, which is a scheduler, not a container job; D submits to the separate Batch service, not Cloud Run.",
+        "es": "Los jobs de Cloud Run tienen su propio grupo de comandos: 'gcloud run jobs create' define el job y 'gcloud run jobs execute' inicia una ejecución. B usa marcas y comandos que no existen; C crea un trabajo HTTP de Cloud Scheduler, que es un programador, no un job de contenedor; D envía al servicio Batch, que es un producto aparte, no Cloud Run."
+      },
+      "doc": "https://cloud.google.com/run/docs/create-jobs"
+    },
+    {
+      "id": "run-034",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-cloud-run-ops"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which command lists all revisions of the Cloud Run service 'api'?",
+        "es": "¿Qué comando lista todas las revisions del servicio de Cloud Run 'api'?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud run services describe api --show-history",
+          "es": "gcloud run services describe api --show-history"
+        },
+        {
+          "en": "gcloud run revisions list --service api",
+          "es": "gcloud run revisions list --service api"
+        },
+        {
+          "en": "gcloud run list revisions api",
+          "es": "gcloud run list revisions api"
+        },
+        {
+          "en": "kubectl get revisions -l service=api",
+          "es": "kubectl get revisions -l service=api"
+        }
+      ],
+      "respuesta": [
+        "B"
+      ],
+      "explicacion": {
+        "en": "gcloud run revisions list filtered by --service shows every revision with its status and traffic. A is wrong because describe shows the current service configuration and has no --show-history flag; C has invalid command ordering; D targets a Kubernetes cluster, which fully managed Cloud Run does not expose.",
+        "es": "gcloud run revisions list filtrado con --service muestra cada revision con su estado y tráfico. A es incorrecta porque describe muestra la configuración actual del servicio y no tiene la marca --show-history; C tiene un orden de comando inválido; D apunta a un clúster de Kubernetes, que Cloud Run completamente administrado no expone."
+      },
+      "doc": "https://cloud.google.com/run/docs/managing/revisions"
+    },
+    {
+      "id": "run-035",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run",
+        "service-accounts"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.2-sa-least-privilege"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Service A must call private Cloud Run service B. Which credential must service A include in its requests?",
+        "es": "El servicio A debe llamar al servicio privado B de Cloud Run. ¿Qué credencial debe incluir el servicio A en sus solicitudes?"
+      },
+      "opciones": [
+        {
+          "en": "An API key created in the Google Cloud console, sent as a query parameter",
+          "es": "Una clave de API creada en la consola de Google Cloud, enviada como parámetro de consulta"
+        },
+        {
+          "en": "An OAuth2 access token for the Cloud Platform scope",
+          "es": "Un token de acceso OAuth2 para el alcance de Cloud Platform"
+        },
+        {
+          "en": "An OIDC ID token for service A's service account, with service B's URL as audience, in the Authorization header",
+          "es": "Un token de ID de OIDC de la cuenta de servicio del servicio A, con la URL del servicio B como audiencia, en el encabezado Authorization"
+        },
+        {
+          "en": "The service account's JSON private key attached in the request body",
+          "es": "La clave privada JSON de la cuenta de servicio adjunta en el cuerpo de la solicitud"
+        }
+      ],
+      "respuesta": [
+        "C"
+      ],
+      "explicacion": {
+        "en": "Cloud Run authenticates callers with OIDC ID tokens whose audience is the receiving service's URL; the caller's SA also needs roles/run.invoker on service B. A is wrong because API keys do not identify an IAM principal and are not accepted by Cloud Run IAM; B is wrong because Cloud Run invocation requires an ID token, not an OAuth2 access token; D is a severe anti-pattern that exposes the long-lived key.",
+        "es": "Cloud Run autentica a los llamadores con tokens de ID de OIDC cuya audiencia es la URL del servicio receptor; la cuenta del llamador además necesita roles/run.invoker en el servicio B. A es incorrecta porque las claves de API no identifican a un principal de IAM y Cloud Run IAM no las acepta; B es incorrecta porque la invocación de Cloud Run requiere un token de ID, no un token de acceso OAuth2; D es un antipatrón grave que expone la clave de larga duración."
+      },
+      "doc": "https://cloud.google.com/run/docs/authenticating/service-to-service"
+    },
+    {
+      "id": "run-036",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run",
+        "vpc",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-cloud-run-ops"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "How do you restrict a Cloud Run service so it can only be reached from your VPC networks and internal Google Cloud traffic, not from the internet?",
+        "es": "¿Cómo restringes un servicio de Cloud Run para que solo sea accesible desde tus redes de VPC y tráfico interno de Google Cloud, no desde internet?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud run services update api --ingress internal",
+          "es": "gcloud run services update api --ingress internal"
+        },
+        {
+          "en": "gcloud run services update api --no-allow-unauthenticated",
+          "es": "gcloud run services update api --no-allow-unauthenticated"
+        },
+        {
+          "en": "Delete the service's run.app URL",
+          "es": "Eliminar la URL run.app del servicio"
+        },
+        {
+          "en": "Create a VPC firewall rule that blocks the service's IP",
+          "es": "Crear una regla de firewall de VPC que bloquee la IP del servicio"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Ingress settings control the network paths allowed to reach the service; 'internal' limits it to VPC and internal Google traffic. B controls authentication (who), not the network path (from where): the URL stays reachable from the internet and returns 403 to anonymous calls; C is not possible, the URL always exists; D is wrong because VPC firewall rules do not govern access to Cloud Run's managed endpoint.",
+        "es": "La configuración de ingress controla las rutas de red que pueden llegar al servicio; 'internal' lo limita a la VPC y al tráfico interno de Google. B controla la autenticación (quién), no la ruta de red (desde dónde): la URL sigue siendo alcanzable desde internet y devuelve 403 a llamadas anónimas; C no es posible, la URL siempre existe; D es incorrecta porque las reglas de firewall de VPC no gobiernan el acceso al endpoint administrado de Cloud Run."
+      },
+      "doc": "https://cloud.google.com/run/docs/securing/ingress"
+    },
+    {
+      "id": "run-037",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run",
+        "service-accounts",
+        "iam"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.2-sa-least-privilege"
+      ],
+      "nivel": "intermedio",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO steps are required for a Cloud Run service to read a secret from Secret Manager at runtime?",
+        "es": "¿Cuáles DOS pasos se requieren para que un servicio de Cloud Run lea un secreto de Secret Manager en tiempo de ejecución?"
+      },
+      "opciones": [
+        {
+          "en": "Grant roles/owner to the service's runtime service account",
+          "es": "Otorgar roles/owner a la cuenta de servicio de ejecución del servicio"
+        },
+        {
+          "en": "Grant roles/secretmanager.secretAccessor on the secret to the service's runtime service account",
+          "es": "Otorgar roles/secretmanager.secretAccessor sobre el secreto a la cuenta de servicio de ejecución del servicio"
+        },
+        {
+          "en": "Reference the secret in the service configuration, for example with --set-secrets as an environment variable or mounted volume",
+          "es": "Referenciar el secreto en la configuración del servicio, por ejemplo con --set-secrets como variable de entorno o volumen montado"
+        },
+        {
+          "en": "Paste the secret value directly into a plain environment variable",
+          "es": "Pegar el valor del secreto directamente en una variable de entorno de texto plano"
+        }
+      ],
+      "respuesta": [
+        "B",
+        "C"
+      ],
+      "explicacion": {
+        "en": "The runtime SA needs secretAccessor on the secret, and the service must reference the secret (env var or volume) so Cloud Run injects it. A grants vastly excessive permissions violating least privilege; D bypasses Secret Manager entirely and stores the value unencrypted in the service configuration.",
+        "es": "La cuenta de ejecución necesita secretAccessor sobre el secreto, y el servicio debe referenciarlo (variable de entorno o volumen) para que Cloud Run lo inyecte. A otorga permisos enormemente excesivos que violan el privilegio mínimo; D omite Secret Manager por completo y guarda el valor sin cifrar en la configuración del servicio."
+      },
+      "doc": "https://cloud.google.com/run/docs/configuring/services/secrets"
+    },
+    {
+      "id": "run-038",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-cloud-run-ops"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "How do you deploy a new revision that receives NO production traffic but is reachable at a dedicated URL for testing?",
+        "es": "¿Cómo implementas una nueva revision que NO reciba tráfico de producción pero sea accesible en una URL dedicada para pruebas?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud run deploy api --image IMAGE --max-instances 0",
+          "es": "gcloud run deploy api --image IMAGE --max-instances 0"
+        },
+        {
+          "en": "Deploy to a different Google Cloud project and copy the data",
+          "es": "Implementar en otro proyecto de Google Cloud y copiar los datos"
+        },
+        {
+          "en": "gcloud run deploy api --image IMAGE --ingress internal",
+          "es": "gcloud run deploy api --image IMAGE --ingress internal"
+        },
+        {
+          "en": "gcloud run deploy api --image IMAGE --no-traffic --tag canary",
+          "es": "gcloud run deploy api --image IMAGE --no-traffic --tag canary"
+        }
+      ],
+      "respuesta": [
+        "D"
+      ],
+      "explicacion": {
+        "en": "--no-traffic keeps 100% of traffic on the current revisions and --tag gives the new revision its own URL (for example canary---api-xxxx.run.app) for direct testing. A prevents the revision from running at all; B duplicates infrastructure instead of using revision tags; C changes the allowed network paths for the whole service, it does not isolate the new revision.",
+        "es": "--no-traffic mantiene el 100% del tráfico en las revisions actuales y --tag da a la nueva revision su propia URL (por ejemplo canary---api-xxxx.run.app) para probarla directamente. A impide que la revision se ejecute; B duplica infraestructura en lugar de usar etiquetas de revision; C cambia las rutas de red permitidas para todo el servicio, no aísla la nueva revision."
+      },
+      "doc": "https://cloud.google.com/run/docs/rollouts-rollbacks-traffic-migration"
+    },
+    {
+      "id": "run-039",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-cloud-run-ops"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Each request to your service loads a large model into memory and saturates the instance. Requests interfere with each other when processed together. What should you configure?",
+        "es": "Cada solicitud a tu servicio carga un modelo grande en memoria y satura la instancia. Las solicitudes se interfieren cuando se procesan juntas. ¿Qué deberías configurar?"
+      },
+      "opciones": [
+        {
+          "en": "Increase concurrency to 1000 so requests share the loaded model",
+          "es": "Aumentar la concurrencia a 1000 para que las solicitudes compartan el modelo cargado"
+        },
+        {
+          "en": "Set concurrency to 1 so each instance processes a single request at a time",
+          "es": "Configurar la concurrencia en 1 para que cada instancia procese una sola solicitud a la vez"
+        },
+        {
+          "en": "Set minimum instances to 0",
+          "es": "Configurar el mínimo de instancias en 0"
+        },
+        {
+          "en": "Add a traffic tag to the revision",
+          "es": "Agregar una etiqueta de tráfico a la revision"
+        }
+      ],
+      "respuesta": [
+        "B"
+      ],
+      "explicacion": {
+        "en": "When requests are resource-heavy and interfere, concurrency 1 dedicates an instance per request and autoscaling creates more instances as needed. A worsens the contention; C affects idle scaling behavior, not per-instance load; D only creates an addressable URL and has no effect on resource contention.",
+        "es": "Cuando las solicitudes consumen muchos recursos y se interfieren, la concurrencia en 1 dedica una instancia por solicitud y el autoescalado crea más instancias según se necesiten. A empeora la contención; C afecta el comportamiento de escalado en reposo, no la carga por instancia; D solo crea una URL direccionable y no afecta la contención de recursos."
+      },
+      "doc": "https://cloud.google.com/run/docs/configuring/concurrency"
+    },
+    {
+      "id": "run-040",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "pubsub",
+        "cloud-run",
+        "service-accounts"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-serverless-events"
+      ],
+      "nivel": "intermedio",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO configurations are needed so Pub/Sub can push messages to a private Cloud Run service?",
+        "es": "¿Cuáles DOS configuraciones se necesitan para que Pub/Sub envíe mensajes push a un servicio privado de Cloud Run?"
+      },
+      "opciones": [
+        {
+          "en": "A push subscription whose endpoint is the Cloud Run service URL",
+          "es": "Una suscripción push cuyo endpoint sea la URL del servicio de Cloud Run"
+        },
+        {
+          "en": "Granting roles/run.invoker to allUsers on the service",
+          "es": "Otorgar roles/run.invoker a allUsers en el servicio"
+        },
+        {
+          "en": "Associating the subscription with a service account that has roles/run.invoker on the service",
+          "es": "Asociar la suscripción a una cuenta de servicio que tenga roles/run.invoker en el servicio"
+        },
+        {
+          "en": "A pull subscription with no attached consumer",
+          "es": "Una suscripción pull sin ningún consumidor asociado"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "C"
+      ],
+      "explicacion": {
+        "en": "The push subscription delivers messages to the service URL, and configuring the subscription with an invoker service account lets Pub/Sub authenticate to the private service with an OIDC token. B makes the service public, defeating the private requirement; D delivers nothing because pull subscriptions wait for a consumer to fetch messages.",
+        "es": "La suscripción push entrega los mensajes a la URL del servicio, y configurar la suscripción con una cuenta de servicio invocadora permite a Pub/Sub autenticarse ante el servicio privado con un token de OIDC. B hace público el servicio, anulando el requisito de privacidad; D no entrega nada porque las suscripciones pull esperan a que un consumidor extraiga los mensajes."
+      },
+      "doc": "https://cloud.google.com/run/docs/triggering/pubsub-push"
+    },
+    {
+      "id": "run-041",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-cloud-run-ops"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "The latest revision api-00042 is failing in production with 100% of traffic. Which command returns all traffic to the previous healthy revision api-00041?",
+        "es": "La última revision api-00042 falla en producción con el 100% del tráfico. ¿Qué comando devuelve todo el tráfico a la revision sana anterior api-00041?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud run revisions delete api-00042",
+          "es": "gcloud run revisions delete api-00042"
+        },
+        {
+          "en": "gcloud run services update api --clear-traffic",
+          "es": "gcloud run services update api --clear-traffic"
+        },
+        {
+          "en": "gcloud run services update-traffic api --to-revisions api-00041=100",
+          "es": "gcloud run services update-traffic api --to-revisions api-00041=100"
+        },
+        {
+          "en": "gcloud run deploy api --rollback",
+          "es": "gcloud run deploy api --rollback"
+        }
+      ],
+      "respuesta": [
+        "C"
+      ],
+      "explicacion": {
+        "en": "Because revisions are immutable and kept, pointing 100% of traffic back to api-00041 is an instant rollback with no rebuild. A deletes the broken revision but does not define where traffic goes and is unnecessary for rollback; B is not a valid traffic flag on that command; D does not exist, gcloud run deploy has no --rollback flag.",
+        "es": "Como las revisions son inmutables y se conservan, apuntar el 100% del tráfico de vuelta a api-00041 es una reversión instantánea sin recompilar. A elimina la revision rota pero no define a dónde va el tráfico y no es necesario para revertir; B no es una marca válida de tráfico en ese comando; D no existe, gcloud run deploy no tiene la marca --rollback."
+      },
+      "doc": "https://cloud.google.com/run/docs/rollouts-rollbacks-traffic-migration"
+    },
+    {
+      "id": "run-042",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-cloud-run-ops"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Users complain about slow first responses after periods of no traffic. Which command mitigates this at moderate cost?",
+        "es": "Los usuarios se quejan de primeras respuestas lentas después de períodos sin tráfico. ¿Qué comando mitiga esto con un costo moderado?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud run services update api --min-instances 2",
+          "es": "gcloud run services update api --min-instances 2"
+        },
+        {
+          "en": "gcloud run services update api --max-instances 100",
+          "es": "gcloud run services update api --max-instances 100"
+        },
+        {
+          "en": "gcloud run services update api --concurrency 500",
+          "es": "gcloud run services update api --concurrency 500"
+        },
+        {
+          "en": "gcloud run services update api --ingress all",
+          "es": "gcloud run services update api --ingress all"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Slow first responses after idle periods are cold starts; keeping a small minimum of warm instances eliminates them for typical load. B raises the scaling ceiling, which does nothing when scaling from zero; C changes how many requests share one instance, not startup latency; D controls allowed network paths, unrelated to latency.",
+        "es": "Las primeras respuestas lentas tras períodos inactivos son arranques en frío; mantener un mínimo pequeño de instancias listas los elimina para cargas típicas. B sube el techo de escalamiento, lo que no ayuda al escalar desde cero; C cambia cuántas solicitudes comparten una instancia, no la latencia de arranque; D controla las rutas de red permitidas, sin relación con la latencia."
+      },
+      "doc": "https://cloud.google.com/run/docs/configuring/min-instances"
+    },
+    {
+      "id": "run-043",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "eventarc",
+        "cloud-run",
+        "service-accounts"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-serverless-events"
+      ],
+      "nivel": "intermedio",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO roles does the service account used by an Eventarc trigger typically need to deliver events to an authenticated Cloud Run service?",
+        "es": "¿Cuáles DOS roles necesita normalmente la cuenta de servicio que usa un activador de Eventarc para entregar eventos a un servicio autenticado de Cloud Run?"
+      },
+      "opciones": [
+        {
+          "en": "roles/eventarc.eventReceiver, to receive the source events",
+          "es": "roles/eventarc.eventReceiver, para recibir los eventos del origen"
+        },
+        {
+          "en": "roles/owner on the project",
+          "es": "roles/owner en el proyecto"
+        },
+        {
+          "en": "roles/run.invoker on the destination service",
+          "es": "roles/run.invoker en el servicio de destino"
+        },
+        {
+          "en": "roles/pubsub.admin on all project topics",
+          "es": "roles/pubsub.admin en todos los temas del proyecto"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "C"
+      ],
+      "explicacion": {
+        "en": "The trigger's SA needs eventarc.eventReceiver to receive events and run.invoker to call the authenticated Cloud Run destination. B is a massive over-grant that violates least privilege; D is unnecessary because Eventarc manages its internal Pub/Sub transport without requiring admin on every topic.",
+        "es": "La cuenta del activador necesita eventarc.eventReceiver para recibir eventos y run.invoker para llamar al destino autenticado de Cloud Run. B es un exceso enorme que viola el privilegio mínimo; D es innecesario porque Eventarc administra su transporte interno de Pub/Sub sin requerir administración sobre cada tema."
+      },
+      "doc": "https://cloud.google.com/eventarc/docs/access-control"
+    },
+    {
+      "id": "run-044",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You run 'gcloud run deploy --source .' in a directory WITHOUT a Dockerfile. What does the build use to create the container image?",
+        "es": "Ejecutas 'gcloud run deploy --source .' en un directorio SIN Dockerfile. ¿Qué usa la compilación para crear la imagen de contenedor?"
+      },
+      "opciones": [
+        {
+          "en": "The deployment fails because a Dockerfile is mandatory",
+          "es": "La implementación falla porque el Dockerfile es obligatorio"
+        },
+        {
+          "en": "The source is compressed and executed directly without an image",
+          "es": "El código se comprime y se ejecuta directamente sin una imagen"
+        },
+        {
+          "en": "An App Engine flexible environment runtime",
+          "es": "Un entorno de ejecución de App Engine flexible"
+        },
+        {
+          "en": "Google Cloud buildpacks, which detect the language and build a container image automatically",
+          "es": "Los buildpacks de Google Cloud, que detectan el lenguaje y compilan una imagen de contenedor automáticamente"
+        }
+      ],
+      "respuesta": [
+        "D"
+      ],
+      "explicacion": {
+        "en": "Without a Dockerfile, Cloud Build applies Google Cloud buildpacks that detect the runtime (Node.js, Python, Go, Java, etc.) and produce an image. A is wrong because the Dockerfile is optional; B is wrong because Cloud Run only runs container images; C is wrong because App Engine runtimes are a different product's mechanism.",
+        "es": "Sin Dockerfile, Cloud Build aplica los buildpacks de Google Cloud que detectan el runtime (Node.js, Python, Go, Java, etc.) y producen una imagen. A es incorrecta porque el Dockerfile es opcional; B es incorrecta porque Cloud Run solo ejecuta imágenes de contenedor; C es incorrecta porque los runtimes de App Engine son el mecanismo de otro producto."
+      },
+      "doc": "https://cloud.google.com/run/docs/deploying-source-code"
+    },
+    {
+      "id": "run-045",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run",
+        "gke",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A team must migrate a legacy application that keeps session state on a local disk, runs continuous background threads even when idle, and requires a licensed kernel module. They want the least amount of rework. What is the BEST compute option?",
+        "es": "Un equipo debe migrar una aplicación heredada que guarda el estado de sesión en un disco local, ejecuta subprocesos en segundo plano de forma continua incluso sin tráfico y requiere un módulo de kernel con licencia. Quieren el menor retrabajo posible. ¿Cuál es la MEJOR opción de cómputo?"
+      },
+      "opciones": [
+        {
+          "en": "Compute Engine VMs with a persistent disk",
+          "es": "VMs de Compute Engine con un persistent disk"
+        },
+        {
+          "en": "A Cloud Run service with CPU always allocated",
+          "es": "Un servicio de Cloud Run con CPU siempre asignada"
+        },
+        {
+          "en": "A Cloud Run job triggered by Cloud Scheduler",
+          "es": "Un job de Cloud Run activado por Cloud Scheduler"
+        },
+        {
+          "en": "Cloud Run functions with a long request timeout",
+          "es": "Cloud Run functions con un tiempo de espera de solicitud largo"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Compute Engine gives full control of the OS kernel and durable local block storage, so a stateful legacy app can be lifted and shifted with almost no code change. B fails because Cloud Run instances are stateless and ephemeral: the local filesystem is in-memory and lost when the instance is recycled, and custom kernel modules are not allowed in the sandbox. C is for finite batch executions, not a permanently running stateful app. D is even more constrained than a Cloud Run service and is designed for short, stateless, event-driven code.",
+        "es": "Compute Engine da control total del kernel del SO y almacenamiento de bloques duradero, por lo que una app heredada con estado se puede migrar tal cual con casi ningún cambio de código. B falla porque las instancias de Cloud Run son sin estado y efímeras: el sistema de archivos local vive en memoria y se pierde al reciclar la instancia, y no se permiten módulos de kernel personalizados en el sandbox. C sirve para ejecuciones batch finitas, no para una app con estado siempre activa. D es aún más restringido que un servicio de Cloud Run y está pensado para código corto, sin estado y basado en eventos."
+      },
+      "doc": "https://cloud.google.com/run/docs/container-contract"
+    },
+    {
+      "id": "run-046",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run",
+        "gke",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A small team has a stateless Python web API in a Git repository, no Dockerfile, and no Kubernetes experience. Traffic is near zero at night and spikes during the day. They want the lowest operational overhead and to pay nothing when idle. What is the BEST approach?",
+        "es": "Un equipo pequeño tiene una API web en Python sin estado en un repositorio de Git, sin Dockerfile y sin experiencia en Kubernetes. El tráfico es casi nulo de noche y tiene picos de día. Quieren la menor carga operativa y no pagar cuando no hay tráfico. ¿Cuál es el MEJOR enfoque?"
+      },
+      "opciones": [
+        {
+          "en": "Deploy to Cloud Run with 'gcloud run deploy --source .', letting Cloud Build produce the image with buildpacks",
+          "es": "Implementar en Cloud Run con 'gcloud run deploy --source .', dejando que Cloud Build genere la imagen con buildpacks"
+        },
+        {
+          "en": "Create a GKE Autopilot cluster and deploy a Deployment plus a Service of type LoadBalancer",
+          "es": "Crear un clúster de GKE Autopilot e implementar un Deployment más un Service de tipo LoadBalancer"
+        },
+        {
+          "en": "Create a managed instance group of Compute Engine VMs with autoscaling based on CPU",
+          "es": "Crear un grupo de instancias administrado de VMs de Compute Engine con autoescalado según CPU"
+        },
+        {
+          "en": "Run the API on a single e2-micro VM and resize it manually when traffic grows",
+          "es": "Ejecutar la API en una sola VM e2-micro y redimensionarla manualmente cuando crezca el tráfico"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Source-based deployment to Cloud Run builds the container for the team with buildpacks (no Dockerfile needed), scales to zero so idle time costs nothing, and requires no cluster or VM administration. B works but forces the team to learn Kubernetes and keeps a cluster and load balancer billed continuously. C requires managing instance templates, images, health checks and a load balancer, and MIGs do not scale to zero for a serving workload. D cannot absorb daytime spikes and is a manual, single point of failure.",
+        "es": "La implementación desde el código fuente en Cloud Run construye el contenedor por el equipo con buildpacks (sin Dockerfile), escala a cero para que el tiempo inactivo no cueste nada y no exige administrar clústeres ni VMs. B funciona, pero obliga al equipo a aprender Kubernetes y mantiene un clúster y un balanceador facturados de forma continua. C exige administrar plantillas de instancias, imágenes, verificaciones de estado y un balanceador, y los MIG no escalan a cero para una carga de servicio. D no puede absorber los picos diurnos y es manual y un único punto de falla."
+      },
+      "doc": "https://cloud.google.com/run/docs/deploying-source-code"
+    },
+    {
+      "id": "run-047",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-cloud-run-ops"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You must release a risky change to a production Cloud Run service. You want to expose it to a small share of real users first, watch error rates, and be able to undo the change within seconds. What is the BEST approach?",
+        "es": "Debes liberar un cambio riesgoso en un servicio de Cloud Run en producción. Quieres exponerlo primero a una pequeña porción de usuarios reales, observar la tasa de errores y poder revertirlo en segundos. ¿Cuál es el MEJOR enfoque?"
+      },
+      "opciones": [
+        {
+          "en": "Deploy the new revision with --no-traffic, then gradually shift traffic to it with 'gcloud run services update-traffic --to-revisions'",
+          "es": "Implementar la revisión nueva con --no-traffic y luego desplazar tráfico gradualmente con 'gcloud run services update-traffic --to-revisions'"
+        },
+        {
+          "en": "Deploy the new revision normally so it takes 100% of traffic, and redeploy the old image if metrics degrade",
+          "es": "Implementar la revisión nueva de forma normal para que tome el 100% del tráfico y volver a implementar la imagen anterior si las métricas empeoran"
+        },
+        {
+          "en": "Create a second Cloud Run service with the new image and ask users to switch to its URL",
+          "es": "Crear un segundo servicio de Cloud Run con la imagen nueva y pedir a los usuarios que cambien a su URL"
+        },
+        {
+          "en": "Delete the current revision and deploy the new one during a maintenance window",
+          "es": "Borrar la revisión actual e implementar la nueva durante una ventana de mantenimiento"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Deploying with --no-traffic and then moving a percentage with update-traffic is the built-in canary pattern: the previous revision stays healthy and serving, so rolling back is a single traffic update that takes effect almost immediately. B exposes 100% of users to the risky change and forces a rebuild and redeploy to recover, which is far slower. C splits users across two URLs, gives no percentage control, and cannot be reverted centrally. D causes an outage and still leaves no fast rollback path because the old revision is gone.",
+        "es": "Implementar con --no-traffic y luego mover un porcentaje con update-traffic es el patrón canary integrado: la revisión anterior sigue sana y sirviendo, por lo que revertir es una sola actualización de tráfico que surte efecto casi de inmediato. B expone al 100% de los usuarios al cambio riesgoso y obliga a reconstruir y volver a implementar para recuperarse, lo que es mucho más lento. C reparte usuarios entre dos URLs, no da control por porcentaje y no se puede revertir de forma centralizada. D provoca una interrupción y aun así no deja una vía rápida de rollback porque la revisión anterior ya no existe."
+      },
+      "doc": "https://cloud.google.com/run/docs/rollouts-rollbacks-traffic-migration"
+    },
+    {
+      "id": "run-048",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run",
+        "cloud-monitoring"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-cloud-run-ops"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A Cloud Run service is returning HTTP 500 errors after a deployment 10 minutes ago. Several older revisions still exist. What is the BEST first action to restore service?",
+        "es": "Un servicio de Cloud Run devuelve errores HTTP 500 después de una implementación hecha hace 10 minutos. Todavía existen varias revisiones anteriores. ¿Cuál es la MEJOR primera acción para restablecer el servicio?"
+      },
+      "opciones": [
+        {
+          "en": "Send 100% of traffic back to the last known good revision with 'gcloud run services update-traffic'",
+          "es": "Enviar el 100% del tráfico de vuelta a la última revisión buena conocida con 'gcloud run services update-traffic'"
+        },
+        {
+          "en": "Revert the commit, rebuild the image, and deploy a new revision",
+          "es": "Revertir el commit, reconstruir la imagen e implementar una revisión nueva"
+        },
+        {
+          "en": "Increase min instances and max instances to absorb the errors",
+          "es": "Aumentar las instancias mínimas y máximas para absorber los errores"
+        },
+        {
+          "en": "Delete the failing revision so traffic automatically returns to the previous one",
+          "es": "Borrar la revisión con fallas para que el tráfico regrese automáticamente a la anterior"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Because revisions are immutable and retained, shifting 100% of traffic to a previous healthy revision restores service in seconds without any build. B eventually fixes the root cause but leaves users failing while the build and deploy run, so it is the follow-up action, not the first one. C does not help: the errors come from the application code, not from capacity. D is wrong because you cannot delete a revision that is serving traffic, and deleting revisions is not a rollback mechanism.",
+        "es": "Como las revisiones son inmutables y se conservan, mover el 100% del tráfico a una revisión anterior sana restablece el servicio en segundos sin ninguna compilación. B corrige la causa raíz con el tiempo, pero deja a los usuarios con errores mientras corren la compilación y la implementación, así que es la acción posterior, no la primera. C no ayuda: los errores vienen del código de la aplicación, no de la capacidad. D es incorrecta porque no puedes borrar una revisión que está sirviendo tráfico, y borrar revisiones no es un mecanismo de rollback."
+      },
+      "doc": "https://cloud.google.com/run/docs/managing/revisions"
+    },
+    {
+      "id": "run-049",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run",
+        "pubsub"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-cloud-run-ops"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A Cloud Run service returns HTTP 200 immediately and then keeps writing results to Pub/Sub in a background thread. Users report that those results arrive minutes late or never. What is the BEST fix?",
+        "es": "Un servicio de Cloud Run devuelve HTTP 200 de inmediato y luego sigue escribiendo resultados en Pub/Sub desde un subproceso en segundo plano. Los usuarios reportan que esos resultados llegan minutos tarde o nunca. ¿Cuál es la MEJOR solución?"
+      },
+      "opciones": [
+        {
+          "en": "Configure the service with CPU always allocated so instances keep CPU outside of request processing",
+          "es": "Configurar el servicio con CPU siempre asignada para que las instancias conserven CPU fuera del procesamiento de solicitudes"
+        },
+        {
+          "en": "Increase the concurrency setting so each instance handles more requests",
+          "es": "Aumentar la configuración de concurrencia para que cada instancia atienda más solicitudes"
+        },
+        {
+          "en": "Increase the maximum number of instances",
+          "es": "Aumentar el número máximo de instancias"
+        },
+        {
+          "en": "Increase the memory limit of the container",
+          "es": "Aumentar el límite de memoria del contenedor"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "With the default request-based CPU allocation, CPU is throttled to near zero once the response is sent, so background threads stall or are killed when the instance is recycled. Setting CPU to always allocated keeps the instance running with CPU between requests, which is exactly the supported pattern for background work. B changes how many requests share an instance but does not grant CPU after the response. C adds more instances, none of which get post-response CPU either. D addresses memory pressure, not CPU throttling.",
+        "es": "Con la asignación de CPU basada en solicitudes (la predeterminada), la CPU se limita casi a cero en cuanto se envía la respuesta, por lo que los subprocesos en segundo plano se detienen o mueren cuando se recicla la instancia. Configurar la CPU como siempre asignada mantiene la instancia con CPU entre solicitudes, que es justo el patrón admitido para trabajo en segundo plano. B cambia cuántas solicitudes comparten una instancia, pero no otorga CPU después de la respuesta. C agrega más instancias, y ninguna recibe CPU posterior a la respuesta. D atiende presión de memoria, no la limitación de CPU."
+      },
+      "doc": "https://cloud.google.com/run/docs/configuring/cpu-allocation"
+    },
+    {
+      "id": "run-050",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run",
+        "billing"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-cloud-run-ops"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "An internal Cloud Run API is used only during business hours, but the first request each morning takes 12 seconds because the container loads a large dependency tree. The team wants predictable latency during the day while keeping night costs as low as possible. What is the BEST configuration?",
+        "es": "Una API interna en Cloud Run se usa solo en horario laboral, pero la primera solicitud de cada mañana tarda 12 segundos porque el contenedor carga un árbol de dependencias grande. El equipo quiere latencia predecible durante el día y el menor costo posible de noche. ¿Cuál es la MEJOR configuración?"
+      },
+      "opciones": [
+        {
+          "en": "Set a minimum number of instances greater than zero and schedule it back to zero outside business hours",
+          "es": "Configurar un número mínimo de instancias mayor que cero y programarlo de vuelta a cero fuera del horario laboral"
+        },
+        {
+          "en": "Set CPU always allocated and leave minimum instances at zero",
+          "es": "Configurar la CPU como siempre asignada y dejar las instancias mínimas en cero"
+        },
+        {
+          "en": "Raise the maximum number of instances so more instances are ready",
+          "es": "Subir el número máximo de instancias para que haya más instancias listas"
+        },
+        {
+          "en": "Raise the request timeout to 60 minutes so slow starts do not fail",
+          "es": "Subir el tiempo de espera de la solicitud a 60 minutos para que los inicios lentos no fallen"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Minimum instances keep warm instances ready so no user pays the cold-start cost, and returning the setting to zero at night removes the idle charge, matching both requirements. B does not prevent cold starts: with zero minimum instances there is no instance to keep warm, and CPU always allocated only changes CPU behavior for instances that already exist. C only raises the ceiling for scaling out under load; it never pre-warms anything. D hides nothing about latency, it just allows a long request to keep waiting, which is worse for users.",
+        "es": "Las instancias mínimas mantienen instancias tibias listas para que ningún usuario pague el costo del cold start, y devolver el valor a cero de noche elimina el cargo por inactividad, cumpliendo ambos requisitos. B no evita los cold starts: con instancias mínimas en cero no hay instancia que mantener tibia, y la CPU siempre asignada solo cambia el comportamiento de CPU de las instancias que ya existen. C solo eleva el techo de escalamiento bajo carga; nunca precalienta nada. D no mejora la latencia, solo permite que una solicitud lenta siga esperando, lo que es peor para los usuarios."
+      },
+      "doc": "https://cloud.google.com/run/docs/configuring/min-instances"
+    },
+    {
+      "id": "run-051",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run",
+        "cloud-sql"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-cloud-run-ops"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "During traffic spikes, a Cloud Run service scales out so aggressively that it exhausts the connection limit of its Cloud SQL instance and requests start failing. What is the BEST way to protect the database?",
+        "es": "Durante los picos de tráfico, un servicio de Cloud Run escala de forma tan agresiva que agota el límite de conexiones de su instancia de Cloud SQL y las solicitudes empiezan a fallar. ¿Cuál es la MEJOR forma de proteger la base de datos?"
+      },
+      "opciones": [
+        {
+          "en": "Set a maximum number of instances that keeps total connections under the Cloud SQL limit",
+          "es": "Configurar un número máximo de instancias que mantenga el total de conexiones por debajo del límite de Cloud SQL"
+        },
+        {
+          "en": "Set a minimum number of instances so instances are always warm",
+          "es": "Configurar un número mínimo de instancias para que siempre estén tibias"
+        },
+        {
+          "en": "Lower the concurrency to 1 so each request gets its own instance",
+          "es": "Bajar la concurrencia a 1 para que cada solicitud tenga su propia instancia"
+        },
+        {
+          "en": "Switch the service to CPU always allocated",
+          "es": "Cambiar el servicio a CPU siempre asignada"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Maximum instances is the control that caps how many container instances can exist at once, and since each instance holds a connection pool, capping instances directly caps connections to Cloud SQL. B controls warm capacity at the low end and does nothing about the upper bound. C makes the problem worse: with concurrency 1 the service needs far more instances for the same traffic, so it opens more connections, not fewer. D changes CPU billing and background behavior and has no effect on how far the service scales out.",
+        "es": "El número máximo de instancias es el control que limita cuántas instancias de contenedor pueden existir a la vez y, como cada instancia mantiene un pool de conexiones, limitar instancias limita directamente las conexiones a Cloud SQL. B controla la capacidad tibia en el extremo bajo y no hace nada con el límite superior. C empeora el problema: con concurrencia 1 el servicio necesita muchas más instancias para el mismo tráfico, así que abre más conexiones, no menos. D cambia la facturación de CPU y el comportamiento en segundo plano, y no afecta hasta dónde escala el servicio."
+      },
+      "doc": "https://cloud.google.com/run/docs/configuring/max-instances"
+    },
+    {
+      "id": "run-052",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run",
+        "service-accounts",
+        "iam"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.2-sa-least-privilege"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Twelve Cloud Run services in one project all run as the default compute service account, which holds the Editor role. A security review demands least privilege with minimal disruption. What is the BEST remediation?",
+        "es": "Doce servicios de Cloud Run en un proyecto se ejecutan con la cuenta de servicio predeterminada de Compute, que tiene el rol de Editor. Una revisión de seguridad exige privilegio mínimo con la menor interrupción posible. ¿Cuál es la MEJOR corrección?"
+      },
+      "opciones": [
+        {
+          "en": "Create a dedicated service account per service, grant each one only the roles that service needs, and redeploy each service with --service-account",
+          "es": "Crear una cuenta de servicio dedicada por servicio, otorgar a cada una solo los roles que ese servicio necesita y volver a implementar cada servicio con --service-account"
+        },
+        {
+          "en": "Keep the default service account but replace Editor with Owner so permissions are explicit",
+          "es": "Conservar la cuenta de servicio predeterminada, pero reemplazar Editor por Owner para que los permisos sean explícitos"
+        },
+        {
+          "en": "Create one shared custom service account with Editor and assign it to all twelve services",
+          "es": "Crear una única cuenta de servicio personalizada con Editor y asignarla a los doce servicios"
+        },
+        {
+          "en": "Export a service account key for each service and store it in the container image",
+          "es": "Exportar una clave de cuenta de servicio por servicio y almacenarla en la imagen del contenedor"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "One service account per service, granted only the specific predefined roles that workload needs, is the standard least-privilege pattern and limits the blast radius if a single service is compromised. B is the opposite of least privilege: Owner is broader than Editor. C keeps the same excessive Editor permissions and keeps every service sharing one identity, so nothing improves. D is worse still: exported keys are long-lived credentials, and baking them into an image exposes them to anyone who can pull the image, while Cloud Run already provides keyless identity through the attached service account.",
+        "es": "Una cuenta de servicio por servicio, con solo los roles predefinidos específicos que necesita esa carga de trabajo, es el patrón estándar de privilegio mínimo y limita el radio de impacto si un servicio se ve comprometido. B es lo contrario al privilegio mínimo: Owner es más amplio que Editor. C mantiene los mismos permisos excesivos de Editor y deja a todos los servicios compartiendo una identidad, así que no mejora nada. D es aún peor: las claves exportadas son credenciales de larga duración e incluirlas en una imagen las expone a cualquiera que pueda descargarla, cuando Cloud Run ya ofrece identidad sin claves mediante la cuenta de servicio adjunta."
+      },
+      "doc": "https://cloud.google.com/run/docs/securing/service-identity"
+    },
+    {
+      "id": "run-053",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run",
+        "iam"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.1-iam-policies"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A Cloud Run service currently grants roles/run.invoker to allUsers. It must instead be callable only by employees of a partner company who already have Google identities managed in a Google group. What is the BEST change?",
+        "es": "Un servicio de Cloud Run actualmente otorga roles/run.invoker a allUsers. En cambio, debe poder ser invocado solo por empleados de una empresa asociada que ya tienen identidades de Google administradas en un grupo de Google. ¿Cuál es el MEJOR cambio?"
+      },
+      "opciones": [
+        {
+          "en": "Remove the allUsers binding and grant roles/run.invoker to the Google group on the service",
+          "es": "Quitar la vinculación de allUsers y otorgar roles/run.invoker al grupo de Google en el servicio"
+        },
+        {
+          "en": "Keep allUsers and validate an API key inside the application code",
+          "es": "Conservar allUsers y validar una clave de API dentro del código de la aplicación"
+        },
+        {
+          "en": "Grant roles/run.invoker to allAuthenticatedUsers on the service",
+          "es": "Otorgar roles/run.invoker a allAuthenticatedUsers en el servicio"
+        },
+        {
+          "en": "Grant each partner employee the Editor role on the project",
+          "es": "Otorgar a cada empleado de la empresa asociada el rol de Editor en el proyecto"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Removing allUsers makes the service private, and binding roles/run.invoker to the group means Cloud Run itself rejects unauthenticated or unauthorized callers before the request reaches your code; group membership then manages access as people join or leave. B leaves the endpoint open to the internet and moves authorization into application code, where a leaked key grants full access. C is far too broad: allAuthenticatedUsers means any Google account in the world, not just the partner. D grants sweeping project-wide write permissions to satisfy a simple invoke requirement, violating least privilege.",
+        "es": "Quitar allUsers vuelve privado el servicio, y vincular roles/run.invoker al grupo hace que Cloud Run mismo rechace a los invocadores no autenticados o no autorizados antes de que la solicitud llegue a tu código; luego la membresía del grupo administra el acceso conforme entra o sale gente. B deja el endpoint abierto a internet y traslada la autorización al código de la aplicación, donde una clave filtrada da acceso completo. C es demasiado amplia: allAuthenticatedUsers significa cualquier cuenta de Google del mundo, no solo la de la empresa asociada. D otorga permisos de escritura amplios en todo el proyecto para cumplir un requisito simple de invocación, lo que viola el privilegio mínimo."
+      },
+      "doc": "https://cloud.google.com/run/docs/securing/managing-access"
+    },
+    {
+      "id": "run-054",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run",
+        "vpc"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-cloud-run-ops"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "An internal reporting service on Cloud Run must be reachable only from Compute Engine VMs inside the company VPC. It must never be reachable from the public internet, even by an authenticated caller. What is the BEST configuration?",
+        "es": "Un servicio interno de reportes en Cloud Run debe ser alcanzable solo desde VMs de Compute Engine dentro de la VPC de la empresa. Nunca debe ser alcanzable desde la internet pública, ni siquiera por un invocador autenticado. ¿Cuál es la MEJOR configuración?"
+      },
+      "opciones": [
+        {
+          "en": "Set ingress to internal, so only traffic from the VPC and internal Google Cloud sources reaches the service",
+          "es": "Configurar el ingress como interno, para que solo el tráfico de la VPC y de fuentes internas de Google Cloud llegue al servicio"
+        },
+        {
+          "en": "Keep ingress set to all and rely on requiring authentication with roles/run.invoker",
+          "es": "Dejar el ingress en todo y confiar en exigir autenticación con roles/run.invoker"
+        },
+        {
+          "en": "Add a VPC firewall rule that denies ingress to the Cloud Run service URL",
+          "es": "Agregar una regla de firewall de VPC que deniegue el ingreso a la URL del servicio de Cloud Run"
+        },
+        {
+          "en": "Configure Direct VPC egress on the service",
+          "es": "Configurar Direct VPC egress en el servicio"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Ingress settings are the network-level control for Cloud Run: internal ingress makes the service URL unreachable from the internet and accepts only traffic originating inside VPC networks and permitted internal Google Cloud sources. B still leaves the endpoint publicly routable, so any account holding the invoker role from anywhere on the internet can call it, which the requirement forbids. C does not apply: VPC firewall rules govern traffic to VPC resources, not the front end of a managed serverless endpoint. D controls outbound traffic from the service into the VPC and has no effect on who can call the service.",
+        "es": "La configuración de ingress es el control de nivel de red de Cloud Run: el ingress interno hace que la URL del servicio no sea alcanzable desde internet y solo acepta tráfico originado dentro de redes VPC y de fuentes internas permitidas de Google Cloud. B deja el endpoint enrutable públicamente, así que cualquier cuenta con el rol de invocador puede llamarlo desde cualquier lugar de internet, lo que el requisito prohíbe. C no aplica: las reglas de firewall de VPC rigen el tráfico hacia recursos de la VPC, no el front end de un endpoint serverless administrado. D controla el tráfico saliente del servicio hacia la VPC y no influye en quién puede llamar al servicio."
+      },
+      "doc": "https://cloud.google.com/run/docs/securing/ingress"
+    },
+    {
+      "id": "run-055",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run",
+        "cloud-sql",
+        "vpc"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-cloud-run-ops"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A Cloud Run service must reach a Cloud SQL instance that has only a private IP. The platform team wants the fewest components to operate and no extra VM-based infrastructure. What is the BEST option?",
+        "es": "Un servicio de Cloud Run debe alcanzar una instancia de Cloud SQL que solo tiene IP privada. El equipo de plataforma quiere la menor cantidad de componentes que operar y ninguna infraestructura adicional basada en VMs. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        {
+          "en": "Configure Direct VPC egress on the service and connect to the instance private IP",
+          "es": "Configurar Direct VPC egress en el servicio y conectarse a la IP privada de la instancia"
+        },
+        {
+          "en": "Create a Serverless VPC Access connector and route egress through it",
+          "es": "Crear un conector de Serverless VPC Access y enrutar la salida a través de él"
+        },
+        {
+          "en": "Enable a public IP on the Cloud SQL instance and allow the Cloud Run egress range",
+          "es": "Habilitar una IP pública en la instancia de Cloud SQL y permitir el rango de salida de Cloud Run"
+        },
+        {
+          "en": "Deploy a bastion VM that proxies database traffic for the service",
+          "es": "Implementar una VM bastión que haga de proxy del tráfico de base de datos para el servicio"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Direct VPC egress attaches the Cloud Run service straight to a VPC subnet, so it can reach private IPs with no connector instances to size, patch, or pay for, which is the lowest-operations answer. B also works and is the older approach, but a Serverless VPC Access connector is backed by managed VM instances that you must size and that bill continuously, so it is not the fewest components. C reverses the security posture by exposing the database publicly, and Cloud Run does not provide a stable egress IP range to allowlist without extra components. D adds a VM the team must patch and keep highly available, which is exactly what they want to avoid.",
+        "es": "Direct VPC egress conecta el servicio de Cloud Run directamente a una subred de la VPC, por lo que puede alcanzar IPs privadas sin instancias de conector que dimensionar, parchar o pagar, que es la respuesta con menos operación. B también funciona y es el enfoque anterior, pero un conector de Serverless VPC Access se respalda en instancias de VM administradas que hay que dimensionar y que se facturan de forma continua, así que no es la de menos componentes. C invierte la postura de seguridad al exponer la base de datos públicamente, y Cloud Run no ofrece un rango de IP de salida estable para incluir en listas de permitidos sin componentes adicionales. D agrega una VM que el equipo debe parchar y mantener con alta disponibilidad, justo lo que quieren evitar."
+      },
+      "doc": "https://cloud.google.com/run/docs/configuring/vpc-direct-vpc"
+    },
+    {
+      "id": "run-056",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run",
+        "bigquery"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A containerized script must run every night at 02:00, read files from Cloud Storage, load them into BigQuery, and exit. It takes about 90 minutes and serves no HTTP traffic. What is the BEST way to run it?",
+        "es": "Un script en contenedor debe ejecutarse cada noche a las 02:00, leer archivos de Cloud Storage, cargarlos en BigQuery y terminar. Tarda unos 90 minutos y no atiende tráfico HTTP. ¿Cuál es la MEJOR forma de ejecutarlo?"
+      },
+      "opciones": [
+        {
+          "en": "A Cloud Run job triggered on a schedule by Cloud Scheduler",
+          "es": "Un job de Cloud Run activado según un cronograma por Cloud Scheduler"
+        },
+        {
+          "en": "A Cloud Run service with minimum instances set to 1 and an internal cron loop",
+          "es": "Un servicio de Cloud Run con instancias mínimas en 1 y un bucle cron interno"
+        },
+        {
+          "en": "A Cloud Run service invoked by Cloud Scheduler over HTTP",
+          "es": "Un servicio de Cloud Run invocado por Cloud Scheduler mediante HTTP"
+        },
+        {
+          "en": "A Compute Engine VM that stays running and executes the script from crontab",
+          "es": "Una VM de Compute Engine que permanece encendida y ejecuta el script desde crontab"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Cloud Run jobs are built for work that runs to completion rather than serving requests: they have no HTTP endpoint, support long task timeouts well beyond a request lifetime, can run tasks in parallel, and are billed only while executing. Cloud Scheduler triggers the job nightly. B wastes money keeping an instance warm 24 hours a day and rebuilds scheduling logic that the platform already provides. C ties the work to a request lifecycle, so it must finish inside the service request timeout, which is not designed for a 90-minute load. D leaves the team patching and paying for a VM that is idle more than 22 hours a day.",
+        "es": "Los jobs de Cloud Run están hechos para trabajo que se ejecuta hasta completarse en vez de atender solicitudes: no tienen endpoint HTTP, admiten tiempos de espera de tarea muy superiores a la vida de una solicitud, pueden ejecutar tareas en paralelo y se facturan solo mientras se ejecutan. Cloud Scheduler activa el job cada noche. B desperdicia dinero manteniendo una instancia tibia las 24 horas y reconstruye una lógica de programación que la plataforma ya ofrece. C ata el trabajo al ciclo de vida de una solicitud, por lo que debe terminar dentro del tiempo de espera de la solicitud del servicio, que no está pensado para una carga de 90 minutos. D deja al equipo parchando y pagando una VM que está inactiva más de 22 horas al día."
+      },
+      "doc": "https://cloud.google.com/run/docs/create-jobs"
+    },
+    {
+      "id": "run-057",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run",
+        "service-accounts",
+        "iam"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.2-sa-least-privilege"
+      ],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "A Cloud Run service must read one specific secret from Secret Manager at runtime, with least privilege. Which TWO actions accomplish this?",
+        "es": "Un servicio de Cloud Run debe leer un secreto específico de Secret Manager en tiempo de ejecución, con privilegio mínimo. ¿Cuáles DOS acciones logran esto?"
+      },
+      "opciones": [
+        {
+          "en": "Grant roles/secretmanager.secretAccessor to the service's runtime service account on that individual secret",
+          "es": "Otorgar roles/secretmanager.secretAccessor a la cuenta de servicio de ejecución del servicio sobre ese secreto individual"
+        },
+        {
+          "en": "Deploy the service referencing the secret version so it is exposed as an environment variable or mounted volume",
+          "es": "Implementar el servicio haciendo referencia a la versión del secreto para que se exponga como variable de entorno o volumen montado"
+        },
+        {
+          "en": "Grant roles/owner on the project to the service's runtime service account",
+          "es": "Otorgar roles/owner en el proyecto a la cuenta de servicio de ejecución del servicio"
+        },
+        {
+          "en": "Copy the secret value into the Dockerfile as a build argument",
+          "es": "Copiar el valor del secreto en el Dockerfile como argumento de compilación"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "The runtime service account needs the Secret Manager Secret Accessor role, and granting it on the individual secret rather than the whole project is the least-privilege scope; the service must then be deployed with a reference to the secret so Cloud Run injects it as an environment variable or a mounted volume. C grants full control of the entire project to satisfy one read, which is the opposite of least privilege. D bakes the secret into the image, so it is visible to anyone who can pull the image and cannot be rotated without a rebuild.",
+        "es": "La cuenta de servicio de ejecución necesita el rol Secret Accessor de Secret Manager, y otorgarlo sobre el secreto individual en vez de sobre todo el proyecto es el alcance de privilegio mínimo; luego el servicio debe implementarse con una referencia al secreto para que Cloud Run lo inyecte como variable de entorno o volumen montado. C otorga control total de todo el proyecto para satisfacer una sola lectura, lo contrario del privilegio mínimo. D incrusta el secreto en la imagen, por lo que queda visible para cualquiera que pueda descargarla y no se puede rotar sin reconstruir."
+      },
+      "doc": "https://cloud.google.com/run/docs/configuring/services/secrets"
+    },
+    {
+      "id": "run-058",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run",
+        "eventarc",
+        "cloud-storage"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-serverless-events"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Images uploaded to a Cloud Storage bucket must be resized by a container within seconds of upload. The team wants no polling, no servers to manage, and delivery that retries on failure. What is the BEST design?",
+        "es": "Las imágenes que se suben a un bucket de Cloud Storage deben ser redimensionadas por un contenedor en cuestión de segundos tras la carga. El equipo no quiere sondeo, ni servidores que administrar, y quiere entrega con reintentos ante fallas. ¿Cuál es el MEJOR diseño?"
+      },
+      "opciones": [
+        {
+          "en": "An Eventarc trigger on the Cloud Storage finalize event that delivers the event to a Cloud Run service",
+          "es": "Un activador de Eventarc sobre el evento finalize de Cloud Storage que entrega el evento a un servicio de Cloud Run"
+        },
+        {
+          "en": "A Cloud Run job scheduled every minute that lists the bucket and processes new objects",
+          "es": "Un job de Cloud Run programado cada minuto que lista el bucket y procesa los objetos nuevos"
+        },
+        {
+          "en": "A Compute Engine VM running a daemon that watches the bucket with a loop",
+          "es": "Una VM de Compute Engine con un daemon que observa el bucket con un bucle"
+        },
+        {
+          "en": "A GKE CronJob that syncs the bucket to a persistent volume every five minutes",
+          "es": "Un CronJob de GKE que sincroniza el bucket a un volumen persistente cada cinco minutos"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Eventarc is the managed eventing layer that routes Cloud Storage events to Cloud Run, delivering each finalize event within seconds, with retries built in and no infrastructure to operate. B is polling by another name: it wastes executions when nothing changed and can still add up to a minute of latency. C requires a VM the team must run, patch, and scale, and a hand-written watch loop with its own retry logic. D adds both a cluster and a five-minute delay, which fails the seconds-level requirement.",
+        "es": "Eventarc es la capa administrada de eventos que enruta eventos de Cloud Storage hacia Cloud Run y entrega cada evento finalize en segundos, con reintentos incorporados y sin infraestructura que operar. B es sondeo con otro nombre: desperdicia ejecuciones cuando nada cambió y aun así puede agregar hasta un minuto de latencia. C exige una VM que el equipo debe ejecutar, parchar y escalar, más un bucle de observación escrito a mano con su propia lógica de reintentos. D agrega un clúster y un retraso de cinco minutos, lo que incumple el requisito de segundos."
+      },
+      "doc": "https://cloud.google.com/eventarc/docs/run/route-trigger-cloud-storage"
+    },
+    {
+      "id": "run-059",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run",
+        "service-accounts"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.2-sa-resources"
+      ],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Cloud Run service 'frontend' must call private Cloud Run service 'backend' securely, without any shared static credential. Which TWO steps are required?",
+        "es": "El servicio de Cloud Run 'frontend' debe llamar de forma segura al servicio privado de Cloud Run 'backend', sin ninguna credencial estática compartida. ¿Cuáles DOS pasos son necesarios?"
+      },
+      "opciones": [
+        {
+          "en": "Grant roles/run.invoker on 'backend' to the service account attached to 'frontend'",
+          "es": "Otorgar roles/run.invoker en 'backend' a la cuenta de servicio adjunta a 'frontend'"
+        },
+        {
+          "en": "Have 'frontend' fetch an OIDC identity token from the metadata server and send it in the Authorization header",
+          "es": "Hacer que 'frontend' obtenga un token de identidad OIDC del servidor de metadatos y lo envíe en el encabezado Authorization"
+        },
+        {
+          "en": "Grant roles/run.invoker on 'backend' to allUsers",
+          "es": "Otorgar roles/run.invoker en 'backend' a allUsers"
+        },
+        {
+          "en": "Store a shared API key as an environment variable in both services",
+          "es": "Almacenar una clave de API compartida como variable de entorno en ambos servicios"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Service-to-service authentication on Cloud Run works by identity, not secrets: the calling service's attached service account must hold roles/run.invoker on the target service, and the caller must present an OIDC identity token whose audience is the target URL, obtained from the instance metadata server so no key is ever stored. C makes the backend public, which defeats the purpose of the call being private. D reintroduces exactly the shared static credential the requirement forbids, and it does not satisfy Cloud Run's own authorization check.",
+        "es": "La autenticación entre servicios en Cloud Run funciona por identidad, no por secretos: la cuenta de servicio adjunta al servicio que llama debe tener roles/run.invoker sobre el servicio de destino, y el invocador debe presentar un token de identidad OIDC cuya audiencia sea la URL de destino, obtenido del servidor de metadatos de la instancia para que nunca se almacene una clave. C vuelve público el backend, lo que anula el propósito de que la llamada sea privada. D reintroduce justamente la credencial estática compartida que el requisito prohíbe y no satisface la verificación de autorización propia de Cloud Run."
+      },
+      "doc": "https://cloud.google.com/run/docs/authenticating/service-to-service"
+    },
+    {
+      "id": "run-060",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run",
+        "load-balancing"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-cloud-run-ops"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A public web app is deployed as a Cloud Run service in three regions. Users worldwide must reach the closest healthy region through one custom domain and a single anycast IP address. What is the BEST approach?",
+        "es": "Una app web pública está implementada como servicio de Cloud Run en tres regiones. Los usuarios de todo el mundo deben llegar a la región sana más cercana mediante un solo dominio personalizado y una única dirección IP anycast. ¿Cuál es el MEJOR enfoque?"
+      },
+      "opciones": [
+        {
+          "en": "Put a global external Application Load Balancer in front of the services using a serverless NEG backend per region",
+          "es": "Colocar un Application Load Balancer externo global delante de los servicios usando un backend de NEG sin servidores por región"
+        },
+        {
+          "en": "Publish the three default run.app URLs and let clients choose one",
+          "es": "Publicar las tres URLs run.app predeterminadas y dejar que los clientes elijan una"
+        },
+        {
+          "en": "Create Cloud DNS round-robin A records pointing to the three regional endpoints",
+          "es": "Crear registros A de round robin en Cloud DNS que apunten a los tres endpoints regionales"
+        },
+        {
+          "en": "Deploy in a single region and raise the maximum number of instances",
+          "es": "Implementar en una sola región y subir el número máximo de instancias"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "A global external Application Load Balancer with serverless network endpoint groups is the supported way to front multi-region Cloud Run: it provides one anycast IP and custom domain, routes each user to the nearest healthy backend, and fails over automatically when a region is unhealthy. B pushes routing and failover onto clients and gives no single domain. C gives one domain but round-robin DNS ignores geography and keeps sending a share of users to a failed region until records and caches expire. D does not reduce latency for distant users and leaves the app exposed to a single-region outage.",
+        "es": "Un Application Load Balancer externo global con grupos de endpoints de red sin servidores es la forma admitida de exponer Cloud Run multirregión: entrega una sola IP anycast y un dominio personalizado, enruta a cada usuario al backend sano más cercano y conmuta por error automáticamente cuando una región no está sana. B traslada el enrutamiento y la conmutación por error a los clientes y no da un dominio único. C entrega un dominio, pero el round robin de DNS ignora la geografía y sigue enviando una parte de los usuarios a una región caída hasta que expiren los registros y las cachés. D no reduce la latencia de los usuarios lejanos y deja la app expuesta a una interrupción de una sola región."
+      },
+      "doc": "https://cloud.google.com/run/docs/multiple-regions"
+    },
+    {
+      "id": "run-061",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run",
+        "gke",
+        "gpus-tpus"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A team serves an open-source model for inference. Traffic is bursty and idle for long stretches, the workload is a stateless HTTP container that needs a GPU, and the team does not want to manage nodes. What is the BEST option?",
+        "es": "Un equipo publica un modelo de código abierto para inferencia. El tráfico es intermitente y está inactivo por periodos largos, la carga es un contenedor HTTP sin estado que necesita GPU, y el equipo no quiere administrar nodos. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        {
+          "en": "A Cloud Run service configured with a GPU, scaling to zero between bursts",
+          "es": "Un servicio de Cloud Run configurado con GPU, que escala a cero entre ráfagas"
+        },
+        {
+          "en": "A GKE Standard cluster with a dedicated GPU node pool kept running",
+          "es": "Un clúster de GKE Standard con un grupo de nodos con GPU dedicado siempre encendido"
+        },
+        {
+          "en": "A Compute Engine VM with an attached GPU running continuously",
+          "es": "Una VM de Compute Engine con GPU adjunta ejecutándose de forma continua"
+        },
+        {
+          "en": "A Cloud Run job with a GPU triggered by each incoming request",
+          "es": "Un job de Cloud Run con GPU activado por cada solicitud entrante"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Cloud Run services support attaching a GPU to a stateless HTTP container while keeping serverless behavior, so the team pays for GPU time only during bursts and pays nothing when the service is scaled to zero, with no nodes to manage. B and C both keep expensive GPU capacity billed during the long idle stretches and put node or VM lifecycle management back on the team. D misuses jobs: jobs have no HTTP endpoint and are meant to run to completion, so they cannot serve synchronous inference requests.",
+        "es": "Los servicios de Cloud Run admiten adjuntar una GPU a un contenedor HTTP sin estado manteniendo el comportamiento serverless, por lo que el equipo paga tiempo de GPU solo durante las ráfagas y no paga nada cuando el servicio escala a cero, sin nodos que administrar. B y C mantienen capacidad de GPU costosa facturada durante los largos periodos inactivos y devuelven al equipo la administración del ciclo de vida de nodos o VMs. D usa mal los jobs: los jobs no tienen endpoint HTTP y están hechos para ejecutarse hasta completarse, así que no pueden atender solicitudes de inferencia sincrónicas."
+      },
+      "doc": "https://cloud.google.com/run/docs/configuring/services/gpu"
+    },
+    {
+      "id": "run-062",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-cloud-run-ops"
+      ],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "A latency-sensitive Cloud Run service suffers from cold starts during traffic bursts. Which TWO changes directly reduce cold-start impact?",
+        "es": "Un servicio de Cloud Run sensible a la latencia sufre cold starts durante las ráfagas de tráfico. ¿Cuáles DOS cambios reducen directamente el impacto de los cold starts?"
+      },
+      "opciones": [
+        {
+          "en": "Set a minimum number of instances so warm instances are always available",
+          "es": "Configurar un número mínimo de instancias para que siempre haya instancias tibias disponibles"
+        },
+        {
+          "en": "Enable startup CPU boost so the container gets extra CPU during initialization",
+          "es": "Habilitar el aumento de CPU al inicio para que el contenedor reciba CPU adicional durante la inicialización"
+        },
+        {
+          "en": "Lower the maximum number of instances so fewer instances can start",
+          "es": "Bajar el número máximo de instancias para que puedan iniciarse menos instancias"
+        },
+        {
+          "en": "Increase the request timeout so slow starts do not return errors",
+          "es": "Aumentar el tiempo de espera de la solicitud para que los inicios lentos no devuelvan errores"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Minimum instances keep idle instances warm so a burst is absorbed by containers that are already initialized, and startup CPU boost allocates extra CPU during container startup so the initialization phase itself finishes faster. C is counterproductive: capping instances lower means requests queue behind a smaller pool and more users wait. D does not make anything faster; it only allows a slow request to keep waiting longer before timing out, which users experience as the same latency problem.",
+        "es": "Las instancias mínimas mantienen instancias inactivas tibias para que una ráfaga sea absorbida por contenedores ya inicializados, y el aumento de CPU al inicio asigna CPU adicional durante el arranque del contenedor para que la fase de inicialización termine más rápido. C es contraproducente: limitar las instancias a un número menor hace que las solicitudes se encolen tras un grupo más pequeño y más usuarios esperen. D no acelera nada; solo permite que una solicitud lenta espere más antes de agotar el tiempo, lo que los usuarios perciben como el mismo problema de latencia."
+      },
+      "doc": "https://cloud.google.com/run/docs/about-instance-autoscaling"
+    },
+    {
+      "id": "run-063",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run",
+        "cloud-run-functions"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A developer must publish a single, small Python function that reacts to a Pub/Sub message, with no container build pipeline and the least code to write. The team already standardizes on Cloud Run for larger services. What is the BEST option?",
+        "es": "Un desarrollador debe publicar una sola función pequeña de Python que reaccione a un mensaje de Pub/Sub, sin pipeline de compilación de contenedores y con el menor código posible. El equipo ya estandariza Cloud Run para servicios más grandes. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        {
+          "en": "Deploy it as a Cloud Run function, which runs on Cloud Run but only requires the function source",
+          "es": "Implementarla como una Cloud Run function, que se ejecuta sobre Cloud Run pero solo requiere el código fuente de la función"
+        },
+        {
+          "en": "Write a Dockerfile with a full web framework and deploy it as a standard Cloud Run service",
+          "es": "Escribir un Dockerfile con un framework web completo e implementarla como un servicio estándar de Cloud Run"
+        },
+        {
+          "en": "Create a GKE Autopilot Deployment that subscribes to the topic",
+          "es": "Crear un Deployment de GKE Autopilot que se suscriba al tema"
+        },
+        {
+          "en": "Run a Compute Engine VM with a pull subscriber process",
+          "es": "Ejecutar una VM de Compute Engine con un proceso de suscriptor de extracción"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Cloud Run functions are the function-oriented deployment model on top of the Cloud Run platform: you supply only the handler source, Google builds and runs the container, and the event trigger is wired for you, which is the least code and no build pipeline. B works but forces the developer to author a Dockerfile, an HTTP server, and the Pub/Sub push handler by hand for a single small function. C and D require managing a cluster or a VM and a subscriber process, which is far more operational work than the task justifies and does not scale to zero the same way.",
+        "es": "Las Cloud Run functions son el modelo de implementación orientado a funciones sobre la plataforma de Cloud Run: solo entregas el código del handler, Google construye y ejecuta el contenedor, y el activador de eventos queda conectado por ti, lo que implica el menor código y ningún pipeline de compilación. B funciona, pero obliga al desarrollador a escribir a mano un Dockerfile, un servidor HTTP y el handler de push de Pub/Sub para una sola función pequeña. C y D requieren administrar un clúster o una VM y un proceso suscriptor, mucho más trabajo operativo del que justifica la tarea, y no escalan a cero de la misma manera."
+      },
+      "doc": "https://cloud.google.com/functions/docs/concepts/overview"
+    },
+    {
+      "id": "run-064",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run",
+        "iam"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.1-iam-policies"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "An auditor requires that a group of analysts be able to inspect Cloud Run service configuration, revisions, and traffic settings in production, but never deploy revisions or change traffic. What is the BEST way to grant this?",
+        "es": "Un auditor exige que un grupo de analistas pueda inspeccionar la configuración, las revisiones y la división de tráfico de los servicios de Cloud Run en producción, pero que nunca implemente revisiones ni cambie el tráfico. ¿Cuál es la MEJOR forma de otorgarlo?"
+      },
+      "opciones": [
+        {
+          "en": "Grant roles/run.viewer to the analysts group on the production project",
+          "es": "Otorgar roles/run.viewer al grupo de analistas en el proyecto de producción"
+        },
+        {
+          "en": "Grant roles/run.developer to the analysts group on the production project",
+          "es": "Otorgar roles/run.developer al grupo de analistas en el proyecto de producción"
+        },
+        {
+          "en": "Grant roles/run.invoker to each analyst individually",
+          "es": "Otorgar roles/run.invoker a cada analista de forma individual"
+        },
+        {
+          "en": "Grant the basic Editor role and ask analysts not to deploy",
+          "es": "Otorgar el rol básico de Editor y pedir a los analistas que no implementen"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The Cloud Run Viewer predefined role grants read-only visibility into services, revisions, and traffic configuration, which is exactly the requirement, and granting it to a group rather than individuals keeps access manageable as membership changes. B is a deploy-capable role, so it directly violates the restriction. C grants the ability to call the service, not to view its configuration, so it does not meet the requirement at all. D relies on a policy that is not technically enforced and grants broad write access across the project, which an auditor would reject.",
+        "es": "El rol predefinido Cloud Run Viewer otorga visibilidad de solo lectura sobre servicios, revisiones y configuración de tráfico, justo lo que pide el requisito, y otorgarlo a un grupo en vez de a personas mantiene el acceso administrable conforme cambia la membresía. B es un rol con capacidad de implementar, así que viola directamente la restricción. C otorga la capacidad de invocar el servicio, no de ver su configuración, por lo que no cumple el requisito. D depende de una política que no se aplica técnicamente y concede acceso de escritura amplio en todo el proyecto, algo que un auditor rechazaría."
+      },
+      "doc": "https://cloud.google.com/run/docs/reference/iam/roles"
+    },
+    {
+      "id": "run-065",
+      "curso": "cloud-run-conceptos-basicos",
+      "servicios": [
+        "cloud-run",
+        "iam",
+        "vpc"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.1-iam-policies"
+      ],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "A back-office Cloud Run service was deployed with --allow-unauthenticated and ingress set to all. It should only be callable by a scheduled job running inside the company VPC. Which TWO changes should you make?",
+        "es": "Un servicio de back-office en Cloud Run se implementó con --allow-unauthenticated y con el ingress en todo. Solo debería poder ser invocado por un trabajo programado que se ejecuta dentro de la VPC de la empresa. ¿Cuáles DOS cambios deberías hacer?"
+      },
+      "opciones": [
+        {
+          "en": "Remove the allUsers binding and grant roles/run.invoker only to the scheduled job's service account",
+          "es": "Quitar la vinculación de allUsers y otorgar roles/run.invoker solo a la cuenta de servicio del trabajo programado"
+        },
+        {
+          "en": "Change the ingress setting to internal so the endpoint is not reachable from the public internet",
+          "es": "Cambiar la configuración de ingress a interno para que el endpoint no sea alcanzable desde la internet pública"
+        },
+        {
+          "en": "Grant roles/run.invoker to allAuthenticatedUsers instead of allUsers",
+          "es": "Otorgar roles/run.invoker a allAuthenticatedUsers en lugar de a allUsers"
+        },
+        {
+          "en": "Set the maximum number of instances to 1 so only one caller can be served",
+          "es": "Configurar el número máximo de instancias en 1 para que solo se atienda a un invocador"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "The two controls are independent and both are needed: IAM decides who may invoke, so removing allUsers and binding roles/run.invoker to just the job's service account enforces identity-based authorization, and the ingress setting decides where traffic may originate, so setting it to internal removes public network reachability. C is still far too broad because allAuthenticatedUsers means any Google account anywhere. D is a scaling and cost control, not a security control: capping instances limits throughput but does not stop any unauthorized caller from reaching the service.",
+        "es": "Los dos controles son independientes y ambos son necesarios: IAM decide quién puede invocar, así que quitar allUsers y vincular roles/run.invoker solo a la cuenta de servicio del trabajo impone autorización basada en identidad, y la configuración de ingress decide desde dónde puede originarse el tráfico, así que ponerla en interno elimina la accesibilidad desde la red pública. C sigue siendo demasiado amplia porque allAuthenticatedUsers significa cualquier cuenta de Google en cualquier lugar. D es un control de escalamiento y costo, no de seguridad: limitar instancias restringe el rendimiento pero no impide que un invocador no autorizado alcance el servicio."
+      },
+      "doc": "https://cloud.google.com/run/docs/securing/managing-access"
+    }
+  ]
+}

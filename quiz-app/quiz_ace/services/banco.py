@@ -16,7 +16,15 @@ logger = logging.getLogger(__name__)
 IDIOMAS = ("en", "es")
 NIVELES = ("principiante", "intermedio", "avanzado")
 TIPOS = ("unica", "multiple")
-DOC_PREFIJOS = ("https://cloud.google.com/", "https://developers.google.com/", "https://kubernetes.io/")
+# Documentación oficial de Google Cloud y de las tecnologías que el examen evalúa
+# directamente (Kubernetes, Docker, Terraform).
+DOC_PREFIJOS = (
+    "https://cloud.google.com/",
+    "https://developers.google.com/",
+    "https://kubernetes.io/",
+    "https://docs.docker.com/",
+    "https://developer.hashicorp.com/",
+)
 
 
 @dataclass(frozen=True)

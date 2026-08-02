@@ -690,6 +690,1414 @@
         "es": "El nivel Basic es un solo nodo pensado para cachés que toleran un reinicio en frío, mientras que el nivel Standard aprovisiona una réplica en otra zona y conmuta automáticamente, que es lo que necesitan las cargas de producción. B es falsa, C es falsa porque ambos hablan Redis y D es falsa porque Memorystore mantiene los datos en memoria en ambos niveles."
       },
       "doc": "https://cloud.google.com/memorystore/docs/redis/redis-tiers"
+    },
+    {
+      "id": "db-017",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "cloud-sql"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-data-products"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is the purpose of a Cloud SQL read replica?",
+        "es": "¿Cuál es el propósito de una réplica de lectura de Cloud SQL?"
+      },
+      "opciones": [
+        {
+          "en": "To serve read-only queries and offload reporting traffic from the primary instance",
+          "es": "Atender consultas de solo lectura y descargar el tráfico de reportes de la instancia principal"
+        },
+        {
+          "en": "To accept writes in parallel with the primary for higher write throughput",
+          "es": "Aceptar escrituras en paralelo con la principal para mayor rendimiento de escritura"
+        },
+        {
+          "en": "To store daily backups in a separate project",
+          "es": "Almacenar backups diarios en un proyecto separado"
+        },
+        {
+          "en": "To convert relational tables into a document model",
+          "es": "Convertir tablas relacionales en un modelo documental"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "A read replica receives asynchronous changes from the primary and answers SELECT traffic, which relieves the primary; it can also be promoted manually for disaster recovery. B is wrong because replicas are read-only, C is wrong because backups are a separate feature, and D describes a data model change, not replication.",
+        "es": "Una réplica de lectura recibe los cambios de forma asincrónica desde la instancia principal y responde el tráfico SELECT, lo que alivia a la principal; además se puede promover manualmente para recuperación ante desastres. B es incorrecta porque las réplicas son de solo lectura, C es incorrecta porque los backups son una función aparte y D describe un cambio de modelo de datos, no replicación."
+      },
+      "doc": "https://cloud.google.com/sql/docs/mysql/replication/tips"
+    },
+    {
+      "id": "db-018",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "spanner"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-data-products"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What are processing units in Spanner?",
+        "es": "¿Qué son las unidades de procesamiento (processing units) en Spanner?"
+      },
+      "opciones": [
+        {
+          "en": "The unit of compute capacity you allocate to an instance, where 1000 processing units equal one node",
+          "es": "La unidad de capacidad de cómputo que asignas a una instancia, donde 1000 unidades de procesamiento equivalen a un nodo"
+        },
+        {
+          "en": "The number of concurrent SQL statements allowed per database",
+          "es": "La cantidad de sentencias SQL simultáneas permitidas por base de datos"
+        },
+        {
+          "en": "A billing credit granted for multi-region deployments",
+          "es": "Un crédito de facturación otorgado para implementaciones multirregión"
+        },
+        {
+          "en": "The number of secondary indexes a table can define",
+          "es": "La cantidad de índices secundarios que puede definir una tabla"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Spanner capacity is measured in processing units; 1000 processing units equal one node, and small instances can start at 100 processing units, which makes granular scaling and cost control possible. B, C, and D are unrelated concepts and do not describe Spanner capacity.",
+        "es": "La capacidad de Spanner se mide en unidades de procesamiento; 1000 unidades equivalen a un nodo y las instancias pequeñas pueden comenzar en 100 unidades, lo que permite escalar y controlar costos de forma granular. B, C y D son conceptos no relacionados y no describen la capacidad de Spanner."
+      },
+      "doc": "https://cloud.google.com/spanner/docs/compute-capacity"
+    },
+    {
+      "id": "db-019",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "firestore"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-data-queries"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Why does Firestore require indexes for queries?",
+        "es": "¿Por qué Firestore requiere índices para las consultas?"
+      },
+      "opciones": [
+        {
+          "en": "Every Firestore query is served from an index, so query performance depends on the number of results and not on the size of the collection",
+          "es": "Toda consulta de Firestore se resuelve desde un índice, por lo que el rendimiento depende de la cantidad de resultados y no del tamaño de la colección"
+        },
+        {
+          "en": "Indexes are only needed to reduce storage costs",
+          "es": "Los índices solo se necesitan para reducir costos de almacenamiento"
+        },
+        {
+          "en": "Firestore scans the whole collection unless an index exists, which is the fastest path",
+          "es": "Firestore escanea toda la colección salvo que exista un índice, y ese es el camino más rápido"
+        },
+        {
+          "en": "Indexes are required only for documents larger than 1 MB",
+          "es": "Los índices solo se requieren para documentos de más de 1 MB"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Firestore never performs full collection scans: single-field indexes are created automatically and composite indexes are declared for multi-field queries, so latency scales with the result set rather than with the dataset. B is wrong because indexes add storage cost, C contradicts how Firestore works, and D invents a rule.",
+        "es": "Firestore nunca realiza escaneos completos de colección: los índices de un solo campo se crean automáticamente y los índices compuestos se declaran para consultas de varios campos, así la latencia escala con el conjunto de resultados y no con el tamaño de los datos. B es incorrecta porque los índices agregan costo de almacenamiento, C contradice el funcionamiento de Firestore y D inventa una regla."
+      },
+      "doc": "https://cloud.google.com/firestore/docs/concepts/index-overview"
+    },
+    {
+      "id": "db-020",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "cloud-sql",
+        "spanner",
+        "firestore"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-data-products"
+      ],
+      "nivel": "principiante",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO Google Cloud databases provide relational tables with SQL and ACID transactions?",
+        "es": "¿Cuáles DOS bases de datos de Google Cloud ofrecen tablas relacionales con SQL y transacciones ACID?"
+      },
+      "opciones": [
+        {
+          "en": "Cloud SQL",
+          "es": "Cloud SQL"
+        },
+        {
+          "en": "Spanner",
+          "es": "Spanner"
+        },
+        {
+          "en": "Bigtable",
+          "es": "Bigtable"
+        },
+        {
+          "en": "Memorystore",
+          "es": "Memorystore"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Cloud SQL (managed MySQL, PostgreSQL, SQL Server) and Spanner both expose relational schemas with SQL and ACID transactions; AlloyDB also belongs to this group. Bigtable is a wide-column NoSQL store with single-row atomicity only, and Memorystore is an in-memory cache, not a relational database.",
+        "es": "Cloud SQL (MySQL, PostgreSQL y SQL Server administrados) y Spanner exponen esquemas relacionales con SQL y transacciones ACID; AlloyDB también pertenece a este grupo. Bigtable es un almacén NoSQL wide-column con atomicidad solo a nivel de fila y Memorystore es una caché en memoria, no una base relacional."
+      },
+      "doc": "https://cloud.google.com/products/databases"
+    },
+    {
+      "id": "db-021",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "cloud-sql"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-data-products"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is a Cloud SQL maintenance window?",
+        "es": "¿Qué es una ventana de mantenimiento de Cloud SQL?"
+      },
+      "opciones": [
+        {
+          "en": "A day and hour range you choose so Google applies updates that may briefly restart the instance at a predictable time",
+          "es": "Un rango de día y hora que eliges para que Google aplique actualizaciones que pueden reiniciar brevemente la instancia en un momento predecible"
+        },
+        {
+          "en": "A period during which the instance rejects all connections for 24 hours",
+          "es": "Un período en el que la instancia rechaza todas las conexiones durante 24 horas"
+        },
+        {
+          "en": "The retention period of automated backups",
+          "es": "El período de retención de los backups automáticos"
+        },
+        {
+          "en": "The time it takes to create a read replica",
+          "es": "El tiempo que tarda en crearse una réplica de lectura"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The maintenance window lets you pick when Cloud SQL applies patches and minor version updates, which can involve a short restart, so you can place it outside business hours and even set a maintenance deny period. B exaggerates the impact, C describes backup retention, and D is unrelated.",
+        "es": "La ventana de mantenimiento permite elegir cuándo Cloud SQL aplica parches y actualizaciones de versión menor, que pueden implicar un reinicio breve, de modo que puedas ubicarla fuera del horario laboral e incluso definir un período de denegación de mantenimiento. B exagera el impacto, C describe la retención de backups y D no se relaciona."
+      },
+      "doc": "https://cloud.google.com/sql/docs/mysql/maintenance"
+    },
+    {
+      "id": "db-022",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "cloud-sql",
+        "alloydb"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-data-loading"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What does Database Migration Service (DMS) do?",
+        "es": "¿Qué hace Database Migration Service (DMS)?"
+      },
+      "opciones": [
+        {
+          "en": "It migrates databases such as MySQL, PostgreSQL, Oracle, and SQL Server into Cloud SQL, AlloyDB, or Spanner with minimal downtime using continuous replication",
+          "es": "Migra bases de datos como MySQL, PostgreSQL, Oracle y SQL Server hacia Cloud SQL, AlloyDB o Spanner con tiempo de inactividad mínimo mediante replicación continua"
+        },
+        {
+          "en": "It copies objects between Cloud Storage buckets on a schedule",
+          "es": "Copia objetos entre buckets de Cloud Storage según una programación"
+        },
+        {
+          "en": "It converts SQL queries into NoSQL API calls at runtime",
+          "es": "Convierte consultas SQL en llamadas a APIs NoSQL en tiempo de ejecución"
+        },
+        {
+          "en": "It creates on-demand backups of an existing Cloud SQL instance",
+          "es": "Crea backups on demand de una instancia existente de Cloud SQL"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "DMS performs an initial dump plus continuous change data capture so the source stays online until you promote the destination, minimizing downtime. B describes Storage Transfer Service, C is not a real capability, and D is a Cloud SQL backup operation.",
+        "es": "DMS realiza un volcado inicial más captura continua de cambios para que la fuente siga en línea hasta que promuevas el destino, con lo que se reduce al mínimo el tiempo de inactividad. B describe el Storage Transfer Service, C no es una capacidad real y D es una operación de backup de Cloud SQL."
+      },
+      "doc": "https://cloud.google.com/database-migration/docs/overview"
+    },
+    {
+      "id": "db-023",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "cloud-sql",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-data-products"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which command creates a Cloud SQL for PostgreSQL instance with regional high availability?",
+        "es": "¿Qué comando crea una instancia de Cloud SQL para PostgreSQL con alta disponibilidad regional?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud sql instances create db1 --database-version=POSTGRES_15 --region=us-central1 --availability-type=REGIONAL",
+          "es": "gcloud sql instances create db1 --database-version=POSTGRES_15 --region=us-central1 --availability-type=REGIONAL"
+        },
+        {
+          "en": "gcloud sql instances create db1 --database-version=POSTGRES_15 --zone=us-central1-a --ha=true",
+          "es": "gcloud sql instances create db1 --database-version=POSTGRES_15 --zone=us-central1-a --ha=true"
+        },
+        {
+          "en": "gcloud sql instances create db1 --tier=db-n1-standard-1 --multi-region",
+          "es": "gcloud sql instances create db1 --tier=db-n1-standard-1 --multi-region"
+        },
+        {
+          "en": "gcloud sql replicas create db1 --availability=high",
+          "es": "gcloud sql replicas create db1 --availability=high"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "--availability-type=REGIONAL is the flag that provisions the standby in a second zone of the region; ZONAL is the default. B and C use flags that do not exist for this purpose, and D is not a valid gcloud command group.",
+        "es": "--availability-type=REGIONAL es la marca que aprovisiona la instancia en espera en una segunda zona de la región; ZONAL es el valor predeterminado. B y C usan marcas que no existen para ese fin y D no es un grupo de comandos válido de gcloud."
+      },
+      "doc": "https://cloud.google.com/sql/docs/postgres/configure-ha"
+    },
+    {
+      "id": "db-024",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "cloud-sql",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-db-backup-restore"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You must take an immediate backup of a Cloud SQL instance before a risky schema change. Which command do you run?",
+        "es": "Debes tomar un backup inmediato de una instancia de Cloud SQL antes de un cambio de esquema riesgoso. ¿Qué comando ejecutas?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud sql backups create --instance=INSTANCE_NAME --description=\"pre-migration\"",
+          "es": "gcloud sql backups create --instance=INSTANCE_NAME --description=\"pre-migration\""
+        },
+        {
+          "en": "gcloud sql instances patch INSTANCE_NAME --backup-start-time=00:00",
+          "es": "gcloud sql instances patch INSTANCE_NAME --backup-start-time=00:00"
+        },
+        {
+          "en": "gcloud sql export sql INSTANCE_NAME --now",
+          "es": "gcloud sql export sql INSTANCE_NAME --now"
+        },
+        {
+          "en": "gcloud sql instances clone INSTANCE_NAME BACKUP_NAME",
+          "es": "gcloud sql instances clone INSTANCE_NAME BACKUP_NAME"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "gcloud sql backups create triggers an on-demand backup right away and lets you label it for traceability. B only changes the schedule for automated backups, C is not valid syntax (an export needs a Cloud Storage URI), and D creates a clone instance, which is more expensive and not a backup artifact.",
+        "es": "gcloud sql backups create dispara un backup on demand de inmediato y permite etiquetarlo para trazabilidad. B solo cambia la programación de los backups automáticos, C no es sintaxis válida (una exportación necesita un URI de Cloud Storage) y D crea una instancia clonada, que es más costosa y no constituye un artefacto de backup."
+      },
+      "doc": "https://cloud.google.com/sql/docs/mysql/backup-recovery/backing-up"
+    },
+    {
+      "id": "db-025",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "spanner",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-data-queries"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which command runs an ad hoc SQL query against a Spanner database from the command line?",
+        "es": "¿Qué comando ejecuta una consulta SQL ad hoc contra una base de datos de Spanner desde la línea de comandos?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud spanner databases execute-sql DB_ID --instance=INSTANCE_ID --sql=\"SELECT * FROM Orders LIMIT 10\"",
+          "es": "gcloud spanner databases execute-sql DB_ID --instance=INSTANCE_ID --sql=\"SELECT * FROM Orders LIMIT 10\""
+        },
+        {
+          "en": "gcloud spanner query run --database=DB_ID --statement=\"SELECT * FROM Orders\"",
+          "es": "gcloud spanner query run --database=DB_ID --statement=\"SELECT * FROM Orders\""
+        },
+        {
+          "en": "bq query --use_spanner \"SELECT * FROM Orders\"",
+          "es": "bq query --use_spanner \"SELECT * FROM Orders\""
+        },
+        {
+          "en": "gcloud sql connect DB_ID --engine=spanner",
+          "es": "gcloud sql connect DB_ID --engine=spanner"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "gcloud spanner databases execute-sql is the supported way to run a query, passing the instance and the SQL text. B is not a real command group, C uses the BigQuery CLI which cannot query Spanner directly this way, and D applies only to Cloud SQL instances.",
+        "es": "gcloud spanner databases execute-sql es la forma admitida de ejecutar una consulta, indicando la instancia y el texto SQL. B no es un grupo de comandos real, C usa la CLI de BigQuery que no consulta Spanner de esa manera y D aplica solo a instancias de Cloud SQL."
+      },
+      "doc": "https://cloud.google.com/spanner/docs/getting-started/gcloud"
+    },
+    {
+      "id": "db-026",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "bigquery",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-data-queries"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which bq command runs a GoogleSQL query and prints how much data it would scan without actually executing it?",
+        "es": "¿Qué comando de bq ejecuta una consulta en GoogleSQL y muestra cuántos datos escanearía sin ejecutarla realmente?"
+      },
+      "opciones": [
+        {
+          "en": "bq query --use_legacy_sql=false --dry_run 'SELECT * FROM `p.d.t`'",
+          "es": "bq query --use_legacy_sql=false --dry_run 'SELECT * FROM `p.d.t`'"
+        },
+        {
+          "en": "bq query --estimate_only 'SELECT * FROM `p.d.t`'",
+          "es": "bq query --estimate_only 'SELECT * FROM `p.d.t`'"
+        },
+        {
+          "en": "bq show --cost 'SELECT * FROM `p.d.t`'",
+          "es": "bq show --cost 'SELECT * FROM `p.d.t`'"
+        },
+        {
+          "en": "bq ls --bytes-scanned p:d.t",
+          "es": "bq ls --bytes-scanned p:d.t"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "--dry_run validates the query and returns the estimated bytes processed at no cost, which is the standard way to estimate on-demand query price before running it. B, C, and D are not valid bq flags or commands for this purpose.",
+        "es": "--dry_run valida la consulta y devuelve los bytes procesados estimados sin costo, que es la forma estándar de estimar el precio de una consulta on demand antes de ejecutarla. B, C y D no son marcas ni comandos válidos de bq para ese fin."
+      },
+      "doc": "https://cloud.google.com/bigquery/docs/estimate-costs"
+    },
+    {
+      "id": "db-027",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "bigquery"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-storage-costs",
+        "3.2-data-queries"
+      ],
+      "nivel": "intermedio",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO techniques reduce the bytes scanned by on-demand BigQuery queries on a very large table?",
+        "es": "¿Cuáles DOS técnicas reducen los bytes escaneados por consultas on demand de BigQuery en una tabla muy grande?"
+      },
+      "opciones": [
+        {
+          "en": "Partitioning the table by a date or timestamp column and filtering on that column",
+          "es": "Particionar la tabla por una columna de fecha o marca de tiempo y filtrar por esa columna"
+        },
+        {
+          "en": "Selecting only the columns you need instead of SELECT *",
+          "es": "Seleccionar solo las columnas necesarias en lugar de SELECT *"
+        },
+        {
+          "en": "Adding a LIMIT clause to the query",
+          "es": "Agregar una cláusula LIMIT a la consulta"
+        },
+        {
+          "en": "Creating a read replica of the dataset in another region",
+          "es": "Crear una réplica de lectura del conjunto de datos en otra región"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "BigQuery bills on-demand queries by the bytes read from the columns and partitions touched, so partition pruning and column pruning both cut cost; clustering helps further. C is a classic trap because LIMIT restricts the output but not the data scanned, and D is not a BigQuery feature and would not reduce scanned bytes.",
+        "es": "BigQuery factura las consultas on demand por los bytes leídos de las columnas y particiones involucradas, así que podar particiones y columnas reduce el costo; el clustering ayuda todavía más. C es una trampa clásica porque LIMIT restringe la salida pero no los datos escaneados, y D no es una función de BigQuery ni reduciría los bytes escaneados."
+      },
+      "doc": "https://cloud.google.com/bigquery/docs/partitioned-tables"
+    },
+    {
+      "id": "db-028",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "cloud-sql",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-data-queries"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "From Cloud Shell, which command opens an interactive SQL session on a Cloud SQL for MySQL instance?",
+        "es": "Desde Cloud Shell, ¿qué comando abre una sesión SQL interactiva en una instancia de Cloud SQL para MySQL?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud sql connect INSTANCE_NAME --user=root",
+          "es": "gcloud sql connect INSTANCE_NAME --user=root"
+        },
+        {
+          "en": "gcloud sql instances describe INSTANCE_NAME --shell",
+          "es": "gcloud sql instances describe INSTANCE_NAME --shell"
+        },
+        {
+          "en": "gcloud compute ssh INSTANCE_NAME",
+          "es": "gcloud compute ssh INSTANCE_NAME"
+        },
+        {
+          "en": "gcloud sql databases open INSTANCE_NAME",
+          "es": "gcloud sql databases open INSTANCE_NAME"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "gcloud sql connect temporarily authorizes the client IP and launches the native client (mysql or psql) against the instance. B only prints instance metadata, C is for Compute Engine VMs and a Cloud SQL instance is not an SSH-accessible VM, and D is not a real command.",
+        "es": "gcloud sql connect autoriza temporalmente la IP del cliente y abre el cliente nativo (mysql o psql) contra la instancia. B solo imprime los metadatos de la instancia, C es para VMs de Compute Engine y una instancia de Cloud SQL no es una VM accesible por SSH, y D no es un comando real."
+      },
+      "doc": "https://cloud.google.com/sql/docs/mysql/connect-instance-cloud-shell"
+    },
+    {
+      "id": "db-029",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "firestore",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-db-backup-restore"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "How do you export Firestore documents so they can be restored later or loaded into BigQuery?",
+        "es": "¿Cómo exportas documentos de Firestore para poder restaurarlos después o cargarlos en BigQuery?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud firestore export gs://BUCKET_NAME --collection-ids=orders",
+          "es": "gcloud firestore export gs://BUCKET_NAME --collection-ids=orders"
+        },
+        {
+          "en": "gcloud firestore backup create --local-path=/tmp/backup",
+          "es": "gcloud firestore backup create --local-path=/tmp/backup"
+        },
+        {
+          "en": "bq extract firestore:orders gs://BUCKET_NAME",
+          "es": "bq extract firestore:orders gs://BUCKET_NAME"
+        },
+        {
+          "en": "gcloud storage cp firestore://orders gs://BUCKET_NAME",
+          "es": "gcloud storage cp firestore://orders gs://BUCKET_NAME"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The managed export/import writes documents to a Cloud Storage bucket, optionally limited to specific collections, and those files can be re-imported or loaded into BigQuery. B invents a local-path backup that does not exist, C misuses the BigQuery CLI, and D is not a valid gcloud storage source.",
+        "es": "La exportación/importación administrada escribe los documentos en un bucket de Cloud Storage, opcionalmente limitados a ciertas colecciones, y esos archivos se pueden reimportar o cargar en BigQuery. B inventa un backup a ruta local que no existe, C usa mal la CLI de BigQuery y D no es un origen válido para gcloud storage."
+      },
+      "doc": "https://cloud.google.com/firestore/docs/manage-data/export-import"
+    },
+    {
+      "id": "db-030",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "bigtable",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-data-queries"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which tool do you use to read rows and inspect tables in Bigtable from the command line?",
+        "es": "¿Qué herramienta usas para leer filas e inspeccionar tablas de Bigtable desde la línea de comandos?"
+      },
+      "opciones": [
+        {
+          "en": "The cbt CLI, for example: cbt -instance=INSTANCE_ID read TABLE_NAME count=5",
+          "es": "La CLI cbt, por ejemplo: cbt -instance=INSTANCE_ID read TABLE_NAME count=5"
+        },
+        {
+          "en": "bq query --bigtable 'SELECT * FROM TABLE_NAME'",
+          "es": "bq query --bigtable 'SELECT * FROM TABLE_NAME'"
+        },
+        {
+          "en": "gcloud sql connect TABLE_NAME",
+          "es": "gcloud sql connect TABLE_NAME"
+        },
+        {
+          "en": "kubectl get rows --table=TABLE_NAME",
+          "es": "kubectl get rows --table=TABLE_NAME"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "cbt is the Bigtable command-line tool for creating tables and column families and for reading or writing rows; Bigtable Studio in the console offers a UI alternative. B is not how the bq CLI works, C targets Cloud SQL, and D is a Kubernetes command unrelated to Bigtable.",
+        "es": "cbt es la herramienta de línea de comandos de Bigtable para crear tablas y familias de columnas y para leer o escribir filas; Bigtable Studio en la consola ofrece una alternativa gráfica. B no es el funcionamiento de la CLI bq, C apunta a Cloud SQL y D es un comando de Kubernetes sin relación con Bigtable."
+      },
+      "doc": "https://cloud.google.com/bigtable/docs/cbt-overview"
+    },
+    {
+      "id": "db-031",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "cloud-sql",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-data-products"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Reporting queries are saturating a production Cloud SQL primary. Which command addresses this with the least operational effort?",
+        "es": "Las consultas de reportes están saturando la instancia principal de Cloud SQL en producción. ¿Qué comando resuelve esto con el menor esfuerzo operativo?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud sql instances create reporting-replica --master-instance-name=prod-db --region=us-central1",
+          "es": "gcloud sql instances create reporting-replica --master-instance-name=prod-db --region=us-central1"
+        },
+        {
+          "en": "gcloud sql instances patch prod-db --availability-type=REGIONAL",
+          "es": "gcloud sql instances patch prod-db --availability-type=REGIONAL"
+        },
+        {
+          "en": "gcloud sql backups create --instance=prod-db",
+          "es": "gcloud sql backups create --instance=prod-db"
+        },
+        {
+          "en": "gcloud sql instances patch prod-db --no-backup",
+          "es": "gcloud sql instances patch prod-db --no-backup"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Creating a read replica with --master-instance-name lets you point reporting clients at the replica and leave the primary for transactional traffic. B adds a standby for availability but the standby does not serve reads, C only takes a backup, and D removes protection without helping performance.",
+        "es": "Crear una réplica de lectura con --master-instance-name permite dirigir los clientes de reportes a la réplica y dejar la principal para el tráfico transaccional. B agrega una instancia en espera para disponibilidad, pero esa instancia no atiende lecturas; C solo toma un backup y D elimina protección sin mejorar el rendimiento."
+      },
+      "doc": "https://cloud.google.com/sql/docs/mysql/replication/create-replica"
+    },
+    {
+      "id": "db-032",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "bigquery",
+        "cloud-storage"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-data-loading"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which command loads a CSV file from Cloud Storage into a BigQuery table, letting BigQuery infer the schema?",
+        "es": "¿Qué comando carga un archivo CSV desde Cloud Storage en una tabla de BigQuery y deja que BigQuery infiera el esquema?"
+      },
+      "opciones": [
+        {
+          "en": "bq load --autodetect --source_format=CSV mydataset.mytable gs://mybucket/data.csv",
+          "es": "bq load --autodetect --source_format=CSV mydataset.mytable gs://mybucket/data.csv"
+        },
+        {
+          "en": "gcloud storage cp gs://mybucket/data.csv bq://mydataset.mytable",
+          "es": "gcloud storage cp gs://mybucket/data.csv bq://mydataset.mytable"
+        },
+        {
+          "en": "bq import mydataset.mytable --file=gs://mybucket/data.csv",
+          "es": "bq import mydataset.mytable --file=gs://mybucket/data.csv"
+        },
+        {
+          "en": "bq mk --table mydataset.mytable gs://mybucket/data.csv",
+          "es": "bq mk --table mydataset.mytable gs://mybucket/data.csv"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "bq load is the batch ingestion command; --autodetect infers column names and types from the file and --source_format declares CSV. B is not a supported gcloud storage destination, C is not a real bq subcommand, and D creates an empty table definition rather than loading data.",
+        "es": "bq load es el comando de ingesta por lotes; --autodetect infiere nombres y tipos de columnas del archivo y --source_format declara CSV. B no es un destino admitido por gcloud storage, C no es un subcomando real de bq y D crea la definición de una tabla vacía en lugar de cargar datos."
+      },
+      "doc": "https://cloud.google.com/bigquery/docs/loading-data-cloud-storage-csv"
+    },
+    {
+      "id": "db-033",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "cloud-sql"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-db-backup-restore"
+      ],
+      "nivel": "intermedio",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO settings must be enabled on a Cloud SQL for PostgreSQL instance so that point-in-time recovery is possible?",
+        "es": "¿Cuáles DOS configuraciones deben estar habilitadas en una instancia de Cloud SQL para PostgreSQL para que sea posible la recuperación de un momento determinado?"
+      },
+      "opciones": [
+        {
+          "en": "Automated backups",
+          "es": "Backups automáticos"
+        },
+        {
+          "en": "Write-ahead log (WAL) archiving for point-in-time recovery",
+          "es": "Archivado de registros write-ahead (WAL) para la recuperación de un momento determinado"
+        },
+        {
+          "en": "A read replica in a different region",
+          "es": "Una réplica de lectura en otra región"
+        },
+        {
+          "en": "Customer-managed encryption keys (CMEK)",
+          "es": "Claves de encriptación administradas por el cliente (CMEK)"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "PITR restores the most recent backup and then replays the archived logs up to the chosen moment, so both automated backups and log archiving must be on. A cross-region read replica is a disaster-recovery mechanism but is not required for PITR, and CMEK only controls encryption keys.",
+        "es": "La PITR restaura el backup más reciente y luego reproduce los registros archivados hasta el momento elegido, por lo que deben estar activos tanto los backups automáticos como el archivado de registros. Una réplica de lectura en otra región es un mecanismo de recuperación ante desastres, pero no es requisito para PITR, y CMEK solo controla las claves de encriptación."
+      },
+      "doc": "https://cloud.google.com/sql/docs/postgres/backup-recovery/pitr"
+    },
+    {
+      "id": "db-034",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "spanner",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-db-backup-restore"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "How do you create a backup of a Spanner database that stays inside Spanner and can be restored to a new database?",
+        "es": "¿Cómo creas un backup de una base de datos de Spanner que permanece dentro de Spanner y se puede restaurar en una base de datos nueva?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud spanner backups create BACKUP_ID --instance=INSTANCE_ID --database=DB_ID --retention-period=7d",
+          "es": "gcloud spanner backups create BACKUP_ID --instance=INSTANCE_ID --database=DB_ID --retention-period=7d"
+        },
+        {
+          "en": "gcloud spanner databases export DB_ID --format=backup",
+          "es": "gcloud spanner databases export DB_ID --format=backup"
+        },
+        {
+          "en": "gcloud sql backups create --instance=INSTANCE_ID",
+          "es": "gcloud sql backups create --instance=INSTANCE_ID"
+        },
+        {
+          "en": "bq extract spanner:DB_ID gs://BUCKET_NAME",
+          "es": "bq extract spanner:DB_ID gs://BUCKET_NAME"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Spanner backups are created with gcloud spanner backups create and include a retention period; restoring them creates a new database in the same or another instance. B is not a valid command (exports go to Cloud Storage through Dataflow templates), C targets Cloud SQL, and D misuses the BigQuery CLI.",
+        "es": "Los backups de Spanner se crean con gcloud spanner backups create e incluyen un período de retención; al restaurarlos se crea una base de datos nueva en la misma instancia u otra. B no es un comando válido (las exportaciones van a Cloud Storage mediante plantillas de Dataflow), C apunta a Cloud SQL y D usa mal la CLI de BigQuery."
+      },
+      "doc": "https://cloud.google.com/spanner/docs/backup"
+    },
+    {
+      "id": "db-035",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "memorystore",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-data-products"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which command creates a Memorystore for Redis instance with automatic failover across zones?",
+        "es": "¿Qué comando crea una instancia de Memorystore para Redis con conmutación por error automática entre zonas?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud redis instances create cache1 --size=5 --region=us-central1 --tier=standard",
+          "es": "gcloud redis instances create cache1 --size=5 --region=us-central1 --tier=standard"
+        },
+        {
+          "en": "gcloud redis instances create cache1 --size=5 --region=us-central1 --tier=basic --ha",
+          "es": "gcloud redis instances create cache1 --size=5 --region=us-central1 --tier=basic --ha"
+        },
+        {
+          "en": "gcloud memorystore create cache1 --replicas=1",
+          "es": "gcloud memorystore create cache1 --replicas=1"
+        },
+        {
+          "en": "gcloud sql instances create cache1 --database-version=REDIS_7",
+          "es": "gcloud sql instances create cache1 --database-version=REDIS_7"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "--tier=standard provisions the cross-zone replica and automatic failover. B is contradictory because the Basic tier has no failover and there is no --ha flag, C uses a command group that does not create Redis instances this way, and D tries to use Cloud SQL for a Redis workload.",
+        "es": "--tier=standard aprovisiona la réplica entre zonas y la conmutación por error automática. B es contradictoria porque el nivel Basic no tiene conmutación por error y no existe la marca --ha, C usa un grupo de comandos que no crea instancias de Redis de esa forma y D intenta usar Cloud SQL para una carga de Redis."
+      },
+      "doc": "https://cloud.google.com/memorystore/docs/redis/create-instance-gcloud"
+    },
+    {
+      "id": "db-036",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "alloydb"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-data-queries"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "An AlloyDB cluster serves both transactions and heavy aggregate reports. Which built-in feature accelerates the analytical queries?",
+        "es": "Un clúster de AlloyDB atiende transacciones y también reportes agregados pesados. ¿Qué función integrada acelera las consultas analíticas?"
+      },
+      "opciones": [
+        {
+          "en": "The columnar engine, which keeps an in-memory columnar copy of hot data for scan-heavy queries",
+          "es": "El motor columnar, que mantiene una copia columnar en memoria de los datos activos para consultas con muchos escaneos"
+        },
+        {
+          "en": "Automatic export of every table to BigQuery every five minutes",
+          "es": "La exportación automática de cada tabla a BigQuery cada cinco minutos"
+        },
+        {
+          "en": "Converting the cluster to Bigtable storage",
+          "es": "La conversión del clúster a almacenamiento de Bigtable"
+        },
+        {
+          "en": "Disabling indexes so that the planner always performs full scans",
+          "es": "La desactivación de índices para que el planificador siempre haga escaneos completos"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "AlloyDB's columnar engine automatically keeps frequently scanned columns in a columnar in-memory format, so analytical queries run much faster on live data without a separate warehouse. B is not an AlloyDB behavior, C is not possible, and D would degrade performance.",
+        "es": "El motor columnar de AlloyDB mantiene automáticamente en memoria y en formato columnar las columnas que más se escanean, de modo que las consultas analíticas se ejecutan mucho más rápido sobre datos en vivo sin un warehouse aparte. B no es un comportamiento de AlloyDB, C no es posible y D degradaría el rendimiento."
+      },
+      "doc": "https://cloud.google.com/alloydb/docs/columnar-engine/about"
+    },
+    {
+      "id": "db-037",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "bigtable"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-data-products"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "An IoT table in Bigtable uses the row key sensor_timestamp with the timestamp first. Writes concentrate on one node. What should you change?",
+        "es": "Una tabla de IoT en Bigtable usa la row key sensor_timestamp con la marca de tiempo al inicio. Las escrituras se concentran en un solo nodo. ¿Qué deberías cambiar?"
+      },
+      "opciones": [
+        {
+          "en": "Redesign the row key so a high-cardinality field such as the sensor ID comes first, for example sensorID#timestamp",
+          "es": "Rediseñar la row key para que un campo de alta cardinalidad como el ID del sensor vaya primero, por ejemplo sensorID#timestamp"
+        },
+        {
+          "en": "Add a secondary index on the timestamp column",
+          "es": "Agregar un índice secundario sobre la columna de marca de tiempo"
+        },
+        {
+          "en": "Increase the number of column families to spread the writes",
+          "es": "Aumentar la cantidad de familias de columnas para repartir las escrituras"
+        },
+        {
+          "en": "Switch the instance from SSD to HDD storage",
+          "es": "Cambiar el almacenamiento de la instancia de SSD a HDD"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Timestamp-prefixed keys are monotonically increasing, so all new writes land in the same lexicographic range and create a hotspot; putting a high-cardinality prefix first distributes the load across tablets. B is impossible because Bigtable has no secondary indexes, C does not change row distribution, and D reduces performance rather than fixing the hotspot.",
+        "es": "Las claves con la marca de tiempo al inicio son monótonamente crecientes, así que todas las escrituras nuevas caen en el mismo rango lexicográfico y crean un hotspot; anteponer un campo de alta cardinalidad distribuye la carga entre tablets. B es imposible porque Bigtable no tiene índices secundarios, C no cambia la distribución de filas y D reduce el rendimiento en lugar de corregir el hotspot."
+      },
+      "doc": "https://cloud.google.com/bigtable/docs/schema-design#row-keys-avoid"
+    },
+    {
+      "id": "db-038",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "database-center"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-database-center"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your organization runs dozens of Cloud SQL, AlloyDB, and Spanner instances across many projects. Which tool gives a single fleet-wide view of instances missing backups or high availability?",
+        "es": "Tu organización ejecuta decenas de instancias de Cloud SQL, AlloyDB y Spanner en muchos proyectos. ¿Qué herramienta ofrece una vista única de toda la flota con las instancias sin backups o sin alta disponibilidad?"
+      },
+      "opciones": [
+        {
+          "en": "Database Center",
+          "es": "Database Center"
+        },
+        {
+          "en": "Cloud Logging log-based metrics on each project separately",
+          "es": "Métricas basadas en registros de Cloud Logging por cada proyecto de forma separada"
+        },
+        {
+          "en": "The Cloud SQL instances list of a single project",
+          "es": "La lista de instancias de Cloud SQL de un solo proyecto"
+        },
+        {
+          "en": "Cloud Billing budgets and alerts",
+          "es": "Presupuestos y alertas de Cloud Billing"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Database Center inventories databases across projects and folders in the organization and flags issues by category, including data protection (missing backups) and availability (no HA), with recommended fixes. B requires manual per-project work, C is limited to one project and one engine, and D only tracks spend.",
+        "es": "Database Center inventaría las bases de datos de todos los proyectos y carpetas de la organización y marca los problemas por categoría, incluidas protección de datos (sin backups) y disponibilidad (sin HA), con las correcciones recomendadas. B exige trabajo manual por proyecto, C se limita a un proyecto y un motor, y D solo controla el gasto."
+      },
+      "doc": "https://cloud.google.com/database-center/docs/overview"
+    },
+    {
+      "id": "db-039",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "cloud-sql",
+        "alloydb"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-data-loading"
+      ],
+      "nivel": "intermedio",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "You will migrate a 2 TB on-premises PostgreSQL database to Cloud SQL with near-zero downtime. Which TWO steps belong in the plan?",
+        "es": "Vas a migrar una base de datos PostgreSQL local de 2 TB a Cloud SQL con tiempo de inactividad casi nulo. ¿Cuáles DOS pasos forman parte del plan?"
+      },
+      "opciones": [
+        {
+          "en": "Create a Database Migration Service continuous migration job from the source to the Cloud SQL destination",
+          "es": "Crear un trabajo de migración continua de Database Migration Service desde el origen hacia el destino en Cloud SQL"
+        },
+        {
+          "en": "Establish private connectivity between the source network and Google Cloud, such as Cloud VPN or Cloud Interconnect",
+          "es": "Establecer conectividad privada entre la red de origen y Google Cloud, por ejemplo Cloud VPN o Cloud Interconnect"
+        },
+        {
+          "en": "Export a nightly dump to Cloud Storage and stop the application for the whole restore",
+          "es": "Exportar un volcado nocturno a Cloud Storage y detener la aplicación durante toda la restauración"
+        },
+        {
+          "en": "Load the tables into BigQuery first and then copy them into Cloud SQL",
+          "es": "Cargar primero las tablas en BigQuery y luego copiarlas a Cloud SQL"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "A continuous DMS job replicates changes while the source stays online, and it needs network connectivity to reach the source, typically through Cloud VPN, Interconnect, or a reverse SSH tunnel. C forces a long outage, which contradicts the near-zero downtime requirement, and D adds an unnecessary hop through an analytics warehouse.",
+        "es": "Un trabajo continuo de DMS replica los cambios mientras el origen sigue en línea y necesita conectividad de red para alcanzarlo, normalmente mediante Cloud VPN, Interconnect o un túnel SSH inverso. C fuerza una interrupción larga, lo que contradice el requisito de inactividad casi nula, y D agrega un salto innecesario por un warehouse analítico."
+      },
+      "doc": "https://cloud.google.com/database-migration/docs/postgres/configure-connectivity"
+    },
+    {
+      "id": "db-040",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "bigquery"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-storage-costs"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which choice most directly lowers the storage cost of a BigQuery dataset that keeps only 13 months of events?",
+        "es": "¿Qué opción reduce de forma más directa el costo de almacenamiento de un conjunto de datos de BigQuery que solo conserva 13 meses de eventos?"
+      },
+      "opciones": [
+        {
+          "en": "Partition the table by event date and set a partition expiration of 13 months so old partitions are deleted automatically",
+          "es": "Particionar la tabla por fecha del evento y definir una expiración de particiones de 13 meses para que las particiones antiguas se borren automáticamente"
+        },
+        {
+          "en": "Add a clustering key on the user ID column",
+          "es": "Agregar una clave de clustering en la columna de ID de usuario"
+        },
+        {
+          "en": "Switch the query pricing model from on-demand to capacity based",
+          "es": "Cambiar el modelo de precios de consultas de on demand a basado en capacidad"
+        },
+        {
+          "en": "Create authorized views over the table",
+          "es": "Crear vistas autorizadas sobre la tabla"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Partition expiration removes data you no longer need, which is the only option that reduces stored bytes. B improves query performance and query cost but not storage, C affects compute pricing only, and D is an access-control mechanism.",
+        "es": "La expiración de particiones elimina los datos que ya no necesitas, que es la única opción que reduce los bytes almacenados. B mejora el rendimiento y el costo de las consultas pero no el almacenamiento, C afecta solo el precio de cómputo y D es un mecanismo de control de acceso."
+      },
+      "doc": "https://cloud.google.com/bigquery/docs/managing-partitioned-tables"
+    },
+    {
+      "id": "db-041",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "firestore",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-data-queries"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A Firestore query filters on status and orders by created_at, and it fails with an error asking for an index. What must you do?",
+        "es": "Una consulta de Firestore filtra por status y ordena por created_at, y falla con un error que solicita un índice. ¿Qué debes hacer?"
+      },
+      "opciones": [
+        {
+          "en": "Create a composite index on (status, created_at) for that collection",
+          "es": "Crear un índice compuesto en (status, created_at) para esa colección"
+        },
+        {
+          "en": "Rewrite the query to use SQL JOIN syntax",
+          "es": "Reescribir la consulta con sintaxis de JOIN de SQL"
+        },
+        {
+          "en": "Increase the Firestore instance size",
+          "es": "Aumentar el tamaño de la instancia de Firestore"
+        },
+        {
+          "en": "Disable single-field indexes for the collection",
+          "es": "Desactivar los índices de un solo campo de la colección"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Firestore creates single-field indexes automatically, but a query that combines an equality filter with an ordering on a different field needs a composite index, which you declare in the console, in firestore.indexes.json, or by following the link in the error. B does not apply because Firestore is not relational, C is meaningless because Firestore is serverless with no instance size, and D would break existing queries.",
+        "es": "Firestore crea índices de un solo campo automáticamente, pero una consulta que combina un filtro de igualdad con un ordenamiento por otro campo necesita un índice compuesto, que declaras en la consola, en firestore.indexes.json o siguiendo el enlace del error. B no aplica porque Firestore no es relacional, C carece de sentido porque Firestore es serverless y no tiene tamaño de instancia, y D rompería consultas existentes."
+      },
+      "doc": "https://cloud.google.com/firestore/docs/query-data/indexing"
+    },
+    {
+      "id": "db-042",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "spanner"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-multiregion-redundancy"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A Spanner database must survive the loss of an entire region with no data loss and no manual failover. What do you configure?",
+        "es": "Una base de datos de Spanner debe sobrevivir la pérdida de una región completa sin pérdida de datos ni conmutación manual. ¿Qué configuras?"
+      },
+      "opciones": [
+        {
+          "en": "A multi-region instance configuration such as nam3",
+          "es": "Una configuración de instancia multirregión como nam3"
+        },
+        {
+          "en": "A regional instance with daily backups exported to another region",
+          "es": "Una instancia regional con backups diarios exportados a otra región"
+        },
+        {
+          "en": "A regional instance with more processing units",
+          "es": "Una instancia regional con más unidades de procesamiento"
+        },
+        {
+          "en": "Two independent regional instances synchronized by a nightly Dataflow job",
+          "es": "Dos instancias regionales independientes sincronizadas por un trabajo nocturno de Dataflow"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "A multi-region configuration replicates synchronously across regions, so a regional outage is handled transparently with a 99.999% SLA and no data loss. B and D lose the changes made since the last copy and require manual work, and C only adds capacity without changing the failure domain.",
+        "es": "Una configuración multirregión replica de forma sincrónica entre regiones, así que una interrupción regional se maneja de forma transparente con un SLA de 99.999% y sin pérdida de datos. B y D pierden los cambios posteriores a la última copia y requieren trabajo manual, y C solo agrega capacidad sin cambiar el dominio de falla."
+      },
+      "doc": "https://cloud.google.com/spanner/docs/instance-configurations#multi-region-configurations"
+    },
+    {
+      "id": "db-043",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "cloud-sql"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-db-backup-restore"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A developer dropped a production table 40 minutes ago on a Cloud SQL instance that has automated backups and PITR enabled. What is the correct recovery action?",
+        "es": "Un desarrollador eliminó una tabla de producción hace 40 minutos en una instancia de Cloud SQL con backups automáticos y PITR habilitados. ¿Cuál es la acción de recuperación correcta?"
+      },
+      "opciones": [
+        {
+          "en": "Perform a point-in-time recovery to a timestamp just before the DROP, which creates a new instance you can validate and then cut over to",
+          "es": "Realizar una recuperación de un momento determinado a una marca de tiempo justo anterior al DROP, lo que crea una instancia nueva que puedes validar y luego usar como destino"
+        },
+        {
+          "en": "Restore last night's backup over the running production instance",
+          "es": "Restaurar el backup de anoche sobre la instancia de producción en ejecución"
+        },
+        {
+          "en": "Promote the read replica, because it still holds the deleted table",
+          "es": "Promover la réplica de lectura, porque todavía conserva la tabla eliminada"
+        },
+        {
+          "en": "Trigger an HA failover to the standby instance",
+          "es": "Forzar una conmutación por error de HA a la instancia en espera"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "PITR recovers to a specific second into a new instance, so you lose nothing after the last nightly backup and can verify before switching traffic. B discards every transaction since that backup, C fails because the DROP replicated to the replica, and D fails because the synchronous standby also has the DROP applied.",
+        "es": "La PITR recupera hasta un segundo específico en una instancia nueva, así que no pierdes nada posterior al último backup nocturno y puedes verificar antes de cambiar el tráfico. B descarta todas las transacciones desde ese backup, C falla porque el DROP se replicó a la réplica y D falla porque la instancia en espera sincrónica también tiene el DROP aplicado."
+      },
+      "doc": "https://cloud.google.com/sql/docs/mysql/backup-recovery/pitr"
+    },
+    {
+      "id": "db-044",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "bigtable"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-multiregion-redundancy"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "How do you make a Bigtable instance available in a second region while keeping data in sync?",
+        "es": "¿Cómo haces que una instancia de Bigtable esté disponible en una segunda región manteniendo los datos sincronizados?"
+      },
+      "opciones": [
+        {
+          "en": "Add a cluster in another region to the same instance so Bigtable replicates data between clusters, and use an app profile to route traffic",
+          "es": "Agregar un clúster en otra región a la misma instancia para que Bigtable replique los datos entre clústeres, y usar un app profile para enrutar el tráfico"
+        },
+        {
+          "en": "Create a second, separate Bigtable instance and copy rows nightly with a script",
+          "es": "Crear una segunda instancia de Bigtable independiente y copiar filas cada noche con un script"
+        },
+        {
+          "en": "Enable multi-region storage on the existing cluster with a single flag",
+          "es": "Habilitar el almacenamiento multirregión en el clúster existente con una sola marca"
+        },
+        {
+          "en": "Export the tables to Cloud Storage multi-region buckets",
+          "es": "Exportar las tablas a buckets multirregión de Cloud Storage"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Bigtable replication works by adding clusters to the same instance; replication is automatic and eventually consistent, and app profiles decide single-cluster or multi-cluster routing. B introduces lag and operational burden, C is not how Bigtable is configured, and D produces an offline copy rather than a serving replica.",
+        "es": "La replicación de Bigtable funciona agregando clústeres a la misma instancia; la replicación es automática y con consistencia eventual, y los app profiles deciden el enrutamiento de clúster único o múltiple. B introduce retraso y carga operativa, C no es la forma de configurar Bigtable y D produce una copia sin conexión en lugar de una réplica que atienda tráfico."
+      },
+      "doc": "https://cloud.google.com/bigtable/docs/replication-overview"
+    },
+    {
+      "id": "db-045",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "spanner",
+        "cloud-sql",
+        "bigquery",
+        "firestore"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-data-products"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A global payments platform needs relational schemas, strongly consistent transactions across continents, and the ability to grow from thousands to millions of transactions per second without sharding by hand. Which database is the BEST choice?",
+        "es": "Una plataforma global de pagos necesita esquemas relacionales, transacciones con consistencia sólida entre continentes y la capacidad de crecer de miles a millones de transacciones por segundo sin fragmentar (sharding) manualmente. ¿Cuál es la MEJOR base de datos?"
+      },
+      "opciones": [
+        {
+          "en": "Spanner in a multi-region configuration",
+          "es": "Spanner en una configuración multirregión"
+        },
+        {
+          "en": "Cloud SQL for PostgreSQL with regional HA and cross-region read replicas",
+          "es": "Cloud SQL para PostgreSQL con HA regional y réplicas de lectura entre regiones"
+        },
+        {
+          "en": "Firestore in Native mode",
+          "es": "Firestore en modo Native"
+        },
+        {
+          "en": "BigQuery with streaming inserts",
+          "es": "BigQuery con inserciones de streaming"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Spanner is the only Google Cloud database that combines relational SQL, externally consistent transactions across regions, and transparent horizontal scaling, which is exactly the payments requirement. Cloud SQL scales vertically and its cross-region replicas are asynchronous and read-only, Firestore is a document store without relational joins and cross-entity transactional semantics at that scale, and BigQuery is an analytics warehouse, not an OLTP engine.",
+        "es": "Spanner es la única base de datos de Google Cloud que combina SQL relacional, transacciones con consistencia externa entre regiones y escalado horizontal transparente, que es justo el requisito de pagos. Cloud SQL escala verticalmente y sus réplicas entre regiones son asincrónicas y de solo lectura, Firestore es un almacén documental sin joins relacionales ni semántica transaccional entre entidades a esa escala, y BigQuery es un warehouse analítico, no un motor OLTP."
+      },
+      "doc": "https://cloud.google.com/spanner/docs/whitepapers/life-of-reads-and-writes"
+    },
+    {
+      "id": "db-046",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "bigtable",
+        "bigquery",
+        "cloud-sql",
+        "firestore"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-data-products"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A fleet of 500,000 IoT sensors writes one reading per second each. The application looks up recent readings by sensor and time range with single-digit millisecond latency. Which database is the BEST fit?",
+        "es": "Una flota de 500,000 sensores de IoT escribe una lectura por segundo cada uno. La aplicación consulta lecturas recientes por sensor y rango de tiempo con latencia de milisegundos de un dígito. ¿Cuál es la MEJOR base de datos?"
+      },
+      "opciones": [
+        {
+          "en": "Bigtable, with a row key that starts with the sensor ID followed by a reversed or bucketed timestamp",
+          "es": "Bigtable, con una row key que comienza con el ID del sensor seguido de una marca de tiempo invertida o agrupada"
+        },
+        {
+          "en": "Cloud SQL for MySQL with a composite index on (sensor_id, ts)",
+          "es": "Cloud SQL para MySQL con un índice compuesto en (sensor_id, ts)"
+        },
+        {
+          "en": "BigQuery with a table partitioned by ingestion time",
+          "es": "BigQuery con una tabla particionada por hora de ingesta"
+        },
+        {
+          "en": "Firestore in Native mode with one document per reading",
+          "es": "Firestore en modo Native con un documento por lectura"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Bigtable is built for this exact profile: enormous sustained write throughput, key-range scans by sensor and time, and low latency at petabyte scale. Cloud SQL cannot sustain 500,000 writes per second on a single primary, BigQuery is optimized for analytical scans rather than millisecond point lookups, and Firestore would be far more expensive and slower at this write volume.",
+        "es": "Bigtable está creado exactamente para este perfil: rendimiento de escritura sostenido enorme, escaneos por rango de clave según sensor y tiempo, y baja latencia a escala de petabytes. Cloud SQL no puede sostener 500,000 escrituras por segundo en una sola instancia principal, BigQuery está optimizado para escaneos analíticos y no para búsquedas puntuales de milisegundos, y Firestore sería mucho más costoso y lento con ese volumen de escritura."
+      },
+      "doc": "https://cloud.google.com/bigtable/docs/schema-design-time-series"
+    },
+    {
+      "id": "db-047",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "cloud-sql",
+        "spanner",
+        "bigquery",
+        "alloydb"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-data-products"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A team lifts and shifts a MySQL 8 application to Google Cloud. The database is 300 GB, traffic is regional, and the team wants the least migration and operational effort. What should you recommend?",
+        "es": "Un equipo migra tal cual (lift and shift) una aplicación MySQL 8 a Google Cloud. La base de datos pesa 300 GB, el tráfico es regional y el equipo quiere el menor esfuerzo de migración y operación. ¿Qué recomiendas?"
+      },
+      "opciones": [
+        {
+          "en": "Cloud SQL for MySQL with regional high availability and automated backups",
+          "es": "Cloud SQL para MySQL con alta disponibilidad regional y backups automáticos"
+        },
+        {
+          "en": "Spanner with the GoogleSQL dialect",
+          "es": "Spanner con el dialecto GoogleSQL"
+        },
+        {
+          "en": "MySQL installed on a Compute Engine managed instance group",
+          "es": "MySQL instalado en un grupo de instancias administrado de Compute Engine"
+        },
+        {
+          "en": "BigQuery with the application queries rewritten as scheduled jobs",
+          "es": "BigQuery con las consultas de la aplicación reescritas como trabajos programados"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Cloud SQL runs the same MySQL engine, so the application connects with no code changes, and Google handles patching, backups, and failover. Spanner would require schema and query rewrites for a scale the workload does not need, self-managed MySQL on Compute Engine puts all operations back on the team, and BigQuery is an analytics warehouse that does not serve OLTP traffic.",
+        "es": "Cloud SQL ejecuta el mismo motor MySQL, por lo que la aplicación se conecta sin cambios de código y Google se encarga de parches, backups y conmutación por error. Spanner exigiría reescribir esquema y consultas para una escala que la carga no necesita, MySQL autoadministrado en Compute Engine devuelve toda la operación al equipo y BigQuery es un warehouse analítico que no atiende tráfico OLTP."
+      },
+      "doc": "https://cloud.google.com/sql/docs/mysql/introduction"
+    },
+    {
+      "id": "db-048",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "memorystore",
+        "cloud-sql"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-data-products"
+      ],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "A product catalog on Cloud SQL is hit by the same read queries thousands of times per second and CPU is saturated. Which TWO changes address the problem while keeping Cloud SQL as the system of record?",
+        "es": "Un catálogo de productos en Cloud SQL recibe las mismas consultas de lectura miles de veces por segundo y la CPU está saturada. ¿Cuáles DOS cambios resuelven el problema manteniendo Cloud SQL como sistema de registro?"
+      },
+      "opciones": [
+        {
+          "en": "Put a Memorystore for Redis cache in front of the database for the hot catalog reads",
+          "es": "Colocar una caché de Memorystore para Redis frente a la base de datos para las lecturas activas del catálogo"
+        },
+        {
+          "en": "Add read replicas and send catalog queries to them",
+          "es": "Agregar réplicas de lectura y enviar las consultas del catálogo hacia ellas"
+        },
+        {
+          "en": "Migrate the catalog to BigQuery so queries are served by the warehouse",
+          "es": "Migrar el catálogo a BigQuery para que el warehouse atienda las consultas"
+        },
+        {
+          "en": "Disable automated backups to free CPU on the primary",
+          "es": "Desactivar los backups automáticos para liberar CPU en la instancia principal"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "A Redis cache absorbs repeated reads with sub-millisecond latency and read replicas spread the remaining query load, and both keep Cloud SQL as the authoritative store. C would add seconds of latency and is the wrong engine for per-request lookups, and D removes data protection while barely affecting CPU.",
+        "es": "Una caché de Redis absorbe las lecturas repetidas con latencia inferior al milisegundo y las réplicas de lectura reparten la carga restante, y ambas mantienen a Cloud SQL como almacén autoritativo. C agregaría segundos de latencia y es el motor equivocado para búsquedas por solicitud, y D elimina la protección de datos y apenas afecta la CPU."
+      },
+      "doc": "https://cloud.google.com/memorystore/docs/redis/redis-overview"
     }
   ]
 }

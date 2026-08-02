@@ -1,0 +1,954 @@
+{
+  "preguntas": [
+    {
+      "id": "tf-001",
+      "curso": "introduccion-terraform",
+      "servicios": ["terraform-iac"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-iac-tooling"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is Infrastructure as Code (IaC)?",
+        "es": "¿Qué es la infraestructura como código (IaC)?"
+      },
+      "opciones": [
+        { "en": "The practice of defining and provisioning infrastructure through machine-readable configuration files that are versioned in source control", "es": "La práctica de definir y aprovisionar infraestructura mediante archivos de configuración legibles por máquina que se versionan en un control de código fuente" },
+        { "en": "The practice of documenting manual console steps in a wiki so operators can repeat them", "es": "La práctica de documentar en una wiki los pasos manuales de la consola para que los operadores los repitan" },
+        { "en": "A managed service that automatically writes application source code for infrastructure teams", "es": "Un servicio administrado que escribe automáticamente el código fuente de las aplicaciones para los equipos de infraestructura" },
+        { "en": "A billing model where infrastructure is charged per line of configuration deployed", "es": "Un modelo de facturación en el que la infraestructura se cobra por línea de configuración implementada" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "IaC means infrastructure is described in configuration files that can be reviewed, versioned, and applied repeatably, which is exactly what Terraform does for Google Cloud. B is the opposite of IaC: manual steps in a wiki are not executable and still drift. C is wrong because IaC tools provision infrastructure, they do not author application code. D is invented; Google Cloud bills for the resources created, not for configuration lines.",
+        "es": "IaC significa que la infraestructura se describe en archivos de configuración que se pueden revisar, versionar y aplicar de forma repetible, que es justo lo que hace Terraform en Google Cloud. B es lo contrario de IaC: los pasos manuales en una wiki no son ejecutables y de todos modos generan desviaciones. C es incorrecta porque las herramientas de IaC aprovisionan infraestructura, no escriben el código de la aplicación. D es inventada; Google Cloud cobra por los recursos creados, no por líneas de configuración."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/terraform-overview"
+    },
+    {
+      "id": "tf-002",
+      "curso": "introduccion-terraform",
+      "servicios": ["terraform-iac"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-iac-tooling"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Terraform is described as a declarative tool. What does that mean?",
+        "es": "Se describe a Terraform como una herramienta declarativa. ¿Qué significa eso?"
+      },
+      "opciones": [
+        { "en": "You describe the desired end state of the infrastructure, and Terraform figures out the steps needed to reach it", "es": "Describes el estado final deseado de la infraestructura y Terraform determina los pasos necesarios para alcanzarlo" },
+        { "en": "You write the exact ordered list of API calls that must run, and Terraform executes them in that order", "es": "Escribes la lista exacta y ordenada de llamadas a la API que deben ejecutarse y Terraform las ejecuta en ese orden" },
+        { "en": "Terraform only reads infrastructure and reports on it; it never creates or changes resources", "es": "Terraform solo lee la infraestructura y genera informes; nunca crea ni modifica recursos" },
+        { "en": "Every configuration file must declare a programming language runtime before resources can be created", "es": "Cada archivo de configuración debe declarar un entorno de ejecución de un lenguaje de programación antes de poder crear recursos" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "In a declarative model you state what you want (for example, a VPC with two subnets) and Terraform computes the create, update, or delete actions needed. B describes an imperative approach such as a shell script full of gcloud commands. C is wrong: Terraform provisions and modifies resources, it is not read-only. D is invented; HCL is a configuration language and needs no runtime declaration.",
+        "es": "En un modelo declarativo tú declaras lo que quieres (por ejemplo, una VPC con dos subredes) y Terraform calcula las acciones de creación, actualización o eliminación necesarias. B describe un enfoque imperativo, como un script de shell lleno de comandos gcloud. C es incorrecta: Terraform aprovisiona y modifica recursos, no es de solo lectura. D es inventada; HCL es un lenguaje de configuración y no requiere declarar un entorno de ejecución."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/terraform-overview"
+    },
+    {
+      "id": "tf-003",
+      "curso": "introduccion-terraform",
+      "servicios": ["terraform-iac"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-iac-tooling"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What does it mean that a Terraform configuration is idempotent?",
+        "es": "¿Qué significa que una configuración de Terraform sea idempotente?"
+      },
+      "opciones": [
+        { "en": "Applying the same configuration repeatedly produces the same end state; if reality already matches, no changes are made", "es": "Aplicar la misma configuración repetidamente produce el mismo estado final; si la realidad ya coincide, no se hace ningún cambio" },
+        { "en": "Every apply recreates all resources from scratch to guarantee a clean environment", "es": "Cada apply vuelve a crear todos los recursos desde cero para garantizar un entorno limpio" },
+        { "en": "The configuration can only be applied once, and any further apply is rejected", "es": "La configuración solo se puede aplicar una vez y cualquier apply posterior se rechaza" },
+        { "en": "Resources are automatically deleted after each apply to avoid extra charges", "es": "Los recursos se borran automáticamente después de cada apply para evitar cargos adicionales" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Idempotency means repeated applies converge on the declared state without side effects: if nothing changed, Terraform reports 'No changes'. B is wrong because Terraform only replaces resources when a change forces replacement, not on every run. C is wrong: configurations are applied as often as needed. D is wrong; deleting resources is the job of terraform destroy, not of a normal apply.",
+        "es": "La idempotencia significa que aplicar repetidamente converge en el estado declarado sin efectos secundarios: si nada cambió, Terraform informa 'No changes'. B es incorrecta porque Terraform solo reemplaza recursos cuando un cambio obliga al reemplazo, no en cada ejecución. C es incorrecta: las configuraciones se aplican tantas veces como haga falta. D es incorrecta; borrar recursos es tarea de terraform destroy, no de un apply normal."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/basic-commands"
+    },
+    {
+      "id": "tf-004",
+      "curso": "introduccion-terraform",
+      "servicios": ["terraform-iac"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-iac-tooling"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What does the terraform init command do in a new working directory?",
+        "es": "¿Qué hace el comando terraform init en un directorio de trabajo nuevo?"
+      },
+      "opciones": [
+        { "en": "It initializes the working directory, downloads the required providers and modules, and configures the backend", "es": "Inicializa el directorio de trabajo, descarga los providers y módulos necesarios y configura el backend" },
+        { "en": "It creates all the resources declared in the configuration files", "es": "Crea todos los recursos declarados en los archivos de configuración" },
+        { "en": "It shows a preview of the changes Terraform would make without applying them", "es": "Muestra una vista previa de los cambios que Terraform haría sin aplicarlos" },
+        { "en": "It deletes every resource that Terraform is currently tracking", "es": "Borra todos los recursos que Terraform está rastreando actualmente" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "terraform init prepares the directory: it installs provider plugins such as the Google provider, fetches modules, and initializes the configured backend. B is terraform apply, C is terraform plan, and D is terraform destroy.",
+        "es": "terraform init prepara el directorio: instala los complementos de provider como el de Google, descarga los módulos e inicializa el backend configurado. B es terraform apply, C es terraform plan y D es terraform destroy."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/basic-commands"
+    },
+    {
+      "id": "tf-005",
+      "curso": "introduccion-terraform",
+      "servicios": ["terraform-iac", "gcloud-cli"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-iac-tooling"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is the purpose of the provider \"google\" block in a Terraform configuration?",
+        "es": "¿Cuál es el propósito del bloque provider \"google\" en una configuración de Terraform?"
+      },
+      "opciones": [
+        { "en": "It configures the plugin that lets Terraform talk to Google Cloud APIs, including default settings such as project and region", "es": "Configura el complemento que permite a Terraform comunicarse con las APIs de Google Cloud, incluidos valores predeterminados como project y region" },
+        { "en": "It declares a single Google Cloud resource such as a VM or a bucket", "es": "Declara un único recurso de Google Cloud, como una VM o un bucket" },
+        { "en": "It stores the Terraform state file inside the Google Cloud project", "es": "Almacena el archivo de estado de Terraform dentro del proyecto de Google Cloud" },
+        { "en": "It grants IAM roles to the user running Terraform", "es": "Otorga roles de IAM al usuario que ejecuta Terraform" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "The provider block configures the Google provider plugin and can set defaults like project, region, and zone that resources inherit. B is the job of a resource block. C is the job of a backend block (for example backend \"gcs\"). D requires google_project_iam_member resources or gcloud commands; a provider block grants nothing.",
+        "es": "El bloque provider configura el complemento del provider de Google y puede establecer valores predeterminados como project, region y zone que heredan los recursos. B corresponde a un bloque resource. C corresponde a un bloque backend (por ejemplo backend \"gcs\"). D requiere recursos google_project_iam_member o comandos gcloud; un bloque provider no otorga nada."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/get-started-with-terraform"
+    },
+    {
+      "id": "tf-006",
+      "curso": "introduccion-terraform",
+      "servicios": ["terraform-iac"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-iac-tooling"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is stored in the terraform.tfstate file?",
+        "es": "¿Qué se almacena en el archivo terraform.tfstate?"
+      },
+      "opciones": [
+        { "en": "A mapping between the resources declared in the configuration and the real resources that exist in Google Cloud, plus their attributes", "es": "Una correspondencia entre los recursos declarados en la configuración y los recursos reales que existen en Google Cloud, junto con sus atributos" },
+        { "en": "The audit log of every gcloud command executed in the project", "es": "El registro de auditoría de todos los comandos gcloud ejecutados en el proyecto" },
+        { "en": "The compiled binary of the Google provider plugin", "es": "El binario compilado del complemento del provider de Google" },
+        { "en": "The billing invoice for the resources Terraform created", "es": "La factura de facturación de los recursos que creó Terraform" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "State is Terraform's record of which real Google Cloud resources correspond to which configuration blocks, and it is what plan compares against. B is Cloud Audit Logs. C lives in the .terraform directory created by init, not in state. D is Cloud Billing data, unrelated to state.",
+        "es": "El estado es el registro de Terraform sobre qué recursos reales de Google Cloud corresponden a qué bloques de configuración, y es contra lo que compara plan. B es Cloud Audit Logs. C vive en el directorio .terraform que crea init, no en el estado. D son datos de Cloud Billing, sin relación con el estado."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/resource-management/store-state"
+    },
+    {
+      "id": "tf-007",
+      "curso": "introduccion-terraform",
+      "servicios": ["gke", "kubectl"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-iac-tooling"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is Config Connector?",
+        "es": "¿Qué es Config Connector?"
+      },
+      "opciones": [
+        { "en": "A Kubernetes add-on that lets you manage Google Cloud resources as Kubernetes custom resources (CRDs) from inside a cluster", "es": "Un complemento de Kubernetes que permite administrar recursos de Google Cloud como recursos personalizados de Kubernetes (CRDs) desde dentro de un clúster" },
+        { "en": "A VPN appliance that connects an on-premises data center to a VPC network", "es": "Un dispositivo de VPN que conecta un centro de datos local con una red de VPC" },
+        { "en": "A tool that converts Terraform HCL files into gcloud shell scripts", "es": "Una herramienta que convierte archivos HCL de Terraform en scripts de shell de gcloud" },
+        { "en": "A Cloud Build step that lints Kubernetes manifests before deployment", "es": "Un paso de Cloud Build que analiza manifiestos de Kubernetes antes de la implementación" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Config Connector installs CRDs and controllers in GKE so that Google Cloud resources such as buckets or Cloud SQL instances are declared with kubectl and reconciled continuously. B describes Cloud VPN. C does not exist as a Google product. D is a generic CI lint step, not Config Connector.",
+        "es": "Config Connector instala CRDs y controladores en GKE para que los recursos de Google Cloud, como buckets o instancias de Cloud SQL, se declaren con kubectl y se reconcilien continuamente. B describe Cloud VPN. C no existe como producto de Google. D es un paso genérico de lint en CI, no Config Connector."
+      },
+      "doc": "https://cloud.google.com/config-connector/docs/overview"
+    },
+    {
+      "id": "tf-008",
+      "curso": "introduccion-terraform",
+      "servicios": ["helm", "gke"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-iac-tooling"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "In the context of GKE, what is a Helm chart?",
+        "es": "En el contexto de GKE, ¿qué es un chart de Helm?"
+      },
+      "opciones": [
+        { "en": "A packaged, templated set of Kubernetes manifests that can be installed and upgraded as a single named release", "es": "Un conjunto empaquetado y con plantillas de manifiestos de Kubernetes que se puede instalar y actualizar como un único release con nombre" },
+        { "en": "A dashboard in Cloud Monitoring that charts cluster CPU and memory usage", "es": "Un panel de Cloud Monitoring que grafica el uso de CPU y memoria del clúster" },
+        { "en": "A Terraform module that provisions GKE node pools", "es": "Un módulo de Terraform que aprovisiona node pools de GKE" },
+        { "en": "A container image format optimized for Artifact Registry", "es": "Un formato de imagen de contenedor optimizado para Artifact Registry" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "A Helm chart bundles templated Kubernetes manifests plus default values so an application can be installed, upgraded, or rolled back as one release. B is a Monitoring dashboard, unrelated to Helm despite the word 'chart'. C is Terraform, which provisions the cluster rather than packaging in-cluster manifests. D is wrong: container images use the OCI format; charts package manifests, although they can be stored in Artifact Registry.",
+        "es": "Un chart de Helm agrupa manifiestos de Kubernetes con plantillas y valores predeterminados para que una aplicación se pueda instalar, actualizar o revertir como un solo release. B es un panel de Monitoring, sin relación con Helm pese a la palabra 'chart'. C es Terraform, que aprovisiona el clúster en lugar de empaquetar manifiestos dentro de él. D es incorrecta: las imágenes de contenedor usan el formato OCI; los charts empaquetan manifiestos, aunque se pueden almacenar en Artifact Registry."
+      },
+      "doc": "https://cloud.google.com/artifact-registry/docs/helm"
+    },
+    {
+      "id": "tf-009",
+      "curso": "introduccion-terraform",
+      "servicios": ["terraform-iac"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-iac-tooling"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is a Terraform module?",
+        "es": "¿Qué es un módulo de Terraform?"
+      },
+      "opciones": [
+        { "en": "A reusable container of Terraform configuration files that can be called multiple times with different input variables", "es": "Un contenedor reutilizable de archivos de configuración de Terraform que se puede invocar varias veces con distintas variables de entrada" },
+        { "en": "A plugin that adds support for a new cloud provider API", "es": "Un complemento que agrega compatibilidad con la API de un nuevo proveedor de nube" },
+        { "en": "A snapshot of the state file taken before each apply", "es": "Una instantánea del archivo de estado que se toma antes de cada apply" },
+        { "en": "A command that formats HCL files to the canonical style", "es": "Un comando que da formato canónico a los archivos HCL" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Modules package a set of resources behind input variables and outputs so the same pattern (for example, a network or a GKE cluster) can be reused across environments. B describes a provider. C describes state versioning or backup, not a module. D is terraform fmt.",
+        "es": "Los módulos empaquetan un conjunto de recursos detrás de variables de entrada y outputs para reutilizar el mismo patrón (por ejemplo, una red o un clúster de GKE) en varios entornos. B describe un provider. C describe el versionado o respaldo del estado, no un módulo. D es terraform fmt."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/best-practices/general-style-structure"
+    },
+    {
+      "id": "tf-010",
+      "curso": "introduccion-terraform",
+      "servicios": ["terraform-iac"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-iac-tooling"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What does terraform plan do?",
+        "es": "¿Qué hace terraform plan?"
+      },
+      "opciones": [
+        { "en": "It compares the configuration with the current state and shows which resources would be created, changed, or destroyed, without modifying anything", "es": "Compara la configuración con el estado actual y muestra qué recursos se crearían, cambiarían o destruirían, sin modificar nada" },
+        { "en": "It applies the configuration and then prints a summary of what was created", "es": "Aplica la configuración y luego imprime un resumen de lo que se creó" },
+        { "en": "It downloads the provider plugins declared in the configuration", "es": "Descarga los complementos de provider declarados en la configuración" },
+        { "en": "It uploads the state file to a Cloud Storage bucket", "es": "Sube el archivo de estado a un bucket de Cloud Storage" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "plan is a dry run: it refreshes state, diffs it against the configuration, and prints the proposed actions so a human can review them before apply. B is terraform apply. C is terraform init. D happens automatically when a GCS backend is configured, but it is not what plan does.",
+        "es": "plan es una simulación: actualiza el estado, lo compara con la configuración e imprime las acciones propuestas para que una persona las revise antes del apply. B es terraform apply. C es terraform init. D ocurre automáticamente cuando hay un backend de GCS configurado, pero no es lo que hace plan."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/basic-commands"
+    },
+    {
+      "id": "tf-011",
+      "curso": "introduccion-terraform",
+      "servicios": ["terraform-iac"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-iac-tooling"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is the purpose of a variable block in Terraform?",
+        "es": "¿Cuál es el propósito de un bloque variable en Terraform?"
+      },
+      "opciones": [
+        { "en": "It declares an input parameter so the same configuration can be reused with different values per environment", "es": "Declara un parámetro de entrada para que la misma configuración se pueda reutilizar con distintos valores por entorno" },
+        { "en": "It exposes a value produced by the configuration so other configurations can consume it", "es": "Expone un valor producido por la configuración para que otras configuraciones lo consuman" },
+        { "en": "It queries an existing Google Cloud resource that Terraform does not manage", "es": "Consulta un recurso existente de Google Cloud que Terraform no administra" },
+        { "en": "It defines where the Terraform state file is stored", "es": "Define dónde se almacena el archivo de estado de Terraform" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "variable blocks declare inputs (with optional type, default, and description) so values such as project_id or region can change per environment without editing the resources. B describes an output block. C describes a data block. D describes a backend block.",
+        "es": "Los bloques variable declaran entradas (con type, default y description opcionales) para que valores como project_id o region cambien por entorno sin editar los recursos. B describe un bloque output. C describe un bloque data. D describe un bloque backend."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/best-practices/general-style-structure"
+    },
+    {
+      "id": "tf-012",
+      "curso": "introduccion-terraform",
+      "servicios": ["terraform-iac"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-iac-tooling"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is an output block used for in a Terraform configuration?",
+        "es": "¿Para qué sirve un bloque output en una configuración de Terraform?"
+      },
+      "opciones": [
+        { "en": "To expose a computed value, such as a load balancer IP address, so users or other configurations can read it after apply", "es": "Para exponer un valor calculado, como la dirección IP de un balanceador de cargas, de modo que usuarios u otras configuraciones puedan leerlo después del apply" },
+        { "en": "To write application logs from the created resources into Cloud Logging", "es": "Para escribir en Cloud Logging los registros de aplicación de los recursos creados" },
+        { "en": "To define the credentials Terraform uses to authenticate to Google Cloud", "es": "Para definir las credenciales que Terraform usa para autenticarse en Google Cloud" },
+        { "en": "To force Terraform to recreate a resource on the next apply", "es": "Para forzar que Terraform vuelva a crear un recurso en el siguiente apply" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Outputs surface attributes that are only known after creation, and they are how a root module or a child module returns values. B is done by Cloud Logging agents and services, not by Terraform outputs. C is handled by Application Default Credentials or the provider configuration. D is the job of the terraform apply -replace option.",
+        "es": "Los outputs muestran atributos que solo se conocen después de la creación y son la forma en que un módulo raíz o secundario devuelve valores. B lo hacen los agentes y servicios de Cloud Logging, no los outputs de Terraform. C se resuelve con Application Default Credentials o la configuración del provider. D corresponde a la opción terraform apply -replace."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/best-practices/general-style-structure"
+    },
+    {
+      "id": "tf-013",
+      "curso": "introduccion-terraform",
+      "servicios": ["gemini-cloud-assist", "gcloud-cli"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-ai-assisted-tooling"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is the Gemini CLI?",
+        "es": "¿Qué es Gemini CLI?"
+      },
+      "opciones": [
+        { "en": "An open-source AI agent that runs in your terminal and can help you understand, generate, and modify code and configuration files", "es": "Un agente de IA de código abierto que se ejecuta en tu terminal y ayuda a comprender, generar y modificar código y archivos de configuración" },
+        { "en": "A replacement for the gcloud CLI that manages all Google Cloud resources without authentication", "es": "Un reemplazo de la CLI de gcloud que administra todos los recursos de Google Cloud sin autenticación" },
+        { "en": "A billing console that predicts next month's Google Cloud invoice", "es": "Una consola de facturación que predice la factura de Google Cloud del próximo mes" },
+        { "en": "A Kubernetes controller that reconciles Google Cloud resources declared as CRDs", "es": "Un controlador de Kubernetes que reconcilia recursos de Google Cloud declarados como CRDs" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Gemini CLI brings a Gemini-powered agent into the terminal, where it can read a repository and help write or refactor artifacts such as Terraform configurations. B is wrong: Gemini CLI complements gcloud and still requires authenticated credentials to touch Google Cloud. C describes billing forecasting features in Cloud Billing. D describes Config Connector.",
+        "es": "Gemini CLI lleva un agente impulsado por Gemini a la terminal, donde puede leer un repositorio y ayudar a escribir o refactorizar artefactos como configuraciones de Terraform. B es incorrecta: Gemini CLI complementa a gcloud y sigue requiriendo credenciales autenticadas para tocar Google Cloud. C describe las funciones de previsión de Cloud Billing. D describe Config Connector."
+      },
+      "doc": "https://cloud.google.com/gemini/docs/codeassist/gemini-cli"
+    },
+    {
+      "id": "tf-014",
+      "curso": "introduccion-terraform",
+      "servicios": ["gemini-cloud-assist"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-ai-assisted-tooling"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is Application Design Center in Google Cloud?",
+        "es": "¿Qué es Application Design Center en Google Cloud?"
+      },
+      "opciones": [
+        { "en": "A service for visually designing and templating application infrastructure, with AI assistance, that can produce Terraform configurations for deployment", "es": "Un servicio para diseñar y crear plantillas de infraestructura de aplicaciones de forma visual, con asistencia de IA, que puede producir configuraciones de Terraform para su implementación" },
+        { "en": "A UI toolkit for building the front end of web applications hosted on Cloud Run", "es": "Un kit de IU para crear el front-end de aplicaciones web alojadas en Cloud Run" },
+        { "en": "A design review workflow that approves IAM policy changes before they take effect", "es": "Un flujo de revisión de diseño que aprueba los cambios de políticas de IAM antes de que surtan efecto" },
+        { "en": "A migration assessment tool that scans on-premises virtual machines", "es": "Una herramienta de evaluación de migraciones que analiza máquinas virtuales locales" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Application Design Center lets teams design application architectures on a canvas, save them as reusable templates, and generate infrastructure as code that can be deployed. B is unrelated: it describes front-end frameworks. C is not a product; IAM changes are governed by org policies and approvals outside this service. D describes Migration Center.",
+        "es": "Application Design Center permite a los equipos diseñar arquitecturas de aplicaciones en un lienzo, guardarlas como plantillas reutilizables y generar infraestructura como código para implementarla. B no tiene relación: describe frameworks de front-end. C no es un producto; los cambios de IAM se gobiernan con políticas de organización y aprobaciones fuera de este servicio. D describe Migration Center."
+      },
+      "doc": "https://cloud.google.com/application-design-center/docs/overview"
+    },
+    {
+      "id": "tf-015",
+      "curso": "introduccion-terraform",
+      "servicios": ["terraform-iac"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-iac-tooling"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is a data block used for in Terraform?",
+        "es": "¿Para qué se usa un bloque data en Terraform?"
+      },
+      "opciones": [
+        { "en": "To read information about an existing resource that Terraform does not manage, so it can be referenced in the configuration", "es": "Para leer información de un recurso existente que Terraform no administra y poder referenciarlo en la configuración" },
+        { "en": "To create a new resource and add it to the state file", "es": "Para crear un recurso nuevo y agregarlo al archivo de estado" },
+        { "en": "To store sensitive values such as passwords inside the state file", "es": "Para almacenar valores sensibles como contraseñas dentro del archivo de estado" },
+        { "en": "To define the version constraint of the Google provider", "es": "Para definir la restricción de versión del provider de Google" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "A data source performs a read-only lookup, for example fetching an existing network or the current project, and exposes its attributes to other blocks. B is a resource block. C describes what you should avoid; secrets belong in Secret Manager, not in configuration. D is set in the required_providers section of the terraform block.",
+        "es": "Un data source hace una consulta de solo lectura, por ejemplo obtener una red existente o el proyecto actual, y expone sus atributos a otros bloques. B es un bloque resource. C describe lo que se debe evitar; los secretos van en Secret Manager, no en la configuración. D se define en la sección required_providers del bloque terraform."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/best-practices/general-style-structure"
+    },
+    {
+      "id": "tf-016",
+      "curso": "introduccion-terraform",
+      "servicios": ["terraform-iac"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-iac-tooling"],
+      "nivel": "principiante",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO reasons explain why you should NOT commit terraform.tfstate to a Git repository?",
+        "es": "¿Cuáles DOS razones explican por qué NO se debe subir terraform.tfstate a un repositorio de Git?"
+      },
+      "opciones": [
+        { "en": "State can contain sensitive values in plain text, such as generated passwords or keys", "es": "El estado puede contener valores sensibles en texto plano, como contraseñas o claves generadas" },
+        { "en": "Git provides no locking, so two engineers applying at the same time can corrupt the state", "es": "Git no ofrece bloqueo, por lo que dos ingenieros que apliquen al mismo tiempo pueden corromper el estado" },
+        { "en": "Terraform refuses to run if a state file is present in a Git working tree", "es": "Terraform se niega a ejecutarse si hay un archivo de estado en un árbol de trabajo de Git" },
+        { "en": "State files cannot be stored in text format and are therefore incompatible with Git", "es": "Los archivos de estado no se pueden almacenar en formato de texto y por eso son incompatibles con Git" }
+      ],
+      "respuesta": ["A", "B"],
+      "explicacion": {
+        "en": "State frequently holds sensitive attributes in clear text, and Git offers no state locking, so concurrent applies can overwrite each other. The recommended pattern is a remote backend in Cloud Storage. C is false: Terraform runs fine, it simply is not safe to share state this way. D is false: state is JSON text, so Git could store it; the problem is secrecy and concurrency, not the format.",
+        "es": "El estado suele contener atributos sensibles en texto claro y Git no ofrece bloqueo de estado, por lo que aplicaciones concurrentes pueden sobrescribirse. El patrón recomendado es un backend remoto en Cloud Storage. C es falsa: Terraform se ejecuta sin problema, simplemente no es seguro compartir el estado así. D es falsa: el estado es texto JSON, así que Git podría guardarlo; el problema es la confidencialidad y la concurrencia, no el formato."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/resource-management/store-state"
+    },
+    {
+      "id": "tf-017",
+      "curso": "introduccion-terraform",
+      "servicios": ["terraform-iac"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-iac-tooling"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What does terraform destroy do?",
+        "es": "¿Qué hace terraform destroy?"
+      },
+      "opciones": [
+        { "en": "It removes the infrastructure that is tracked in the current state, after showing a plan and asking for confirmation", "es": "Elimina la infraestructura registrada en el estado actual, después de mostrar un plan y pedir confirmación" },
+        { "en": "It deletes the local configuration files so the directory can be reused", "es": "Borra los archivos de configuración locales para poder reutilizar el directorio" },
+        { "en": "It removes a resource from the state file but leaves it running in Google Cloud", "es": "Quita un recurso del archivo de estado pero lo deja en ejecución en Google Cloud" },
+        { "en": "It deletes every resource in the Google Cloud project, whether Terraform created it or not", "es": "Borra todos los recursos del proyecto de Google Cloud, los haya creado Terraform o no" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "destroy tears down exactly the resources recorded in state, and like apply it prompts for approval first. B is wrong: your .tf files are never deleted. C describes terraform state rm. D is wrong because Terraform only touches resources it manages in that state; resources created outside it are untouched.",
+        "es": "destroy elimina exactamente los recursos registrados en el estado y, al igual que apply, pide aprobación antes. B es incorrecta: tus archivos .tf nunca se borran. C describe terraform state rm. D es incorrecta porque Terraform solo toca los recursos que administra en ese estado; los creados fuera no se ven afectados."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/basic-commands"
+    },
+    {
+      "id": "tf-018",
+      "curso": "introduccion-terraform",
+      "servicios": ["terraform-iac"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-iac-tooling"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is the purpose of the terraform fmt command?",
+        "es": "¿Cuál es el propósito del comando terraform fmt?"
+      },
+      "opciones": [
+        { "en": "It rewrites configuration files to the canonical HCL style and indentation", "es": "Reescribe los archivos de configuración con el estilo y la indentación canónicos de HCL" },
+        { "en": "It formats the state file so it is easier to read in a text editor", "es": "Da formato al archivo de estado para que sea más fácil de leer en un editor de texto" },
+        { "en": "It checks that all resource arguments are valid for the configured provider", "es": "Verifica que todos los argumentos de los recursos sean válidos para el provider configurado" },
+        { "en": "It converts JSON configuration files into HCL", "es": "Convierte archivos de configuración JSON en HCL" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "terraform fmt is a style tool: it normalizes spacing and alignment so code reviews focus on logic instead of formatting. B is wrong, fmt never touches state. C is terraform validate. D is invented; there is no fmt-based JSON to HCL converter.",
+        "es": "terraform fmt es una herramienta de estilo: normaliza espacios y alineación para que las revisiones de código se centren en la lógica y no en el formato. B es incorrecta, fmt nunca toca el estado. C es terraform validate. D es inventada; no existe un conversor de JSON a HCL basado en fmt."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/best-practices/general-style-structure"
+    },
+    {
+      "id": "tf-019",
+      "curso": "introduccion-terraform",
+      "servicios": ["gemini-cloud-assist"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-ai-assisted-tooling"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is Gemini Cloud Assist?",
+        "es": "¿Qué es Gemini Cloud Assist?"
+      },
+      "opciones": [
+        { "en": "An AI assistant built into the Google Cloud console that helps design, troubleshoot, and optimize cloud environments using context from your resources", "es": "Un asistente de IA integrado en la consola de Google Cloud que ayuda a diseñar, solucionar problemas y optimizar entornos de nube usando el contexto de tus recursos" },
+        { "en": "A support ticketing system where Google engineers respond to production incidents", "es": "Un sistema de tickets de soporte donde ingenieros de Google responden a incidentes de producción" },
+        { "en": "A command-line replacement for terraform plan that predicts cost", "es": "Un reemplazo de línea de comandos para terraform plan que predice costos" },
+        { "en": "A code repository service for storing Terraform modules", "es": "Un servicio de repositorios de código para almacenar módulos de Terraform" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Gemini Cloud Assist is embedded across the console and uses signals from your project to answer questions, propose designs, and help investigate issues. B describes Cloud Customer Care, a human support channel. C is invented; cost estimates come from the pricing calculator or billing tools. D describes a source repository or Artifact Registry, not Gemini Cloud Assist.",
+        "es": "Gemini Cloud Assist está integrado en la consola y usa señales de tu proyecto para responder preguntas, proponer diseños y ayudar a investigar problemas. B describe Cloud Customer Care, un canal de soporte humano. C es inventada; las estimaciones de costo vienen de la calculadora de precios o de las herramientas de facturación. D describe un repositorio de código o Artifact Registry, no Gemini Cloud Assist."
+      },
+      "doc": "https://cloud.google.com/gemini/docs/cloud-assist/overview"
+    },
+    {
+      "id": "tf-020",
+      "curso": "introduccion-terraform",
+      "servicios": ["service-accounts", "iam"],
+      "seccion_blueprint": 4,
+      "subtopicos": ["4.2-sa-least-privilege"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What are Application Default Credentials (ADC) in the context of running Terraform against Google Cloud?",
+        "es": "¿Qué son las Application Default Credentials (ADC) en el contexto de ejecutar Terraform contra Google Cloud?"
+      },
+      "opciones": [
+        { "en": "A standard strategy in which client libraries and tools automatically look for credentials in a well-known order, such as an environment variable, a local credentials file, or the attached service account", "es": "Una estrategia estándar en la que las bibliotecas cliente y las herramientas buscan credenciales automáticamente en un orden conocido, como una variable de entorno, un archivo local de credenciales o la cuenta de servicio adjunta" },
+        { "en": "A default IAM role that grants Owner permissions to anyone who runs Terraform", "es": "Un rol de IAM predeterminado que otorga permisos de Owner a cualquiera que ejecute Terraform" },
+        { "en": "A static API key that must be hardcoded in the provider block", "es": "Una clave de API estática que se debe codificar directamente en el bloque provider" },
+        { "en": "A backend type that stores credentials next to the Terraform state", "es": "Un tipo de backend que almacena credenciales junto al estado de Terraform" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "ADC lets the Google provider find credentials without hardcoding them: on a workstation via gcloud auth application-default login, and on Google Cloud compute via the attached service account. B is false, ADC grants nothing; IAM roles are granted separately and should follow least privilege. C is the anti-pattern ADC exists to avoid. D is invented; backends store state, not credentials.",
+        "es": "ADC permite que el provider de Google encuentre credenciales sin codificarlas: en una estación de trabajo con gcloud auth application-default login y en cómputo de Google Cloud mediante la cuenta de servicio adjunta. B es falsa, ADC no otorga nada; los roles de IAM se otorgan por separado y deben seguir el mínimo privilegio. C es justamente el antipatrón que ADC evita. D es inventada; los backends guardan estado, no credenciales."
+      },
+      "doc": "https://cloud.google.com/docs/authentication/provide-credentials-adc"
+    },
+    {
+      "id": "tf-021",
+      "curso": "introduccion-terraform",
+      "servicios": ["service-accounts", "iam"],
+      "seccion_blueprint": 4,
+      "subtopicos": ["4.2-sa-impersonation"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is service account impersonation?",
+        "es": "¿Qué es la suplantación de una cuenta de servicio?"
+      },
+      "opciones": [
+        { "en": "A principal with the right IAM role obtains short-lived credentials for a service account and acts with that account's permissions, without downloading a key", "es": "Un principal con el rol de IAM adecuado obtiene credenciales de corta duración de una cuenta de servicio y actúa con los permisos de esa cuenta, sin descargar una clave" },
+        { "en": "A service account is renamed so it appears to be a regular user account", "es": "Se cambia el nombre de una cuenta de servicio para que parezca una cuenta de usuario normal" },
+        { "en": "A user shares their password with a service account to delegate access", "es": "Un usuario comparte su contraseña con una cuenta de servicio para delegar el acceso" },
+        { "en": "A service account key file is copied to every workstation that needs access", "es": "Se copia un archivo de clave de la cuenta de servicio a cada estación de trabajo que necesita acceso" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Impersonation issues short-lived tokens for a service account to a principal that holds a role such as Service Account Token Creator, which removes the need for long-lived key files. B is meaningless: renaming changes nothing about permissions. C is wrong because service accounts have no passwords. D is exactly the key-distribution practice impersonation is designed to replace.",
+        "es": "La suplantación emite tokens de corta duración de una cuenta de servicio a un principal que tiene un rol como Service Account Token Creator, lo que elimina la necesidad de archivos de clave de larga duración. B carece de sentido: renombrar no cambia los permisos. C es incorrecta porque las cuentas de servicio no tienen contraseñas. D es exactamente la práctica de distribuir claves que la suplantación viene a reemplazar."
+      },
+      "doc": "https://cloud.google.com/docs/authentication/use-service-account-impersonation"
+    },
+    {
+      "id": "tf-022",
+      "curso": "introduccion-terraform",
+      "servicios": ["cloud-storage", "terraform-iac"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.2-gcs-management"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Why would a team store the Terraform state file in a Cloud Storage bucket instead of on a laptop?",
+        "es": "¿Por qué un equipo almacenaría el archivo de estado de Terraform en un bucket de Cloud Storage en lugar de en una laptop?"
+      },
+      "opciones": [
+        { "en": "So the state is shared, durable, and centrally controlled, letting several engineers work on the same infrastructure safely", "es": "Para que el estado sea compartido, durable y controlado de forma centralizada, permitiendo que varios ingenieros trabajen sobre la misma infraestructura con seguridad" },
+        { "en": "So Terraform runs faster because Cloud Storage caches provider plugins", "es": "Para que Terraform se ejecute más rápido porque Cloud Storage almacena en caché los complementos de provider" },
+        { "en": "Because Terraform cannot read a local state file on Linux workstations", "es": "Porque Terraform no puede leer un archivo de estado local en estaciones de trabajo Linux" },
+        { "en": "Because Cloud Storage automatically converts the state into Terraform configuration files", "es": "Porque Cloud Storage convierte automáticamente el estado en archivos de configuración de Terraform" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "A remote backend in a bucket makes state durable and shared so the whole team plans against the same reality, and access can be restricted with IAM. B is wrong: plugins are cached locally in the .terraform directory, not in the bucket. C is false, local state works fine on any OS. D is invented; nothing regenerates HCL from state automatically.",
+        "es": "Un backend remoto en un bucket hace que el estado sea durable y compartido para que todo el equipo planifique contra la misma realidad, y el acceso se puede restringir con IAM. B es incorrecta: los complementos se almacenan en caché localmente en el directorio .terraform, no en el bucket. C es falsa, el estado local funciona bien en cualquier sistema operativo. D es inventada; nada regenera HCL a partir del estado de forma automática."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/resource-management/store-state"
+    },
+    {
+      "id": "tf-023",
+      "curso": "introduccion-terraform",
+      "servicios": ["terraform-iac", "cloud-storage"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-iac-tooling"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You add a backend \"gcs\" block to a configuration that already has local state. Which command moves the existing state to the bucket?",
+        "es": "Agregas un bloque backend \"gcs\" a una configuración que ya tiene estado local. ¿Qué comando mueve el estado existente al bucket?"
+      },
+      "opciones": [
+        { "en": "terraform init -migrate-state", "es": "terraform init -migrate-state" },
+        { "en": "terraform apply -refresh-only", "es": "terraform apply -refresh-only" },
+        { "en": "gcloud storage cp terraform.tfstate gs://BUCKET/", "es": "gcloud storage cp terraform.tfstate gs://BUCKET/" },
+        { "en": "terraform state push --backend=gcs", "es": "terraform state push --backend=gcs" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Re-running init after changing the backend detects the change and, with -migrate-state, copies the existing state into the bucket. B only refreshes state against the real infrastructure; it does not relocate the backend. C copies the file but leaves Terraform unaware of the new backend and skips locking metadata, so the next init would still prompt. D is not a valid command; terraform state push exists but takes no backend flag and bypasses the migration flow.",
+        "es": "Volver a ejecutar init después de cambiar el backend detecta el cambio y, con -migrate-state, copia el estado existente al bucket. B solo actualiza el estado contra la infraestructura real; no reubica el backend. C copia el archivo pero deja a Terraform sin conocer el nuevo backend y omite los metadatos de bloqueo, así que el siguiente init igual preguntaría. D no es un comando válido; terraform state push existe pero no acepta un flag de backend y omite el flujo de migración."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/resource-management/store-state"
+    },
+    {
+      "id": "tf-024",
+      "curso": "introduccion-terraform",
+      "servicios": ["terraform-iac", "cloud-storage"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-iac-tooling"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which two arguments are required inside a backend \"gcs\" block to store Terraform state in Cloud Storage?",
+        "es": "¿Qué dos argumentos se requieren dentro de un bloque backend \"gcs\" para almacenar el estado de Terraform en Cloud Storage?"
+      },
+      "opciones": [
+        { "en": "bucket and prefix", "es": "bucket y prefix" },
+        { "en": "project and region", "es": "project y region" },
+        { "en": "credentials and zone", "es": "credentials y zone" },
+        { "en": "state_file and encryption_key", "es": "state_file y encryption_key" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "The GCS backend is configured with the bucket name and a prefix that acts as the object path, which lets several environments share one bucket under different prefixes. B is not part of the backend; the bucket already lives in a project and location. C is wrong: credentials come from ADC by default and zone is irrelevant to a bucket. D is invented; the object name is derived from the prefix and workspace.",
+        "es": "El backend de GCS se configura con el nombre del bucket y un prefix que funciona como ruta del objeto, lo que permite que varios entornos compartan un bucket bajo distintos prefixes. B no forma parte del backend; el bucket ya reside en un proyecto y una ubicación. C es incorrecta: las credenciales vienen de ADC de forma predeterminada y la zona no aplica a un bucket. D es inventada; el nombre del objeto se deriva del prefix y del workspace."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/resource-management/store-state"
+    },
+    {
+      "id": "tf-025",
+      "curso": "introduccion-terraform",
+      "servicios": ["terraform-iac", "cloud-storage"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-iac-tooling"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What problem does Terraform state locking solve when using the Cloud Storage backend?",
+        "es": "¿Qué problema resuelve el bloqueo de estado (state locking) de Terraform al usar el backend de Cloud Storage?"
+      },
+      "opciones": [
+        { "en": "It prevents two simultaneous apply operations from writing to the same state and corrupting it", "es": "Evita que dos operaciones apply simultáneas escriban en el mismo estado y lo corrompan" },
+        { "en": "It encrypts the state file so secrets cannot be read by bucket viewers", "es": "Encripta el archivo de estado para que quienes vean el bucket no puedan leer los secretos" },
+        { "en": "It prevents users from deleting resources that are marked as production", "es": "Impide que los usuarios borren recursos marcados como de producción" },
+        { "en": "It restricts which IAM principals can run terraform plan", "es": "Restringe qué principales de IAM pueden ejecutar terraform plan" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "The GCS backend acquires a lock for the duration of a state-changing operation so concurrent runs queue instead of clobbering each other. B is a different control: Cloud Storage encrypts at rest by default and access is limited with IAM, but that is not locking. C is achieved with lifecycle prevent_destroy or org policies. D is IAM on the bucket and APIs, not locking.",
+        "es": "El backend de GCS adquiere un bloqueo durante toda operación que modifica el estado, de modo que las ejecuciones concurrentes esperan en lugar de pisarse. B es otro control: Cloud Storage encripta en reposo de forma predeterminada y el acceso se limita con IAM, pero eso no es bloqueo. C se logra con lifecycle prevent_destroy o políticas de organización. D es IAM sobre el bucket y las APIs, no bloqueo."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/resource-management/store-state"
+    },
+    {
+      "id": "tf-026",
+      "curso": "introduccion-terraform",
+      "servicios": ["terraform-iac", "compute-engine"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-iac-tooling"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A VM was created manually in the console. You wrote a matching resource block and want Terraform to manage the existing VM without recreating it. What do you do?",
+        "es": "Se creó una VM manualmente en la consola. Escribiste un bloque resource equivalente y quieres que Terraform administre la VM existente sin volver a crearla. ¿Qué haces?"
+      },
+      "opciones": [
+        { "en": "Run terraform import to bind the existing VM to the resource address in state, then run plan to confirm no changes", "es": "Ejecutas terraform import para vincular la VM existente a la dirección del recurso en el estado y luego ejecutas plan para confirmar que no hay cambios" },
+        { "en": "Run terraform apply so Terraform adopts any resource with a matching name", "es": "Ejecutas terraform apply para que Terraform adopte cualquier recurso con un nombre coincidente" },
+        { "en": "Delete the VM in the console and let terraform apply create it again", "es": "Borras la VM en la consola y dejas que terraform apply la vuelva a crear" },
+        { "en": "Run terraform refresh, which automatically discovers unmanaged resources", "es": "Ejecutas terraform refresh, que descubre automáticamente los recursos no administrados" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Import writes the existing resource's identity into state so future plans compare against it; the follow-up plan verifies your HCL truly matches. B is wrong, Terraform never adopts unknown resources and would try to create a duplicate or fail on a name conflict. C works but causes avoidable downtime and data loss, so it is not the correct approach. D is wrong: refresh only updates resources already in state, it does not discover new ones.",
+        "es": "Import escribe en el estado la identidad del recurso existente para que los planes futuros se comparen contra él; el plan posterior verifica que tu HCL realmente coincida. B es incorrecta, Terraform nunca adopta recursos desconocidos e intentaría crear un duplicado o fallaría por conflicto de nombre. C funciona pero provoca tiempo de inactividad y pérdida de datos evitables, por lo que no es el enfoque correcto. D es incorrecta: refresh solo actualiza recursos que ya están en el estado, no descubre nuevos."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/resource-management/import"
+    },
+    {
+      "id": "tf-027",
+      "curso": "introduccion-terraform",
+      "servicios": ["terraform-iac"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-iac-tooling"],
+      "nivel": "intermedio",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO methods can supply a value for a declared Terraform input variable named region?",
+        "es": "¿Cuáles DOS métodos pueden proporcionar un valor para una variable de entrada de Terraform declarada como region?"
+      },
+      "opciones": [
+        { "en": "Passing -var-file=prod.tfvars on the command line", "es": "Pasar -var-file=prod.tfvars en la línea de comandos" },
+        { "en": "Setting the environment variable TF_VAR_region", "es": "Definir la variable de entorno TF_VAR_region" },
+        { "en": "Adding the value to the terraform.tfstate file by hand", "es": "Agregar el valor a mano en el archivo terraform.tfstate" },
+        { "en": "Setting the GOOGLE_REGION environment variable", "es": "Definir la variable de entorno GOOGLE_REGION" }
+      ],
+      "respuesta": ["A", "B"],
+      "explicacion": {
+        "en": "Terraform reads input values from .tfvars files passed with -var-file and from environment variables prefixed with TF_VAR_. C is wrong and dangerous: state is managed by Terraform and must not be hand-edited to inject inputs. D is wrong because provider-specific environment variables such as GOOGLE_REGION can configure the provider, but they do not populate your own declared variable.",
+        "es": "Terraform lee los valores de entrada desde archivos .tfvars pasados con -var-file y desde variables de entorno con el prefijo TF_VAR_. C es incorrecta y peligrosa: el estado lo administra Terraform y no se debe editar a mano para inyectar entradas. D es incorrecta porque las variables de entorno específicas del provider como GOOGLE_REGION pueden configurar el provider, pero no llenan tu variable declarada."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/best-practices/general-style-structure"
+    },
+    {
+      "id": "tf-028",
+      "curso": "introduccion-terraform",
+      "servicios": ["terraform-iac"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-iac-tooling"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "When should you use a locals block instead of a variable block?",
+        "es": "¿Cuándo se debe usar un bloque locals en lugar de un bloque variable?"
+      },
+      "opciones": [
+        { "en": "When you need a named intermediate value computed inside the configuration that callers should not override", "es": "Cuando necesitas un valor intermedio con nombre, calculado dentro de la configuración, que quienes la invocan no deben poder sobrescribir" },
+        { "en": "When the value must be provided by the person running terraform apply", "es": "Cuando el valor debe ser proporcionado por la persona que ejecuta terraform apply" },
+        { "en": "When the value must be returned to a parent module after apply", "es": "Cuando el valor debe devolverse al módulo padre después del apply" },
+        { "en": "When the value contains a secret that must be stored in the state file", "es": "Cuando el valor contiene un secreto que debe almacenarse en el archivo de estado" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "locals name expressions that are derived inside the configuration, such as a naming prefix built from project and environment, and they cannot be set from outside. B is the purpose of an input variable. C is the purpose of an output. D is an anti-pattern; secrets belong in Secret Manager and should not be introduced through locals.",
+        "es": "locals nombra expresiones derivadas dentro de la configuración, como un prefijo de nombres construido a partir del proyecto y el entorno, y no se pueden definir desde afuera. B es el propósito de una variable de entrada. C es el propósito de un output. D es un antipatrón; los secretos van en Secret Manager y no se deben introducir mediante locals."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/best-practices/general-style-structure"
+    },
+    {
+      "id": "tf-029",
+      "curso": "introduccion-terraform",
+      "servicios": ["terraform-iac"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-iac-tooling"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You reference a public module from the Terraform Registry. Why should you also set the version argument in the module block?",
+        "es": "Referencias un módulo público del Terraform Registry. ¿Por qué también deberías definir el argumento version en el bloque module?"
+      },
+      "opciones": [
+        { "en": "To pin a known-good release so a new upstream version cannot silently change your infrastructure", "es": "Para fijar una versión conocida y correcta, de modo que una versión nueva del origen no cambie tu infraestructura en silencio" },
+        { "en": "Because modules without a version argument are downloaded on every plan and slow it down", "es": "Porque los módulos sin argumento version se descargan en cada plan y lo hacen más lento" },
+        { "en": "Because the version argument selects which Google Cloud region the module deploys to", "es": "Porque el argumento version selecciona en qué región de Google Cloud se implementa el módulo" },
+        { "en": "Because Terraform refuses to run terraform init if any module lacks a version", "es": "Porque Terraform se niega a ejecutar terraform init si algún módulo carece de version" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Pinning a version makes runs reproducible: upgrades become a deliberate, reviewed change instead of a surprise during the next init. B is not the reason; caching behavior is not the risk being managed. C is false, region comes from input variables or the provider. D is false, init succeeds and simply resolves the newest matching version.",
+        "es": "Fijar una versión hace reproducibles las ejecuciones: las actualizaciones se vuelven un cambio deliberado y revisado en vez de una sorpresa en el siguiente init. B no es la razón; el comportamiento de caché no es el riesgo que se administra. C es falsa, la región viene de variables de entrada o del provider. D es falsa, init funciona y simplemente resuelve la versión más reciente que coincida."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/best-practices/general-style-structure"
+    },
+    {
+      "id": "tf-030",
+      "curso": "introduccion-terraform",
+      "servicios": ["service-accounts", "terraform-iac"],
+      "seccion_blueprint": 4,
+      "subtopicos": ["4.2-sa-impersonation"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You want Terraform to act as a dedicated service account without downloading a key. Which provider configuration achieves this?",
+        "es": "Quieres que Terraform actúe como una cuenta de servicio dedicada sin descargar una clave. ¿Qué configuración del provider lo logra?"
+      },
+      "opciones": [
+        { "en": "Set impersonate_service_account in the google provider block and authenticate as a principal that holds the Service Account Token Creator role on that account", "es": "Definir impersonate_service_account en el bloque provider google y autenticarse como un principal que tenga el rol Service Account Token Creator sobre esa cuenta" },
+        { "en": "Set the credentials argument to the path of a downloaded JSON key file", "es": "Definir el argumento credentials con la ruta de un archivo JSON de clave descargado" },
+        { "en": "Grant the Owner role to your user account and run terraform apply directly", "es": "Otorgar el rol Owner a tu cuenta de usuario y ejecutar terraform apply directamente" },
+        { "en": "Add the service account email to the backend \"gcs\" block", "es": "Agregar el correo de la cuenta de servicio al bloque backend \"gcs\"" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "impersonate_service_account makes the provider mint short-lived tokens for the target service account, so no key material ever exists on disk. B is exactly the key file the question rules out and is discouraged because keys leak and never expire. C runs as your own overly broad identity rather than a scoped automation identity. D is wrong: the backend controls state access, not the identity used to create resources.",
+        "es": "impersonate_service_account hace que el provider genere tokens de corta duración para la cuenta de servicio objetivo, por lo que nunca existe material de clave en disco. B es justamente el archivo de clave que la pregunta descarta y se desaconseja porque las claves se filtran y no caducan. C se ejecuta con tu propia identidad, demasiado amplia, en vez de una identidad de automatización acotada. D es incorrecta: el backend controla el acceso al estado, no la identidad usada para crear recursos."
+      },
+      "doc": "https://cloud.google.com/docs/authentication/use-service-account-impersonation"
+    },
+    {
+      "id": "tf-031",
+      "curso": "introduccion-terraform",
+      "servicios": ["terraform-iac"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-iac-tooling"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your change-management process requires that the exact reviewed changes are the ones applied. Which command sequence enforces this?",
+        "es": "Tu proceso de gestión de cambios exige que se apliquen exactamente los cambios revisados. ¿Qué secuencia de comandos lo garantiza?"
+      },
+      "opciones": [
+        { "en": "terraform plan -out=tfplan, review tfplan, then terraform apply tfplan", "es": "terraform plan -out=tfplan, revisar tfplan y luego terraform apply tfplan" },
+        { "en": "terraform apply -auto-approve, then review the output afterwards", "es": "terraform apply -auto-approve y luego revisar la salida" },
+        { "en": "terraform plan, then terraform apply -auto-approve in a separate job", "es": "terraform plan y luego terraform apply -auto-approve en un job separado" },
+        { "en": "terraform validate, then terraform apply -refresh=false", "es": "terraform validate y luego terraform apply -refresh=false" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Saving the plan to a file and applying that file guarantees Terraform executes the reviewed actions and refuses if the plan is stale. B applies before anyone reviews, which defeats the control. C is a common CI mistake: between the plan and the separate apply the world can change, so the applied diff may differ from the reviewed one. D skips the diff entirely; validate only checks syntax and -refresh=false can hide real drift.",
+        "es": "Guardar el plan en un archivo y aplicar ese archivo garantiza que Terraform ejecute las acciones revisadas y falle si el plan quedó obsoleto. B aplica antes de que alguien revise, lo que anula el control. C es un error común en CI: entre el plan y el apply separado la realidad puede cambiar, así que el diff aplicado puede diferir del revisado. D omite el diff por completo; validate solo revisa la sintaxis y -refresh=false puede ocultar desviaciones reales."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/basic-commands"
+    },
+    {
+      "id": "tf-032",
+      "curso": "introduccion-terraform",
+      "servicios": ["terraform-iac"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-iac-tooling"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "After an apply, a script needs the IP address that Terraform assigned to a load balancer. What is the appropriate way to retrieve it?",
+        "es": "Después de un apply, un script necesita la dirección IP que Terraform asignó a un balanceador de cargas. ¿Cuál es la forma adecuada de obtenerla?"
+      },
+      "opciones": [
+        { "en": "Declare an output for the address and read it with terraform output", "es": "Declarar un output para la dirección y leerlo con terraform output" },
+        { "en": "Parse the terraform.tfstate JSON file directly with a text tool", "es": "Analizar directamente el archivo JSON terraform.tfstate con una herramienta de texto" },
+        { "en": "Re-run terraform plan and scrape the address from the console output", "es": "Volver a ejecutar terraform plan y extraer la dirección de la salida en consola" },
+        { "en": "Hardcode the address in a tfvars file after checking the console", "es": "Codificar la dirección en un archivo tfvars después de revisarla en la consola" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Outputs are the supported interface for exposing computed attributes, and terraform output (optionally with -json) is designed for scripting. B is brittle and couples the script to the internal state format, which is not a stable contract. C is fragile screen scraping and produces no value when there are no changes. D hardcodes a value that Terraform manages, so it will drift the moment the address changes.",
+        "es": "Los outputs son la interfaz admitida para exponer atributos calculados, y terraform output (opcionalmente con -json) está pensado para scripting. B es frágil y acopla el script al formato interno del estado, que no es un contrato estable. C es una extracción frágil de la pantalla y no produce valor cuando no hay cambios. D codifica un valor que administra Terraform, así que quedará desactualizado en cuanto la dirección cambie."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/basic-commands"
+    },
+    {
+      "id": "tf-033",
+      "curso": "introduccion-terraform",
+      "servicios": ["gcloud-cli", "service-accounts"],
+      "seccion_blueprint": 4,
+      "subtopicos": ["4.2-sa-least-privilege"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You are running Terraform from your local workstation and the Google provider reports that it cannot find credentials. Which command sets up Application Default Credentials for your user?",
+        "es": "Ejecutas Terraform desde tu estación de trabajo local y el provider de Google informa que no encuentra credenciales. ¿Qué comando configura las Application Default Credentials para tu usuario?"
+      },
+      "opciones": [
+        { "en": "gcloud auth application-default login", "es": "gcloud auth application-default login" },
+        { "en": "gcloud auth login", "es": "gcloud auth login" },
+        { "en": "gcloud config set project PROJECT_ID", "es": "gcloud config set project PROJECT_ID" },
+        { "en": "gcloud iam service-accounts keys create key.json --iam-account=SA_EMAIL", "es": "gcloud iam service-accounts keys create key.json --iam-account=SA_EMAIL" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "gcloud auth application-default login writes the local ADC file that client libraries and the Terraform Google provider read. B authenticates the gcloud command itself but does not populate ADC, which is why the provider still fails. C only sets a default project and has nothing to do with authentication. D creates a long-lived service account key, which works but is discouraged because keys are a standing credential that can leak; impersonation is preferred.",
+        "es": "gcloud auth application-default login escribe el archivo local de ADC que leen las bibliotecas cliente y el provider de Google de Terraform. B autentica el propio comando gcloud pero no llena las ADC, por eso el provider sigue fallando. C solo define un proyecto predeterminado y no tiene relación con la autenticación. D crea una clave de cuenta de servicio de larga duración, que funciona pero se desaconseja porque es una credencial permanente que puede filtrarse; se prefiere la suplantación."
+      },
+      "doc": "https://cloud.google.com/docs/authentication/provide-credentials-adc"
+    },
+    {
+      "id": "tf-034",
+      "curso": "introduccion-terraform",
+      "servicios": ["cloud-storage"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.2-gcs-management"],
+      "nivel": "intermedio",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO settings should you enable on the Cloud Storage bucket that holds your Terraform state?",
+        "es": "¿Cuáles DOS configuraciones deberías habilitar en el bucket de Cloud Storage que guarda tu estado de Terraform?"
+      },
+      "opciones": [
+        { "en": "Object versioning, so previous state generations can be restored", "es": "Versionamiento de objetos, para poder restaurar generaciones anteriores del estado" },
+        { "en": "Uniform bucket-level access with restrictive IAM, so only the automation identity can read or write state", "es": "Acceso uniforme a nivel de bucket con IAM restrictivo, para que solo la identidad de automatización pueda leer o escribir el estado" },
+        { "en": "Public read access, so every engineer can inspect the current state", "es": "Acceso de lectura público, para que cualquier ingeniero pueda inspeccionar el estado actual" },
+        { "en": "A lifecycle rule that deletes objects after 7 days to control storage cost", "es": "Una regla de ciclo de vida que borra objetos después de 7 días para controlar el costo de almacenamiento" }
+      ],
+      "respuesta": ["A", "B"],
+      "explicacion": {
+        "en": "Versioning gives you a recovery path if state is corrupted or truncated, and uniform bucket-level access with tight IAM keeps state private because it can contain sensitive values. C is dangerous: state must never be public. D would delete the live state and destroy your ability to manage the infrastructure; state objects are tiny, so cost is not a concern.",
+        "es": "El versionamiento da una vía de recuperación si el estado se corrompe o se trunca, y el acceso uniforme a nivel de bucket con IAM estricto mantiene el estado privado porque puede contener valores sensibles. C es peligrosa: el estado nunca debe ser público. D borraría el estado vigente y destruiría tu capacidad de administrar la infraestructura; los objetos de estado son muy pequeños, así que el costo no es un problema."
+      },
+      "doc": "https://cloud.google.com/storage/docs/object-versioning"
+    },
+    {
+      "id": "tf-035",
+      "curso": "introduccion-terraform",
+      "servicios": ["helm", "gke"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-iac-tooling"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You installed an application on GKE with Helm and now need to change one configuration value and roll it out. What is the standard way to do this?",
+        "es": "Instalaste una aplicación en GKE con Helm y ahora necesitas cambiar un valor de configuración e implementarlo. ¿Cuál es la forma estándar de hacerlo?"
+      },
+      "opciones": [
+        { "en": "Run helm upgrade for the release with an updated values file or --set flag", "es": "Ejecutar helm upgrade para el release con un archivo de values actualizado o el flag --set" },
+        { "en": "Run kubectl edit on each generated object so the change is applied immediately", "es": "Ejecutar kubectl edit en cada objeto generado para que el cambio se aplique de inmediato" },
+        { "en": "Uninstall the release and install it again from scratch", "es": "Desinstalar el release e instalarlo de nuevo desde cero" },
+        { "en": "Modify the chart templates inside the cluster's Artifact Registry repository", "es": "Modificar las plantillas del chart dentro del repositorio de Artifact Registry del clúster" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "helm upgrade re-renders the chart with the new values and applies the diff as a new revision, which also keeps rollback available. B edits live objects out of band, so the next helm upgrade overwrites the change and the cluster drifts from the declared configuration. C causes unnecessary downtime and loses release history. D is wrong: values are supplied at install or upgrade time, not by editing the published chart artifact.",
+        "es": "helm upgrade vuelve a renderizar el chart con los nuevos values y aplica el diff como una revisión nueva, lo que además mantiene disponible el rollback. B edita objetos en vivo fuera del flujo, así que el siguiente helm upgrade sobrescribe el cambio y el clúster se desvía de la configuración declarada. C provoca tiempo de inactividad innecesario y pierde el historial de releases. D es incorrecta: los values se entregan al instalar o actualizar, no editando el artefacto del chart publicado."
+      },
+      "doc": "https://cloud.google.com/artifact-registry/docs/helm"
+    },
+    {
+      "id": "tf-036",
+      "curso": "introduccion-terraform",
+      "servicios": ["gke", "kubectl"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-iac-tooling"],
+      "nivel": "intermedio",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO statements about Config Connector are correct?",
+        "es": "¿Cuáles DOS afirmaciones sobre Config Connector son correctas?"
+      },
+      "opciones": [
+        { "en": "Google Cloud resources are declared as Kubernetes objects and applied with kubectl apply", "es": "Los recursos de Google Cloud se declaran como objetos de Kubernetes y se aplican con kubectl apply" },
+        { "en": "A controller continuously reconciles the declared resources, correcting drift without a manual apply", "es": "Un controlador reconcilia continuamente los recursos declarados y corrige las desviaciones sin un apply manual" },
+        { "en": "It stores its desired state in a terraform.tfstate file in Cloud Storage", "es": "Almacena su estado deseado en un archivo terraform.tfstate en Cloud Storage" },
+        { "en": "It can only manage resources that live inside the GKE cluster itself", "es": "Solo puede administrar recursos que residen dentro del propio clúster de GKE" }
+      ],
+      "respuesta": ["A", "B"],
+      "explicacion": {
+        "en": "Config Connector exposes Google Cloud services as CRDs so they are managed with the normal Kubernetes workflow, and its controllers run a continuous reconciliation loop rather than a one-shot apply. C is wrong: the desired state lives in Kubernetes objects and etcd, not in Terraform state. D is wrong: the whole point is to manage external Google Cloud resources such as buckets, Pub/Sub topics, and Cloud SQL instances from the cluster.",
+        "es": "Config Connector expone los servicios de Google Cloud como CRDs para administrarlos con el flujo normal de Kubernetes, y sus controladores ejecutan un bucle de reconciliación continuo en lugar de un apply puntual. C es incorrecta: el estado deseado vive en objetos de Kubernetes y en etcd, no en el estado de Terraform. D es incorrecta: el objetivo es justamente administrar recursos externos de Google Cloud como buckets, temas de Pub/Sub e instancias de Cloud SQL desde el clúster."
+      },
+      "doc": "https://cloud.google.com/config-connector/docs/overview"
+    },
+    {
+      "id": "tf-037",
+      "curso": "introduccion-terraform",
+      "servicios": ["gemini-cloud-assist"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-ai-assisted-tooling"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A terraform apply fails with a permission error while creating a Cloud SQL instance, and you are working in the Google Cloud console. How can Gemini Cloud Assist help?",
+        "es": "Un terraform apply falla con un error de permisos al crear una instancia de Cloud SQL y estás trabajando en la consola de Google Cloud. ¿Cómo puede ayudar Gemini Cloud Assist?"
+      },
+      "opciones": [
+        { "en": "By interpreting the error with context from your project and suggesting the missing IAM role or API to enable", "es": "Interpretando el error con el contexto de tu proyecto y sugiriendo el rol de IAM faltante o la API que hay que habilitar" },
+        { "en": "By automatically granting the Owner role to the Terraform service account", "es": "Otorgando automáticamente el rol Owner a la cuenta de servicio de Terraform" },
+        { "en": "By rolling back the state file to the previous generation without your involvement", "es": "Revirtiendo el archivo de estado a la generación anterior sin tu intervención" },
+        { "en": "By disabling the failing resource so the apply can complete", "es": "Deshabilitando el recurso que falla para que el apply pueda completarse" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Gemini Cloud Assist reasons over the error together with signals from your environment and proposes concrete next steps, such as enabling the Cloud SQL Admin API or granting a specific role, while you stay in control of the change. B is wrong and unsafe: an assistant does not silently grant broad roles, and Owner would violate least privilege. C is wrong, state rollback is a deliberate operator action against the bucket. D is not a real capability; Terraform does not skip resources to make an apply pass.",
+        "es": "Gemini Cloud Assist razona sobre el error junto con las señales de tu entorno y propone pasos concretos, como habilitar la API de Cloud SQL Admin u otorgar un rol específico, mientras tú mantienes el control del cambio. B es incorrecta e insegura: un asistente no otorga roles amplios en silencio, y Owner violaría el mínimo privilegio. C es incorrecta, revertir el estado es una acción deliberada del operador sobre el bucket. D no es una capacidad real; Terraform no omite recursos para que un apply pase."
+      },
+      "doc": "https://cloud.google.com/gemini/docs/cloud-assist/overview"
+    },
+    {
+      "id": "tf-038",
+      "curso": "introduccion-terraform",
+      "servicios": ["terraform-iac"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.4-iac-tooling"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A resource should no longer be managed by Terraform, but it must keep running in Google Cloud. Which command achieves this?",
+        "es": "Un recurso ya no debe ser administrado por Terraform, pero debe seguir funcionando en Google Cloud. ¿Qué comando logra esto?"
+      },
+      "opciones": [
+        { "en": "terraform state rm followed by removing the resource block from the configuration", "es": "terraform state rm seguido de quitar el bloque resource de la configuración" },
+        { "en": "terraform destroy targeting that resource", "es": "terraform destroy dirigido a ese recurso" },
+        { "en": "terraform import for that resource", "es": "terraform import para ese recurso" },
+        { "en": "Deleting the resource block only, and running terraform apply", "es": "Quitar únicamente el bloque resource y ejecutar terraform apply" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "state rm forgets the resource without touching the real infrastructure; removing the block afterwards keeps configuration and state consistent. B deletes the real resource, which the scenario forbids. C does the opposite by bringing an unmanaged resource under Terraform. D is a trap: if the block is removed while the resource is still in state, the next apply plans to destroy it.",
+        "es": "state rm hace que Terraform olvide el recurso sin tocar la infraestructura real; quitar el bloque después mantiene la configuración y el estado consistentes. B borra el recurso real, lo que el escenario prohíbe. C hace lo contrario, al poner un recurso no administrado bajo Terraform. D es una trampa: si se quita el bloque mientras el recurso sigue en el estado, el siguiente apply planifica destruirlo."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/resource-management/import"
+    }
+  ]
+}

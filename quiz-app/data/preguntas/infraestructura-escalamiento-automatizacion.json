@@ -345,6 +345,1409 @@
         "es": "El intercambio de tráfico entre redes de VPC conecta dos redes de VPC para que los recursos se comuniquen con IPs internas por la red troncal de Google, sin IPs externas ni puertas de enlace. B es falsa porque el peering es explícitamente no transitivo: cada par de redes necesita su propio peering. C es falsa porque cada red conserva sus subredes y el peering falla si los rangos IP se superponen. D describe Cloud VPN, no el peering; el tráfico emparejado permanece dentro de la red de Google y no necesita túnel IPsec."
       },
       "doc": "https://cloud.google.com/vpc/docs/vpc-peering"
+    },
+    {
+      "id": "elas-009",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "vpc",
+        "iam"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-vpc-subnets"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "In a Shared VPC setup, what is the role of the host project?",
+        "es": "En una configuración de VPC compartida, ¿cuál es la función del proyecto host?"
+      },
+      "opciones": [
+        {
+          "en": "It owns the Shared VPC network and its subnets, which are shared with attached service projects",
+          "es": "Es dueño de la red de VPC compartida y de sus subredes, que se comparten con los proyectos de servicio adjuntos"
+        },
+        {
+          "en": "It contains all the VMs of the organization, while service projects only hold billing data",
+          "es": "Contiene todas las VMs de la organización, mientras que los proyectos de servicio solo guardan datos de facturación"
+        },
+        {
+          "en": "It stores the Terraform state files used to deploy the network",
+          "es": "Almacena los archivos de estado de Terraform usados para implementar la red"
+        },
+        {
+          "en": "It is a project without billing enabled that only serves as a naming container",
+          "es": "Es un proyecto sin facturación habilitada que solo sirve como contenedor de nombres"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "In Shared VPC the host project owns the network and subnets; service projects attach to it and run their resources (VMs, GKE nodes, load balancers) inside those shared subnets, which centralizes network administration. B is backwards: workloads normally live in the service projects. C describes a Cloud Storage bucket used as a Terraform backend, unrelated to the Shared VPC role. D is false because a host project is a normal project with billing that hosts real network resources.",
+        "es": "En la VPC compartida, el proyecto host es dueño de la red y de las subredes; los proyectos de servicio se adjuntan a él y ejecutan sus recursos (VMs, nodos de GKE, balanceadores) dentro de esas subredes compartidas, lo que centraliza la administración de red. B está invertida: las cargas de trabajo normalmente viven en los proyectos de servicio. C describe un bucket de Cloud Storage usado como backend de Terraform, ajeno a la función del proyecto host. D es falsa porque un proyecto host es un proyecto normal con facturación que aloja recursos de red reales."
+      },
+      "doc": "https://cloud.google.com/vpc/docs/shared-vpc"
+    },
+    {
+      "id": "elas-010",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "vpc",
+        "cloud-storage"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-vpc-subnets"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What does Private Google Access enable for VM instances?",
+        "es": "¿Qué habilita el Acceso privado a Google (Private Google Access) para las instancias de VM?"
+      },
+      "opciones": [
+        {
+          "en": "It gives VMs an external IP address so they can be reached from the internet",
+          "es": "Otorga a las VMs una dirección IP externa para que puedan alcanzarse desde internet"
+        },
+        {
+          "en": "It lets VMs that only have internal IP addresses reach Google APIs and services, such as Cloud Storage and BigQuery",
+          "es": "Permite que VMs que solo tienen direcciones IP internas alcancen las APIs y servicios de Google, como Cloud Storage y BigQuery"
+        },
+        {
+          "en": "It allows on-premises hosts to resolve private DNS zones in the VPC",
+          "es": "Permite que hosts on-premises resuelvan zonas de DNS privado en la VPC"
+        },
+        {
+          "en": "It grants IAM permissions on Google APIs to every VM in the subnet",
+          "es": "Otorga permisos de IAM sobre las APIs de Google a todas las VMs de la subred"
+        }
+      ],
+      "respuesta": [
+        "B"
+      ],
+      "explicacion": {
+        "en": "Private Google Access is a per-subnet setting that lets VMs without external IPs reach Google APIs and services using internal routing, keeping the workload off the public internet. A is the opposite of the goal: the whole point is to avoid external IPs. C describes Cloud DNS inbound/outbound server policies. D is wrong because access to APIs still requires proper IAM permissions on the VM's service account; Private Google Access only handles network reachability.",
+        "es": "El Acceso privado a Google es una opción por subred que permite a las VMs sin IP externa alcanzar las APIs y servicios de Google mediante enrutamiento interno, manteniendo la carga de trabajo fuera de internet pública. A es lo contrario del objetivo: la idea es justamente evitar las IPs externas. C describe las políticas de servidor de entrada/salida de Cloud DNS. D es incorrecta porque el acceso a las APIs sigue requiriendo permisos de IAM en la cuenta de servicio de la VM; el Acceso privado a Google solo resuelve la conectividad de red."
+      },
+      "doc": "https://cloud.google.com/vpc/docs/private-google-access"
+    },
+    {
+      "id": "elas-011",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "cloud-nat"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-dns-nat"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is the primary function of Cloud NAT?",
+        "es": "¿Cuál es la función principal de Cloud NAT?"
+      },
+      "opciones": [
+        {
+          "en": "It publishes internal services to the internet so external clients can connect to VMs without external IPs",
+          "es": "Publica servicios internos en internet para que clientes externos se conecten a VMs sin IP externa"
+        },
+        {
+          "en": "It translates DNS names to IP addresses for resources inside the VPC",
+          "es": "Traduce nombres DNS a direcciones IP para los recursos dentro de la VPC"
+        },
+        {
+          "en": "It allows VM instances without external IP addresses to initiate outbound connections to the internet, without allowing inbound connections from the internet",
+          "es": "Permite que instancias de VM sin dirección IP externa inicien conexiones salientes a internet, sin permitir conexiones entrantes desde internet"
+        },
+        {
+          "en": "It replaces VPC firewall rules with a managed egress policy",
+          "es": "Reemplaza las reglas de firewall de VPC con una política de salida administrada"
+        }
+      ],
+      "respuesta": [
+        "C"
+      ],
+      "explicacion": {
+        "en": "Cloud NAT is a managed, distributed source NAT service: private VMs can download packages or call external APIs, while unsolicited inbound connections from the internet are still blocked. A is the opposite behavior and would need a load balancer or external IP. B describes Cloud DNS. D is wrong because Cloud NAT does not replace firewall rules; egress firewall rules still apply to the traffic.",
+        "es": "Cloud NAT es un servicio de NAT de origen administrado y distribuido: las VMs privadas pueden descargar paquetes o llamar APIs externas, mientras que las conexiones entrantes no solicitadas desde internet siguen bloqueadas. A describe el comportamiento opuesto y requeriría un balanceador de cargas o una IP externa. B describe Cloud DNS. D es incorrecta porque Cloud NAT no reemplaza las reglas de firewall; las reglas de salida siguen aplicándose al tráfico."
+      },
+      "doc": "https://cloud.google.com/nat/docs/overview"
+    },
+    {
+      "id": "elas-012",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "network-service-tiers"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-network-tiers"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is the difference between the Premium and Standard Network Service Tiers?",
+        "es": "¿Cuál es la diferencia entre los niveles de servicio de red Premium y Standard?"
+      },
+      "opciones": [
+        {
+          "en": "Premium Tier carries traffic over Google's global backbone for as long as possible and supports global load balancing, while Standard Tier routes traffic over the public internet and only supports regional resources",
+          "es": "El nivel Premium transporta el tráfico por la red troncal global de Google el mayor tiempo posible y admite balanceo de cargas global, mientras que el nivel Standard enruta el tráfico por internet pública y solo admite recursos regionales"
+        },
+        {
+          "en": "Premium Tier encrypts traffic while Standard Tier sends it in plain text",
+          "es": "El nivel Premium encripta el tráfico y el nivel Standard lo envía en texto plano"
+        },
+        {
+          "en": "Standard Tier is only available for Cloud Storage buckets",
+          "es": "El nivel Standard solo está disponible para buckets de Cloud Storage"
+        },
+        {
+          "en": "Premium Tier is billed per request while Standard Tier is billed per hour",
+          "es": "El nivel Premium se cobra por solicitud y el nivel Standard por hora"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Premium Tier keeps traffic on Google's private backbone end to end, giving lower latency and enabling global external load balancing with a single anycast IP; Standard Tier hands traffic to the public internet closer to the source region, costs less and is limited to regional resources. B is wrong because encryption depends on the protocol (TLS) and Google's in-transit encryption, not on the tier. C is false because Standard Tier applies to VM external IPs and regional load balancers as well. D is wrong because both tiers are billed on egress volume, only at different rates.",
+        "es": "El nivel Premium mantiene el tráfico en la red troncal privada de Google de extremo a extremo, lo que da menor latencia y habilita el balanceo de cargas externo global con una sola IP anycast; el nivel Standard entrega el tráfico a internet pública más cerca de la región de origen, cuesta menos y se limita a recursos regionales. B es incorrecta porque la encriptación depende del protocolo (TLS) y de la encriptación en tránsito de Google, no del nivel. C es falsa porque el nivel Standard también aplica a IPs externas de VM y balanceadores regionales. D es incorrecta porque ambos niveles se cobran por volumen de salida, solo que con tarifas distintas."
+      },
+      "doc": "https://cloud.google.com/network-tiers/docs/overview"
+    },
+    {
+      "id": "elas-013",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "terraform-iac"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.4-iac-tooling"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is the main benefit of using infrastructure as code with Terraform on Google Cloud?",
+        "es": "¿Cuál es el beneficio principal de usar infraestructura como código con Terraform en Google Cloud?"
+      },
+      "opciones": [
+        {
+          "en": "It removes the need to grant IAM permissions because Terraform runs with full administrator rights",
+          "es": "Elimina la necesidad de otorgar permisos de IAM porque Terraform se ejecuta con derechos completos de administrador"
+        },
+        {
+          "en": "Infrastructure is defined in versioned, reviewable configuration files that can be applied repeatedly to produce consistent, reproducible environments",
+          "es": "La infraestructura se define en archivos de configuración versionados y revisables que se pueden aplicar repetidamente para producir entornos consistentes y reproducibles"
+        },
+        {
+          "en": "It automatically reduces the cost of every resource it creates",
+          "es": "Reduce automáticamente el costo de cada recurso que crea"
+        },
+        {
+          "en": "It replaces Cloud Monitoring by continuously checking application health",
+          "es": "Reemplaza a Cloud Monitoring al verificar continuamente el estado de la aplicación"
+        }
+      ],
+      "respuesta": [
+        "B"
+      ],
+      "explicacion": {
+        "en": "IaC turns infrastructure into declarative files that live in source control, so changes are peer-reviewed, auditable and reproducible across dev, staging and production. A is wrong and dangerous: Terraform authenticates with a principal or service account that still needs least-privilege IAM roles. C is wrong because Terraform provisions what you declare; cost depends on those declarations. D is wrong because Terraform provisions resources and does not monitor application health.",
+        "es": "La IaC convierte la infraestructura en archivos declarativos que viven en el control de versiones, por lo que los cambios se revisan, se auditan y se reproducen en dev, staging y producción. A es incorrecta y peligrosa: Terraform se autentica con un principal o cuenta de servicio que igual necesita roles de IAM de mínimo privilegio. C es incorrecta porque Terraform aprovisiona lo que se declara; el costo depende de esas declaraciones. D es incorrecta porque Terraform aprovisiona recursos y no supervisa el estado de la aplicación."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/best-practices-for-terraform"
+    },
+    {
+      "id": "elas-014",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "hybrid-connectivity",
+        "vpc"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-connectivity"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is the role of Cloud Router in a hybrid connectivity setup?",
+        "es": "¿Cuál es la función de Cloud Router en una configuración de conectividad híbrida?"
+      },
+      "opciones": [
+        {
+          "en": "It exchanges routes dynamically between the VPC network and the on-premises network using BGP",
+          "es": "Intercambia rutas de forma dinámica entre la red de VPC y la red on-premises mediante BGP"
+        },
+        {
+          "en": "It performs source network address translation for VMs without external IPs",
+          "es": "Realiza traducción de direcciones de red de origen para VMs sin IP externa"
+        },
+        {
+          "en": "It terminates TLS connections coming from external clients",
+          "es": "Termina las conexiones TLS provenientes de clientes externos"
+        },
+        {
+          "en": "It stores static routes that an administrator must update manually after every subnet change",
+          "es": "Almacena rutas estáticas que un administrador debe actualizar manualmente tras cada cambio de subred"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Cloud Router is Google Cloud's managed BGP speaker: it advertises VPC subnet ranges to the peer and learns the on-premises prefixes, so routes update automatically when subnets change. B describes Cloud NAT, which does use a Cloud Router as its control plane but is a distinct service. C describes an Application Load Balancer or SSL proxy. D is the opposite of dynamic routing and is exactly what Cloud Router avoids.",
+        "es": "Cloud Router es el hablante BGP administrado de Google Cloud: anuncia los rangos de subred de la VPC al par y aprende los prefijos on-premises, de modo que las rutas se actualizan automáticamente cuando cambian las subredes. B describe Cloud NAT, que sí usa un Cloud Router como plano de control pero es un servicio distinto. C describe un balanceador de cargas de aplicaciones o un proxy SSL. D es lo opuesto al enrutamiento dinámico y es justamente lo que Cloud Router evita."
+      },
+      "doc": "https://cloud.google.com/network-connectivity/docs/router/concepts/overview"
+    },
+    {
+      "id": "elas-015",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "load-balancing"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A team needs to distribute internal TCP traffic among backend VMs inside the same VPC, and the backends must see the original client IP address. Which load balancer fits this description?",
+        "es": "Un equipo necesita distribuir tráfico TCP interno entre VMs de backend dentro de la misma VPC, y los backends deben ver la dirección IP original del cliente. ¿Qué balanceador de cargas corresponde a esta descripción?"
+      },
+      "opciones": [
+        {
+          "en": "Global external Application Load Balancer",
+          "es": "Balanceador de cargas de aplicaciones externo global"
+        },
+        {
+          "en": "Internal passthrough Network Load Balancer",
+          "es": "Balanceador de cargas de red interno de tipo passthrough"
+        },
+        {
+          "en": "External proxy Network Load Balancer",
+          "es": "Balanceador de cargas de red externo de tipo proxy"
+        },
+        {
+          "en": "Internal Application Load Balancer",
+          "es": "Balanceador de cargas de aplicaciones interno"
+        }
+      ],
+      "respuesta": [
+        "B"
+      ],
+      "explicacion": {
+        "en": "The internal passthrough Network Load Balancer serves clients inside the VPC at Layer 4 and forwards packets without proxying, so backends observe the original client IP. A is external and Layer 7, so it does not match either requirement. C is external and, being a proxy, replaces the client IP with the proxy's IP. D is internal but is a Layer 7 proxy, so the backend sees the proxy's address, not the client's.",
+        "es": "El balanceador de cargas de red interno passthrough atiende clientes dentro de la VPC en capa 4 y reenvía los paquetes sin hacer proxy, por lo que los backends observan la IP original del cliente. A es externo y de capa 7, así que no cumple ninguno de los requisitos. C es externo y, al ser proxy, reemplaza la IP del cliente por la del proxy. D es interno pero es un proxy de capa 7, por lo que el backend ve la dirección del proxy y no la del cliente."
+      },
+      "doc": "https://cloud.google.com/load-balancing/docs/internal"
+    },
+    {
+      "id": "elas-016",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "hybrid-connectivity"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-connectivity"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which characteristic distinguishes HA VPN from Classic VPN in Google Cloud?",
+        "es": "¿Qué característica distingue a HA VPN de Classic VPN en Google Cloud?"
+      },
+      "opciones": [
+        {
+          "en": "Classic VPN supports dynamic routing with BGP while HA VPN supports only static routes",
+          "es": "Classic VPN admite enrutamiento dinámico con BGP y HA VPN solo admite rutas estáticas"
+        },
+        {
+          "en": "HA VPN uses a gateway with two interfaces and two external IP addresses, and offers a higher availability SLA when configured with the required redundant tunnels",
+          "es": "HA VPN usa una puerta de enlace con dos interfaces y dos direcciones IP externas, y ofrece un SLA de disponibilidad más alto cuando se configura con los túneles redundantes requeridos"
+        },
+        {
+          "en": "HA VPN does not encrypt traffic, which is why it is faster",
+          "es": "HA VPN no encripta el tráfico, y por eso es más rápido"
+        },
+        {
+          "en": "Classic VPN is the recommended option for all new deployments",
+          "es": "Classic VPN es la opción recomendada para todas las implementaciones nuevas"
+        }
+      ],
+      "respuesta": [
+        "B"
+      ],
+      "explicacion": {
+        "en": "An HA VPN gateway exposes two interfaces with two external IPs; when you build redundant tunnels to a peer that also has redundancy, Google offers a higher availability SLA than Classic VPN. A is reversed: HA VPN requires dynamic routing with Cloud Router and BGP, while Classic VPN allowed static, policy-based routing. C is false because both use IPsec encryption. D is false because HA VPN is the recommended option and Classic VPN is deprecated for new deployments.",
+        "es": "Una puerta de enlace de HA VPN expone dos interfaces con dos IPs externas; al construir túneles redundantes hacia un par que también tiene redundancia, Google ofrece un SLA de disponibilidad mayor que el de Classic VPN. A está invertida: HA VPN requiere enrutamiento dinámico con Cloud Router y BGP, mientras que Classic VPN permitía enrutamiento estático o basado en políticas. C es falsa porque ambos usan encriptación IPsec. D es falsa porque HA VPN es la opción recomendada y Classic VPN está obsoleta para implementaciones nuevas."
+      },
+      "doc": "https://cloud.google.com/network-connectivity/docs/vpn/concepts/overview"
+    },
+    {
+      "id": "elas-017",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "hybrid-connectivity"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-connectivity"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What distinguishes Partner Interconnect from Dedicated Interconnect?",
+        "es": "¿Qué distingue a Partner Interconnect de Dedicated Interconnect?"
+      },
+      "opciones": [
+        {
+          "en": "Partner Interconnect connects to Google through a supported service provider, so you do not need your own equipment in a Google colocation facility",
+          "es": "Partner Interconnect se conecta a Google a través de un proveedor de servicios compatible, por lo que no necesitas equipo propio en una instalación de colocación de Google"
+        },
+        {
+          "en": "Partner Interconnect always delivers higher bandwidth than Dedicated Interconnect",
+          "es": "Partner Interconnect siempre entrega más ancho de banda que Dedicated Interconnect"
+        },
+        {
+          "en": "Partner Interconnect sends traffic over the public internet with IPsec encryption",
+          "es": "Partner Interconnect envía el tráfico por internet pública con encriptación IPsec"
+        },
+        {
+          "en": "Partner Interconnect does not require a Cloud Router",
+          "es": "Partner Interconnect no requiere un Cloud Router"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Partner Interconnect uses a service provider that already peers with Google, which suits organizations that cannot meet Google in a colocation facility or need less than a full 10 Gbps circuit. B is wrong because Dedicated Interconnect offers larger circuits (10 or 100 Gbps links), while Partner connections start at much smaller capacities. C describes Cloud VPN; Partner Interconnect traffic does not traverse the public internet. D is wrong because both Interconnect types require a Cloud Router with BGP to exchange routes.",
+        "es": "Partner Interconnect usa un proveedor de servicios que ya tiene peering con Google, lo que conviene a organizaciones que no pueden llegar a una instalación de colocación de Google o que necesitan menos de un circuito completo de 10 Gbps. B es incorrecta porque Dedicated Interconnect ofrece circuitos mayores (enlaces de 10 o 100 Gbps), mientras que las conexiones Partner parten de capacidades mucho menores. C describe Cloud VPN; el tráfico de Partner Interconnect no pasa por internet pública. D es incorrecta porque ambos tipos de Interconnect requieren un Cloud Router con BGP para intercambiar rutas."
+      },
+      "doc": "https://cloud.google.com/network-connectivity/docs/interconnect/concepts/partner-overview"
+    },
+    {
+      "id": "elas-018",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-migs-autoscaling"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is the purpose of the cool-down period in a managed instance group autoscaling policy?",
+        "es": "¿Cuál es el propósito del período de enfriamiento (cool-down) en una política de autoescalado de un grupo de instancias administrado?"
+      },
+      "opciones": [
+        {
+          "en": "It defines how long the autoscaler waits before deleting an instance that failed its health check",
+          "es": "Define cuánto espera el autoescalador antes de borrar una instancia que falló su verificación de estado"
+        },
+        {
+          "en": "It sets the maximum number of instances that the group may reach",
+          "es": "Establece la cantidad máxima de instancias que el grupo puede alcanzar"
+        },
+        {
+          "en": "It tells the autoscaler how long a new instance needs to initialize, so its startup metrics are ignored and the group does not over-scale",
+          "es": "Indica al autoescalador cuánto tarda una instancia nueva en inicializarse, de modo que se ignoren sus métricas de arranque y el grupo no escale de más"
+        },
+        {
+          "en": "It forces the group to keep instances running for a minimum billable time",
+          "es": "Obliga al grupo a mantener las instancias en ejecución durante un tiempo mínimo facturable"
+        }
+      ],
+      "respuesta": [
+        "C"
+      ],
+      "explicacion": {
+        "en": "During the cool-down (initialization) period the autoscaler ignores the metrics of a newly created instance, because boot and application startup temporarily push CPU high and would otherwise trigger more unnecessary scale-outs. A describes autohealing's initial delay, a separate setting. B describes the maximum number of instances field. D is wrong because Compute Engine bills per second after a one-minute minimum and the cool-down does not pin instances for billing purposes.",
+        "es": "Durante el período de enfriamiento (inicialización), el autoescalador ignora las métricas de una instancia recién creada, porque el arranque del sistema y de la aplicación elevan temporalmente la CPU y de lo contrario dispararían más escalamientos innecesarios. A describe el retraso inicial de la reparación automática, que es otra opción. B describe el campo de cantidad máxima de instancias. D es incorrecta porque Compute Engine factura por segundo tras un mínimo de un minuto y el enfriamiento no fija instancias por motivos de facturación."
+      },
+      "doc": "https://cloud.google.com/compute/docs/autoscaler/understanding-autoscaler-decisions"
+    },
+    {
+      "id": "elas-019",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "vpc"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-subnets-ips"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "In a custom mode VPC network, what is true about subnets?",
+        "es": "En una red de VPC en modo personalizado, ¿qué es cierto sobre las subredes?"
+      },
+      "opciones": [
+        {
+          "en": "Each subnet is global and spans every region automatically",
+          "es": "Cada subred es global y abarca todas las regiones automáticamente"
+        },
+        {
+          "en": "Each subnet is zonal and can only be used by VMs in one zone",
+          "es": "Cada subred es zonal y solo puede usarla VMs de una zona"
+        },
+        {
+          "en": "Subnets are created automatically in every region with predefined IP ranges",
+          "es": "Las subredes se crean automáticamente en cada región con rangos IP predefinidos"
+        },
+        {
+          "en": "You choose the region and the IP range of every subnet, and a subnet spans all zones in its region",
+          "es": "Eliges la región y el rango IP de cada subred, y una subred abarca todas las zonas de su región"
+        }
+      ],
+      "respuesta": [
+        "D"
+      ],
+      "explicacion": {
+        "en": "In custom mode you explicitly create each subnet, picking its region and CIDR range; the subnet is a regional resource usable by VMs in any zone of that region. A is wrong because the VPC network is global but subnets are regional. B is wrong because subnets are regional, not zonal. C describes auto mode VPC networks, which create a subnet per region with predefined ranges.",
+        "es": "En modo personalizado creas cada subred explícitamente, eligiendo su región y su rango CIDR; la subred es un recurso regional que pueden usar VMs de cualquier zona de esa región. A es incorrecta porque la red de VPC es global pero las subredes son regionales. B es incorrecta porque las subredes son regionales, no zonales. C describe las redes de VPC en modo automático, que crean una subred por región con rangos predefinidos."
+      },
+      "doc": "https://cloud.google.com/vpc/docs/subnets"
+    },
+    {
+      "id": "elas-020",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "load-balancing"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which capability is available with a global external Application Load Balancer but not with a regional external Application Load Balancer?",
+        "es": "¿Qué capacidad está disponible en un balanceador de cargas de aplicaciones externo global pero no en uno regional?"
+      },
+      "opciones": [
+        {
+          "en": "Routing requests based on the URL path",
+          "es": "Enrutar solicitudes según la ruta de la URL"
+        },
+        {
+          "en": "Serving users worldwide from a single anycast IP address, with Cloud CDN and cross-region failover",
+          "es": "Atender usuarios de todo el mundo desde una sola dirección IP anycast, con Cloud CDN y conmutación por error entre regiones"
+        },
+        {
+          "en": "Terminating HTTPS with a managed SSL certificate",
+          "es": "Terminar HTTPS con un certificado SSL administrado"
+        },
+        {
+          "en": "Using health checks on backend services",
+          "es": "Usar verificaciones de estado en los servicios de backend"
+        }
+      ],
+      "respuesta": [
+        "B"
+      ],
+      "explicacion": {
+        "en": "The global variant uses one anycast IP served from Google's edge worldwide, supports backends in many regions with automatic cross-region failover, and integrates with Cloud CDN. A, C and D are supported by both variants: URL maps, managed certificates and health checks exist for the regional Application Load Balancer as well; the regional one is simply confined to a single region.",
+        "es": "La variante global usa una sola IP anycast atendida desde el borde de Google en todo el mundo, admite backends en varias regiones con conmutación por error automática entre ellas y se integra con Cloud CDN. A, C y D las admiten ambas variantes: los mapas de URL, los certificados administrados y las verificaciones de estado también existen en el balanceador de aplicaciones regional; este último simplemente está confinado a una sola región."
+      },
+      "doc": "https://cloud.google.com/load-balancing/docs/https"
+    },
+    {
+      "id": "elas-021",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "terraform-iac"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.4-iac-tooling"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "In Terraform, what is the purpose of the state file?",
+        "es": "En Terraform, ¿cuál es el propósito del archivo de estado (state)?"
+      },
+      "opciones": [
+        {
+          "en": "It records the mapping between the resources declared in the configuration and the real resources created in the cloud provider",
+          "es": "Registra la correspondencia entre los recursos declarados en la configuración y los recursos reales creados en el proveedor de nube"
+        },
+        {
+          "en": "It stores the credentials used to authenticate against Google Cloud",
+          "es": "Almacena las credenciales usadas para autenticarse contra Google Cloud"
+        },
+        {
+          "en": "It contains the audit logs of every API call made by Terraform",
+          "es": "Contiene los registros de auditoría de cada llamada a la API que hizo Terraform"
+        },
+        {
+          "en": "It caches the provider plugins so they do not need to be downloaded again",
+          "es": "Almacena en caché los complementos del proveedor para no volver a descargarlos"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Terraform state links configuration to real infrastructure so that plan can compute an accurate diff; teams normally keep it in a remote backend such as a Cloud Storage bucket with locking. B is wrong and a bad practice: credentials come from Application Default Credentials or an authenticated service account, not from state (though state can contain sensitive values and must be protected). C is wrong because API calls are recorded in Cloud Audit Logs. D describes the .terraform directory populated by terraform init.",
+        "es": "El estado de Terraform vincula la configuración con la infraestructura real para que plan calcule una diferencia precisa; los equipos suelen guardarlo en un backend remoto, como un bucket de Cloud Storage con bloqueo. B es incorrecta y es una mala práctica: las credenciales vienen de Application Default Credentials o de una cuenta de servicio autenticada, no del estado (aunque el estado puede contener valores sensibles y debe protegerse). C es incorrecta porque las llamadas a la API se registran en los registros de auditoría de Cloud. D describe el directorio .terraform que llena terraform init."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/resource-management/store-state"
+    },
+    {
+      "id": "elas-022",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "load-balancing",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-load-balancers",
+        "2.1-migs-autoscaling"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "In a load balancing configuration, what is a backend service?",
+        "es": "En una configuración de balanceo de cargas, ¿qué es un servicio de backend (backend service)?"
+      },
+      "opciones": [
+        {
+          "en": "The public DNS record that points users to the load balancer",
+          "es": "El registro DNS público que dirige a los usuarios al balanceador de cargas"
+        },
+        {
+          "en": "A firewall rule that permits traffic from the load balancer to the VMs",
+          "es": "Una regla de firewall que permite el tráfico del balanceador de cargas hacia las VMs"
+        },
+        {
+          "en": "The resource that defines how traffic is distributed to a set of backends (such as managed instance groups or NEGs), including the health check, balancing mode and session affinity",
+          "es": "El recurso que define cómo se distribuye el tráfico a un conjunto de backends (como grupos de instancias administrados o NEGs), incluidos la verificación de estado, el modo de balanceo y la afinidad de sesión"
+        },
+        {
+          "en": "The SSL certificate presented to clients during the TLS handshake",
+          "es": "El certificado SSL que se presenta a los clientes durante el protocolo de enlace TLS"
+        }
+      ],
+      "respuesta": [
+        "C"
+      ],
+      "explicacion": {
+        "en": "The backend service ties the load balancer's frontend to its backends and holds the health check, balancing mode, capacity settings, session affinity and Cloud CDN flag. A is a Cloud DNS record, an independent resource. B is a VPC firewall rule that must additionally allow the health check probe ranges. D is an SSL certificate resource attached to the target HTTPS proxy, not the backend service.",
+        "es": "El servicio de backend conecta el frontend del balanceador con sus backends y contiene la verificación de estado, el modo de balanceo, la configuración de capacidad, la afinidad de sesión y la opción de Cloud CDN. A es un registro de Cloud DNS, un recurso independiente. B es una regla de firewall de VPC que además debe permitir los rangos de sondeo de las verificaciones de estado. D es un recurso de certificado SSL asociado al proxy HTTPS de destino, no al servicio de backend."
+      },
+      "doc": "https://cloud.google.com/load-balancing/docs/backend-service"
+    },
+    {
+      "id": "elas-023",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "compute-engine",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-migs-autoscaling"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You must configure a managed instance group named web-mig to scale between 3 and 10 instances, targeting 65% average CPU utilization. Which command accomplishes this?",
+        "es": "Debes configurar un grupo de instancias administrado llamado web-mig para que escale entre 3 y 10 instancias, con un objetivo de 65% de uso promedio de CPU. ¿Qué comando lo logra?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud compute instance-groups managed set-autoscaling web-mig --max-num-replicas=10 --min-num-replicas=3 --target-cpu-utilization=0.65 --region=us-central1",
+          "es": "gcloud compute instance-groups managed set-autoscaling web-mig --max-num-replicas=10 --min-num-replicas=3 --target-cpu-utilization=0.65 --region=us-central1"
+        },
+        {
+          "en": "gcloud compute instance-groups managed resize web-mig --size=10 --region=us-central1",
+          "es": "gcloud compute instance-groups managed resize web-mig --size=10 --region=us-central1"
+        },
+        {
+          "en": "gcloud compute instance-templates create web-mig --cpu-target=65",
+          "es": "gcloud compute instance-templates create web-mig --cpu-target=65"
+        },
+        {
+          "en": "gcloud compute autoscalers enable web-mig --cpu=65 --min=3 --max=10",
+          "es": "gcloud compute autoscalers enable web-mig --cpu=65 --min=3 --max=10"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "set-autoscaling attaches an autoscaler to the MIG with the minimum and maximum replica counts and a CPU target expressed as a fraction between 0 and 1. B only fixes the group at a static size and does not create an autoscaling policy. C creates an instance template and has no autoscaling flags. D is not a valid gcloud command; the autoscalers group has create/update/delete, not enable, and the policy is normally set through the MIG.",
+        "es": "set-autoscaling asocia un autoescalador al MIG con los conteos mínimo y máximo de réplicas y un objetivo de CPU expresado como fracción entre 0 y 1. B solo fija el grupo en un tamaño estático y no crea una política de autoescalado. C crea una plantilla de instancias y no tiene marcas de autoescalado. D no es un comando gcloud válido; el grupo autoscalers tiene create/update/delete, no enable, y la política se define normalmente a través del MIG."
+      },
+      "doc": "https://cloud.google.com/compute/docs/autoscaler/scaling-cpu"
+    },
+    {
+      "id": "elas-024",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "vpc",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-vpc-subnets"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You need to create a VPC Network Peering connection from network vpc-a to network vpc-b, which lives in another project. Which command do you run in the project that owns vpc-a?",
+        "es": "Necesitas crear una conexión de intercambio de tráfico entre redes de VPC desde la red vpc-a hacia la red vpc-b, que está en otro proyecto. ¿Qué comando ejecutas en el proyecto propietario de vpc-a?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud compute networks subnets create peer-a --network=vpc-a --peer-network=vpc-b",
+          "es": "gcloud compute networks subnets create peer-a --network=vpc-a --peer-network=vpc-b"
+        },
+        {
+          "en": "gcloud compute networks peerings create peer-a-to-b --network=vpc-a --peer-project=PROJECT_B --peer-network=vpc-b",
+          "es": "gcloud compute networks peerings create peer-a-to-b --network=vpc-a --peer-project=PROJECT_B --peer-network=vpc-b"
+        },
+        {
+          "en": "gcloud compute vpn-tunnels create peer-a-to-b --network=vpc-a --peer-network=vpc-b",
+          "es": "gcloud compute vpn-tunnels create peer-a-to-b --network=vpc-a --peer-network=vpc-b"
+        },
+        {
+          "en": "gcloud compute shared-vpc associated-projects add PROJECT_B --host-project=PROJECT_A",
+          "es": "gcloud compute shared-vpc associated-projects add PROJECT_B --host-project=PROJECT_A"
+        }
+      ],
+      "respuesta": [
+        "B"
+      ],
+      "explicacion": {
+        "en": "gcloud compute networks peerings create defines one side of the peering; an administrator of the other project must create the matching peering before the connection becomes ACTIVE. A creates a subnet and has no peering flags. C creates an IPsec VPN tunnel, a different and unnecessary product for VPC-to-VPC connectivity inside Google Cloud. D attaches a service project to a Shared VPC host project, which is a different model from peering.",
+        "es": "gcloud compute networks peerings create define un lado del peering; un administrador del otro proyecto debe crear el peering correspondiente para que la conexión pase a ACTIVE. A crea una subred y no tiene marcas de peering. C crea un túnel VPN IPsec, un producto distinto e innecesario para la conectividad entre VPCs dentro de Google Cloud. D adjunta un proyecto de servicio a un proyecto host de VPC compartida, un modelo distinto del peering."
+      },
+      "doc": "https://cloud.google.com/vpc/docs/using-vpc-peering"
+    },
+    {
+      "id": "elas-025",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "cloud-nat",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-dns-nat"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You want private VMs in subnet app-subnet (region us-central1) to reach the internet through Cloud NAT. You already created a Cloud Router named nat-router. What is the next command?",
+        "es": "Quieres que las VMs privadas de la subred app-subnet (región us-central1) alcancen internet a través de Cloud NAT. Ya creaste un Cloud Router llamado nat-router. ¿Cuál es el siguiente comando?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud compute routers nats create app-nat --router=nat-router --region=us-central1 --nat-all-subnet-ip-ranges --auto-allocate-nat-external-ips",
+          "es": "gcloud compute routers nats create app-nat --router=nat-router --region=us-central1 --nat-all-subnet-ip-ranges --auto-allocate-nat-external-ips"
+        },
+        {
+          "en": "gcloud compute instances add-access-config VM_NAME --zone=us-central1-a",
+          "es": "gcloud compute instances add-access-config VM_NAME --zone=us-central1-a"
+        },
+        {
+          "en": "gcloud compute networks subnets update app-subnet --enable-private-ip-google-access --region=us-central1",
+          "es": "gcloud compute networks subnets update app-subnet --enable-private-ip-google-access --region=us-central1"
+        },
+        {
+          "en": "gcloud compute firewall-rules create allow-egress --direction=EGRESS --action=allow --rules=all",
+          "es": "gcloud compute firewall-rules create allow-egress --direction=EGRESS --action=allow --rules=all"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "A NAT gateway is configured on the Cloud Router with gcloud compute routers nats create, choosing which subnet ranges it serves and how external IPs are allocated. B assigns an external IP to a VM, which is exactly what Cloud NAT lets you avoid. C enables Private Google Access, which reaches Google APIs only, not general internet destinations. D creates an egress firewall rule; egress is already allowed by default and a rule alone provides no address translation.",
+        "es": "La puerta de enlace NAT se configura sobre el Cloud Router con gcloud compute routers nats create, eligiendo qué rangos de subred atiende y cómo se asignan las IPs externas. B asigna una IP externa a una VM, que es justo lo que Cloud NAT permite evitar. C habilita el Acceso privado a Google, que solo alcanza las APIs de Google y no destinos generales de internet. D crea una regla de firewall de salida; la salida ya está permitida de forma predeterminada y una regla por sí sola no realiza traducción de direcciones."
+      },
+      "doc": "https://cloud.google.com/nat/docs/set-up-network-address-translation"
+    },
+    {
+      "id": "elas-026",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "load-balancing",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You want to enable Cloud CDN on an existing backend service named web-backend of a global external Application Load Balancer. Which command do you use?",
+        "es": "Quieres habilitar Cloud CDN en un servicio de backend existente llamado web-backend de un balanceador de cargas de aplicaciones externo global. ¿Qué comando usas?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud compute url-maps set-default-service web-backend --enable-cdn",
+          "es": "gcloud compute url-maps set-default-service web-backend --enable-cdn"
+        },
+        {
+          "en": "gcloud compute target-http-proxies update web-proxy --enable-cdn",
+          "es": "gcloud compute target-http-proxies update web-proxy --enable-cdn"
+        },
+        {
+          "en": "gcloud compute backend-services update web-backend --enable-cdn --global",
+          "es": "gcloud compute backend-services update web-backend --enable-cdn --global"
+        },
+        {
+          "en": "gcloud compute forwarding-rules update web-fr --enable-cdn --global",
+          "es": "gcloud compute forwarding-rules update web-fr --enable-cdn --global"
+        }
+      ],
+      "respuesta": [
+        "C"
+      ],
+      "explicacion": {
+        "en": "Cloud CDN is a property of the backend service, so it is turned on with backend-services update --enable-cdn on the global backend service. A operates on the URL map's default route and has no CDN flag. B updates the target proxy, which handles protocol termination, not caching. D updates the forwarding rule, which binds an IP and port to the proxy and has no CDN setting.",
+        "es": "Cloud CDN es una propiedad del servicio de backend, por lo que se activa con backend-services update --enable-cdn sobre el servicio de backend global. A actúa sobre la ruta predeterminada del mapa de URL y no tiene marca de CDN. B actualiza el proxy de destino, que se encarga de la terminación del protocolo y no del almacenamiento en caché. D actualiza la regla de reenvío, que asocia una IP y un puerto al proxy y no tiene configuración de CDN."
+      },
+      "doc": "https://cloud.google.com/cdn/docs/setting-up-cdn-with-bucket"
+    },
+    {
+      "id": "elas-027",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "vpc",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-subnets-ips"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "The subnet app-subnet uses 10.10.0.0/24 and is running out of addresses because the managed instance group must scale further. What is the correct action?",
+        "es": "La subred app-subnet usa 10.10.0.0/24 y se está quedando sin direcciones porque el grupo de instancias administrado debe escalar más. ¿Cuál es la acción correcta?"
+      },
+      "opciones": [
+        {
+          "en": "Run gcloud compute networks subnets expand-ip-range app-subnet --region=us-central1 --prefix-length=22",
+          "es": "Ejecutar gcloud compute networks subnets expand-ip-range app-subnet --region=us-central1 --prefix-length=22"
+        },
+        {
+          "en": "Delete the subnet and recreate it with a larger range, then recreate all VMs",
+          "es": "Borrar la subred y volver a crearla con un rango mayor, y luego recrear todas las VMs"
+        },
+        {
+          "en": "Run gcloud compute networks subnets expand-ip-range app-subnet --region=us-central1 --prefix-length=26",
+          "es": "Ejecutar gcloud compute networks subnets expand-ip-range app-subnet --region=us-central1 --prefix-length=26"
+        },
+        {
+          "en": "Create a second VPC network with a larger range and peer it with the current one",
+          "es": "Crear una segunda red de VPC con un rango mayor y emparejarla con la actual"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "A subnet's primary range can be expanded in place with expand-ip-range as long as the new prefix length is smaller (a broader mask); /22 widens 10.10.0.0/24 without downtime for existing VMs. B works but is needlessly destructive and causes an outage. C is invalid because /26 is narrower than /24 and subnet ranges can never be shrunk. D adds a whole network and peering for a problem solved by one command, and does not enlarge the existing subnet.",
+        "es": "El rango primario de una subred se puede ampliar en el lugar con expand-ip-range siempre que la nueva longitud de prefijo sea menor (una máscara más amplia); /22 amplía 10.10.0.0/24 sin interrumpir las VMs existentes. B funciona, pero es innecesariamente destructivo y provoca una interrupción. C es inválida porque /26 es más estrecho que /24 y los rangos de subred nunca se pueden reducir. D agrega toda una red y un peering para un problema que se resuelve con un comando, y además no amplía la subred existente."
+      },
+      "doc": "https://cloud.google.com/vpc/docs/create-modify-vpc-networks"
+    },
+    {
+      "id": "elas-028",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "cloud-ngfw",
+        "load-balancing"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-firewall-mgmt"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "After creating an external Application Load Balancer, all backends appear UNHEALTHY even though the application works when you connect from inside the VPC. What is the most likely fix?",
+        "es": "Después de crear un balanceador de cargas de aplicaciones externo, todos los backends aparecen UNHEALTHY aunque la aplicación funciona cuando te conectas desde dentro de la VPC. ¿Cuál es la solución más probable?"
+      },
+      "opciones": [
+        {
+          "en": "Assign an external IP address to every backend VM",
+          "es": "Asignar una dirección IP externa a cada VM de backend"
+        },
+        {
+          "en": "Create an ingress firewall rule that allows traffic from the health check probe ranges 35.191.0.0/16 and 130.211.0.0/22 to the backend VMs",
+          "es": "Crear una regla de firewall de entrada que permita el tráfico desde los rangos de sondeo de verificaciones de estado 35.191.0.0/16 y 130.211.0.0/22 hacia las VMs de backend"
+        },
+        {
+          "en": "Change the load balancer from Premium Tier to Standard Tier",
+          "es": "Cambiar el balanceador del nivel Premium al nivel Standard"
+        },
+        {
+          "en": "Enable Private Google Access on the backend subnet",
+          "es": "Habilitar el Acceso privado a Google en la subred de los backends"
+        }
+      ],
+      "respuesta": [
+        "B"
+      ],
+      "explicacion": {
+        "en": "Google Cloud health check probes originate from the well-known ranges 35.191.0.0/16 and 130.211.0.0/22, so an ingress allow rule targeting the backend VMs on the health check port is required; without it every backend fails and receives no traffic. A is unnecessary because load-balanced backends do not need external IPs. C changes where traffic enters Google's network and does not affect health checks. D controls access to Google APIs from private VMs and is unrelated to health check reachability.",
+        "es": "Los sondeos de verificación de estado de Google Cloud se originan en los rangos conocidos 35.191.0.0/16 y 130.211.0.0/22, por lo que se necesita una regla de entrada que permita el tráfico hacia las VMs de backend en el puerto de la verificación; sin ella todos los backends fallan y no reciben tráfico. A es innecesaria porque los backends detrás de un balanceador no requieren IPs externas. C cambia dónde entra el tráfico a la red de Google y no afecta las verificaciones de estado. D controla el acceso a las APIs de Google desde VMs privadas y no se relaciona con la accesibilidad de los sondeos."
+      },
+      "doc": "https://cloud.google.com/load-balancing/docs/health-check-concepts"
+    },
+    {
+      "id": "elas-029",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "vpc",
+        "iam",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-vpc-subnets"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A developer in a Shared VPC service project must be able to create VMs in one specific subnet of the host project, and nothing else on the network. Which IAM role should you grant, and where?",
+        "es": "Un desarrollador de un proyecto de servicio de una VPC compartida debe poder crear VMs en una subred específica del proyecto host y nada más en la red. ¿Qué rol de IAM debes otorgar y dónde?"
+      },
+      "opciones": [
+        {
+          "en": "roles/compute.networkAdmin on the host project",
+          "es": "roles/compute.networkAdmin en el proyecto host"
+        },
+        {
+          "en": "roles/owner on the host project",
+          "es": "roles/owner en el proyecto host"
+        },
+        {
+          "en": "roles/compute.networkUser on that specific subnet of the host project",
+          "es": "roles/compute.networkUser en esa subred específica del proyecto host"
+        },
+        {
+          "en": "roles/compute.instanceAdmin on the host project",
+          "es": "roles/compute.instanceAdmin en el proyecto host"
+        }
+      ],
+      "respuesta": [
+        "C"
+      ],
+      "explicacion": {
+        "en": "Network User can be granted at the subnet level, which is the standard least-privilege pattern for Shared VPC: the principal may attach resources to that one subnet without any authority over the rest of the network. A lets the user create and modify networks, firewall rules and routes across the host project, far more than required. B grants full control of the host project and violates least privilege. D grants VM administration in the host project, which is both the wrong project and the wrong permission for subnet usage.",
+        "es": "El rol Network User se puede otorgar a nivel de subred, que es el patrón estándar de mínimo privilegio para la VPC compartida: el principal puede conectar recursos a esa única subred sin autoridad sobre el resto de la red. A permite crear y modificar redes, reglas de firewall y rutas en todo el proyecto host, mucho más de lo necesario. B otorga control total del proyecto host y viola el mínimo privilegio. D otorga administración de VMs en el proyecto host, que es el proyecto equivocado y el permiso equivocado para usar una subred."
+      },
+      "doc": "https://cloud.google.com/vpc/docs/shared-vpc#iam_in_shared_vpc"
+    },
+    {
+      "id": "elas-030",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "network-service-tiers",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-network-tiers"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You need to reserve a regional external IP address in Standard Tier for a batch server whose users are all in the same region and whose egress cost must be minimized. Which command is correct?",
+        "es": "Necesitas reservar una dirección IP externa regional en el nivel Standard para un servidor de procesamiento por lotes cuyos usuarios están todos en la misma región y cuyo costo de salida debe minimizarse. ¿Qué comando es correcto?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud compute addresses create batch-ip --region=us-central1 --network-tier=STANDARD",
+          "es": "gcloud compute addresses create batch-ip --region=us-central1 --network-tier=STANDARD"
+        },
+        {
+          "en": "gcloud compute addresses create batch-ip --global --network-tier=STANDARD",
+          "es": "gcloud compute addresses create batch-ip --global --network-tier=STANDARD"
+        },
+        {
+          "en": "gcloud compute addresses create batch-ip --region=us-central1 --subnet=default --purpose=GCE_ENDPOINT",
+          "es": "gcloud compute addresses create batch-ip --region=us-central1 --subnet=default --purpose=GCE_ENDPOINT"
+        },
+        {
+          "en": "gcloud compute networks update default --network-tier=STANDARD",
+          "es": "gcloud compute networks update default --network-tier=STANDARD"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Standard Tier external addresses are regional, so you reserve them with --region and --network-tier=STANDARD. B is invalid because global external addresses exist only in Premium Tier. C reserves a static internal address for a VM endpoint, not an external one, and internal addresses have no network tier. D is not valid: the tier is a property of the address or forwarding rule (with an optional project-level default), not of the VPC network.",
+        "es": "Las direcciones externas del nivel Standard son regionales, por lo que se reservan con --region y --network-tier=STANDARD. B es inválida porque las direcciones externas globales solo existen en el nivel Premium. C reserva una dirección interna estática para un extremo de VM, no una externa, y las direcciones internas no tienen nivel de red. D no es válida: el nivel es una propiedad de la dirección o de la regla de reenvío (con un valor predeterminado opcional a nivel de proyecto), no de la red de VPC."
+      },
+      "doc": "https://cloud.google.com/network-tiers/docs/using-network-service-tiers"
+    },
+    {
+      "id": "elas-031",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "terraform-iac",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.4-iac-tooling"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "In a Terraform workflow, which command shows the changes that would be made to your Google Cloud infrastructure without applying them?",
+        "es": "En un flujo de trabajo de Terraform, ¿qué comando muestra los cambios que se harían en tu infraestructura de Google Cloud sin aplicarlos?"
+      },
+      "opciones": [
+        {
+          "en": "terraform init",
+          "es": "terraform init"
+        },
+        {
+          "en": "terraform plan",
+          "es": "terraform plan"
+        },
+        {
+          "en": "terraform apply -auto-approve",
+          "es": "terraform apply -auto-approve"
+        },
+        {
+          "en": "terraform destroy",
+          "es": "terraform destroy"
+        }
+      ],
+      "respuesta": [
+        "B"
+      ],
+      "explicacion": {
+        "en": "terraform plan compares the configuration with the state and the real resources and prints the create, update and delete actions it would perform, which is the review step before applying. terraform init downloads providers and configures the backend. terraform apply -auto-approve executes the changes immediately without prompting, the opposite of a dry run. terraform destroy deletes all managed resources.",
+        "es": "terraform plan compara la configuración con el estado y los recursos reales, y muestra las acciones de creación, actualización y eliminación que ejecutaría, que es el paso de revisión previo a aplicar. terraform init descarga los proveedores y configura el backend. terraform apply -auto-approve ejecuta los cambios de inmediato sin confirmación, lo opuesto a una simulación. terraform destroy elimina todos los recursos administrados."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/basic-commands"
+    },
+    {
+      "id": "elas-032",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "compute-engine",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-migs-autoscaling"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A new instance template named web-template-v2 contains an updated application image. You must roll it out to the managed instance group web-mig gradually, without taking the service down. Which command do you run?",
+        "es": "Una plantilla de instancias nueva llamada web-template-v2 contiene una imagen actualizada de la aplicación. Debes implementarla en el grupo de instancias administrado web-mig de forma gradual, sin interrumpir el servicio. ¿Qué comando ejecutas?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud compute instance-groups managed rolling-action start-update web-mig --version=template=web-template-v2 --max-unavailable=1 --region=us-central1",
+          "es": "gcloud compute instance-groups managed rolling-action start-update web-mig --version=template=web-template-v2 --max-unavailable=1 --region=us-central1"
+        },
+        {
+          "en": "gcloud compute instance-groups managed delete web-mig --region=us-central1 and then recreate it from the new template",
+          "es": "gcloud compute instance-groups managed delete web-mig --region=us-central1 y luego recrearlo desde la plantilla nueva"
+        },
+        {
+          "en": "gcloud compute instance-templates update web-template --source=web-template-v2",
+          "es": "gcloud compute instance-templates update web-template --source=web-template-v2"
+        },
+        {
+          "en": "gcloud compute instances update web-mig --template=web-template-v2",
+          "es": "gcloud compute instances update web-mig --template=web-template-v2"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "rolling-action start-update performs an automated rolling update: it replaces instances in batches while respecting maxUnavailable and maxSurge, so capacity is preserved during the rollout. B causes a full outage and loses the group configuration. C is invalid because instance templates are immutable and cannot be updated in place. D is invalid: gcloud compute instances operates on individual VMs and has no --template flag for a MIG.",
+        "es": "rolling-action start-update ejecuta una actualización progresiva automatizada: reemplaza instancias por lotes respetando maxUnavailable y maxSurge, de modo que la capacidad se mantiene durante el despliegue. B provoca una interrupción total y pierde la configuración del grupo. C es inválida porque las plantillas de instancias son inmutables y no se pueden actualizar en el lugar. D es inválida: gcloud compute instances opera sobre VMs individuales y no tiene una marca --template para un MIG."
+      },
+      "doc": "https://cloud.google.com/compute/docs/instance-groups/rolling-out-updates-to-managed-instance-groups"
+    },
+    {
+      "id": "elas-033",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "hybrid-connectivity",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-connectivity"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You are configuring HA VPN between a VPC network and an on-premises data center. Which set of resources must you create in Google Cloud?",
+        "es": "Estás configurando HA VPN entre una red de VPC y un centro de datos on-premises. ¿Qué conjunto de recursos debes crear en Google Cloud?"
+      },
+      "opciones": [
+        {
+          "en": "An HA VPN gateway, a peer VPN gateway resource, a Cloud Router with BGP sessions, and two VPN tunnels",
+          "es": "Una puerta de enlace de HA VPN, un recurso de puerta de enlace VPN del par, un Cloud Router con sesiones BGP y dos túneles VPN"
+        },
+        {
+          "en": "A Cloud Interconnect attachment and a VLAN attachment only",
+          "es": "Solo un adjunto de Cloud Interconnect y un adjunto de VLAN"
+        },
+        {
+          "en": "An HA VPN gateway and a set of static routes, with no Cloud Router",
+          "es": "Una puerta de enlace de HA VPN y un conjunto de rutas estáticas, sin Cloud Router"
+        },
+        {
+          "en": "A VPC Network Peering connection and a firewall rule allowing IPsec",
+          "es": "Una conexión de intercambio entre redes de VPC y una regla de firewall que permita IPsec"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "HA VPN requires the HA VPN gateway (two interfaces), a peer gateway resource describing the on-premises device, a Cloud Router that runs BGP on each tunnel, and at least two tunnels to obtain the higher availability SLA. B describes Cloud Interconnect, a different connectivity product. C is invalid because HA VPN only supports dynamic routing through Cloud Router, not static routes. D is wrong because VPC Network Peering connects two VPC networks inside Google Cloud and cannot reach an on-premises data center.",
+        "es": "HA VPN requiere la puerta de enlace de HA VPN (dos interfaces), un recurso de puerta de enlace del par que describe el dispositivo on-premises, un Cloud Router que ejecuta BGP en cada túnel y al menos dos túneles para obtener el SLA de mayor disponibilidad. B describe Cloud Interconnect, otro producto de conectividad. C es inválida porque HA VPN solo admite enrutamiento dinámico mediante Cloud Router, no rutas estáticas. D es incorrecta porque el intercambio entre redes de VPC conecta dos redes de VPC dentro de Google Cloud y no puede alcanzar un centro de datos on-premises."
+      },
+      "doc": "https://cloud.google.com/network-connectivity/docs/vpn/how-to/creating-ha-vpn"
+    },
+    {
+      "id": "elas-034",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "vpc",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-custom-routes"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "All egress traffic to 0.0.0.0/0 must be sent through an inspection appliance VM named fw-appliance in zone us-central1-a instead of the default internet gateway. Which command creates the required route?",
+        "es": "Todo el tráfico de salida hacia 0.0.0.0/0 debe enviarse a través de una VM de inspección llamada fw-appliance en la zona us-central1-a en lugar de la puerta de enlace de internet predeterminada. ¿Qué comando crea la ruta necesaria?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud compute routes create inspect-route --network=prod-vpc --destination-range=0.0.0.0/0 --next-hop-instance=fw-appliance --next-hop-instance-zone=us-central1-a --priority=100",
+          "es": "gcloud compute routes create inspect-route --network=prod-vpc --destination-range=0.0.0.0/0 --next-hop-instance=fw-appliance --next-hop-instance-zone=us-central1-a --priority=100"
+        },
+        {
+          "en": "gcloud compute firewall-rules create inspect-route --direction=EGRESS --destination-ranges=0.0.0.0/0 --action=allow",
+          "es": "gcloud compute firewall-rules create inspect-route --direction=EGRESS --destination-ranges=0.0.0.0/0 --action=allow"
+        },
+        {
+          "en": "gcloud compute routers nats create inspect-route --router=prod-router --nat-all-subnet-ip-ranges",
+          "es": "gcloud compute routers nats create inspect-route --router=prod-router --nat-all-subnet-ip-ranges"
+        },
+        {
+          "en": "gcloud compute routes create inspect-route --network=prod-vpc --destination-range=0.0.0.0/0 --next-hop-gateway=default-internet-gateway --priority=100",
+          "es": "gcloud compute routes create inspect-route --network=prod-vpc --destination-range=0.0.0.0/0 --next-hop-gateway=default-internet-gateway --priority=100"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "A custom static route with --next-hop-instance directs matching traffic to the appliance VM; giving it a lower priority number than the default route (1000) makes it win. B creates a firewall rule, which can allow or deny traffic but cannot change its next hop. C configures Cloud NAT, which sends traffic straight to the internet without inspection. D recreates the default behavior by pointing at the internet gateway, so traffic bypasses the appliance entirely.",
+        "es": "Una ruta estática personalizada con --next-hop-instance dirige el tráfico coincidente hacia la VM del dispositivo; asignarle un número de prioridad menor que el de la ruta predeterminada (1000) hace que prevalezca. B crea una regla de firewall, que puede permitir o denegar tráfico pero no cambiar su siguiente salto. C configura Cloud NAT, que envía el tráfico directo a internet sin inspección. D reproduce el comportamiento predeterminado apuntando a la puerta de enlace de internet, por lo que el tráfico omite por completo el dispositivo."
+      },
+      "doc": "https://cloud.google.com/vpc/docs/using-routes"
+    },
+    {
+      "id": "elas-035",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "compute-engine",
+        "load-balancing"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-migs-autoscaling"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A managed instance group serves an application whose requests are I/O bound, so CPU stays low even when the service is saturated. Which autoscaling signal should you configure?",
+        "es": "Un grupo de instancias administrado atiende una aplicación cuyas solicitudes están limitadas por E/S, por lo que la CPU se mantiene baja incluso cuando el servicio está saturado. ¿Qué señal de autoescalado deberías configurar?"
+      },
+      "opciones": [
+        {
+          "en": "Increase the target CPU utilization to 90% so it triggers sooner",
+          "es": "Aumentar el objetivo de uso de CPU a 90% para que se dispare antes"
+        },
+        {
+          "en": "HTTP load balancing serving capacity, using --target-load-balancing-utilization on the backend service's balancing mode",
+          "es": "Capacidad de entrega del balanceo de cargas HTTP, con --target-load-balancing-utilization según el modo de balanceo del servicio de backend"
+        },
+        {
+          "en": "A fixed schedule that resizes the group every hour",
+          "es": "Una programación fija que redimensiona el grupo cada hora"
+        },
+        {
+          "en": "Autohealing with a TCP health check",
+          "es": "Reparación automática con una verificación de estado TCP"
+        }
+      ],
+      "respuesta": [
+        "B"
+      ],
+      "explicacion": {
+        "en": "When CPU is not a good proxy for load, scaling on load balancing serving capacity (requests per second or backend utilization) reacts to actual demand; a Cloud Monitoring custom metric such as queue depth is the other valid choice. A makes the problem worse: raising the CPU target means the group scales even later. C is a blunt instrument that ignores real traffic and either wastes money or under-provisions. D replaces failed instances but never changes the group size in response to load.",
+        "es": "Cuando la CPU no representa bien la carga, escalar según la capacidad de entrega del balanceo de cargas (solicitudes por segundo o utilización del backend) reacciona a la demanda real; una métrica personalizada de Cloud Monitoring, como la profundidad de una cola, es la otra opción válida. A empeora el problema: subir el objetivo de CPU hace que el grupo escale aún más tarde. C es un instrumento burdo que ignora el tráfico real y termina desperdiciando dinero o quedándose corto. D reemplaza instancias fallidas pero nunca cambia el tamaño del grupo en respuesta a la carga."
+      },
+      "doc": "https://cloud.google.com/compute/docs/autoscaler/scaling-load-balancing"
+    },
+    {
+      "id": "elas-036",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "vpc",
+        "gcloud-cli",
+        "iam"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-vpc-subnets"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You have designated project net-host as a Shared VPC host project. Which command attaches the service project app-prod to it?",
+        "es": "Designaste el proyecto net-host como proyecto host de una VPC compartida. ¿Qué comando adjunta el proyecto de servicio app-prod a él?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud compute networks peerings create app-prod --network=shared-vpc --peer-project=net-host",
+          "es": "gcloud compute networks peerings create app-prod --network=shared-vpc --peer-project=net-host"
+        },
+        {
+          "en": "gcloud projects add-iam-policy-binding app-prod --member=user:admin@example.com --role=roles/compute.networkAdmin",
+          "es": "gcloud projects add-iam-policy-binding app-prod --member=user:admin@example.com --role=roles/compute.networkAdmin"
+        },
+        {
+          "en": "gcloud compute shared-vpc associated-projects add app-prod --host-project=net-host",
+          "es": "gcloud compute shared-vpc associated-projects add app-prod --host-project=net-host"
+        },
+        {
+          "en": "gcloud resource-manager folders move app-prod --folder=net-host",
+          "es": "gcloud resource-manager folders move app-prod --folder=net-host"
+        }
+      ],
+      "respuesta": [
+        "C"
+      ],
+      "explicacion": {
+        "en": "After enabling Shared VPC on the host project with gcloud compute shared-vpc enable, service projects are attached with shared-vpc associated-projects add. A creates VPC Network Peering, a different connectivity model that does not share subnets. B grants an IAM role, which is a separate step and does not create the host-service relationship. D moves a project in the resource hierarchy, which has nothing to do with Shared VPC attachment.",
+        "es": "Después de habilitar la VPC compartida en el proyecto host con gcloud compute shared-vpc enable, los proyectos de servicio se adjuntan con shared-vpc associated-projects add. A crea un intercambio entre redes de VPC, un modelo de conectividad distinto que no comparte subredes. B otorga un rol de IAM, que es un paso aparte y no crea la relación host-servicio. D mueve un proyecto en la jerarquía de recursos, algo ajeno a la vinculación de la VPC compartida."
+      },
+      "doc": "https://cloud.google.com/vpc/docs/provisioning-shared-vpc"
+    },
+    {
+      "id": "elas-037",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "load-balancing",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
+      "nivel": "intermedio",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO resources must exist before you can create the forwarding rule of a global external Application Load Balancer?",
+        "es": "¿Cuáles DOS recursos deben existir antes de que puedas crear la regla de reenvío de un balanceador de cargas de aplicaciones externo global?"
+      },
+      "opciones": [
+        {
+          "en": "A target HTTP or HTTPS proxy",
+          "es": "Un proxy HTTP o HTTPS de destino"
+        },
+        {
+          "en": "A Cloud NAT gateway in the backend region",
+          "es": "Una puerta de enlace de Cloud NAT en la región de los backends"
+        },
+        {
+          "en": "A URL map that references a backend service",
+          "es": "Un mapa de URL que hace referencia a un servicio de backend"
+        },
+        {
+          "en": "A VPC Network Peering connection to the backend network",
+          "es": "Una conexión de intercambio entre redes de VPC hacia la red de los backends"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "C"
+      ],
+      "explicacion": {
+        "en": "The build order for an Application Load Balancer is backend service, then URL map, then target proxy, and finally the forwarding rule that binds the IP and port to that proxy, so both the proxy and the URL map must already exist. B is unrelated: Cloud NAT provides outbound access for private VMs and is not part of the load balancer. D is unnecessary because the backends live in the same VPC as the load balancer's backend service.",
+        "es": "El orden de construcción de un balanceador de cargas de aplicaciones es: servicio de backend, luego mapa de URL, luego proxy de destino y, por último, la regla de reenvío que asocia la IP y el puerto a ese proxy; por eso el proxy y el mapa de URL deben existir previamente. B no tiene relación: Cloud NAT provee acceso saliente a VMs privadas y no forma parte del balanceador. D es innecesaria porque los backends residen en la misma VPC que el servicio de backend del balanceador."
+      },
+      "doc": "https://cloud.google.com/load-balancing/docs/https/setup-global-ext-https-compute"
+    },
+    {
+      "id": "elas-038",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "cloud-dns",
+        "cloud-nat"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-dns-nat"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Private VMs behind Cloud NAT are exhausting NAT source ports during traffic peaks, causing dropped outbound connections. Which change addresses the problem most directly?",
+        "es": "Las VMs privadas detrás de Cloud NAT están agotando los puertos de origen de NAT durante los picos de tráfico, lo que provoca conexiones salientes descartadas. ¿Qué cambio aborda el problema de forma más directa?"
+      },
+      "opciones": [
+        {
+          "en": "Switch the project from Premium Tier to Standard Tier",
+          "es": "Cambiar el proyecto del nivel Premium al nivel Standard"
+        },
+        {
+          "en": "Add more external IP addresses to the NAT gateway or enable dynamic port allocation so more source ports are available",
+          "es": "Agregar más direcciones IP externas a la puerta de enlace NAT o habilitar la asignación dinámica de puertos para disponer de más puertos de origen"
+        },
+        {
+          "en": "Assign an external IP address to each VM and delete the NAT gateway",
+          "es": "Asignar una dirección IP externa a cada VM y borrar la puerta de enlace NAT"
+        },
+        {
+          "en": "Enable Private Google Access on the subnet",
+          "es": "Habilitar el Acceso privado a Google en la subred"
+        }
+      ],
+      "respuesta": [
+        "B"
+      ],
+      "explicacion": {
+        "en": "Each NAT external IP provides a finite pool of source ports; adding IPs, raising minimum ports per VM or enabling dynamic port allocation increases the pool that saturating VMs can draw from. A changes how egress traffic reaches the internet and does not add NAT ports. C would work technically but exposes every VM to the internet, increases cost and abandons the security posture the design intended. D only affects reachability of Google APIs and does not consume or supply NAT ports for internet destinations.",
+        "es": "Cada IP externa de NAT provee un conjunto finito de puertos de origen; agregar IPs, subir el mínimo de puertos por VM o habilitar la asignación dinámica de puertos amplía el conjunto disponible para las VMs que saturan. A cambia cómo el tráfico de salida llega a internet y no agrega puertos de NAT. C funcionaría técnicamente, pero expone cada VM a internet, aumenta el costo y abandona la postura de seguridad que buscaba el diseño. D solo afecta la accesibilidad a las APIs de Google y no consume ni aporta puertos de NAT para destinos de internet."
+      },
+      "doc": "https://cloud.google.com/nat/docs/ports-and-addresses"
+    },
+    {
+      "id": "elas-039",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "compute-engine",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-migs-autoscaling"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which command creates a regional managed instance group named web-mig with 3 instances distributed across the zones of us-central1, based on the template web-template?",
+        "es": "¿Qué comando crea un grupo de instancias administrado regional llamado web-mig con 3 instancias distribuidas entre las zonas de us-central1, basado en la plantilla web-template?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud compute instance-groups unmanaged create web-mig --zone=us-central1-a --size=3",
+          "es": "gcloud compute instance-groups unmanaged create web-mig --zone=us-central1-a --size=3"
+        },
+        {
+          "en": "gcloud compute instances create web-mig --count=3 --source-instance-template=web-template --region=us-central1",
+          "es": "gcloud compute instances create web-mig --count=3 --source-instance-template=web-template --region=us-central1"
+        },
+        {
+          "en": "gcloud compute instance-groups managed create web-mig --template=web-template --size=3 --region=us-central1",
+          "es": "gcloud compute instance-groups managed create web-mig --template=web-template --size=3 --region=us-central1"
+        },
+        {
+          "en": "gcloud compute instance-templates create web-mig --size=3 --region=us-central1",
+          "es": "gcloud compute instance-templates create web-mig --size=3 --region=us-central1"
+        }
+      ],
+      "respuesta": [
+        "C"
+      ],
+      "explicacion": {
+        "en": "Using --region instead of --zone creates a regional MIG, which spreads instances across zones and survives a single-zone failure. A creates an unmanaged instance group, which has no template, no autoscaling and no autohealing. B creates standalone VMs that are not members of any group, so nothing manages or scales them. D creates an instance template and does not accept size or produce a group.",
+        "es": "Usar --region en lugar de --zone crea un MIG regional, que distribuye las instancias entre zonas y sobrevive a la falla de una sola zona. A crea un grupo de instancias no administrado, que no tiene plantilla, ni autoescalado, ni reparación automática. B crea VMs independientes que no pertenecen a ningún grupo, por lo que nada las administra ni las escala. D crea una plantilla de instancias, no acepta un tamaño ni produce un grupo."
+      },
+      "doc": "https://cloud.google.com/compute/docs/instance-groups/distributing-instances-with-regional-instance-groups"
+    },
+    {
+      "id": "elas-040",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "vpc",
+        "cloud-storage",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-vpc-subnets"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "VMs in the subnet data-subnet have no external IP addresses and cannot write to Cloud Storage. Their service account already has the Storage Object Creator role. Which command fixes the connectivity?",
+        "es": "Las VMs de la subred data-subnet no tienen direcciones IP externas y no pueden escribir en Cloud Storage. Su cuenta de servicio ya tiene el rol Storage Object Creator. ¿Qué comando corrige la conectividad?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud compute networks subnets update data-subnet --region=us-central1 --enable-private-ip-google-access",
+          "es": "gcloud compute networks subnets update data-subnet --region=us-central1 --enable-private-ip-google-access"
+        },
+        {
+          "en": "gcloud projects add-iam-policy-binding PROJECT_ID --member=... --role=roles/owner",
+          "es": "gcloud projects add-iam-policy-binding PROJECT_ID --member=... --role=roles/owner"
+        },
+        {
+          "en": "gcloud compute instances add-access-config VM_NAME --zone=us-central1-a",
+          "es": "gcloud compute instances add-access-config VM_NAME --zone=us-central1-a"
+        },
+        {
+          "en": "gcloud compute networks subnets expand-ip-range data-subnet --region=us-central1 --prefix-length=20",
+          "es": "gcloud compute networks subnets expand-ip-range data-subnet --region=us-central1 --prefix-length=20"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The permissions are already correct, so the failure is network reachability: enabling Private Google Access on the subnet lets VMs with only internal IPs reach Google APIs, including storage.googleapis.com. B grants excessive permissions and does not solve a network problem. C attaches an external IP, which works but exposes the VM and contradicts the private-VM design. D enlarges the IP range, which is unrelated to reaching Google APIs.",
+        "es": "Los permisos ya son correctos, así que la falla es de accesibilidad de red: habilitar el Acceso privado a Google en la subred permite que VMs con solo IP interna alcancen las APIs de Google, incluida storage.googleapis.com. B otorga permisos excesivos y no resuelve un problema de red. C adjunta una IP externa, lo que funciona pero expone la VM y contradice el diseño de VMs privadas. D amplía el rango IP, algo ajeno al acceso a las APIs de Google."
+      },
+      "doc": "https://cloud.google.com/vpc/docs/configure-private-google-access"
     }
   ]
 }

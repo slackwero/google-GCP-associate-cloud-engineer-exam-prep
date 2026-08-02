@@ -1,0 +1,1313 @@
+{
+  "preguntas": [
+    {
+      "id": "ref3-001",
+      "curso": null,
+      "servicios": [
+        "database-center"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-database-center"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is Database Center in Google Cloud?",
+        "es": "¿Qué es Database Center en Google Cloud?"
+      },
+      "opciones": [
+        {
+          "en": "An AI-assisted dashboard that gives a unified view of the health, security, and availability of your entire database fleet across projects",
+          "es": "Un panel asistido por IA que ofrece una vista unificada de la salud, seguridad y disponibilidad de toda tu flota de bases de datos entre proyectos"
+        },
+        {
+          "en": "A fully managed MySQL and PostgreSQL database service",
+          "es": "Un servicio administrado de bases de datos MySQL y PostgreSQL"
+        },
+        {
+          "en": "A service that migrates on-premises databases to Google Cloud",
+          "es": "Un servicio que migra bases de datos on-premises a Google Cloud"
+        },
+        {
+          "en": "A SQL editor for writing and running queries against BigQuery",
+          "es": "Un editor de SQL para escribir y ejecutar consultas en BigQuery"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Database Center is a fleet management tool: it aggregates all your Google Cloud databases into one view with health issues and recommendations. B describes Cloud SQL, C describes Database Migration Service, and D describes BigQuery Studio's query editor.",
+        "es": "Database Center es una herramienta de administración de flota: agrega todas tus bases de datos de Google Cloud en una sola vista con problemas de salud y recomendaciones. B describe Cloud SQL, C describe Database Migration Service y D describe el editor de consultas de BigQuery Studio."
+      },
+      "doc": "https://cloud.google.com/database-center/docs/overview"
+    },
+    {
+      "id": "ref3-002",
+      "curso": null,
+      "servicios": [
+        "cmek-kms"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-cmek"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is the main difference between Google-managed encryption keys and customer-managed encryption keys (CMEK)?",
+        "es": "¿Cuál es la diferencia principal entre las claves de encriptación administradas por Google y las claves administradas por el cliente (CMEK)?"
+      },
+      "opciones": [
+        {
+          "en": "With CMEK you control the key in Cloud KMS (rotation, disabling, access), while Google-managed keys are handled entirely by Google with no user control",
+          "es": "Con CMEK tú controlas la clave en Cloud KMS (rotación, deshabilitación, acceso), mientras que las claves administradas por Google las maneja Google por completo sin control del usuario"
+        },
+        {
+          "en": "Google-managed keys leave data unencrypted at rest; CMEK is the only way to encrypt data",
+          "es": "Las claves administradas por Google dejan los datos sin encriptar en reposo; CMEK es la única forma de encriptar datos"
+        },
+        {
+          "en": "CMEK requires you to store the key material on your own on-premises hardware",
+          "es": "CMEK requiere almacenar el material de la clave en tu propio hardware on-premises"
+        },
+        {
+          "en": "CMEK is free while Google-managed keys have an extra cost",
+          "es": "CMEK es gratis mientras que las claves administradas por Google tienen un costo adicional"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "CMEK gives you lifecycle control over the key (rotate, disable, revoke access) via Cloud KMS. B is false: all data at rest is encrypted by default with Google-managed keys. C describes external key management or on-prem HSMs, not CMEK (CMEK keys live in Cloud KMS). D is backwards: Cloud KMS keys have a cost while default encryption is free.",
+        "es": "CMEK te da control del ciclo de vida de la clave (rotar, deshabilitar, revocar acceso) mediante Cloud KMS. B es falsa: todos los datos en reposo se encriptan por defecto con claves administradas por Google. C describe administración externa de claves o HSMs on-premises, no CMEK (las claves CMEK viven en Cloud KMS). D está invertida: las claves de Cloud KMS tienen costo mientras que la encriptación por defecto es gratuita."
+      },
+      "doc": "https://cloud.google.com/kms/docs/cmek"
+    },
+    {
+      "id": "ref3-003",
+      "curso": null,
+      "servicios": [
+        "billing",
+        "cloud-storage"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-storage-costs"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You want to estimate the monthly cost of storing 50 TB in Cloud Storage before creating any resources. Which tool should you use?",
+        "es": "Quieres estimar el costo mensual de almacenar 50 TB en Cloud Storage antes de crear cualquier recurso. ¿Qué herramienta deberías usar?"
+      },
+      "opciones": [
+        {
+          "en": "The Google Cloud Pricing Calculator",
+          "es": "La Calculadora de precios de Google Cloud"
+        },
+        {
+          "en": "Cloud Billing reports",
+          "es": "Los informes de Facturación de Cloud"
+        },
+        {
+          "en": "A billing budget with alerts",
+          "es": "Un presupuesto de facturación con alertas"
+        },
+        {
+          "en": "Active Assist cost recommendations",
+          "es": "Las recomendaciones de costo de Active Assist"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The Pricing Calculator estimates costs before you deploy, letting you model storage class, amount, and egress. Billing reports show actual historical spend of existing resources, budgets alert on real spend, and Active Assist recommends optimizations for resources you already run.",
+        "es": "La Calculadora de precios estima costos antes de implementar, permitiendo modelar clase de almacenamiento, cantidad y salida de red. Los informes de facturación muestran el gasto histórico real de recursos existentes, los presupuestos alertan sobre gasto real y Active Assist recomienda optimizaciones para recursos que ya ejecutas."
+      },
+      "doc": "https://cloud.google.com/products/calculator"
+    },
+    {
+      "id": "ref3-004",
+      "curso": null,
+      "servicios": [
+        "observability-tools"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.4-diagnostics"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which Google Cloud tool collects latency data from requests as they propagate through the services of a distributed application?",
+        "es": "¿Qué herramienta de Google Cloud recopila datos de latencia de las solicitudes a medida que se propagan por los servicios de una aplicación distribuida?"
+      },
+      "opciones": [
+        {
+          "en": "Cloud Trace",
+          "es": "Cloud Trace"
+        },
+        {
+          "en": "Cloud Profiler",
+          "es": "Cloud Profiler"
+        },
+        {
+          "en": "Cloud Logging",
+          "es": "Cloud Logging"
+        },
+        {
+          "en": "Uptime checks in Cloud Monitoring",
+          "es": "Verificaciones de tiempo de actividad en Cloud Monitoring"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Cloud Trace is the distributed tracing system: it records spans showing how long each service takes within a request. Cloud Profiler measures CPU and memory consumption of code, Cloud Logging stores log entries (not request latency breakdowns), and uptime checks only verify endpoint availability from outside.",
+        "es": "Cloud Trace es el sistema de rastreo distribuido: registra spans que muestran cuánto tarda cada servicio dentro de una solicitud. Cloud Profiler mide consumo de CPU y memoria del código, Cloud Logging almacena entradas de registro (no desgloses de latencia por solicitud) y las verificaciones de tiempo de actividad solo comprueban la disponibilidad de un endpoint desde afuera."
+      },
+      "doc": "https://cloud.google.com/trace/docs/overview"
+    },
+    {
+      "id": "ref3-005",
+      "curso": null,
+      "servicios": [
+        "cloud-workstations"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-cloud-workstations"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is Cloud Workstations?",
+        "es": "¿Qué es Cloud Workstations?"
+      },
+      "opciones": [
+        {
+          "en": "A managed service that provides preconfigured, secure development environments in the cloud, accessible from a browser or local IDE",
+          "es": "Un servicio administrado que proporciona entornos de desarrollo preconfigurados y seguros en la nube, accesibles desde un navegador o un IDE local"
+        },
+        {
+          "en": "A virtual desktop service for running Windows office applications",
+          "es": "Un servicio de escritorios virtuales para ejecutar aplicaciones de oficina de Windows"
+        },
+        {
+          "en": "A CI/CD service that builds and deploys containers",
+          "es": "Un servicio de CI/CD que compila y despliega contenedores"
+        },
+        {
+          "en": "A physical workstation that Google ships to your office",
+          "es": "Una estación de trabajo física que Google envía a tu oficina"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Cloud Workstations gives developers on-demand, admin-managed dev environments running in your Google Cloud project, reachable via browser or local IDE. It is not a generic virtual desktop product (B), not a build/deploy pipeline like Cloud Build (C), and involves no physical hardware shipment (D).",
+        "es": "Cloud Workstations da a los desarrolladores entornos de desarrollo bajo demanda, administrados por administradores, que se ejecutan en tu proyecto de Google Cloud y son accesibles vía navegador o IDE local. No es un producto genérico de escritorios virtuales (B), no es un pipeline de build/deploy como Cloud Build (C) y no implica envío de hardware físico (D)."
+      },
+      "doc": "https://cloud.google.com/workstations/docs/overview"
+    },
+    {
+      "id": "ref3-006",
+      "curso": null,
+      "servicios": [
+        "notebooks",
+        "bigquery"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-ai-workloads"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A data analyst wants to combine SQL results with Python analysis without leaving the BigQuery console. Which feature should they use?",
+        "es": "Un analista de datos quiere combinar resultados de SQL con análisis en Python sin salir de la consola de BigQuery. ¿Qué función debería usar?"
+      },
+      "opciones": [
+        {
+          "en": "BigQuery notebooks in BigQuery Studio",
+          "es": "Notebooks de BigQuery en BigQuery Studio"
+        },
+        {
+          "en": "A Compute Engine VM with Jupyter installed manually",
+          "es": "Una VM de Compute Engine con Jupyter instalado manualmente"
+        },
+        {
+          "en": "Cloud Shell Editor",
+          "es": "El editor de Cloud Shell"
+        },
+        {
+          "en": "Dataflow SQL",
+          "es": "Dataflow SQL"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "BigQuery Studio includes built-in Python notebooks that run next to your data, ideal for mixing SQL and Python. A manual Jupyter VM works but requires leaving BigQuery and managing infrastructure, Cloud Shell Editor is a code editor without a managed notebook runtime over BigQuery data, and Dataflow SQL is for streaming pipelines, not interactive notebook analysis.",
+        "es": "BigQuery Studio incluye notebooks de Python integrados que se ejecutan junto a tus datos, ideales para mezclar SQL y Python. Una VM con Jupyter manual funciona pero obliga a salir de BigQuery y administrar infraestructura, el editor de Cloud Shell es un editor de código sin un runtime de notebooks administrado sobre datos de BigQuery, y Dataflow SQL es para pipelines de streaming, no para análisis interactivo en notebooks."
+      },
+      "doc": "https://cloud.google.com/bigquery/docs/notebooks-introduction"
+    },
+    {
+      "id": "ref3-007",
+      "curso": null,
+      "servicios": [
+        "bigquery"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-job-status"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Where can you quickly review the status and history of query jobs you have run in BigQuery?",
+        "es": "¿Dónde puedes revisar rápidamente el estado y el historial de los trabajos de consulta que ejecutaste en BigQuery?"
+      },
+      "opciones": [
+        {
+          "en": "In the personal and project job history panels of the BigQuery console",
+          "es": "En los paneles de historial personal y del proyecto de la consola de BigQuery"
+        },
+        {
+          "en": "In the Dataflow monitoring interface",
+          "es": "En la interfaz de supervisión de Dataflow"
+        },
+        {
+          "en": "In Cloud Trace",
+          "es": "En Cloud Trace"
+        },
+        {
+          "en": "In the Cloud Scheduler jobs page",
+          "es": "En la página de trabajos de Cloud Scheduler"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The BigQuery console shows personal history (your jobs) and project history (all jobs in the project), including state, duration, and errors. Dataflow monitoring is for Dataflow pipelines, Cloud Trace shows request latency for applications, and Cloud Scheduler lists cron jobs, none of which display BigQuery query jobs.",
+        "es": "La consola de BigQuery muestra el historial personal (tus trabajos) y el historial del proyecto (todos los trabajos del proyecto), incluyendo estado, duración y errores. La supervisión de Dataflow es para pipelines de Dataflow, Cloud Trace muestra latencia de solicitudes de aplicaciones y Cloud Scheduler lista trabajos cron; ninguno muestra los trabajos de consulta de BigQuery."
+      },
+      "doc": "https://cloud.google.com/bigquery/docs/managing-jobs"
+    },
+    {
+      "id": "ref3-008",
+      "curso": null,
+      "servicios": [
+        "vpc",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-subnets-ips"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your VM's external IP address changes every time you stop and start it, breaking a DNS record that points to it. What should you do?",
+        "es": "La dirección IP externa de tu VM cambia cada vez que la detienes y la inicias, lo que rompe un registro DNS que apunta a ella. ¿Qué deberías hacer?"
+      },
+      "opciones": [
+        {
+          "en": "Reserve a static external IP address and assign it to the VM",
+          "es": "Reservar una dirección IP externa estática y asignarla a la VM"
+        },
+        {
+          "en": "Never stop the VM again",
+          "es": "No volver a detener la VM nunca"
+        },
+        {
+          "en": "Create a new VPC network for the VM",
+          "es": "Crear una red VPC nueva para la VM"
+        },
+        {
+          "en": "Enable Cloud NAT on the subnet",
+          "es": "Habilitar Cloud NAT en la subred"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Ephemeral external IPs are released when the VM stops; reserving a static external IP (or promoting the ephemeral one) keeps the same address across stop/start cycles. Never stopping the VM is not a real solution, a new VPC does not change external IP behavior, and Cloud NAT provides shared egress for VMs without external IPs rather than a stable inbound address.",
+        "es": "Las IPs externas efímeras se liberan cuando la VM se detiene; reservar una IP externa estática (o promover la efímera) mantiene la misma dirección entre ciclos de detención/inicio. No detener nunca la VM no es una solución real, una VPC nueva no cambia el comportamiento de la IP externa y Cloud NAT provee salida compartida para VMs sin IP externa, no una dirección estable de entrada."
+      },
+      "doc": "https://cloud.google.com/compute/docs/ip-addresses/reserve-static-external-ip-address"
+    },
+    {
+      "id": "ref3-009",
+      "curso": null,
+      "servicios": [
+        "notebooks"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-ai-workloads"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is Workbench in Google Cloud?",
+        "es": "¿Qué es Workbench en Google Cloud?"
+      },
+      "opciones": [
+        {
+          "en": "A managed JupyterLab notebook environment for data science and machine learning work",
+          "es": "Un entorno administrado de notebooks JupyterLab para trabajo de ciencia de datos y aprendizaje automático"
+        },
+        {
+          "en": "A drag-and-drop website builder",
+          "es": "Un constructor de sitios web de arrastrar y soltar"
+        },
+        {
+          "en": "A managed Git repository service",
+          "es": "Un servicio administrado de repositorios Git"
+        },
+        {
+          "en": "A desktop application for managing gcloud configurations",
+          "es": "Una aplicación de escritorio para administrar configuraciones de gcloud"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Workbench provides managed JupyterLab instances with preinstalled data science frameworks, optional GPUs, and integration with Google Cloud data services. It is not a website builder (B), not a source control product (C), and not a local desktop tool for gcloud (D).",
+        "es": "Workbench proporciona instancias administradas de JupyterLab con frameworks de ciencia de datos preinstalados, GPUs opcionales e integración con los servicios de datos de Google Cloud. No es un constructor de sitios web (B), no es un producto de control de versiones (C) y no es una herramienta de escritorio local para gcloud (D)."
+      },
+      "doc": "https://cloud.google.com/vertex-ai/docs/workbench/instances/introduction"
+    },
+    {
+      "id": "ref3-010",
+      "curso": null,
+      "servicios": [
+        "cmek-kms"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-cmek"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "How are encryption keys organized in Cloud KMS?",
+        "es": "¿Cómo se organizan las claves de encriptación en Cloud KMS?"
+      },
+      "opciones": [
+        {
+          "en": "Keys are grouped into key rings, which exist in a specific location within a project",
+          "es": "Las claves se agrupan en keyrings, que existen en una ubicación específica dentro de un proyecto"
+        },
+        {
+          "en": "Keys are stored as objects inside a Cloud Storage bucket",
+          "es": "Las claves se almacenan como objetos dentro de un bucket de Cloud Storage"
+        },
+        {
+          "en": "Keys are global resources not tied to any location",
+          "es": "Las claves son recursos globales sin ninguna ubicación asociada"
+        },
+        {
+          "en": "Each key must live in its own dedicated project",
+          "es": "Cada clave debe vivir en su propio proyecto dedicado"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The Cloud KMS hierarchy is project > location > key ring > key > key version. Keys are not bucket objects (B); they always belong to a location such as a region, multi-region, or global (so C is wrong as a general statement because the location is explicit and matters for CMEK compatibility); and many keys and key rings can share one project (D).",
+        "es": "La jerarquía de Cloud KMS es proyecto > ubicación > keyring > clave > versión de clave. Las claves no son objetos de un bucket (B); siempre pertenecen a una ubicación como una región, multirregión o global (por eso C es incorrecta como afirmación general, ya que la ubicación es explícita e importa para la compatibilidad con CMEK); y muchas claves y keyrings pueden compartir un mismo proyecto (D)."
+      },
+      "doc": "https://cloud.google.com/kms/docs/resource-hierarchy"
+    },
+    {
+      "id": "ref3-011",
+      "curso": null,
+      "servicios": [
+        "database-center"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-database-center"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which scope of resources can Database Center show in its fleet view?",
+        "es": "¿Qué alcance de recursos puede mostrar Database Center en su vista de flota?"
+      },
+      "opciones": [
+        {
+          "en": "Multiple database engines (such as Cloud SQL, AlloyDB, Spanner, Bigtable, Firestore, and Memorystore) across projects in your organization",
+          "es": "Varios motores de bases de datos (como Cloud SQL, AlloyDB, Spanner, Bigtable, Firestore y Memorystore) en múltiples proyectos de tu organización"
+        },
+        {
+          "en": "Only Cloud SQL instances in the currently selected project",
+          "es": "Solo instancias de Cloud SQL del proyecto actualmente seleccionado"
+        },
+        {
+          "en": "Only databases that have Query Insights enabled",
+          "es": "Solo bases de datos que tienen Query Insights habilitado"
+        },
+        {
+          "en": "Only databases running on Compute Engine VMs",
+          "es": "Solo bases de datos que se ejecutan en VMs de Compute Engine"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Database Center aggregates managed database products across engines and across the projects, folders, or organization you have permission to view. It is not limited to Cloud SQL or one project (B), does not depend on Query Insights being enabled (C), and its focus is Google Cloud managed database services, not only self-managed databases on VMs (D).",
+        "es": "Database Center agrega los productos de bases de datos administrados de varios motores y de los proyectos, carpetas u organización que tengas permiso de ver. No se limita a Cloud SQL ni a un proyecto (B), no depende de que Query Insights esté habilitado (C) y su enfoque son los servicios administrados de bases de datos de Google Cloud, no solo bases autoadministradas en VMs (D)."
+      },
+      "doc": "https://cloud.google.com/database-center/docs/overview"
+    },
+    {
+      "id": "ref3-012",
+      "curso": null,
+      "servicios": [
+        "cloud-storage"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-storage-costs"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which Cloud Storage class has the lowest at-rest storage price for data you expect to access less than once a year?",
+        "es": "¿Qué clase de Cloud Storage tiene el precio de almacenamiento en reposo más bajo para datos que esperas acceder menos de una vez al año?"
+      },
+      "opciones": [
+        {
+          "en": "Archive",
+          "es": "Archive"
+        },
+        {
+          "en": "Standard",
+          "es": "Standard"
+        },
+        {
+          "en": "Nearline",
+          "es": "Nearline"
+        },
+        {
+          "en": "Coldline",
+          "es": "Coldline"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Archive has the cheapest storage price and is designed for data accessed less than once a year, at the cost of higher retrieval fees and a 365-day minimum storage duration. Standard has no retrieval fee but the highest storage price; Nearline targets roughly monthly access (30-day minimum); Coldline targets roughly quarterly access (90-day minimum) and is cheaper than Nearline but more expensive to store than Archive.",
+        "es": "Archive tiene el precio de almacenamiento más barato y está diseñada para datos accedidos menos de una vez al año, a cambio de tarifas de recuperación más altas y una duración mínima de almacenamiento de 365 días. Standard no cobra recuperación pero tiene el precio de almacenamiento más alto; Nearline apunta a acceso aproximadamente mensual (mínimo de 30 días); Coldline apunta a acceso aproximadamente trimestral (mínimo de 90 días) y es más barata que Nearline pero más cara de almacenar que Archive."
+      },
+      "doc": "https://cloud.google.com/storage/docs/storage-classes"
+    },
+    {
+      "id": "ref3-013",
+      "curso": null,
+      "servicios": [
+        "observability-tools"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.4-diagnostics"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What does Cloud Profiler do?",
+        "es": "¿Qué hace Cloud Profiler?"
+      },
+      "opciones": [
+        {
+          "en": "It continuously gathers CPU and memory usage information from production applications with very low overhead",
+          "es": "Recopila continuamente información de uso de CPU y memoria de aplicaciones en producción con muy poca sobrecarga"
+        },
+        {
+          "en": "It records the path and latency of each request across distributed services",
+          "es": "Registra la ruta y la latencia de cada solicitud a través de servicios distribuidos"
+        },
+        {
+          "en": "It scans application code for security vulnerabilities",
+          "es": "Analiza el código de la aplicación en busca de vulnerabilidades de seguridad"
+        },
+        {
+          "en": "It benchmarks VM machine types before you choose one",
+          "es": "Hace benchmarks de tipos de máquina de VMs antes de que elijas uno"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Cloud Profiler is a continuous, statistical profiler that attributes CPU and heap consumption to source code functions, safe to run in production. B describes Cloud Trace, C describes security scanning tools, and D is not a Google Cloud observability feature.",
+        "es": "Cloud Profiler es un generador de perfiles continuo y estadístico que atribuye consumo de CPU y de heap a funciones del código fuente, seguro para ejecutarse en producción. B describe Cloud Trace, C describe herramientas de análisis de seguridad y D no es una función de observabilidad de Google Cloud."
+      },
+      "doc": "https://cloud.google.com/profiler/docs/about-profiler"
+    },
+    {
+      "id": "ref3-014",
+      "curso": null,
+      "servicios": [
+        "vpc"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-custom-routes"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "In a VPC network, what does the default route with destination 0.0.0.0/0 and next hop default-internet-gateway do?",
+        "es": "En una red VPC, ¿qué hace la ruta por defecto con destino 0.0.0.0/0 y siguiente salto default-internet-gateway?"
+      },
+      "opciones": [
+        {
+          "en": "It provides the path for traffic to leave the VPC toward the internet when no more specific route matches",
+          "es": "Proporciona la ruta para que el tráfico salga de la VPC hacia internet cuando ninguna ruta más específica coincide"
+        },
+        {
+          "en": "It allows inbound traffic from the internet to reach all VMs",
+          "es": "Permite que el tráfico entrante desde internet llegue a todas las VMs"
+        },
+        {
+          "en": "It blocks all egress traffic by default",
+          "es": "Bloquea todo el tráfico de salida por defecto"
+        },
+        {
+          "en": "It routes traffic between subnets of the same VPC",
+          "es": "Enruta el tráfico entre subredes de la misma VPC"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The default route is the catch-all egress path to the internet, used only when no more specific route matches. Inbound reachability depends on external IPs, load balancers, and firewall rules, not this route (B); routes direct traffic rather than block it — blocking is the job of firewall rules (C); and traffic between subnets uses automatically created subnet routes, not the default route (D).",
+        "es": "La ruta por defecto es la vía de salida general hacia internet, usada solo cuando ninguna ruta más específica coincide. La accesibilidad entrante depende de IPs externas, balanceadores de cargas y reglas de firewall, no de esta ruta (B); las rutas dirigen el tráfico, no lo bloquean — bloquear es tarea de las reglas de firewall (C); y el tráfico entre subredes usa las rutas de subred creadas automáticamente, no la ruta por defecto (D)."
+      },
+      "doc": "https://cloud.google.com/vpc/docs/routes"
+    },
+    {
+      "id": "ref3-015",
+      "curso": null,
+      "servicios": [
+        "cloud-workstations"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-cloud-workstations"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is a key security advantage of Cloud Workstations compared to developing on local laptops?",
+        "es": "¿Cuál es una ventaja clave de seguridad de Cloud Workstations en comparación con desarrollar en laptops locales?"
+      },
+      "opciones": [
+        {
+          "en": "Source code and dependencies stay in the cloud environment instead of being stored on each developer's device",
+          "es": "El código fuente y las dependencias permanecen en el entorno en la nube en lugar de almacenarse en el dispositivo de cada desarrollador"
+        },
+        {
+          "en": "It automatically fixes vulnerable code as developers type",
+          "es": "Corrige automáticamente el código vulnerable mientras los desarrolladores escriben"
+        },
+        {
+          "en": "It makes firewall rules unnecessary",
+          "es": "Hace innecesarias las reglas de firewall"
+        },
+        {
+          "en": "It encrypts the developer's personal laptop disk",
+          "es": "Encripta el disco de la laptop personal del desarrollador"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "With Cloud Workstations, code lives in environments inside your VPC under centralized policies, reducing exfiltration risk from lost or compromised laptops. It does not auto-fix vulnerabilities (B), network controls like firewall rules still apply and matter (C), and it manages cloud environments, not the local device's disk (D).",
+        "es": "Con Cloud Workstations, el código vive en entornos dentro de tu VPC bajo políticas centralizadas, lo que reduce el riesgo de exfiltración por laptops perdidas o comprometidas. No corrige vulnerabilidades automáticamente (B), los controles de red como las reglas de firewall siguen aplicando e importando (C) y administra entornos en la nube, no el disco del dispositivo local (D)."
+      },
+      "doc": "https://cloud.google.com/workstations/docs/overview"
+    },
+    {
+      "id": "ref3-016",
+      "curso": null,
+      "servicios": [
+        "cloud-sql"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-db-backup-restore"
+      ],
+      "nivel": "principiante",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO statements about Cloud SQL backups are true?",
+        "es": "¿Cuáles DOS afirmaciones sobre las copias de seguridad de Cloud SQL son verdaderas?"
+      },
+      "opciones": [
+        {
+          "en": "Automated backups run daily during a backup window that you can configure",
+          "es": "Las copias de seguridad automatizadas se ejecutan a diario durante una ventana de copia que puedes configurar"
+        },
+        {
+          "en": "You can also create on-demand backups at any time",
+          "es": "También puedes crear copias de seguridad bajo demanda en cualquier momento"
+        },
+        {
+          "en": "Backups automatically detect and repair corrupted data without user action",
+          "es": "Las copias de seguridad detectan y reparan automáticamente datos corruptos sin acción del usuario"
+        },
+        {
+          "en": "The only way to back up Cloud SQL is to export the database manually to a bucket",
+          "es": "La única forma de respaldar Cloud SQL es exportar la base de datos manualmente a un bucket"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Cloud SQL supports daily automated backups with a configurable window (A) plus on-demand backups whenever you need a restore point (B). C is false: backups are restore points, they do not repair data by themselves. D is false: exports to Cloud Storage are an additional option, not the only mechanism.",
+        "es": "Cloud SQL admite copias automatizadas diarias con una ventana configurable (A) además de copias bajo demanda cuando necesites un punto de restauración (B). C es falsa: las copias son puntos de restauración, no reparan datos por sí solas. D es falsa: las exportaciones a Cloud Storage son una opción adicional, no el único mecanismo."
+      },
+      "doc": "https://cloud.google.com/sql/docs/mysql/backup-recovery/backups"
+    },
+    {
+      "id": "ref3-017",
+      "curso": null,
+      "servicios": [
+        "cmek-kms"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-cmek"
+      ],
+      "nivel": "principiante",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO statements about encryption at rest in Google Cloud are true?",
+        "es": "¿Cuáles DOS afirmaciones sobre la encriptación en reposo en Google Cloud son verdaderas?"
+      },
+      "opciones": [
+        {
+          "en": "All data at rest is encrypted by default, even if you never configure CMEK",
+          "es": "Todos los datos en reposo se encriptan por defecto, incluso si nunca configuras CMEK"
+        },
+        {
+          "en": "With customer-supplied encryption keys (CSEK), you provide the key with each request and Google does not permanently store it",
+          "es": "Con las claves proporcionadas por el cliente (CSEK), tú entregas la clave en cada solicitud y Google no la almacena de forma permanente"
+        },
+        {
+          "en": "CMEK requires you to purchase and operate physical HSM appliances",
+          "es": "CMEK requiere comprar y operar dispositivos HSM físicos"
+        },
+        {
+          "en": "Data protected by Google-managed keys is stored unencrypted",
+          "es": "Los datos protegidos con claves administradas por Google se almacenan sin encriptar"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Google encrypts all data at rest by default (A), and CSEK works by supplying your own raw key on each request without Google persisting it (B); CSEK is only supported by a few services such as Cloud Storage and Compute Engine. C is false: CMEK keys live in Cloud KMS (software or Cloud HSM backed), with no customer hardware. D contradicts A: Google-managed keys still encrypt everything.",
+        "es": "Google encripta todos los datos en reposo por defecto (A), y CSEK funciona entregando tu propia clave sin procesar en cada solicitud sin que Google la persista (B); CSEK solo lo admiten unos pocos servicios como Cloud Storage y Compute Engine. C es falsa: las claves CMEK viven en Cloud KMS (respaldadas por software o Cloud HSM), sin hardware del cliente. D contradice a A: las claves administradas por Google igualmente encriptan todo."
+      },
+      "doc": "https://cloud.google.com/docs/security/encryption/default-encryption"
+    },
+    {
+      "id": "ref3-018",
+      "curso": null,
+      "servicios": [
+        "database-center"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-database-center"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which of the following is an example of an issue that Database Center proactively surfaces about your database fleet?",
+        "es": "¿Cuál de las siguientes opciones es un ejemplo de un problema que Database Center detecta proactivamente sobre tu flota de bases de datos?"
+      },
+      "opciones": [
+        {
+          "en": "An instance without automated backups or exposed through a public IP address",
+          "es": "Una instancia sin copias de seguridad automatizadas o expuesta mediante una dirección IP pública"
+        },
+        {
+          "en": "A typo in the SQL query a developer is writing",
+          "es": "Un error de tipeo en la consulta SQL que un desarrollador está escribiendo"
+        },
+        {
+          "en": "A misconfigured firewall rule on a Compute Engine web server",
+          "es": "Una regla de firewall mal configurada en un servidor web de Compute Engine"
+        },
+        {
+          "en": "An unused custom IAM role in the organization",
+          "es": "Un rol de IAM personalizado sin uso en la organización"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Database Center raises availability, data protection, and security issues about databases, such as missing automated backups, no high availability, public IP exposure, or outdated versions. It does not lint SQL as you type (B), does not audit general VM firewall configuration (C), and IAM role hygiene is handled by IAM Recommender, not Database Center (D).",
+        "es": "Database Center señala problemas de disponibilidad, protección de datos y seguridad de las bases de datos, como falta de copias automatizadas, ausencia de alta disponibilidad, exposición por IP pública o versiones desactualizadas. No revisa SQL mientras escribes (B), no audita la configuración general de firewall de VMs (C) y la higiene de roles de IAM la maneja el Recommender de IAM, no Database Center (D)."
+      },
+      "doc": "https://cloud.google.com/database-center/docs/overview"
+    },
+    {
+      "id": "ref3-019",
+      "curso": null,
+      "servicios": [
+        "cloud-sql",
+        "observability-tools"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.4-diagnostics"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is Query Insights used for?",
+        "es": "¿Para qué se usa Query Insights?"
+      },
+      "opciones": [
+        {
+          "en": "Detecting and diagnosing slow queries and query load in Cloud SQL and AlloyDB from a visual dashboard",
+          "es": "Detectar y diagnosticar consultas lentas y la carga de consultas en Cloud SQL y AlloyDB desde un panel visual"
+        },
+        {
+          "en": "Profiling the CPU usage of application code",
+          "es": "Perfilar el uso de CPU del código de la aplicación"
+        },
+        {
+          "en": "Estimating the cost of a BigQuery query before running it",
+          "es": "Estimar el costo de una consulta de BigQuery antes de ejecutarla"
+        },
+        {
+          "en": "Tracing HTTP requests across microservices",
+          "es": "Rastrear solicitudes HTTP a través de microservicios"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Query Insights is the built-in query performance dashboard for Cloud SQL and AlloyDB: it shows top queries by load, wait events, and query plans to find what is slow. B describes Cloud Profiler, C describes a BigQuery dry run or the console estimator, and D describes Cloud Trace.",
+        "es": "Query Insights es el panel integrado de rendimiento de consultas para Cloud SQL y AlloyDB: muestra las consultas con mayor carga, eventos de espera y planes de consulta para encontrar qué está lento. B describe Cloud Profiler, C describe un dry run de BigQuery o el estimador de la consola y D describe Cloud Trace."
+      },
+      "doc": "https://cloud.google.com/sql/docs/postgres/using-query-insights"
+    },
+    {
+      "id": "ref3-020",
+      "curso": null,
+      "servicios": [
+        "cloud-nat"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-dns-nat"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What does Cloud NAT provide?",
+        "es": "¿Qué proporciona Cloud NAT?"
+      },
+      "opciones": [
+        {
+          "en": "Outbound internet connectivity for VMs that have no external IP addresses, without allowing unsolicited inbound connections",
+          "es": "Conectividad saliente a internet para VMs sin direcciones IP externas, sin permitir conexiones entrantes no solicitadas"
+        },
+        {
+          "en": "A way to expose internal VMs to inbound traffic from the internet",
+          "es": "Una forma de exponer VMs internas al tráfico entrante desde internet"
+        },
+        {
+          "en": "DNS name resolution for private zones",
+          "es": "Resolución de nombres DNS para zonas privadas"
+        },
+        {
+          "en": "A site-to-site VPN tunnel to on-premises networks",
+          "es": "Un túnel VPN de sitio a sitio hacia redes on-premises"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Cloud NAT is a managed, software-defined NAT that lets VMs without external IPs initiate outbound connections; it never accepts unsolicited inbound traffic, so B is wrong (that would be a load balancer or external IP). DNS resolution is Cloud DNS (C), and site-to-site tunnels are Cloud VPN (D).",
+        "es": "Cloud NAT es un NAT administrado y definido por software que permite a las VMs sin IP externa iniciar conexiones salientes; nunca acepta tráfico entrante no solicitado, por lo que B es incorrecta (eso sería un balanceador de cargas o una IP externa). La resolución DNS es Cloud DNS (C) y los túneles de sitio a sitio son Cloud VPN (D)."
+      },
+      "doc": "https://cloud.google.com/nat/docs/overview"
+    },
+    {
+      "id": "ref3-021",
+      "curso": null,
+      "servicios": [
+        "cmek-kms",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-cmek"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You must create a Cloud KMS symmetric key in us-central1 that will later be used as a CMEK for a Cloud Storage bucket. Which sequence of gcloud commands is correct?",
+        "es": "Debes crear una clave simétrica de Cloud KMS en us-central1 que luego se usará como CMEK para un bucket de Cloud Storage. ¿Qué secuencia de comandos de gcloud es la correcta?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud kms keyrings create my-ring --location=us-central1, then gcloud kms keys create app-key --keyring=my-ring --location=us-central1 --purpose=encryption",
+          "es": "gcloud kms keyrings create my-ring --location=us-central1 y luego gcloud kms keys create app-key --keyring=my-ring --location=us-central1 --purpose=encryption"
+        },
+        {
+          "en": "gcloud kms keys create app-key --location=us-central1 --purpose=encryption (keys do not need a key ring)",
+          "es": "gcloud kms keys create app-key --location=us-central1 --purpose=encryption (las claves no necesitan un key ring)"
+        },
+        {
+          "en": "gcloud kms keyrings create my-ring --location=global, then gcloud kms keys create app-key --keyring=my-ring --location=global --purpose=asymmetric-encryption",
+          "es": "gcloud kms keyrings create my-ring --location=global y luego gcloud kms keys create app-key --keyring=my-ring --location=global --purpose=asymmetric-encryption"
+        },
+        {
+          "en": "gcloud storage buckets create gs://my-bucket --create-encryption-key=app-key",
+          "es": "gcloud storage buckets create gs://my-bucket --create-encryption-key=app-key"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Cloud KMS keys always live inside a key ring in a specific location, and CMEK requires a symmetric key created with --purpose=encryption. B is invalid because --keyring is mandatory when creating a key. C fails on two counts: an asymmetric key cannot be used as a CMEK, and a global key ring cannot protect a regional us-central1 resource (the key location must match the resource location, or be a compatible multi-region). D is not a real flag; the bucket is pointed at an existing key with --default-encryption-key.",
+        "es": "Las claves de Cloud KMS siempre viven dentro de un key ring en una ubicación específica, y CMEK requiere una clave simétrica creada con --purpose=encryption. B es inválida porque --keyring es obligatorio al crear una clave. C falla por dos motivos: una clave asimétrica no puede usarse como CMEK y un key ring global no puede proteger un recurso regional en us-central1 (la ubicación de la clave debe coincidir con la del recurso o ser una multirregión compatible). D no es una marca real; al bucket se le apunta una clave existente con --default-encryption-key."
+      },
+      "doc": "https://cloud.google.com/kms/docs/create-key-ring"
+    },
+    {
+      "id": "ref3-022",
+      "curso": null,
+      "servicios": [
+        "vpc",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-subnets-ips"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A subnet with primary range 10.0.0.0/24 is running out of IP addresses and hosts dozens of running VMs. Which command enlarges the range to /20 without recreating the subnet?",
+        "es": "Una subred con rango principal 10.0.0.0/24 se está quedando sin direcciones IP y aloja decenas de VMs en ejecución. ¿Qué comando amplía el rango a /20 sin volver a crear la subred?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud compute networks subnets expand-ip-range SUBNET --region=REGION --prefix-length=20",
+          "es": "gcloud compute networks subnets expand-ip-range SUBNET --region=REGION --prefix-length=20"
+        },
+        {
+          "en": "gcloud compute networks subnets update SUBNET --region=REGION --range=10.0.0.0/20",
+          "es": "gcloud compute networks subnets update SUBNET --region=REGION --range=10.0.0.0/20"
+        },
+        {
+          "en": "gcloud compute networks subnets delete SUBNET, then recreate it with the larger range",
+          "es": "gcloud compute networks subnets delete SUBNET y luego volver a crearla con el rango más grande"
+        },
+        {
+          "en": "gcloud compute networks update NETWORK --subnet-mode=auto",
+          "es": "gcloud compute networks update NETWORK --subnet-mode=auto"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "expand-ip-range is the supported operation to grow a subnet's primary IPv4 range in place; existing VMs keep their IPs and there is no downtime. B is wrong because subnets update does not accept a new primary --range. C works technically but requires deleting every resource using the subnet, causing an outage the question rules out. D converts the network to auto mode, which is unrelated (and not allowed once custom subnets exist).",
+        "es": "expand-ip-range es la operación admitida para ampliar el rango IPv4 principal de una subred en el lugar; las VMs existentes conservan sus IPs y no hay tiempo de inactividad. B es incorrecta porque subnets update no acepta un nuevo --range principal. C funciona técnicamente pero exige borrar todos los recursos que usan la subred, lo que provoca la interrupción que el enunciado descarta. D convierte la red a modo automático, algo no relacionado (y no permitido si ya existen subredes personalizadas)."
+      },
+      "doc": "https://cloud.google.com/vpc/docs/create-modify-vpc-networks"
+    },
+    {
+      "id": "ref3-023",
+      "curso": null,
+      "servicios": [
+        "database-center",
+        "iam"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-database-center"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your team wants a single place to review every managed database in the organization. Which statement correctly describes how Database Center is accessed and what it covers?",
+        "es": "Tu equipo quiere un único lugar para revisar todas las bases de datos administradas de la organización. ¿Qué afirmación describe correctamente cómo se accede a Database Center y qué abarca?"
+      },
+      "opciones": [
+        {
+          "en": "It is a Google Cloud console page that, given the right IAM permissions at the organization or folder level, shows Cloud SQL, AlloyDB, Spanner, Bigtable, Firestore and Memorystore resources across all projects in that scope",
+          "es": "Es una página de la consola de Google Cloud que, con los permisos de IAM adecuados a nivel de organización o carpeta, muestra recursos de Cloud SQL, AlloyDB, Spanner, Bigtable, Firestore y Memorystore de todos los proyectos de ese alcance"
+        },
+        {
+          "en": "It is an agent you install on each database instance that reports metrics back to a central project",
+          "es": "Es un agente que instalas en cada instancia de base de datos y que reporta métricas a un proyecto central"
+        },
+        {
+          "en": "It only inventories Cloud SQL instances, and only within a single project at a time",
+          "es": "Solo inventaría instancias de Cloud SQL y solo dentro de un proyecto a la vez"
+        },
+        {
+          "en": "It is a BigQuery dataset you must build by exporting Cloud Asset Inventory data on a schedule",
+          "es": "Es un conjunto de datos de BigQuery que debes construir exportando datos de Cloud Asset Inventory de forma programada"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Database Center is a built-in console experience that aggregates the managed database fleet across projects in the selected organization or folder, with no agents to deploy; what you see is bounded by your IAM permissions. B is false: it is agentless. C is false: it spans multiple engines and multiple projects. D describes a do-it-yourself inventory pipeline, which is exactly the manual work Database Center removes.",
+        "es": "Database Center es una experiencia integrada en la consola que agrega la flota de bases de datos administradas de todos los proyectos de la organización o carpeta seleccionada, sin agentes que implementar; lo que ves está limitado por tus permisos de IAM. B es falsa: no usa agentes. C es falsa: abarca varios motores y varios proyectos. D describe una canalización de inventario hecha a mano, justamente el trabajo manual que Database Center elimina."
+      },
+      "doc": "https://cloud.google.com/database-center/docs/overview"
+    },
+    {
+      "id": "ref3-024",
+      "curso": null,
+      "servicios": [
+        "cloud-dns",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-dns-nat"
+      ],
+      "nivel": "intermedio",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "You are creating a Cloud DNS managed zone for internal.example.com that must resolve only from two specific VPC networks. Which TWO flags are required on gcloud dns managed-zones create?",
+        "es": "Estás creando una zona administrada de Cloud DNS para internal.example.com que solo debe resolverse desde dos redes VPC específicas. ¿Cuáles DOS marcas se requieren en gcloud dns managed-zones create?"
+      },
+      "opciones": [
+        {
+          "en": "--visibility=private",
+          "es": "--visibility=private"
+        },
+        {
+          "en": "--networks with the two authorized VPC networks",
+          "es": "--networks con las dos redes VPC autorizadas"
+        },
+        {
+          "en": "--dnssec-state=on",
+          "es": "--dnssec-state=on"
+        },
+        {
+          "en": "--forwarding-targets pointing at the VPC subnet ranges",
+          "es": "--forwarding-targets apuntando a los rangos de subred de la VPC"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "A private zone is declared with --visibility=private, and the VPC networks allowed to query it are listed with --networks; without --networks the zone would have no authorized clients. C enables DNSSEC, which is only supported on public zones and is unrelated to visibility. D belongs to a forwarding zone, whose targets are DNS server IP addresses (typically on-premises resolvers), not subnet ranges.",
+        "es": "Una zona privada se declara con --visibility=private y las redes VPC autorizadas a consultarla se listan con --networks; sin --networks la zona no tendría clientes autorizados. C habilita DNSSEC, que solo se admite en zonas públicas y no tiene relación con la visibilidad. D corresponde a una zona de reenvío, cuyos destinos son direcciones IP de servidores DNS (típicamente resolutores on-premises), no rangos de subred."
+      },
+      "doc": "https://cloud.google.com/dns/docs/zones/manage-private-zones"
+    },
+    {
+      "id": "ref3-025",
+      "curso": null,
+      "servicios": [
+        "bigquery",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-job-status"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A scheduled BigQuery query failed overnight and you need to list recent jobs from all users and then inspect the failing one from the command line. Which commands do you use?",
+        "es": "Una consulta programada de BigQuery falló durante la noche y necesitas listar los trabajos recientes de todos los usuarios y luego inspeccionar el que falló desde la línea de comandos. ¿Qué comandos usas?"
+      },
+      "opciones": [
+        {
+          "en": "bq ls -j -a --max_results=50 to list jobs, then bq show -j JOB_ID to see the state and error result",
+          "es": "bq ls -j -a --max_results=50 para listar los trabajos y luego bq show -j JOB_ID para ver el estado y el resultado del error"
+        },
+        {
+          "en": "gcloud bigquery jobs list, then gcloud bigquery jobs describe JOB_ID",
+          "es": "gcloud bigquery jobs list y luego gcloud bigquery jobs describe JOB_ID"
+        },
+        {
+          "en": "bq query --dry_run on the same SQL to reproduce the error",
+          "es": "bq query --dry_run sobre el mismo SQL para reproducir el error"
+        },
+        {
+          "en": "bq head -j JOB_ID to print the job log",
+          "es": "bq head -j JOB_ID para imprimir el registro del trabajo"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "bq ls -j lists jobs in the project, -a includes jobs run by other users, and bq show -j returns the job's state, timing and errorResult. B is wrong because job management is exposed through the bq tool (or INFORMATION_SCHEMA.JOBS), not a gcloud bigquery jobs group. C only validates syntax and estimates bytes for a new query; it does not retrieve the historical job's failure. D is invalid: bq head reads table rows, not jobs.",
+        "es": "bq ls -j lista los trabajos del proyecto, -a incluye los ejecutados por otros usuarios y bq show -j devuelve el estado, los tiempos y el errorResult del trabajo. B es incorrecta porque la gestión de trabajos se expone mediante la herramienta bq (o INFORMATION_SCHEMA.JOBS), no en un grupo gcloud bigquery jobs. C solo valida la sintaxis y estima bytes de una consulta nueva; no recupera la falla del trabajo histórico. D es inválida: bq head lee filas de tablas, no trabajos."
+      },
+      "doc": "https://cloud.google.com/bigquery/docs/managing-jobs"
+    },
+    {
+      "id": "ref3-026",
+      "curso": null,
+      "servicios": [
+        "observability-tools",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.4-diagnostics"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What do you need to do so that a Java service running on Compute Engine starts sending CPU and heap profiles to Cloud Profiler?",
+        "es": "¿Qué necesitas hacer para que un servicio Java que corre en Compute Engine empiece a enviar perfiles de CPU y de heap a Cloud Profiler?"
+      },
+      "opciones": [
+        {
+          "en": "Enable the Cloud Profiler API and load the Profiler agent/library into the application, ensuring the VM's service account has the Cloud Profiler Agent role",
+          "es": "Habilitar la API de Cloud Profiler y cargar el agente/biblioteca de Profiler en la aplicación, asegurando que la cuenta de servicio de la VM tenga el rol Cloud Profiler Agent"
+        },
+        {
+          "en": "Install the Ops Agent on the VM; it collects application profiles automatically",
+          "es": "Instalar el agente de operaciones en la VM; recopila los perfiles de la aplicación automáticamente"
+        },
+        {
+          "en": "Turn on VPC Flow Logs for the subnet where the VM runs",
+          "es": "Activar VPC Flow Logs en la subred donde corre la VM"
+        },
+        {
+          "en": "Create a custom metric in Cloud Monitoring and write CPU samples to it from the application",
+          "es": "Crear una métrica personalizada en Cloud Monitoring y escribirle muestras de CPU desde la aplicación"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Cloud Profiler is agent-in-process: you enable the API and attach the language-specific profiling agent to the application, which then uploads statistically sampled profiles attributed to source code. B is false; the Ops Agent collects metrics and logs, not code profiles. C captures network flow records and says nothing about code hot spots. D gives you an aggregate CPU number without the per-function attribution that is the entire point of Profiler.",
+        "es": "Cloud Profiler funciona como agente dentro del proceso: habilitas la API y adjuntas a la aplicación el agente de perfilado del lenguaje, que sube perfiles muestreados estadísticamente y atribuidos al código fuente. B es falsa; el agente de operaciones recopila métricas y registros, no perfiles de código. C captura registros de flujo de red y no dice nada sobre los puntos calientes del código. D te da un número agregado de CPU sin la atribución por función, que es justamente el propósito de Profiler."
+      },
+      "doc": "https://cloud.google.com/profiler/docs/about-profiler"
+    },
+    {
+      "id": "ref3-027",
+      "curso": null,
+      "servicios": [
+        "cloud-storage",
+        "billing"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-storage-costs"
+      ],
+      "nivel": "intermedio",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "You upload an object to the Coldline storage class and delete it 30 days later. Which TWO charges will appear on your bill for that object?",
+        "es": "Subes un objeto a la clase de almacenamiento Coldline y lo borras 30 días después. ¿Cuáles DOS cargos aparecerán en tu factura por ese objeto?"
+      },
+      "opciones": [
+        {
+          "en": "Coldline at-rest storage for the 30 days the object actually existed",
+          "es": "Almacenamiento en reposo Coldline por los 30 días que el objeto realmente existió"
+        },
+        {
+          "en": "An early deletion charge covering the remaining 60 days of Coldline's 90-day minimum storage duration",
+          "es": "Un cargo por eliminación temprana que cubre los 60 días restantes de la duración mínima de almacenamiento de 90 días de Coldline"
+        },
+        {
+          "en": "An early deletion charge covering a 365-day minimum storage duration",
+          "es": "Un cargo por eliminación temprana que cubre una duración mínima de almacenamiento de 365 días"
+        },
+        {
+          "en": "No charges at all, because minimum storage duration applies only to the Archive class",
+          "es": "Ningún cargo, porque la duración mínima de almacenamiento solo aplica a la clase Archive"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "You always pay for the storage actually consumed, and Coldline carries a 90-day minimum storage duration, so deleting at day 30 triggers an early deletion charge for the 60 days you did not keep it. C states the Archive minimum (365 days), which is the wrong class here. D is false: Nearline (30 days), Coldline (90 days) and Archive (365 days) all have minimum storage durations; only Standard has none.",
+        "es": "Siempre pagas el almacenamiento realmente consumido, y Coldline tiene una duración mínima de almacenamiento de 90 días, por lo que borrar en el día 30 genera un cargo por eliminación temprana por los 60 días que no lo conservaste. C indica el mínimo de Archive (365 días), que no es la clase de este caso. D es falsa: Nearline (30 días), Coldline (90 días) y Archive (365 días) tienen duración mínima de almacenamiento; solo Standard no la tiene."
+      },
+      "doc": "https://cloud.google.com/storage/docs/storage-classes"
+    },
+    {
+      "id": "ref3-028",
+      "curso": null,
+      "servicios": [
+        "vpc",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-custom-routes"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You deployed a firewall appliance behind an internal passthrough Network Load Balancer and want all VMs in the VPC to send internet-bound traffic through it. Which command creates the correct custom static route?",
+        "es": "Implementaste un dispositivo de firewall detrás de un balanceador de cargas de red interno de transferencia y quieres que todas las VMs de la VPC envíen el tráfico hacia internet a través de él. ¿Qué comando crea la ruta estática personalizada correcta?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud compute routes create to-appliance --network=NET --destination-range=0.0.0.0/0 --next-hop-ilb=FORWARDING_RULE --next-hop-ilb-region=REGION --priority=100",
+          "es": "gcloud compute routes create to-appliance --network=NET --destination-range=0.0.0.0/0 --next-hop-ilb=FORWARDING_RULE --next-hop-ilb-region=REGION --priority=100"
+        },
+        {
+          "en": "gcloud compute routes create to-appliance --network=NET --destination-range=0.0.0.0/0 --next-hop-gateway=default-internet-gateway --priority=100",
+          "es": "gcloud compute routes create to-appliance --network=NET --destination-range=0.0.0.0/0 --next-hop-gateway=default-internet-gateway --priority=100"
+        },
+        {
+          "en": "gcloud compute firewall-rules create to-appliance --network=NET --action=redirect --destination-ranges=0.0.0.0/0",
+          "es": "gcloud compute firewall-rules create to-appliance --network=NET --action=redirect --destination-ranges=0.0.0.0/0"
+        },
+        {
+          "en": "gcloud compute networks peerings create to-appliance --network=NET --peer-network=APPLIANCE_NET",
+          "es": "gcloud compute networks peerings create to-appliance --network=NET --peer-network=APPLIANCE_NET"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "A custom static route to 0.0.0.0/0 with --next-hop-ilb pointing at the load balancer's forwarding rule steers egress into the appliance pool and survives the failure of any single appliance VM. Its priority of 100 beats the default internet route (priority 1000, where lower numbers win). B simply recreates the default internet gateway route and bypasses the appliance entirely. C is invalid: firewall rules allow or deny traffic, they never redirect it. D creates VPC Network Peering, which does not force egress through an appliance.",
+        "es": "Una ruta estática personalizada a 0.0.0.0/0 con --next-hop-ilb apuntando a la regla de reenvío del balanceador dirige la salida hacia el grupo de dispositivos y sobrevive a la falla de cualquier VM individual. Su prioridad 100 gana sobre la ruta predeterminada a internet (prioridad 1000, donde el número más bajo tiene preferencia). B simplemente recrea la ruta al gateway de internet predeterminado y omite por completo el dispositivo. C es inválida: las reglas de firewall permiten o deniegan tráfico, nunca lo redirigen. D crea VPC Network Peering, que no fuerza la salida a través de un dispositivo."
+      },
+      "doc": "https://cloud.google.com/vpc/docs/using-routes"
+    },
+    {
+      "id": "ref3-029",
+      "curso": null,
+      "servicios": [
+        "cloud-workstations",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-cloud-workstations"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which gcloud command creates the reusable definition (machine type, container image, idle timeout) that individual developer workstations are then created from?",
+        "es": "¿Qué comando de gcloud crea la definición reutilizable (tipo de máquina, imagen de contenedor, tiempo de inactividad) a partir de la cual se crean después las estaciones de trabajo de cada desarrollador?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud workstations configs create CONFIG --cluster=CLUSTER --region=REGION --machine-type=e2-standard-4 --container-custom-image=IMAGE",
+          "es": "gcloud workstations configs create CONFIG --cluster=CLUSTER --region=REGION --machine-type=e2-standard-4 --container-custom-image=IMAGE"
+        },
+        {
+          "en": "gcloud workstations create WORKSTATION --cluster=CLUSTER --region=REGION",
+          "es": "gcloud workstations create WORKSTATION --cluster=CLUSTER --region=REGION"
+        },
+        {
+          "en": "gcloud workstations clusters create CLUSTER --region=REGION --network=NET",
+          "es": "gcloud workstations clusters create CLUSTER --region=REGION --network=NET"
+        },
+        {
+          "en": "gcloud compute instance-templates create dev-template --machine-type=e2-standard-4",
+          "es": "gcloud compute instance-templates create dev-template --machine-type=e2-standard-4"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The Cloud Workstations hierarchy is cluster > configuration > workstation. The workstation configuration is the reusable template that fixes machine type, container image, persistent disk and idle/running timeouts. B creates one individual workstation from an existing configuration. C creates the cluster that hosts configurations but defines no machine or image. D is a Compute Engine instance template, which Cloud Workstations does not use.",
+        "es": "La jerarquía de Cloud Workstations es clúster > configuración > estación de trabajo. La configuración de estación de trabajo es la plantilla reutilizable que fija el tipo de máquina, la imagen de contenedor, el disco persistente y los tiempos de inactividad/ejecución. B crea una estación de trabajo individual a partir de una configuración existente. C crea el clúster que aloja las configuraciones pero no define máquina ni imagen. D es una plantilla de instancia de Compute Engine, que Cloud Workstations no utiliza."
+      },
+      "doc": "https://cloud.google.com/workstations/docs/create-configuration"
+    },
+    {
+      "id": "ref3-030",
+      "curso": null,
+      "servicios": [
+        "cmek-kms",
+        "cloud-storage"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-cmek",
+        "3.2-gcs-management"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which command creates a Cloud Storage bucket so that every new object written to it is automatically encrypted with your own Cloud KMS key?",
+        "es": "¿Qué comando crea un bucket de Cloud Storage de modo que cada objeto nuevo que se escriba se encripte automáticamente con tu propia clave de Cloud KMS?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud storage buckets create gs://BUCKET --location=us-central1 --default-encryption-key=projects/P/locations/us-central1/keyRings/R/cryptoKeys/K",
+          "es": "gcloud storage buckets create gs://BUCKET --location=us-central1 --default-encryption-key=projects/P/locations/us-central1/keyRings/R/cryptoKeys/K"
+        },
+        {
+          "en": "gcloud storage buckets create gs://BUCKET --location=us-central1 --encryption=customer-supplied",
+          "es": "gcloud storage buckets create gs://BUCKET --location=us-central1 --encryption=customer-supplied"
+        },
+        {
+          "en": "gcloud kms keys add-iam-policy-binding K --keyring=R --location=us-central1 --bucket=BUCKET",
+          "es": "gcloud kms keys add-iam-policy-binding K --keyring=R --location=us-central1 --bucket=BUCKET"
+        },
+        {
+          "en": "gcloud storage objects update gs://BUCKET/** --encryption-key=projects/P/locations/us-central1/keyRings/R/cryptoKeys/K",
+          "es": "gcloud storage objects update gs://BUCKET/** --encryption-key=projects/P/locations/us-central1/keyRings/R/cryptoKeys/K"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "--default-encryption-key sets the bucket's default CMEK, so every subsequently written object is encrypted with that key (you must still grant the Cloud Storage service agent the Cloud KMS CryptoKey Encrypter/Decrypter role). B selects customer-supplied encryption (CSEK), a different model where you pass the raw key on every request. C only edits an IAM policy and has no bucket flag. D would rewrite existing objects one by one and still leaves future uploads without a default key.",
+        "es": "--default-encryption-key establece la CMEK predeterminada del bucket, por lo que cada objeto escrito después se encripta con esa clave (aún debes otorgar al agente de servicio de Cloud Storage el rol Cloud KMS CryptoKey Encrypter/Decrypter). B selecciona encriptación proporcionada por el cliente (CSEK), un modelo distinto en el que envías la clave en bruto en cada solicitud. C solo edita una política de IAM y no tiene una marca de bucket. D reescribiría los objetos existentes uno por uno y aun así dejaría las cargas futuras sin clave predeterminada."
+      },
+      "doc": "https://cloud.google.com/storage/docs/encryption/using-customer-managed-keys"
+    }
+  ]
+}

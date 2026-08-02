@@ -346,6 +346,1591 @@
         "es": "Filestore es NFS administrado: entrega un sistema de archivos compartido compatible con POSIX que varios clientes montan de forma simultánea, que es lo que necesitan las aplicaciones migradas tal cual y que esperan un servidor de archivos. B describe Cloud Storage, C describe Persistent Disk o Hyperdisk y D describe Cloud SQL o AlloyDB."
       },
       "doc": "https://cloud.google.com/filestore/docs/overview"
+    },
+    {
+      "id": "infra-009",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "vpc",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-subnets-ips"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is the difference between an ephemeral external IP address and a static external IP address?",
+        "es": "¿Cuál es la diferencia entre una dirección IP externa efímera y una estática?"
+      },
+      "opciones": [
+        {
+          "en": "An ephemeral address is released when the instance is stopped or deleted, while a static address is reserved and stays yours until you release it",
+          "es": "Una dirección efímera se libera cuando la instancia se detiene o se borra, mientras que una estática queda reservada y sigue siendo tuya hasta que la liberes"
+        },
+        {
+          "en": "An ephemeral address is only reachable from inside the VPC network",
+          "es": "Una dirección efímera solo es alcanzable desde dentro de la red de VPC"
+        },
+        {
+          "en": "A static address changes every time the instance restarts",
+          "es": "Una dirección estática cambia cada vez que la instancia se reinicia"
+        },
+        {
+          "en": "Ephemeral addresses cost more than static addresses that are in use",
+          "es": "Las direcciones efímeras cuestan más que las estáticas en uso"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Ephemeral IPs are assigned for the life of the running instance and are lost on stop or delete; static IPs are reserved resources that persist and can be reattached, which is what DNS records and allowlists need. B is wrong: any external IP is reachable from the internet subject to firewall rules. C describes ephemeral behavior, not static. D is wrong: an attached static IP costs the same as an ephemeral one — the extra charge applies to reserved addresses that are not in use.",
+        "es": "Las IPs efímeras se asignan mientras la instancia está en ejecución y se pierden al detenerla o borrarla; las estáticas son recursos reservados que persisten y se pueden volver a asociar, que es lo que necesitan los registros DNS y las listas de permitidos. B es incorrecta: cualquier IP externa es alcanzable desde internet sujeta a las reglas de firewall. C describe el comportamiento efímero, no el estático. D es incorrecta: una IP estática en uso cuesta lo mismo que una efímera; el cargo adicional aplica a las direcciones reservadas que no se usan."
+      },
+      "doc": "https://cloud.google.com/compute/docs/ip-addresses"
+    },
+    {
+      "id": "infra-010",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "compute-engine",
+        "iam"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-instance-config"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What does OS Login provide for Compute Engine instances?",
+        "es": "¿Qué aporta OS Login a las instancias de Compute Engine?"
+      },
+      "opciones": [
+        {
+          "en": "It ties Linux SSH access to Google Cloud identities and IAM roles instead of managing SSH keys in instance metadata",
+          "es": "Vincula el acceso SSH de Linux a las identidades de Google Cloud y a los roles de IAM, en lugar de administrar claves SSH en los metadatos de la instancia"
+        },
+        {
+          "en": "It encrypts the boot disk of the instance with a customer-managed key",
+          "es": "Encripta el disco de arranque de la instancia con una clave administrada por el cliente"
+        },
+        {
+          "en": "It lets you connect to an instance without any network path, using the serial console only",
+          "es": "Permite conectarse a una instancia sin ninguna ruta de red, usando solo la consola en serie"
+        },
+        {
+          "en": "It automatically installs the Ops Agent on every new instance",
+          "es": "Instala automáticamente el agente de operaciones en cada instancia nueva"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "OS Login associates each Linux account with a Google identity and grants access through roles such as roles/compute.osLogin or roles/compute.osAdminLogin, so key lifecycle follows the user account and revoking IAM revokes SSH. B describes CMEK, C describes the interactive serial console (which still requires permissions and is unrelated to OS Login), and D describes VM Manager or a startup script.",
+        "es": "OS Login asocia cada cuenta de Linux con una identidad de Google y otorga acceso mediante roles como roles/compute.osLogin o roles/compute.osAdminLogin, por lo que el ciclo de vida de las claves sigue a la cuenta del usuario y revocar IAM revoca el SSH. B describe CMEK, C describe la consola en serie interactiva (que igual requiere permisos y no se relaciona con OS Login) y D describe VM Manager o un script de inicio."
+      },
+      "doc": "https://cloud.google.com/compute/docs/oslogin"
+    },
+    {
+      "id": "infra-011",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "persistent-disk",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-snapshots-images"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is the difference between a persistent disk snapshot and a custom image in Compute Engine?",
+        "es": "¿Cuál es la diferencia entre una instantánea de disco persistente y una imagen personalizada en Compute Engine?"
+      },
+      "opciones": [
+        {
+          "en": "Snapshots are incremental backups of a disk used for restore, while images are complete templates used to create the boot disk of new instances",
+          "es": "Las instantáneas son copias de seguridad incrementales de un disco que sirven para restaurar, mientras que las imágenes son plantillas completas para crear el disco de arranque de instancias nuevas"
+        },
+        {
+          "en": "Snapshots can only be taken of boot disks, images only of data disks",
+          "es": "Las instantáneas solo se pueden tomar de discos de arranque y las imágenes solo de discos de datos"
+        },
+        {
+          "en": "Snapshots are stored inside the VM, images are stored in Cloud Storage buckets you manage",
+          "es": "Las instantáneas se guardan dentro de la VM y las imágenes en buckets de Cloud Storage que tú administras"
+        },
+        {
+          "en": "Images are zonal resources and snapshots are limited to one zone",
+          "es": "Las imágenes son recursos zonales y las instantáneas se limitan a una zona"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Snapshots capture disk state incrementally (only changed blocks after the first one) and are meant for backup and restore; custom images are full templates optimized for repeatedly launching identical VMs and can be grouped into image families. B is wrong: both work with boot and data disks. C is wrong: both are managed Google Cloud resources, not files inside the VM or in your own buckets. D is wrong: images and snapshots are global or multi-regional resources usable from any zone.",
+        "es": "Las instantáneas capturan el estado del disco de forma incremental (solo los bloques modificados después de la primera) y sirven para respaldo y restauración; las imágenes personalizadas son plantillas completas optimizadas para lanzar VMs idénticas de forma repetida y se pueden agrupar en familias de imágenes. B es incorrecta: ambas funcionan con discos de arranque y de datos. C es incorrecta: ambas son recursos administrados de Google Cloud, no archivos dentro de la VM ni en tus buckets. D es incorrecta: imágenes e instantáneas son recursos globales o multirregionales utilizables desde cualquier zona."
+      },
+      "doc": "https://cloud.google.com/compute/docs/disks/snapshots"
+    },
+    {
+      "id": "infra-012",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "cloud-storage"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-gcs-management"
+      ],
+      "nivel": "principiante",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO statements are true when object versioning is enabled on a Cloud Storage bucket?",
+        "es": "¿Cuáles DOS afirmaciones son verdaderas cuando el control de versiones de objetos está habilitado en un bucket de Cloud Storage?"
+      },
+      "opciones": [
+        {
+          "en": "Overwriting or deleting an object keeps the previous copy as a noncurrent version that can be restored",
+          "es": "Sobrescribir o borrar un objeto conserva la copia anterior como una versión no actual que se puede restaurar"
+        },
+        {
+          "en": "Noncurrent versions keep consuming storage and are billed, so lifecycle rules are recommended to delete them",
+          "es": "Las versiones no actuales siguen ocupando almacenamiento y se facturan, por lo que se recomiendan reglas de ciclo de vida para borrarlas"
+        },
+        {
+          "en": "Versioning automatically replicates the bucket to a second region",
+          "es": "El control de versiones replica automáticamente el bucket a una segunda región"
+        },
+        {
+          "en": "Only the bucket owner can read the current version of an object",
+          "es": "Solo el propietario del bucket puede leer la versión actual de un objeto"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Versioning protects against accidental overwrite and deletion by retaining noncurrent generations that you can restore, and those generations are billed like any other stored data, so a lifecycle rule on noncurrent versions keeps cost under control. C is wrong: geo-redundancy comes from choosing a dual-region or multi-region location, not from versioning. D is wrong: read access is governed by IAM, and versioning does not change it.",
+        "es": "El control de versiones protege contra sobrescrituras y borrados accidentales al conservar generaciones no actuales que puedes restaurar, y esas generaciones se facturan como cualquier otro dato almacenado, por lo que una regla de ciclo de vida sobre versiones no actuales mantiene el costo bajo control. C es incorrecta: la geo-redundancia proviene de elegir una ubicación dual-region o multi-region, no del control de versiones. D es incorrecta: el acceso de lectura lo gobierna IAM y el control de versiones no lo modifica."
+      },
+      "doc": "https://cloud.google.com/storage/docs/object-versioning"
+    },
+    {
+      "id": "infra-013",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "cloud-storage",
+        "iam"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-gcs-management"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What does uniform bucket-level access do on a Cloud Storage bucket?",
+        "es": "¿Qué hace el acceso uniforme a nivel de bucket en un bucket de Cloud Storage?"
+      },
+      "opciones": [
+        {
+          "en": "It disables per-object ACLs so that access is controlled only by IAM policies on the bucket and above",
+          "es": "Deshabilita las ACLs por objeto para que el acceso se controle únicamente con políticas de IAM en el bucket y niveles superiores"
+        },
+        {
+          "en": "It makes every object in the bucket publicly readable",
+          "es": "Hace que todos los objetos del bucket sean legibles públicamente"
+        },
+        {
+          "en": "It forces all objects in the bucket into the same storage class permanently",
+          "es": "Obliga a que todos los objetos del bucket queden en la misma clase de almacenamiento de forma permanente"
+        },
+        {
+          "en": "It encrypts all objects with a single customer-supplied encryption key",
+          "es": "Encripta todos los objetos con una única clave de encriptación proporcionada por el cliente"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Uniform bucket-level access turns off object ACLs so permissions come from one consistent IAM surface, which makes access auditable and is the recommended setting. B is wrong and dangerous to assume: public access requires granting allUsers, which is independent of this setting (and blocked by public access prevention). C confuses access control with storage class, which is set per object and changed by lifecycle rules. D describes CSEK or CMEK, not access control.",
+        "es": "El acceso uniforme a nivel de bucket desactiva las ACLs de objeto para que los permisos provengan de una sola superficie de IAM coherente, lo que hace el acceso auditable y es la configuración recomendada. B es incorrecta y peligrosa de suponer: el acceso público requiere otorgar allUsers, algo independiente de esta opción (y bloqueable con la prevención de acceso público). C confunde el control de acceso con la clase de almacenamiento, que se define por objeto y se cambia con reglas de ciclo de vida. D describe CSEK o CMEK, no control de acceso."
+      },
+      "doc": "https://cloud.google.com/storage/docs/uniform-bucket-level-access"
+    },
+    {
+      "id": "infra-014",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "vpc"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-vpc-subnets"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which two routes does Google Cloud create automatically in every new VPC network?",
+        "es": "¿Qué dos rutas crea Google Cloud automáticamente en cada red de VPC nueva?"
+      },
+      "opciones": [
+        {
+          "en": "A default route to the internet gateway and a subnet route for each subnet IP range",
+          "es": "Una ruta predeterminada hacia la puerta de enlace de internet y una ruta de subred por cada rango de IP de subred"
+        },
+        {
+          "en": "A route to every other VPC network in the project and a route to Cloud DNS",
+          "es": "Una ruta hacia cada otra red de VPC del proyecto y una ruta hacia Cloud DNS"
+        },
+        {
+          "en": "A static route to the on-premises network and a route to Cloud Storage",
+          "es": "Una ruta estática hacia la red on-premises y una ruta hacia Cloud Storage"
+        },
+        {
+          "en": "A route per zone and a route per firewall rule",
+          "es": "Una ruta por zona y una ruta por regla de firewall"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Every VPC network gets subnet routes (one per subnet range, so instances in the network can reach each other) and a default route 0.0.0.0/0 to the default internet gateway, which is also the path used by Cloud NAT and by VMs with external IPs. B is wrong: reaching another VPC network requires VPC Network Peering or a VPN. C is wrong: on-premises routes come from Cloud VPN or Interconnect and are learned or configured, never automatic. D is wrong: routes are not created per zone or per firewall rule — firewall rules and routes are separate mechanisms.",
+        "es": "Toda red de VPC recibe rutas de subred (una por cada rango de subred, para que las instancias de la red se alcancen entre sí) y una ruta predeterminada 0.0.0.0/0 hacia la puerta de enlace de internet predeterminada, que también usan Cloud NAT y las VMs con IP externa. B es incorrecta: llegar a otra red de VPC requiere intercambio de tráfico entre redes de VPC o una VPN. C es incorrecta: las rutas hacia on-premises provienen de Cloud VPN o Interconnect y se aprenden o configuran, nunca son automáticas. D es incorrecta: no se crean rutas por zona ni por regla de firewall; reglas de firewall y rutas son mecanismos distintos."
+      },
+      "doc": "https://cloud.google.com/vpc/docs/routes"
+    },
+    {
+      "id": "infra-015",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "persistent-disk",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-storage"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which statement correctly describes Local SSD on Compute Engine?",
+        "es": "¿Qué afirmación describe correctamente el Local SSD en Compute Engine?"
+      },
+      "opciones": [
+        {
+          "en": "It is physically attached to the host server and offers very high IOPS, but its data is lost when the instance stops or is terminated",
+          "es": "Está conectado físicamente al servidor host y ofrece IOPS muy altos, pero sus datos se pierden cuando la instancia se detiene o se termina"
+        },
+        {
+          "en": "It is a network-attached disk that can be detached and reattached to another instance",
+          "es": "Es un disco conectado por red que se puede desconectar y volver a conectar a otra instancia"
+        },
+        {
+          "en": "It is automatically replicated across two zones for high availability",
+          "es": "Se replica automáticamente entre dos zonas para alta disponibilidad"
+        },
+        {
+          "en": "It can be resized at any time without restarting the instance",
+          "es": "Se puede redimensionar en cualquier momento sin reiniciar la instancia"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Local SSD is ephemeral host-attached storage: it delivers the highest IOPS and lowest latency but the data does not survive stopping or deleting the VM, so it is only for caches, scratch space, and temporary processing. B, C, and D describe Persistent Disk or Hyperdisk behavior — those network volumes can be detached, regional Persistent Disk replicates across two zones, and Persistent Disk can grow online.",
+        "es": "El Local SSD es almacenamiento efímero conectado al host: entrega los IOPS más altos y la latencia más baja, pero los datos no sobreviven al detener o borrar la VM, así que solo sirve para cachés, espacio temporal y procesamiento transitorio. B, C y D describen el comportamiento de Persistent Disk o Hyperdisk: esos volúmenes de red se pueden desconectar, el Persistent Disk regional replica entre dos zonas y el Persistent Disk se puede agrandar en línea."
+      },
+      "doc": "https://cloud.google.com/compute/docs/disks/local-ssd"
+    },
+    {
+      "id": "infra-016",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "service-accounts",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.2-sa-resources"
+      ],
+      "nivel": "principiante",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO statements about access scopes on a Compute Engine instance are true?",
+        "es": "¿Cuáles DOS afirmaciones sobre los alcances (scopes) de acceso en una instancia de Compute Engine son verdaderas?"
+      },
+      "opciones": [
+        {
+          "en": "Access scopes act as an additional limit on top of the IAM roles granted to the attached service account",
+          "es": "Los alcances de acceso actúan como un límite adicional sobre los roles de IAM otorgados a la cuenta de servicio asociada"
+        },
+        {
+          "en": "The recommended practice is to set the cloud-platform scope and control permissions with IAM roles on the service account",
+          "es": "La práctica recomendada es usar el alcance cloud-platform y controlar los permisos con roles de IAM en la cuenta de servicio"
+        },
+        {
+          "en": "Access scopes replace IAM: if a scope is granted, the service account needs no role",
+          "es": "Los alcances de acceso reemplazan a IAM: si se otorga un alcance, la cuenta de servicio no necesita ningún rol"
+        },
+        {
+          "en": "Access scopes are configured per user account, not per instance",
+          "es": "Los alcances de acceso se configuran por cuenta de usuario, no por instancia"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Scopes are a legacy instance-level restriction that intersects with IAM: the effective permission is the smaller of the two, so a narrow scope blocks an API even when IAM allows it. Because of that, Google recommends the broad cloud-platform scope and least-privilege IAM roles on the service account. C is wrong: both layers must allow the call. D is wrong: scopes are set on the instance (or instance template), not on user accounts.",
+        "es": "Los alcances son una restricción heredada a nivel de instancia que se cruza con IAM: el permiso efectivo es el menor de los dos, por lo que un alcance restringido bloquea una API aunque IAM la permita. Por eso Google recomienda el alcance amplio cloud-platform y roles de IAM de mínimo privilegio en la cuenta de servicio. C es incorrecta: ambas capas deben permitir la llamada. D es incorrecta: los alcances se definen en la instancia (o en la plantilla de instancia), no en las cuentas de usuario."
+      },
+      "doc": "https://cloud.google.com/compute/docs/access/service-accounts"
+    },
+    {
+      "id": "infra-017",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "cloud-ngfw",
+        "vpc"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-firewall-ngfw"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "How does the priority value of a VPC firewall rule work?",
+        "es": "¿Cómo funciona el valor de prioridad de una regla de firewall de VPC?"
+      },
+      "opciones": [
+        {
+          "en": "The lower the number, the higher the priority; the first matching rule is applied and the rest are ignored",
+          "es": "Mientras menor es el número, mayor es la prioridad; se aplica la primera regla que coincide y se ignoran las demás"
+        },
+        {
+          "en": "The higher the number, the higher the priority; rules are evaluated from 65535 downwards",
+          "es": "Mientras mayor es el número, mayor es la prioridad; las reglas se evalúan desde 65535 hacia abajo"
+        },
+        {
+          "en": "Priority only matters between allow rules; deny rules always win regardless of priority",
+          "es": "La prioridad solo importa entre reglas de permitir; las de denegar siempre ganan sin importar la prioridad"
+        },
+        {
+          "en": "All rules are evaluated and the traffic is allowed if at least one allow rule matches",
+          "es": "Se evalúan todas las reglas y el tráfico se permite si al menos una regla de permitir coincide"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Firewall rule priorities go from 0 (highest) to 65535 (lowest, the default), and evaluation stops at the first match, so a deny at priority 100 beats an allow at priority 1000 for the same traffic. B inverts the order. C is wrong: a deny rule with a worse (higher) priority number loses to an allow rule with a better one. D is wrong: matching is not cumulative — the highest-priority match decides.",
+        "es": "Las prioridades de las reglas de firewall van de 0 (la más alta) a 65535 (la más baja, valor predeterminado) y la evaluación se detiene en la primera coincidencia, por lo que un deny con prioridad 100 vence a un allow con prioridad 1000 para el mismo tráfico. B invierte el orden. C es incorrecta: una regla de denegar con peor prioridad (número mayor) pierde frente a una de permitir con mejor prioridad. D es incorrecta: la coincidencia no es acumulativa; decide la coincidencia de mayor prioridad."
+      },
+      "doc": "https://cloud.google.com/firewall/docs/firewalls#priority_order_for_firewall_rules"
+    },
+    {
+      "id": "infra-018",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-instance-config"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What does live migration do for a Compute Engine instance?",
+        "es": "¿Qué hace la migración en vivo (live migration) para una instancia de Compute Engine?"
+      },
+      "opciones": [
+        {
+          "en": "It moves the running instance to another host during host maintenance without stopping it",
+          "es": "Mueve la instancia en ejecución a otro host durante el mantenimiento del host sin detenerla"
+        },
+        {
+          "en": "It copies the instance to a different region to improve latency for users",
+          "es": "Copia la instancia a otra región para mejorar la latencia de los usuarios"
+        },
+        {
+          "en": "It automatically converts the instance into a Spot VM to reduce cost",
+          "es": "Convierte automáticamente la instancia en una VM Spot para reducir el costo"
+        },
+        {
+          "en": "It restarts the instance nightly to apply operating system patches",
+          "es": "Reinicia la instancia cada noche para aplicar parches del sistema operativo"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "With the on-host maintenance policy set to MIGRATE, Google Cloud moves a running VM to another physical host before maintenance so the workload keeps running; the alternative policy, TERMINATE, stops the VM instead. B is wrong: live migration never crosses zones or regions. C is wrong: provisioning model is chosen at creation and Spot VMs actually do not support live migration. D describes OS patch management (VM Manager), not live migration.",
+        "es": "Con la política de mantenimiento del host en MIGRATE, Google Cloud traslada la VM en ejecución a otro host físico antes del mantenimiento para que la carga siga funcionando; la política alternativa, TERMINATE, detiene la VM. B es incorrecta: la migración en vivo nunca cruza zonas ni regiones. C es incorrecta: el modelo de aprovisionamiento se elige al crear la VM y, de hecho, las VMs Spot no admiten migración en vivo. D describe la administración de parches del SO (VM Manager), no la migración en vivo."
+      },
+      "doc": "https://cloud.google.com/compute/docs/instances/live-migration-process"
+    },
+    {
+      "id": "infra-019",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "vpc",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-subnets-ips"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A VM is created with only an internal IP address and no external IP address. What is true about that VM?",
+        "es": "Una VM se crea solo con dirección IP interna y sin IP externa. ¿Qué es verdadero sobre esa VM?"
+      },
+      "opciones": [
+        {
+          "en": "It can communicate with other VMs in the VPC network, but it needs Cloud NAT or a proxy to reach the internet",
+          "es": "Puede comunicarse con otras VMs de la red de VPC, pero necesita Cloud NAT o un proxy para llegar a internet"
+        },
+        {
+          "en": "It cannot communicate with any other resource until an external IP is assigned",
+          "es": "No puede comunicarse con ningún otro recurso hasta que se le asigne una IP externa"
+        },
+        {
+          "en": "It automatically receives an external IP the first time it sends outbound traffic",
+          "es": "Recibe automáticamente una IP externa la primera vez que envía tráfico saliente"
+        },
+        {
+          "en": "It is unreachable by SSH under any circumstance",
+          "es": "No se puede alcanzar por SSH bajo ninguna circunstancia"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The internal IP is enough for traffic inside the VPC network (subject to firewall rules); outbound internet access requires Cloud NAT, and access to Google APIs can use Private Google Access. B is wrong: internal communication works without an external IP. C is wrong: external IPs are never assigned implicitly. D is wrong: you can still SSH through IAP TCP forwarding or a bastion host.",
+        "es": "La IP interna basta para el tráfico dentro de la red de VPC (sujeto a las reglas de firewall); la salida a internet requiere Cloud NAT y el acceso a las APIs de Google puede usar Acceso privado a Google. B es incorrecta: la comunicación interna funciona sin IP externa. C es incorrecta: las IPs externas nunca se asignan de forma implícita. D es incorrecta: aún puedes usar SSH mediante el reenvío TCP de IAP o un host bastión."
+      },
+      "doc": "https://cloud.google.com/vpc/docs/ip-addresses"
+    },
+    {
+      "id": "infra-020",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "cloud-storage"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-storage-products"
+      ],
+      "nivel": "principiante",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO statements about Cloud Storage classes are true?",
+        "es": "¿Cuáles DOS afirmaciones sobre las clases de Cloud Storage son verdaderas?"
+      },
+      "opciones": [
+        {
+          "en": "Nearline has a 30-day minimum storage duration and Coldline a 90-day minimum storage duration",
+          "es": "Nearline tiene una duración mínima de almacenamiento de 30 días y Coldline de 90 días"
+        },
+        {
+          "en": "All storage classes offer the same API, durability, and millisecond-level access to objects",
+          "es": "Todas las clases ofrecen la misma API, la misma durabilidad y acceso a los objetos en milisegundos"
+        },
+        {
+          "en": "Colder classes have lower storage cost but higher retrieval and operation costs",
+          "es": "Las clases más frías tienen menor costo de almacenamiento pero mayor costo de recuperación y de operaciones"
+        },
+        {
+          "en": "Archive objects must be restored to Standard before they can be read, which takes several hours",
+          "es": "Los objetos en Archive deben restaurarse a Standard antes de poder leerse, lo que toma varias horas"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "C"
+      ],
+      "explicacion": {
+        "en": "Minimum storage durations (30 days Nearline, 90 days Coldline, 365 days Archive) and the trade-off of cheaper storage against pricier retrieval are the two facts that drive class selection. B is only half true: the API and durability are the same, but availability SLAs differ by class, so the statement as written is not correct. D is wrong: Cloud Storage has no thaw step — Archive objects are read with millisecond latency, you simply pay retrieval fees.",
+        "es": "Las duraciones mínimas de almacenamiento (30 días Nearline, 90 días Coldline, 365 días Archive) y el intercambio entre almacenamiento más barato y recuperación más cara son los dos hechos que guían la elección de clase. B es solo parcialmente cierta: la API y la durabilidad son iguales, pero los SLA de disponibilidad difieren según la clase, así que la afirmación tal como está escrita no es correcta. D es incorrecta: Cloud Storage no tiene paso de descongelado; los objetos Archive se leen con latencia de milisegundos, solo pagas cargos de recuperación."
+      },
+      "doc": "https://cloud.google.com/storage/docs/storage-classes"
+    },
+    {
+      "id": "infra-021",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "compute-engine",
+        "iam"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-instance-ops"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "How does Identity-Aware Proxy (IAP) TCP forwarding help administrators connect to Compute Engine instances?",
+        "es": "¿Cómo ayuda el reenvío TCP de Identity-Aware Proxy (IAP) a los administradores a conectarse a instancias de Compute Engine?"
+      },
+      "opciones": [
+        {
+          "en": "It tunnels SSH and RDP over Google's front end, so instances without external IP addresses can be reached with IAM-controlled access",
+          "es": "Tuneliza SSH y RDP a través del front end de Google, de modo que se pueden alcanzar instancias sin IP externa con acceso controlado por IAM"
+        },
+        {
+          "en": "It assigns a temporary external IP address to the instance for the duration of the session",
+          "es": "Asigna una IP externa temporal a la instancia mientras dura la sesión"
+        },
+        {
+          "en": "It replaces the need for firewall rules on the VPC network",
+          "es": "Elimina la necesidad de reglas de firewall en la red de VPC"
+        },
+        {
+          "en": "It creates a Cloud VPN tunnel between the administrator laptop and the VPC network",
+          "es": "Crea un túnel de Cloud VPN entre la laptop del administrador y la red de VPC"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "IAP TCP forwarding brokers the connection through Google's infrastructure and authorizes it with IAM (roles/iap.tunnelResourceAccessor), removing the need for external IPs or bastion hosts. B is wrong: no external IP is ever attached. C is wrong: you still need an ingress firewall rule allowing 35.235.240.0/20 on the target ports. D is wrong: IAP is not a VPN and does not extend your network.",
+        "es": "El reenvío TCP de IAP intermedia la conexión a través de la infraestructura de Google y la autoriza con IAM (roles/iap.tunnelResourceAccessor), eliminando la necesidad de IPs externas o de hosts bastión. B es incorrecta: nunca se asocia una IP externa. C es incorrecta: aún se necesita una regla de firewall de entrada que permita 35.235.240.0/20 en los puertos de destino. D es incorrecta: IAP no es una VPN y no extiende tu red."
+      },
+      "doc": "https://cloud.google.com/iap/docs/using-tcp-forwarding"
+    },
+    {
+      "id": "infra-022",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "compute-engine"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-instance-ops"
+      ],
+      "nivel": "principiante",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO statements are true about stopping (not deleting) a Compute Engine instance?",
+        "es": "¿Cuáles DOS afirmaciones son verdaderas al detener (no borrar) una instancia de Compute Engine?"
+      },
+      "opciones": [
+        {
+          "en": "You stop paying for the vCPU and memory of the instance, but you keep paying for its persistent disks",
+          "es": "Dejas de pagar por la vCPU y la memoria de la instancia, pero sigues pagando por sus discos persistentes"
+        },
+        {
+          "en": "Data on attached persistent disks is preserved and available when the instance starts again",
+          "es": "Los datos de los discos persistentes conectados se conservan y están disponibles cuando la instancia se vuelve a iniciar"
+        },
+        {
+          "en": "Any reserved static internal or external IP is permanently released and cannot be recovered",
+          "es": "Toda IP estática interna o externa reservada se libera de forma permanente y no se puede recuperar"
+        },
+        {
+          "en": "The instance keeps consuming its full machine type price while stopped",
+          "es": "La instancia sigue consumiendo el precio completo de su tipo de máquina mientras está detenida"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "A stopped (TERMINATED) instance stops incurring compute charges while its persistent disks are still billed and keep their data intact, which is why stopping is the standard way to pause a workload or to change the machine type. C is wrong: static IPs are reserved resources and survive the stop (an ephemeral external IP is the one that is lost). D is wrong: that is exactly the charge you avoid by stopping.",
+        "es": "Una instancia detenida (TERMINATED) deja de generar cargos de cómputo, mientras que sus discos persistentes se siguen facturando y conservan los datos intactos, por eso detenerla es la forma habitual de pausar una carga o cambiar el tipo de máquina. C es incorrecta: las IPs estáticas son recursos reservados y sobreviven a la detención (la que se pierde es la IP externa efímera). D es incorrecta: ese es justamente el cargo que evitas al detenerla."
+      },
+      "doc": "https://cloud.google.com/compute/docs/instances/instance-life-cycle"
+    },
+    {
+      "id": "infra-023",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "vpc",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-vpc-subnets"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You must create a VPC network where no subnets are created automatically, so you can define every IP range yourself. Which command do you run?",
+        "es": "Debes crear una red de VPC en la que no se cree ninguna subred de forma automática, para definir tú mismo cada rango de IP. ¿Qué comando ejecutas?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud compute networks create prod-vpc --subnet-mode=custom",
+          "es": "gcloud compute networks create prod-vpc --subnet-mode=custom"
+        },
+        {
+          "en": "gcloud compute networks create prod-vpc --subnet-mode=auto",
+          "es": "gcloud compute networks create prod-vpc --subnet-mode=auto"
+        },
+        {
+          "en": "gcloud compute networks subnets create prod-vpc --no-subnets",
+          "es": "gcloud compute networks subnets create prod-vpc --no-subnets"
+        },
+        {
+          "en": "gcloud compute networks create prod-vpc --range=10.0.0.0/8",
+          "es": "gcloud compute networks create prod-vpc --range=10.0.0.0/8"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "--subnet-mode=custom creates an empty VPC network so you add subnets with gcloud compute networks subnets create, choosing region and CIDR. B creates one subnet per region with Google-chosen ranges. C is invalid: the subnets create command builds a subnet inside an existing network and there is no --no-subnets flag. D is invalid: a VPC network has no IP range of its own — ranges belong to subnets.",
+        "es": "--subnet-mode=custom crea una red de VPC vacía para que agregues subredes con gcloud compute networks subnets create, eligiendo región y CIDR. B crea una subred por región con rangos elegidos por Google. C es inválido: el comando subnets create crea una subred dentro de una red existente y no existe la marca --no-subnets. D es inválido: una red de VPC no tiene rango de IP propio; los rangos pertenecen a las subredes."
+      },
+      "doc": "https://cloud.google.com/vpc/docs/create-modify-vpc-networks"
+    },
+    {
+      "id": "infra-024",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "vpc",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-subnets-ips"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A subnet with range 10.10.0.0/24 is running out of addresses. Which action lets you add capacity without recreating the subnet or restarting VMs?",
+        "es": "Una subred con rango 10.10.0.0/24 se está quedando sin direcciones. ¿Qué acción permite agregar capacidad sin recrear la subred ni reiniciar las VMs?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud compute networks subnets expand-ip-range SUBNET --region REGION --prefix-length=20",
+          "es": "gcloud compute networks subnets expand-ip-range SUBNET --region REGION --prefix-length=20"
+        },
+        {
+          "en": "gcloud compute networks subnets expand-ip-range SUBNET --region REGION --prefix-length=28",
+          "es": "gcloud compute networks subnets expand-ip-range SUBNET --region REGION --prefix-length=28"
+        },
+        {
+          "en": "gcloud compute networks subnets delete SUBNET and create it again with a bigger range",
+          "es": "gcloud compute networks subnets delete SUBNET y volver a crearla con un rango mayor"
+        },
+        {
+          "en": "gcloud compute networks update VPC --subnet-mode=auto",
+          "es": "gcloud compute networks update VPC --subnet-mode=auto"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "expand-ip-range grows the primary range in place with no downtime, and the new prefix length must be smaller than the current one — /20 is larger than /24, so it is valid. B fails because /28 would shrink the range, and subnets can never be shrunk. C works technically but forces deleting every resource using the subnet, which is disruptive and unnecessary. D is invalid: switching to auto mode is only possible from custom to auto in limited cases and it does not resize an existing subnet.",
+        "es": "expand-ip-range agranda el rango principal en el lugar y sin interrupciones, y la nueva longitud de prefijo debe ser menor que la actual: /20 es más grande que /24, por lo que es válido. B falla porque /28 reduciría el rango y las subredes nunca se pueden achicar. C funciona técnicamente pero obliga a borrar todos los recursos que usan la subred, algo disruptivo e innecesario. D es inválido: cambiar a modo automático solo aplica en casos limitados y no redimensiona una subred existente."
+      },
+      "doc": "https://cloud.google.com/vpc/docs/create-modify-vpc-networks#expand-subnet"
+    },
+    {
+      "id": "infra-025",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "cloud-ngfw",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-firewall-ngfw"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You need to allow HTTP traffic from anywhere only to the VMs that carry the network tag 'web'. Which command creates the correct rule?",
+        "es": "Necesitas permitir tráfico HTTP desde cualquier origen solo hacia las VMs que tienen la etiqueta de red 'web'. ¿Qué comando crea la regla correcta?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud compute firewall-rules create allow-http --network=prod-vpc --direction=INGRESS --action=allow --rules=tcp:80 --source-ranges=0.0.0.0/0 --target-tags=web",
+          "es": "gcloud compute firewall-rules create allow-http --network=prod-vpc --direction=INGRESS --action=allow --rules=tcp:80 --source-ranges=0.0.0.0/0 --target-tags=web"
+        },
+        {
+          "en": "gcloud compute firewall-rules create allow-http --network=prod-vpc --direction=INGRESS --action=allow --rules=tcp:80 --source-tags=web",
+          "es": "gcloud compute firewall-rules create allow-http --network=prod-vpc --direction=INGRESS --action=allow --rules=tcp:80 --source-tags=web"
+        },
+        {
+          "en": "gcloud compute firewall-rules create allow-http --network=prod-vpc --direction=EGRESS --action=allow --rules=tcp:80 --destination-ranges=0.0.0.0/0 --target-tags=web",
+          "es": "gcloud compute firewall-rules create allow-http --network=prod-vpc --direction=EGRESS --action=allow --rules=tcp:80 --destination-ranges=0.0.0.0/0 --target-tags=web"
+        },
+        {
+          "en": "gcloud compute instances add-tags web-1 --tags=allow-http",
+          "es": "gcloud compute instances add-tags web-1 --tags=allow-http"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The rule must be ingress, allow tcp:80, use 0.0.0.0/0 as the source range, and scope the targets with --target-tags=web. B uses --source-tags, which selects the senders (VMs tagged web) instead of the receivers, and it defines no source range for internet traffic. C is egress, which controls traffic leaving the VMs, not inbound requests. D only labels an instance; a tag by itself grants nothing without a rule that references it.",
+        "es": "La regla debe ser de entrada, permitir tcp:80, usar 0.0.0.0/0 como rango de origen y acotar los destinos con --target-tags=web. B usa --source-tags, que selecciona a los emisores (VMs con la etiqueta web) en lugar de a los receptores, y no define un rango de origen para el tráfico de internet. C es de salida, que controla el tráfico que sale de las VMs, no las solicitudes entrantes. D solo etiqueta una instancia; una etiqueta por sí sola no otorga nada sin una regla que la referencie."
+      },
+      "doc": "https://cloud.google.com/firewall/docs/using-firewalls"
+    },
+    {
+      "id": "infra-026",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "vpc",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-subnets-ips"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which command reserves a specific static internal IP address inside a subnet so it can later be assigned to a VM?",
+        "es": "¿Qué comando reserva una dirección IP interna estática específica dentro de una subred para asignarla después a una VM?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud compute addresses create db-ip --region=us-central1 --subnet=data-subnet --addresses=10.10.0.25",
+          "es": "gcloud compute addresses create db-ip --region=us-central1 --subnet=data-subnet --addresses=10.10.0.25"
+        },
+        {
+          "en": "gcloud compute addresses create db-ip --global --addresses=10.10.0.25",
+          "es": "gcloud compute addresses create db-ip --global --addresses=10.10.0.25"
+        },
+        {
+          "en": "gcloud compute instances add-access-config db-1 --address=10.10.0.25",
+          "es": "gcloud compute instances add-access-config db-1 --address=10.10.0.25"
+        },
+        {
+          "en": "gcloud compute networks subnets reserve-ip data-subnet --address=10.10.0.25",
+          "es": "gcloud compute networks subnets reserve-ip data-subnet --address=10.10.0.25"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Static internal IPs are regional address resources tied to a subnet, so you pass --region, --subnet and the requested --addresses value. B is for global external addresses used by global load balancers, not for internal subnet IPs. C adds an access config, which manages the external IP of a network interface. D is not a real gcloud command.",
+        "es": "Las IPs internas estáticas son recursos de dirección regionales ligados a una subred, por eso se pasan --region, --subnet y el valor solicitado en --addresses. B es para direcciones externas globales que usan los balanceadores de cargas globales, no para IPs internas de subred. C agrega una configuración de acceso, que administra la IP externa de una interfaz de red. D no es un comando real de gcloud."
+      },
+      "doc": "https://cloud.google.com/compute/docs/ip-addresses/reserve-static-internal-ip-address"
+    },
+    {
+      "id": "infra-027",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "compute-engine",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-spot-custom-machines"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "An application needs exactly 6 vCPUs and 24 GB of memory, a shape that no predefined machine type matches. Which approach creates the instance correctly?",
+        "es": "Una aplicación necesita exactamente 6 vCPUs y 24 GB de memoria, una forma que ningún tipo de máquina predefinido cubre. ¿Qué enfoque crea la instancia correctamente?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud compute instances create app-1 --machine-type=n2-custom-6-24576",
+          "es": "gcloud compute instances create app-1 --machine-type=n2-custom-6-24576"
+        },
+        {
+          "en": "gcloud compute instances create app-1 --cpus=6 --memory=24GB",
+          "es": "gcloud compute instances create app-1 --cpus=6 --memory=24GB"
+        },
+        {
+          "en": "Create the largest predefined type available and rely on autoscaling to reduce the unused capacity",
+          "es": "Crear el tipo predefinido más grande disponible y confiar en el autoescalado para reducir la capacidad no usada"
+        },
+        {
+          "en": "gcloud compute instances create app-1 --machine-type=e2-standard-8 --custom-memory=24",
+          "es": "gcloud compute instances create app-1 --machine-type=e2-standard-8 --custom-memory=24"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "A custom machine type is expressed as FAMILY-custom-VCPUS-MEMORY_MB, so n2-custom-6-24576 requests 6 vCPUs and 24 GB (24576 MiB); the equivalent flags --custom-cpu and --custom-memory also work. B uses flags that do not exist. C wastes money on capacity you never use, and autoscaling adds or removes whole instances rather than resizing one. D mixes a predefined machine type with a custom-memory flag, which is not a valid combination.",
+        "es": "Un tipo de máquina personalizado se expresa como FAMILIA-custom-VCPUS-MEMORIA_MB, por lo que n2-custom-6-24576 pide 6 vCPUs y 24 GB (24576 MiB); las marcas equivalentes --custom-cpu y --custom-memory también funcionan. B usa marcas que no existen. C desperdicia dinero en capacidad que nunca se usa, y el autoescalado agrega o quita instancias completas en lugar de redimensionar una. D mezcla un tipo de máquina predefinido con una marca de memoria personalizada, combinación que no es válida."
+      },
+      "doc": "https://cloud.google.com/compute/docs/instances/creating-instance-with-custom-machine-type"
+    },
+    {
+      "id": "infra-028",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "compute-engine",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-spot-custom-machines"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which command creates a Spot VM that is deleted, rather than stopped, when Compute Engine preempts it?",
+        "es": "¿Qué comando crea una VM Spot que se borra, en lugar de detenerse, cuando Compute Engine la interrumpe?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud compute instances create batch-1 --provisioning-model=SPOT --instance-termination-action=DELETE",
+          "es": "gcloud compute instances create batch-1 --provisioning-model=SPOT --instance-termination-action=DELETE"
+        },
+        {
+          "en": "gcloud compute instances create batch-1 --provisioning-model=STANDARD --preemptible",
+          "es": "gcloud compute instances create batch-1 --provisioning-model=STANDARD --preemptible"
+        },
+        {
+          "en": "gcloud compute instances create batch-1 --maintenance-policy=TERMINATE",
+          "es": "gcloud compute instances create batch-1 --maintenance-policy=TERMINATE"
+        },
+        {
+          "en": "gcloud compute instances create batch-1 --provisioning-model=SPOT --no-restart-on-failure",
+          "es": "gcloud compute instances create batch-1 --provisioning-model=SPOT --no-restart-on-failure"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "--provisioning-model=SPOT selects Spot pricing and --instance-termination-action=DELETE tells Compute Engine to delete the VM on preemption instead of leaving it stopped. B is contradictory: STANDARD is the on-demand model, and --preemptible is the legacy flag for the older preemptible VMs. C only sets the host maintenance behavior of a normal on-demand VM. D creates a Spot VM but the restart-on-failure flag governs restarts after a crash, not the preemption action, so the VM would default to STOP.",
+        "es": "--provisioning-model=SPOT selecciona el precio Spot y --instance-termination-action=DELETE indica a Compute Engine que borre la VM al interrumpirla en lugar de dejarla detenida. B es contradictoria: STANDARD es el modelo bajo demanda y --preemptible es la marca heredada de las antiguas VMs interrumpibles. C solo define el comportamiento de mantenimiento del host de una VM normal bajo demanda. D crea una VM Spot, pero la marca de reinicio ante fallas gobierna los reinicios tras una caída, no la acción de interrupción, por lo que la VM quedaría con el valor predeterminado STOP."
+      },
+      "doc": "https://cloud.google.com/compute/docs/instances/create-use-spot"
+    },
+    {
+      "id": "infra-029",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "persistent-disk",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-storage"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A data disk attached to a running Linux VM is full. What is the correct way to give it more space?",
+        "es": "Un disco de datos conectado a una VM Linux en ejecución está lleno. ¿Cuál es la forma correcta de darle más espacio?"
+      },
+      "opciones": [
+        {
+          "en": "Run gcloud compute disks resize with a larger --size, then grow the file system inside the VM with a tool such as resize2fs",
+          "es": "Ejecutar gcloud compute disks resize con un --size mayor y luego expandir el sistema de archivos dentro de la VM con una herramienta como resize2fs"
+        },
+        {
+          "en": "Run gcloud compute disks resize with a larger --size; the file system grows automatically with no action inside the VM",
+          "es": "Ejecutar gcloud compute disks resize con un --size mayor; el sistema de archivos crece automáticamente sin acción dentro de la VM"
+        },
+        {
+          "en": "Delete the disk and create a bigger one, then restore the data from a snapshot",
+          "es": "Borrar el disco y crear uno más grande, y luego restaurar los datos desde una instantánea"
+        },
+        {
+          "en": "Reduce the disk to a smaller size first and then resize it upwards to defragment it",
+          "es": "Reducir primero el disco a un tamaño menor y luego agrandarlo para desfragmentarlo"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Persistent Disk can grow online without detaching or stopping the VM, but the guest OS still has to extend the partition and file system, which is why resize2fs (or the equivalent Windows step) is required. B misses that second step, so the extra capacity would not be visible. C is unnecessary downtime and data risk when an online resize exists. D is impossible: Persistent Disk cannot be shrunk.",
+        "es": "El Persistent Disk puede crecer en línea sin desconectarlo ni detener la VM, pero el sistema operativo invitado todavía debe extender la partición y el sistema de archivos, por eso se requiere resize2fs (o el paso equivalente en Windows). B omite ese segundo paso, así que la capacidad extra no sería visible. C implica una interrupción y un riesgo de datos innecesarios cuando existe el redimensionamiento en línea. D es imposible: el Persistent Disk no se puede reducir."
+      },
+      "doc": "https://cloud.google.com/compute/docs/disks/resize-persistent-disk"
+    },
+    {
+      "id": "infra-030",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "persistent-disk",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-snapshots-images"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "How do you configure automatic daily snapshots with a 14-day retention for a persistent disk?",
+        "es": "¿Cómo configuras instantáneas diarias automáticas con retención de 14 días para un disco persistente?"
+      },
+      "opciones": [
+        {
+          "en": "Create a snapshot schedule resource policy with gcloud compute resource-policies create snapshot-schedule and attach it to the disk with gcloud compute disks add-resource-policies",
+          "es": "Crear una política de recursos de programación de instantáneas con gcloud compute resource-policies create snapshot-schedule y adjuntarla al disco con gcloud compute disks add-resource-policies"
+        },
+        {
+          "en": "Schedule a cron job inside the VM that calls gcloud compute disks snapshot every night",
+          "es": "Programar un cron dentro de la VM que llame a gcloud compute disks snapshot cada noche"
+        },
+        {
+          "en": "Enable object versioning on the disk so old versions are kept for 14 days",
+          "es": "Habilitar el control de versiones de objetos en el disco para conservar versiones antiguas durante 14 días"
+        },
+        {
+          "en": "Set a Cloud Storage lifecycle rule on the snapshot bucket with an age condition of 14 days",
+          "es": "Definir una regla de ciclo de vida de Cloud Storage en el bucket de instantáneas con una condición de antigüedad de 14 días"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Snapshot schedules are resource policies: you define frequency, start time and retention (with the delete behavior for expired snapshots) and attach the policy to one or more disks, so Compute Engine manages the whole cycle. B works but is fragile and adds operational burden — the VM must be running and the schedule is invisible to Google Cloud tooling. C confuses Cloud Storage object versioning with disks. D is wrong: snapshots are not stored in a bucket you own, so bucket lifecycle rules never apply to them.",
+        "es": "Las programaciones de instantáneas son políticas de recursos: defines frecuencia, hora de inicio y retención (con el comportamiento de borrado de las instantáneas vencidas) y adjuntas la política a uno o más discos, para que Compute Engine administre todo el ciclo. B funciona pero es frágil y agrega carga operativa: la VM debe estar encendida y la programación es invisible para las herramientas de Google Cloud. C confunde el control de versiones de objetos de Cloud Storage con los discos. D es incorrecta: las instantáneas no se guardan en un bucket de tu propiedad, por lo que las reglas de ciclo de vida de bucket nunca las alcanzan."
+      },
+      "doc": "https://cloud.google.com/compute/docs/disks/scheduled-snapshots"
+    },
+    {
+      "id": "infra-031",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "compute-engine",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-snapshots-images"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You hardened a VM and want to reuse its configuration as the base for new instances. Which command creates a custom image from its boot disk?",
+        "es": "Endureciste una VM y quieres reutilizar su configuración como base para instancias nuevas. ¿Qué comando crea una imagen personalizada a partir de su disco de arranque?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud compute images create golden-v1 --source-disk=web-1 --source-disk-zone=us-central1-a --family=golden",
+          "es": "gcloud compute images create golden-v1 --source-disk=web-1 --source-disk-zone=us-central1-a --family=golden"
+        },
+        {
+          "en": "gcloud compute instances export web-1 --format=image",
+          "es": "gcloud compute instances export web-1 --format=image"
+        },
+        {
+          "en": "gcloud compute disks snapshot web-1 --image-name=golden-v1",
+          "es": "gcloud compute disks snapshot web-1 --image-name=golden-v1"
+        },
+        {
+          "en": "gcloud compute instance-templates create golden-v1 --source-instance=web-1",
+          "es": "gcloud compute instance-templates create golden-v1 --source-instance=web-1"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "gcloud compute images create with --source-disk builds a custom image, and --family lets new VMs always request the latest image in that family. Google recommends stopping the VM first so the disk is consistent. B is not a real command. C creates a snapshot; snapshots and images are different resources (you can build an image from a snapshot with --source-snapshot, but not with an --image-name flag). D creates an instance template, which captures machine type, network and disks settings but is not an image and still references a source image.",
+        "es": "gcloud compute images create con --source-disk construye una imagen personalizada, y --family permite que las VMs nuevas pidan siempre la última imagen de esa familia. Google recomienda detener la VM primero para que el disco quede consistente. B no es un comando real. C crea una instantánea; instantáneas e imágenes son recursos distintos (puedes crear una imagen desde una instantánea con --source-snapshot, pero no con una marca --image-name). D crea una plantilla de instancia, que captura tipo de máquina, red y configuración de discos, pero no es una imagen y de todos modos referencia una imagen de origen."
+      },
+      "doc": "https://cloud.google.com/compute/docs/images/create-custom"
+    },
+    {
+      "id": "infra-032",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "cloud-storage",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-gcs-management"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which command creates a Cloud Storage bucket in us-central1 with the Nearline default class and IAM-only access control?",
+        "es": "¿Qué comando crea un bucket de Cloud Storage en us-central1 con clase predeterminada Nearline y control de acceso solo por IAM?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud storage buckets create gs://my-bucket --location=us-central1 --default-storage-class=NEARLINE --uniform-bucket-level-access",
+          "es": "gcloud storage buckets create gs://my-bucket --location=us-central1 --default-storage-class=NEARLINE --uniform-bucket-level-access"
+        },
+        {
+          "en": "gcloud storage buckets create gs://my-bucket --zone=us-central1-a --storage-class=NEARLINE",
+          "es": "gcloud storage buckets create gs://my-bucket --zone=us-central1-a --storage-class=NEARLINE"
+        },
+        {
+          "en": "gcloud storage objects create gs://my-bucket --class=NEARLINE --acl=private",
+          "es": "gcloud storage objects create gs://my-bucket --class=NEARLINE --acl=private"
+        },
+        {
+          "en": "gcloud compute buckets create my-bucket --region=us-central1 --class=NEARLINE",
+          "es": "gcloud compute buckets create my-bucket --region=us-central1 --class=NEARLINE"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The current CLI is gcloud storage, buckets are created with a --location (region, dual-region or multi-region), the default class is set with --default-storage-class, and --uniform-bucket-level-access disables object ACLs. B is wrong because buckets are never zonal. C targets objects, not buckets, and ACL flags are not how uniform access is enabled. D does not exist: Cloud Storage is not part of the compute surface.",
+        "es": "La CLI actual es gcloud storage, los buckets se crean con --location (región, dual-region o multi-region), la clase predeterminada se define con --default-storage-class y --uniform-bucket-level-access desactiva las ACLs de objeto. B es incorrecta porque los buckets nunca son zonales. C apunta a objetos, no a buckets, y las marcas de ACL no son la forma de habilitar el acceso uniforme. D no existe: Cloud Storage no forma parte de la superficie de compute."
+      },
+      "doc": "https://cloud.google.com/storage/docs/creating-buckets"
+    },
+    {
+      "id": "infra-033",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "cloud-storage"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-gcs-management"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You must move objects to Coldline after 90 days and delete them after 365 days, automatically. What do you configure?",
+        "es": "Debes mover objetos a Coldline después de 90 días y borrarlos después de 365 días, de forma automática. ¿Qué configuras?"
+      },
+      "opciones": [
+        {
+          "en": "A lifecycle configuration on the bucket with a SetStorageClass rule at age 90 and a Delete rule at age 365, applied with gcloud storage buckets update --lifecycle-file",
+          "es": "Una configuración de ciclo de vida en el bucket con una regla SetStorageClass a los 90 días y una regla Delete a los 365, aplicada con gcloud storage buckets update --lifecycle-file"
+        },
+        {
+          "en": "A retention policy on the bucket with a 365-day retention period",
+          "es": "Una política de retención en el bucket con un período de retención de 365 días"
+        },
+        {
+          "en": "A Cloud Scheduler job that runs gcloud storage objects update every night",
+          "es": "Un trabajo de Cloud Scheduler que ejecuta gcloud storage objects update cada noche"
+        },
+        {
+          "en": "Object versioning with a 365-day noncurrent version limit",
+          "es": "Control de versiones de objetos con un límite de 365 días para versiones no actuales"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Lifecycle management is the built-in, no-cost mechanism for age-based class transitions and deletions, and both rules live in one JSON configuration applied to the bucket. B does the opposite: a retention policy blocks deletion for the retention period instead of transitioning or deleting objects. C reimplements a managed feature with custom automation and per-object API costs. D only governs noncurrent versions and cannot change the class of live objects.",
+        "es": "La administración del ciclo de vida es el mecanismo integrado y sin costo para transiciones de clase y borrados por antigüedad, y ambas reglas viven en una sola configuración JSON aplicada al bucket. B hace lo contrario: una política de retención impide el borrado durante el período de retención en lugar de transicionar o borrar objetos. C reimplementa una función administrada con automatización propia y costos de API por objeto. D solo gobierna versiones no actuales y no puede cambiar la clase de los objetos vigentes."
+      },
+      "doc": "https://cloud.google.com/storage/docs/lifecycle"
+    },
+    {
+      "id": "infra-034",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "service-accounts",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.2-sa-resources"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which command creates a VM that runs as a specific service account with the recommended broad scope, so permissions are controlled by IAM?",
+        "es": "¿Qué comando crea una VM que se ejecuta como una cuenta de servicio específica con el alcance amplio recomendado, para que los permisos se controlen con IAM?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud compute instances create app-1 --service-account=app-sa@PROJECT_ID.iam.gserviceaccount.com --scopes=https://www.googleapis.com/auth/cloud-platform",
+          "es": "gcloud compute instances create app-1 --service-account=app-sa@PROJECT_ID.iam.gserviceaccount.com --scopes=https://www.googleapis.com/auth/cloud-platform"
+        },
+        {
+          "en": "gcloud compute instances create app-1 --metadata=service-account=app-sa@PROJECT_ID.iam.gserviceaccount.com",
+          "es": "gcloud compute instances create app-1 --metadata=service-account=app-sa@PROJECT_ID.iam.gserviceaccount.com"
+        },
+        {
+          "en": "gcloud compute instances create app-1 --no-service-account --scopes=cloud-platform",
+          "es": "gcloud compute instances create app-1 --no-service-account --scopes=cloud-platform"
+        },
+        {
+          "en": "gcloud iam service-accounts keys create key.json --iam-account=app-sa@PROJECT_ID.iam.gserviceaccount.com and copy the key into the VM",
+          "es": "gcloud iam service-accounts keys create key.json --iam-account=app-sa@PROJECT_ID.iam.gserviceaccount.com y copiar la clave dentro de la VM"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "--service-account attaches the identity and --scopes=cloud-platform removes the legacy scope restriction so that IAM roles alone decide what the VM can do. B is invalid: the service account is a first-class instance property, not a metadata key. C explicitly removes the identity, so the VM has no credentials at all and the scopes are meaningless. D exports a long-lived key file, which Google explicitly discourages because the key can leak and must be rotated manually — the whole point of attaching a service account is to avoid keys.",
+        "es": "--service-account asocia la identidad y --scopes=cloud-platform elimina la restricción heredada de alcances para que solo los roles de IAM decidan qué puede hacer la VM. B es inválida: la cuenta de servicio es una propiedad de primera clase de la instancia, no una clave de metadatos. C quita explícitamente la identidad, así que la VM no tiene credenciales y los alcances carecen de sentido. D exporta un archivo de clave de larga duración, algo que Google desaconseja explícitamente porque la clave puede filtrarse y hay que rotarla a mano; el sentido de asociar una cuenta de servicio es justamente evitar las claves."
+      },
+      "doc": "https://cloud.google.com/compute/docs/instances/change-service-account"
+    },
+    {
+      "id": "infra-035",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "compute-engine",
+        "cloud-ngfw"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-instance-ops"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You run gcloud compute ssh app-1 --tunnel-through-iap against a VM with no external IP and the connection times out. What is the most likely missing configuration?",
+        "es": "Ejecutas gcloud compute ssh app-1 --tunnel-through-iap contra una VM sin IP externa y la conexión expira. ¿Cuál es la configuración faltante más probable?"
+      },
+      "opciones": [
+        {
+          "en": "An ingress firewall rule allowing TCP port 22 from the IAP range 35.235.240.0/20",
+          "es": "Una regla de firewall de entrada que permita el puerto TCP 22 desde el rango de IAP 35.235.240.0/20"
+        },
+        {
+          "en": "An external IP address on the instance",
+          "es": "Una dirección IP externa en la instancia"
+        },
+        {
+          "en": "A Cloud NAT gateway for the subnet",
+          "es": "Una puerta de enlace de Cloud NAT para la subred"
+        },
+        {
+          "en": "An SSH key added to project metadata",
+          "es": "Una clave SSH agregada a los metadatos del proyecto"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "IAP TCP forwarding delivers traffic to the VM from Google's tunnel range 35.235.240.0/20, so an ingress rule for tcp:22 from that range is mandatory; without it the packets are dropped by the implied deny and the client times out. B defeats the purpose of IAP and is not required. C only provides outbound internet access for the VM and has nothing to do with inbound SSH. D would produce an authentication failure, not a timeout, and gcloud manages keys automatically.",
+        "es": "El reenvío TCP de IAP entrega el tráfico a la VM desde el rango de túnel de Google 35.235.240.0/20, por lo que es obligatoria una regla de entrada para tcp:22 desde ese rango; sin ella los paquetes los descarta la regla implícita de denegar y el cliente expira. B anula el propósito de IAP y no es necesaria. C solo da salida a internet a la VM y no tiene relación con el SSH entrante. D produciría un error de autenticación, no un timeout, y gcloud administra las claves automáticamente."
+      },
+      "doc": "https://cloud.google.com/iap/docs/using-tcp-forwarding#create-firewall-rule"
+    },
+    {
+      "id": "infra-036",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "service-accounts",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.2-sa-resources"
+      ],
+      "nivel": "intermedio",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO steps are required to change the service account attached to an existing, running Compute Engine instance?",
+        "es": "¿Cuáles DOS pasos se requieren para cambiar la cuenta de servicio asociada a una instancia de Compute Engine existente y en ejecución?"
+      },
+      "opciones": [
+        {
+          "en": "Stop the instance first, because the service account cannot be changed while it is running",
+          "es": "Detener primero la instancia, porque la cuenta de servicio no se puede cambiar mientras está en ejecución"
+        },
+        {
+          "en": "Run gcloud compute instances set-service-account with the new --service-account value",
+          "es": "Ejecutar gcloud compute instances set-service-account con el nuevo valor de --service-account"
+        },
+        {
+          "en": "Delete and recreate the instance, since the identity is immutable",
+          "es": "Borrar y recrear la instancia, porque la identidad es inmutable"
+        },
+        {
+          "en": "Grant the instance the roles/iam.serviceAccountKeyAdmin role on the project",
+          "es": "Otorgar a la instancia el rol roles/iam.serviceAccountKeyAdmin en el proyecto"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "The attached identity can be swapped on an existing VM, but only while it is in the TERMINATED state, so you stop it and then run set-service-account (optionally with --scopes) before starting it again. C is unnecessary work: the property is mutable on a stopped VM. D is wrong on two counts — the caller performing the change needs roles/iam.serviceAccountUser on the service account, and serviceAccountKeyAdmin manages key files, which are not involved here.",
+        "es": "La identidad asociada se puede cambiar en una VM existente, pero solo mientras está en estado TERMINATED, así que la detienes, ejecutas set-service-account (opcionalmente con --scopes) y luego la vuelves a iniciar. C es trabajo innecesario: la propiedad es mutable en una VM detenida. D es incorrecta por dos motivos: quien realiza el cambio necesita roles/iam.serviceAccountUser sobre la cuenta de servicio, y serviceAccountKeyAdmin administra archivos de clave, que aquí no intervienen."
+      },
+      "doc": "https://cloud.google.com/compute/docs/instances/change-service-account"
+    },
+    {
+      "id": "infra-037",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "cloud-ngfw",
+        "service-accounts"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-firewall-mgmt"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your security team wants firewall rules that cannot be bypassed by a developer adding a network tag to their own VM. Which rule definition satisfies that requirement?",
+        "es": "Tu equipo de seguridad quiere reglas de firewall que un desarrollador no pueda evadir agregando una etiqueta de red a su propia VM. ¿Qué definición de regla cumple ese requisito?"
+      },
+      "opciones": [
+        {
+          "en": "Use --target-service-accounts and --source-service-accounts, because attaching a service account requires the serviceAccountUser permission",
+          "es": "Usar --target-service-accounts y --source-service-accounts, porque asociar una cuenta de servicio requiere el permiso serviceAccountUser"
+        },
+        {
+          "en": "Use --target-tags with a long, hard-to-guess tag name",
+          "es": "Usar --target-tags con un nombre de etiqueta largo y difícil de adivinar"
+        },
+        {
+          "en": "Use --source-ranges with the subnet CIDR of the developer VMs",
+          "es": "Usar --source-ranges con el CIDR de la subred de las VMs de los desarrolladores"
+        },
+        {
+          "en": "Set the rule priority to 0 so no other rule can override it",
+          "es": "Definir la prioridad de la regla en 0 para que ninguna otra regla la pueda anular"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Network tags are free-form metadata that anyone with instance edit permission can add or remove, so tag-based rules are not an access control boundary. Service-account-based rules are governed by IAM: to run a VM as a service account you need roles/iam.serviceAccountUser on it, which the security team controls. B is security by obscurity — the tag is visible in the instance description. C is coarse and breaks as soon as workloads share a subnet, and it does not stop a developer from placing a VM in that subnet. D changes precedence only; it does nothing about who can match the rule. Note that a single rule cannot mix tags and service accounts.",
+        "es": "Las etiquetas de red son metadatos libres que cualquiera con permiso de edición de instancias puede agregar o quitar, por lo que las reglas basadas en etiquetas no son un límite de control de acceso. Las reglas basadas en cuentas de servicio las gobierna IAM: para ejecutar una VM como una cuenta de servicio necesitas roles/iam.serviceAccountUser sobre ella, que el equipo de seguridad controla. B es seguridad por oscuridad: la etiqueta es visible en la descripción de la instancia. C es demasiado gruesa, se rompe apenas varias cargas comparten subred y no impide que un desarrollador coloque una VM en esa subred. D solo cambia la precedencia; no afecta quién puede coincidir con la regla. Ten en cuenta que una misma regla no puede mezclar etiquetas y cuentas de servicio."
+      },
+      "doc": "https://cloud.google.com/firewall/docs/firewalls#serviceaccounts"
+    },
+    {
+      "id": "infra-038",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "cloud-storage",
+        "iam"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-gcs-management"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "An analytics group needs read-only access to the objects of a single bucket, and to nothing else in the project. What do you do?",
+        "es": "Un grupo de analítica necesita acceso de solo lectura a los objetos de un único bucket y a nada más del proyecto. ¿Qué haces?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud storage buckets add-iam-policy-binding gs://reports --member=group:analytics@example.com --role=roles/storage.objectViewer",
+          "es": "gcloud storage buckets add-iam-policy-binding gs://reports --member=group:analytics@example.com --role=roles/storage.objectViewer"
+        },
+        {
+          "en": "gcloud projects add-iam-policy-binding PROJECT_ID --member=group:analytics@example.com --role=roles/storage.objectViewer",
+          "es": "gcloud projects add-iam-policy-binding PROJECT_ID --member=group:analytics@example.com --role=roles/storage.objectViewer"
+        },
+        {
+          "en": "gcloud projects add-iam-policy-binding PROJECT_ID --member=group:analytics@example.com --role=roles/viewer",
+          "es": "gcloud projects add-iam-policy-binding PROJECT_ID --member=group:analytics@example.com --role=roles/viewer"
+        },
+        {
+          "en": "Make the bucket public by granting roles/storage.objectViewer to allUsers",
+          "es": "Hacer público el bucket otorgando roles/storage.objectViewer a allUsers"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Binding the role at the bucket level scopes the grant to exactly one resource, which is least privilege. B grants object read access on every bucket in the project through inheritance. C is a basic role that exposes far more than Cloud Storage. D exposes the data to the entire internet, which is a severe over-grant and is usually blocked by public access prevention.",
+        "es": "Vincular el rol a nivel de bucket acota la concesión exactamente a un recurso, que es el mínimo privilegio. B otorga lectura de objetos en todos los buckets del proyecto por herencia. C es un rol básico que expone mucho más que Cloud Storage. D expone los datos a todo internet, una concesión excesiva y grave que además suele estar bloqueada por la prevención de acceso público."
+      },
+      "doc": "https://cloud.google.com/storage/docs/access-control/using-iam-permissions"
+    },
+    {
+      "id": "infra-039",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "vpc",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-subnets-ips"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A production VM already serves traffic on an ephemeral external IP that is now published in DNS. How do you keep that exact address permanently without downtime?",
+        "es": "Una VM de producción ya atiende tráfico en una IP externa efímera que ahora está publicada en DNS. ¿Cómo conservas esa dirección exacta de forma permanente y sin interrupciones?"
+      },
+      "opciones": [
+        {
+          "en": "Promote the ephemeral address to static with gcloud compute addresses create --addresses=CURRENT_IP --region=REGION",
+          "es": "Promover la dirección efímera a estática con gcloud compute addresses create --addresses=IP_ACTUAL --region=REGION"
+        },
+        {
+          "en": "Stop the VM, reserve a new static IP, and assign it to the instance",
+          "es": "Detener la VM, reservar una IP estática nueva y asignarla a la instancia"
+        },
+        {
+          "en": "Create a snapshot of the boot disk and recreate the VM with --address=CURRENT_IP",
+          "es": "Crear una instantánea del disco de arranque y recrear la VM con --address=IP_ACTUAL"
+        },
+        {
+          "en": "Change the DNS record to the internal IP of the VM",
+          "es": "Cambiar el registro DNS a la IP interna de la VM"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Reserving an address resource with the same IP value in the same region promotes the ephemeral address in place: the VM keeps serving and the address stops being released on stop or delete. B changes the address, so the published DNS record breaks and traffic is lost. C is a full rebuild with downtime, and the ephemeral IP may already be gone by the time the new VM is created. D is wrong: internal RFC 1918 addresses are not routable from the internet.",
+        "es": "Reservar un recurso de dirección con el mismo valor de IP en la misma región promueve la dirección efímera en el lugar: la VM sigue atendiendo y la dirección deja de liberarse al detenerla o borrarla. B cambia la dirección, así que el registro DNS publicado se rompe y se pierde tráfico. C implica reconstruir todo con interrupción, y la IP efímera puede haberse liberado antes de crear la VM nueva. D es incorrecta: las direcciones internas RFC 1918 no son enrutables desde internet."
+      },
+      "doc": "https://cloud.google.com/compute/docs/ip-addresses/reserve-static-external-ip-address#promote_ephemeral_ip"
+    },
+    {
+      "id": "infra-040",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "cloud-ngfw",
+        "vpc"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-firewall-mgmt"
+      ],
+      "nivel": "intermedio",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO statements about managing VPC firewall rules are true?",
+        "es": "¿Cuáles DOS afirmaciones sobre la administración de reglas de firewall de VPC son verdaderas?"
+      },
+      "opciones": [
+        {
+          "en": "Firewall rules are stateful: the return traffic of an allowed connection is permitted automatically",
+          "es": "Las reglas de firewall tienen estado (stateful): el tráfico de retorno de una conexión permitida se admite automáticamente"
+        },
+        {
+          "en": "Enabling firewall rules logging on a rule records the connections it allows or denies in Cloud Logging",
+          "es": "Habilitar el registro de reglas de firewall en una regla guarda en Cloud Logging las conexiones que permite o deniega"
+        },
+        {
+          "en": "A firewall rule can be attached to a specific subnet so it applies only to that subnet",
+          "es": "Una regla de firewall se puede adjuntar a una subred específica para que aplique solo a esa subred"
+        },
+        {
+          "en": "Egress rules always take precedence over ingress rules regardless of priority",
+          "es": "Las reglas de salida siempre tienen precedencia sobre las de entrada sin importar la prioridad"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "VPC firewall rules track connection state, so you do not write a matching rule for the reply packets, and per-rule logging sends allow or deny records to Cloud Logging for auditing and troubleshooting. C is wrong: rules apply to the whole VPC network and are narrowed by target tags, target service accounts, or source and destination ranges — not by attaching them to a subnet. D is wrong: ingress and egress are evaluated independently for their own direction of traffic, and precedence within a direction comes from priority.",
+        "es": "Las reglas de firewall de VPC siguen el estado de la conexión, por lo que no hay que escribir una regla para los paquetes de respuesta, y el registro por regla envía a Cloud Logging los eventos de permitido o denegado para auditoría y diagnóstico. C es incorrecta: las reglas aplican a toda la red de VPC y se acotan con etiquetas de destino, cuentas de servicio de destino o rangos de origen y destino, no adjuntándolas a una subred. D es incorrecta: entrada y salida se evalúan de forma independiente para su propia dirección de tráfico, y la precedencia dentro de una dirección la da la prioridad."
+      },
+      "doc": "https://cloud.google.com/firewall/docs/firewall-rules-logging"
+    },
+    {
+      "id": "infra-041",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "persistent-disk",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-storage"
+      ],
+      "nivel": "intermedio",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO statements are true about attaching a persistent disk to Compute Engine instances?",
+        "es": "¿Cuáles DOS afirmaciones son verdaderas sobre conectar un disco persistente a instancias de Compute Engine?"
+      },
+      "opciones": [
+        {
+          "en": "The same disk can be attached to several instances at the same time in read-only mode with gcloud compute instances attach-disk --mode=ro",
+          "es": "El mismo disco se puede conectar a varias instancias al mismo tiempo en modo de solo lectura con gcloud compute instances attach-disk --mode=ro"
+        },
+        {
+          "en": "A disk can be attached to an instance only if both are in the same zone",
+          "es": "Un disco solo se puede conectar a una instancia si ambos están en la misma zona"
+        },
+        {
+          "en": "Any number of instances can mount the same disk in read-write mode simultaneously without extra configuration",
+          "es": "Cualquier cantidad de instancias puede montar el mismo disco en modo lectura-escritura de forma simultánea sin configuración adicional"
+        },
+        {
+          "en": "Attaching a disk to a running instance always requires stopping it first",
+          "es": "Conectar un disco a una instancia en ejecución siempre requiere detenerla primero"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Read-only multi-attach is the supported way to share a dataset across instances, and zonal Persistent Disk is a zonal resource so the instance must live in the same zone (a regional disk can be attached in either of its two zones). C is wrong: concurrent read-write attachment is not the default and requires multi-writer mode with a cluster-aware file system, otherwise the file system is corrupted. D is wrong: non-boot disks can be attached and detached while the instance is running.",
+        "es": "La conexión múltiple de solo lectura es la forma admitida de compartir un conjunto de datos entre instancias, y el Persistent Disk zonal es un recurso zonal, por lo que la instancia debe estar en la misma zona (un disco regional se puede conectar en cualquiera de sus dos zonas). C es incorrecta: la conexión simultánea de lectura-escritura no es el comportamiento predeterminado y exige el modo multi-writer con un sistema de archivos apto para clústeres; de lo contrario el sistema de archivos se corrompe. D es incorrecta: los discos que no son de arranque se pueden conectar y desconectar con la instancia en ejecución."
+      },
+      "doc": "https://cloud.google.com/compute/docs/disks/add-persistent-disk"
+    },
+    {
+      "id": "infra-042",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "compute-engine",
+        "iam"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-instance-config"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You want to enforce OS Login on every instance of a project and give a group of operators SSH access with sudo. What do you configure?",
+        "es": "Quieres imponer OS Login en todas las instancias de un proyecto y dar a un grupo de operadores acceso SSH con sudo. ¿Qué configuras?"
+      },
+      "opciones": [
+        {
+          "en": "Set the project metadata enable-oslogin=TRUE and grant the group roles/compute.osAdminLogin",
+          "es": "Definir el metadato de proyecto enable-oslogin=TRUE y otorgar al grupo roles/compute.osAdminLogin"
+        },
+        {
+          "en": "Set the project metadata enable-oslogin=TRUE and grant the group roles/compute.viewer",
+          "es": "Definir el metadato de proyecto enable-oslogin=TRUE y otorgar al grupo roles/compute.viewer"
+        },
+        {
+          "en": "Add each operator public SSH key to the ssh-keys metadata of every instance",
+          "es": "Agregar la clave SSH pública de cada operador al metadato ssh-keys de cada instancia"
+        },
+        {
+          "en": "Grant the group roles/iap.tunnelResourceAccessor and disable OS Login",
+          "es": "Otorgar al grupo roles/iap.tunnelResourceAccessor y deshabilitar OS Login"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "enable-oslogin=TRUE at the project level applies to all instances (an instance can only be stricter, not looser), and roles/compute.osAdminLogin gives Linux access with administrator (sudo) privileges, while roles/compute.osLogin gives access without sudo. B grants read-only visibility of resources and no SSH login. C is exactly what OS Login replaces: metadata keys are unmanaged, do not expire with the account, and scale badly. D confuses the network path with the login mechanism — IAP controls how you reach port 22, not who becomes a Linux user, and disabling OS Login loses the IAM-based control.",
+        "es": "enable-oslogin=TRUE a nivel de proyecto aplica a todas las instancias (una instancia solo puede ser más estricta, no más laxa) y roles/compute.osAdminLogin da acceso a Linux con privilegios de administrador (sudo), mientras que roles/compute.osLogin da acceso sin sudo. B otorga visibilidad de solo lectura de los recursos y ningún inicio de sesión SSH. C es justamente lo que OS Login reemplaza: las claves en metadatos no se administran, no caducan con la cuenta y escalan mal. D confunde la ruta de red con el mecanismo de inicio de sesión: IAP controla cómo llegas al puerto 22, no quién se convierte en usuario de Linux, y deshabilitar OS Login pierde el control basado en IAM."
+      },
+      "doc": "https://cloud.google.com/compute/docs/oslogin/set-up-oslogin"
+    },
+    {
+      "id": "infra-043",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "file-storage",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-storage-products"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which command creates a Filestore instance that VMs in a VPC network can mount over NFS?",
+        "es": "¿Qué comando crea una instancia de Filestore que las VMs de una red de VPC puedan montar por NFS?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud filestore instances create shared-fs --zone=us-central1-a --tier=BASIC_HDD --file-share=name=vol1,capacity=1TB --network=name=prod-vpc",
+          "es": "gcloud filestore instances create shared-fs --zone=us-central1-a --tier=BASIC_HDD --file-share=name=vol1,capacity=1TB --network=name=prod-vpc"
+        },
+        {
+          "en": "gcloud storage buckets create gs://shared-fs --location=us-central1 --nfs",
+          "es": "gcloud storage buckets create gs://shared-fs --location=us-central1 --nfs"
+        },
+        {
+          "en": "gcloud compute disks create shared-fs --zone=us-central1-a --type=pd-ssd --multi-writer",
+          "es": "gcloud compute disks create shared-fs --zone=us-central1-a --type=pd-ssd --multi-writer"
+        },
+        {
+          "en": "gcloud filestore instances create shared-fs --global --tier=STANDARD",
+          "es": "gcloud filestore instances create shared-fs --global --tier=STANDARD"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "A Filestore instance needs a location, a service tier, the file share name and capacity, and the VPC network it is exposed on; clients then mount it by IP and share name. B is wrong: Cloud Storage is object storage with no NFS endpoint (Cloud Storage FUSE is a client-side mount, not a bucket flag). C creates a block device, which does not give a shared POSIX file system unless you build and manage a cluster file system yourself. D is invalid: Filestore instances are zonal or regional depending on tier, never global, and the share definition is mandatory.",
+        "es": "Una instancia de Filestore necesita una ubicación, un nivel de servicio, el nombre y la capacidad del recurso compartido y la red de VPC en la que se expone; luego los clientes la montan por IP y nombre del recurso. B es incorrecta: Cloud Storage es almacenamiento de objetos sin endpoint NFS (Cloud Storage FUSE es un montaje del lado del cliente, no una marca del bucket). C crea un dispositivo de bloque, que no entrega un sistema de archivos POSIX compartido a menos que construyas y administres tú mismo un sistema de archivos de clúster. D es inválida: las instancias de Filestore son zonales o regionales según el nivel, nunca globales, y la definición del recurso compartido es obligatoria."
+      },
+      "doc": "https://cloud.google.com/filestore/docs/creating-instances"
+    },
+    {
+      "id": "infra-044",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "compute-engine",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-instance-config"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A licensed application cannot tolerate being moved between hosts, and it must come back automatically after a crash. Which availability policy settings do you use?",
+        "es": "Una aplicación con licencia no tolera que la muevan entre hosts y debe volver automáticamente tras una caída. ¿Qué configuración de política de disponibilidad usas?"
+      },
+      "opciones": [
+        {
+          "en": "--maintenance-policy=TERMINATE --restart-on-failure",
+          "es": "--maintenance-policy=TERMINATE --restart-on-failure"
+        },
+        {
+          "en": "--maintenance-policy=MIGRATE --no-restart-on-failure",
+          "es": "--maintenance-policy=MIGRATE --no-restart-on-failure"
+        },
+        {
+          "en": "--provisioning-model=SPOT --restart-on-failure",
+          "es": "--provisioning-model=SPOT --restart-on-failure"
+        },
+        {
+          "en": "--maintenance-policy=TERMINATE --no-restart-on-failure",
+          "es": "--maintenance-policy=TERMINATE --no-restart-on-failure"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "TERMINATE prevents live migration, so the VM is stopped during host maintenance instead of being moved, and --restart-on-failure (the default automatic restart) brings it back after a host or guest crash. B allows exactly the migration the application cannot tolerate and disables the automatic restart. C makes the workload preemptible, which is far worse for a licensed production application. D respects the no-migration constraint but leaves the VM down after a crash, breaking the second requirement.",
+        "es": "TERMINATE impide la migración en vivo, por lo que la VM se detiene durante el mantenimiento del host en lugar de moverse, y --restart-on-failure (el reinicio automático predeterminado) la levanta de nuevo tras una caída del host o del sistema invitado. B permite justamente la migración que la aplicación no tolera y desactiva el reinicio automático. C convierte la carga en interrumpible, mucho peor para una aplicación de producción con licencia. D respeta la restricción de no migrar, pero deja la VM caída tras un fallo e incumple el segundo requisito."
+      },
+      "doc": "https://cloud.google.com/compute/docs/instances/setting-vm-host-options"
     }
   ]
 }

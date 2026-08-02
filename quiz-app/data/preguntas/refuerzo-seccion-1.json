@@ -3,9 +3,13 @@
     {
       "id": "ref1-001",
       "curso": null,
-      "servicios": ["asset-inventory"],
+      "servicios": [
+        "asset-inventory"
+      ],
       "seccion_blueprint": 1,
-      "subtopicos": ["1.1-asset-inventory-gemini"],
+      "subtopicos": [
+        "1.1-asset-inventory-gemini"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -13,12 +17,26 @@
         "es": "¿Qué es Cloud Asset Inventory?"
       },
       "opciones": [
-        { "en": "A metadata inventory service that keeps a history of Google Cloud resources and IAM policies and lets you search, export, and monitor them", "es": "Un servicio de inventario de metadatos que mantiene un historial de los recursos y políticas de IAM de Google Cloud y permite buscarlos, exportarlos y supervisarlos" },
-        { "en": "A service for storing container images and language packages", "es": "Un servicio para almacenar imágenes de contenedores y paquetes de lenguajes" },
-        { "en": "A tool that automatically deletes unused resources to save costs", "es": "Una herramienta que borra automáticamente recursos sin usar para ahorrar costos" },
-        { "en": "A physical inventory of the hardware in Google data centers", "es": "Un inventario físico del hardware de los centros de datos de Google" }
+        {
+          "en": "A metadata inventory service that keeps a history of Google Cloud resources and IAM policies and lets you search, export, and monitor them",
+          "es": "Un servicio de inventario de metadatos que mantiene un historial de los recursos y políticas de IAM de Google Cloud y permite buscarlos, exportarlos y supervisarlos"
+        },
+        {
+          "en": "A service for storing container images and language packages",
+          "es": "Un servicio para almacenar imágenes de contenedores y paquetes de lenguajes"
+        },
+        {
+          "en": "A tool that automatically deletes unused resources to save costs",
+          "es": "Una herramienta que borra automáticamente recursos sin usar para ahorrar costos"
+        },
+        {
+          "en": "A physical inventory of the hardware in Google data centers",
+          "es": "Un inventario físico del hardware de los centros de datos de Google"
+        }
       ],
-      "respuesta": ["A"],
+      "respuesta": [
+        "A"
+      ],
       "explicacion": {
         "en": "Cloud Asset Inventory provides inventory services based on a time series database that keeps history of asset metadata (resources and IAM policies), with search, export, monitoring, and analysis capabilities. B describes Artifact Registry, C describes what Active Assist recommendations can suggest (but never delete automatically), and D is not a Google Cloud service.",
         "es": "Cloud Asset Inventory ofrece servicios de inventario basados en una base de datos de series temporales que guarda el historial de metadatos de los assets (recursos y políticas de IAM), con capacidades de búsqueda, exportación, supervisión y análisis. B describe Artifact Registry, C describe lo que las recomendaciones de Active Assist pueden sugerir (pero nunca borrar automáticamente) y D no es un servicio de Google Cloud."
@@ -28,9 +46,13 @@
     {
       "id": "ref1-002",
       "curso": null,
-      "servicios": ["billing"],
+      "servicios": [
+        "billing"
+      ],
       "seccion_blueprint": 1,
-      "subtopicos": ["1.2-billing-accounts"],
+      "subtopicos": [
+        "1.2-billing-accounts"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -38,12 +60,26 @@
         "es": "¿Cuál es el propósito de una cuenta de facturación de Cloud?"
       },
       "opciones": [
-        { "en": "It stores the credentials that users need to sign in to the Google Cloud console", "es": "Almacena las credenciales que los usuarios necesitan para iniciar sesión en la consola de Google Cloud" },
-        { "en": "It defines who pays for the usage of the Google Cloud projects linked to it", "es": "Define quién paga por el uso de los proyectos de Google Cloud vinculados a ella" },
-        { "en": "It groups projects into folders for applying IAM policies", "es": "Agrupa proyectos en carpetas para aplicar políticas de IAM" },
-        { "en": "It limits how much a project can spend and stops resources when the limit is reached", "es": "Limita cuánto puede gastar un proyecto y detiene los recursos cuando se alcanza el límite" }
+        {
+          "en": "It stores the credentials that users need to sign in to the Google Cloud console",
+          "es": "Almacena las credenciales que los usuarios necesitan para iniciar sesión en la consola de Google Cloud"
+        },
+        {
+          "en": "It defines who pays for the usage of the Google Cloud projects linked to it",
+          "es": "Define quién paga por el uso de los proyectos de Google Cloud vinculados a ella"
+        },
+        {
+          "en": "It groups projects into folders for applying IAM policies",
+          "es": "Agrupa proyectos en carpetas para aplicar políticas de IAM"
+        },
+        {
+          "en": "It limits how much a project can spend and stops resources when the limit is reached",
+          "es": "Limita cuánto puede gastar un proyecto y detiene los recursos cuando se alcanza el límite"
+        }
       ],
-      "respuesta": ["B"],
+      "respuesta": [
+        "B"
+      ],
       "explicacion": {
         "en": "A Cloud Billing account is connected to a Google payments profile and pays for the usage costs of the projects linked to it. A describes Cloud Identity, C describes folders in the resource hierarchy, and D describes a common misconception: neither billing accounts nor budgets automatically cap spending.",
         "es": "Una cuenta de facturación de Cloud está conectada a un perfil de pagos de Google y paga los costos de uso de los proyectos vinculados a ella. A describe Cloud Identity, C describe las carpetas de la jerarquía de recursos y D describe una confusión común: ni las cuentas de facturación ni los presupuestos limitan el gasto automáticamente."
@@ -53,9 +89,13 @@
     {
       "id": "ref1-003",
       "curso": null,
-      "servicios": ["resource-manager"],
+      "servicios": [
+        "resource-manager"
+      ],
       "seccion_blueprint": 1,
-      "subtopicos": ["1.1-resource-hierarchy"],
+      "subtopicos": [
+        "1.1-resource-hierarchy"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -63,12 +103,26 @@
         "es": "¿Cuál es el orden correcto, de arriba hacia abajo, de la jerarquía de recursos de Google Cloud?"
       },
       "opciones": [
-        { "en": "Project > Organization > Folder > Resources", "es": "Proyecto > Organización > Carpeta > Recursos" },
-        { "en": "Folder > Organization > Project > Resources", "es": "Carpeta > Organización > Proyecto > Recursos" },
-        { "en": "Organization > Folder > Project > Resources", "es": "Organización > Carpeta > Proyecto > Recursos" },
-        { "en": "Organization > Project > Folder > Resources", "es": "Organización > Proyecto > Carpeta > Recursos" }
+        {
+          "en": "Project > Organization > Folder > Resources",
+          "es": "Proyecto > Organización > Carpeta > Recursos"
+        },
+        {
+          "en": "Folder > Organization > Project > Resources",
+          "es": "Carpeta > Organización > Proyecto > Recursos"
+        },
+        {
+          "en": "Organization > Folder > Project > Resources",
+          "es": "Organización > Carpeta > Proyecto > Recursos"
+        },
+        {
+          "en": "Organization > Project > Folder > Resources",
+          "es": "Organización > Proyecto > Carpeta > Recursos"
+        }
       ],
-      "respuesta": ["C"],
+      "respuesta": [
+        "C"
+      ],
       "explicacion": {
         "en": "The organization is the root node, folders (optional, can be nested) group projects, projects contain the service resources. IAM policies and organization policies are inherited down this hierarchy. The other options place the levels in an invalid order: folders always live under the organization, and projects cannot contain folders.",
         "es": "La organización es el nodo raíz, las carpetas (opcionales, anidables) agrupan proyectos y los proyectos contienen los recursos de los servicios. Las políticas de IAM y de organización se heredan hacia abajo en esta jerarquía. Las demás opciones ordenan los niveles de forma inválida: las carpetas siempre viven bajo la organización y los proyectos no pueden contener carpetas."
@@ -78,9 +132,13 @@
     {
       "id": "ref1-004",
       "curso": null,
-      "servicios": ["identity-federation"],
+      "servicios": [
+        "identity-federation"
+      ],
       "seccion_blueprint": 1,
-      "subtopicos": ["1.1-workforce-identity-federation"],
+      "subtopicos": [
+        "1.1-workforce-identity-federation"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -88,12 +146,26 @@
         "es": "¿Qué es Workforce Identity Federation?"
       },
       "opciones": [
-        { "en": "A feature that lets applications running outside Google Cloud authenticate without service account keys", "es": "Una función que permite que aplicaciones que se ejecutan fuera de Google Cloud se autentiquen sin claves de cuentas de servicio" },
-        { "en": "A tool that synchronizes users from Active Directory into Cloud Identity", "es": "Una herramienta que sincroniza usuarios desde Active Directory hacia Cloud Identity" },
-        { "en": "A feature that lets your human workforce sign in to Google Cloud using an external identity provider (IdP), without creating Google identities for them", "es": "Una función que permite que tu fuerza laboral humana inicie sesión en Google Cloud con un proveedor de identidad (IdP) externo, sin crear identidades de Google para esas personas" },
-        { "en": "A managed VPN service for connecting remote employees to a VPC", "es": "Un servicio de VPN administrado para conectar empleados remotos a una VPC" }
+        {
+          "en": "A feature that lets applications running outside Google Cloud authenticate without service account keys",
+          "es": "Una función que permite que aplicaciones que se ejecutan fuera de Google Cloud se autentiquen sin claves de cuentas de servicio"
+        },
+        {
+          "en": "A tool that synchronizes users from Active Directory into Cloud Identity",
+          "es": "Una herramienta que sincroniza usuarios desde Active Directory hacia Cloud Identity"
+        },
+        {
+          "en": "A feature that lets your human workforce sign in to Google Cloud using an external identity provider (IdP), without creating Google identities for them",
+          "es": "Una función que permite que tu fuerza laboral humana inicie sesión en Google Cloud con un proveedor de identidad (IdP) externo, sin crear identidades de Google para esas personas"
+        },
+        {
+          "en": "A managed VPN service for connecting remote employees to a VPC",
+          "es": "Un servicio de VPN administrado para conectar empleados remotos a una VPC"
+        }
       ],
-      "respuesta": ["C"],
+      "respuesta": [
+        "C"
+      ],
       "explicacion": {
         "en": "Workforce Identity Federation extends Google Cloud's identity capabilities to support syncless, attribute-based single sign-on for human users from an external IdP such as Okta or Microsoft Entra ID. A describes Workload Identity Federation (for applications, not people), B describes Google Cloud Directory Sync (GCDS), and D describes Cloud VPN.",
         "es": "Workforce Identity Federation extiende las capacidades de identidad de Google Cloud para ofrecer un inicio de sesión único sin sincronización, basado en atributos, para usuarios humanos de un IdP externo como Okta o Microsoft Entra ID. A describe Workload Identity Federation (para aplicaciones, no personas), B describe Google Cloud Directory Sync (GCDS) y D describe Cloud VPN."
@@ -103,9 +175,13 @@
     {
       "id": "ref1-005",
       "curso": null,
-      "servicios": ["quotas-apis"],
+      "servicios": [
+        "quotas-apis"
+      ],
       "seccion_blueprint": 1,
-      "subtopicos": ["1.1-apis-quotas"],
+      "subtopicos": [
+        "1.1-apis-quotas"
+      ],
       "nivel": "principiante",
       "tipo": "multiple",
       "pregunta": {
@@ -113,12 +189,27 @@
         "es": "¿Cuáles DOS tipos de cuotas aplica Google Cloud sobre el uso de recursos y APIs?"
       },
       "opciones": [
-        { "en": "Rate quotas, which limit requests over a time interval and reset after that interval", "es": "Cuotas de tasa (rate), que limitan las solicitudes en un intervalo de tiempo y se restablecen al terminar ese intervalo" },
-        { "en": "Allocation quotas, which limit the total number of resources you can hold at a given time", "es": "Cuotas de asignación (allocation), que limitan la cantidad total de recursos que puedes tener en un momento dado" },
-        { "en": "Payment quotas, which block the billing account when the invoice exceeds a threshold", "es": "Cuotas de pago, que bloquean la cuenta de facturación cuando la factura supera un umbral" },
-        { "en": "Identity quotas, which limit how many users can sign in per day", "es": "Cuotas de identidad, que limitan cuántos usuarios pueden iniciar sesión por día" }
+        {
+          "en": "Rate quotas, which limit requests over a time interval and reset after that interval",
+          "es": "Cuotas de tasa (rate), que limitan las solicitudes en un intervalo de tiempo y se restablecen al terminar ese intervalo"
+        },
+        {
+          "en": "Allocation quotas, which limit the total number of resources you can hold at a given time",
+          "es": "Cuotas de asignación (allocation), que limitan la cantidad total de recursos que puedes tener en un momento dado"
+        },
+        {
+          "en": "Payment quotas, which block the billing account when the invoice exceeds a threshold",
+          "es": "Cuotas de pago, que bloquean la cuenta de facturación cuando la factura supera un umbral"
+        },
+        {
+          "en": "Identity quotas, which limit how many users can sign in per day",
+          "es": "Cuotas de identidad, que limitan cuántos usuarios pueden iniciar sesión por día"
+        }
       ],
-      "respuesta": ["A", "B"],
+      "respuesta": [
+        "A",
+        "B"
+      ],
       "explicacion": {
         "en": "Google Cloud has two quota types: rate quotas (for example, API requests per minute, which reset after the interval) and allocation quotas (for example, number of VMs or CPUs in a region, which persist until you release resources or get an increase). C and D are not real quota categories: billing is never blocked by a 'payment quota', and sign-ins are not quota-limited this way.",
         "es": "Google Cloud tiene dos tipos de cuota: las de tasa (por ejemplo, solicitudes de API por minuto, que se restablecen al terminar el intervalo) y las de asignación (por ejemplo, cantidad de VMs o CPUs en una región, que persisten hasta que liberas recursos u obtienes un aumento). C y D no son categorías reales de cuotas: la facturación nunca se bloquea por una 'cuota de pago' y los inicios de sesión no se limitan por cuotas de esta manera."
@@ -128,9 +219,13 @@
     {
       "id": "ref1-006",
       "curso": null,
-      "servicios": ["cloud-monitoring"],
+      "servicios": [
+        "cloud-monitoring"
+      ],
       "seccion_blueprint": 1,
-      "subtopicos": ["1.1-observability-setup"],
+      "subtopicos": [
+        "1.1-observability-setup"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -138,12 +233,26 @@
         "es": "En Cloud Monitoring, ¿qué es un permiso de métricas (metrics scope)?"
       },
       "opciones": [
-        { "en": "A firewall rule that restricts which VMs can send metrics", "es": "Una regla de firewall que restringe qué VMs pueden enviar métricas" },
-        { "en": "The list of projects whose metrics a scoping project can view and monitor together", "es": "La lista de proyectos cuyas métricas un proyecto de alcance (scoping project) puede ver y supervisar en conjunto" },
-        { "en": "An IAM role that grants read access to dashboards", "es": "Un rol de IAM que otorga acceso de lectura a los paneles" },
-        { "en": "The retention period configured for metric data", "es": "El período de retención configurado para los datos de métricas" }
+        {
+          "en": "A firewall rule that restricts which VMs can send metrics",
+          "es": "Una regla de firewall que restringe qué VMs pueden enviar métricas"
+        },
+        {
+          "en": "The list of projects whose metrics a scoping project can view and monitor together",
+          "es": "La lista de proyectos cuyas métricas un proyecto de alcance (scoping project) puede ver y supervisar en conjunto"
+        },
+        {
+          "en": "An IAM role that grants read access to dashboards",
+          "es": "Un rol de IAM que otorga acceso de lectura a los paneles"
+        },
+        {
+          "en": "The retention period configured for metric data",
+          "es": "El período de retención configurado para los datos de métricas"
+        }
       ],
-      "respuesta": ["B"],
+      "respuesta": [
+        "B"
+      ],
       "explicacion": {
         "en": "A metrics scope defines the set of projects whose metric data a scoping project can chart and monitor; adding projects to a scope enables multi-project observability from a single place. A confuses monitoring with networking, C describes IAM roles like roles/monitoring.viewer (related but different concept), and D describes metric retention, which is fixed by Cloud Monitoring, not by the scope.",
         "es": "Un permiso de métricas define el conjunto de proyectos cuyas métricas un proyecto de alcance puede graficar y supervisar; agregar proyectos a un scope habilita la observabilidad multiproyecto desde un solo lugar. A confunde supervisión con redes, C describe roles de IAM como roles/monitoring.viewer (relacionado, pero es otro concepto) y D describe la retención de métricas, que la fija Cloud Monitoring, no el scope."
@@ -153,9 +262,14 @@
     {
       "id": "ref1-007",
       "curso": null,
-      "servicios": ["compute-engine", "gcloud-cli"],
+      "servicios": [
+        "compute-engine",
+        "gcloud-cli"
+      ],
       "seccion_blueprint": 1,
-      "subtopicos": ["1.1-networking-availability"],
+      "subtopicos": [
+        "1.1-networking-availability"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -163,12 +277,26 @@
         "es": "Antes de planificar una implementación, ¿por qué deberías revisar la documentación de ubicaciones de Google Cloud para cada producto que piensas usar?"
       },
       "opciones": [
-        { "en": "Because every Google Cloud product must be manually installed in each region before use", "es": "Porque cada producto de Google Cloud debe instalarse manualmente en cada región antes de usarlo" },
-        { "en": "Because prices are identical in all regions, so location does not matter", "es": "Porque los precios son idénticos en todas las regiones, así que la ubicación no importa" },
-        { "en": "Because not all products, machine types, and features are available in every region and zone", "es": "Porque no todos los productos, tipos de máquina y funciones están disponibles en todas las regiones y zonas" },
-        { "en": "Because Google requires written approval to deploy outside your home region", "es": "Porque Google exige una aprobación escrita para implementar fuera de tu región de origen" }
+        {
+          "en": "Because every Google Cloud product must be manually installed in each region before use",
+          "es": "Porque cada producto de Google Cloud debe instalarse manualmente en cada región antes de usarlo"
+        },
+        {
+          "en": "Because prices are identical in all regions, so location does not matter",
+          "es": "Porque los precios son idénticos en todas las regiones, así que la ubicación no importa"
+        },
+        {
+          "en": "Because not all products, machine types, and features are available in every region and zone",
+          "es": "Porque no todos los productos, tipos de máquina y funciones están disponibles en todas las regiones y zonas"
+        },
+        {
+          "en": "Because Google requires written approval to deploy outside your home region",
+          "es": "Porque Google exige una aprobación escrita para implementar fuera de tu región de origen"
+        }
       ],
-      "respuesta": ["C"],
+      "respuesta": [
+        "C"
+      ],
       "explicacion": {
         "en": "Product, machine type, GPU, and feature availability varies by region and zone, so verifying availability up front prevents planning a solution that cannot be deployed where you need it. A is false (services are already available where offered), B is false (pricing varies by region), and D is false (no such approval exists, although org policies can restrict locations).",
         "es": "La disponibilidad de productos, tipos de máquina, GPUs y funciones varía por región y zona, así que verificarla desde el inicio evita planificar una solución que no se puede implementar donde la necesitas. A es falsa (los servicios ya están disponibles donde se ofrecen), B es falsa (los precios varían por región) y D es falsa (no existe tal aprobación, aunque las políticas de organización pueden restringir ubicaciones)."
@@ -178,9 +306,14 @@
     {
       "id": "ref1-008",
       "curso": null,
-      "servicios": ["billing", "iam"],
+      "servicios": [
+        "billing",
+        "iam"
+      ],
       "seccion_blueprint": 1,
-      "subtopicos": ["1.2-billing-accounts"],
+      "subtopicos": [
+        "1.2-billing-accounts"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -188,12 +321,26 @@
         "es": "¿Qué rol de IAM le da a un usuario control total sobre una cuenta de facturación de Cloud, incluida la administración de la configuración de pagos y la vinculación de proyectos?"
       },
       "opciones": [
-        { "en": "Billing Account Viewer", "es": "Billing Account Viewer (visualizador de cuentas de facturación)" },
-        { "en": "Billing Account Administrator", "es": "Billing Account Administrator (administrador de cuentas de facturación)" },
-        { "en": "Project Owner", "es": "Project Owner (propietario del proyecto)" },
-        { "en": "Billing Account User", "es": "Billing Account User (usuario de cuentas de facturación)" }
+        {
+          "en": "Billing Account Viewer",
+          "es": "Billing Account Viewer (visualizador de cuentas de facturación)"
+        },
+        {
+          "en": "Billing Account Administrator",
+          "es": "Billing Account Administrator (administrador de cuentas de facturación)"
+        },
+        {
+          "en": "Project Owner",
+          "es": "Project Owner (propietario del proyecto)"
+        },
+        {
+          "en": "Billing Account User",
+          "es": "Billing Account User (usuario de cuentas de facturación)"
+        }
       ],
-      "respuesta": ["B"],
+      "respuesta": [
+        "B"
+      ],
       "explicacion": {
         "en": "Billing Account Administrator (roles/billing.admin) manages the whole billing account: payment settings, user access, budgets, exports, and project links. Billing Account Viewer only sees cost and transaction information, Project Owner controls a project but not the billing account itself, and Billing Account User can only link projects to the billing account.",
         "es": "Billing Account Administrator (roles/billing.admin) administra toda la cuenta de facturación: configuración de pagos, accesos de usuarios, presupuestos, exportaciones y vínculos de proyectos. Billing Account Viewer solo ve información de costos y transacciones, Project Owner controla un proyecto pero no la cuenta de facturación en sí, y Billing Account User solo puede vincular proyectos a la cuenta de facturación."
@@ -203,9 +350,13 @@
     {
       "id": "ref1-009",
       "curso": null,
-      "servicios": ["gemini-cloud-assist"],
+      "servicios": [
+        "gemini-cloud-assist"
+      ],
       "seccion_blueprint": 1,
-      "subtopicos": ["1.1-asset-inventory-gemini"],
+      "subtopicos": [
+        "1.1-asset-inventory-gemini"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -213,12 +364,26 @@
         "es": "¿Qué es Gemini Cloud Assist?"
       },
       "opciones": [
-        { "en": "An AI-powered assistant in the Google Cloud console that helps you understand, manage, troubleshoot, and optimize your Google Cloud resources using natural language", "es": "Un asistente con IA en la consola de Google Cloud que te ayuda a entender, administrar, diagnosticar y optimizar tus recursos de Google Cloud usando lenguaje natural" },
-        { "en": "A managed service for training your own large language models", "es": "Un servicio administrado para entrenar tus propios modelos de lenguaje grandes" },
-        { "en": "A code editor for writing Terraform configurations", "es": "Un editor de código para escribir configuraciones de Terraform" },
-        { "en": "A replacement for IAM that grants permissions using natural language", "es": "Un reemplazo de IAM que otorga permisos usando lenguaje natural" }
+        {
+          "en": "An AI-powered assistant in the Google Cloud console that helps you understand, manage, troubleshoot, and optimize your Google Cloud resources using natural language",
+          "es": "Un asistente con IA en la consola de Google Cloud que te ayuda a entender, administrar, diagnosticar y optimizar tus recursos de Google Cloud usando lenguaje natural"
+        },
+        {
+          "en": "A managed service for training your own large language models",
+          "es": "Un servicio administrado para entrenar tus propios modelos de lenguaje grandes"
+        },
+        {
+          "en": "A code editor for writing Terraform configurations",
+          "es": "Un editor de código para escribir configuraciones de Terraform"
+        },
+        {
+          "en": "A replacement for IAM that grants permissions using natural language",
+          "es": "Un reemplazo de IAM que otorga permisos usando lenguaje natural"
+        }
       ],
-      "respuesta": ["A"],
+      "respuesta": [
+        "A"
+      ],
       "explicacion": {
         "en": "Gemini Cloud Assist provides AI assistance across the console: you can ask about your deployed resources, get cost and configuration insights, troubleshoot issues, and receive design guidance. B describes Vertex AI training capabilities, C describes an IDE (Gemini can help write Terraform, but it is not an editor), and D is false: IAM remains the authorization system.",
         "es": "Gemini Cloud Assist ofrece asistencia con IA en toda la consola: puedes preguntar por tus recursos implementados, obtener información de costos y configuración, diagnosticar problemas y recibir orientación de diseño. B describe capacidades de entrenamiento de Vertex AI, C describe un IDE (Gemini puede ayudar a escribir Terraform, pero no es un editor) y D es falsa: IAM sigue siendo el sistema de autorización."
@@ -228,9 +393,13 @@
     {
       "id": "ref1-010",
       "curso": null,
-      "servicios": ["resource-manager"],
+      "servicios": [
+        "resource-manager"
+      ],
       "seccion_blueprint": 1,
-      "subtopicos": ["1.1-resource-hierarchy"],
+      "subtopicos": [
+        "1.1-resource-hierarchy"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -238,12 +407,26 @@
         "es": "En el servicio de políticas de la organización, ¿cuál es la diferencia entre una restricción booleana y una restricción de lista?"
       },
       "opciones": [
-        { "en": "Boolean constraints apply only to projects; list constraints apply only to organizations", "es": "Las restricciones booleanas aplican solo a proyectos; las de lista, solo a organizaciones" },
-        { "en": "A boolean constraint is enforced or not enforced; a list constraint allows or denies a set of values", "es": "Una restricción booleana se aplica o no se aplica; una restricción de lista permite o rechaza un conjunto de valores" },
-        { "en": "Boolean constraints are free; list constraints require a paid tier", "es": "Las restricciones booleanas son gratuitas; las de lista requieren un nivel de pago" },
-        { "en": "Boolean constraints affect IAM roles; list constraints affect firewall rules", "es": "Las restricciones booleanas afectan roles de IAM; las de lista, reglas de firewall" }
+        {
+          "en": "Boolean constraints apply only to projects; list constraints apply only to organizations",
+          "es": "Las restricciones booleanas aplican solo a proyectos; las de lista, solo a organizaciones"
+        },
+        {
+          "en": "A boolean constraint is enforced or not enforced; a list constraint allows or denies a set of values",
+          "es": "Una restricción booleana se aplica o no se aplica; una restricción de lista permite o rechaza un conjunto de valores"
+        },
+        {
+          "en": "Boolean constraints are free; list constraints require a paid tier",
+          "es": "Las restricciones booleanas son gratuitas; las de lista requieren un nivel de pago"
+        },
+        {
+          "en": "Boolean constraints affect IAM roles; list constraints affect firewall rules",
+          "es": "Las restricciones booleanas afectan roles de IAM; las de lista, reglas de firewall"
+        }
       ],
-      "respuesta": ["B"],
+      "respuesta": [
+        "B"
+      ],
       "explicacion": {
         "en": "Boolean constraints (like compute.disableSerialPortAccess) are simply enforced or not; list constraints (like gcp.resourceLocations or compute.vmExternalIpAccess) accept lists of allowed or denied values. A is false: both types can be set at organization, folder, or project level. C is false: the Organization Policy Service has no paid tier for constraint types. D is false: constraints govern resource configurations, not IAM roles or firewall rules specifically.",
         "es": "Las restricciones booleanas (como compute.disableSerialPortAccess) simplemente se aplican o no; las de lista (como gcp.resourceLocations o compute.vmExternalIpAccess) aceptan listas de valores permitidos o rechazados. A es falsa: ambos tipos pueden fijarse a nivel de organización, carpeta o proyecto. C es falsa: el servicio de políticas de la organización no tiene niveles de pago por tipo de restricción. D es falsa: las restricciones gobiernan configuraciones de recursos, no roles de IAM ni reglas de firewall específicamente."
@@ -253,9 +436,13 @@
     {
       "id": "ref1-011",
       "curso": null,
-      "servicios": ["billing"],
+      "servicios": [
+        "billing"
+      ],
       "seccion_blueprint": 1,
-      "subtopicos": ["1.2-budgets-alerts"],
+      "subtopicos": [
+        "1.2-budgets-alerts"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -263,12 +450,26 @@
         "es": "¿Qué hace un presupuesto de facturación de Cloud cuando el gasto real alcanza el 100% del monto presupuestado?"
       },
       "opciones": [
-        { "en": "It automatically shuts down all resources in the linked projects", "es": "Apaga automáticamente todos los recursos de los proyectos vinculados" },
-        { "en": "It unlinks the projects from the billing account", "es": "Desvincula los proyectos de la cuenta de facturación" },
-        { "en": "It blocks the creation of new resources until the next billing cycle", "es": "Bloquea la creación de recursos nuevos hasta el próximo ciclo de facturación" },
-        { "en": "It sends alert notifications, but does not stop or limit any spending", "es": "Envía notificaciones de alerta, pero no detiene ni limita ningún gasto" }
+        {
+          "en": "It automatically shuts down all resources in the linked projects",
+          "es": "Apaga automáticamente todos los recursos de los proyectos vinculados"
+        },
+        {
+          "en": "It unlinks the projects from the billing account",
+          "es": "Desvincula los proyectos de la cuenta de facturación"
+        },
+        {
+          "en": "It blocks the creation of new resources until the next billing cycle",
+          "es": "Bloquea la creación de recursos nuevos hasta el próximo ciclo de facturación"
+        },
+        {
+          "en": "It sends alert notifications, but does not stop or limit any spending",
+          "es": "Envía notificaciones de alerta, pero no detiene ni limita ningún gasto"
+        }
       ],
-      "respuesta": ["D"],
+      "respuesta": [
+        "D"
+      ],
       "explicacion": {
         "en": "Budgets only notify: by default, email alerts go to Billing Account Administrators and Users when thresholds (50%, 90%, 100% by default) are crossed. They never cap spending or stop resources on their own. A, B, and C describe automated cost-control actions that you would have to build yourself, for example with programmatic budget notifications via Pub/Sub.",
         "es": "Los presupuestos solo notifican: de forma predeterminada, se envían alertas por correo a los administradores y usuarios de la cuenta de facturación cuando se cruzan los umbrales (50%, 90% y 100% por defecto). Nunca limitan el gasto ni detienen recursos por sí solos. A, B y C describen acciones automatizadas de control de costos que tendrías que construir tú mismo, por ejemplo con notificaciones programáticas de presupuesto vía Pub/Sub."
@@ -278,9 +479,13 @@
     {
       "id": "ref1-012",
       "curso": null,
-      "servicios": ["identity-federation"],
+      "servicios": [
+        "identity-federation"
+      ],
       "seccion_blueprint": 1,
-      "subtopicos": ["1.1-workforce-identity-federation"],
+      "subtopicos": [
+        "1.1-workforce-identity-federation"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -288,12 +493,26 @@
         "es": "¿Cuál es la diferencia clave entre Workforce Identity Federation y Workload Identity Federation?"
       },
       "opciones": [
-        { "en": "Workforce is for human users signing in with an external IdP; Workload is for applications and services authenticating without service account keys", "es": "Workforce es para usuarios humanos que inician sesión con un IdP externo; Workload es para aplicaciones y servicios que se autentican sin claves de cuentas de servicio" },
-        { "en": "Workforce is free; Workload requires a Google Workspace license", "es": "Workforce es gratuito; Workload requiere una licencia de Google Workspace" },
-        { "en": "Workforce works only with SAML; Workload works only with OIDC", "es": "Workforce funciona solo con SAML; Workload funciona solo con OIDC" },
-        { "en": "They are the same feature with two different names", "es": "Son la misma función con dos nombres distintos" }
+        {
+          "en": "Workforce is for human users signing in with an external IdP; Workload is for applications and services authenticating without service account keys",
+          "es": "Workforce es para usuarios humanos que inician sesión con un IdP externo; Workload es para aplicaciones y servicios que se autentican sin claves de cuentas de servicio"
+        },
+        {
+          "en": "Workforce is free; Workload requires a Google Workspace license",
+          "es": "Workforce es gratuito; Workload requiere una licencia de Google Workspace"
+        },
+        {
+          "en": "Workforce works only with SAML; Workload works only with OIDC",
+          "es": "Workforce funciona solo con SAML; Workload funciona solo con OIDC"
+        },
+        {
+          "en": "They are the same feature with two different names",
+          "es": "Son la misma función con dos nombres distintos"
+        }
       ],
-      "respuesta": ["A"],
+      "respuesta": [
+        "A"
+      ],
       "explicacion": {
         "en": "Workforce Identity Federation federates human identities (employees, partners) from an external IdP; Workload Identity Federation lets external workloads (AWS, Azure, on-premises apps, CI/CD) exchange their own credentials for Google Cloud access without service account keys. B is false (licensing is unrelated), C is false (workforce supports both SAML and OIDC), and D is false: they use separate pool types (workforce pools vs. workload identity pools).",
         "es": "Workforce Identity Federation federa identidades humanas (empleados, socios) desde un IdP externo; Workload Identity Federation permite que cargas de trabajo externas (AWS, Azure, apps on-premises, CI/CD) intercambien sus propias credenciales por acceso a Google Cloud sin claves de cuentas de servicio. B es falsa (las licencias no tienen relación), C es falsa (workforce admite SAML y OIDC) y D es falsa: usan tipos de pools separados (workforce pools vs. workload identity pools)."
@@ -303,9 +522,14 @@
     {
       "id": "ref1-013",
       "curso": null,
-      "servicios": ["billing", "bigquery"],
+      "servicios": [
+        "billing",
+        "bigquery"
+      ],
       "seccion_blueprint": 1,
-      "subtopicos": ["1.2-billing-exports"],
+      "subtopicos": [
+        "1.2-billing-exports"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -313,12 +537,26 @@
         "es": "¿Cuál es la forma recomendada de analizar de manera programática, con SQL, los datos detallados de facturación de Google Cloud?"
       },
       "opciones": [
-        { "en": "Download monthly PDF invoices and parse them with a script", "es": "Descargar las facturas mensuales en PDF y procesarlas con un script" },
-        { "en": "Enable Cloud Billing export to BigQuery and query the exported tables", "es": "Habilitar la exportación de facturación de Cloud a BigQuery y consultar las tablas exportadas" },
-        { "en": "Take screenshots of the billing reports page every day", "es": "Tomar capturas de pantalla de la página de informes de facturación todos los días" },
-        { "en": "Query the Cloud Asset Inventory API, which contains all cost data", "es": "Consultar la API de Cloud Asset Inventory, que contiene todos los datos de costos" }
+        {
+          "en": "Download monthly PDF invoices and parse them with a script",
+          "es": "Descargar las facturas mensuales en PDF y procesarlas con un script"
+        },
+        {
+          "en": "Enable Cloud Billing export to BigQuery and query the exported tables",
+          "es": "Habilitar la exportación de facturación de Cloud a BigQuery y consultar las tablas exportadas"
+        },
+        {
+          "en": "Take screenshots of the billing reports page every day",
+          "es": "Tomar capturas de pantalla de la página de informes de facturación todos los días"
+        },
+        {
+          "en": "Query the Cloud Asset Inventory API, which contains all cost data",
+          "es": "Consultar la API de Cloud Asset Inventory, que contiene todos los datos de costos"
+        }
       ],
-      "respuesta": ["B"],
+      "respuesta": [
+        "B"
+      ],
       "explicacion": {
         "en": "Cloud Billing export to BigQuery automatically writes granular usage and cost data to a dataset you own, ready for SQL analysis and dashboards. A and C are manual, error-prone, and lack granularity. D is wrong because Cloud Asset Inventory tracks resource and policy metadata, not costs.",
         "es": "La exportación de facturación de Cloud a BigQuery escribe automáticamente datos granulares de uso y costo en un dataset de tu propiedad, listos para análisis con SQL y paneles. A y C son manuales, propensos a errores y sin granularidad. D es incorrecta porque Cloud Asset Inventory rastrea metadatos de recursos y políticas, no costos."
@@ -328,9 +566,13 @@
     {
       "id": "ref1-014",
       "curso": null,
-      "servicios": ["asset-inventory"],
+      "servicios": [
+        "asset-inventory"
+      ],
       "seccion_blueprint": 1,
-      "subtopicos": ["1.1-asset-inventory-gemini"],
+      "subtopicos": [
+        "1.1-asset-inventory-gemini"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -338,12 +580,26 @@
         "es": "Necesitas encontrar rápidamente todas las instancias de Compute Engine que existen en todos los proyectos de tu organización. ¿Qué servicio está diseñado para esto?"
       },
       "opciones": [
-        { "en": "Cloud Asset Inventory resource search", "es": "La búsqueda de recursos de Cloud Asset Inventory" },
-        { "en": "Cloud Logging", "es": "Cloud Logging" },
-        { "en": "Cloud Monitoring uptime checks", "es": "Las verificaciones de tiempo de actividad de Cloud Monitoring" },
-        { "en": "Cloud DNS", "es": "Cloud DNS" }
+        {
+          "en": "Cloud Asset Inventory resource search",
+          "es": "La búsqueda de recursos de Cloud Asset Inventory"
+        },
+        {
+          "en": "Cloud Logging",
+          "es": "Cloud Logging"
+        },
+        {
+          "en": "Cloud Monitoring uptime checks",
+          "es": "Las verificaciones de tiempo de actividad de Cloud Monitoring"
+        },
+        {
+          "en": "Cloud DNS",
+          "es": "Cloud DNS"
+        }
       ],
-      "respuesta": ["A"],
+      "respuesta": [
+        "A"
+      ],
       "explicacion": {
         "en": "Cloud Asset Inventory lets you search resources across an organization, folder, or project with queries like asset type = compute.googleapis.com/Instance, without visiting each project. Cloud Logging shows log entries, not a current inventory; uptime checks test endpoint availability; Cloud DNS resolves names. None of those enumerate resources org-wide.",
         "es": "Cloud Asset Inventory permite buscar recursos en toda una organización, carpeta o proyecto con consultas como tipo de asset = compute.googleapis.com/Instance, sin visitar cada proyecto. Cloud Logging muestra entradas de registro, no un inventario actual; las verificaciones de tiempo de actividad prueban la disponibilidad de endpoints; Cloud DNS resuelve nombres. Ninguno de esos enumera recursos a nivel de organización."
@@ -353,9 +609,14 @@
     {
       "id": "ref1-015",
       "curso": null,
-      "servicios": ["quotas-apis", "compute-engine"],
+      "servicios": [
+        "quotas-apis",
+        "compute-engine"
+      ],
       "seccion_blueprint": 1,
-      "subtopicos": ["1.1-apis-quotas"],
+      "subtopicos": [
+        "1.1-apis-quotas"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -363,12 +624,26 @@
         "es": "¿Qué pasa cuando intentas crear una VM nueva pero tu proyecto agotó su cuota de asignación de CPUs en esa región?"
       },
       "opciones": [
-        { "en": "The VM is created but runs at reduced performance", "es": "La VM se crea pero funciona con rendimiento reducido" },
-        { "en": "The request fails with a quota error until you free resources or request a quota increase", "es": "La solicitud falla con un error de cuota hasta que liberes recursos o solicites un aumento de cuota" },
-        { "en": "Google automatically raises the quota and bills you extra", "es": "Google aumenta automáticamente la cuota y te cobra un cargo adicional" },
-        { "en": "The VM is created in a different region automatically", "es": "La VM se crea automáticamente en otra región" }
+        {
+          "en": "The VM is created but runs at reduced performance",
+          "es": "La VM se crea pero funciona con rendimiento reducido"
+        },
+        {
+          "en": "The request fails with a quota error until you free resources or request a quota increase",
+          "es": "La solicitud falla con un error de cuota hasta que liberes recursos o solicites un aumento de cuota"
+        },
+        {
+          "en": "Google automatically raises the quota and bills you extra",
+          "es": "Google aumenta automáticamente la cuota y te cobra un cargo adicional"
+        },
+        {
+          "en": "The VM is created in a different region automatically",
+          "es": "La VM se crea automáticamente en otra región"
+        }
       ],
-      "respuesta": ["B"],
+      "respuesta": [
+        "B"
+      ],
       "explicacion": {
         "en": "Allocation quotas cap the total resources you can hold; when exhausted, creation requests fail with a QUOTA_EXCEEDED error until you delete resources or your quota increase request is approved. A is false (quotas block creation, they never throttle running VMs), C is false (quota increases must be requested and approved), and D is false (Google never relocates your workloads).",
         "es": "Las cuotas de asignación limitan el total de recursos que puedes tener; al agotarse, las solicitudes de creación fallan con un error QUOTA_EXCEEDED hasta que borres recursos o se apruebe tu solicitud de aumento. A es falsa (las cuotas bloquean la creación, nunca degradan VMs en ejecución), C es falsa (los aumentos de cuota deben solicitarse y aprobarse) y D es falsa (Google nunca reubica tus cargas de trabajo)."
@@ -378,9 +653,15 @@
     {
       "id": "ref1-016",
       "curso": null,
-      "servicios": ["resource-manager", "cloud-identity"],
+      "servicios": [
+        "resource-manager",
+        "cloud-identity"
+      ],
       "seccion_blueprint": 1,
-      "subtopicos": ["1.1-resource-hierarchy", "1.1-cloud-identity"],
+      "subtopicos": [
+        "1.1-resource-hierarchy",
+        "1.1-cloud-identity"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -388,12 +669,26 @@
         "es": "¿Qué necesitas para obtener un recurso de Organización en Google Cloud?"
       },
       "opciones": [
-        { "en": "A Google Workspace or Cloud Identity account associated with your domain", "es": "Una cuenta de Google Workspace o Cloud Identity asociada a tu dominio" },
-        { "en": "At least 50 active projects", "es": "Al menos 50 proyectos activos" },
-        { "en": "A signed Enterprise Support contract", "es": "Un contrato firmado de soporte Enterprise" },
-        { "en": "A dedicated interconnect to a Google data center", "es": "Una interconexión dedicada a un centro de datos de Google" }
+        {
+          "en": "A Google Workspace or Cloud Identity account associated with your domain",
+          "es": "Una cuenta de Google Workspace o Cloud Identity asociada a tu dominio"
+        },
+        {
+          "en": "At least 50 active projects",
+          "es": "Al menos 50 proyectos activos"
+        },
+        {
+          "en": "A signed Enterprise Support contract",
+          "es": "Un contrato firmado de soporte Enterprise"
+        },
+        {
+          "en": "A dedicated interconnect to a Google data center",
+          "es": "Una interconexión dedicada a un centro de datos de Google"
+        }
       ],
-      "respuesta": ["A"],
+      "respuesta": [
+        "A"
+      ],
       "explicacion": {
         "en": "The Organization resource is provisioned for Google Workspace and Cloud Identity customers; Cloud Identity Free lets a company without Workspace get an organization for its domain. B, C, and D are unrelated requirements: organizations are available regardless of project count, support level, or network connectivity.",
         "es": "El recurso de Organización se aprovisiona para clientes de Google Workspace y Cloud Identity; Cloud Identity Free permite que una empresa sin Workspace obtenga una organización para su dominio. B, C y D son requisitos sin relación: las organizaciones están disponibles sin importar la cantidad de proyectos, el nivel de soporte o la conectividad de red."
@@ -403,9 +698,14 @@
     {
       "id": "ref1-017",
       "curso": null,
-      "servicios": ["billing", "iam"],
+      "servicios": [
+        "billing",
+        "iam"
+      ],
       "seccion_blueprint": 1,
-      "subtopicos": ["1.2-billing-accounts"],
+      "subtopicos": [
+        "1.2-billing-accounts"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -413,12 +713,26 @@
         "es": "Tu analista de finanzas necesita ver los costos y transacciones de una cuenta de facturación, pero no debe poder cambiar nada. ¿Qué rol deberías otorgarle?"
       },
       "opciones": [
-        { "en": "Billing Account Administrator", "es": "Billing Account Administrator" },
-        { "en": "Billing Account User", "es": "Billing Account User" },
-        { "en": "Billing Account Viewer", "es": "Billing Account Viewer" },
-        { "en": "Organization Administrator", "es": "Organization Administrator" }
+        {
+          "en": "Billing Account Administrator",
+          "es": "Billing Account Administrator"
+        },
+        {
+          "en": "Billing Account User",
+          "es": "Billing Account User"
+        },
+        {
+          "en": "Billing Account Viewer",
+          "es": "Billing Account Viewer"
+        },
+        {
+          "en": "Organization Administrator",
+          "es": "Organization Administrator"
+        }
       ],
-      "respuesta": ["C"],
+      "respuesta": [
+        "C"
+      ],
       "explicacion": {
         "en": "Billing Account Viewer (roles/billing.viewer) grants read-only access to billing account cost information and transactions, which fits the least-privilege requirement. Billing Account Administrator can modify everything, Billing Account User is for linking projects (and does not include viewing detailed costs), and Organization Administrator manages the org's IAM, far exceeding what is needed.",
         "es": "Billing Account Viewer (roles/billing.viewer) otorga acceso de solo lectura a la información de costos y transacciones de la cuenta de facturación, lo que cumple el principio de privilegio mínimo. Billing Account Administrator puede modificar todo, Billing Account User sirve para vincular proyectos (y no incluye ver costos detallados) y Organization Administrator administra el IAM de la organización, muy por encima de lo necesario."
@@ -428,9 +742,14 @@
     {
       "id": "ref1-018",
       "curso": null,
-      "servicios": ["cloud-monitoring", "cloud-logging"],
+      "servicios": [
+        "cloud-monitoring",
+        "cloud-logging"
+      ],
       "seccion_blueprint": 1,
-      "subtopicos": ["1.1-observability-setup"],
+      "subtopicos": [
+        "1.1-observability-setup"
+      ],
       "nivel": "principiante",
       "tipo": "multiple",
       "pregunta": {
@@ -438,12 +757,27 @@
         "es": "¿Cuáles DOS productos forman parte de Google Cloud Observability?"
       },
       "opciones": [
-        { "en": "Cloud Monitoring", "es": "Cloud Monitoring" },
-        { "en": "Cloud Logging", "es": "Cloud Logging" },
-        { "en": "Cloud Storage", "es": "Cloud Storage" },
-        { "en": "Cloud DNS", "es": "Cloud DNS" }
+        {
+          "en": "Cloud Monitoring",
+          "es": "Cloud Monitoring"
+        },
+        {
+          "en": "Cloud Logging",
+          "es": "Cloud Logging"
+        },
+        {
+          "en": "Cloud Storage",
+          "es": "Cloud Storage"
+        },
+        {
+          "en": "Cloud DNS",
+          "es": "Cloud DNS"
+        }
       ],
-      "respuesta": ["A", "B"],
+      "respuesta": [
+        "A",
+        "B"
+      ],
       "explicacion": {
         "en": "Google Cloud Observability (formerly the Stackdriver / operations suite) includes Cloud Monitoring, Cloud Logging, and related tools such as Cloud Trace and Cloud Profiler for metrics, logs, and diagnostics. Cloud Storage is an object storage service and Cloud DNS is a managed DNS service; neither belongs to the observability suite.",
         "es": "Google Cloud Observability (antes Stackdriver / suite de operaciones) incluye Cloud Monitoring, Cloud Logging y herramientas relacionadas como Cloud Trace y Cloud Profiler para métricas, registros y diagnósticos. Cloud Storage es un servicio de almacenamiento de objetos y Cloud DNS es un servicio administrado de DNS; ninguno pertenece a la suite de observabilidad."
@@ -453,9 +787,13 @@
     {
       "id": "ref1-019",
       "curso": null,
-      "servicios": ["compute-engine"],
+      "servicios": [
+        "compute-engine"
+      ],
       "seccion_blueprint": 1,
-      "subtopicos": ["1.1-networking-availability"],
+      "subtopicos": [
+        "1.1-networking-availability"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -463,12 +801,26 @@
         "es": "¿Cuál es la relación entre regiones y zonas en Google Cloud?"
       },
       "opciones": [
-        { "en": "A zone contains multiple regions distributed worldwide", "es": "Una zona contiene varias regiones distribuidas por el mundo" },
-        { "en": "A region is an independent geographic area that contains multiple zones, which are isolated deployment areas within it", "es": "Una región es un área geográfica independiente que contiene varias zonas, que son áreas de implementación aisladas dentro de ella" },
-        { "en": "Regions and zones are interchangeable names for the same concept", "es": "Región y zona son nombres intercambiables para el mismo concepto" },
-        { "en": "A region is a single data center building and a zone is a rack inside it", "es": "Una región es un solo edificio de centro de datos y una zona es un rack dentro de él" }
+        {
+          "en": "A zone contains multiple regions distributed worldwide",
+          "es": "Una zona contiene varias regiones distribuidas por el mundo"
+        },
+        {
+          "en": "A region is an independent geographic area that contains multiple zones, which are isolated deployment areas within it",
+          "es": "Una región es un área geográfica independiente que contiene varias zonas, que son áreas de implementación aisladas dentro de ella"
+        },
+        {
+          "en": "Regions and zones are interchangeable names for the same concept",
+          "es": "Región y zona son nombres intercambiables para el mismo concepto"
+        },
+        {
+          "en": "A region is a single data center building and a zone is a rack inside it",
+          "es": "Una región es un solo edificio de centro de datos y una zona es un rack dentro de él"
+        }
       ],
-      "respuesta": ["B"],
+      "respuesta": [
+        "B"
+      ],
       "explicacion": {
         "en": "Regions are geographic areas (like us-central1) composed of three or more zones (us-central1-a, -b, -c...); distributing resources across zones protects against zone failures, and across regions against regional failures. A inverts the hierarchy, C is false because zonal and regional resources behave differently, and D misrepresents the physical model: zones can span multiple data center facilities.",
         "es": "Las regiones son áreas geográficas (como us-central1) compuestas por tres o más zonas (us-central1-a, -b, -c...); distribuir recursos entre zonas protege contra fallas de zona, y entre regiones contra fallas regionales. A invierte la jerarquía, C es falsa porque los recursos zonales y regionales se comportan distinto, y D tergiversa el modelo físico: una zona puede abarcar varias instalaciones de centro de datos."
@@ -478,9 +830,13 @@
     {
       "id": "ref1-020",
       "curso": null,
-      "servicios": ["billing"],
+      "servicios": [
+        "billing"
+      ],
       "seccion_blueprint": 1,
-      "subtopicos": ["1.2-billing-accounts"],
+      "subtopicos": [
+        "1.2-billing-accounts"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -488,17 +844,911 @@
         "es": "¿A cuántas cuentas de facturación de Cloud puede estar vinculado un proyecto de Google Cloud al mismo tiempo?"
       },
       "opciones": [
-        { "en": "Exactly one", "es": "Exactamente una" },
-        { "en": "Up to two, one primary and one backup", "es": "Hasta dos: una principal y una de respaldo" },
-        { "en": "Unlimited, and costs are split evenly", "es": "Ilimitadas, y los costos se dividen en partes iguales" },
-        { "en": "None; billing is always configured per organization", "es": "Ninguna; la facturación siempre se configura por organización" }
+        {
+          "en": "Exactly one",
+          "es": "Exactamente una"
+        },
+        {
+          "en": "Up to two, one primary and one backup",
+          "es": "Hasta dos: una principal y una de respaldo"
+        },
+        {
+          "en": "Unlimited, and costs are split evenly",
+          "es": "Ilimitadas, y los costos se dividen en partes iguales"
+        },
+        {
+          "en": "None; billing is always configured per organization",
+          "es": "Ninguna; la facturación siempre se configura por organización"
+        }
       ],
-      "respuesta": ["A"],
+      "respuesta": [
+        "A"
+      ],
       "explicacion": {
         "en": "A project is linked to exactly one billing account at a time, which pays for all of that project's usage; an organization, however, can have many billing accounts, each paying for different projects. B and C describe split-billing mechanisms that do not exist at the project level, and D is false: billing accounts link to projects, not to organizations.",
         "es": "Un proyecto está vinculado a exactamente una cuenta de facturación a la vez, la cual paga todo el uso de ese proyecto; una organización, en cambio, puede tener muchas cuentas de facturación, cada una pagando proyectos distintos. B y C describen mecanismos de facturación dividida que no existen a nivel de proyecto, y D es falsa: las cuentas de facturación se vinculan a proyectos, no a organizaciones."
       },
       "doc": "https://cloud.google.com/billing/docs/concepts"
+    },
+    {
+      "id": "ref1-021",
+      "curso": null,
+      "servicios": [
+        "asset-inventory",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-asset-inventory-gemini"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You must list every Cloud Storage bucket that exists in any project under your organization. Which command does this in a single call?",
+        "es": "Debes listar todos los buckets de Cloud Storage que existen en cualquier proyecto de tu organización. ¿Qué comando lo hace en una sola llamada?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud asset search-all-resources --scope=organizations/ORG_ID --asset-types=storage.googleapis.com/Bucket",
+          "es": "gcloud asset search-all-resources --scope=organizations/ORG_ID --asset-types=storage.googleapis.com/Bucket"
+        },
+        {
+          "en": "gcloud storage buckets list --project=PROJECT_ID, run once per project",
+          "es": "gcloud storage buckets list --project=PROJECT_ID, ejecutado una vez por proyecto"
+        },
+        {
+          "en": "gcloud projects list --filter=\"storage\"",
+          "es": "gcloud projects list --filter=\"storage\""
+        },
+        {
+          "en": "gcloud logging read \"resource.type=gcs_bucket\" --organization=ORG_ID",
+          "es": "gcloud logging read \"resource.type=gcs_bucket\" --organization=ORG_ID"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Cloud Asset Inventory's search-all-resources accepts an organization, folder, or project scope and an --asset-types filter, so one command returns the buckets of every project you can see. Option B works but requires iterating over each project, which is exactly what Asset Inventory avoids. Option C only lists projects; --filter does not inspect their contents. Option D reads log entries, so it only surfaces buckets that generated logs during the retention window, not the current inventory.",
+        "es": "El comando search-all-resources de Cloud Asset Inventory acepta un alcance de organización, carpeta o proyecto y un filtro --asset-types, así que un solo comando devuelve los buckets de todos los proyectos que puedes ver. La opción B funciona, pero obliga a iterar proyecto por proyecto, que es justamente lo que Asset Inventory evita. La opción C solo lista proyectos; --filter no inspecciona su contenido. La opción D lee entradas de registro, por lo que solo muestra buckets que generaron logs dentro de la ventana de retención, no el inventario actual."
+      },
+      "doc": "https://cloud.google.com/asset-inventory/docs/searching-resources"
+    },
+    {
+      "id": "ref1-022",
+      "curso": null,
+      "servicios": [
+        "billing",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.2-billing-accounts"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which gcloud command links an existing project to an existing Cloud Billing account?",
+        "es": "¿Qué comando de gcloud vincula un proyecto existente a una cuenta de facturación de Cloud existente?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud billing accounts create --project=PROJECT_ID",
+          "es": "gcloud billing accounts create --project=PROJECT_ID"
+        },
+        {
+          "en": "gcloud billing projects link PROJECT_ID --billing-account=0X0X0X-0X0X0X-0X0X0X",
+          "es": "gcloud billing projects link PROJECT_ID --billing-account=0X0X0X-0X0X0X-0X0X0X"
+        },
+        {
+          "en": "gcloud projects update PROJECT_ID --billing-enabled",
+          "es": "gcloud projects update PROJECT_ID --billing-enabled"
+        },
+        {
+          "en": "gcloud config set billing/account 0X0X0X-0X0X0X-0X0X0X",
+          "es": "gcloud config set billing/account 0X0X0X-0X0X0X-0X0X0X"
+        }
+      ],
+      "respuesta": [
+        "B"
+      ],
+      "explicacion": {
+        "en": "gcloud billing projects link associates a project with a billing account, identified by its XXXXXX-XXXXXX-XXXXXX ID; you need Project Billing Manager on the project and Billing Account User on the billing account. Option A is not a valid way to create billing accounts (self-serve accounts are created in the console or by a reseller, never scoped to a project). Option C is not a real flag: billing is never enabled directly on the project resource. Option D would only change a local gcloud configuration value and has no effect on the project.",
+        "es": "gcloud billing projects link asocia un proyecto con una cuenta de facturación, identificada por su ID XXXXXX-XXXXXX-XXXXXX; necesitas Project Billing Manager en el proyecto y Billing Account User en la cuenta de facturación. La opción A no es una forma válida de crear cuentas de facturación (las cuentas de autoservicio se crean en la consola o mediante un revendedor, nunca acotadas a un proyecto). La opción C no es una marca real: la facturación nunca se habilita directamente en el recurso del proyecto. La opción D solo cambiaría un valor de configuración local de gcloud y no afecta al proyecto."
+      },
+      "doc": "https://cloud.google.com/billing/docs/how-to/modify-project"
+    },
+    {
+      "id": "ref1-023",
+      "curso": null,
+      "servicios": [
+        "resource-manager",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-resource-hierarchy"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You need to create a folder named 'production' directly under your organization. Which command is correct?",
+        "es": "Necesitas crear una carpeta llamada 'production' directamente bajo tu organización. ¿Qué comando es correcto?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud resource-manager folders create --display-name=production --organization=ORG_ID",
+          "es": "gcloud resource-manager folders create --display-name=production --organization=ORG_ID"
+        },
+        {
+          "en": "gcloud projects create production --type=folder",
+          "es": "gcloud projects create production --type=folder"
+        },
+        {
+          "en": "gcloud organizations add-folder production",
+          "es": "gcloud organizations add-folder production"
+        },
+        {
+          "en": "gcloud resource-manager folders create production --parent=projects/PROJECT_ID",
+          "es": "gcloud resource-manager folders create production --parent=projects/PROJECT_ID"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Folders are created with gcloud resource-manager folders create, passing --display-name and a parent that is either --organization or --folder. Option B is invalid: gcloud projects create has no --type flag and projects are not folders. Option C is not a real command. Option D fails because a project can never be the parent of a folder; folders only hang from the organization or from another folder.",
+        "es": "Las carpetas se crean con gcloud resource-manager folders create, pasando --display-name y un padre que puede ser --organization o --folder. La opción B es inválida: gcloud projects create no tiene la marca --type y los proyectos no son carpetas. La opción C no es un comando real. La opción D falla porque un proyecto nunca puede ser el padre de una carpeta; las carpetas solo cuelgan de la organización o de otra carpeta."
+      },
+      "doc": "https://cloud.google.com/resource-manager/docs/creating-managing-folders"
+    },
+    {
+      "id": "ref1-024",
+      "curso": null,
+      "servicios": [
+        "identity-federation",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-workforce-identity-federation"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You are configuring Workforce Identity Federation. At which level is a workforce pool created, and where does it live?",
+        "es": "Estás configurando Workforce Identity Federation. ¿A qué nivel se crea un workforce pool y dónde reside?"
+      },
+      "opciones": [
+        {
+          "en": "At the project level: gcloud iam workforce-pools create POOL_ID --project=PROJECT_ID",
+          "es": "A nivel de proyecto: gcloud iam workforce-pools create POOL_ID --project=PROJECT_ID"
+        },
+        {
+          "en": "At the organization level and in the global location: gcloud iam workforce-pools create POOL_ID --organization=ORG_ID --location=global",
+          "es": "A nivel de organización y en la ubicación global: gcloud iam workforce-pools create POOL_ID --organization=ORG_ID --location=global"
+        },
+        {
+          "en": "At the folder level, one pool per folder",
+          "es": "A nivel de carpeta, un pool por carpeta"
+        },
+        {
+          "en": "Inside Cloud Identity, as a new organizational unit",
+          "es": "Dentro de Cloud Identity, como una unidad organizativa nueva"
+        }
+      ],
+      "respuesta": [
+        "B"
+      ],
+      "explicacion": {
+        "en": "Workforce pools are organization-level resources created in the global location, because federated employees may need access to any project in the organization. Options A and C are wrong: unlike workload identity pools (which are project resources), workforce pools cannot be created under a project or a folder. Option D confuses federation with directory synchronization: the whole point of Workforce Identity Federation is that you do not create identities in Cloud Identity.",
+        "es": "Los workforce pools son recursos a nivel de organización creados en la ubicación global, porque los empleados federados pueden necesitar acceso a cualquier proyecto de la organización. Las opciones A y C son incorrectas: a diferencia de los workload identity pools (que son recursos de proyecto), los workforce pools no se crean bajo un proyecto ni una carpeta. La opción D confunde federación con sincronización de directorio: el objetivo de Workforce Identity Federation es precisamente no crear identidades en Cloud Identity."
+      },
+      "doc": "https://cloud.google.com/iam/docs/manage-workforce-identity-pools-providers"
+    },
+    {
+      "id": "ref1-025",
+      "curso": null,
+      "servicios": [
+        "quotas-apis",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-apis-quotas"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Before launching 40 new VMs in us-central1, how can you check from the CLI how much of your CPU quota is already used in that region?",
+        "es": "Antes de lanzar 40 VMs nuevas en us-central1, ¿cómo puedes revisar desde la CLI cuánta cuota de CPUs ya está usada en esa región?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud compute regions describe us-central1, which reports the quota metrics with limit and usage",
+          "es": "gcloud compute regions describe us-central1, que informa las métricas de cuota con límite y uso"
+        },
+        {
+          "en": "gcloud compute instances list --zones=us-central1-a",
+          "es": "gcloud compute instances list --zones=us-central1-a"
+        },
+        {
+          "en": "gcloud billing accounts describe BILLING_ACCOUNT_ID",
+          "es": "gcloud billing accounts describe BILLING_ACCOUNT_ID"
+        },
+        {
+          "en": "gcloud config list, which shows the quota assigned to the active configuration",
+          "es": "gcloud config list, que muestra la cuota asignada a la configuración activa"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "gcloud compute regions describe returns a quotas array with metric, limit, and usage for regional quotas such as CPUS, IN_USE_ADDRESSES, and DISKS_TOTAL_GB, which is exactly what you need before a large deployment (the console Quotas page shows the same data). Option B only counts existing instances and ignores their sizes and other quota dimensions. Option C shows billing account details, which have nothing to do with quotas. Option D lists local gcloud settings, not quota state.",
+        "es": "gcloud compute regions describe devuelve un arreglo quotas con métrica, límite y uso de las cuotas regionales como CPUS, IN_USE_ADDRESSES y DISKS_TOTAL_GB, que es justo lo que necesitas antes de una implementación grande (la página Cuotas de la consola muestra los mismos datos). La opción B solo cuenta instancias existentes e ignora sus tamaños y otras dimensiones de cuota. La opción C muestra detalles de la cuenta de facturación, que no tienen relación con las cuotas. La opción D lista configuraciones locales de gcloud, no el estado de las cuotas."
+      },
+      "doc": "https://cloud.google.com/docs/quotas/view-manage"
+    },
+    {
+      "id": "ref1-026",
+      "curso": null,
+      "servicios": [
+        "asset-inventory",
+        "iam"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-asset-inventory-gemini"
+      ],
+      "nivel": "intermedio",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "A security review asks you to find every place in the organization where the Owner role has been granted. Which TWO Cloud Asset Inventory capabilities help you answer this?",
+        "es": "Una revisión de seguridad te pide encontrar todos los lugares de la organización donde se otorgó el rol Owner. ¿Cuáles DOS capacidades de Cloud Asset Inventory te ayudan a responder?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud asset search-all-iam-policies --scope=organizations/ORG_ID --query=\"policy:roles/owner\"",
+          "es": "gcloud asset search-all-iam-policies --scope=organizations/ORG_ID --query=\"policy:roles/owner\""
+        },
+        {
+          "en": "gcloud asset analyze-iam-policy, to see which principals effectively have the role, including inherited grants",
+          "es": "gcloud asset analyze-iam-policy, para ver qué principales tienen efectivamente el rol, incluidas las concesiones heredadas"
+        },
+        {
+          "en": "gcloud compute project-info describe, which lists the IAM policy of every project",
+          "es": "gcloud compute project-info describe, que lista la política de IAM de cada proyecto"
+        },
+        {
+          "en": "gcloud monitoring dashboards list, filtered by IAM widgets",
+          "es": "gcloud monitoring dashboards list, filtrado por widgets de IAM"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "search-all-iam-policies searches allow policies across the whole scope with a query language, and analyze-iam-policy (Policy Analyzer, built on Asset Inventory) resolves effective access including roles inherited from folders and the organization and group memberships. Option C only returns Compute Engine project metadata such as default service accounts and SSH keys, not IAM policies. Option D is unrelated: Cloud Monitoring dashboards do not track IAM.",
+        "es": "search-all-iam-policies busca políticas de permiso en todo el alcance con un lenguaje de consulta, y analyze-iam-policy (Policy Analyzer, construido sobre Asset Inventory) resuelve el acceso efectivo, incluidos los roles heredados de carpetas y de la organización y la pertenencia a grupos. La opción C solo devuelve metadatos de Compute Engine del proyecto, como cuentas de servicio predeterminadas y claves SSH, no políticas de IAM. La opción D no tiene relación: los paneles de Cloud Monitoring no rastrean IAM."
+      },
+      "doc": "https://cloud.google.com/asset-inventory/docs/searching-iam-policies"
+    },
+    {
+      "id": "ref1-027",
+      "curso": null,
+      "servicios": [
+        "billing",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.2-budgets-alerts"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You create a budget with: gcloud billing budgets create --billing-account=BA_ID --display-name=prod --budget-amount=5000USD --threshold-rule=percent=0.5 --threshold-rule=percent=0.9. What do the --threshold-rule flags configure?",
+        "es": "Creas un presupuesto con: gcloud billing budgets create --billing-account=BA_ID --display-name=prod --budget-amount=5000USD --threshold-rule=percent=0.5 --threshold-rule=percent=0.9. ¿Qué configuran las marcas --threshold-rule?"
+      },
+      "opciones": [
+        {
+          "en": "The percentages of the budget amount at which alert notifications are triggered",
+          "es": "Los porcentajes del monto presupuestado en los que se disparan las notificaciones de alerta"
+        },
+        {
+          "en": "Hard spending limits that block new resource creation at 50% and 90%",
+          "es": "Límites de gasto duros que bloquean la creación de recursos nuevos al 50% y al 90%"
+        },
+        {
+          "en": "The share of the cost assigned to each linked project",
+          "es": "La porción del costo asignada a cada proyecto vinculado"
+        },
+        {
+          "en": "A discount automatically applied when usage crosses those percentages",
+          "es": "Un descuento que se aplica automáticamente cuando el uso cruza esos porcentajes"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Threshold rules define the alert points, expressed as a fraction of the budget amount and evaluated against actual or forecasted spend; crossing one sends an email to billing administrators and, if configured, a message to the connected Pub/Sub topic. Option B is the classic misconception: budgets never cap spending. Option C describes cost attribution, which you get from billing reports or the BigQuery export, not from budgets. Option D is invented; discounts come from committed use or sustained use.",
+        "es": "Las reglas de umbral definen los puntos de alerta, expresados como fracción del monto presupuestado y evaluados contra el gasto real o el pronosticado; al cruzar uno se envía un correo a los administradores de facturación y, si está configurado, un mensaje al tema de Pub/Sub conectado. La opción B es la confusión clásica: los presupuestos nunca limitan el gasto. La opción C describe la atribución de costos, que se obtiene de los informes de facturación o de la exportación a BigQuery, no de los presupuestos. La opción D es inventada; los descuentos provienen de uso comprometido o uso sostenido."
+      },
+      "doc": "https://cloud.google.com/billing/docs/how-to/budgets"
+    },
+    {
+      "id": "ref1-028",
+      "curso": null,
+      "servicios": [
+        "resource-manager",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-resource-hierarchy"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You must enforce the boolean constraint compute.requireOsLogin on the folder 'production' and on everything below it. What do you do?",
+        "es": "Debes aplicar la restricción booleana compute.requireOsLogin en la carpeta 'production' y en todo lo que está debajo de ella. ¿Qué haces?"
+      },
+      "opciones": [
+        {
+          "en": "Set an organization policy with that constraint on the folder; it is inherited by all projects and resources underneath",
+          "es": "Establecer una política de la organización con esa restricción en la carpeta; se hereda en todos los proyectos y recursos que están debajo"
+        },
+        {
+          "en": "Grant roles/compute.osLogin to every user in the folder",
+          "es": "Otorgar roles/compute.osLogin a todos los usuarios de la carpeta"
+        },
+        {
+          "en": "Set the policy individually on each project, because organization policies cannot be attached to folders",
+          "es": "Establecer la política individualmente en cada proyecto, porque las políticas de la organización no se pueden adjuntar a carpetas"
+        },
+        {
+          "en": "Add a VPC firewall rule in each project that requires OS Login for SSH",
+          "es": "Agregar una regla de firewall de VPC en cada proyecto que exija OS Login para SSH"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Organization policies can be attached to the organization, a folder, or a project, and by default they are inherited down the hierarchy, so setting the boolean constraint once on the folder covers every current and future project inside it. Option B grants a permission, which is a completely different mechanism and does not force OS Login. Option C states a false limitation and would also miss projects created later. Option D is not possible: firewall rules filter traffic, they cannot require a login method.",
+        "es": "Las políticas de la organización se pueden adjuntar a la organización, a una carpeta o a un proyecto y, de forma predeterminada, se heredan hacia abajo en la jerarquía, así que fijar la restricción booleana una sola vez en la carpeta cubre todos los proyectos actuales y futuros dentro de ella. La opción B otorga un permiso, que es un mecanismo completamente distinto y no obliga a usar OS Login. La opción C afirma una limitación falsa y además dejaría fuera los proyectos creados después. La opción D no es posible: las reglas de firewall filtran tráfico, no pueden exigir un método de inicio de sesión."
+      },
+      "doc": "https://cloud.google.com/resource-manager/docs/organization-policy/using-constraints"
+    },
+    {
+      "id": "ref1-029",
+      "curso": null,
+      "servicios": [
+        "cloud-monitoring"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-observability-setup"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Three projects (app, api, data) each send metrics to Cloud Monitoring. You want a single dashboard that charts metrics from all three. What do you configure?",
+        "es": "Tres proyectos (app, api, data) envían métricas a Cloud Monitoring. Quieres un solo panel que grafique métricas de los tres. ¿Qué configuras?"
+      },
+      "opciones": [
+        {
+          "en": "Choose one project as the scoping project and add the other two to its metrics scope",
+          "es": "Elegir un proyecto como proyecto de alcance (scoping project) y agregar los otros dos a su permiso de métricas"
+        },
+        {
+          "en": "Export the metrics of the three projects to Cloud Storage and build the dashboard from the files",
+          "es": "Exportar las métricas de los tres proyectos a Cloud Storage y construir el panel a partir de los archivos"
+        },
+        {
+          "en": "Move the three projects into the same folder, which automatically merges their metrics",
+          "es": "Mover los tres proyectos a la misma carpeta, lo que fusiona automáticamente sus métricas"
+        },
+        {
+          "en": "Recreate the three workloads in a single project, because dashboards are always project-scoped",
+          "es": "Volver a crear las tres cargas de trabajo en un solo proyecto, porque los paneles siempre están acotados a un proyecto"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Multi-project observability works by adding monitored projects to the metrics scope of a scoping project; charts, dashboards, and alerting policies created there can then reference metrics from all of them. Option B is a lot of work and loses the native metric model. Option C is false: folders group resources for IAM and organization policies, they do not merge telemetry. Option D is an unnecessary and disruptive migration, since metrics scopes solve the problem without touching workloads.",
+        "es": "La observabilidad multiproyecto funciona agregando los proyectos supervisados al permiso de métricas de un proyecto de alcance; los gráficos, paneles y políticas de alertas creados ahí pueden referenciar métricas de todos ellos. La opción B implica mucho trabajo y pierde el modelo nativo de métricas. La opción C es falsa: las carpetas agrupan recursos para IAM y políticas de organización, no fusionan telemetría. La opción D es una migración innecesaria y disruptiva, ya que los permisos de métricas resuelven el problema sin tocar las cargas de trabajo."
+      },
+      "doc": "https://cloud.google.com/monitoring/settings/multiple-projects"
+    },
+    {
+      "id": "ref1-030",
+      "curso": null,
+      "servicios": [
+        "billing",
+        "bigquery"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.2-billing-exports"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "When enabling Cloud Billing export to BigQuery, what does the detailed usage cost export add over the standard usage cost export?",
+        "es": "Al habilitar la exportación de facturación de Cloud a BigQuery, ¿qué agrega la exportación detallada de costos de uso frente a la exportación estándar?"
+      },
+      "opciones": [
+        {
+          "en": "Cost data broken down to the individual resource level (for example, each VM or disk)",
+          "es": "Datos de costo desglosados a nivel de recurso individual (por ejemplo, cada VM o disco)"
+        },
+        {
+          "en": "Real-time cost data updated every second",
+          "es": "Datos de costo en tiempo real actualizados cada segundo"
+        },
+        {
+          "en": "The list prices of every Google Cloud SKU",
+          "es": "Los precios de lista de cada SKU de Google Cloud"
+        },
+        {
+          "en": "Predicted costs for the next twelve months",
+          "es": "Costos previstos para los próximos doce meses"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The detailed usage cost export includes the same fields as the standard export plus resource-level granularity, letting you attribute cost to a specific VM, disk, or other resource; it is the right choice for fine-grained showback and rightsizing. Option B is wrong: billing data lands in BigQuery with a delay, not per second. Option C describes the separate pricing export table. Option D describes forecasting in budgets and billing reports, which is not part of any export table.",
+        "es": "La exportación detallada de costos de uso incluye los mismos campos que la estándar más granularidad a nivel de recurso, lo que permite atribuir el costo a una VM, un disco u otro recurso específico; es la opción correcta para showback fino y rightsizing. La opción B es incorrecta: los datos de facturación llegan a BigQuery con retraso, no cada segundo. La opción C describe la tabla separada de exportación de precios. La opción D describe el pronóstico de los presupuestos e informes de facturación, que no forma parte de ninguna tabla de exportación."
+      },
+      "doc": "https://cloud.google.com/billing/docs/how-to/export-data-bigquery-tables/detailed-usage"
+    },
+    {
+      "id": "ref1-031",
+      "curso": null,
+      "servicios": [
+        "asset-inventory",
+        "bigquery"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-asset-inventory-gemini"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your governance team wants to analyze a full snapshot of the organization's resource metadata with SQL. Which approach does this natively?",
+        "es": "Tu equipo de gobernanza quiere analizar con SQL una instantánea completa de los metadatos de recursos de la organización. ¿Qué enfoque lo hace de forma nativa?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud asset export --organization=ORG_ID --content-type=resource --bigquery-table=projects/P/datasets/D/tables/T",
+          "es": "gcloud asset export --organization=ORG_ID --content-type=resource --bigquery-table=projects/P/datasets/D/tables/T"
+        },
+        {
+          "en": "gcloud asset export --organization=ORG_ID --output-path=gs://bucket/dump.json, then read the JSON by hand",
+          "es": "gcloud asset export --organization=ORG_ID --output-path=gs://bucket/dump.json y luego leer el JSON a mano"
+        },
+        {
+          "en": "bq load a CSV that you build by listing resources project by project",
+          "es": "Hacer bq load de un CSV que construyes listando recursos proyecto por proyecto"
+        },
+        {
+          "en": "Create a log sink from Cloud Logging to BigQuery",
+          "es": "Crear un receptor de registros de Cloud Logging hacia BigQuery"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Cloud Asset Inventory can export a snapshot straight into a BigQuery table, producing a schematized table that the team can query with SQL immediately. Option B works but only produces a raw JSON file in Cloud Storage, adding a manual load step. Option C is a manual, error-prone process that Asset Inventory exists to replace. Option D exports log entries, which describe events rather than the current inventory of resources.",
+        "es": "Cloud Asset Inventory puede exportar una instantánea directamente a una tabla de BigQuery, generando una tabla con esquema que el equipo puede consultar con SQL de inmediato. La opción B funciona, pero solo produce un archivo JSON crudo en Cloud Storage y agrega un paso manual de carga. La opción C es un proceso manual y propenso a errores que Asset Inventory existe para reemplazar. La opción D exporta entradas de registro, que describen eventos y no el inventario actual de recursos."
+      },
+      "doc": "https://cloud.google.com/asset-inventory/docs/exporting-to-bigquery"
+    },
+    {
+      "id": "ref1-032",
+      "curso": null,
+      "servicios": [
+        "identity-federation"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-workforce-identity-federation"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You create an OIDC provider in a workforce pool. Which attribute mapping is mandatory?",
+        "es": "Creas un proveedor OIDC en un workforce pool. ¿Qué mapeo de atributos es obligatorio?"
+      },
+      "opciones": [
+        {
+          "en": "google.groups, mapped to the IdP group claim",
+          "es": "google.groups, mapeado al claim de grupos del IdP"
+        },
+        {
+          "en": "google.subject, which identifies the federated user uniquely",
+          "es": "google.subject, que identifica de forma única al usuario federado"
+        },
+        {
+          "en": "google.project_id, which selects the target project",
+          "es": "google.project_id, que selecciona el proyecto de destino"
+        },
+        {
+          "en": "google.billing_account, which selects who pays for the session",
+          "es": "google.billing_account, que selecciona quién paga la sesión"
+        }
+      ],
+      "respuesta": [
+        "B"
+      ],
+      "explicacion": {
+        "en": "Every workforce pool provider must map google.subject (usually to assertion.sub or an email claim) because it becomes the principal identifier used in IAM bindings and audit logs. google.groups and custom attributes are optional and are used for group-based bindings or attribute conditions. There is no google.project_id or google.billing_account attribute: federation decides who the caller is, not which project or billing account is used.",
+        "es": "Todo proveedor de un workforce pool debe mapear google.subject (normalmente a assertion.sub o a un claim de correo) porque se convierte en el identificador del principal usado en las vinculaciones de IAM y en los registros de auditoría. google.groups y los atributos personalizados son opcionales y sirven para vinculaciones por grupo o condiciones de atributos. No existen atributos google.project_id ni google.billing_account: la federación define quién es el llamador, no qué proyecto o cuenta de facturación se usa."
+      },
+      "doc": "https://cloud.google.com/iam/docs/manage-workforce-identity-pools-providers"
+    },
+    {
+      "id": "ref1-033",
+      "curso": null,
+      "servicios": [
+        "resource-manager"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-resource-hierarchy"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "The organization enforces the boolean constraint compute.disableSerialPortAccess. A single troubleshooting project must be exempt. What do you configure on that project?",
+        "es": "La organización aplica la restricción booleana compute.disableSerialPortAccess. Un único proyecto de diagnóstico debe quedar exento. ¿Qué configuras en ese proyecto?"
+      },
+      "opciones": [
+        {
+          "en": "An organization policy on the project for the same constraint with enforcement set to 'off'",
+          "es": "Una política de la organización en el proyecto, para la misma restricción, con la aplicación en 'off'"
+        },
+        {
+          "en": "Grant roles/owner on the project to the troubleshooting team",
+          "es": "Otorgar roles/owner en el proyecto al equipo de diagnóstico"
+        },
+        {
+          "en": "Move the project out of the organization, since project policies cannot override the organization",
+          "es": "Sacar el proyecto de la organización, porque las políticas de proyecto no pueden anular a la organización"
+        },
+        {
+          "en": "Delete the constraint at the organization level while the team works",
+          "es": "Borrar la restricción a nivel de organización mientras el equipo trabaja"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "A policy set on a lower node replaces the inherited one for boolean constraints, so setting enforcement to off on that project exempts it while the rest of the organization stays protected. Option B confuses IAM permissions with organization policies: an Owner still cannot bypass an enforced constraint. Option C is a drastic and unnecessary change, and the override mechanism exists precisely to avoid it. Option D removes the control for every project in the organization, which is the opposite of least privilege.",
+        "es": "Una política fijada en un nodo inferior reemplaza a la heredada en el caso de las restricciones booleanas, así que poner la aplicación en 'off' en ese proyecto lo exenta mientras el resto de la organización sigue protegido. La opción B confunde permisos de IAM con políticas de la organización: un Owner tampoco puede saltarse una restricción aplicada. La opción C es un cambio drástico e innecesario, y el mecanismo de anulación existe justo para evitarlo. La opción D elimina el control para todos los proyectos de la organización, lo contrario al privilegio mínimo."
+      },
+      "doc": "https://cloud.google.com/resource-manager/docs/organization-policy/understanding-hierarchy"
+    },
+    {
+      "id": "ref1-034",
+      "curso": null,
+      "servicios": [
+        "billing",
+        "iam"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.2-billing-accounts"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A project currently billed to the 'engineering' billing account must be billed to the 'marketing' billing account starting next month. What is required?",
+        "es": "Un proyecto que hoy se factura a la cuenta 'engineering' debe facturarse a la cuenta 'marketing' a partir del próximo mes. ¿Qué se requiere?"
+      },
+      "opciones": [
+        {
+          "en": "Change the project's billing account, which requires Project Billing Manager on the project and Billing Account User on the target account",
+          "es": "Cambiar la cuenta de facturación del proyecto, lo que requiere Project Billing Manager en el proyecto y Billing Account User en la cuenta de destino"
+        },
+        {
+          "en": "Delete and recreate the project under the marketing billing account, because the link is permanent",
+          "es": "Borrar y volver a crear el proyecto bajo la cuenta de marketing, porque el vínculo es permanente"
+        },
+        {
+          "en": "Link the project to both accounts and let Google split the charges",
+          "es": "Vincular el proyecto a ambas cuentas y dejar que Google divida los cargos"
+        },
+        {
+          "en": "Move the project to the marketing folder; billing follows the folder",
+          "es": "Mover el proyecto a la carpeta de marketing; la facturación sigue a la carpeta"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "You simply relink the project to another billing account (console or gcloud billing projects link) with the right permissions on both sides; past charges stay with the old account and new usage bills to the new one. Option B is unnecessary and destructive: the link is changeable at any time. Option C is impossible, a project has exactly one billing account. Option D is false: billing links are independent of the folder hierarchy, folders control IAM and organization policies.",
+        "es": "Simplemente se revincula el proyecto a otra cuenta de facturación (consola o gcloud billing projects link) con los permisos correctos en ambos lados; los cargos pasados quedan en la cuenta anterior y el uso nuevo se factura en la nueva. La opción B es innecesaria y destructiva: el vínculo se puede cambiar en cualquier momento. La opción C es imposible, un proyecto tiene exactamente una cuenta de facturación. La opción D es falsa: los vínculos de facturación son independientes de la jerarquía de carpetas, que controla IAM y políticas de organización."
+      },
+      "doc": "https://cloud.google.com/billing/docs/how-to/modify-project"
+    },
+    {
+      "id": "ref1-035",
+      "curso": null,
+      "servicios": [
+        "quotas-apis",
+        "iam"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-apis-quotas"
+      ],
+      "nivel": "intermedio",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO statements about requesting a quota increase in Google Cloud are correct?",
+        "es": "¿Cuáles DOS afirmaciones sobre solicitar un aumento de cuota en Google Cloud son correctas?"
+      },
+      "opciones": [
+        {
+          "en": "You submit the request from the Quotas page (or the Cloud Quotas API) selecting the specific quota, region, and new value",
+          "es": "La solicitud se envía desde la página Cuotas (o la API de Cloud Quotas) seleccionando la cuota específica, la región y el valor nuevo"
+        },
+        {
+          "en": "The request is reviewed by Google and may be approved, partially approved, or denied; it is not automatic",
+          "es": "La solicitud la revisa Google y puede aprobarse, aprobarse parcialmente o rechazarse; no es automática"
+        },
+        {
+          "en": "Any user with the Viewer role on the project can submit quota increase requests",
+          "es": "Cualquier usuario con el rol Viewer en el proyecto puede enviar solicitudes de aumento de cuota"
+        },
+        {
+          "en": "Increasing a quota immediately increases your bill, because you are charged for the reserved capacity",
+          "es": "Aumentar una cuota incrementa de inmediato tu factura, porque se cobra la capacidad reservada"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Quota increases are requested per quota, per region (or per API) from the Quotas page or Cloud Quotas API, and Google reviews them, sometimes granting less than asked. Option C is wrong: you need permissions such as serviceusage.quotas.update, included in Quota Administrator or Editor/Owner, not Viewer. Option D is wrong: a quota is only a ceiling, you pay for what you actually use.",
+        "es": "Los aumentos de cuota se solicitan por cuota y por región (o por API) desde la página Cuotas o la API de Cloud Quotas, y Google los revisa, a veces otorgando menos de lo pedido. La opción C es incorrecta: se necesitan permisos como serviceusage.quotas.update, incluidos en Quota Administrator o en Editor/Owner, no en Viewer. La opción D es incorrecta: una cuota es solo un techo, pagas por lo que realmente usas."
+      },
+      "doc": "https://cloud.google.com/docs/quotas/quota-increase"
+    },
+    {
+      "id": "ref1-036",
+      "curso": null,
+      "servicios": [
+        "asset-inventory",
+        "pubsub"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-asset-inventory-gemini"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You want to receive a message as soon as any Cloud SQL instance is created or modified in the organization. Which Cloud Asset Inventory feature do you use?",
+        "es": "Quieres recibir un mensaje apenas se cree o modifique cualquier instancia de Cloud SQL en la organización. ¿Qué función de Cloud Asset Inventory usas?"
+      },
+      "opciones": [
+        {
+          "en": "An asset feed that publishes change notifications to a Pub/Sub topic",
+          "es": "Un feed de assets que publica notificaciones de cambio en un tema de Pub/Sub"
+        },
+        {
+          "en": "A daily scheduled export to BigQuery",
+          "es": "Una exportación programada diaria a BigQuery"
+        },
+        {
+          "en": "gcloud asset get-history executed in a cron job",
+          "es": "gcloud asset get-history ejecutado en un cron"
+        },
+        {
+          "en": "An uptime check in Cloud Monitoring against the Cloud SQL API",
+          "es": "Una verificación de tiempo de actividad de Cloud Monitoring contra la API de Cloud SQL"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Asset feeds (gcloud asset feeds create with --asset-types and --pubsub-topic) deliver near real-time notifications when the assets you selected change, and a subscriber can react immediately. Option B and option C are polling patterns: they add latency and extra work. Option D checks whether an endpoint is reachable and reports nothing about resource configuration changes.",
+        "es": "Los feeds de assets (gcloud asset feeds create con --asset-types y --pubsub-topic) entregan notificaciones casi en tiempo real cuando cambian los assets que seleccionaste, y un suscriptor puede reaccionar de inmediato. Las opciones B y C son patrones de sondeo: agregan latencia y trabajo extra. La opción D verifica si un endpoint responde y no informa nada sobre cambios de configuración de recursos."
+      },
+      "doc": "https://cloud.google.com/asset-inventory/docs/monitoring-asset-changes"
+    },
+    {
+      "id": "ref1-037",
+      "curso": null,
+      "servicios": [
+        "billing",
+        "pubsub"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.2-budgets-alerts"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You need budget alerts to reach an automated workflow instead of an inbox. How do you configure the budget?",
+        "es": "Necesitas que las alertas de presupuesto lleguen a un flujo automatizado en lugar de a un buzón de correo. ¿Cómo configuras el presupuesto?"
+      },
+      "opciones": [
+        {
+          "en": "Connect a Pub/Sub topic to the budget so every threshold update is published as a message",
+          "es": "Conectar un tema de Pub/Sub al presupuesto para que cada actualización de umbral se publique como un mensaje"
+        },
+        {
+          "en": "Add the workflow's URL as an email recipient of the budget",
+          "es": "Agregar la URL del flujo de trabajo como destinatario de correo del presupuesto"
+        },
+        {
+          "en": "Create a log-based metric on the budget resource",
+          "es": "Crear una métrica basada en registros sobre el recurso de presupuesto"
+        },
+        {
+          "en": "Enable the detailed billing export, which triggers the workflow when a threshold is crossed",
+          "es": "Habilitar la exportación detallada de facturación, que dispara el flujo cuando se cruza un umbral"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Programmatic budget notifications work by connecting a Pub/Sub topic to the budget; Cloud Billing publishes a JSON message with the budget name, cost so far, and threshold on every update, and a Cloud Run function or other subscriber can act on it. Option B is not supported: the email channel only accepts recipients, not webhooks. Option C does not work because budget evaluations are not emitted as log entries you can build a metric on. Option D is wrong: billing exports write data to BigQuery, they do not trigger anything.",
+        "es": "Las notificaciones programáticas de presupuesto funcionan conectando un tema de Pub/Sub al presupuesto; Cloud Billing publica un mensaje JSON con el nombre del presupuesto, el costo acumulado y el umbral en cada actualización, y una Cloud Run function u otro suscriptor puede actuar. La opción B no es compatible: el canal de correo solo acepta destinatarios, no webhooks. La opción C no funciona porque las evaluaciones de presupuesto no se emiten como entradas de registro sobre las que puedas crear una métrica. La opción D es incorrecta: las exportaciones de facturación escriben datos en BigQuery, no disparan nada."
+      },
+      "doc": "https://cloud.google.com/billing/docs/how-to/budgets-programmatic-notifications"
+    },
+    {
+      "id": "ref1-038",
+      "curso": null,
+      "servicios": [
+        "resource-manager",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-resource-hierarchy"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which command creates a project directly inside the folder with ID 123456789012?",
+        "es": "¿Qué comando crea un proyecto directamente dentro de la carpeta con ID 123456789012?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud projects create my-app --folder=123456789012",
+          "es": "gcloud projects create my-app --folder=123456789012"
+        },
+        {
+          "en": "gcloud resource-manager folders add-project my-app",
+          "es": "gcloud resource-manager folders add-project my-app"
+        },
+        {
+          "en": "gcloud projects create my-app --parent-type=folder",
+          "es": "gcloud projects create my-app --parent-type=folder"
+        },
+        {
+          "en": "gcloud projects create my-app, then set the folder with gcloud config set project/folder",
+          "es": "gcloud projects create my-app y luego fijar la carpeta con gcloud config set project/folder"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "gcloud projects create accepts --folder or --organization to set the parent at creation time; the project then inherits IAM policies and organization policies from that folder. Option B is not a real command. Option C uses a flag that does not exist and provides no folder ID. Option D would create the project without a parent, and gcloud config only stores local settings; moving an existing project requires gcloud projects move.",
+        "es": "gcloud projects create acepta --folder u --organization para fijar el padre al momento de la creación; el proyecto hereda entonces las políticas de IAM y de organización de esa carpeta. La opción B no es un comando real. La opción C usa una marca que no existe y no aporta el ID de la carpeta. La opción D crearía el proyecto sin padre, y gcloud config solo guarda configuraciones locales; mover un proyecto existente requiere gcloud projects move."
+      },
+      "doc": "https://cloud.google.com/resource-manager/docs/creating-managing-projects"
+    },
+    {
+      "id": "ref1-039",
+      "curso": null,
+      "servicios": [
+        "identity-federation",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-workforce-identity-federation"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "How does a federated employee from a workforce pool authenticate to the gcloud CLI?",
+        "es": "¿Cómo se autentica en la CLI de gcloud un empleado federado de un workforce pool?"
+      },
+      "opciones": [
+        {
+          "en": "By downloading a service account key from the workforce pool and running gcloud auth activate-service-account",
+          "es": "Descargando una clave de cuenta de servicio del workforce pool y ejecutando gcloud auth activate-service-account"
+        },
+        {
+          "en": "By running gcloud auth login with a login configuration file generated for the pool's provider",
+          "es": "Ejecutando gcloud auth login con un archivo de configuración de acceso generado para el proveedor del pool"
+        },
+        {
+          "en": "By creating a Google Account with the same email address and signing in normally",
+          "es": "Creando una Cuenta de Google con la misma dirección de correo e iniciando sesión normalmente"
+        },
+        {
+          "en": "Federated users can only use the console; the CLI is not supported",
+          "es": "Los usuarios federados solo pueden usar la consola; la CLI no es compatible"
+        }
+      ],
+      "respuesta": [
+        "B"
+      ],
+      "explicacion": {
+        "en": "You generate a login configuration file for the workforce pool provider (gcloud iam workforce-pools create-login-config) and the user signs in with gcloud auth login using that file, which redirects to the external IdP and exchanges the assertion for short-lived Google Cloud credentials. Option A is wrong on two counts: workforce pools do not issue service account keys, and long-lived keys are exactly what federation avoids. Option C would create a duplicate Google identity, defeating the purpose of syncless federation. Option D is false: both console and CLI access are supported.",
+        "es": "Se genera un archivo de configuración de acceso para el proveedor del workforce pool (gcloud iam workforce-pools create-login-config) y el usuario inicia sesión con gcloud auth login usando ese archivo, que lo redirige al IdP externo e intercambia la aserción por credenciales de corta duración de Google Cloud. La opción A es incorrecta por dos motivos: los workforce pools no emiten claves de cuentas de servicio y las claves de larga duración son justo lo que la federación evita. La opción C crearía una identidad de Google duplicada, anulando el propósito de la federación sin sincronización. La opción D es falsa: se admite el acceso por consola y por CLI."
+      },
+      "doc": "https://cloud.google.com/iam/docs/workforce-sign-in-gcloud"
+    },
+    {
+      "id": "ref1-040",
+      "curso": null,
+      "servicios": [
+        "compute-engine",
+        "gpus-tpus"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-networking-availability"
+      ],
+      "nivel": "intermedio",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "You are planning a deployment that needs a specific machine type and a specific GPU model. Which TWO commands confirm they are offered in the zone you chose?",
+        "es": "Planificas una implementación que necesita un tipo de máquina específico y un modelo de GPU específico. ¿Cuáles DOS comandos confirman que se ofrecen en la zona que elegiste?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud compute machine-types list --filter=\"zone:ZONE\"",
+          "es": "gcloud compute machine-types list --filter=\"zone:ZONE\""
+        },
+        {
+          "en": "gcloud compute accelerator-types list --filter=\"zone:ZONE\"",
+          "es": "gcloud compute accelerator-types list --filter=\"zone:ZONE\""
+        },
+        {
+          "en": "gcloud compute zones list --filter=\"status:UP\"",
+          "es": "gcloud compute zones list --filter=\"status:UP\""
+        },
+        {
+          "en": "gcloud services list --available",
+          "es": "gcloud services list --available"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "machine-types list shows which machine families and sizes exist per zone, and accelerator-types list shows which GPU models can be attached in that zone; together they confirm the deployment is feasible before you write any automation. Option C only tells you the zone exists and is up, which says nothing about the hardware offered there. Option D lists APIs that can be enabled in the project, not regional hardware availability.",
+        "es": "machine-types list muestra qué familias y tamaños de máquina existen por zona, y accelerator-types list muestra qué modelos de GPU se pueden adjuntar en esa zona; juntos confirman que la implementación es viable antes de escribir automatización. La opción C solo indica que la zona existe y está activa, lo que no dice nada del hardware que se ofrece ahí. La opción D lista las APIs que se pueden habilitar en el proyecto, no la disponibilidad de hardware por región."
+      },
+      "doc": "https://cloud.google.com/compute/docs/gpus/gpu-regions-zones"
     }
   ]
 }
