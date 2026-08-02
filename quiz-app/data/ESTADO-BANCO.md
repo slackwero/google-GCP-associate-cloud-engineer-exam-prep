@@ -1,8 +1,12 @@
 # Estado del banco de preguntas
 
-**Banco completo.** El quality gate de cobertura está activo en `tests/test_cobertura.py`
-(sin `xfail`): exige ≥5 preguntas por cada subtópico oficial del blueprint 2026,
-≥60 por curso del path, ≥1,200 en total y los tres niveles bien representados.
+**Banco completo: 1,465 preguntas bilingües, 0 excluidas.** El quality gate de cobertura
+está activo en `tests/test_cobertura.py` (sin `xfail`): exige ≥5 preguntas por cada
+subtópico oficial del blueprint 2026, ≥60 por curso del path, ≥1,200 en total y los
+tres niveles bien representados.
+
+Distribución verificada: 456 principiante / 514 intermedio / 495 avanzado.
+Por sección del examen: S1 211, S2 606, S3 429, S4 219.
 
 Comando para ver el estado real en cualquier momento:
 
