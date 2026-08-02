@@ -215,8 +215,7 @@
       ],
       "explicacion": {
         "en": "Google-managed service accounts (like service agents) are created and controlled by Google so its services can act on your resources; you cannot manage their keys. User-managed service accounts are created by you (or automatically, like the Compute Engine default) and you control their roles, keys, and lifecycle. A is wrong because Google-managed accounts do receive IAM roles. B is wrong because user-managed accounts are project-level IAM identities, not GKE objects. D is wrong because service accounts have no cost.",
-        "es": "Las cuentas administradas por Google (como los service agents) las crea y controla Google para que sus servicios actúen sobre tus recursos; no puedes administrar sus llaves. Las administradas por el usuario las creas tú (o se crean automáticamente, como la default de Compute Engine) y tú controlas sus roles, llaves y ciclo de vida. A es incorrecta porque las cuentas administradas por Google sí reciben roles de IAM. B es incorrecta porque las cuentas del usuario son identidades de IAM a nivel de proyecto, no objetos de GKE. D es incorrecta porque las cuentas de servicio no tienen costo.",
-        "": ""
+        "es": "Las cuentas administradas por Google (como los service agents) las crea y controla Google para que sus servicios actúen sobre tus recursos; no puedes administrar sus llaves. Las administradas por el usuario las creas tú (o se crean automáticamente, como la default de Compute Engine) y tú controlas sus roles, llaves y ciclo de vida. A es incorrecta porque las cuentas administradas por Google sí reciben roles de IAM. B es incorrecta porque las cuentas del usuario son identidades de IAM a nivel de proyecto, no objetos de GKE. D es incorrecta porque las cuentas de servicio no tienen costo."
       },
       "doc": "https://cloud.google.com/iam/docs/service-account-types"
     },
@@ -2853,6 +2852,277 @@
         "es": "Un rol personalizado a nivel de organización tiene una única definición que puede referenciarse en cualquier parte de esa organización, así que una actualización se propaga a todas las vinculaciones: justo el requisito de mantener en un solo lugar. B es imposible: IAM no admite roles personalizados a nivel de carpeta. C funciona técnicamente pero crea 60 definiciones que se desincronizarán, que es el modo de falla que el requisito quiere evitar. D malinterpreta el modelo: un rol personalizado de proyecto solo puede usarse dentro de su propio proyecto, y otorgar Viewer en otro lado no hace que un rol sea visible ni utilizable."
       },
       "doc": "https://cloud.google.com/iam/docs/creating-custom-roles"
+    },
+    {
+      "id": "ref4-065",
+      "curso": null,
+      "servicios": [
+        "service-accounts",
+        "iam"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.2-sa-impersonation"
+      ],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "A deployment tool authenticates as build-sa, which impersonates release-sa to deploy. Which TWO statements about this delegation are correct?",
+        "es": "Una herramienta de despliegue se autentica como build-sa, que suplanta a release-sa para desplegar. ¿Cuáles DOS afirmaciones sobre esta delegación son correctas?"
+      },
+      "opciones": [
+        {
+          "en": "build-sa must hold roles/iam.serviceAccountTokenCreator on release-sa; holding it on build-sa itself does nothing for this flow",
+          "es": "build-sa debe tener roles/iam.serviceAccountTokenCreator sobre release-sa; tenerlo sobre build-sa no sirve de nada para este flujo"
+        },
+        {
+          "en": "The deployment calls are authorized by release-sa's roles, not by build-sa's roles",
+          "es": "Las llamadas de despliegue se autorizan con los roles de release-sa, no con los de build-sa"
+        },
+        {
+          "en": "build-sa automatically inherits every role that release-sa holds, in all contexts",
+          "es": "build-sa hereda automáticamente todos los roles de release-sa, en cualquier contexto"
+        },
+        {
+          "en": "Impersonation requires that a JSON key for release-sa be available to build-sa",
+          "es": "La suplantación requiere que build-sa disponga de una llave JSON de release-sa"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "The Token Creator role must be granted on the target account, because the permission checked is iam.serviceAccounts.getAccessToken on release-sa, and once the token is obtained the API calls are evaluated against release-sa's own bindings. C is wrong because impersonation is an explicit, per-request act, not permanent inheritance: outside an impersonated call build-sa has only its own roles. D is wrong and inverts the point of the feature — impersonation exists precisely so that no key is needed.",
+        "es": "El rol Token Creator debe otorgarse sobre la cuenta objetivo, porque el permiso que se verifica es iam.serviceAccounts.getAccessToken sobre release-sa, y una vez obtenido el token las llamadas a la API se evalúan contra las vinculaciones de release-sa. C es incorrecta porque la suplantación es un acto explícito por solicitud, no una herencia permanente: fuera de una llamada suplantada, build-sa solo tiene sus propios roles. D es incorrecta e invierte el sentido de la función: la suplantación existe justamente para no necesitar llaves."
+      },
+      "doc": "https://cloud.google.com/iam/docs/service-account-impersonation"
+    },
+    {
+      "id": "ref4-066",
+      "curso": null,
+      "servicios": [
+        "identity-federation",
+        "iam",
+        "cloud-sql"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.2-sa-gke-workload-identity"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A workload on Azure must call Google Cloud APIs. Compliance requires that access be revocable within minutes and that Google Cloud never store an Azure secret. What is the BEST architecture?",
+        "es": "Una carga de trabajo en Azure debe llamar a APIs de Google Cloud. El cumplimiento exige que el acceso sea revocable en minutos y que Google Cloud nunca almacene un secreto de Azure. ¿Cuál es la MEJOR arquitectura?"
+      },
+      "opciones": [
+        {
+          "en": "A workload identity pool with an OIDC provider that trusts Microsoft Entra ID, an attribute condition limiting which managed identity is accepted, and IAM bindings on the resulting principalSet",
+          "es": "Un workload identity pool con un proveedor OIDC que confíe en Microsoft Entra ID, una condición de atributos que limite qué identidad administrada se acepta, y vinculaciones de IAM sobre el principalSet resultante"
+        },
+        {
+          "en": "A service account key stored in Azure Key Vault and read at startup",
+          "es": "Una llave de cuenta de servicio guardada en Azure Key Vault y leída al iniciar"
+        },
+        {
+          "en": "A Cloud VPN tunnel to Azure plus firewall rules allowing only the workload's subnet",
+          "es": "Un túnel de Cloud VPN hacia Azure más reglas de firewall que permitan solo la subred de la carga de trabajo"
+        },
+        {
+          "en": "Store Azure client credentials in Secret Manager and have a Google Cloud service exchange them for tokens",
+          "es": "Guardar las credenciales de cliente de Azure en Secret Manager y hacer que un servicio de Google Cloud las intercambie por tokens"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Federation trusts Azure's own issued tokens, so nothing secret crosses over, and revocation is immediate because removing the IAM binding or tightening the attribute condition stops the next exchange while existing tokens expire within the hour. B keeps a long-lived Google credential alive indefinitely, and revoking it means finding and deleting the key. C provides network reachability only; API calls still need an identity, and firewall rules cannot authenticate a caller to Google APIs. D is the exact opposite of the requirement, since it stores an Azure secret inside Google Cloud.",
+        "es": "La federación confía en los tokens que emite Azure, así que ningún secreto cruza, y la revocación es inmediata porque quitar la vinculación de IAM o endurecer la condición de atributos detiene el siguiente intercambio mientras los tokens existentes expiran dentro de la hora. B mantiene viva indefinidamente una credencial de Google de larga duración, y revocarla implica encontrar y borrar la llave. C da solo alcance de red; las llamadas a APIs siguen necesitando una identidad, y las reglas de firewall no autentican al invocador ante las APIs de Google. D es exactamente lo contrario del requisito, porque almacena un secreto de Azure dentro de Google Cloud."
+      },
+      "doc": "https://cloud.google.com/iam/docs/workload-identity-federation-with-other-clouds"
+    },
+    {
+      "id": "ref4-067",
+      "curso": null,
+      "servicios": [
+        "service-accounts",
+        "resource-manager",
+        "iam"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.2-short-lived-credentials",
+        "4.2-sa-creation"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You enforce constraints/iam.disableServiceAccountKeyCreation at the organization node, but a leaked key from last year is still accepted by Google Cloud. What is the correct interpretation and action?",
+        "es": "Aplicas constraints/iam.disableServiceAccountKeyCreation en el nodo de la organización, pero una llave filtrada del año pasado sigue siendo aceptada por Google Cloud. ¿Cuál es la interpretación y la acción correctas?"
+      },
+      "opciones": [
+        {
+          "en": "The constraint only blocks creating new keys; you must inventory existing user-managed keys and delete them, and you can also enforce constraints/iam.serviceAccountKeyExpiryHours to bound future exposure",
+          "es": "La restricción solo bloquea la creación de llaves nuevas; debes inventariar las llaves existentes administradas por el usuario y borrarlas, y además puedes aplicar constraints/iam.serviceAccountKeyExpiryHours para acotar la exposición futura"
+        },
+        {
+          "en": "The constraint retroactively invalidates all existing keys, so the report must be a false positive",
+          "es": "La restricción invalida retroactivamente todas las llaves existentes, así que el reporte debe ser un falso positivo"
+        },
+        {
+          "en": "Existing keys stop working after 90 days automatically, so no action is required",
+          "es": "Las llaves existentes dejan de funcionar automáticamente a los 90 días, así que no se requiere ninguna acción"
+        },
+        {
+          "en": "You must delete and recreate the service account, since keys cannot be removed individually",
+          "es": "Debes borrar y recrear la cuenta de servicio, ya que las llaves no pueden eliminarse individualmente"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Organization policy constraints govern future operations; they never revoke credentials that already exist, so the remediation is to find the keys (for example with Cloud Asset Inventory or the security recommendations) and delete them explicitly. B and C are the dangerous misconceptions being tested: user-managed keys do not expire and are not invalidated by the constraint. D is unnecessary and destructive — gcloud iam service-accounts keys delete removes a single key, and deleting the account would break every binding that references it.",
+        "es": "Las restricciones de política de la organización gobiernan operaciones futuras; nunca revocan credenciales que ya existen, así que la remediación es encontrar las llaves (por ejemplo con Cloud Asset Inventory o las recomendaciones de seguridad) y borrarlas explícitamente. B y C son las ideas erróneas peligrosas que se evalúan: las llaves administradas por el usuario no expiran y la restricción no las invalida. D es innecesaria y destructiva: gcloud iam service-accounts keys delete elimina una llave individual, y borrar la cuenta rompería todas las vinculaciones que la referencian."
+      },
+      "doc": "https://cloud.google.com/iam/docs/best-practices-for-managing-service-account-keys"
+    },
+    {
+      "id": "ref4-068",
+      "curso": null,
+      "servicios": [
+        "iam",
+        "resource-manager"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.1-policy-inheritance",
+        "4.1-iam-policies"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A principal holds a role granting compute.instances.delete through a folder-level binding, yet the delete call fails. Policy Troubleshooter reports that access is denied. Which explanation is MOST likely, and what should you check first?",
+        "es": "Un principal tiene un rol que otorga compute.instances.delete mediante una vinculación a nivel de carpeta, pero la llamada de borrado falla. Policy Troubleshooter reporta acceso denegado. ¿Qué explicación es la MÁS probable y qué deberías revisar primero?"
+      },
+      "opciones": [
+        {
+          "en": "A deny policy attached at or above the folder denies that permission, and deny rules are evaluated before allow policies; check the deny policies on the resource's ancestors",
+          "es": "Una deny policy adjunta en la carpeta o por encima deniega ese permiso, y las reglas de denegación se evalúan antes que las allow policies; revisa las deny policies de los ancestros del recurso"
+        },
+        {
+          "en": "Folder-level bindings never apply to zonal resources such as instances, so the role must be re-granted per project",
+          "es": "Las vinculaciones a nivel de carpeta nunca aplican a recursos zonales como las instancias, así que el rol debe otorgarse de nuevo en cada proyecto"
+        },
+        {
+          "en": "The organization policy for the project has drifted and must be reapplied to restore inheritance",
+          "es": "La política de la organización del proyecto se desincronizó y debe reaplicarse para restaurar la herencia"
+        },
+        {
+          "en": "The principal's role was granted with the wrong etag and the binding silently did not save",
+          "es": "El rol del principal se otorgó con un etag incorrecto y la vinculación no se guardó en silencio"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "When an allow binding clearly exists and access is still denied, the two usual causes are a deny policy or an unsatisfied IAM condition, and deny policies take precedence over any allow grant no matter where it comes from — which is why Policy Troubleshooter reports them explicitly. B is false: allow policies are inherited down the hierarchy and apply to resources in the projects below, including zonal ones. C confuses organization policy with IAM; organization policy constrains resource configuration and does not silently disable role inheritance. D is not a real failure mode — an etag mismatch causes the set-iam-policy call to fail loudly, not to succeed without effect.",
+        "es": "Cuando una vinculación de permiso claramente existe y el acceso sigue denegado, las dos causas habituales son una deny policy o una condición de IAM no cumplida, y las deny policies tienen precedencia sobre cualquier otorgamiento, venga de donde venga, por eso Policy Troubleshooter las reporta explícitamente. B es falsa: las allow policies se heredan hacia abajo en la jerarquía y aplican a los recursos de los proyectos inferiores, incluidos los zonales. C confunde política de organización con IAM; la política de organización restringe la configuración de recursos y no desactiva en silencio la herencia de roles. D no es un modo de falla real: un etag desincronizado hace que la llamada set-iam-policy falle con error, no que tenga éxito sin efecto."
+      },
+      "doc": "https://cloud.google.com/iam/docs/deny-overview"
+    },
+    {
+      "id": "ref4-069",
+      "curso": null,
+      "servicios": [
+        "iam",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.1-role-types"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You must remove two permissions from a widely used custom role, but you need a fast way to restore access if something breaks in production. What is the BEST sequence?",
+        "es": "Debes quitar dos permisos de un rol personalizado muy usado, pero necesitas una forma rápida de restaurar el acceso si algo se rompe en producción. ¿Cuál es la MEJOR secuencia?"
+      },
+      "opciones": [
+        {
+          "en": "Update the role with --remove-permissions during a change window, monitor audit logs and error rates, and if needed restore the previous definition with a saved copy of the role, since role updates are versioned by etag and can be reverted",
+          "es": "Actualizar el rol con --remove-permissions durante una ventana de cambio, monitorear los registros de auditoría y las tasas de error y, si hace falta, restaurar la definición anterior desde una copia guardada del rol, ya que las actualizaciones de roles se versionan por etag y pueden revertirse"
+        },
+        {
+          "en": "Delete the custom role and create a new one with the reduced permission set",
+          "es": "Borrar el rol personalizado y crear uno nuevo con el conjunto de permisos reducido"
+        },
+        {
+          "en": "Remove the bindings that reference the role, verify nothing breaks, then edit the role",
+          "es": "Quitar las vinculaciones que referencian el rol, verificar que nada se rompa y luego editar el rol"
+        },
+        {
+          "en": "Set the role's launch stage to DISABLED permanently and grant Editor to the affected principals",
+          "es": "Poner la etapa de lanzamiento del rol en DISABLED de forma permanente y otorgar Editor a los principales afectados"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Editing a role in place keeps every existing binding intact, so a rollback is a single update that restores the previous permission list — which is why you export the definition before changing it. B breaks all bindings that reference the old role ID and forces re-granting across every resource, a much slower and riskier path. C removes far more access than intended and does not test the actual change, since it takes away the whole role rather than two permissions. D disables the role for everyone and then compensates with Editor, a massive privilege escalation that is worse than the original state.",
+        "es": "Editar el rol en su lugar mantiene intactas todas las vinculaciones existentes, así que revertir es una sola actualización que restaura la lista de permisos anterior, y por eso se exporta la definición antes de cambiarla. B rompe todas las vinculaciones que referencian el ID del rol antiguo y obliga a volver a otorgarlo en cada recurso, un camino mucho más lento y riesgoso. C quita mucho más acceso del previsto y no prueba el cambio real, porque retira el rol completo en lugar de dos permisos. D deshabilita el rol para todos y luego compensa con Editor, una escalada de privilegios enorme y peor que el estado original."
+      },
+      "doc": "https://cloud.google.com/iam/docs/creating-custom-roles"
+    },
+    {
+      "id": "ref4-070",
+      "curso": null,
+      "servicios": [
+        "service-accounts",
+        "iam",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.2-sa-resources",
+        "4.2-sa-least-privilege"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A developer must deploy VMs in project app-prod that run as a service account defined in the shared project identity-prod. The developer should not be able to modify that service account or generate its tokens. What is the BEST set of grants?",
+        "es": "Un desarrollador debe desplegar VMs en el proyecto app-prod que se ejecuten con una cuenta de servicio definida en el proyecto compartido identity-prod. El desarrollador no debe poder modificar esa cuenta ni generar sus tokens. ¿Cuál es el MEJOR conjunto de otorgamientos?"
+      },
+      "opciones": [
+        {
+          "en": "roles/compute.instanceAdmin.v1 on app-prod, plus roles/iam.serviceAccountUser on that specific service account in identity-prod",
+          "es": "roles/compute.instanceAdmin.v1 en app-prod, más roles/iam.serviceAccountUser sobre esa cuenta de servicio específica en identity-prod"
+        },
+        {
+          "en": "roles/compute.instanceAdmin.v1 on app-prod, plus roles/iam.serviceAccountTokenCreator on that service account",
+          "es": "roles/compute.instanceAdmin.v1 en app-prod, más roles/iam.serviceAccountTokenCreator sobre esa cuenta de servicio"
+        },
+        {
+          "en": "roles/editor on both projects",
+          "es": "roles/editor en ambos proyectos"
+        },
+        {
+          "en": "roles/compute.instanceAdmin.v1 on app-prod, plus roles/iam.serviceAccountAdmin on identity-prod",
+          "es": "roles/compute.instanceAdmin.v1 en app-prod, más roles/iam.serviceAccountAdmin en identity-prod"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Attaching a service account to a VM requires iam.serviceAccounts.actAs, which comes from serviceAccountUser, and granting it on the single account keeps the scope tight while still working across projects. B grants token creation, which is exactly the capability the requirement forbids — the developer could impersonate the account directly from a laptop. C is a basic role on two projects, far beyond what is needed and it also allows editing the service account. D grants administration of every service account in identity-prod, letting the developer modify or delete them, which the requirement forbids.",
+        "es": "Asociar una cuenta de servicio a una VM requiere iam.serviceAccounts.actAs, que proviene de serviceAccountUser, y otorgarlo sobre la cuenta individual mantiene el alcance acotado y funciona igual entre proyectos. B otorga la creación de tokens, justo la capacidad que el requisito prohíbe: el desarrollador podría suplantar la cuenta directamente desde su equipo. C es un rol básico en dos proyectos, mucho más de lo necesario, y además permite editar la cuenta de servicio. D otorga administración de todas las cuentas de servicio de identity-prod, permitiendo al desarrollador modificarlas o borrarlas, lo que el requisito prohíbe."
+      },
+      "doc": "https://cloud.google.com/iam/docs/attach-service-accounts"
     }
   ]
 }

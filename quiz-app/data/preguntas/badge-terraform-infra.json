@@ -2460,6 +2460,187 @@
         "es": "El secreto debe salir del control de versiones y, como ya quedó expuesto en el historial de Git, además debe rotarse; Secret Manager entrega el valor al aplicar a la identidad que ejecuta Terraform. B mantiene el secreto en el repositorio con otro nombre de archivo. C solo evita que el valor se imprima en la salida del plan, lo que no hace nada con la copia que está en el código. D confunde dos exposiciones distintas: proteger el estado es necesario, pero el texto plano en Git sigue siendo legible para cada contratista."
       },
       "doc": "https://cloud.google.com/secret-manager/docs/overview"
+    },
+    {
+      "id": "tfi-057",
+      "curso": "badge-terraform-infra",
+      "servicios": [
+        "terraform-iac",
+        "vpc",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.4-iac-tooling",
+        "2.3-vpc-subnets"
+      ],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "A network module and an application module are applied from the same root configuration, and the app VMs must land in the network module's subnet. Which TWO practices make that wiring correct and maintainable?",
+        "es": "Un módulo de red y un módulo de aplicación se aplican desde la misma configuración raíz, y las VMs de la app deben quedar en la subred del módulo de red. ¿Cuáles DOS prácticas hacen que esa conexión sea correcta y mantenible?"
+      },
+      "opciones": [
+        {
+          "en": "The network module publishes the subnet self link as an output, and the root passes it into the app module as an input",
+          "es": "El módulo de red publica el self link de la subred como output y la raíz lo pasa al módulo de aplicación como entrada"
+        },
+        {
+          "en": "The resulting reference creates the implicit dependency, so no depends_on between the modules is needed",
+          "es": "La referencia resultante crea la dependencia implícita, de modo que no hace falta depends_on entre los módulos"
+        },
+        {
+          "en": "The app module hardcodes the subnet name string agreed with the network team",
+          "es": "El módulo de aplicación escribe fijo el nombre de la subred acordado con el equipo de red"
+        },
+        {
+          "en": "The root configuration adds depends_on to both modules pointing at each other",
+          "es": "La configuración raíz agrega depends_on en ambos módulos apuntando uno al otro"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Chaining an output into an input is the supported module contract, and because the value flows through a reference Terraform already knows the network must be built first. C silently breaks the moment the network team renames or recreates the subnet, and it gives Terraform no ordering information at all. D creates a dependency cycle, which fails the plan outright.",
+        "es": "Encadenar un output hacia una entrada es el contrato admitido entre módulos, y como el valor viaja por una referencia Terraform ya sabe que la red debe construirse primero. C se rompe en silencio en cuanto el equipo de red renombra o recrea la subred, y no le da a Terraform ninguna información de orden. D crea un ciclo de dependencias, que hace fallar el plan de inmediato."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/best-practices/root-modules"
+    },
+    {
+      "id": "tfi-058",
+      "curso": "badge-terraform-infra",
+      "servicios": [
+        "terraform-iac",
+        "iam",
+        "service-accounts"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.2-sa-creation"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A production pipeline once ran terraform destroy by mistake because the job was misconfigured. Which combination BEST reduces the blast radius of a future accident?",
+        "es": "Un pipeline de producción ejecutó una vez terraform destroy por error porque el job estaba mal configurado. ¿Qué combinación reduce MEJOR el radio de impacto de un accidente futuro?"
+      },
+      "opciones": [
+        {
+          "en": "Give the production Terraform service account only the roles it needs, guard critical resources with prevent_destroy, and require a manual approval gate before any apply",
+          "es": "Dar a la cuenta de servicio de Terraform de producción solo los roles que necesita, proteger los recursos críticos con prevent_destroy y exigir una aprobación manual antes de cualquier apply"
+        },
+        {
+          "en": "Grant the pipeline the Owner basic role so it never fails on a missing permission",
+          "es": "Otorgar al pipeline el rol básico Owner para que nunca falle por un permiso faltante"
+        },
+        {
+          "en": "Take a snapshot of every disk each night and accept that a destroy can be replayed",
+          "es": "Tomar una instantánea de cada disco cada noche y aceptar que una destrucción se puede rehacer"
+        },
+        {
+          "en": "Keep production state in a local file on the build agent so no remote job can reach it",
+          "es": "Mantener el estado de producción en un archivo local del agente de compilación para que ningún job remoto lo alcance"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Defense in depth is what limits the damage: least privilege caps what the pipeline can delete at all, prevent_destroy turns a destroy of a critical resource into a plan-time error, and an approval gate puts a human between the trigger and production. B removes the first layer entirely and lets a misconfigured job delete anything. C is a partial recovery story that does nothing for databases, buckets, IAM, or networking, and restoring is slow. D is a state management regression that loses locking and durability while doing nothing to stop a destroy run on that same agent.",
+        "es": "La defensa en profundidad es lo que limita el daño: el mínimo privilegio acota qué puede borrar el pipeline, prevent_destroy convierte la destrucción de un recurso crítico en un error en tiempo de plan y una aprobación manual pone a una persona entre el disparador y producción. B elimina por completo la primera capa y deja que un job mal configurado borre cualquier cosa. C es una recuperación parcial que no cubre bases de datos, buckets, IAM ni redes, y restaurar es lento. D es un retroceso en la gestión del estado que pierde bloqueo y durabilidad sin impedir un destroy ejecutado en ese mismo agente."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/best-practices/operations"
+    },
+    {
+      "id": "tfi-059",
+      "curso": "badge-terraform-infra",
+      "servicios": [
+        "terraform-iac",
+        "cloud-storage"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-gcs-management"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You imported an existing bucket into state, and terraform plan now proposes changing its storage class and removing its lifecycle rules. What is the BEST option?",
+        "es": "Importaste un bucket existente al estado y ahora terraform plan propone cambiar su clase de almacenamiento y quitar sus reglas de ciclo de vida. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        {
+          "en": "Update the HCL to describe the bucket's real storage class and lifecycle rules, then re-plan until there is no diff before applying",
+          "es": "Actualizar el HCL para describir la clase de almacenamiento y las reglas de ciclo de vida reales del bucket, y volver a planificar hasta que no haya diff antes de aplicar"
+        },
+        {
+          "en": "Apply the plan, since Terraform is now the source of truth and the bucket should match the code",
+          "es": "Aplicar el plan, ya que Terraform es ahora la fuente de verdad y el bucket debe coincidir con el código"
+        },
+        {
+          "en": "Add ignore_changes for storage_class and lifecycle_rule and move on",
+          "es": "Agregar ignore_changes para storage_class y lifecycle_rule y seguir adelante"
+        },
+        {
+          "en": "Run terraform state rm and import the bucket again with different arguments",
+          "es": "Ejecutar terraform state rm e importar el bucket de nuevo con argumentos distintos"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "An import is only finished when the plan is empty, which proves your code faithfully describes the real resource; a non-empty plan right after import means the HCL is incomplete, not that the bucket is wrong. B applies an unintended change, and dropping lifecycle rules can start deleting or transitioning objects. C permanently blinds Terraform to two important settings so you could never manage them later. D repeats the same import, since import never reads arguments from the command to reconcile the config, and leaves the same gap.",
+        "es": "Una importación solo termina cuando el plan queda vacío, lo que demuestra que tu código describe fielmente el recurso real; un plan con diferencias justo después de importar significa que el HCL está incompleto, no que el bucket esté mal. B aplica un cambio no deseado, y quitar las reglas de ciclo de vida puede empezar a borrar o transicionar objetos. C deja a Terraform permanentemente ciego ante dos ajustes importantes, así que nunca podrías administrarlos después. D repite la misma importación, ya que import no toma argumentos del comando para reconciliar la configuración, y deja la misma brecha."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/resource-management/import"
+    },
+    {
+      "id": "tfi-060",
+      "curso": "badge-terraform-infra",
+      "servicios": [
+        "terraform-iac",
+        "gke",
+        "cloud-sql"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.4-iac-tooling"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A single root configuration provisions the VPC, a GKE cluster, a Cloud SQL instance, and IAM for six teams. Applies now take 40 minutes and one team's change blocks everyone. What is the BEST restructuring?",
+        "es": "Una única configuración raíz aprovisiona la VPC, un clúster de GKE, una instancia de Cloud SQL e IAM para seis equipos. Los applies tardan ahora 40 minutos y el cambio de un equipo bloquea a todos. ¿Cuál es la MEJOR reestructuración?"
+      },
+      "opciones": [
+        {
+          "en": "Split it into smaller root configurations by lifecycle and ownership, each with its own state prefix, sharing values through outputs consumed as inputs or data sources",
+          "es": "Dividirla en configuraciones raíz más pequeñas por ciclo de vida y responsabilidad, cada una con su propio prefix de estado, compartiendo valores mediante outputs consumidos como entradas o data sources"
+        },
+        {
+          "en": "Keep one configuration and have each team apply only their part with -target",
+          "es": "Mantener una sola configuración y que cada equipo aplique solo su parte con -target"
+        },
+        {
+          "en": "Keep one configuration and create one Terraform workspace per team",
+          "es": "Mantener una sola configuración y crear un workspace de Terraform por equipo"
+        },
+        {
+          "en": "Keep one configuration and raise the parallelism flag so the apply finishes faster",
+          "es": "Mantener una sola configuración y subir la opción de parallelism para que el apply termine más rápido"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Google's guidance is to keep root modules small and grouped by what changes together and who owns it: separate states mean separate locks, shorter plans, and a smaller blast radius, while slow-moving foundations such as the VPC are consumed by reference. B leaves everyone on one lock and one state, and -target skips dependency checks, so it is a debugging tool rather than a workflow. C gives each team a different copy of the whole environment rather than a slice of one environment, which is not what is needed. D only tunes concurrency; the shared lock, the coupling, and the blast radius are unchanged.",
+        "es": "La recomendación de Google es mantener los módulos raíz pequeños y agrupados por lo que cambia junto y por quién es responsable: estados separados implican bloqueos separados, planes más cortos y un radio de impacto menor, mientras que las bases de cambio lento como la VPC se consumen por referencia. B deja a todos sobre un mismo bloqueo y un mismo estado, y -target omite las verificaciones de dependencias, por lo que es una herramienta de depuración y no un flujo de trabajo. C da a cada equipo una copia distinta de todo el entorno en lugar de una porción de un entorno, que no es lo que se necesita. D solo ajusta la concurrencia; el bloqueo compartido, el acoplamiento y el radio de impacto quedan igual."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/best-practices/root-modules"
     }
   ]
 }

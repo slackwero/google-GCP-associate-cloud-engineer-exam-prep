@@ -2189,6 +2189,448 @@
         "es": "Un seguimiento es un árbol de intervalos cronometrados de una única solicitud, así que responde a la pregunta de qué salto es lento dentro de una cadena de llamadas distribuida. B es tarea de Cloud Profiler, que agrega el uso de CPU y memoria por función a lo largo del tiempo y no por solicitud. C corresponde a Query Insights, acotado al motor de base de datos. D se responde con el registro de reglas de firewall y VPC Flow Logs, en la capa de red."
       },
       "doc": "https://cloud.google.com/trace/docs/overview"
+    },
+    {
+      "id": "ref3-051",
+      "curso": null,
+      "servicios": [
+        "observability-tools",
+        "cloud-run"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.4-diagnostics"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A checkout API built from six Cloud Run services has p99 latency of 4 seconds, but every individual service reports healthy CPU and memory and its own logs look normal. You need to find which hop in the call chain is responsible. What is the BEST tool to use first?",
+        "es": "Una API de checkout compuesta por seis servicios de Cloud Run tiene una latencia p99 de 4 segundos, pero cada servicio individual reporta CPU y memoria saludables y sus propios registros se ven normales. Necesitas encontrar qué salto de la cadena de llamadas es el responsable. ¿Cuál es la MEJOR herramienta para empezar?"
+      },
+      "opciones": [
+        {
+          "en": "Cloud Trace, to inspect end-to-end traces and see which span in the request chain accumulates the latency",
+          "es": "Cloud Trace, para inspeccionar los seguimientos de extremo a extremo y ver qué intervalo de la cadena de solicitudes acumula la latencia"
+        },
+        {
+          "en": "Cloud Profiler, to collect CPU profiles from each of the six services",
+          "es": "Cloud Profiler, para recopilar perfiles de CPU de cada uno de los seis servicios"
+        },
+        {
+          "en": "Cloud Logging with a log-based metric counting slow requests per service",
+          "es": "Cloud Logging con una métrica basada en registros que cuente las solicitudes lentas por servicio"
+        },
+        {
+          "en": "VPC Flow Logs on the serverless VPC connector subnet",
+          "es": "VPC Flow Logs en la subred del conector de VPC sin servidores"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The symptom is latency distributed across a call chain with no single unhealthy component, which is exactly the case distributed tracing solves: a trace decomposes one request into nested spans with durations, immediately showing the slow hop. B is the wrong first step because CPU profiles explain why a service burns CPU, not why a request waits on a downstream call, and healthy CPU already argues against it. C can count slow requests but cannot attribute time across services within a single request. D operates at the packet level and cannot map network flows back to application spans.",
+        "es": "El síntoma es latencia repartida en una cadena de llamadas sin ningún componente insano, que es justamente el caso que resuelve el rastreo distribuido: un seguimiento descompone una solicitud en intervalos anidados con duraciones y muestra de inmediato el salto lento. B es un mal primer paso porque los perfiles de CPU explican por qué un servicio consume CPU, no por qué una solicitud espera una llamada aguas abajo, y la CPU saludable ya lo desaconseja. C puede contar solicitudes lentas pero no atribuir el tiempo entre servicios dentro de una misma solicitud. D opera a nivel de paquetes y no puede vincular los flujos de red con los intervalos de la aplicación."
+      },
+      "doc": "https://cloud.google.com/trace/docs/overview"
+    },
+    {
+      "id": "ref3-052",
+      "curso": null,
+      "servicios": [
+        "cmek-kms",
+        "cloud-storage"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-cmek"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "An engineer scheduled for destruction the only CMEK key version protecting a production bucket, and the 30-day destruction window has now elapsed. What is the situation?",
+        "es": "Un ingeniero programó para destrucción la única versión de la clave CMEK que protege un bucket de producción, y la ventana de destrucción de 30 días ya transcurrió. ¿Cuál es la situación?"
+      },
+      "opciones": [
+        {
+          "en": "The objects are permanently unreadable: the key material is gone and neither Google nor Cloud KMS can recover it, so the data must be restored from a copy encrypted with a different key",
+          "es": "Los objetos quedan permanentemente ilegibles: el material de la clave desapareció y ni Google ni Cloud KMS pueden recuperarlo, por lo que los datos deben restaurarse desde una copia encriptada con otra clave"
+        },
+        {
+          "en": "Cloud Storage automatically re-encrypted the objects with a Google-managed key when the version was destroyed, so nothing is lost",
+          "es": "Cloud Storage volvió a encriptar automáticamente los objetos con una clave administrada por Google cuando se destruyó la versión, así que no se pierde nada"
+        },
+        {
+          "en": "You can open a support case and Google restores the destroyed key version from its internal backups",
+          "es": "Puedes abrir un caso de soporte y Google restaura la versión de clave destruida desde sus copias de seguridad internas"
+        },
+        {
+          "en": "The objects are still readable; destroying a key version only blocks new writes to the bucket",
+          "es": "Los objetos siguen siendo legibles; destruir una versión de clave solo bloquea las escrituras nuevas al bucket"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Destruction is irreversible by design: during the scheduled-for-destruction window you can restore the version, but once it elapses the key material is erased and every object wrapped by that version is cryptographically unrecoverable. This is the core operational risk of CMEK and the reason destruction is gated behind a waiting period. B is false; there is no silent fallback to Google-managed encryption. C is false and undermines the guarantee CMEK exists to provide. D confuses destruction with revoking write access; reads need the key just as much as writes.",
+        "es": "La destrucción es irreversible por diseño: durante la ventana de programada para destrucción puedes restaurar la versión, pero una vez que transcurre el material criptográfico se borra y todo objeto envuelto por esa versión queda criptográficamente irrecuperable. Este es el riesgo operativo central de CMEK y la razón de que la destrucción tenga un período de espera. B es falsa; no existe una vuelta silenciosa a la encriptación administrada por Google. C es falsa y anularía la garantía que CMEK existe para ofrecer. D confunde la destrucción con revocar el acceso de escritura; las lecturas necesitan la clave tanto como las escrituras."
+      },
+      "doc": "https://cloud.google.com/kms/docs/destroy-restore"
+    },
+    {
+      "id": "ref3-053",
+      "curso": null,
+      "servicios": [
+        "cloud-dns",
+        "hybrid-connectivity"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-dns-nat"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "VMs in your VPC must resolve names under corp.internal, which are served by two on-premises DNS servers reachable over an existing Cloud VPN. What is the BEST Cloud DNS configuration?",
+        "es": "Las VMs de tu VPC deben resolver nombres bajo corp.internal, servidos por dos servidores DNS on-premises accesibles mediante una Cloud VPN existente. ¿Cuál es la MEJOR configuración de Cloud DNS?"
+      },
+      "opciones": [
+        {
+          "en": "Create a private forwarding zone for corp.internal whose forwarding targets are the two on-premises DNS server IP addresses, authorized for that VPC",
+          "es": "Crear una zona privada de reenvío para corp.internal cuyos destinos de reenvío sean las direcciones IP de los dos servidores DNS on-premises, autorizada para esa VPC"
+        },
+        {
+          "en": "Create a private zone for corp.internal and manually copy every on-premises record into it",
+          "es": "Crear una zona privada para corp.internal y copiar manualmente en ella cada registro on-premises"
+        },
+        {
+          "en": "Create a DNS peering zone for corp.internal pointing at the on-premises servers",
+          "es": "Crear una zona de intercambio de DNS para corp.internal que apunte a los servidores on-premises"
+        },
+        {
+          "en": "Set the on-premises DNS server addresses as custom resolvers in each VM's /etc/resolv.conf",
+          "es": "Configurar las direcciones de los servidores DNS on-premises como resolutores personalizados en el /etc/resolv.conf de cada VM"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Outbound DNS forwarding is the designed mechanism for delegating a namespace to resolvers outside Google Cloud: queries for corp.internal are sent from the Cloud DNS forwarders to the on-premises servers over the VPN, and answers stay current with no manual sync. B duplicates a namespace you do not own and guarantees stale records. C is the wrong construct: DNS peering forwards queries to another VPC's Cloud DNS namespace, not to external DNS servers. D bypasses Cloud DNS entirely, breaks resolution of Google Cloud internal names and metadata, and has to be maintained on every VM image.",
+        "es": "El reenvío de DNS saliente es el mecanismo diseñado para delegar un espacio de nombres a resolutores fuera de Google Cloud: las consultas de corp.internal se envían desde los reenviadores de Cloud DNS a los servidores on-premises por la VPN y las respuestas se mantienen actualizadas sin sincronización manual. B duplica un espacio de nombres que no controlas y garantiza registros obsoletos. C usa la construcción equivocada: el intercambio de DNS reenvía consultas al espacio de nombres de Cloud DNS de otra VPC, no a servidores DNS externos. D omite por completo Cloud DNS, rompe la resolución de nombres internos y de metadatos de Google Cloud, y debe mantenerse en cada imagen de VM."
+      },
+      "doc": "https://cloud.google.com/dns/docs/zones/forwarding-zones"
+    },
+    {
+      "id": "ref3-054",
+      "curso": null,
+      "servicios": [
+        "bigquery"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-job-status",
+        "3.2-data-queries"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Finance reports that the BigQuery bill tripled last month. You need to identify which queries scanned the most bytes, who ran them, and when, over the past 30 days. What is the BEST approach?",
+        "es": "Finanzas reporta que la factura de BigQuery se triplicó el mes pasado. Necesitas identificar qué consultas analizaron más bytes, quién las ejecutó y cuándo, durante los últimos 30 días. ¿Cuál es el MEJOR enfoque?"
+      },
+      "opciones": [
+        {
+          "en": "Query the INFORMATION_SCHEMA.JOBS view at the project or organization level, aggregating total_bytes_billed by user_email and query over the period",
+          "es": "Consultar la vista INFORMATION_SCHEMA.JOBS a nivel de proyecto u organización, agregando total_bytes_billed por user_email y consulta durante el período"
+        },
+        {
+          "en": "Open each user's personal job history in the BigQuery console and read the bytes processed one job at a time",
+          "es": "Abrir el historial de trabajos personal de cada usuario en la consola de BigQuery y leer los bytes procesados trabajo por trabajo"
+        },
+        {
+          "en": "Create a Cloud Monitoring alert on the BigQuery scanned-bytes metric so future spikes are caught",
+          "es": "Crear una alerta de Cloud Monitoring sobre la métrica de bytes analizados de BigQuery para detectar picos futuros"
+        },
+        {
+          "en": "Enable Cloud Profiler on the BigQuery service to attribute cost to the heaviest code paths",
+          "es": "Habilitar Cloud Profiler en el servicio de BigQuery para atribuir el costo a las rutas de código más pesadas"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "INFORMATION_SCHEMA.JOBS exposes job metadata as queryable data, including job state, principal, timestamps, query text and bytes billed, so a single aggregation answers all three questions retroactively. B is the same information gathered manually and does not scale to a month of activity across many users. C is a useful preventive control but is forward-looking and does nothing to explain last month's bill. D is impossible: Cloud Profiler profiles your own applications, not Google's managed BigQuery service.",
+        "es": "INFORMATION_SCHEMA.JOBS expone los metadatos de los trabajos como datos consultables, incluidos el estado, el principal, las marcas de tiempo, el texto de la consulta y los bytes facturados, así que una sola agregación responde las tres preguntas de forma retroactiva. B obtiene la misma información manualmente y no escala a un mes de actividad de muchos usuarios. C es un control preventivo útil, pero mira hacia adelante y no explica la factura del mes pasado. D es imposible: Cloud Profiler perfila tus propias aplicaciones, no el servicio administrado BigQuery de Google."
+      },
+      "doc": "https://cloud.google.com/bigquery/docs/information-schema-jobs"
+    },
+    {
+      "id": "ref3-055",
+      "curso": null,
+      "servicios": [
+        "cloud-storage",
+        "billing"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-storage-costs",
+        "3.2-gcs-management"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A 200 TB log archive is currently in Standard. Analysts read a random 2% of it about once a month, and objects are kept for 3 years. You want the lowest total cost. What is the BEST lifecycle design?",
+        "es": "Un archivo de registros de 200 TB está actualmente en Standard. Los analistas leen alrededor del 2% al azar aproximadamente una vez al mes y los objetos se conservan 3 años. Quieres el menor costo total. ¿Cuál es el MEJOR diseño de ciclo de vida?"
+      },
+      "opciones": [
+        {
+          "en": "Add a lifecycle rule that transitions objects to Nearline after 30 days, since monthly access matches Nearline's 30-day minimum duration and its retrieval fee stays small at 2% read volume",
+          "es": "Agregar una regla de ciclo de vida que pase los objetos a Nearline después de 30 días, ya que el acceso mensual coincide con la duración mínima de 30 días de Nearline y su tarifa de recuperación se mantiene baja con un 2% de volumen leído"
+        },
+        {
+          "en": "Transition everything to Archive after 1 day to get the lowest at-rest price",
+          "es": "Pasar todo a Archive después de 1 día para obtener el precio en reposo más bajo"
+        },
+        {
+          "en": "Keep everything in Standard, because any class transition would cost more than it saves",
+          "es": "Mantener todo en Standard, porque cualquier transición de clase costaría más de lo que ahorra"
+        },
+        {
+          "en": "Transition to Coldline after 30 days and delete objects at 60 days to avoid retrieval fees",
+          "es": "Pasar a Coldline después de 30 días y borrar los objetos a los 60 días para evitar tarifas de recuperación"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Storage class choice follows access frequency: data read about once a month fits Nearline, whose 30-day minimum storage duration is never violated by a 3-year retention and whose retrieval fee applies to only the 2% actually read. B looks cheapest at rest but Archive assumes access less than once a year; monthly reads would pile up retrieval charges and any early deletion would hit the 365-day minimum. C ignores a large, safe saving on 200 TB. D violates the stated 3-year retention requirement and would also trigger early deletion charges against Coldline's 90-day minimum.",
+        "es": "La elección de clase de almacenamiento sigue a la frecuencia de acceso: datos leídos aproximadamente una vez al mes encajan en Nearline, cuya duración mínima de 30 días nunca se incumple con una retención de 3 años y cuya tarifa de recuperación se aplica solo al 2% realmente leído. B parece lo más barato en reposo, pero Archive supone accesos menos de una vez al año; las lecturas mensuales acumularían cargos de recuperación y cualquier eliminación temprana chocaría con el mínimo de 365 días. C ignora un ahorro grande y seguro sobre 200 TB. D incumple el requisito de retención de 3 años y además generaría cargos por eliminación temprana contra el mínimo de 90 días de Coldline."
+      },
+      "doc": "https://cloud.google.com/storage/docs/lifecycle"
+    },
+    {
+      "id": "ref3-056",
+      "curso": null,
+      "servicios": [
+        "vpc",
+        "gke"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-subnets-ips"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A production subnet 10.20.0.0/22 is nearly out of addresses and a scheduled scale-out will fail. Hundreds of VMs are running and no maintenance window is available. What is the BEST action?",
+        "es": "Una subred de producción 10.20.0.0/22 está casi sin direcciones y un escalamiento programado va a fallar. Hay cientos de VMs en ejecución y no hay ventana de mantenimiento disponible. ¿Cuál es la MEJOR acción?"
+      },
+      "opciones": [
+        {
+          "en": "Expand the subnet's primary range in place to a larger prefix, for example /20, which is non-disruptive for running VMs",
+          "es": "Ampliar en el lugar el rango principal de la subred a un prefijo más grande, por ejemplo /20, lo que no interrumpe las VMs en ejecución"
+        },
+        {
+          "en": "Create a second subnet in the same region and migrate every VM to it during the next release",
+          "es": "Crear una segunda subred en la misma región y migrar todas las VMs a ella en el próximo lanzamiento"
+        },
+        {
+          "en": "Delete and recreate the subnet with a /20 range, then rebuild the VMs from instance templates",
+          "es": "Borrar y volver a crear la subred con un rango /20 y luego reconstruir las VMs desde plantillas de instancia"
+        },
+        {
+          "en": "Add a secondary IP range to the subnet and reconfigure the VMs to use it as their primary interface address",
+          "es": "Agregar un rango de IP secundario a la subred y reconfigurar las VMs para que lo usen como dirección principal de su interfaz"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Expanding a subnet's primary IPv4 range is an online operation: existing VMs keep their addresses, no traffic is interrupted, and the new capacity is immediately available, as long as the larger prefix does not overlap another subnet or route in the VPC. B is valid architecture but requires a migration the scenario has no window for. C is the most disruptive option and is unnecessary. D misuses secondary ranges, which exist as alias IP ranges for workloads such as GKE Pods and Services and cannot serve as a VM's primary NIC address.",
+        "es": "Ampliar el rango IPv4 principal de una subred es una operación en línea: las VMs existentes conservan sus direcciones, no se interrumpe el tráfico y la nueva capacidad queda disponible de inmediato, siempre que el prefijo más grande no se superponga con otra subred o ruta de la VPC. B es una arquitectura válida pero exige una migración para la que el escenario no tiene ventana. C es la opción más disruptiva y es innecesaria. D usa mal los rangos secundarios, que existen como rangos de IP de alias para cargas de trabajo como Pods y Services de GKE y no pueden servir como dirección principal de la NIC de una VM."
+      },
+      "doc": "https://cloud.google.com/vpc/docs/create-modify-vpc-networks"
+    },
+    {
+      "id": "ref3-057",
+      "curso": null,
+      "servicios": [
+        "cloud-nat",
+        "vpc"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-dns-nat"
+      ],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "A fleet of VMs behind Cloud NAT intermittently fails to reach a third-party API, and NAT error logs show dropped connections attributed to port exhaustion. Which TWO actions directly address the cause?",
+        "es": "Una flota de VMs detrás de Cloud NAT falla de manera intermitente al alcanzar una API de terceros, y los registros de error de NAT muestran conexiones descartadas atribuidas al agotamiento de puertos. ¿Cuáles DOS acciones abordan directamente la causa?"
+      },
+      "opciones": [
+        {
+          "en": "Increase the minimum number of ports allocated per VM, or enable dynamic port allocation so busy VMs can borrow more ports",
+          "es": "Aumentar el número mínimo de puertos asignados por VM, o habilitar la asignación dinámica de puertos para que las VMs ocupadas puedan tomar más puertos"
+        },
+        {
+          "en": "Add more external IP addresses to the NAT gateway, since each additional IP multiplies the pool of available source ports",
+          "es": "Agregar más direcciones IP externas al gateway de NAT, ya que cada IP adicional multiplica el grupo de puertos de origen disponibles"
+        },
+        {
+          "en": "Give every VM its own external IP address so NAT is bypassed and the problem disappears",
+          "es": "Dar a cada VM su propia dirección IP externa para omitir la NAT y hacer desaparecer el problema"
+        },
+        {
+          "en": "Create a firewall rule allowing egress on all ports to the third-party API",
+          "es": "Crear una regla de firewall que permita la salida en todos los puertos hacia la API de terceros"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Cloud NAT allocates a fixed block of source ports per VM out of the ports provided by its external IP addresses, so exhaustion is fixed either by giving each VM more ports (raising the minimum, or letting dynamic port allocation scale between a minimum and a maximum) or by enlarging the total pool with more NAT IP addresses. C would work technically but abandons the private-egress design, increases attack surface and breaks any partner allowlist built on the NAT addresses. D is unrelated: the connections are not being denied by firewall policy, they are failing because no source port is available.",
+        "es": "Cloud NAT asigna a cada VM un bloque fijo de puertos de origen tomado de los puertos que aportan sus direcciones IP externas, así que el agotamiento se corrige dando a cada VM más puertos (subiendo el mínimo o dejando que la asignación dinámica escale entre un mínimo y un máximo) o ampliando el grupo total con más direcciones IP de NAT. C funcionaría técnicamente, pero abandona el diseño de salida privada, aumenta la superficie de ataque y rompe cualquier lista de permitidos del socio basada en las direcciones de NAT. D no tiene relación: las conexiones no las está denegando la política de firewall, fallan porque no hay puerto de origen disponible."
+      },
+      "doc": "https://cloud.google.com/nat/docs/ports-and-addresses"
+    },
+    {
+      "id": "ref3-058",
+      "curso": null,
+      "servicios": [
+        "cmek-kms",
+        "cloud-sql"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-cmek"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Compliance requires that a new Cloud SQL instance in europe-west1 be protected by a customer-managed key. Your organization keeps all Cloud KMS keys in a central key ring located in us-central1. What must you do?",
+        "es": "El cumplimiento exige que una nueva instancia de Cloud SQL en europe-west1 esté protegida por una clave administrada por el cliente. Tu organización mantiene todas las claves de Cloud KMS en un key ring central ubicado en us-central1. ¿Qué debes hacer?"
+      },
+      "opciones": [
+        {
+          "en": "Create a key ring and key in europe-west1 (the key location must match the instance region), grant the Cloud SQL service agent encrypt/decrypt on it, and specify the key when creating the instance",
+          "es": "Crear un key ring y una clave en europe-west1 (la ubicación de la clave debe coincidir con la región de la instancia), otorgar al agente de servicio de Cloud SQL el permiso de encriptar/desencriptar sobre ella y especificar la clave al crear la instancia"
+        },
+        {
+          "en": "Use the existing us-central1 key; Cloud KMS keys are global and any key can protect any resource",
+          "es": "Usar la clave existente de us-central1; las claves de Cloud KMS son globales y cualquier clave puede proteger cualquier recurso"
+        },
+        {
+          "en": "Create the instance with Google-managed encryption first and switch it to CMEK afterwards with gcloud sql instances patch",
+          "es": "Crear primero la instancia con encriptación administrada por Google y cambiarla a CMEK después con gcloud sql instances patch"
+        },
+        {
+          "en": "Copy the key material from the us-central1 key into a new europe-west1 key so both regions share the same key",
+          "es": "Copiar el material de la clave de us-central1 en una nueva clave de europe-west1 para que ambas regiones compartan la misma clave"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "CMEK requires the key to live in the same location as the resource it protects (a regional resource needs a key in that region, or a compatible multi-region), and the product's service agent must hold the CryptoKey Encrypter/Decrypter role on the key. B is false: key rings are regional, multi-regional or global resources and location compatibility is enforced. C fails because CMEK on Cloud SQL must be chosen at instance creation time; an existing instance cannot simply be patched onto a customer key. D is impossible for software and HSM keys, whose material cannot be exported from Cloud KMS.",
+        "es": "CMEK exige que la clave resida en la misma ubicación que el recurso que protege (un recurso regional necesita una clave en esa región o una multirregión compatible), y el agente de servicio del producto debe tener el rol CryptoKey Encrypter/Decrypter sobre la clave. B es falsa: los key rings son recursos regionales, multirregionales o globales y la compatibilidad de ubicación se aplica de forma estricta. C falla porque la CMEK en Cloud SQL debe elegirse al crear la instancia; una instancia existente no puede simplemente parchearse hacia una clave del cliente. D es imposible para claves de software y de HSM, cuyo material no puede exportarse desde Cloud KMS."
+      },
+      "doc": "https://cloud.google.com/sql/docs/mysql/cmek"
+    },
+    {
+      "id": "ref3-059",
+      "curso": null,
+      "servicios": [
+        "vpc",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-custom-routes"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "All egress from a VPC must pass through a pool of inspection appliances running in a managed instance group. The design must survive the loss of any single appliance VM without manual intervention. What is the BEST routing configuration?",
+        "es": "Toda la salida de una VPC debe pasar por un grupo de dispositivos de inspección que corren en un grupo de instancias administrado. El diseño debe sobrevivir a la pérdida de cualquier VM de dispositivo sin intervención manual. ¿Cuál es la MEJOR configuración de enrutamiento?"
+      },
+      "opciones": [
+        {
+          "en": "A custom static route for 0.0.0.0/0 whose next hop is the forwarding rule of an internal passthrough Network Load Balancer fronting the appliance instance group, with a priority lower than the default internet route",
+          "es": "Una ruta estática personalizada para 0.0.0.0/0 cuyo siguiente salto sea la regla de reenvío de un balanceador de cargas de red interno de transferencia que expone el grupo de instancias de dispositivos, con una prioridad menor que la ruta predeterminada a internet"
+        },
+        {
+          "en": "One custom static route for 0.0.0.0/0 per appliance VM, using --next-hop-instance and equal priorities",
+          "es": "Una ruta estática personalizada para 0.0.0.0/0 por cada VM de dispositivo, usando --next-hop-instance y prioridades iguales"
+        },
+        {
+          "en": "A Cloud Router with BGP sessions to each appliance VM so routes are learned dynamically",
+          "es": "Un Cloud Router con sesiones BGP hacia cada VM de dispositivo para que las rutas se aprendan dinámicamente"
+        },
+        {
+          "en": "Egress firewall rules that deny 0.0.0.0/0 except from the appliance VMs",
+          "es": "Reglas de firewall de salida que denieguen 0.0.0.0/0 salvo desde las VMs de dispositivos"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Pointing the default route at an internal passthrough Network Load Balancer's forwarding rule gives you a single stable next hop backed by a health-checked pool: if an appliance fails, the load balancer stops sending it traffic and routing keeps working with no route edits. B distributes traffic by ECMP hashing but a route whose next-hop instance is unhealthy keeps attracting and blackholing traffic, so it fails the resilience requirement. C is not applicable: Cloud Router peers with Cloud VPN, Interconnect and Router appliances for hybrid connectivity, not as a general BGP fabric to arbitrary VMs for VPC egress steering. D can block direct egress but cannot steer the remaining traffic through the appliances, since firewall rules never redirect packets.",
+        "es": "Apuntar la ruta predeterminada a la regla de reenvío de un balanceador de cargas de red interno de transferencia entrega un único siguiente salto estable respaldado por un grupo con verificaciones de estado: si un dispositivo falla, el balanceador deja de enviarle tráfico y el enrutamiento sigue funcionando sin editar rutas. B distribuye el tráfico por hashing ECMP, pero una ruta cuya instancia de siguiente salto está en mal estado sigue atrayendo tráfico y descartándolo, así que incumple el requisito de resiliencia. C no aplica: Cloud Router establece BGP con Cloud VPN, Interconnect y router appliances para conectividad híbrida, no como una malla BGP general hacia VMs arbitrarias para dirigir la salida de la VPC. D puede bloquear la salida directa pero no puede dirigir el tráfico restante a través de los dispositivos, porque las reglas de firewall nunca redirigen paquetes."
+      },
+      "doc": "https://cloud.google.com/vpc/docs/routes"
+    },
+    {
+      "id": "ref3-060",
+      "curso": null,
+      "servicios": [
+        "database-center",
+        "cmek-kms"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-database-center"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "An auditor asks which databases across 40 projects lack encryption with customer-managed keys, lack automated backups, or accept connections from broad IP ranges. You need the answer this week with minimal engineering effort. What is the BEST approach?",
+        "es": "Un auditor pregunta qué bases de datos de 40 proyectos carecen de encriptación con claves administradas por el cliente, carecen de copias de seguridad automatizadas o aceptan conexiones desde rangos de IP amplios. Necesitas la respuesta esta semana con el mínimo esfuerzo de ingeniería. ¿Cuál es el MEJOR enfoque?"
+      },
+      "opciones": [
+        {
+          "en": "Open Database Center scoped to the organization and review its security and data-protection findings, filtering by engine and project",
+          "es": "Abrir Database Center con alcance de organización y revisar sus hallazgos de seguridad y protección de datos, filtrando por motor y proyecto"
+        },
+        {
+          "en": "Write a script that iterates over all 40 projects calling gcloud sql, gcloud spanner, gcloud alloydb and gcloud bigtable describe for every instance",
+          "es": "Escribir un script que recorra los 40 proyectos llamando a gcloud sql, gcloud spanner, gcloud alloydb y gcloud bigtable describe para cada instancia"
+        },
+        {
+          "en": "Export Cloud Asset Inventory to BigQuery and build SQL queries that reconstruct each engine's configuration schema",
+          "es": "Exportar Cloud Asset Inventory a BigQuery y construir consultas SQL que reconstruyan el esquema de configuración de cada motor"
+        },
+        {
+          "en": "Enable Cloud Monitoring dashboards for each database instance and read the encryption and backup metrics",
+          "es": "Habilitar paneles de Cloud Monitoring para cada instancia de base de datos y leer las métricas de encriptación y copias de seguridad"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Database Center exists precisely to answer fleet-wide posture questions: it already aggregates managed databases across projects and engines and classifies gaps such as missing CMEK, missing backups and overly permissive network exposure, so the effort is a filter rather than a build. B and C both produce the right data eventually but require custom code, per-engine schema knowledge and ongoing maintenance, which contradicts the minimal-effort constraint. D is the wrong tool: Cloud Monitoring reports runtime metrics such as CPU and connections, not configuration posture like whether CMEK is enabled.",
+        "es": "Database Center existe justamente para responder preguntas de postura a nivel de flota: ya agrega las bases de datos administradas de todos los proyectos y motores y clasifica brechas como falta de CMEK, falta de copias de seguridad y exposición de red demasiado permisiva, así que el trabajo se reduce a filtrar en vez de construir. B y C acaban produciendo los datos correctos, pero exigen código propio, conocimiento del esquema de cada motor y mantenimiento continuo, lo que contradice la restricción de esfuerzo mínimo. D usa la herramienta equivocada: Cloud Monitoring reporta métricas de tiempo de ejecución como CPU y conexiones, no la postura de configuración como si CMEK está habilitada."
+      },
+      "doc": "https://cloud.google.com/database-center/docs/overview"
     }
   ]
 }
