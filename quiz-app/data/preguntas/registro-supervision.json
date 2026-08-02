@@ -550,6 +550,956 @@
         "es": "Google Cloud Observability (antes la suite Stackdriver) incluye Cloud Monitoring, Cloud Logging, Cloud Trace y Cloud Profiler. Cloud Build es un servicio de CI y Cloud Deploy es un servicio de entrega continua; ambos pertenecen a la cadena de herramientas de DevOps, no a la suite de observabilidad."
       },
       "doc": "https://cloud.google.com/stackdriver/docs"
+    },
+    {
+      "id": "ops-023",
+      "curso": "registro-supervision",
+      "servicios": ["cloud-logging", "cloud-monitoring"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-alerts-metrics"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your application writes a log entry containing \"payment_failed\" every time a payment is rejected. You want a Cloud Monitoring time series that counts those entries so you can chart and alert on the rate. What do you create?",
+        "es": "Tu aplicación escribe una entrada de registro que contiene \"payment_failed\" cada vez que se rechaza un pago. Quieres una serie temporal en Cloud Monitoring que cuente esas entradas para graficar y alertar sobre la tasa. ¿Qué creas?"
+      },
+      "opciones": [
+        { "en": "A log-based counter metric with a filter that matches those entries, using gcloud logging metrics create", "es": "Una métrica basada en registros de tipo contador con un filtro que coincida con esas entradas, usando gcloud logging metrics create" },
+        { "en": "A sink that routes the entries to BigQuery and a scheduled query that counts rows", "es": "Un sink que enrute las entradas a BigQuery y una consulta programada que cuente filas" },
+        { "en": "An uptime check against the payments endpoint", "es": "Un uptime check contra el endpoint de pagos" },
+        { "en": "A custom metric descriptor written from the application with the Monitoring API", "es": "Un descriptor de métrica personalizada escrito desde la aplicación con la API de Monitoring" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "A log-based counter metric turns matching log entries into a metric (logging.googleapis.com/user/...) with no application change, and it can be charted and alerted on like any other metric. B works but adds export cost and latency and gives you a table, not a Monitoring time series. C only tests endpoint availability, not business failures. D is valid in general but requires instrumenting and redeploying the app, which is unnecessary when the signal is already in the logs.",
+        "es": "Una métrica basada en registros de tipo contador convierte las entradas coincidentes en una métrica (logging.googleapis.com/user/...) sin cambiar la aplicación, y se puede graficar y alertar como cualquier otra métrica. B funciona pero agrega costo de exportación y latencia, y entrega una tabla, no una serie temporal de Monitoring. C solo prueba la disponibilidad del endpoint, no las fallas de negocio. D es válida en general, pero exige instrumentar y volver a desplegar la app, algo innecesario cuando la señal ya está en los registros."
+      },
+      "doc": "https://cloud.google.com/logging/docs/logs-based-metrics/counter-metrics"
+    },
+    {
+      "id": "ops-024",
+      "curso": "registro-supervision",
+      "servicios": ["cloud-logging", "bigquery"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-log-routing"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You ran gcloud logging sinks create app-to-bq bigquery.googleapis.com/projects/PROJECT/datasets/logs --log-filter='resource.type=\"cloud_run_revision\"'. The command succeeded, but no rows appear in the dataset. What is the most likely cause?",
+        "es": "Ejecutaste gcloud logging sinks create app-to-bq bigquery.googleapis.com/projects/PROJECT/datasets/logs --log-filter='resource.type=\"cloud_run_revision\"'. El comando tuvo éxito, pero no aparecen filas en el dataset. ¿Cuál es la causa más probable?"
+      },
+      "opciones": [
+        { "en": "The sink's writer identity service account has not been granted the BigQuery Data Editor role on the dataset", "es": "A la cuenta de servicio de identidad de escritura (writer identity) del sink no se le otorgó el rol BigQuery Data Editor sobre el dataset" },
+        { "en": "Sinks cannot use BigQuery as a destination; only Cloud Storage and Pub/Sub are allowed", "es": "Los sinks no pueden usar BigQuery como destino; solo se permiten Cloud Storage y Pub/Sub" },
+        { "en": "The _Default bucket must be deleted before a custom sink can receive entries", "es": "Se debe borrar el bucket _Default antes de que un sink personalizado pueda recibir entradas" },
+        { "en": "Log entries are only routed to sinks created in the organization, never in a project", "es": "Las entradas de registro solo se enrutan a sinks creados en la organización, nunca en un proyecto" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Creating a sink returns a writer identity (a service account); you must grant it write permission on the destination (BigQuery Data Editor for a dataset, Storage Object Creator for a bucket, Pub/Sub Publisher for a topic) or routing silently fails. B is false: BigQuery is a supported destination. C is false: the _Default bucket is independent, and sinks operate in parallel. D is false: project-level sinks are the most common form; aggregated sinks at folder/organization level are an additional option.",
+        "es": "Al crear un sink se devuelve una identidad de escritura (una cuenta de servicio); debes otorgarle permiso de escritura en el destino (BigQuery Data Editor para un dataset, Storage Object Creator para un bucket, Pub/Sub Publisher para un topic) o el enrutamiento falla en silencio. B es falsa: BigQuery es un destino admitido. C es falsa: el bucket _Default es independiente y los sinks operan en paralelo. D es falsa: los sinks a nivel de proyecto son la forma más común; los sinks agregados a nivel de carpeta u organización son una opción adicional."
+      },
+      "doc": "https://cloud.google.com/logging/docs/export/configure_export_v2"
+    },
+    {
+      "id": "ops-025",
+      "curso": "registro-supervision",
+      "servicios": ["ops-agent", "compute-engine"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-agents-prometheus"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You need memory and disk-usage metrics from 300 existing Compute Engine VMs, and new VMs must be covered automatically. What is the recommended way to deploy the Ops Agent?",
+        "es": "Necesitas métricas de memoria y uso de disco de 300 VMs de Compute Engine existentes, y las VMs nuevas deben quedar cubiertas automáticamente. ¿Cuál es la forma recomendada de implementar el Ops Agent?"
+      },
+      "opciones": [
+        { "en": "Use VM Manager OS policies (agent policies) so the Ops Agent is installed and kept up to date on all VMs matching a filter", "es": "Usar políticas del SO de VM Manager (agent policies) para que el Ops Agent se instale y se mantenga actualizado en todas las VMs que coincidan con un filtro" },
+        { "en": "SSH into each VM and run the install script manually", "es": "Conectarte por SSH a cada VM y ejecutar el script de instalación manualmente" },
+        { "en": "Nothing: memory metrics are collected without any agent", "es": "Nada: las métricas de memoria se recopilan sin ningún agente" },
+        { "en": "Enable Managed Service for Prometheus in the project", "es": "Habilitar Managed Service for Prometheus en el proyecto" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Agent policies built on VM Manager OS Config install, and keep updated, the Ops Agent on the VMs selected by zone, label, or OS filter, including VMs created later. B does not scale and drifts over time. C is false: guest metrics such as memory and disk utilization require the Ops Agent; only host-level metrics like CPU are agentless. D is aimed at Prometheus-format workloads (mostly GKE) and does not by itself collect OS guest metrics from VMs.",
+        "es": "Las agent policies basadas en VM Manager OS Config instalan y mantienen actualizado el Ops Agent en las VMs seleccionadas por zona, etiqueta o filtro de SO, incluidas las creadas después. B no escala y se desincroniza con el tiempo. C es falsa: las métricas del huésped, como memoria y uso de disco, requieren el Ops Agent; solo las métricas del host, como CPU, son sin agente. D apunta a cargas con formato Prometheus (sobre todo en GKE) y por sí solo no recopila métricas del SO huésped en VMs."
+      },
+      "doc": "https://cloud.google.com/stackdriver/docs/solutions/agents/ops-agent/managing-agent-policies"
+    },
+    {
+      "id": "ops-026",
+      "curso": "registro-supervision",
+      "servicios": ["cloud-logging", "cloud-run"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-logging-usage"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "In Logs Explorer, which query returns only error-or-worse entries produced by the Cloud Run service named checkout?",
+        "es": "En Logs Explorer, ¿qué consulta devuelve solo las entradas de severidad error o superior producidas por el servicio de Cloud Run llamado checkout?"
+      },
+      "opciones": [
+        { "en": "resource.type=\"cloud_run_revision\" AND resource.labels.service_name=\"checkout\" AND severity>=ERROR", "es": "resource.type=\"cloud_run_revision\" AND resource.labels.service_name=\"checkout\" AND severity>=ERROR" },
+        { "en": "SELECT * FROM logs WHERE service = 'checkout' AND severity = 'ERROR'", "es": "SELECT * FROM logs WHERE service = 'checkout' AND severity = 'ERROR'" },
+        { "en": "resource.type:cloud_run AND textPayload contains error", "es": "resource.type:cloud_run AND textPayload contains error" },
+        { "en": "kubectl logs deployment/checkout --severity=error", "es": "kubectl logs deployment/checkout --severity=error" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "The Logging query language uses field comparisons joined by AND/OR/NOT, and severity supports the comparison severity>=ERROR, which includes ERROR, CRITICAL, ALERT, and EMERGENCY. B is SQL, which only applies to Log Analytics or BigQuery, not the Logs Explorer query bar. C mixes an invalid resource type with a nonexistent contains operator (substring matching uses the : operator). D is a Kubernetes command and does not apply to Cloud Run or to Logs Explorer.",
+        "es": "El lenguaje de consulta de Logging usa comparaciones de campos unidas con AND/OR/NOT, y severity admite la comparación severity>=ERROR, que incluye ERROR, CRITICAL, ALERT y EMERGENCY. B es SQL, que solo aplica a Log Analytics o BigQuery, no a la barra de consulta de Logs Explorer. C mezcla un tipo de recurso inválido con un operador contains inexistente (la coincidencia de subcadena usa el operador :). D es un comando de Kubernetes y no aplica a Cloud Run ni a Logs Explorer."
+      },
+      "doc": "https://cloud.google.com/logging/docs/view/logging-query-language"
+    },
+    {
+      "id": "ops-027",
+      "curso": "registro-supervision",
+      "servicios": ["cloud-logging", "cloud-storage", "iam"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-audit-flow-logs"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Security asks you to record every read of objects in a sensitive Cloud Storage bucket. What must you configure?",
+        "es": "Seguridad te pide registrar cada lectura de objetos de un bucket sensible de Cloud Storage. ¿Qué debes configurar?"
+      },
+      "opciones": [
+        { "en": "Enable DATA_READ Data Access audit logs for the Cloud Storage service in the project's IAM audit configuration", "es": "Habilitar los registros de auditoría de Data Access DATA_READ para el servicio Cloud Storage en la configuración de auditoría de IAM del proyecto" },
+        { "en": "Nothing: Admin Activity audit logs already record object reads", "es": "Nada: los registros de auditoría de Admin Activity ya registran las lecturas de objetos" },
+        { "en": "Turn on usage logs by adding a lifecycle rule to the bucket", "es": "Activar registros de uso agregando una regla de ciclo de vida al bucket" },
+        { "en": "Enable VPC Flow Logs on the subnet that reaches the bucket", "es": "Habilitar VPC Flow Logs en la subred que alcanza el bucket" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Object reads are Data Access audit logs of type DATA_READ, which are off by default and are enabled per service (or per project) in the audit logs configuration, then viewed in Logs Explorer. B is wrong: Admin Activity only records configuration changes such as bucket creation or IAM changes. C confuses lifecycle management (object deletion or class change) with logging. D records network flow metadata, not who read which object.",
+        "es": "Las lecturas de objetos son registros de auditoría de Data Access de tipo DATA_READ, que están apagados por defecto y se habilitan por servicio (o por proyecto) en la configuración de registros de auditoría, y luego se ven en Logs Explorer. B es incorrecta: Admin Activity solo registra cambios de configuración, como crear el bucket o cambiar IAM. C confunde la gestión del ciclo de vida (borrado o cambio de clase de objetos) con el registro. D registra metadatos de flujos de red, no quién leyó qué objeto."
+      },
+      "doc": "https://cloud.google.com/logging/docs/audit/configure-data-access"
+    },
+    {
+      "id": "ops-028",
+      "curso": "registro-supervision",
+      "servicios": ["cloud-sql", "observability-tools"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-diagnostics"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Users report that a Cloud SQL for PostgreSQL instance is slow. You want to see the top queries by load, their execution plans, and the end-user tags that generated them. What do you enable?",
+        "es": "Los usuarios reportan que una instancia de Cloud SQL para PostgreSQL está lenta. Quieres ver las consultas con mayor carga, sus planes de ejecución y las etiquetas de usuario final que las generaron. ¿Qué habilitas?"
+      },
+      "opciones": [
+        { "en": "Query Insights on the instance", "es": "Query Insights en la instancia" },
+        { "en": "Cloud Profiler on the instance", "es": "Cloud Profiler en la instancia" },
+        { "en": "VPC Flow Logs on the instance's subnet", "es": "VPC Flow Logs en la subred de la instancia" },
+        { "en": "Data Access audit logs for Cloud SQL", "es": "Registros de auditoría de Data Access para Cloud SQL" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Query Insights is the built-in Cloud SQL diagnostics feature that shows database load over time, the top normalized queries, per-query plans, and application tags added with sqlcommenter. Cloud Profiler instruments your own application processes, not the managed database engine. VPC Flow Logs show connections, not query cost. Data Access audit logs record who accessed data, not query performance, and they add significant volume.",
+        "es": "Query Insights es la función de diagnóstico integrada de Cloud SQL que muestra la carga de la base de datos en el tiempo, las consultas normalizadas más pesadas, los planes por consulta y las etiquetas de aplicación agregadas con sqlcommenter. Cloud Profiler instrumenta los procesos de tu propia aplicación, no el motor administrado. Los VPC Flow Logs muestran conexiones, no el costo de las consultas. Los registros de Data Access registran quién accedió a los datos, no el rendimiento de las consultas, y agregan volumen considerable."
+      },
+      "doc": "https://cloud.google.com/sql/docs/postgres/using-query-insights"
+    },
+    {
+      "id": "ops-029",
+      "curso": "registro-supervision",
+      "servicios": ["cloud-hub", "iam"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-service-health-hub"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "An operations analyst must open the Personalized Service Health dashboard and read the incidents that affect your projects, without being able to modify anything. Which access should you grant?",
+        "es": "Un analista de operaciones debe abrir el panel de Personalized Service Health y leer los incidentes que afectan a tus proyectos, sin poder modificar nada. ¿Qué acceso deberías otorgar?"
+      },
+      "opciones": [
+        { "en": "The Service Health Viewer role on the projects, after enabling the Service Health API", "es": "El rol Service Health Viewer sobre los proyectos, después de habilitar la API de Service Health" },
+        { "en": "The Project Editor role, because the dashboard requires write access", "es": "El rol Project Editor, porque el panel requiere acceso de escritura" },
+        { "en": "The Monitoring Admin role on the metrics scope", "es": "El rol Monitoring Admin sobre el metrics scope" },
+        { "en": "No IAM role: the personalized dashboard is public, like the Google Cloud status page", "es": "Ningún rol de IAM: el panel personalizado es público, como la página de estado de Google Cloud" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Personalized Service Health requires its API to be enabled and grants read access through the Service Health Viewer role, following least privilege. B grants far more permissions than needed and violates least privilege. C is the wrong product and is also an admin role. D confuses the personalized view, which is project-scoped and IAM-controlled, with the public Google Cloud Service Health page, which is generic and not filtered to your resources.",
+        "es": "Personalized Service Health requiere habilitar su API y otorga acceso de lectura mediante el rol Service Health Viewer, siguiendo el mínimo privilegio. B otorga muchos más permisos de los necesarios y viola el mínimo privilegio. C corresponde a otro producto y además es un rol de administrador. D confunde la vista personalizada, que tiene alcance de proyecto y se controla con IAM, con la página pública de Google Cloud Service Health, que es genérica y no está filtrada a tus recursos."
+      },
+      "doc": "https://cloud.google.com/service-health/docs/configure-access-ph"
+    },
+    {
+      "id": "ops-030",
+      "curso": "registro-supervision",
+      "servicios": ["cloud-monitoring", "load-balancing"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-alerts-metrics"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You configure an uptime check for https://shop.example.com/healthz and want to be paged when the endpoint fails from several regions. What must you do in addition to creating the check?",
+        "es": "Configuras un uptime check para https://shop.example.com/healthz y quieres recibir una notificación cuando el endpoint falle desde varias regiones. ¿Qué debes hacer además de crear la verificación?"
+      },
+      "opciones": [
+        { "en": "Create an alerting policy on the uptime check condition and attach a notification channel", "es": "Crear una política de alertas sobre la condición del uptime check y adjuntar un canal de notificación" },
+        { "en": "Install the Ops Agent on the backend VMs so the check can report failures", "es": "Instalar el Ops Agent en las VMs de backend para que la verificación pueda reportar fallas" },
+        { "en": "Enable Data Access audit logs for the load balancer", "es": "Habilitar registros de auditoría de Data Access para el balanceador de cargas" },
+        { "en": "Add a firewall rule that allows egress from your VPC to the checker IP ranges", "es": "Agregar una regla de firewall que permita el egreso desde tu VPC a los rangos de IP de los verificadores" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "An uptime check only produces availability data; notification happens when you attach it to an alerting policy with one or more notification channels (the console offers to create the policy right after the check). B is unnecessary because uptime checks run from Google's global infrastructure, not from your VMs. C records data access, not availability. D is backwards: for public endpoints you allow ingress from the uptime-check source ranges if you filter traffic, and egress rules are irrelevant to inbound probes.",
+        "es": "Un uptime check solo produce datos de disponibilidad; la notificación ocurre cuando lo asocias a una política de alertas con uno o más canales de notificación (la consola ofrece crear la política justo después de la verificación). B es innecesaria porque los uptime checks se ejecutan desde la infraestructura global de Google, no desde tus VMs. C registra acceso a datos, no disponibilidad. D está al revés: para endpoints públicos se permite el ingreso desde los rangos de origen de los verificadores si filtras tráfico, y las reglas de egreso no afectan a sondas entrantes."
+      },
+      "doc": "https://cloud.google.com/monitoring/uptime-checks/introduction"
+    },
+    {
+      "id": "ops-031",
+      "curso": "registro-supervision",
+      "servicios": ["cloud-logging"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-log-routing"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Logging costs in a development project are driven by DEBUG and INFO entries from a chatty load balancer. You must stop paying to ingest and store them, keeping WARNING and above. What do you do?",
+        "es": "Los costos de Logging en un proyecto de desarrollo se disparan por entradas DEBUG e INFO de un balanceador de cargas muy verboso. Debes dejar de pagar por ingerirlas y almacenarlas, conservando WARNING y superiores. ¿Qué haces?"
+      },
+      "opciones": [
+        { "en": "Add an exclusion filter to the _Default sink that matches those resource and severity values", "es": "Agregar un filtro de exclusión al sink _Default que coincida con esos valores de recurso y severidad" },
+        { "en": "Reduce the retention of the _Default bucket to 1 day", "es": "Reducir la retención del bucket _Default a 1 día" },
+        { "en": "Delete the _Required bucket so fewer logs are stored", "es": "Borrar el bucket _Required para almacenar menos registros" },
+        { "en": "Create a second sink to Cloud Storage so the entries stop reaching the _Default bucket", "es": "Crear un segundo sink hacia Cloud Storage para que las entradas dejen de llegar al bucket _Default" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Exclusion filters on a sink drop matching entries before they are ingested into that sink's destination, which is the only way to avoid the ingestion charge while other severities keep flowing. B lowers storage retention but you still pay the ingestion cost, which dominates the bill. C is impossible: the _Required bucket cannot be deleted or modified, and it does not hold these entries anyway. D is wrong because sinks work in parallel: adding one does not remove entries from the _Default sink.",
+        "es": "Los filtros de exclusión de un sink descartan las entradas coincidentes antes de ingerirlas en el destino de ese sink, y es la única forma de evitar el cargo de ingesta mientras las demás severidades siguen fluyendo. B baja la retención de almacenamiento, pero sigues pagando la ingesta, que domina la factura. C es imposible: el bucket _Required no se puede borrar ni modificar y, además, no contiene esas entradas. D es incorrecta porque los sinks funcionan en paralelo: agregar uno no quita entradas del sink _Default."
+      },
+      "doc": "https://cloud.google.com/logging/docs/routing/overview"
+    },
+    {
+      "id": "ops-032",
+      "curso": "registro-supervision",
+      "servicios": ["active-assist", "compute-engine"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-active-assist"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You want to list, from the command line, the VMs that Google detects as idle in a zone so you can review them before deleting.",
+        "es": "Quieres listar, desde la línea de comandos, las VMs que Google detecta como inactivas en una zona para revisarlas antes de borrarlas."
+      },
+      "opciones": [
+        { "en": "gcloud recommender recommendations list --recommender=google.compute.instance.IdleResourceRecommender --location=ZONE", "es": "gcloud recommender recommendations list --recommender=google.compute.instance.IdleResourceRecommender --location=ZONE" },
+        { "en": "gcloud compute instances list --filter='status=IDLE'", "es": "gcloud compute instances list --filter='status=IDLE'" },
+        { "en": "gcloud monitoring dashboards list --idle", "es": "gcloud monitoring dashboards list --idle" },
+        { "en": "gcloud logging read 'resource.type=\"gce_instance\" AND idle=true'", "es": "gcloud logging read 'resource.type=\"gce_instance\" AND idle=true'" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Active Assist recommendations are exposed through the Recommender API, and gcloud recommender recommendations list with the recommender ID and a location returns them for review before you apply anything. B is invalid: instance status values are RUNNING, TERMINATED, and similar; there is no IDLE status. C is not a real flag and dashboards do not compute idleness. D invents a log field: idle detection comes from Recommender analysis of usage metrics, not from a log entry.",
+        "es": "Las recomendaciones de Active Assist se exponen mediante la API de Recommender, y gcloud recommender recommendations list con el ID del recomendador y una ubicación las devuelve para revisarlas antes de aplicar nada. B es inválida: los estados de instancia son RUNNING, TERMINATED y similares; no existe IDLE. C no es un flag real y los dashboards no calculan inactividad. D inventa un campo de registro: la detección de inactividad proviene del análisis de métricas de uso de Recommender, no de una entrada de registro."
+      },
+      "doc": "https://cloud.google.com/compute/docs/instances/viewing-and-applying-idle-resources-recommendations"
+    },
+    {
+      "id": "ops-033",
+      "curso": "registro-supervision",
+      "servicios": ["gemini-cloud-assist", "cloud-logging"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-gemini-assist-monitoring"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A junior engineer does not know the Logging query language and needs to find 4xx responses from a specific Cloud Run service in the last hour. Which built-in capability helps fastest?",
+        "es": "Un ingeniero junior no conoce el lenguaje de consulta de Logging y necesita encontrar respuestas 4xx de un servicio específico de Cloud Run en la última hora. ¿Qué capacidad integrada ayuda más rápido?"
+      },
+      "opciones": [
+        { "en": "Use Gemini Cloud Assist in Logs Explorer to generate the query from a natural-language description, then refine it", "es": "Usar Gemini Cloud Assist en Logs Explorer para generar la consulta a partir de una descripción en lenguaje natural y luego refinarla" },
+        { "en": "Export the logs to BigQuery and ask Gemini to write the SQL", "es": "Exportar los registros a BigQuery y pedirle a Gemini que escriba el SQL" },
+        { "en": "Open Cloud Trace and inspect each span", "es": "Abrir Cloud Trace e inspeccionar cada span" },
+        { "en": "Ask Gemini Cloud Assist to grant the engineer the Logs Writer role", "es": "Pedirle a Gemini Cloud Assist que otorgue al ingeniero el rol Logs Writer" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Gemini Cloud Assist is integrated into Logs Explorer and translates a natural-language request into a Logging query that the engineer can run and adjust, with no data movement. B adds an export, cost, and delay for a question answerable in place. C shows latency spans, not HTTP status filtering across log entries, and inspecting spans one by one is slow. D is wrong twice: Gemini does not change IAM, and Logs Writer grants write access, not the read access needed to view logs.",
+        "es": "Gemini Cloud Assist está integrado en Logs Explorer y traduce una petición en lenguaje natural a una consulta de Logging que el ingeniero puede ejecutar y ajustar, sin mover datos. B agrega una exportación, costo y demora para una pregunta que se responde en el mismo lugar. C muestra spans de latencia, no un filtrado por estado HTTP sobre entradas de registro, y revisar spans uno por uno es lento. D falla por partida doble: Gemini no cambia IAM, y Logs Writer otorga escritura, no la lectura necesaria para ver registros."
+      },
+      "doc": "https://cloud.google.com/gemini/docs/cloud-assist/overview"
+    },
+    {
+      "id": "ops-034",
+      "curso": "registro-supervision",
+      "servicios": ["vpc", "cloud-logging"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-audit-flow-logs"],
+      "nivel": "intermedio",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "You enable VPC Flow Logs on a busy subnet with gcloud compute networks subnets update. Which TWO settings directly control the volume and cost of the generated logs?",
+        "es": "Habilitas VPC Flow Logs en una subred con mucho tráfico usando gcloud compute networks subnets update. ¿Cuáles DOS parámetros controlan directamente el volumen y el costo de los registros generados?"
+      },
+      "opciones": [
+        { "en": "The sampling rate (--logging-flow-sampling)", "es": "La tasa de muestreo (--logging-flow-sampling)" },
+        { "en": "The aggregation interval (--logging-aggregation-interval)", "es": "El intervalo de agregación (--logging-aggregation-interval)" },
+        { "en": "The subnet's secondary IP range size", "es": "El tamaño del rango de IP secundario de la subred" },
+        { "en": "The machine type of the VMs in the subnet", "es": "El tipo de máquina de las VMs de la subred" }
+      ],
+      "respuesta": ["A", "B"],
+      "explicacion": {
+        "en": "Flow sampling (a fraction between 0.0 and 1.0) decides what share of flows is logged, and the aggregation interval (5s to 15min) decides how many flows are collapsed into each entry; both are the standard levers to trim volume, together with metadata field selection. The secondary range size only affects how many alias IPs or Pods fit in the subnet, and the machine type affects capacity, not the logging configuration.",
+        "es": "El muestreo de flujos (una fracción entre 0.0 y 1.0) decide qué proporción de flujos se registra, y el intervalo de agregación (de 5s a 15min) decide cuántos flujos se agrupan en cada entrada; ambos son las palancas estándar para recortar volumen, junto con la selección de campos de metadatos. El tamaño del rango secundario solo afecta cuántas IPs de alias o Pods caben en la subred, y el tipo de máquina afecta la capacidad, no la configuración de registro."
+      },
+      "doc": "https://cloud.google.com/vpc/docs/using-flow-logs"
+    },
+    {
+      "id": "ops-035",
+      "curso": "registro-supervision",
+      "servicios": ["cloud-monitoring", "gcloud-cli"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-alerts-metrics"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your Python service must report the size of its internal work queue as a metric that you can chart in Cloud Monitoring. What is the correct approach?",
+        "es": "Tu servicio en Python debe reportar el tamaño de su cola interna de trabajo como una métrica que puedas graficar en Cloud Monitoring. ¿Cuál es el enfoque correcto?"
+      },
+      "opciones": [
+        { "en": "Instrument the app to write a user-defined metric (custom.googleapis.com/... or a Prometheus-style metric) with the Monitoring API or OpenTelemetry", "es": "Instrumentar la app para escribir una métrica definida por el usuario (custom.googleapis.com/... o una métrica estilo Prometheus) con la API de Monitoring u OpenTelemetry" },
+        { "en": "Create an uptime check that reads the queue length from a health endpoint", "es": "Crear un uptime check que lea la longitud de la cola desde un endpoint de estado" },
+        { "en": "Enable Data Access audit logs so the queue operations are recorded", "es": "Habilitar registros de auditoría de Data Access para que se registren las operaciones de la cola" },
+        { "en": "Nothing: Cloud Monitoring discovers application-internal values automatically", "es": "Nada: Cloud Monitoring descubre automáticamente los valores internos de la aplicación" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Values that only the application knows must be published as user-defined metrics: either time series written to the Monitoring API under custom.googleapis.com, or Prometheus/OpenTelemetry metrics scraped by the Ops Agent or managed collection. B misuses uptime checks, which record availability and latency, not arbitrary payload values. C records API access to Google Cloud services, not internal state. D is false: Google Cloud collects infrastructure metrics, but it cannot see inside your process without instrumentation.",
+        "es": "Los valores que solo conoce la aplicación deben publicarse como métricas definidas por el usuario: series temporales escritas en la API de Monitoring bajo custom.googleapis.com, o métricas Prometheus/OpenTelemetry recolectadas por el Ops Agent o la recolección administrada. B usa mal los uptime checks, que registran disponibilidad y latencia, no valores arbitrarios del cuerpo de la respuesta. C registra el acceso por API a servicios de Google Cloud, no el estado interno. D es falsa: Google Cloud recopila métricas de infraestructura, pero no puede ver dentro de tu proceso sin instrumentación."
+      },
+      "doc": "https://cloud.google.com/monitoring/custom-metrics"
+    },
+    {
+      "id": "ops-036",
+      "curso": "registro-supervision",
+      "servicios": ["cloud-logging", "gcloud-cli"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-log-routing"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Compliance requires that application logs stay searchable in Cloud Logging for 90 days instead of the default 30. What is the simplest change?",
+        "es": "Cumplimiento exige que los registros de aplicación permanezcan consultables en Cloud Logging durante 90 días en lugar de los 30 predeterminados. ¿Cuál es el cambio más simple?"
+      },
+      "opciones": [
+        { "en": "Update the retention of the _Default log bucket: gcloud logging buckets update _Default --location=global --retention-days=90", "es": "Actualizar la retención del bucket de registros _Default: gcloud logging buckets update _Default --location=global --retention-days=90" },
+        { "en": "Create a sink to Cloud Storage with a 90-day lifecycle rule", "es": "Crear un sink hacia Cloud Storage con una regla de ciclo de vida de 90 días" },
+        { "en": "Change the retention of the _Required bucket to 90 days", "es": "Cambiar la retención del bucket _Required a 90 días" },
+        { "en": "Re-ingest the logs every 30 days with gcloud logging write", "es": "Volver a ingerir los registros cada 30 días con gcloud logging write" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Log buckets have configurable retention (up to 3650 days for custom retention), and raising _Default to 90 days keeps entries queryable in Logs Explorer with a single command; you pay retention beyond the free 30 days. B stores copies in Cloud Storage but they are no longer searchable in Logs Explorer without extra tooling. C is invalid: _Required is fixed at 400 days and cannot be modified. D is nonsense: rewriting entries duplicates data, breaks timestamps, and adds ingestion cost.",
+        "es": "Los buckets de registros tienen retención configurable (hasta 3650 días con retención personalizada), y subir _Default a 90 días mantiene las entradas consultables en Logs Explorer con un solo comando; pagas la retención que exceda los 30 días gratuitos. B guarda copias en Cloud Storage, pero ya no son consultables en Logs Explorer sin herramientas adicionales. C es inválida: _Required está fijo en 400 días y no se puede modificar. D no tiene sentido: reescribir entradas duplica datos, rompe las marcas de tiempo y agrega costo de ingesta."
+      },
+      "doc": "https://cloud.google.com/logging/docs/buckets"
+    },
+    {
+      "id": "ops-037",
+      "curso": "registro-supervision",
+      "servicios": ["ops-agent", "gke", "kubectl"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-agents-prometheus"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your GKE workload exposes Prometheus metrics on /metrics. With Managed Service for Prometheus managed collection enabled on the cluster, how do you tell the collectors to scrape those Pods?",
+        "es": "Tu carga de trabajo en GKE expone métricas de Prometheus en /metrics. Con la recolección administrada de Managed Service for Prometheus habilitada en el clúster, ¿cómo indicas a los recolectores que hagan scraping de esos Pods?"
+      },
+      "opciones": [
+        { "en": "Apply a PodMonitoring custom resource that selects the Pods by label and names the metrics port and path", "es": "Aplicar un recurso personalizado PodMonitoring que seleccione los Pods por etiqueta e indique el puerto y la ruta de métricas" },
+        { "en": "Deploy your own Prometheus server as a StatefulSet and point it at the Pods", "es": "Implementar tu propio servidor Prometheus como StatefulSet y apuntarlo a los Pods" },
+        { "en": "Install the Ops Agent as a DaemonSet in the cluster", "es": "Instalar el Ops Agent como DaemonSet en el clúster" },
+        { "en": "Create a log-based metric from the container logs", "es": "Crear una métrica basada en registros a partir de los registros del contenedor" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Managed collection is configured declaratively: a namespaced PodMonitoring (or cluster-wide ClusterPodMonitoring) resource selects targets and defines the port, path, and scrape interval, and the managed collectors do the rest. B is exactly what the managed service removes and reintroduces operational burden. C is wrong: the Ops Agent is for Compute Engine VMs; GKE uses its built-in agents and managed collection. D converts logs into metrics, which does not read the Prometheus endpoint at all.",
+        "es": "La recolección administrada se configura de forma declarativa: un recurso PodMonitoring (con espacio de nombres) o ClusterPodMonitoring (a nivel de clúster) selecciona los objetivos y define el puerto, la ruta y el intervalo de scraping, y los recolectores administrados hacen el resto. B es justo lo que el servicio administrado elimina y reintroduce carga operativa. C es incorrecta: el Ops Agent es para VMs de Compute Engine; GKE usa sus agentes integrados y la recolección administrada. D convierte registros en métricas, lo que no lee el endpoint de Prometheus en absoluto."
+      },
+      "doc": "https://cloud.google.com/stackdriver/docs/managed-prometheus/setup-managed"
+    },
+    {
+      "id": "ops-038",
+      "curso": "registro-supervision",
+      "servicios": ["cloud-logging", "gcloud-cli"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-logging-usage"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "From Cloud Shell you need the 20 most recent ERROR entries of the last hour for a VM, in JSON, without opening the console. Which command family do you use?",
+        "es": "Desde Cloud Shell necesitas las 20 entradas ERROR más recientes de la última hora de una VM, en JSON, sin abrir la consola. ¿Qué familia de comandos usas?"
+      },
+      "opciones": [
+        { "en": "gcloud logging read with a query, --limit=20, --freshness=1h and --format=json", "es": "gcloud logging read con una consulta, --limit=20, --freshness=1h y --format=json" },
+        { "en": "gcloud logging write with the same filter", "es": "gcloud logging write con el mismo filtro" },
+        { "en": "gcloud monitoring time-series list with a log filter", "es": "gcloud monitoring time-series list con un filtro de registros" },
+        { "en": "bq query against the project's logs dataset", "es": "bq query contra el dataset de registros del proyecto" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "gcloud logging read runs a Logging query from the CLI and supports --limit, --freshness, --order, and gcloud's --format for JSON output. gcloud logging write creates entries instead of reading them. Monitoring commands work with metric time series, not log entries. bq query only works if a sink already exports logs to BigQuery, which is neither guaranteed nor needed for an ad-hoc lookup.",
+        "es": "gcloud logging read ejecuta una consulta de Logging desde la CLI y admite --limit, --freshness, --order y el --format de gcloud para salida JSON. gcloud logging write crea entradas en lugar de leerlas. Los comandos de Monitoring trabajan con series temporales de métricas, no con entradas de registro. bq query solo sirve si ya existe un sink que exporta registros a BigQuery, lo que no está garantizado ni es necesario para una consulta puntual."
+      },
+      "doc": "https://cloud.google.com/logging/docs/reference/tools/gcloud-logging"
+    },
+    {
+      "id": "ops-039",
+      "curso": "registro-supervision",
+      "servicios": ["cloud-logging", "iam"],
+      "seccion_blueprint": 1,
+      "subtopicos": ["1.1-observability-setup"],
+      "nivel": "intermedio",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "An auditor must read every log in a project, including the Data Access audit logs. Which TWO IAM roles do you grant?",
+        "es": "Un auditor debe leer todos los registros de un proyecto, incluidos los registros de auditoría de Data Access. ¿Cuáles DOS roles de IAM otorgas?"
+      },
+      "opciones": [
+        { "en": "roles/logging.viewer (Logs Viewer)", "es": "roles/logging.viewer (Visualizador de registros)" },
+        { "en": "roles/logging.privateLogViewer (Private Logs Viewer)", "es": "roles/logging.privateLogViewer (Visualizador de registros privados)" },
+        { "en": "roles/logging.logWriter (Logs Writer)", "es": "roles/logging.logWriter (Escritor de registros)" },
+        { "en": "roles/logging.configWriter (Logs Configuration Writer)", "es": "roles/logging.configWriter (Escritor de configuración de registros)" }
+      ],
+      "respuesta": ["A", "B"],
+      "explicacion": {
+        "en": "Logs Viewer grants read access to logs except Data Access audit logs, which are considered private; Private Logs Viewer adds exactly that access, so both together cover the requirement (roles/logging.privateLogViewer already includes the viewer permissions, but granting both is the documented, explicit pattern). Logs Writer only allows sending entries, and Logs Configuration Writer manages sinks, buckets, and exclusions, granting configuration rights the auditor should not have.",
+        "es": "Logs Viewer otorga lectura de los registros excepto los de auditoría de Data Access, considerados privados; Private Logs Viewer agrega exactamente ese acceso, por lo que juntos cubren el requisito (roles/logging.privateLogViewer ya incluye los permisos de visualizador, pero otorgar ambos es el patrón explícito y documentado). Logs Writer solo permite enviar entradas, y Logs Configuration Writer administra sinks, buckets y exclusiones, otorgando derechos de configuración que el auditor no debería tener."
+      },
+      "doc": "https://cloud.google.com/logging/docs/access-control"
+    },
+    {
+      "id": "ops-040",
+      "curso": "registro-supervision",
+      "servicios": ["observability-tools", "cloud-run"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-diagnostics"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A request served by three Cloud Run services sometimes takes 4 seconds. You need to know which service consumes most of that time. What do you do?",
+        "es": "Una solicitud atendida por tres servicios de Cloud Run a veces tarda 4 segundos. Necesitas saber qué servicio consume la mayor parte de ese tiempo. ¿Qué haces?"
+      },
+      "opciones": [
+        { "en": "Instrument the services with OpenTelemetry so their spans are sent to Cloud Trace, then inspect the trace waterfall", "es": "Instrumentar los servicios con OpenTelemetry para que sus spans lleguen a Cloud Trace y luego revisar la cascada de la traza" },
+        { "en": "Create a log-based metric counting slow requests in each service", "es": "Crear una métrica basada en registros que cuente solicitudes lentas en cada servicio" },
+        { "en": "Enable Cloud Profiler and read the heap profile", "es": "Habilitar Cloud Profiler y leer el perfil de heap" },
+        { "en": "Increase the maximum number of instances of each service", "es": "Aumentar el número máximo de instancias de cada servicio" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Cloud Trace reconstructs the request path and shows the latency contributed by each span, which is exactly the per-service breakdown you need; Cloud Run propagates trace context and integrates with Trace once the services emit spans. B tells you how many requests were slow, not where the time went. C profiles CPU and memory inside a single process and does not attribute latency across services. D is a blind capacity change that may hide, but not diagnose, the problem.",
+        "es": "Cloud Trace reconstruye el recorrido de la solicitud y muestra la latencia aportada por cada span, que es justo el desglose por servicio que necesitas; Cloud Run propaga el contexto de traza y se integra con Trace en cuanto los servicios emiten spans. B te dice cuántas solicitudes fueron lentas, no dónde se fue el tiempo. C perfila CPU y memoria dentro de un solo proceso y no atribuye latencia entre servicios. D es un cambio de capacidad a ciegas que puede ocultar, pero no diagnosticar, el problema."
+      },
+      "doc": "https://cloud.google.com/trace/docs/setup"
+    },
+    {
+      "id": "ops-041",
+      "curso": "registro-supervision",
+      "servicios": ["cloud-ngfw", "cloud-logging"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-audit-flow-logs"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You must prove whether a deny rule is dropping traffic to port 8080 on a group of VMs. What do you configure?",
+        "es": "Debes comprobar si una regla de denegación está descartando tráfico al puerto 8080 en un grupo de VMs. ¿Qué configuras?"
+      },
+      "opciones": [
+        { "en": "Firewall rules logging on that rule (gcloud compute firewall-rules update RULE --enable-logging), then query the entries in Logs Explorer", "es": "El registro de reglas de firewall en esa regla (gcloud compute firewall-rules update RULE --enable-logging) y luego consultar las entradas en Logs Explorer" },
+        { "en": "Admin Activity audit logs, which record every packet evaluated by the rule", "es": "Registros de auditoría de Admin Activity, que registran cada paquete evaluado por la regla" },
+        { "en": "An uptime check against port 8080 of each VM", "es": "Un uptime check contra el puerto 8080 de cada VM" },
+        { "en": "Cloud Trace on the VMs to follow the dropped connections", "es": "Cloud Trace en las VMs para seguir las conexiones descartadas" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Firewall rules logging is enabled per rule and writes an entry each time the rule allows or denies a connection, including the rule reference, the 5-tuple, and the disposition, which directly proves the drops. B is wrong: Admin Activity records who created or changed the rule, never per-connection evaluation. C would show that the port is unreachable but not which rule is responsible. D traces application spans, and traffic blocked by the firewall never reaches the application.",
+        "es": "El registro de reglas de firewall se habilita por regla y escribe una entrada cada vez que la regla permite o deniega una conexión, con la referencia de la regla, la 5-tupla y la disposición, lo que prueba directamente los descartes. B es incorrecta: Admin Activity registra quién creó o cambió la regla, nunca la evaluación por conexión. C mostraría que el puerto es inalcanzable, pero no qué regla es responsable. D rastrea spans de aplicación, y el tráfico bloqueado por el firewall nunca llega a la aplicación."
+      },
+      "doc": "https://cloud.google.com/firewall/docs/firewall-rules-logging"
+    },
+    {
+      "id": "ops-042",
+      "curso": "registro-supervision",
+      "servicios": ["active-assist", "iam"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-active-assist"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Security wants to shrink over-permissive IAM grants without breaking anything, based on the permissions each principal actually used in the last 90 days. Which Active Assist capability do you use?",
+        "es": "Seguridad quiere reducir permisos de IAM excesivos sin romper nada, basándose en los permisos que cada principal realmente usó en los últimos 90 días. ¿Qué capacidad de Active Assist usas?"
+      },
+      "opciones": [
+        { "en": "IAM role recommendations, which propose less-permissive roles based on observed usage", "es": "Las recomendaciones de roles de IAM, que proponen roles menos permisivos según el uso observado" },
+        { "en": "The idle VM recommender", "es": "El recomendador de VMs inactivas" },
+        { "en": "Cloud Monitoring alerting policies on IAM metrics", "es": "Políticas de alertas de Cloud Monitoring sobre métricas de IAM" },
+        { "en": "An organization policy that blocks basic roles", "es": "Una política de organización que bloquea los roles básicos" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "The IAM recommender (part of Active Assist and Policy Intelligence) analyzes 90 days of permission usage and suggests replacing a broad role with a narrower predefined or custom role, and you review and apply each recommendation. B optimizes compute cost, not permissions. C does not exist as a way to compute least privilege; alerting reacts to metrics. D can prevent future grants of basic roles but does not right-size the existing ones.",
+        "es": "El recomendador de IAM (parte de Active Assist y Policy Intelligence) analiza 90 días de uso de permisos y sugiere reemplazar un rol amplio por uno predefinido o personalizado más acotado, y tú revisas y aplicas cada recomendación. B optimiza costo de cómputo, no permisos. C no existe como forma de calcular el mínimo privilegio; las alertas reaccionan a métricas. D puede impedir futuras asignaciones de roles básicos, pero no ajusta las existentes."
+      },
+      "doc": "https://cloud.google.com/policy-intelligence/docs/role-recommendations-overview"
+    },
+    {
+      "id": "ops-043",
+      "curso": "registro-supervision",
+      "servicios": ["cloud-monitoring", "cloud-logging"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-alerts-metrics"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You want an email as soon as any Policy Denied audit log entry appears in the project. These entries are rare and every one matters. What do you configure?",
+        "es": "Quieres un correo apenas aparezca cualquier entrada de auditoría de Policy Denied en el proyecto. Son entradas raras y todas importan. ¿Qué configuras?"
+      },
+      "opciones": [
+        { "en": "A log-based alerting policy whose query matches those entries, with an email notification channel", "es": "Una política de alertas basada en registros cuya consulta coincida con esas entradas, con un canal de notificación por correo" },
+        { "en": "A saved query in Logs Explorer that a person reviews every morning", "es": "Una consulta guardada en Logs Explorer que una persona revise cada mañana" },
+        { "en": "A sink to Pub/Sub and a manual subscriber that a team member runs", "es": "Un sink hacia Pub/Sub y un suscriptor manual que ejecuta alguien del equipo" },
+        { "en": "An uptime check on the affected service", "es": "Un uptime check sobre el servicio afectado" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Log-based alerts evaluate the Logging query directly and notify on the first matching entry, which fits rare but important events without building a counter metric and threshold. B is manual and delays detection by up to a day. C is a valid pipeline but requires you to build and operate the consumer, far more effort for the same result. D checks endpoint availability and would not notice a policy denial at all.",
+        "es": "Las alertas basadas en registros evalúan la consulta de Logging directamente y notifican con la primera entrada coincidente, lo que encaja con eventos raros pero importantes sin construir una métrica contador y un umbral. B es manual y retrasa la detección hasta un día. C es un pipeline válido, pero exige construir y operar el consumidor: mucho más esfuerzo para el mismo resultado. D verifica disponibilidad del endpoint y no notaría en absoluto una denegación por política."
+      },
+      "doc": "https://cloud.google.com/logging/docs/alerting/log-based-alerts"
+    },
+    {
+      "id": "ops-044",
+      "curso": "registro-supervision",
+      "servicios": ["cloud-logging", "pubsub", "dataflow"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-log-routing"],
+      "nivel": "intermedio",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Your company keeps its SIEM on-premises and needs a near real-time stream of Google Cloud logs into it. Which TWO elements make up the recommended pipeline?",
+        "es": "Tu empresa mantiene su SIEM en las instalaciones y necesita un flujo casi en tiempo real de registros de Google Cloud hacia él. ¿Cuáles DOS elementos componen el pipeline recomendado?"
+      },
+      "opciones": [
+        { "en": "A Cloud Logging sink whose destination is a Pub/Sub topic", "es": "Un sink de Cloud Logging cuyo destino sea un topic de Pub/Sub" },
+        { "en": "A subscriber that reads the subscription and delivers to the SIEM, such as the Dataflow Pub/Sub-to-Splunk template or an on-premises consumer", "es": "Un suscriptor que lea la suscripción y entregue al SIEM, como la plantilla de Dataflow de Pub/Sub a Splunk o un consumidor en las instalaciones" },
+        { "en": "A sink pointing directly at the on-premises SIEM URL", "es": "Un sink que apunte directamente a la URL del SIEM en las instalaciones" },
+        { "en": "A daily manual download of log files from the _Default bucket", "es": "Una descarga manual diaria de archivos de registro desde el bucket _Default" }
+      ],
+      "respuesta": ["A", "B"],
+      "explicacion": {
+        "en": "Pub/Sub is the streaming destination for sinks, and a consumer (commonly the Dataflow Pub/Sub-to-Splunk template, or your own subscriber reachable over Cloud VPN or Interconnect) pushes the entries into the on-premises SIEM. C is not supported: sink destinations are limited to log buckets, BigQuery, Cloud Storage, Pub/Sub, and other Google Cloud projects. D is neither near real time nor automated, and log buckets are not downloaded as files.",
+        "es": "Pub/Sub es el destino de streaming para los sinks, y un consumidor (habitualmente la plantilla de Dataflow de Pub/Sub a Splunk, o tu propio suscriptor alcanzable por Cloud VPN o Interconnect) empuja las entradas al SIEM local. C no es compatible: los destinos de sink se limitan a buckets de registros, BigQuery, Cloud Storage, Pub/Sub y otros proyectos de Google Cloud. D no es casi en tiempo real ni automatizado, y los buckets de registros no se descargan como archivos."
+      },
+      "doc": "https://cloud.google.com/architecture/deploying-production-ready-log-exports-to-splunk-using-dataflow"
+    },
+    {
+      "id": "ops-045",
+      "curso": "registro-supervision",
+      "servicios": ["cloud-monitoring", "compute-engine"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-alerts-metrics"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "An alerting policy on CPU utilization > 80% pages the on-call team several times per night, but every incident auto-resolves within a minute and no user is affected. You must keep detecting real sustained saturation. What is the BEST change?",
+        "es": "Una política de alertas sobre utilización de CPU > 80% despierta al equipo de guardia varias veces por noche, pero cada incidente se resuelve solo en menos de un minuto y ningún usuario se ve afectado. Debes seguir detectando la saturación sostenida real. ¿Cuál es el MEJOR cambio?"
+      },
+      "opciones": [
+        { "en": "Keep the threshold and require the condition to be violated for a duration window, for example 10 minutes, before the policy fires", "es": "Mantener el umbral y exigir que la condición se viole durante una ventana de duración, por ejemplo 10 minutos, antes de que la política se active" },
+        { "en": "Raise the threshold to 99% so only extreme spikes trigger it", "es": "Subir el umbral a 99% para que solo los picos extremos la activen" },
+        { "en": "Delete the notification channel so the policy stops paging", "es": "Borrar el canal de notificación para que la política deje de notificar" },
+        { "en": "Replace the policy with an uptime check on the application endpoint", "es": "Reemplazar la política con un uptime check sobre el endpoint de la aplicación" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "The duration (retest) window makes the condition fire only when the metric stays above the threshold for the configured period, which filters transient spikes while still catching sustained saturation. B loses sensitivity: real sustained load at 85% would never alert. C silences the alert without fixing it, so genuine incidents also go unnoticed. D changes what is measured: availability probes miss internal saturation that has not yet caused failures.",
+        "es": "La ventana de duración (retest) hace que la condición se active solo cuando la métrica permanece sobre el umbral durante el período configurado, lo que filtra picos transitorios y sigue detectando la saturación sostenida. B pierde sensibilidad: una carga sostenida real de 85% nunca alertaría. C silencia la alerta sin corregirla, así que los incidentes genuinos también pasan inadvertidos. D cambia lo que se mide: las sondas de disponibilidad no ven la saturación interna que aún no provoca fallas."
+      },
+      "doc": "https://cloud.google.com/monitoring/alerts/concepts-indepth"
+    },
+    {
+      "id": "ops-046",
+      "curso": "registro-supervision",
+      "servicios": ["cloud-logging", "cloud-storage", "resource-manager"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-log-routing"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A regulator requires that Admin Activity audit logs of every project in the organization, including projects created later, be kept immutable for seven years at the lowest possible cost. What is the BEST design?",
+        "es": "Un regulador exige que los registros de auditoría de Admin Activity de todos los proyectos de la organización, incluidos los creados después, se conserven inmutables durante siete años al menor costo posible. ¿Cuál es el MEJOR diseño?"
+      },
+      "opciones": [
+        { "en": "Create an aggregated sink at the organization level with include-children, pointing to a Cloud Storage bucket in Archive class with a locked retention policy", "es": "Crear un sink agregado a nivel de organización con include-children, apuntando a un bucket de Cloud Storage en clase Archive con una política de retención bloqueada" },
+        { "en": "Ask each project owner to create a sink to their own BigQuery dataset and never delete the tables", "es": "Pedir a cada propietario de proyecto que cree un sink hacia su propio dataset de BigQuery y que nunca borre las tablas" },
+        { "en": "Raise the retention of every project's _Required bucket to 2555 days", "es": "Subir la retención del bucket _Required de cada proyecto a 2555 días" },
+        { "en": "Download the logs monthly with gcloud logging read and store the files on a corporate file server", "es": "Descargar los registros mensualmente con gcloud logging read y guardar los archivos en un servidor de archivos corporativo" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "An aggregated sink defined at the organization with include-children captures logs from all current and future descendant projects with one configuration, and Cloud Storage Archive class plus a locked retention policy gives cheap, tamper-proof, long-term storage that even project owners cannot delete early. B does not cover future projects, scatters ownership, relies on people not deleting data, and BigQuery long-term storage costs more than Archive for pure archival. C is impossible: _Required retention is fixed at 400 days. D is manual, error-prone, breaks the chain of custody, and leaves the data outside the controls the regulator expects.",
+        "es": "Un sink agregado definido en la organización con include-children captura los registros de todos los proyectos descendientes actuales y futuros con una sola configuración, y la clase Archive de Cloud Storage con una política de retención bloqueada da almacenamiento a largo plazo barato e inalterable que ni los propietarios de proyecto pueden borrar antes de tiempo. B no cubre los proyectos futuros, dispersa la propiedad, depende de que nadie borre datos y el almacenamiento a largo plazo de BigQuery cuesta más que Archive para archivado puro. C es imposible: la retención de _Required está fija en 400 días. D es manual, propenso a errores, rompe la cadena de custodia y deja los datos fuera de los controles que el regulador espera."
+      },
+      "doc": "https://cloud.google.com/logging/docs/export/aggregated_sinks"
+    },
+    {
+      "id": "ops-047",
+      "curso": "registro-supervision",
+      "servicios": ["cloud-logging", "cloud-ngfw"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-audit-flow-logs"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A firewall rule disappeared about three months ago and nobody knows who removed it. The project uses default settings and the _Default bucket keeps 30 days. What is the BEST way to identify the author?",
+        "es": "Una regla de firewall desapareció hace unos tres meses y nadie sabe quién la quitó. El proyecto usa la configuración predeterminada y el bucket _Default conserva 30 días. ¿Cuál es la MEJOR forma de identificar al autor?"
+      },
+      "opciones": [
+        { "en": "Query the Admin Activity audit logs, which are stored in the _Required bucket for 400 days, filtering by the firewall delete method", "es": "Consultar los registros de auditoría de Admin Activity, almacenados en el bucket _Required durante 400 días, filtrando por el método de borrado de firewall" },
+        { "en": "Enable Data Access audit logs now and re-run the query for the past quarter", "es": "Habilitar ahora los registros de auditoría de Data Access y repetir la consulta del último trimestre" },
+        { "en": "Restore the _Default bucket from a Cloud Storage backup", "es": "Restaurar el bucket _Default desde una copia de seguridad en Cloud Storage" },
+        { "en": "Inspect VPC Flow Logs to see when traffic patterns changed", "es": "Revisar los VPC Flow Logs para ver cuándo cambiaron los patrones de tráfico" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Deleting a firewall rule is a configuration change, so it lands in Admin Activity audit logs, which are always enabled and retained 400 days in _Required, well beyond the three months; the entry carries the principal email, method name, and timestamp. B is useless retroactively: enabling a log type never generates past entries, and Data Access does not cover configuration changes anyway. C is impossible: log buckets are not restored from backups. D might show when behavior changed but never identifies the person who made the change.",
+        "es": "Borrar una regla de firewall es un cambio de configuración, por lo que queda en los registros de auditoría de Admin Activity, que siempre están habilitados y se retienen 400 días en _Required, muy por encima de los tres meses; la entrada incluye el correo del principal, el nombre del método y la marca de tiempo. B es inútil de forma retroactiva: habilitar un tipo de registro nunca genera entradas pasadas, y además Data Access no cubre cambios de configuración. C es imposible: los buckets de registros no se restauran desde copias de seguridad. D podría mostrar cuándo cambió el comportamiento, pero nunca identifica a la persona que hizo el cambio."
+      },
+      "doc": "https://cloud.google.com/logging/docs/audit"
+    },
+    {
+      "id": "ops-048",
+      "curso": "registro-supervision",
+      "servicios": ["cloud-logging", "bigquery"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-logging-usage"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your team needs ad-hoc SQL aggregations (percentiles, joins by user ID) over the last 30 days of application logs that already live in the _Default bucket, with the least added cost and no duplicated data. What is the BEST option?",
+        "es": "Tu equipo necesita agregaciones SQL ad hoc (percentiles, uniones por ID de usuario) sobre los últimos 30 días de registros de aplicación que ya están en el bucket _Default, con el menor costo adicional y sin datos duplicados. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        { "en": "Upgrade the log bucket to use Log Analytics and run SQL queries directly over the stored entries", "es": "Actualizar el bucket de registros para usar Log Analytics y ejecutar consultas SQL directamente sobre las entradas almacenadas" },
+        { "en": "Create a sink that copies all entries into a BigQuery dataset and query there", "es": "Crear un sink que copie todas las entradas a un dataset de BigQuery y consultar allí" },
+        { "en": "Export the logs to Cloud Storage and load them into BigQuery with a scheduled job", "es": "Exportar los registros a Cloud Storage y cargarlos en BigQuery con un trabajo programado" },
+        { "en": "Write a script that pages through gcloud logging read and aggregates locally", "es": "Escribir un script que pagine gcloud logging read y agregue localmente" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Log Analytics upgrades an existing bucket so its contents can be queried with SQL (optionally through a linked BigQuery dataset) without moving or duplicating the data and without a second storage charge. B works but re-ingests every entry into BigQuery, paying storage twice and adding a sink to maintain, and it only covers logs written after the sink is created. C is the same duplication with more moving parts and more latency. D is slow, hits API quotas, and cannot do server-side joins or percentiles at scale.",
+        "es": "Log Analytics actualiza un bucket existente para que su contenido se consulte con SQL (opcionalmente mediante un dataset vinculado de BigQuery) sin mover ni duplicar los datos y sin un segundo cargo de almacenamiento. B funciona, pero vuelve a ingerir cada entrada en BigQuery, paga el almacenamiento dos veces y agrega un sink que mantener, y solo cubre los registros escritos después de crearlo. C es la misma duplicación con más piezas móviles y más latencia. D es lento, choca con cuotas de API y no puede hacer uniones ni percentiles del lado del servidor a escala."
+      },
+      "doc": "https://cloud.google.com/logging/docs/analyze/query-and-view"
+    },
+    {
+      "id": "ops-049",
+      "curso": "registro-supervision",
+      "servicios": ["observability-tools", "gke"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-diagnostics"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Cloud Trace shows that 90% of a request's latency is spent inside one Go service, and its CPU is pinned at 100% even at moderate traffic. You must find which code path is responsible in production, without redeploying an instrumented debug build. What is the BEST tool?",
+        "es": "Cloud Trace muestra que el 90% de la latencia de una solicitud ocurre dentro de un servicio en Go, y su CPU está al 100% incluso con tráfico moderado. Debes encontrar qué ruta de código es responsable en producción, sin desplegar una compilación de depuración instrumentada. ¿Cuál es la MEJOR herramienta?"
+      },
+      "opciones": [
+        { "en": "Cloud Profiler, to attribute CPU time to functions and call stacks with low overhead in production", "es": "Cloud Profiler, para atribuir el tiempo de CPU a funciones y pilas de llamadas con poca sobrecarga en producción" },
+        { "en": "More Cloud Trace spans around every function call", "es": "Más spans de Cloud Trace alrededor de cada llamada a función" },
+        { "en": "Query Insights, to analyze the service's database queries", "es": "Query Insights, para analizar las consultas a la base de datos del servicio" },
+        { "en": "Vertical Pod autoscaling, to give the Pod more CPU", "es": "Autoescalado vertical de Pods, para dar más CPU al Pod" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Cloud Profiler samples running production processes continuously and shows CPU and heap consumption per function and call stack, which is exactly the missing level of detail once Trace has localized the slow service. B adds significant instrumentation work and overhead, and fine-grained spans are a poor substitute for statistical profiling. C targets database query cost, but the evidence points to CPU inside the service. D masks the symptom by adding capacity without ever identifying the hot code path.",
+        "es": "Cloud Profiler muestrea de forma continua los procesos en producción y muestra el consumo de CPU y heap por función y pila de llamadas, que es justo el nivel de detalle que falta una vez que Trace localizó el servicio lento. B implica mucho trabajo de instrumentación y sobrecarga, y los spans de grano fino son un mal sustituto del perfilado estadístico. C apunta al costo de consultas de base de datos, pero la evidencia señala CPU dentro del servicio. D enmascara el síntoma agregando capacidad sin identificar nunca la ruta de código caliente."
+      },
+      "doc": "https://cloud.google.com/profiler/docs/about-profiler"
+    },
+    {
+      "id": "ops-050",
+      "curso": "registro-supervision",
+      "servicios": ["cloud-monitoring", "ops-agent", "compute-engine"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-alerts-metrics"],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "You must be notified when memory usage on production VMs stays above 90% for 15 minutes. The VMs currently report only default metrics. Which TWO actions are required?",
+        "es": "Debes recibir una notificación cuando el uso de memoria de las VMs de producción se mantenga sobre 90% durante 15 minutos. Las VMs hoy reportan solo métricas predeterminadas. ¿Cuáles DOS acciones se requieren?"
+      },
+      "opciones": [
+        { "en": "Install the Ops Agent on the VMs so agent memory metrics are collected", "es": "Instalar el Ops Agent en las VMs para que se recopilen las métricas de memoria del agente" },
+        { "en": "Create an alerting policy on the agent memory utilization metric with a 15-minute duration and a notification channel", "es": "Crear una política de alertas sobre la métrica de utilización de memoria del agente con una duración de 15 minutos y un canal de notificación" },
+        { "en": "Enable Data Access audit logs for Compute Engine", "es": "Habilitar registros de auditoría de Data Access para Compute Engine" },
+        { "en": "Create a log-based metric over the VM serial port output", "es": "Crear una métrica basada en registros sobre la salida del puerto serie de la VM" }
+      ],
+      "respuesta": ["A", "B"],
+      "explicacion": {
+        "en": "Memory utilization is a guest metric that Compute Engine does not expose without an agent, so the Ops Agent must be installed first; then an alerting policy on that metric with the duration window and a notification channel delivers the page. C records API access to Compute Engine and says nothing about memory. D is unreliable and indirect: the serial console does not publish memory utilization, and a log-based metric would not measure it.",
+        "es": "La utilización de memoria es una métrica del huésped que Compute Engine no expone sin agente, así que primero hay que instalar el Ops Agent; luego una política de alertas sobre esa métrica con la ventana de duración y un canal de notificación entrega el aviso. C registra el acceso por API a Compute Engine y no dice nada sobre memoria. D es indirecta y poco confiable: la consola serie no publica la utilización de memoria y una métrica basada en registros no la mediría."
+      },
+      "doc": "https://cloud.google.com/monitoring/api/metrics_agent"
+    },
+    {
+      "id": "ops-051",
+      "curso": "registro-supervision",
+      "servicios": ["ops-agent", "gke", "cloud-monitoring"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-agents-prometheus"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A team migrating to GKE already has PromQL dashboards in Grafana and hundreds of Prometheus exporters. They refuse to lose PromQL but do not want to run Prometheus, Thanos, or the storage behind them. What is the BEST approach?",
+        "es": "Un equipo que migra a GKE ya tiene dashboards en PromQL dentro de Grafana y cientos de exportadores de Prometheus. No quieren perder PromQL, pero tampoco operar Prometheus, Thanos ni el almacenamiento asociado. ¿Cuál es el MEJOR enfoque?"
+      },
+      "opciones": [
+        { "en": "Enable Managed Service for Prometheus managed collection on the cluster and point Grafana at the service's PromQL endpoint", "es": "Habilitar la recolección administrada de Managed Service for Prometheus en el clúster y apuntar Grafana al endpoint PromQL del servicio" },
+        { "en": "Deploy a self-managed Prometheus StatefulSet plus Thanos on the cluster", "es": "Implementar un StatefulSet autogestionado de Prometheus más Thanos en el clúster" },
+        { "en": "Rewrite every dashboard using Cloud Monitoring metric filters and drop PromQL", "es": "Reescribir cada dashboard con filtros de métricas de Cloud Monitoring y abandonar PromQL" },
+        { "en": "Convert the exporters into log entries and build log-based metrics", "es": "Convertir los exportadores en entradas de registro y construir métricas basadas en registros" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Managed Service for Prometheus keeps the Prometheus data model and PromQL while Google runs collection and globally scalable storage; Grafana connects through the service's Prometheus-compatible API, so existing dashboards and exporters keep working. B is exactly the operational burden the team wants to avoid. C throws away a working investment and its query language for no benefit, since PromQL is supported natively. D degrades metrics into logs, losing cardinality, resolution, and PromQL, and it increases logging cost.",
+        "es": "Managed Service for Prometheus conserva el modelo de datos de Prometheus y PromQL mientras Google opera la recolección y el almacenamiento escalable global; Grafana se conecta por la API compatible con Prometheus del servicio, así que los dashboards y exportadores existentes siguen funcionando. B es exactamente la carga operativa que el equipo quiere evitar. C descarta una inversión que funciona y su lenguaje de consulta sin ningún beneficio, ya que PromQL es compatible de forma nativa. D degrada métricas a registros, perdiendo cardinalidad, resolución y PromQL, y aumenta el costo de logging."
+      },
+      "doc": "https://cloud.google.com/stackdriver/docs/managed-prometheus"
+    },
+    {
+      "id": "ops-052",
+      "curso": "registro-supervision",
+      "servicios": ["cloud-logging", "pubsub"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-log-routing"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You must stop storing DEBUG entries in the _Default bucket to cut cost, while a partner SIEM must keep receiving 100% of the logs, including DEBUG, through Pub/Sub. What is the BEST configuration?",
+        "es": "Debes dejar de almacenar entradas DEBUG en el bucket _Default para reducir costos, mientras que un SIEM asociado debe seguir recibiendo el 100% de los registros, incluidos los DEBUG, mediante Pub/Sub. ¿Cuál es la MEJOR configuración?"
+      },
+      "opciones": [
+        { "en": "Add a DEBUG exclusion to the _Default sink only, and keep a separate sink to Pub/Sub with no exclusions", "es": "Agregar una exclusión de DEBUG solo al sink _Default y mantener un sink aparte hacia Pub/Sub sin exclusiones" },
+        { "en": "Create a project-wide exclusion so DEBUG entries are never ingested by Cloud Logging", "es": "Crear una exclusión a nivel de proyecto para que las entradas DEBUG nunca sean ingeridas por Cloud Logging" },
+        { "en": "Disable the _Default sink entirely and rely on the Pub/Sub sink", "es": "Inhabilitar por completo el sink _Default y depender del sink hacia Pub/Sub" },
+        { "en": "Set the _Default bucket retention to 1 day and leave both sinks untouched", "es": "Fijar la retención del bucket _Default en 1 día y dejar ambos sinks sin cambios" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Exclusions are configured per sink, so excluding DEBUG on the _Default sink stops the storage and ingestion charge for that destination while the Pub/Sub sink, evaluated independently by the Log Router, still receives every entry. B removes the entries before any sink sees them, so the SIEM loses the DEBUG data. C is worse than asked: it stops all storage in Logs Explorer, including the errors your team needs for daily troubleshooting. D leaves the ingestion charge, which is the dominant cost, and shortens retention of all severities instead of just DEBUG.",
+        "es": "Las exclusiones se configuran por sink, así que excluir DEBUG en el sink _Default detiene el cargo de ingesta y almacenamiento de ese destino, mientras el sink hacia Pub/Sub, evaluado de forma independiente por el Log Router, sigue recibiendo todas las entradas. B elimina las entradas antes de que las vea cualquier sink, por lo que el SIEM pierde los datos DEBUG. C va más lejos de lo pedido: deja de almacenar todo en Logs Explorer, incluidos los errores que el equipo necesita a diario. D mantiene el cargo de ingesta, que es el costo dominante, y acorta la retención de todas las severidades en vez de solo DEBUG."
+      },
+      "doc": "https://cloud.google.com/logging/docs/routing/overview"
+    },
+    {
+      "id": "ops-053",
+      "curso": "registro-supervision",
+      "servicios": ["cloud-hub", "cloud-monitoring"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-service-health-hub"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Several unrelated workloads in one region start failing at the same time, your dashboards show no deployment or traffic change, and error rates spike across products. What should you check FIRST to decide whether this is a Google-side incident?",
+        "es": "Varias cargas de trabajo no relacionadas de una misma región empiezan a fallar al mismo tiempo, tus dashboards no muestran cambios de despliegue ni de tráfico, y las tasas de error se disparan en varios productos. ¿Qué deberías revisar PRIMERO para determinar si se trata de un incidente del lado de Google?"
+      },
+      "opciones": [
+        { "en": "The Personalized Service Health dashboard, which lists incidents filtered to the products and locations your projects use", "es": "El panel de Personalized Service Health, que lista los incidentes filtrados a los productos y ubicaciones que usan tus proyectos" },
+        { "en": "Open a support case and wait for the response before investigating further", "es": "Abrir un caso de soporte y esperar la respuesta antes de seguir investigando" },
+        { "en": "Cloud Profiler on each affected service", "es": "Cloud Profiler en cada servicio afectado" },
+        { "en": "Admin Activity audit logs of the region", "es": "Los registros de auditoría de Admin Activity de la región" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Personalized Service Health is designed exactly for this triage step: it shows only the disruptions relevant to your projects, with impact and updates, so you immediately know whether to keep debugging your code or to follow the incident. B wastes minutes before you even know if Google is affected, and the dashboard usually answers the question in seconds. C profiles application code, which is irrelevant when many independent workloads fail simultaneously. D shows configuration changes made by your principals, but the premise already rules out deployment or configuration changes.",
+        "es": "Personalized Service Health está pensado justo para este paso de triage: muestra solo las interrupciones relevantes para tus proyectos, con impacto y actualizaciones, de modo que sabes de inmediato si debes seguir depurando tu código o seguir el incidente. B pierde minutos antes siquiera de saber si Google está afectado, y el panel suele responder la pregunta en segundos. C perfila código de aplicación, lo cual es irrelevante cuando fallan a la vez muchas cargas independientes. D muestra cambios de configuración hechos por tus principales, pero la premisa ya descarta cambios de despliegue o configuración."
+      },
+      "doc": "https://cloud.google.com/service-health/docs/overview"
+    },
+    {
+      "id": "ops-054",
+      "curso": "registro-supervision",
+      "servicios": ["gemini-cloud-assist", "cloud-monitoring"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-gemini-assist-monitoring"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "During an incident, the on-call engineer needs a chart correlating request latency with instance count for a Cloud Run service, but does not know PromQL or the Monitoring query syntax. Which approach gets a usable chart fastest while keeping the result reviewable?",
+        "es": "Durante un incidente, el ingeniero de guardia necesita un gráfico que correlacione la latencia de solicitudes con el número de instancias de un servicio de Cloud Run, pero no conoce PromQL ni la sintaxis de consulta de Monitoring. ¿Qué enfoque entrega un gráfico útil más rápido y deja el resultado revisable?"
+      },
+      "opciones": [
+        { "en": "Describe the desired chart in natural language to Gemini Cloud Assist in Cloud Monitoring, then review and save the generated chart in a dashboard", "es": "Describir el gráfico deseado en lenguaje natural a Gemini Cloud Assist en Cloud Monitoring y luego revisar y guardar el gráfico generado en un dashboard" },
+        { "en": "Export the metrics to BigQuery and build the chart in a separate BI tool", "es": "Exportar las métricas a BigQuery y construir el gráfico en una herramienta de BI aparte" },
+        { "en": "Wait for a teammate who knows the query language to become available", "es": "Esperar a que se libere un compañero que conozca el lenguaje de consulta" },
+        { "en": "Read the raw entries in Logs Explorer and estimate latency by hand", "es": "Leer las entradas sin procesar en Logs Explorer y estimar la latencia a mano" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Gemini Cloud Assist is integrated into Cloud Monitoring and turns a natural-language description into a chart or query that the engineer inspects, adjusts, and saves, which is both the fastest path and auditable because the underlying query remains visible. B adds an export pipeline and a second tool in the middle of an incident. C blocks the response on human availability. D is manual, slow, and produces no correlation between latency and instance count.",
+        "es": "Gemini Cloud Assist está integrado en Cloud Monitoring y convierte una descripción en lenguaje natural en un gráfico o consulta que el ingeniero inspecciona, ajusta y guarda, lo que es a la vez el camino más rápido y auditable, porque la consulta subyacente queda visible. B agrega un pipeline de exportación y una segunda herramienta en plena crisis. C bloquea la respuesta a la disponibilidad de una persona. D es manual, lento y no produce ninguna correlación entre latencia y cantidad de instancias."
+      },
+      "doc": "https://cloud.google.com/gemini/docs/cloud-assist/overview"
+    },
+    {
+      "id": "ops-055",
+      "curso": "registro-supervision",
+      "servicios": ["cloud-monitoring", "cloud-logging"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-alerts-metrics"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A batch job writes a single CRITICAL entry when it corrupts a file. The event happens a few times per year and must page the team within about a minute. Which alerting design is BEST?",
+        "es": "Un trabajo por lotes escribe una única entrada CRITICAL cuando corrompe un archivo. El evento ocurre unas pocas veces al año y debe notificar al equipo en aproximadamente un minuto. ¿Qué diseño de alertas es el MEJOR?"
+      },
+      "opciones": [
+        { "en": "A log-based alerting policy that matches the entry directly and notifies on the first occurrence", "es": "Una política de alertas basada en registros que coincida directamente con la entrada y notifique en la primera ocurrencia" },
+        { "en": "A log-based counter metric with a threshold condition of more than 5 events in 10 minutes", "es": "Una métrica contador basada en registros con una condición de umbral de más de 5 eventos en 10 minutos" },
+        { "en": "A daily scheduled query over logs exported to BigQuery", "es": "Una consulta programada diaria sobre los registros exportados a BigQuery" },
+        { "en": "An uptime check against the service that runs the batch job", "es": "Un uptime check contra el servicio que ejecuta el trabajo por lotes" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Log-based alerting policies evaluate the Logging query as entries arrive and fire on a single matching entry, which is what a rare, always-critical event needs. B would never fire: a threshold of more than 5 events in 10 minutes ignores the single occurrence that matters. C detects the problem up to 24 hours late and adds an export. D measures endpoint availability; a corrupted file does not necessarily make the service unreachable.",
+        "es": "Las políticas de alertas basadas en registros evalúan la consulta de Logging a medida que llegan las entradas y se activan con una sola entrada coincidente, que es lo que necesita un evento raro y siempre crítico. B nunca se activaría: un umbral de más de 5 eventos en 10 minutos ignora la única ocurrencia que importa. C detecta el problema hasta 24 horas tarde y agrega una exportación. D mide la disponibilidad del endpoint; un archivo corrupto no vuelve necesariamente inalcanzable al servicio."
+      },
+      "doc": "https://cloud.google.com/logging/docs/alerting/log-based-alerts"
+    },
+    {
+      "id": "ops-056",
+      "curso": "registro-supervision",
+      "servicios": ["vpc", "cloud-logging"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-audit-flow-logs"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Security suspects that one VM in a large subnet is exfiltrating data to an external IP. You need to identify which VMs talk to that IP going forward, keeping cost and performance impact low. What is the BEST option?",
+        "es": "Seguridad sospecha que una VM de una subred grande está exfiltrando datos hacia una IP externa. Necesitas identificar qué VMs se comunican con esa IP de aquí en adelante, con bajo impacto en costo y rendimiento. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        { "en": "Enable VPC Flow Logs on the subnet with a reduced sampling rate and query the entries by destination IP", "es": "Habilitar VPC Flow Logs en la subred con una tasa de muestreo reducida y consultar las entradas por IP de destino" },
+        { "en": "Enable Packet Mirroring for the whole subnet and inspect the captured packets", "es": "Habilitar Packet Mirroring para toda la subred e inspeccionar los paquetes capturados" },
+        { "en": "Enable Data Access audit logs for Compute Engine", "es": "Habilitar registros de auditoría de Data Access para Compute Engine" },
+        { "en": "Install the Ops Agent on every VM to collect network metrics", "es": "Instalar el Ops Agent en cada VM para recopilar métricas de red" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "VPC Flow Logs record connection metadata including source VM, destination IP, ports, and bytes, which answers exactly who talks to that address, and sampling keeps volume and cost under control with no impact on the VMs. B captures full payloads and is far more expensive in cost and processing, and it is overkill when metadata suffices. C records API calls against Compute Engine resources, not network traffic between VMs and the internet. D provides interface-level counters per VM, not per-destination connection detail.",
+        "es": "Los VPC Flow Logs registran metadatos de conexión, incluidos VM de origen, IP de destino, puertos y bytes, lo que responde exactamente quién habla con esa dirección, y el muestreo mantiene el volumen y el costo bajo control sin impacto en las VMs. B captura las cargas útiles completas y es mucho más costoso en dinero y procesamiento, y es excesivo cuando bastan los metadatos. C registra llamadas a la API sobre recursos de Compute Engine, no el tráfico de red entre VMs e Internet. D entrega contadores por interfaz de cada VM, no el detalle de conexiones por destino."
+      },
+      "doc": "https://cloud.google.com/vpc/docs/flow-logs"
+    },
+    {
+      "id": "ops-057",
+      "curso": "registro-supervision",
+      "servicios": ["active-assist", "compute-engine", "billing"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-active-assist"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Finance asks you to cut Compute Engine spending across 60 projects without risking production workloads, and with minimal analysis effort from your team. What is the BEST first step?",
+        "es": "Finanzas te pide reducir el gasto de Compute Engine en 60 proyectos sin poner en riesgo las cargas de producción y con el mínimo esfuerzo de análisis de tu equipo. ¿Cuál es el MEJOR primer paso?"
+      },
+      "opciones": [
+        { "en": "Review the Active Assist machine type (rightsizing) and idle resource recommendations for those projects and apply the ones your teams validate", "es": "Revisar las recomendaciones de tipo de máquina (rightsizing) y de recursos inactivos de Active Assist para esos proyectos y aplicar las que tus equipos validen" },
+        { "en": "Delete every VM whose CPU utilization was below 20% last week", "es": "Borrar toda VM cuya utilización de CPU haya estado bajo 20% la semana pasada" },
+        { "en": "Move all workloads to Spot VMs", "es": "Mover todas las cargas de trabajo a VMs Spot" },
+        { "en": "Export billing data to BigQuery and build a custom rightsizing model", "es": "Exportar los datos de facturación a BigQuery y construir un modelo propio de rightsizing" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Active Assist recommenders already analyze weeks of real usage per resource and produce specific, reviewable suggestions with estimated savings, so the team validates and applies instead of building analysis from scratch. B is dangerous: low average CPU can hide memory-bound or bursty production workloads, and deletion is irreversible. C breaks availability for anything that cannot tolerate preemption, so it is not a blanket strategy. D duplicates work that Active Assist already does and delays savings by weeks; billing data alone also lacks per-VM utilization detail.",
+        "es": "Los recomendadores de Active Assist ya analizan semanas de uso real por recurso y producen sugerencias específicas y revisables con ahorro estimado, de modo que el equipo valida y aplica en lugar de construir el análisis desde cero. B es peligrosa: un promedio bajo de CPU puede ocultar cargas de producción limitadas por memoria o con ráfagas, y el borrado es irreversible. C rompe la disponibilidad de todo lo que no tolere interrupciones, así que no sirve como estrategia general. D duplica un trabajo que Active Assist ya hace y retrasa el ahorro semanas; además, los datos de facturación por sí solos no tienen el detalle de utilización por VM."
+      },
+      "doc": "https://cloud.google.com/compute/docs/instances/apply-machine-type-recommendations-for-instances"
+    },
+    {
+      "id": "ops-058",
+      "curso": "registro-supervision",
+      "servicios": ["cloud-logging", "resource-manager"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-log-routing"],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "A central security team must analyze audit logs from every project in a folder inside one dedicated project, without asking each project owner to configure anything. Which TWO steps accomplish this?",
+        "es": "Un equipo central de seguridad debe analizar los registros de auditoría de todos los proyectos de una carpeta dentro de un único proyecto dedicado, sin pedir a cada propietario de proyecto que configure nada. ¿Cuáles DOS pasos lo logran?"
+      },
+      "opciones": [
+        { "en": "Create an aggregated sink on the folder with include-children enabled", "es": "Crear un sink agregado en la carpeta con include-children habilitado" },
+        { "en": "Grant the sink's writer identity permission to write to the destination in the security project", "es": "Otorgar a la identidad de escritura del sink permiso para escribir en el destino del proyecto de seguridad" },
+        { "en": "Ask each project owner to create an individual sink pointing to the security project", "es": "Pedir a cada propietario de proyecto que cree un sink individual apuntando al proyecto de seguridad" },
+        { "en": "Grant the security team the Project Owner role on every project in the folder", "es": "Otorgar al equipo de seguridad el rol Project Owner en cada proyecto de la carpeta" }
+      ],
+      "respuesta": ["A", "B"],
+      "explicacion": {
+        "en": "An aggregated sink created at the folder with include-children captures logs from all descendant projects, current and future, in a single configuration; as with any sink, its writer identity must be granted write access on the destination (log bucket, BigQuery dataset, Cloud Storage bucket, or Pub/Sub topic) in the security project. C is exactly the per-project effort the requirement rules out and misses future projects. D grants excessive privilege over every project and still does not centralize the logs.",
+        "es": "Un sink agregado creado en la carpeta con include-children captura los registros de todos los proyectos descendientes, actuales y futuros, con una sola configuración; como en cualquier sink, hay que otorgar a su identidad de escritura acceso de escritura en el destino (bucket de registros, dataset de BigQuery, bucket de Cloud Storage o topic de Pub/Sub) del proyecto de seguridad. C es justo el esfuerzo por proyecto que el requisito descarta y deja fuera a los proyectos futuros. D otorga privilegios excesivos sobre cada proyecto y aun así no centraliza los registros."
+      },
+      "doc": "https://cloud.google.com/logging/docs/export/aggregated_sinks"
+    },
+    {
+      "id": "ops-059",
+      "curso": "registro-supervision",
+      "servicios": ["cloud-monitoring", "resource-manager"],
+      "seccion_blueprint": 1,
+      "subtopicos": ["1.1-observability-setup"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your organization runs 40 projects and the SRE team wants one dashboard showing metrics from all of them, without duplicating dashboards per project. What is the BEST way to set this up?",
+        "es": "Tu organización opera 40 proyectos y el equipo de SRE quiere un dashboard único que muestre métricas de todos ellos, sin duplicar dashboards por proyecto. ¿Cuál es la MEJOR forma de configurarlo?"
+      },
+      "opciones": [
+        { "en": "Designate a scoping project and add the 40 projects to its metrics scope, then build the dashboards there", "es": "Designar un proyecto de alcance (scoping project) y agregar los 40 proyectos a su metrics scope, y luego construir los dashboards allí" },
+        { "en": "Recreate the same dashboard in each project and open 40 browser tabs", "es": "Recrear el mismo dashboard en cada proyecto y abrir 40 pestañas del navegador" },
+        { "en": "Migrate every workload into a single project so all metrics land together", "es": "Migrar todas las cargas de trabajo a un solo proyecto para que todas las métricas queden juntas" },
+        { "en": "Export all metrics to BigQuery and rebuild the dashboards in a BI tool", "es": "Exportar todas las métricas a BigQuery y reconstruir los dashboards en una herramienta de BI" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "A metrics scope lets one scoping project chart and alert on metrics from many monitored projects, which is the native multi-project observability model and needs only IAM on the scoping project for the SRE team. B is unmaintainable and does not correlate anything. C destroys the isolation, quota, and billing boundaries that projects provide, for a reporting problem. D loses the native alerting and dashboard integration and adds an export pipeline and cost for no functional gain.",
+        "es": "Un metrics scope permite que un proyecto de alcance grafique y alerte sobre métricas de muchos proyectos supervisados, que es el modelo nativo de observabilidad multiproyecto y solo requiere IAM sobre el proyecto de alcance para el equipo de SRE. B es imposible de mantener y no correlaciona nada. C destruye los límites de aislamiento, cuota y facturación que dan los proyectos, por un problema de reportes. D pierde la integración nativa con alertas y dashboards y agrega un pipeline de exportación y costo sin ganancia funcional."
+      },
+      "doc": "https://cloud.google.com/monitoring/settings/multiple-projects"
+    },
+    {
+      "id": "ops-060",
+      "curso": "registro-supervision",
+      "servicios": ["cloud-monitoring", "compute-engine"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-alerts-metrics"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A nightly ETL agent normally writes a heartbeat metric every 5 minutes. Last week the agent crashed and nobody noticed, because the existing threshold alert only fires when the value is too high. What is the BEST way to detect this failure mode?",
+        "es": "Un agente ETL nocturno normalmente escribe una métrica de heartbeat cada 5 minutos. La semana pasada el agente se cayó y nadie lo notó, porque la alerta de umbral existente solo se activa cuando el valor es demasiado alto. ¿Cuál es la MEJOR forma de detectar esta falla?"
+      },
+      "opciones": [
+        { "en": "Add an alerting policy with a metric-absence condition that fires if no data arrives for a defined period", "es": "Agregar una política de alertas con una condición de ausencia de métrica que se active si no llegan datos durante un período definido" },
+        { "en": "Lower the existing threshold to zero so a value of 0 triggers the alert", "es": "Bajar el umbral existente a cero para que un valor de 0 dispare la alerta" },
+        { "en": "Create an uptime check against the VM that runs the agent", "es": "Crear un uptime check contra la VM que ejecuta el agente" },
+        { "en": "Increase the retention of the metric so the gap is visible later", "es": "Aumentar la retención de la métrica para que el hueco sea visible después" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Metric-absence conditions exist precisely for missing-data failure modes: they fire when a time series stops receiving points for the configured window, which is the signal a crashed agent produces. B does not work: when the agent dies it sends nothing, so no data point of value 0 is ever written and a threshold condition has nothing to evaluate. C only tells you the VM answers on a port, which can be true while the ETL process is dead. D helps post-mortem analysis but never generates a notification.",
+        "es": "Las condiciones de ausencia de métrica existen justamente para las fallas por datos faltantes: se activan cuando una serie temporal deja de recibir puntos durante la ventana configurada, que es la señal que produce un agente caído. B no funciona: cuando el agente muere no envía nada, así que nunca se escribe un punto con valor 0 y una condición de umbral no tiene qué evaluar. C solo indica que la VM responde en un puerto, lo que puede ser cierto mientras el proceso ETL está muerto. D ayuda al análisis posterior, pero nunca genera una notificación."
+      },
+      "doc": "https://cloud.google.com/monitoring/alerts/types-of-conditions"
     }
   ]
 }

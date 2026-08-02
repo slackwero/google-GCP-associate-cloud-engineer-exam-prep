@@ -3,9 +3,13 @@
     {
       "id": "gpu-001",
       "curso": "ia-gpu",
-      "servicios": ["gpus-tpus"],
+      "servicios": [
+        "gpus-tpus"
+      ],
       "seccion_blueprint": 2,
-      "subtopicos": ["2.1-gpus-tpus-choice"],
+      "subtopicos": [
+        "2.1-gpus-tpus-choice"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -13,12 +17,26 @@
         "es": "¿Qué tipo de carga de trabajo se beneficia más de una GPU en comparación con una CPU?"
       },
       "opciones": [
-        { "en": "Massively parallel computations, such as the matrix operations used in ML training and inference", "es": "Cálculos masivamente paralelos, como las operaciones de matrices usadas en el entrenamiento y la inferencia de ML" },
-        { "en": "Sequential, single-threaded business logic", "es": "Lógica de negocio secuencial de un solo hilo" },
-        { "en": "Serving static web content", "es": "Servir contenido web estático" },
-        { "en": "Storing and indexing relational data", "es": "Almacenar e indexar datos relacionales" }
+        {
+          "en": "Massively parallel computations, such as the matrix operations used in ML training and inference",
+          "es": "Cálculos masivamente paralelos, como las operaciones de matrices usadas en el entrenamiento y la inferencia de ML"
+        },
+        {
+          "en": "Sequential, single-threaded business logic",
+          "es": "Lógica de negocio secuencial de un solo hilo"
+        },
+        {
+          "en": "Serving static web content",
+          "es": "Servir contenido web estático"
+        },
+        {
+          "en": "Storing and indexing relational data",
+          "es": "Almacenar e indexar datos relacionales"
+        }
       ],
-      "respuesta": ["A"],
+      "respuesta": [
+        "A"
+      ],
       "explicacion": {
         "en": "GPUs contain thousands of cores that execute the same operation on many data elements at once, which is ideal for the parallel matrix math behind ML and graphics. Sequential single-threaded logic (B) runs better on CPUs with high per-core performance, static web serving (C) is I/O-bound and needs no accelerator, and storing relational data (D) is a database concern, not a compute-accelerator one.",
         "es": "Las GPUs tienen miles de núcleos que ejecutan la misma operación sobre muchos datos a la vez, ideal para las operaciones de matrices paralelas del ML y los gráficos. La lógica secuencial de un solo hilo (B) rinde mejor en CPUs con alto desempeño por núcleo, servir contenido estático (C) está limitado por I/O y no necesita acelerador, y almacenar datos relacionales (D) es un asunto de bases de datos, no de aceleradores de cómputo."
@@ -28,9 +46,13 @@
     {
       "id": "gpu-002",
       "curso": "ia-gpu",
-      "servicios": ["gpus-tpus"],
+      "servicios": [
+        "gpus-tpus"
+      ],
       "seccion_blueprint": 2,
-      "subtopicos": ["2.1-gpus-tpus-choice"],
+      "subtopicos": [
+        "2.1-gpus-tpus-choice"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -38,12 +60,26 @@
         "es": "¿Qué son las Tensor Processing Units (TPUs)?"
       },
       "opciones": [
-        { "en": "Custom accelerator chips designed by Google to speed up machine learning workloads", "es": "Chips aceleradores personalizados diseñados por Google para acelerar cargas de trabajo de machine learning" },
-        { "en": "A GPU model manufactured by NVIDIA and offered in Google Cloud", "es": "Un modelo de GPU fabricado por NVIDIA y ofrecido en Google Cloud" },
-        { "en": "A CPU family optimized for high clock frequency", "es": "Una familia de CPUs optimizada para alta frecuencia de reloj" },
-        { "en": "A fully managed service for hosting trained models", "es": "Un servicio completamente administrado para alojar modelos entrenados" }
+        {
+          "en": "Custom accelerator chips designed by Google to speed up machine learning workloads",
+          "es": "Chips aceleradores personalizados diseñados por Google para acelerar cargas de trabajo de machine learning"
+        },
+        {
+          "en": "A GPU model manufactured by NVIDIA and offered in Google Cloud",
+          "es": "Un modelo de GPU fabricado por NVIDIA y ofrecido en Google Cloud"
+        },
+        {
+          "en": "A CPU family optimized for high clock frequency",
+          "es": "Una familia de CPUs optimizada para alta frecuencia de reloj"
+        },
+        {
+          "en": "A fully managed service for hosting trained models",
+          "es": "Un servicio completamente administrado para alojar modelos entrenados"
+        }
       ],
-      "respuesta": ["A"],
+      "respuesta": [
+        "A"
+      ],
       "explicacion": {
         "en": "TPUs are application-specific integrated circuits (ASICs) that Google designed to accelerate ML workloads, especially large matrix operations with frameworks like TensorFlow, JAX, and PyTorch. B is wrong because NVIDIA makes GPUs, not TPUs. C is wrong because TPUs are accelerators, not CPUs. D describes a model-serving service such as Vertex AI endpoints, not a chip.",
         "es": "Las TPUs son circuitos integrados de aplicación específica (ASICs) que Google diseñó para acelerar cargas de ML, en especial grandes operaciones de matrices con frameworks como TensorFlow, JAX y PyTorch. B es incorrecta porque NVIDIA fabrica GPUs, no TPUs. C es incorrecta porque las TPUs son aceleradores, no CPUs. D describe un servicio de publicación de modelos como los endpoints de Vertex AI, no un chip."
@@ -53,9 +89,13 @@
     {
       "id": "gpu-003",
       "curso": "ia-gpu",
-      "servicios": ["gpus-tpus"],
+      "servicios": [
+        "gpus-tpus"
+      ],
       "seccion_blueprint": 2,
-      "subtopicos": ["2.1-gpus-tpus-choice"],
+      "subtopicos": [
+        "2.1-gpus-tpus-choice"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -63,12 +103,26 @@
         "es": "¿Para qué escenario de machine learning suele bastar una CPU, sin necesidad de GPU ni TPU?"
       },
       "opciones": [
-        { "en": "Prototyping and running small, simple models with low throughput requirements", "es": "Prototipar y ejecutar modelos pequeños y simples con bajos requisitos de rendimiento" },
-        { "en": "Training a large deep learning model on millions of images", "es": "Entrenar un modelo grande de deep learning con millones de imágenes" },
-        { "en": "High-throughput, low-latency inference for a large vision model", "es": "Inferencia de alto rendimiento y baja latencia para un modelo grande de visión" },
-        { "en": "Training large language models at scale", "es": "Entrenar modelos grandes de lenguaje a gran escala" }
+        {
+          "en": "Prototyping and running small, simple models with low throughput requirements",
+          "es": "Prototipar y ejecutar modelos pequeños y simples con bajos requisitos de rendimiento"
+        },
+        {
+          "en": "Training a large deep learning model on millions of images",
+          "es": "Entrenar un modelo grande de deep learning con millones de imágenes"
+        },
+        {
+          "en": "High-throughput, low-latency inference for a large vision model",
+          "es": "Inferencia de alto rendimiento y baja latencia para un modelo grande de visión"
+        },
+        {
+          "en": "Training large language models at scale",
+          "es": "Entrenar modelos grandes de lenguaje a gran escala"
+        }
       ],
-      "respuesta": ["A"],
+      "respuesta": [
+        "A"
+      ],
       "explicacion": {
         "en": "CPUs handle prototyping, simple or small models, and low-volume workloads well and avoid the extra cost of accelerators. B, C, and D all involve heavy parallel computation on large models, which is exactly where GPUs or TPUs provide large speedups and become cost-effective.",
         "es": "Las CPUs manejan bien el prototipado, los modelos simples o pequeños y las cargas de bajo volumen, evitando el costo extra de los aceleradores. B, C y D implican cómputo paralelo intensivo sobre modelos grandes, que es exactamente donde las GPUs o TPUs ofrecen grandes mejoras y se vuelven rentables."
@@ -78,9 +132,14 @@
     {
       "id": "gpu-004",
       "curso": "ia-gpu",
-      "servicios": ["gpus-tpus", "compute-engine"],
+      "servicios": [
+        "gpus-tpus",
+        "compute-engine"
+      ],
       "seccion_blueprint": 2,
-      "subtopicos": ["2.1-gpus-tpus-choice"],
+      "subtopicos": [
+        "2.1-gpus-tpus-choice"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -88,12 +147,26 @@
         "es": "¿Qué GPU de NVIDIA disponible en Google Cloud se posiciona como una GPU universal y de costo eficiente, especialmente adecuada para cargas de inferencia?"
       },
       "opciones": [
-        { "en": "NVIDIA L4", "es": "NVIDIA L4" },
-        { "en": "NVIDIA H100", "es": "NVIDIA H100" },
-        { "en": "NVIDIA B200", "es": "NVIDIA B200" },
-        { "en": "TPU v5e", "es": "TPU v5e" }
+        {
+          "en": "NVIDIA L4",
+          "es": "NVIDIA L4"
+        },
+        {
+          "en": "NVIDIA H100",
+          "es": "NVIDIA H100"
+        },
+        {
+          "en": "NVIDIA B200",
+          "es": "NVIDIA B200"
+        },
+        {
+          "en": "TPU v5e",
+          "es": "TPU v5e"
+        }
       ],
-      "respuesta": ["A"],
+      "respuesta": [
+        "A"
+      ],
       "explicacion": {
         "en": "The L4 (G2 machine series) is designed as a cost-efficient GPU for inference, video, and graphics workloads. H100 (B) and B200 (C) target large-scale training and the most demanding workloads at much higher cost. TPU v5e (D) is not a GPU at all; it is a Google TPU.",
         "es": "La L4 (serie de máquinas G2) está diseñada como una GPU de costo eficiente para inferencia, video y gráficos. La H100 (B) y la B200 (C) apuntan a entrenamiento a gran escala y a las cargas más exigentes con un costo mucho mayor. TPU v5e (D) no es una GPU; es una TPU de Google."
@@ -103,9 +176,14 @@
     {
       "id": "gpu-005",
       "curso": "ia-gpu",
-      "servicios": ["compute-engine", "gpus-tpus"],
+      "servicios": [
+        "compute-engine",
+        "gpus-tpus"
+      ],
       "seccion_blueprint": 2,
-      "subtopicos": ["2.1-compute-choices"],
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -113,12 +191,26 @@
         "es": "¿Qué servicio de Google Cloud te permite crear máquinas virtuales con GPUs conectadas?"
       },
       "opciones": [
-        { "en": "Compute Engine", "es": "Compute Engine" },
-        { "en": "App Engine standard environment", "es": "App Engine entorno estándar" },
-        { "en": "Cloud SQL", "es": "Cloud SQL" },
-        { "en": "BigQuery", "es": "BigQuery" }
+        {
+          "en": "Compute Engine",
+          "es": "Compute Engine"
+        },
+        {
+          "en": "App Engine standard environment",
+          "es": "App Engine entorno estándar"
+        },
+        {
+          "en": "Cloud SQL",
+          "es": "Cloud SQL"
+        },
+        {
+          "en": "BigQuery",
+          "es": "BigQuery"
+        }
       ],
-      "respuesta": ["A"],
+      "respuesta": [
+        "A"
+      ],
       "explicacion": {
         "en": "Compute Engine lets you create VMs with attached GPUs, either by attaching them to N1 VMs or by using accelerator-optimized machine families. App Engine standard (B) runs sandboxed apps with no GPU access, Cloud SQL (C) is a managed relational database, and BigQuery (D) is a data warehouse; none of them expose GPU-attached VMs.",
         "es": "Compute Engine te permite crear VMs con GPUs conectadas, ya sea adjuntándolas a VMs N1 o usando familias de máquinas optimizadas para aceleradores. App Engine estándar (B) ejecuta apps en sandbox sin acceso a GPU, Cloud SQL (C) es una base de datos relacional administrada y BigQuery (D) es un data warehouse; ninguno expone VMs con GPU."
@@ -128,9 +220,14 @@
     {
       "id": "gpu-006",
       "curso": "ia-gpu",
-      "servicios": ["gpus-tpus", "compute-engine"],
+      "servicios": [
+        "gpus-tpus",
+        "compute-engine"
+      ],
       "seccion_blueprint": 1,
-      "subtopicos": ["1.1-networking-availability"],
+      "subtopicos": [
+        "1.1-networking-availability"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -138,12 +235,26 @@
         "es": "Planeas crear una VM con un modelo específico de GPU. ¿Qué debes saber sobre la disponibilidad de GPUs en Google Cloud?"
       },
       "opciones": [
-        { "en": "Each GPU model is available only in specific zones, so you must choose a zone that offers that model", "es": "Cada modelo de GPU está disponible solo en zonas específicas, por lo que debes elegir una zona que ofrezca ese modelo" },
-        { "en": "All GPU models are available in every zone of every region", "es": "Todos los modelos de GPU están disponibles en todas las zonas de todas las regiones" },
-        { "en": "GPUs are global resources not tied to any zone", "es": "Las GPUs son recursos globales que no están vinculados a ninguna zona" },
-        { "en": "Only the region matters; any zone within a supported region offers all its GPU models", "es": "Solo importa la región; cualquier zona dentro de una región compatible ofrece todos sus modelos de GPU" }
+        {
+          "en": "Each GPU model is available only in specific zones, so you must choose a zone that offers that model",
+          "es": "Cada modelo de GPU está disponible solo en zonas específicas, por lo que debes elegir una zona que ofrezca ese modelo"
+        },
+        {
+          "en": "All GPU models are available in every zone of every region",
+          "es": "Todos los modelos de GPU están disponibles en todas las zonas de todas las regiones"
+        },
+        {
+          "en": "GPUs are global resources not tied to any zone",
+          "es": "Las GPUs son recursos globales que no están vinculados a ninguna zona"
+        },
+        {
+          "en": "Only the region matters; any zone within a supported region offers all its GPU models",
+          "es": "Solo importa la región; cualquier zona dentro de una región compatible ofrece todos sus modelos de GPU"
+        }
       ],
-      "respuesta": ["A"],
+      "respuesta": [
+        "A"
+      ],
       "explicacion": {
         "en": "GPU availability varies by zone: each model (L4, A100, H100, etc.) is offered only in certain zones, and you must pick one that supports it. B and C are false because GPUs are zonal resources with uneven availability. D is false because even within one region, some zones may offer a GPU model that other zones do not.",
         "es": "La disponibilidad de GPUs varía por zona: cada modelo (L4, A100, H100, etc.) se ofrece solo en ciertas zonas y debes elegir una que lo soporte. B y C son falsas porque las GPUs son recursos zonales con disponibilidad desigual. D es falsa porque incluso dentro de una región, algunas zonas pueden ofrecer un modelo de GPU que otras no."
@@ -153,9 +264,14 @@
     {
       "id": "gpu-007",
       "curso": "ia-gpu",
-      "servicios": ["quotas-apis", "gpus-tpus"],
+      "servicios": [
+        "quotas-apis",
+        "gpus-tpus"
+      ],
       "seccion_blueprint": 1,
-      "subtopicos": ["1.1-apis-quotas"],
+      "subtopicos": [
+        "1.1-apis-quotas"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -163,12 +279,26 @@
         "es": "Antes de crear VMs con GPUs en un proyecto, ¿qué requisito relacionado con cuotas debe cumplirse?"
       },
       "opciones": [
-        { "en": "The project must have sufficient GPU quota for that GPU model in the target region", "es": "El proyecto debe tener suficiente cuota de GPU para ese modelo en la región de destino" },
-        { "en": "No quota applies to GPUs; only billing must be enabled", "es": "No aplica ninguna cuota a las GPUs; solo debe estar habilitada la facturación" },
-        { "en": "You must first purchase a committed use discount for GPUs", "es": "Primero debes comprar un descuento por uso comprometido para GPUs" },
-        { "en": "You must enable a special GPU API separate from the Compute Engine API", "es": "Debes habilitar una API especial de GPU distinta de la API de Compute Engine" }
+        {
+          "en": "The project must have sufficient GPU quota for that GPU model in the target region",
+          "es": "El proyecto debe tener suficiente cuota de GPU para ese modelo en la región de destino"
+        },
+        {
+          "en": "No quota applies to GPUs; only billing must be enabled",
+          "es": "No aplica ninguna cuota a las GPUs; solo debe estar habilitada la facturación"
+        },
+        {
+          "en": "You must first purchase a committed use discount for GPUs",
+          "es": "Primero debes comprar un descuento por uso comprometido para GPUs"
+        },
+        {
+          "en": "You must enable a special GPU API separate from the Compute Engine API",
+          "es": "Debes habilitar una API especial de GPU distinta de la API de Compute Engine"
+        }
       ],
-      "respuesta": ["A"],
+      "respuesta": [
+        "A"
+      ],
       "explicacion": {
         "en": "GPU usage is controlled by quotas: per-region quotas for each GPU model plus a global GPUs-all-regions quota, and new projects often start with 0. B is false because GPU quotas do apply and frequently block first use. C is false because committed use discounts are optional cost savings, not a prerequisite. D is false because GPUs are part of Compute Engine; there is no separate GPU API.",
         "es": "El uso de GPUs se controla con cuotas: cuotas regionales por cada modelo de GPU más una cuota global de GPUs en todas las regiones, y los proyectos nuevos suelen empezar en 0. B es falsa porque las cuotas de GPU sí aplican y con frecuencia bloquean el primer uso. C es falsa porque los descuentos por uso comprometido son un ahorro opcional, no un prerrequisito. D es falsa porque las GPUs son parte de Compute Engine; no existe una API de GPU separada."
@@ -178,9 +308,14 @@
     {
       "id": "gpu-008",
       "curso": "ia-gpu",
-      "servicios": ["compute-engine", "gpus-tpus"],
+      "servicios": [
+        "compute-engine",
+        "gpus-tpus"
+      ],
       "seccion_blueprint": 3,
-      "subtopicos": ["3.1-ai-workloads"],
+      "subtopicos": [
+        "3.1-ai-workloads"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -188,12 +323,26 @@
         "es": "Después de crear una VM de Compute Engine con una GPU NVIDIA conectada, ¿qué debe estar presente en la VM antes de que las aplicaciones puedan usar la GPU?"
       },
       "opciones": [
-        { "en": "The NVIDIA GPU drivers, installed manually or via an image that includes them", "es": "Los drivers de GPU de NVIDIA, instalados manualmente o mediante una imagen que los incluya" },
-        { "en": "Nothing; Compute Engine exposes GPUs to any OS without drivers", "es": "Nada; Compute Engine expone las GPUs a cualquier sistema operativo sin drivers" },
-        { "en": "A Kubernetes DaemonSet running on the VM", "es": "Un DaemonSet de Kubernetes ejecutándose en la VM" },
-        { "en": "An Ops Agent installation, which also provides the GPU drivers", "es": "Una instalación del Ops Agent, que también provee los drivers de GPU" }
+        {
+          "en": "The NVIDIA GPU drivers, installed manually or via an image that includes them",
+          "es": "Los drivers de GPU de NVIDIA, instalados manualmente o mediante una imagen que los incluya"
+        },
+        {
+          "en": "Nothing; Compute Engine exposes GPUs to any OS without drivers",
+          "es": "Nada; Compute Engine expone las GPUs a cualquier sistema operativo sin drivers"
+        },
+        {
+          "en": "A Kubernetes DaemonSet running on the VM",
+          "es": "Un DaemonSet de Kubernetes ejecutándose en la VM"
+        },
+        {
+          "en": "An Ops Agent installation, which also provides the GPU drivers",
+          "es": "Una instalación del Ops Agent, que también provee los drivers de GPU"
+        }
       ],
-      "respuesta": ["A"],
+      "respuesta": [
+        "A"
+      ],
       "explicacion": {
         "en": "Applications can only use an attached GPU once the NVIDIA drivers are installed, either manually, with Google's installation scripts, or by using an image such as a Deep Learning VM image that ships with them. B is false because the OS needs drivers to talk to the GPU. C applies to GKE nodes, not standalone VMs. D is false: the Ops Agent collects GPU metrics but does not install drivers.",
         "es": "Las aplicaciones solo pueden usar una GPU conectada cuando los drivers de NVIDIA están instalados, ya sea manualmente, con los scripts de instalación de Google o usando una imagen como las Deep Learning VM que ya los incluye. B es falsa porque el sistema operativo necesita drivers para comunicarse con la GPU. C aplica a nodos de GKE, no a VMs independientes. D es falsa: el Ops Agent recolecta métricas de GPU pero no instala drivers."
@@ -203,9 +352,14 @@
     {
       "id": "gpu-009",
       "curso": "ia-gpu",
-      "servicios": ["gke", "gpus-tpus"],
+      "servicios": [
+        "gke",
+        "gpus-tpus"
+      ],
       "seccion_blueprint": 3,
-      "subtopicos": ["3.1-gke-node-pools"],
+      "subtopicos": [
+        "3.1-gke-node-pools"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -213,12 +367,26 @@
         "es": "En GKE Standard, ¿qué es un node pool de GPU?"
       },
       "opciones": [
-        { "en": "A group of nodes whose VMs have attached GPUs, used to schedule GPU workloads", "es": "Un grupo de nodos cuyas VMs tienen GPUs conectadas, usado para programar cargas de trabajo con GPU" },
-        { "en": "A pool of GPUs shared across all clusters in a project", "es": "Un pool de GPUs compartido entre todos los clústeres de un proyecto" },
-        { "en": "A Kubernetes namespace reserved for AI workloads", "es": "Un namespace de Kubernetes reservado para cargas de IA" },
-        { "en": "A managed service that rents GPU time by the second without nodes", "es": "Un servicio administrado que renta tiempo de GPU por segundo sin nodos" }
+        {
+          "en": "A group of nodes whose VMs have attached GPUs, used to schedule GPU workloads",
+          "es": "Un grupo de nodos cuyas VMs tienen GPUs conectadas, usado para programar cargas de trabajo con GPU"
+        },
+        {
+          "en": "A pool of GPUs shared across all clusters in a project",
+          "es": "Un pool de GPUs compartido entre todos los clústeres de un proyecto"
+        },
+        {
+          "en": "A Kubernetes namespace reserved for AI workloads",
+          "es": "Un namespace de Kubernetes reservado para cargas de IA"
+        },
+        {
+          "en": "A managed service that rents GPU time by the second without nodes",
+          "es": "Un servicio administrado que renta tiempo de GPU por segundo sin nodos"
+        }
       ],
-      "respuesta": ["A"],
+      "respuesta": [
+        "A"
+      ],
       "explicacion": {
         "en": "A GPU node pool is a set of identically configured nodes whose underlying VMs include GPUs, so Pods that request GPUs can be scheduled there. B is wrong because node pools belong to one cluster and GPUs are attached per node. C is wrong because a namespace is a logical grouping, not hardware. D describes a serverless model, which is not what node pools are.",
         "es": "Un node pool de GPU es un conjunto de nodos con configuración idéntica cuyas VMs subyacentes incluyen GPUs, de modo que los Pods que solicitan GPU puedan programarse ahí. B es incorrecta porque los node pools pertenecen a un clúster y las GPUs se conectan por nodo. C es incorrecta porque un namespace es una agrupación lógica, no hardware. D describe un modelo serverless, que no es lo que son los node pools."
@@ -228,9 +396,14 @@
     {
       "id": "gpu-010",
       "curso": "ia-gpu",
-      "servicios": ["cloud-run", "gpus-tpus"],
+      "servicios": [
+        "cloud-run",
+        "gpus-tpus"
+      ],
       "seccion_blueprint": 2,
-      "subtopicos": ["2.1-compute-choices"],
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -238,12 +411,26 @@
         "es": "¿Qué afirmación sobre el soporte de GPU en Cloud Run es correcta?"
       },
       "opciones": [
-        { "en": "Cloud Run can attach an NVIDIA L4 GPU per instance, enabling serverless AI inference", "es": "Cloud Run puede conectar una GPU NVIDIA L4 por instancia, lo que habilita inferencia de IA serverless" },
-        { "en": "Cloud Run does not support GPUs; you must use GKE or Compute Engine", "es": "Cloud Run no admite GPUs; debes usar GKE o Compute Engine" },
-        { "en": "Cloud Run supports attaching up to eight H100 GPUs per instance", "es": "Cloud Run admite conectar hasta ocho GPUs H100 por instancia" },
-        { "en": "Cloud Run GPUs require you to create and manage node pools", "es": "Las GPUs en Cloud Run requieren que crees y administres node pools" }
+        {
+          "en": "Cloud Run can attach an NVIDIA L4 GPU per instance, enabling serverless AI inference",
+          "es": "Cloud Run puede conectar una GPU NVIDIA L4 por instancia, lo que habilita inferencia de IA serverless"
+        },
+        {
+          "en": "Cloud Run does not support GPUs; you must use GKE or Compute Engine",
+          "es": "Cloud Run no admite GPUs; debes usar GKE o Compute Engine"
+        },
+        {
+          "en": "Cloud Run supports attaching up to eight H100 GPUs per instance",
+          "es": "Cloud Run admite conectar hasta ocho GPUs H100 por instancia"
+        },
+        {
+          "en": "Cloud Run GPUs require you to create and manage node pools",
+          "es": "Las GPUs en Cloud Run requieren que crees y administres node pools"
+        }
       ],
-      "respuesta": ["A"],
+      "respuesta": [
+        "A"
+      ],
       "explicacion": {
         "en": "Cloud Run supports attaching one NVIDIA L4 GPU per instance, which makes it a good serverless option for inference. B is outdated and false. C is false because Cloud Run offers the L4, not multi-H100 configurations. D is false because Cloud Run is serverless: there are no node pools to manage.",
         "es": "Cloud Run admite conectar una GPU NVIDIA L4 por instancia, lo que lo convierte en una buena opción serverless para inferencia. B está desactualizada y es falsa. C es falsa porque Cloud Run ofrece la L4, no configuraciones con múltiples H100. D es falsa porque Cloud Run es serverless: no hay node pools que administrar."
@@ -253,9 +440,14 @@
     {
       "id": "gpu-011",
       "curso": "ia-gpu",
-      "servicios": ["compute-engine", "gpus-tpus"],
+      "servicios": [
+        "compute-engine",
+        "gpus-tpus"
+      ],
       "seccion_blueprint": 2,
-      "subtopicos": ["2.1-spot-custom-machines"],
+      "subtopicos": [
+        "2.1-spot-custom-machines"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -263,12 +455,26 @@
         "es": "¿Para qué tipo de carga de trabajo con GPU son una buena opción las VMs Spot?"
       },
       "opciones": [
-        { "en": "Fault-tolerant, interruptible batch workloads that can restart, in exchange for large discounts", "es": "Cargas por lotes tolerantes a fallos e interrumpibles que pueden reiniciarse, a cambio de grandes descuentos" },
-        { "en": "Mission-critical inference APIs that require guaranteed availability", "es": "APIs de inferencia de misión crítica que requieren disponibilidad garantizada" },
-        { "en": "Databases that must never lose an active connection", "es": "Bases de datos que nunca deben perder una conexión activa" },
-        { "en": "Workloads that need Google to guarantee the VM will run for at least 24 hours", "es": "Cargas que necesitan que Google garantice que la VM se ejecutará al menos 24 horas" }
+        {
+          "en": "Fault-tolerant, interruptible batch workloads that can restart, in exchange for large discounts",
+          "es": "Cargas por lotes tolerantes a fallos e interrumpibles que pueden reiniciarse, a cambio de grandes descuentos"
+        },
+        {
+          "en": "Mission-critical inference APIs that require guaranteed availability",
+          "es": "APIs de inferencia de misión crítica que requieren disponibilidad garantizada"
+        },
+        {
+          "en": "Databases that must never lose an active connection",
+          "es": "Bases de datos que nunca deben perder una conexión activa"
+        },
+        {
+          "en": "Workloads that need Google to guarantee the VM will run for at least 24 hours",
+          "es": "Cargas que necesitan que Google garantice que la VM se ejecutará al menos 24 horas"
+        }
       ],
-      "respuesta": ["A"],
+      "respuesta": [
+        "A"
+      ],
       "explicacion": {
         "en": "Spot VMs offer deep discounts on GPUs but can be preempted at any time, so they suit fault-tolerant, restartable batch jobs such as training with checkpoints or rendering. B and C need guaranteed availability, which Spot does not provide. D is false because Spot VMs have no minimum runtime guarantee.",
         "es": "Las VMs Spot ofrecen grandes descuentos en GPUs pero pueden ser interrumpidas en cualquier momento, por lo que se ajustan a trabajos por lotes tolerantes a fallos y reiniciables, como entrenamiento con checkpoints o rendering. B y C necesitan disponibilidad garantizada, que Spot no ofrece. D es falsa porque las VMs Spot no tienen garantía de tiempo mínimo de ejecución."
@@ -278,9 +484,14 @@
     {
       "id": "gpu-012",
       "curso": "ia-gpu",
-      "servicios": ["gpus-tpus", "compute-engine"],
+      "servicios": [
+        "gpus-tpus",
+        "compute-engine"
+      ],
       "seccion_blueprint": 2,
-      "subtopicos": ["2.1-gpus-tpus-choice"],
+      "subtopicos": [
+        "2.1-gpus-tpus-choice"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -288,12 +499,26 @@
         "es": "Tu estudio necesita ejecutar rendering 3D y estaciones de trabajo virtuales en la nube. ¿Qué acelerador deberías elegir?"
       },
       "opciones": [
-        { "en": "GPUs, because they support graphics APIs and virtual workstation drivers", "es": "GPUs, porque admiten APIs de gráficos y drivers de estaciones de trabajo virtuales" },
-        { "en": "TPUs, because they are Google's most advanced accelerators", "es": "TPUs, porque son los aceleradores más avanzados de Google" },
-        { "en": "Only CPUs, because rendering cannot be accelerated in the cloud", "es": "Solo CPUs, porque el rendering no se puede acelerar en la nube" },
-        { "en": "Memorystore, to cache the rendered frames", "es": "Memorystore, para almacenar en caché los cuadros renderizados" }
+        {
+          "en": "GPUs, because they support graphics APIs and virtual workstation drivers",
+          "es": "GPUs, porque admiten APIs de gráficos y drivers de estaciones de trabajo virtuales"
+        },
+        {
+          "en": "TPUs, because they are Google's most advanced accelerators",
+          "es": "TPUs, porque son los aceleradores más avanzados de Google"
+        },
+        {
+          "en": "Only CPUs, because rendering cannot be accelerated in the cloud",
+          "es": "Solo CPUs, porque el rendering no se puede acelerar en la nube"
+        },
+        {
+          "en": "Memorystore, to cache the rendered frames",
+          "es": "Memorystore, para almacenar en caché los cuadros renderizados"
+        }
       ],
-      "respuesta": ["A"],
+      "respuesta": [
+        "A"
+      ],
       "explicacion": {
         "en": "GPUs handle graphics workloads natively: they support graphics APIs and NVIDIA RTX Virtual Workstation drivers for rendering and visualization. TPUs (B) are specialized for ML matrix math and have no graphics pipeline. C is false because GPU-accelerated rendering on Compute Engine is a standard use case. Memorystore (D) is an in-memory cache, unrelated to rendering compute.",
         "es": "Las GPUs manejan cargas gráficas de forma nativa: admiten APIs de gráficos y drivers NVIDIA RTX Virtual Workstation para rendering y visualización. Las TPUs (B) están especializadas en operaciones de matrices para ML y no tienen pipeline gráfico. C es falsa porque el rendering acelerado por GPU en Compute Engine es un caso de uso estándar. Memorystore (D) es una caché en memoria, sin relación con el cómputo de rendering."
@@ -303,9 +528,13 @@
     {
       "id": "gpu-013",
       "curso": "ia-gpu",
-      "servicios": ["gpus-tpus"],
+      "servicios": [
+        "gpus-tpus"
+      ],
       "seccion_blueprint": 2,
-      "subtopicos": ["2.1-gpus-tpus-choice"],
+      "subtopicos": [
+        "2.1-gpus-tpus-choice"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -313,12 +542,26 @@
         "es": "Tu equipo de ML escribió kernels CUDA personalizados para partes de su modelo. ¿Qué acelerador deben usar?"
       },
       "opciones": [
-        { "en": "NVIDIA GPUs, because CUDA code runs only on NVIDIA hardware", "es": "GPUs de NVIDIA, porque el código CUDA solo se ejecuta en hardware de NVIDIA" },
-        { "en": "TPUs, because they accelerate any ML code automatically", "es": "TPUs, porque aceleran cualquier código de ML automáticamente" },
-        { "en": "Either GPUs or TPUs; CUDA is portable across both", "es": "GPUs o TPUs indistintamente; CUDA es portable entre ambos" },
-        { "en": "CPUs with more cores, since CUDA is a CPU technology", "es": "CPUs con más núcleos, ya que CUDA es una tecnología de CPU" }
+        {
+          "en": "NVIDIA GPUs, because CUDA code runs only on NVIDIA hardware",
+          "es": "GPUs de NVIDIA, porque el código CUDA solo se ejecuta en hardware de NVIDIA"
+        },
+        {
+          "en": "TPUs, because they accelerate any ML code automatically",
+          "es": "TPUs, porque aceleran cualquier código de ML automáticamente"
+        },
+        {
+          "en": "Either GPUs or TPUs; CUDA is portable across both",
+          "es": "GPUs o TPUs indistintamente; CUDA es portable entre ambos"
+        },
+        {
+          "en": "CPUs with more cores, since CUDA is a CPU technology",
+          "es": "CPUs con más núcleos, ya que CUDA es una tecnología de CPU"
+        }
       ],
-      "respuesta": ["A"],
+      "respuesta": [
+        "A"
+      ],
       "explicacion": {
         "en": "CUDA is NVIDIA's proprietary programming platform, so custom CUDA kernels require NVIDIA GPUs. B and C are false because TPUs do not execute CUDA; they run models through compilers for frameworks like JAX and TensorFlow. D is false because CUDA targets GPUs, not CPUs.",
         "es": "CUDA es la plataforma de programación propietaria de NVIDIA, por lo que los kernels CUDA personalizados requieren GPUs de NVIDIA. B y C son falsas porque las TPUs no ejecutan CUDA; ejecutan modelos a través de compiladores para frameworks como JAX y TensorFlow. D es falsa porque CUDA está dirigido a GPUs, no a CPUs."
@@ -328,9 +571,13 @@
     {
       "id": "gpu-014",
       "curso": "ia-gpu",
-      "servicios": ["gpus-tpus"],
+      "servicios": [
+        "gpus-tpus"
+      ],
       "seccion_blueprint": 2,
-      "subtopicos": ["2.1-gpus-tpus-choice"],
+      "subtopicos": [
+        "2.1-gpus-tpus-choice"
+      ],
       "nivel": "principiante",
       "tipo": "multiple",
       "pregunta": {
@@ -338,12 +585,27 @@
         "es": "¿Cuáles DOS cargas de trabajo son buenas candidatas para aceleración con GPU?"
       },
       "opciones": [
-        { "en": "Training deep learning models", "es": "Entrenar modelos de deep learning" },
-        { "en": "Video transcoding and 3D rendering", "es": "Transcodificación de video y rendering 3D" },
-        { "en": "Hosting a static marketing website", "es": "Alojar un sitio web estático de marketing" },
-        { "en": "A low-traffic CRUD API backed by Cloud SQL", "es": "Una API CRUD de bajo tráfico respaldada por Cloud SQL" }
+        {
+          "en": "Training deep learning models",
+          "es": "Entrenar modelos de deep learning"
+        },
+        {
+          "en": "Video transcoding and 3D rendering",
+          "es": "Transcodificación de video y rendering 3D"
+        },
+        {
+          "en": "Hosting a static marketing website",
+          "es": "Alojar un sitio web estático de marketing"
+        },
+        {
+          "en": "A low-traffic CRUD API backed by Cloud SQL",
+          "es": "Una API CRUD de bajo tráfico respaldada por Cloud SQL"
+        }
       ],
-      "respuesta": ["A", "B"],
+      "respuesta": [
+        "A",
+        "B"
+      ],
       "explicacion": {
         "en": "Deep learning training (A) and video/rendering work (B) are massively parallel and map directly onto GPU cores. A static website (C) is served from storage or a CDN with no heavy compute, and a low-traffic CRUD API (D) is I/O-bound database work; adding GPUs to either would raise cost with no benefit.",
         "es": "El entrenamiento de deep learning (A) y el trabajo de video/rendering (B) son masivamente paralelos y aprovechan directamente los núcleos de la GPU. Un sitio estático (C) se sirve desde almacenamiento o una CDN sin cómputo pesado, y una API CRUD de bajo tráfico (D) es trabajo de base de datos limitado por I/O; agregar GPUs a cualquiera de los dos elevaría el costo sin beneficio."
@@ -353,9 +615,14 @@
     {
       "id": "gpu-015",
       "curso": "ia-gpu",
-      "servicios": ["compute-engine", "gpus-tpus"],
+      "servicios": [
+        "compute-engine",
+        "gpus-tpus"
+      ],
       "seccion_blueprint": 2,
-      "subtopicos": ["2.1-compute-choices"],
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -363,12 +630,26 @@
         "es": "¿Qué caracteriza a las familias de máquinas optimizadas para aceleradores como A2, A3 y G2 en Compute Engine?"
       },
       "opciones": [
-        { "en": "Each machine type comes with a specific NVIDIA GPU model automatically attached in a fixed count", "es": "Cada tipo de máquina viene con un modelo específico de GPU NVIDIA conectado automáticamente en una cantidad fija" },
-        { "en": "They let you attach any GPU model in any quantity", "es": "Permiten conectar cualquier modelo de GPU en cualquier cantidad" },
-        { "en": "They include TPUs instead of GPUs", "es": "Incluyen TPUs en lugar de GPUs" },
-        { "en": "They have no accelerators until you add them after creation", "es": "No tienen aceleradores hasta que los agregas después de la creación" }
+        {
+          "en": "Each machine type comes with a specific NVIDIA GPU model automatically attached in a fixed count",
+          "es": "Cada tipo de máquina viene con un modelo específico de GPU NVIDIA conectado automáticamente en una cantidad fija"
+        },
+        {
+          "en": "They let you attach any GPU model in any quantity",
+          "es": "Permiten conectar cualquier modelo de GPU en cualquier cantidad"
+        },
+        {
+          "en": "They include TPUs instead of GPUs",
+          "es": "Incluyen TPUs en lugar de GPUs"
+        },
+        {
+          "en": "They have no accelerators until you add them after creation",
+          "es": "No tienen aceleradores hasta que los agregas después de la creación"
+        }
       ],
-      "respuesta": ["A"],
+      "respuesta": [
+        "A"
+      ],
       "explicacion": {
         "en": "Accelerator-optimized families pair each machine type with a fixed GPU model and count: A2 with A100, A3 with H100, G2 with L4. B describes the N1 series, where you choose which GPUs to attach. C is false because TPUs are a separate product, not part of these VM families. D is false because the GPUs are built into the machine type from creation.",
         "es": "Las familias optimizadas para aceleradores asocian cada tipo de máquina con un modelo y cantidad fijos de GPU: A2 con A100, A3 con H100, G2 con L4. B describe la serie N1, donde eliges qué GPUs conectar. C es falsa porque las TPUs son un producto separado, no parte de estas familias de VM. D es falsa porque las GPUs vienen integradas al tipo de máquina desde la creación."
@@ -378,9 +659,14 @@
     {
       "id": "gpu-016",
       "curso": "ia-gpu",
-      "servicios": ["compute-engine", "gpus-tpus"],
+      "servicios": [
+        "compute-engine",
+        "gpus-tpus"
+      ],
       "seccion_blueprint": 2,
-      "subtopicos": ["2.1-instance-config"],
+      "subtopicos": [
+        "2.1-instance-config"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -388,12 +674,26 @@
         "es": "¿Cómo se comportan las VMs de Compute Engine con GPUs conectadas durante los eventos de mantenimiento del host?"
       },
       "opciones": [
-        { "en": "They cannot live-migrate; the VM must stop (terminate) during host maintenance", "es": "No pueden migrar en vivo; la VM debe detenerse (terminate) durante el mantenimiento del host" },
-        { "en": "They live-migrate transparently like regular VMs", "es": "Migran en vivo de forma transparente como las VMs normales" },
-        { "en": "The GPU is detached temporarily while the VM keeps running", "es": "La GPU se desconecta temporalmente mientras la VM sigue ejecutándose" },
-        { "en": "Maintenance never affects hosts that have GPUs", "es": "El mantenimiento nunca afecta a los hosts que tienen GPUs" }
+        {
+          "en": "They cannot live-migrate; the VM must stop (terminate) during host maintenance",
+          "es": "No pueden migrar en vivo; la VM debe detenerse (terminate) durante el mantenimiento del host"
+        },
+        {
+          "en": "They live-migrate transparently like regular VMs",
+          "es": "Migran en vivo de forma transparente como las VMs normales"
+        },
+        {
+          "en": "The GPU is detached temporarily while the VM keeps running",
+          "es": "La GPU se desconecta temporalmente mientras la VM sigue ejecutándose"
+        },
+        {
+          "en": "Maintenance never affects hosts that have GPUs",
+          "es": "El mantenimiento nunca afecta a los hosts que tienen GPUs"
+        }
       ],
-      "respuesta": ["A"],
+      "respuesta": [
+        "A"
+      ],
       "explicacion": {
         "en": "GPU-attached VMs do not support live migration, so their host maintenance policy must be set to terminate, and the VM stops during maintenance (optionally restarting automatically). B is false because live migration is exactly what GPUs prevent. C is false because GPUs cannot be hot-detached for maintenance. D is false because GPU hosts receive maintenance like any other hardware.",
         "es": "Las VMs con GPU no admiten migración en vivo, por lo que su política de mantenimiento del host debe configurarse en terminate, y la VM se detiene durante el mantenimiento (con reinicio automático opcional). B es falsa porque la migración en vivo es justamente lo que las GPUs impiden. C es falsa porque las GPUs no pueden desconectarse en caliente por mantenimiento. D es falsa porque los hosts con GPU reciben mantenimiento como cualquier otro hardware."
@@ -403,9 +703,15 @@
     {
       "id": "gpu-017",
       "curso": "ia-gpu",
-      "servicios": ["cloud-monitoring", "ops-agent", "gpus-tpus"],
+      "servicios": [
+        "cloud-monitoring",
+        "ops-agent",
+        "gpus-tpus"
+      ],
       "seccion_blueprint": 3,
-      "subtopicos": ["3.4-alerts-metrics"],
+      "subtopicos": [
+        "3.4-alerts-metrics"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -413,12 +719,26 @@
         "es": "¿Qué producto de Google Cloud usas para ver métricas de utilización de GPU y crear alertas sobre ellas?"
       },
       "opciones": [
-        { "en": "Cloud Monitoring, with GPU metrics collected by the Ops Agent", "es": "Cloud Monitoring, con métricas de GPU recolectadas por el Ops Agent" },
-        { "en": "Cloud Billing reports", "es": "Los informes de Cloud Billing" },
-        { "en": "Cloud DNS", "es": "Cloud DNS" },
-        { "en": "Artifact Registry", "es": "Artifact Registry" }
+        {
+          "en": "Cloud Monitoring, with GPU metrics collected by the Ops Agent",
+          "es": "Cloud Monitoring, con métricas de GPU recolectadas por el Ops Agent"
+        },
+        {
+          "en": "Cloud Billing reports",
+          "es": "Los informes de Cloud Billing"
+        },
+        {
+          "en": "Cloud DNS",
+          "es": "Cloud DNS"
+        },
+        {
+          "en": "Artifact Registry",
+          "es": "Artifact Registry"
+        }
       ],
-      "respuesta": ["A"],
+      "respuesta": [
+        "A"
+      ],
       "explicacion": {
         "en": "Cloud Monitoring stores and charts GPU metrics such as utilization and memory use, which the Ops Agent collects from VMs, and lets you build alerting policies on them. Billing reports (B) show cost, not hardware utilization. Cloud DNS (C) resolves names, and Artifact Registry (D) stores container images; neither handles metrics.",
         "es": "Cloud Monitoring almacena y grafica métricas de GPU como utilización y uso de memoria, que el Ops Agent recolecta de las VMs, y permite crear políticas de alertas sobre ellas. Los informes de facturación (B) muestran costos, no utilización de hardware. Cloud DNS (C) resuelve nombres y Artifact Registry (D) almacena imágenes de contenedores; ninguno maneja métricas."
@@ -428,9 +748,13 @@
     {
       "id": "gpu-018",
       "curso": "ia-gpu",
-      "servicios": ["gpus-tpus"],
+      "servicios": [
+        "gpus-tpus"
+      ],
       "seccion_blueprint": 2,
-      "subtopicos": ["2.1-gpus-tpus-choice"],
+      "subtopicos": [
+        "2.1-gpus-tpus-choice"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -438,12 +762,26 @@
         "es": "Un equipo científico ejecuta simulaciones de HPC que requieren aritmética de doble precisión (FP64). ¿Por qué las GPUs son mejor opción que las TPUs?"
       },
       "opciones": [
-        { "en": "TPUs are optimized for lower-precision ML math, while data center GPUs support high-precision computation", "es": "Las TPUs están optimizadas para cálculos de ML de menor precisión, mientras que las GPUs de centro de datos admiten cómputo de alta precisión" },
-        { "en": "TPUs cannot be used for anything except chatbots", "es": "Las TPUs no pueden usarse para nada excepto chatbots" },
-        { "en": "GPUs are always cheaper than TPUs for any workload", "es": "Las GPUs siempre son más baratas que las TPUs para cualquier carga" },
-        { "en": "TPUs only run on-premises, not in Google Cloud", "es": "Las TPUs solo funcionan on-premises, no en Google Cloud" }
+        {
+          "en": "TPUs are optimized for lower-precision ML math, while data center GPUs support high-precision computation",
+          "es": "Las TPUs están optimizadas para cálculos de ML de menor precisión, mientras que las GPUs de centro de datos admiten cómputo de alta precisión"
+        },
+        {
+          "en": "TPUs cannot be used for anything except chatbots",
+          "es": "Las TPUs no pueden usarse para nada excepto chatbots"
+        },
+        {
+          "en": "GPUs are always cheaper than TPUs for any workload",
+          "es": "Las GPUs siempre son más baratas que las TPUs para cualquier carga"
+        },
+        {
+          "en": "TPUs only run on-premises, not in Google Cloud",
+          "es": "Las TPUs solo funcionan on-premises, no en Google Cloud"
+        }
       ],
-      "respuesta": ["A"],
+      "respuesta": [
+        "A"
+      ],
       "explicacion": {
         "en": "TPUs are designed around lower-precision matrix math typical of neural networks, so workloads requiring high-precision arithmetic like FP64 HPC simulations fit better on data center GPUs (for example A100/H100). B is an exaggeration: TPUs serve many ML workloads. C is false because relative cost depends on the workload. D is false because Cloud TPU is a Google Cloud service.",
         "es": "Las TPUs están diseñadas para cálculos de matrices de menor precisión típicos de redes neuronales, por lo que las cargas que requieren aritmética de alta precisión como simulaciones HPC en FP64 encajan mejor en GPUs de centro de datos (por ejemplo A100/H100). B es una exageración: las TPUs sirven para muchas cargas de ML. C es falsa porque el costo relativo depende de la carga. D es falsa porque Cloud TPU es un servicio de Google Cloud."
@@ -453,9 +791,14 @@
     {
       "id": "gpu-019",
       "curso": "ia-gpu",
-      "servicios": ["compute-engine", "gpus-tpus"],
+      "servicios": [
+        "compute-engine",
+        "gpus-tpus"
+      ],
       "seccion_blueprint": 3,
-      "subtopicos": ["3.1-ai-workloads"],
+      "subtopicos": [
+        "3.1-ai-workloads"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -463,12 +806,26 @@
         "es": "¿Qué proporcionan las imágenes Deep Learning VM para trabajo de ML con GPU en Compute Engine?"
       },
       "opciones": [
-        { "en": "Preconfigured images with ML frameworks, CUDA, and NVIDIA drivers already installed", "es": "Imágenes preconfiguradas con frameworks de ML, CUDA y drivers de NVIDIA ya instalados" },
-        { "en": "A managed notebook service that requires no VM", "es": "Un servicio de notebooks administrado que no requiere VM" },
-        { "en": "Free GPU hardware for development projects", "es": "Hardware de GPU gratuito para proyectos de desarrollo" },
-        { "en": "A container registry for ML images", "es": "Un registro de contenedores para imágenes de ML" }
+        {
+          "en": "Preconfigured images with ML frameworks, CUDA, and NVIDIA drivers already installed",
+          "es": "Imágenes preconfiguradas con frameworks de ML, CUDA y drivers de NVIDIA ya instalados"
+        },
+        {
+          "en": "A managed notebook service that requires no VM",
+          "es": "Un servicio de notebooks administrado que no requiere VM"
+        },
+        {
+          "en": "Free GPU hardware for development projects",
+          "es": "Hardware de GPU gratuito para proyectos de desarrollo"
+        },
+        {
+          "en": "A container registry for ML images",
+          "es": "Un registro de contenedores para imágenes de ML"
+        }
       ],
-      "respuesta": ["A"],
+      "respuesta": [
+        "A"
+      ],
       "explicacion": {
         "en": "Deep Learning VM Images are OS images preloaded with frameworks like PyTorch and TensorFlow plus CUDA and NVIDIA drivers, so a GPU VM is usable for ML right after boot. B describes Vertex AI Workbench, which is a separate managed offering. C is false because GPU hardware is billed normally. D describes Artifact Registry, not VM images.",
         "es": "Las imágenes Deep Learning VM son imágenes de sistema operativo precargadas con frameworks como PyTorch y TensorFlow, más CUDA y drivers de NVIDIA, de modo que una VM con GPU queda lista para ML apenas arranca. B describe Vertex AI Workbench, que es una oferta administrada distinta. C es falsa porque el hardware de GPU se factura normalmente. D describe Artifact Registry, no imágenes de VM."
@@ -478,9 +835,13 @@
     {
       "id": "gpu-020",
       "curso": "ia-gpu",
-      "servicios": ["gpus-tpus"],
+      "servicios": [
+        "gpus-tpus"
+      ],
       "seccion_blueprint": 2,
-      "subtopicos": ["2.1-gpus-tpus-choice"],
+      "subtopicos": [
+        "2.1-gpus-tpus-choice"
+      ],
       "nivel": "principiante",
       "tipo": "multiple",
       "pregunta": {
@@ -488,17 +849,1821 @@
         "es": "¿Cuáles DOS afirmaciones describen correctamente a las TPUs?"
       },
       "opciones": [
-        { "en": "They are custom accelerators designed by Google specifically for machine learning", "es": "Son aceleradores personalizados diseñados por Google específicamente para machine learning" },
-        { "en": "They excel at large-scale matrix computations with supported frameworks like JAX and TensorFlow", "es": "Destacan en cálculos de matrices a gran escala con frameworks compatibles como JAX y TensorFlow" },
-        { "en": "They can execute arbitrary CUDA code", "es": "Pueden ejecutar código CUDA arbitrario" },
-        { "en": "They are primarily designed for 3D graphics rendering", "es": "Están diseñadas principalmente para rendering de gráficos 3D" }
+        {
+          "en": "They are custom accelerators designed by Google specifically for machine learning",
+          "es": "Son aceleradores personalizados diseñados por Google específicamente para machine learning"
+        },
+        {
+          "en": "They excel at large-scale matrix computations with supported frameworks like JAX and TensorFlow",
+          "es": "Destacan en cálculos de matrices a gran escala con frameworks compatibles como JAX y TensorFlow"
+        },
+        {
+          "en": "They can execute arbitrary CUDA code",
+          "es": "Pueden ejecutar código CUDA arbitrario"
+        },
+        {
+          "en": "They are primarily designed for 3D graphics rendering",
+          "es": "Están diseñadas principalmente para rendering de gráficos 3D"
+        }
       ],
-      "respuesta": ["A", "B"],
+      "respuesta": [
+        "A",
+        "B"
+      ],
       "explicacion": {
         "en": "TPUs are Google-designed ASICs (A) built to accelerate the dense matrix operations of ML models through supported frameworks such as JAX, TensorFlow, and PyTorch (B). C is false because CUDA is NVIDIA-specific and does not run on TPUs. D is false because TPUs have no graphics pipeline; rendering is a GPU use case.",
         "es": "Las TPUs son ASICs diseñados por Google (A) para acelerar las operaciones densas de matrices de los modelos de ML mediante frameworks compatibles como JAX, TensorFlow y PyTorch (B). C es falsa porque CUDA es específico de NVIDIA y no se ejecuta en TPUs. D es falsa porque las TPUs no tienen pipeline gráfico; el rendering es un caso de uso de GPU."
       },
       "doc": "https://cloud.google.com/tpu/docs/intro-to-tpu"
+    },
+    {
+      "id": "gpu-021",
+      "curso": "ia-gpu",
+      "servicios": [
+        "compute-engine",
+        "gpus-tpus",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-instance-config"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You want to create an N1 VM with two NVIDIA T4 GPUs using the gcloud CLI. Which flag specifies the GPUs?",
+        "es": "Quieres crear una VM N1 con dos GPUs NVIDIA T4 usando la CLI de gcloud. ¿Qué marca especifica las GPUs?"
+      },
+      "opciones": [
+        {
+          "en": "--accelerator=type=nvidia-tesla-t4,count=2",
+          "es": "--accelerator=type=nvidia-tesla-t4,count=2"
+        },
+        {
+          "en": "--machine-type=nvidia-tesla-t4-2",
+          "es": "--machine-type=nvidia-tesla-t4-2"
+        },
+        {
+          "en": "--gpu-model=t4 --gpu-count=2",
+          "es": "--gpu-model=t4 --gpu-count=2"
+        },
+        {
+          "en": "--metadata=gpus=2",
+          "es": "--metadata=gpus=2"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "When you attach GPUs to a general-purpose N1 VM, `gcloud compute instances create` takes `--accelerator=type=<gpu-type>,count=<n>` together with `--maintenance-policy=TERMINATE`. B is invalid because machine types name CPU/memory shapes, not GPU models (accelerator-optimized families like g2-standard-4 embed the GPU, but they are not written that way). C invents flags that do not exist. D sets instance metadata, which is arbitrary key-value data and does not provision hardware.",
+        "es": "Cuando conectas GPUs a una VM N1 de propósito general, `gcloud compute instances create` usa `--accelerator=type=<tipo-gpu>,count=<n>` junto con `--maintenance-policy=TERMINATE`. B es inválida porque los tipos de máquina describen formas de CPU/memoria, no modelos de GPU (las familias optimizadas para aceleradores como g2-standard-4 ya incluyen la GPU, pero no se escriben así). C inventa marcas que no existen. D define metadatos de la instancia, que son datos clave-valor arbitrarios y no aprovisionan hardware."
+      },
+      "doc": "https://cloud.google.com/compute/docs/gpus/create-vm-with-gpus"
+    },
+    {
+      "id": "gpu-022",
+      "curso": "ia-gpu",
+      "servicios": [
+        "gke",
+        "gpus-tpus",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-gke-node-pools"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You need to add a GPU node pool with one NVIDIA L4 per node to an existing GKE Standard cluster. Which command is correct?",
+        "es": "Necesitas agregar un node pool de GPU con una NVIDIA L4 por nodo a un clúster GKE Standard existente. ¿Qué comando es correcto?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud container node-pools create gpu-pool --cluster=my-cluster --accelerator type=nvidia-l4,count=1 --machine-type=g2-standard-8",
+          "es": "gcloud container node-pools create gpu-pool --cluster=my-cluster --accelerator type=nvidia-l4,count=1 --machine-type=g2-standard-8"
+        },
+        {
+          "en": "gcloud container clusters update my-cluster --add-gpu=nvidia-l4",
+          "es": "gcloud container clusters update my-cluster --add-gpu=nvidia-l4"
+        },
+        {
+          "en": "kubectl create nodepool gpu-pool --gpu=nvidia-l4",
+          "es": "kubectl create nodepool gpu-pool --gpu=nvidia-l4"
+        },
+        {
+          "en": "gcloud compute instances create gpu-node --accelerator type=nvidia-l4,count=1 and then join it to the cluster manually",
+          "es": "gcloud compute instances create gpu-node --accelerator type=nvidia-l4,count=1 y luego unirla manualmente al clúster"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "GPU nodes are added with `gcloud container node-pools create` using `--accelerator type=...,count=...` and a compatible machine type (L4 requires the G2 family). B is not a valid way to add GPUs: cluster update does not attach accelerators to existing nodes. C is wrong because node pools are a GKE (Google Cloud) construct, not a Kubernetes API object that kubectl creates. D bypasses GKE node management; nodes must be created by GKE so they are registered, upgraded, and repaired automatically.",
+        "es": "Los nodos con GPU se agregan con `gcloud container node-pools create` usando `--accelerator type=...,count=...` y un tipo de máquina compatible (la L4 requiere la familia G2). B no es una forma válida de agregar GPUs: actualizar el clúster no conecta aceleradores a nodos existentes. C es incorrecta porque los node pools son un concepto de GKE (Google Cloud), no un objeto de la API de Kubernetes que kubectl cree. D omite la administración de nodos de GKE; los nodos deben crearse desde GKE para quedar registrados y recibir actualizaciones y reparaciones automáticas."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/how-to/gpus"
+    },
+    {
+      "id": "gpu-023",
+      "curso": "ia-gpu",
+      "servicios": [
+        "gke",
+        "kubectl",
+        "gpus-tpus"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-ai-workloads"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "In a GKE Standard cluster with GPU nodes, how does a Pod request one GPU?",
+        "es": "En un clúster GKE Standard con nodos GPU, ¿cómo solicita un Pod una GPU?"
+      },
+      "opciones": [
+        {
+          "en": "By setting resources.limits with the extended resource nvidia.com/gpu: 1 in the container spec",
+          "es": "Estableciendo resources.limits con el recurso extendido nvidia.com/gpu: 1 en la especificación del contenedor"
+        },
+        {
+          "en": "By adding the annotation gpu=true to the Pod metadata",
+          "es": "Agregando la anotación gpu=true a los metadatos del Pod"
+        },
+        {
+          "en": "By increasing the CPU limit above 8 vCPU so GKE assigns a GPU",
+          "es": "Aumentando el límite de CPU por encima de 8 vCPU para que GKE asigne una GPU"
+        },
+        {
+          "en": "By mounting /dev/nvidia0 as a hostPath volume",
+          "es": "Montando /dev/nvidia0 como un volumen hostPath"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "GPUs are exposed to Kubernetes as the extended resource `nvidia.com/gpu`, which the device plugin advertises; a container asks for it under `resources.limits`, and the scheduler places the Pod on a node with free GPUs. B is wrong because annotations carry metadata and do not drive scheduling of devices. C is wrong because CPU limits have no relation to accelerator allocation. D would try to bypass the device plugin, is not a supported allocation mechanism, and requires privileges GKE workloads should not have.",
+        "es": "Las GPUs se exponen a Kubernetes como el recurso extendido `nvidia.com/gpu`, que anuncia el device plugin; el contenedor lo solicita en `resources.limits` y el planificador coloca el Pod en un nodo con GPUs libres. B es incorrecta porque las anotaciones son metadatos y no dirigen la programación de dispositivos. C es incorrecta porque los límites de CPU no tienen relación con la asignación de aceleradores. D intentaría saltarse el device plugin, no es un mecanismo de asignación admitido y exige privilegios que las cargas de GKE no deberían tener."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/how-to/gpus"
+    },
+    {
+      "id": "gpu-024",
+      "curso": "ia-gpu",
+      "servicios": [
+        "gke",
+        "kubectl",
+        "gpus-tpus"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-gke-node-pools"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "After creating a GPU node pool in GKE Standard, how are the NVIDIA drivers installed on the nodes?",
+        "es": "Después de crear un node pool de GPU en GKE Standard, ¿cómo se instalan los drivers de NVIDIA en los nodos?"
+      },
+      "opciones": [
+        {
+          "en": "GKE can install them automatically with --accelerator gpu-driver-version=..., or you apply Google's driver installer DaemonSet",
+          "es": "GKE puede instalarlos automáticamente con --accelerator gpu-driver-version=..., o aplicas el DaemonSet instalador de drivers de Google"
+        },
+        {
+          "en": "You SSH into every node and run the NVIDIA installer manually",
+          "es": "Te conectas por SSH a cada nodo y ejecutas el instalador de NVIDIA manualmente"
+        },
+        {
+          "en": "Drivers are bundled inside each application container image, so nothing runs on the node",
+          "es": "Los drivers vienen dentro de cada imagen de contenedor de la aplicación, así que nada se ejecuta en el nodo"
+        },
+        {
+          "en": "The Ops Agent installs the drivers when it starts collecting GPU metrics",
+          "es": "El Ops Agent instala los drivers cuando empieza a recolectar métricas de GPU"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "GKE installs GPU drivers for you when the node pool is created with a `gpu-driver-version` setting; otherwise you deploy the Google-maintained driver installer DaemonSet, which runs one privileged Pod per GPU node and installs the driver on the host. B does not scale and breaks when nodes are autoscaled, upgraded, or repaired. C is wrong because the kernel driver lives on the node; container images only carry user-space CUDA libraries. D is wrong: the Ops Agent reads GPU metrics but never installs drivers.",
+        "es": "GKE instala los drivers por ti cuando el node pool se crea con la opción `gpu-driver-version`; de lo contrario, despliegas el DaemonSet instalador mantenido por Google, que ejecuta un Pod privilegiado por nodo GPU e instala el driver en el host. B no escala y se rompe cuando los nodos se autoescalan, actualizan o reparan. C es incorrecta porque el driver del kernel vive en el nodo; las imágenes de contenedor solo traen bibliotecas CUDA de espacio de usuario. D es incorrecta: el Ops Agent lee métricas de GPU pero nunca instala drivers."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/how-to/gpus"
+    },
+    {
+      "id": "gpu-025",
+      "curso": "ia-gpu",
+      "servicios": [
+        "gke",
+        "kubectl",
+        "gpus-tpus"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-gke-node-pools"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "GKE automatically applies the taint nvidia.com/gpu=present:NoSchedule to GPU nodes. What is the effect?",
+        "es": "GKE aplica automáticamente el taint nvidia.com/gpu=present:NoSchedule a los nodos con GPU. ¿Cuál es el efecto?"
+      },
+      "opciones": [
+        {
+          "en": "Only Pods that tolerate the taint (typically those requesting GPUs) are scheduled onto the expensive GPU nodes",
+          "es": "Solo los Pods que toleran el taint (normalmente los que solicitan GPU) se programan en los costosos nodos con GPU"
+        },
+        {
+          "en": "GPU nodes reject every Pod, including GPU workloads, until the taint is removed",
+          "es": "Los nodos con GPU rechazan todos los Pods, incluidas las cargas con GPU, hasta que se quite el taint"
+        },
+        {
+          "en": "Pods on GPU nodes are automatically granted access to all GPUs on the node",
+          "es": "Los Pods en nodos con GPU obtienen acceso automático a todas las GPUs del nodo"
+        },
+        {
+          "en": "The taint forces GKE to autoscale the GPU node pool to zero when idle",
+          "es": "El taint obliga a GKE a autoescalar el node pool de GPU a cero cuando está inactivo"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The taint repels Pods that do not carry a matching toleration, so general workloads stay on cheaper CPU nodes and GPU capacity is reserved for GPU Pods; GKE adds the toleration automatically to Pods that request nvidia.com/gpu. B is wrong because tolerating Pods are still scheduled normally. C is wrong because GPU access comes from the resource request, not from the taint. D is wrong because scaling to zero is a cluster-autoscaler setting (`--min-nodes=0`), unrelated to taints.",
+        "es": "El taint repele a los Pods que no tienen la toleration correspondiente, de modo que las cargas generales se quedan en nodos de CPU más baratos y la capacidad de GPU se reserva para Pods con GPU; GKE agrega la toleration automáticamente a los Pods que solicitan nvidia.com/gpu. B es incorrecta porque los Pods que la toleran sí se programan. C es incorrecta porque el acceso a la GPU viene de la solicitud de recurso, no del taint. D es incorrecta porque escalar a cero es una opción del autoescalador de clústeres (`--min-nodes=0`), sin relación con los taints."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/how-to/gpus"
+    },
+    {
+      "id": "gpu-026",
+      "curso": "ia-gpu",
+      "servicios": [
+        "cloud-run",
+        "gpus-tpus",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You are deploying an inference container to Cloud Run and want one NVIDIA L4 GPU per instance. Which deployment approach is correct?",
+        "es": "Estás implementando un contenedor de inferencia en Cloud Run y quieres una GPU NVIDIA L4 por instancia. ¿Qué enfoque de implementación es correcto?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud run deploy with --gpu=1 --gpu-type=nvidia-l4 in a region where Cloud Run GPUs are available",
+          "es": "gcloud run deploy con --gpu=1 --gpu-type=nvidia-l4 en una región donde las GPUs de Cloud Run estén disponibles"
+        },
+        {
+          "en": "gcloud run deploy with --cpu=8 --memory=32Gi; Cloud Run adds a GPU automatically for large instances",
+          "es": "gcloud run deploy con --cpu=8 --memory=32Gi; Cloud Run agrega una GPU automáticamente en instancias grandes"
+        },
+        {
+          "en": "Create a GPU node pool first and point the Cloud Run service at it",
+          "es": "Crear primero un node pool de GPU y apuntar el servicio de Cloud Run a él"
+        },
+        {
+          "en": "Cloud Run cannot use GPUs; deploy the container to Compute Engine instead",
+          "es": "Cloud Run no puede usar GPUs; implementa el contenedor en Compute Engine"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Cloud Run services request accelerators declaratively with `--gpu` and `--gpu-type`, and GPU support is limited to specific regions, so you must deploy there. B is wrong because CPU and memory sizing never implies a GPU. C confuses Cloud Run with GKE: Cloud Run is fully managed and has no node pools. D is outdated, since Cloud Run supports attaching an L4 GPU to a service or job.",
+        "es": "Los servicios de Cloud Run solicitan aceleradores de forma declarativa con `--gpu` y `--gpu-type`, y el soporte de GPU está limitado a ciertas regiones, por lo que debes implementar ahí. B es incorrecta porque dimensionar CPU y memoria nunca implica una GPU. C confunde Cloud Run con GKE: Cloud Run es completamente administrado y no tiene node pools. D está desactualizada, ya que Cloud Run admite conectar una GPU L4 a un servicio o job."
+      },
+      "doc": "https://cloud.google.com/run/docs/configuring/services/gpu"
+    },
+    {
+      "id": "gpu-027",
+      "curso": "ia-gpu",
+      "servicios": [
+        "quotas-apis",
+        "gpus-tpus",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-apis-quotas"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Creating a VM fails with 'Quota GPUS_ALL_REGIONS exceeded'. What is the correct action?",
+        "es": "La creación de una VM falla con 'Quota GPUS_ALL_REGIONS exceeded'. ¿Cuál es la acción correcta?"
+      },
+      "opciones": [
+        {
+          "en": "Request an increase of the GPUS_ALL_REGIONS quota from IAM & Admin > Quotas for the project",
+          "es": "Solicitar un aumento de la cuota GPUS_ALL_REGIONS desde IAM y administración > Cuotas para el proyecto"
+        },
+        {
+          "en": "Retry the creation in a different zone of the same region, since the quota is zonal",
+          "es": "Reintentar la creación en otra zona de la misma región, ya que la cuota es zonal"
+        },
+        {
+          "en": "Enable the Compute Engine API again to reset the quota counters",
+          "es": "Volver a habilitar la API de Compute Engine para restablecer los contadores de cuota"
+        },
+        {
+          "en": "Grant the roles/compute.admin role to the user creating the VM",
+          "es": "Otorgar el rol roles/compute.admin al usuario que crea la VM"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "GPUS_ALL_REGIONS caps the total number of GPUs a project may run across all regions, so the fix is a quota increase request in the Quotas page (or via the Service Usage API). B fails because this quota is global, not zonal; changing zone does not raise the limit. C is wrong: re-enabling an API does not reset quota usage. D confuses permissions with quota — an admin role lets you attempt the create, but the quota still blocks it.",
+        "es": "GPUS_ALL_REGIONS limita el total de GPUs que un proyecto puede ejecutar en todas las regiones, por lo que la solución es una solicitud de aumento en la página de Cuotas (o mediante la API de Service Usage). B falla porque esta cuota es global, no zonal; cambiar de zona no eleva el límite. C es incorrecta: volver a habilitar una API no reinicia el consumo de cuota. D confunde permisos con cuota: un rol de administrador te permite intentar la creación, pero la cuota igual la bloquea."
+      },
+      "doc": "https://cloud.google.com/compute/resource-usage"
+    },
+    {
+      "id": "gpu-028",
+      "curso": "ia-gpu",
+      "servicios": [
+        "compute-engine",
+        "gpus-tpus",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-spot-custom-machines"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You want a GPU VM created as a Spot instance for a checkpointed training job. Which gcloud option provisions it?",
+        "es": "Quieres una VM con GPU creada como instancia Spot para un trabajo de entrenamiento con checkpoints. ¿Qué opción de gcloud la aprovisiona?"
+      },
+      "opciones": [
+        {
+          "en": "--provisioning-model=SPOT together with --instance-termination-action",
+          "es": "--provisioning-model=SPOT junto con --instance-termination-action"
+        },
+        {
+          "en": "--preemptible-gpu=true",
+          "es": "--preemptible-gpu=true"
+        },
+        {
+          "en": "--discount=spot",
+          "es": "--discount=spot"
+        },
+        {
+          "en": "--maintenance-policy=SPOT",
+          "es": "--maintenance-policy=SPOT"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Spot VMs are created with `--provisioning-model=SPOT`, and `--instance-termination-action` chooses STOP or DELETE when Compute Engine preempts the instance; GPUs are billed at Spot prices on such VMs. B is not a real flag: the provisioning model covers the whole VM including its GPUs. C does not exist; discounts are applied by billing, not by a create flag. D misuses `--maintenance-policy`, which only accepts MIGRATE or TERMINATE and must be TERMINATE for any GPU VM.",
+        "es": "Las VMs Spot se crean con `--provisioning-model=SPOT`, y `--instance-termination-action` elige STOP o DELETE cuando Compute Engine interrumpe la instancia; las GPUs se facturan a precios Spot en esas VMs. B no es una marca real: el modelo de aprovisionamiento cubre toda la VM incluidas sus GPUs. C no existe; los descuentos los aplica la facturación, no una marca de creación. D usa mal `--maintenance-policy`, que solo acepta MIGRATE o TERMINATE y debe ser TERMINATE en cualquier VM con GPU."
+      },
+      "doc": "https://cloud.google.com/compute/docs/instances/create-use-spot"
+    },
+    {
+      "id": "gpu-029",
+      "curso": "ia-gpu",
+      "servicios": [
+        "ops-agent",
+        "cloud-monitoring",
+        "gpus-tpus"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.4-agents-prometheus"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You need GPU utilization and GPU memory metrics from a Compute Engine training VM in Cloud Monitoring. What must you do?",
+        "es": "Necesitas métricas de utilización de GPU y de memoria de GPU de una VM de entrenamiento de Compute Engine en Cloud Monitoring. ¿Qué debes hacer?"
+      },
+      "opciones": [
+        {
+          "en": "Install the Ops Agent on the VM; it collects NVIDIA GPU metrics once the drivers are present",
+          "es": "Instalar el Ops Agent en la VM; recolecta métricas de GPU de NVIDIA una vez que los drivers están presentes"
+        },
+        {
+          "en": "Nothing: Compute Engine publishes GPU utilization by default for every VM",
+          "es": "Nada: Compute Engine publica la utilización de GPU de forma predeterminada para toda VM"
+        },
+        {
+          "en": "Enable VPC Flow Logs on the subnet hosting the VM",
+          "es": "Habilitar VPC Flow Logs en la subred que aloja la VM"
+        },
+        {
+          "en": "Export Cloud Billing data to BigQuery and query GPU line items",
+          "es": "Exportar los datos de Cloud Billing a BigQuery y consultar las líneas de GPU"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The Ops Agent gathers guest-level metrics, including NVIDIA GPU utilization, memory used, and temperature, and sends them to Cloud Monitoring; the NVIDIA drivers must be installed for the agent to read them. B is wrong because the hypervisor-level default metrics cover CPU, disk, and network, not in-guest GPU counters. C collects network flow records, not device metrics. D shows spend, which tells you nothing about whether the GPU is actually busy.",
+        "es": "El Ops Agent recolecta métricas del sistema invitado, incluidas utilización de GPU de NVIDIA, memoria usada y temperatura, y las envía a Cloud Monitoring; los drivers de NVIDIA deben estar instalados para que el agente pueda leerlas. B es incorrecta porque las métricas predeterminadas a nivel de hipervisor cubren CPU, disco y red, no contadores de GPU dentro del invitado. C recolecta registros de flujo de red, no métricas de dispositivo. D muestra gasto, lo que no dice nada sobre si la GPU está realmente ocupada."
+      },
+      "doc": "https://cloud.google.com/compute/docs/gpus/monitor-gpus"
+    },
+    {
+      "id": "gpu-030",
+      "curso": "ia-gpu",
+      "servicios": [
+        "compute-engine",
+        "gpus-tpus"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-instance-config"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your gcloud command to create a GPU VM fails with an error about the maintenance policy. What is the required setting?",
+        "es": "Tu comando de gcloud para crear una VM con GPU falla con un error sobre la política de mantenimiento. ¿Cuál es la configuración requerida?"
+      },
+      "opciones": [
+        {
+          "en": "--maintenance-policy=TERMINATE, because GPU VMs cannot live-migrate",
+          "es": "--maintenance-policy=TERMINATE, porque las VMs con GPU no pueden migrar en vivo"
+        },
+        {
+          "en": "--maintenance-policy=MIGRATE, so the job survives host maintenance",
+          "es": "--maintenance-policy=MIGRATE, para que el trabajo sobreviva al mantenimiento del host"
+        },
+        {
+          "en": "--no-restart-on-failure, which disables maintenance handling",
+          "es": "--no-restart-on-failure, que deshabilita el manejo del mantenimiento"
+        },
+        {
+          "en": "--maintenance-policy=SUSPEND, which pauses the VM and its GPU state",
+          "es": "--maintenance-policy=SUSPEND, que pausa la VM y el estado de su GPU"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "GPU-attached VMs do not support live migration, so the host maintenance policy must be TERMINATE; pair it with `--restart-on-failure` (the default) so the VM comes back automatically after maintenance. B is exactly what GPUs cannot do and is why the command fails. C controls restart behavior after a crash and does not set a maintenance policy. D is not a valid value for that flag; suspend is a separate manual instance operation.",
+        "es": "Las VMs con GPU no admiten migración en vivo, por lo que la política de mantenimiento del host debe ser TERMINATE; combínala con `--restart-on-failure` (el valor predeterminado) para que la VM vuelva automáticamente tras el mantenimiento. B es justamente lo que las GPUs no pueden hacer y por eso falla el comando. C controla el reinicio tras una falla y no define una política de mantenimiento. D no es un valor válido para esa marca; suspender es una operación manual distinta de la instancia."
+      },
+      "doc": "https://cloud.google.com/compute/docs/instances/setting-vm-host-options"
+    },
+    {
+      "id": "gpu-031",
+      "curso": "ia-gpu",
+      "servicios": [
+        "gke",
+        "gpus-tpus"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-gke-node-pools"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Several small inference Pods each need only a fraction of an NVIDIA GPU on GKE. Which feature lets them share one physical GPU?",
+        "es": "Varios Pods pequeños de inferencia necesitan solo una fracción de una GPU NVIDIA en GKE. ¿Qué función les permite compartir una GPU física?"
+      },
+      "opciones": [
+        {
+          "en": "GPU time-sharing or multi-instance GPU, configured on the node pool",
+          "es": "Time-sharing de GPU o multi-instance GPU, configurado en el node pool"
+        },
+        {
+          "en": "Horizontal Pod autoscaling, which splits the GPU across replicas",
+          "es": "El autoescalado horizontal de Pods, que divide la GPU entre las réplicas"
+        },
+        {
+          "en": "Requesting a fractional value such as nvidia.com/gpu: 0.25 in the Pod spec",
+          "es": "Solicitar un valor fraccionario como nvidia.com/gpu: 0.25 en la especificación del Pod"
+        },
+        {
+          "en": "Setting a Pod Disruption Budget on the GPU workload",
+          "es": "Definir un Pod Disruption Budget en la carga con GPU"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "GKE supports GPU time-sharing (containers take turns on the GPU via context switching) and multi-instance GPU (hardware partitions on supported models); both are enabled with node pool flags such as `--max-shared-clients-per-gpu` or `--gpu-partition-size`. B is wrong because HPA changes replica counts and cannot subdivide a device. C is wrong because `nvidia.com/gpu` is an integer extended resource; fractional requests are rejected. D only protects Pods during voluntary disruptions and has nothing to do with sharing hardware.",
+        "es": "GKE admite time-sharing de GPU (los contenedores se turnan la GPU mediante cambio de contexto) y multi-instance GPU (particiones de hardware en modelos compatibles); ambos se habilitan con marcas del node pool como `--max-shared-clients-per-gpu` o `--gpu-partition-size`. B es incorrecta porque el HPA cambia la cantidad de réplicas y no puede subdividir un dispositivo. C es incorrecta porque `nvidia.com/gpu` es un recurso extendido entero; las solicitudes fraccionarias se rechazan. D solo protege Pods durante interrupciones voluntarias y no tiene relación con compartir hardware."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/timesharing-gpus"
+    },
+    {
+      "id": "gpu-032",
+      "curso": "ia-gpu",
+      "servicios": [
+        "gke",
+        "gpus-tpus"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-gke-cluster-configs"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "How do you run a GPU workload on a GKE Autopilot cluster?",
+        "es": "¿Cómo ejecutas una carga de trabajo con GPU en un clúster GKE Autopilot?"
+      },
+      "opciones": [
+        {
+          "en": "Request the GPU in the Pod spec and select the accelerator with a nodeSelector; Autopilot provisions the node for you",
+          "es": "Solicitar la GPU en la especificación del Pod y seleccionar el acelerador con un nodeSelector; Autopilot aprovisiona el nodo por ti"
+        },
+        {
+          "en": "Create a GPU node pool first with gcloud container node-pools create",
+          "es": "Crear primero un node pool de GPU con gcloud container node-pools create"
+        },
+        {
+          "en": "GPUs are not available in Autopilot; you must switch the cluster to Standard mode",
+          "es": "Las GPUs no están disponibles en Autopilot; debes cambiar el clúster a modo Standard"
+        },
+        {
+          "en": "SSH into the Autopilot nodes and install the NVIDIA drivers manually",
+          "es": "Conectarte por SSH a los nodos de Autopilot e instalar los drivers de NVIDIA manualmente"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "In Autopilot you declare what the Pod needs — a `nvidia.com/gpu` limit plus nodeSelectors such as cloud.google.com/gke-accelerator — and Google provisions and manages the underlying GPU node, including drivers. B applies to Standard mode; Autopilot exposes no node pools to manage. C is outdated because Autopilot supports several GPU types. D is impossible by design: Autopilot nodes are managed and not directly accessible.",
+        "es": "En Autopilot declaras lo que el Pod necesita — un límite `nvidia.com/gpu` más nodeSelectors como cloud.google.com/gke-accelerator — y Google aprovisiona y administra el nodo con GPU subyacente, incluidos los drivers. B aplica al modo Standard; Autopilot no expone node pools para administrar. C está desactualizada porque Autopilot admite varios tipos de GPU. D es imposible por diseño: los nodos de Autopilot son administrados y no accesibles directamente."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/how-to/autopilot-gpus"
+    },
+    {
+      "id": "gpu-033",
+      "curso": "ia-gpu",
+      "servicios": [
+        "compute-engine",
+        "gpus-tpus",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-networking-availability"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which command lists the zones where a given GPU model is available before you create the VM?",
+        "es": "¿Qué comando lista las zonas donde está disponible un modelo de GPU antes de crear la VM?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud compute accelerator-types list",
+          "es": "gcloud compute accelerator-types list"
+        },
+        {
+          "en": "gcloud compute machine-types list --filter=gpu",
+          "es": "gcloud compute machine-types list --filter=gpu"
+        },
+        {
+          "en": "gcloud compute regions describe --show-gpus",
+          "es": "gcloud compute regions describe --show-gpus"
+        },
+        {
+          "en": "gcloud services list --available | grep gpu",
+          "es": "gcloud services list --available | grep gpu"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "`gcloud compute accelerator-types list` returns every accelerator (GPU model) with the zone where it is offered, so you can filter for the model you need. B lists machine types (CPU/memory shapes) and does not enumerate accelerator availability by zone. C is not a valid flag; region describe shows quotas and status, not GPU catalogs. D lists Google Cloud APIs that can be enabled, which is unrelated to hardware availability.",
+        "es": "`gcloud compute accelerator-types list` devuelve cada acelerador (modelo de GPU) con la zona donde se ofrece, para que puedas filtrar por el modelo que necesitas. B lista tipos de máquina (formas de CPU/memoria) y no enumera la disponibilidad de aceleradores por zona. C no es una marca válida; describe de una región muestra cuotas y estado, no catálogos de GPU. D lista APIs de Google Cloud que se pueden habilitar, algo ajeno a la disponibilidad de hardware."
+      },
+      "doc": "https://cloud.google.com/compute/docs/gpus/gpu-regions-zones"
+    },
+    {
+      "id": "gpu-034",
+      "curso": "ia-gpu",
+      "servicios": [
+        "gke",
+        "kubectl",
+        "gpus-tpus"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-ai-workloads"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A Pod requesting nvidia.com/gpu stays Pending in a GKE Standard cluster that has a GPU node pool. What should you check first?",
+        "es": "Un Pod que solicita nvidia.com/gpu queda en estado Pending en un clúster GKE Standard que tiene un node pool de GPU. ¿Qué deberías revisar primero?"
+      },
+      "opciones": [
+        {
+          "en": "Whether the driver installer DaemonSet ran, so the nodes actually advertise allocatable nvidia.com/gpu capacity",
+          "es": "Si el DaemonSet instalador de drivers se ejecutó, de modo que los nodos realmente anuncien capacidad asignable de nvidia.com/gpu"
+        },
+        {
+          "en": "Whether the cluster has an Ingress configured for the workload",
+          "es": "Si el clúster tiene un Ingress configurado para la carga de trabajo"
+        },
+        {
+          "en": "Whether the container image is stored in Cloud Storage instead of Artifact Registry",
+          "es": "Si la imagen del contenedor está en Cloud Storage en lugar de Artifact Registry"
+        },
+        {
+          "en": "Whether the Pod has a readinessProbe defined",
+          "es": "Si el Pod tiene definido un readinessProbe"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Without the driver installation the device plugin never registers, so `kubectl describe node` shows zero allocatable nvidia.com/gpu and the scheduler cannot place the Pod, leaving it Pending with 'Insufficient nvidia.com/gpu'. B is irrelevant: Ingress affects external traffic, not scheduling. C is a distraction; a missing or unreachable image causes ImagePullBackOff after scheduling, not Pending. D affects when a running Pod is marked Ready, never whether it is scheduled.",
+        "es": "Sin la instalación del driver, el device plugin nunca se registra, así que `kubectl describe node` muestra cero asignable de nvidia.com/gpu y el planificador no puede colocar el Pod, dejándolo Pending con 'Insufficient nvidia.com/gpu'. B es irrelevante: el Ingress afecta el tráfico externo, no la programación. C es una distracción; una imagen faltante o inaccesible produce ImagePullBackOff después de programarse, no Pending. D afecta cuándo un Pod en ejecución se marca como Ready, nunca si se programa."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/how-to/gpus"
+    },
+    {
+      "id": "gpu-035",
+      "curso": "ia-gpu",
+      "servicios": [
+        "notebooks",
+        "gpus-tpus"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-ai-workloads"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A data scientist wants a managed JupyterLab environment with a GPU attached, without building VM images. What should you recommend?",
+        "es": "Un científico de datos quiere un entorno JupyterLab administrado con una GPU conectada, sin construir imágenes de VM. ¿Qué deberías recomendar?"
+      },
+      "opciones": [
+        {
+          "en": "A Vertex AI Workbench instance configured with a GPU",
+          "es": "Una instancia de Vertex AI Workbench configurada con una GPU"
+        },
+        {
+          "en": "A Cloud Run service with a GPU running a notebook container",
+          "es": "Un servicio de Cloud Run con GPU que ejecute un contenedor de notebook"
+        },
+        {
+          "en": "A Cloud SQL instance with a high-memory machine type",
+          "es": "Una instancia de Cloud SQL con un tipo de máquina de mucha memoria"
+        },
+        {
+          "en": "A BigQuery reservation with GPU slots",
+          "es": "Una reserva de BigQuery con slots de GPU"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Vertex AI Workbench provisions a managed JupyterLab instance where you pick the machine type and attach a GPU, with frameworks and drivers preinstalled and idle-shutdown available for cost control. B could technically host a notebook but Cloud Run is request-driven and stateless, a poor fit for interactive sessions with local state. C is a relational database with no notebook interface or GPU. D is invented: BigQuery reservations buy slots for SQL processing, not GPUs.",
+        "es": "Vertex AI Workbench aprovisiona una instancia administrada de JupyterLab donde eliges el tipo de máquina y conectas una GPU, con frameworks y drivers preinstalados y apagado por inactividad para controlar costos. B técnicamente podría alojar un notebook, pero Cloud Run está orientado a solicitudes y es sin estado, poco adecuado para sesiones interactivas con estado local. C es una base de datos relacional sin interfaz de notebook ni GPU. D es inventada: las reservas de BigQuery compran slots para procesamiento SQL, no GPUs."
+      },
+      "doc": "https://cloud.google.com/vertex-ai/docs/workbench/instances/introduction"
+    },
+    {
+      "id": "gpu-036",
+      "curso": "ia-gpu",
+      "servicios": [
+        "gke",
+        "gpus-tpus"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-gke-node-pools"
+      ],
+      "nivel": "intermedio",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO configurations reduce the cost of a GKE GPU node pool used for nightly batch training?",
+        "es": "¿Cuáles DOS configuraciones reducen el costo de un node pool de GPU en GKE usado para entrenamiento por lotes nocturno?"
+      },
+      "opciones": [
+        {
+          "en": "Enable cluster autoscaling on the node pool with --min-nodes=0 so it scales to zero when idle",
+          "es": "Habilitar el autoescalado del clúster en el node pool con --min-nodes=0 para que baje a cero cuando esté inactivo"
+        },
+        {
+          "en": "Create the node pool with Spot VMs and checkpoint the training job",
+          "es": "Crear el node pool con VMs Spot y hacer checkpoints del trabajo de entrenamiento"
+        },
+        {
+          "en": "Give every GPU node a public external IP address",
+          "es": "Dar a cada nodo con GPU una dirección IP externa pública"
+        },
+        {
+          "en": "Add a second GPU per node so jobs finish in half the wall-clock time",
+          "es": "Agregar una segunda GPU por nodo para que los trabajos terminen en la mitad del tiempo"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Scaling the GPU node pool to zero (A) means you pay for accelerators only while jobs run, and Spot nodes (B) cut the GPU price sharply, which is acceptable for restartable batch training that checkpoints. C adds networking cost and attack surface without touching compute spend. D is not a saving: you pay for both GPUs, scaling is rarely linear, and total accelerator-hours usually stay the same or rise.",
+        "es": "Escalar el node pool de GPU a cero (A) hace que pagues aceleradores solo mientras corren los trabajos, y los nodos Spot (B) reducen fuertemente el precio de la GPU, algo aceptable para entrenamiento por lotes reiniciable con checkpoints. C agrega costo de red y superficie de ataque sin tocar el gasto de cómputo. D no es un ahorro: pagas ambas GPUs, el escalamiento rara vez es lineal y las horas-acelerador totales suelen mantenerse o subir."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/spot-vms"
+    },
+    {
+      "id": "gpu-037",
+      "curso": "ia-gpu",
+      "servicios": [
+        "compute-engine",
+        "gpus-tpus"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You must run a video transcoding fleet on GPU VMs. Which machine family choice is appropriate?",
+        "es": "Debes ejecutar una flota de transcodificación de video en VMs con GPU. ¿Qué elección de familia de máquinas es apropiada?"
+      },
+      "opciones": [
+        {
+          "en": "G2 machine types with NVIDIA L4 GPUs, which include hardware video encoders",
+          "es": "Tipos de máquina G2 con GPUs NVIDIA L4, que incluyen codificadores de video por hardware"
+        },
+        {
+          "en": "E2 machine types, because they are the cheapest general-purpose option",
+          "es": "Tipos de máquina E2, porque son la opción de propósito general más barata"
+        },
+        {
+          "en": "A3 machine types with H100 GPUs, the most powerful option available",
+          "es": "Tipos de máquina A3 con GPUs H100, la opción más potente disponible"
+        },
+        {
+          "en": "M3 memory-optimized machine types with extra RAM",
+          "es": "Tipos de máquina M3 optimizados para memoria con RAM adicional"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The G2 family pairs vCPUs with NVIDIA L4 GPUs, which carry dedicated video encode/decode engines and are the cost-effective choice for transcoding, streaming, and inference. B cannot help because E2 types support no accelerators at all. C would work technically but H100s are built for large-scale training and cost far more per transcoded stream. D adds memory, which is not the bottleneck in transcoding and provides no accelerator.",
+        "es": "La familia G2 combina vCPUs con GPUs NVIDIA L4, que traen motores dedicados de codificación/decodificación de video y son la opción de mejor costo para transcodificación, streaming e inferencia. B no sirve porque los tipos E2 no admiten aceleradores. C funcionaría técnicamente, pero las H100 están hechas para entrenamiento a gran escala y cuestan mucho más por flujo transcodificado. D agrega memoria, que no es el cuello de botella en transcodificación, y no aporta acelerador."
+      },
+      "doc": "https://cloud.google.com/compute/docs/accelerator-optimized-machines"
+    },
+    {
+      "id": "gpu-038",
+      "curso": "ia-gpu",
+      "servicios": [
+        "compute-engine",
+        "gpus-tpus",
+        "terraform-iac"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-migs-autoscaling"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You want a managed instance group of identical GPU workers. Where do you define the accelerator configuration?",
+        "es": "Quieres un grupo de instancias administrado con workers de GPU idénticos. ¿Dónde defines la configuración del acelerador?"
+      },
+      "opciones": [
+        {
+          "en": "In the instance template, including the accelerator type, count, and TERMINATE maintenance policy",
+          "es": "En la plantilla de instancia, incluyendo el tipo y la cantidad de acelerador y la política de mantenimiento TERMINATE"
+        },
+        {
+          "en": "On each VM after the MIG creates it, using gcloud compute instances add-accelerator",
+          "es": "En cada VM después de que el MIG la cree, con gcloud compute instances add-accelerator"
+        },
+        {
+          "en": "In the autoscaler policy, which selects GPUs based on load",
+          "es": "En la política del autoescalador, que selecciona GPUs según la carga"
+        },
+        {
+          "en": "In a firewall rule that targets the GPU workers by network tag",
+          "es": "En una regla de firewall que apunte a los workers de GPU por etiqueta de red"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "A MIG creates every instance from its instance template, so the accelerator type and count, the boot image with drivers, and the TERMINATE maintenance policy all belong there; changing the template and rolling out the update changes the fleet. B is wrong because MIG-managed VMs must not be modified individually — the group would recreate them and drift — and there is no such add-accelerator command. C is wrong because autoscaler policies only decide how many instances to run. D controls network traffic and has no bearing on hardware configuration.",
+        "es": "Un MIG crea todas sus instancias a partir de la plantilla de instancia, así que el tipo y la cantidad de acelerador, la imagen de arranque con drivers y la política de mantenimiento TERMINATE van ahí; cambiar la plantilla y lanzar la actualización cambia toda la flota. B es incorrecta porque las VMs administradas por un MIG no deben modificarse individualmente — el grupo las recrearía y habría desviación — y ese comando add-accelerator no existe. C es incorrecta porque las políticas del autoescalador solo deciden cuántas instancias ejecutar. D controla el tráfico de red y no influye en la configuración de hardware."
+      },
+      "doc": "https://cloud.google.com/compute/docs/instance-templates"
+    },
+    {
+      "id": "gpu-039",
+      "curso": "ia-gpu",
+      "servicios": [
+        "cloud-run",
+        "gpus-tpus"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-cloud-run-ops"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your Cloud Run GPU inference service suffers long cold starts because the model loads from Cloud Storage on each new instance. Which Cloud Run setting most directly reduces user-visible cold starts?",
+        "es": "Tu servicio de inferencia con GPU en Cloud Run sufre arranques en frío largos porque el modelo se carga desde Cloud Storage en cada instancia nueva. ¿Qué configuración de Cloud Run reduce más directamente los arranques en frío visibles para el usuario?"
+      },
+      "opciones": [
+        {
+          "en": "Configure a minimum number of instances so warm instances with the model loaded are always available",
+          "es": "Configurar un número mínimo de instancias para que siempre haya instancias tibias con el modelo cargado"
+        },
+        {
+          "en": "Increase the request timeout to the maximum value",
+          "es": "Aumentar el tiempo de espera de la solicitud al valor máximo"
+        },
+        {
+          "en": "Reduce concurrency to 1 request per instance",
+          "es": "Reducir la concurrencia a 1 solicitud por instancia"
+        },
+        {
+          "en": "Split traffic 50/50 between two revisions",
+          "es": "Dividir el tráfico 50/50 entre dos revisiones"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Minimum instances keep initialized GPU instances running, so the expensive driver initialization and model load happen before traffic arrives; you pay for idle instances, which is the trade-off. B only lets slow requests run longer without making startup faster. C usually makes cold starts worse, because more instances must be started to serve the same traffic. D is a release-management feature and does nothing for startup latency.",
+        "es": "El mínimo de instancias mantiene instancias con GPU ya inicializadas, de modo que la costosa inicialización del driver y la carga del modelo ocurren antes de que llegue el tráfico; el costo es pagar instancias inactivas. B solo permite que las solicitudes lentas duren más, sin acelerar el arranque. C normalmente empeora los arranques en frío, porque hay que iniciar más instancias para el mismo tráfico. D es una función de gestión de lanzamientos y no hace nada por la latencia de arranque."
+      },
+      "doc": "https://cloud.google.com/run/docs/configuring/min-instances"
+    },
+    {
+      "id": "gpu-040",
+      "curso": "ia-gpu",
+      "servicios": [
+        "compute-engine",
+        "gpus-tpus",
+        "persistent-disk"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-ai-workloads"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A training job on a GPU VM shows GPU utilization stuck near 15% while the disk is saturated. What is the most likely fix?",
+        "es": "Un trabajo de entrenamiento en una VM con GPU muestra utilización de GPU estancada cerca del 15% mientras el disco está saturado. ¿Cuál es la corrección más probable?"
+      },
+      "opciones": [
+        {
+          "en": "Speed up the input pipeline, for example with a faster disk type such as Hyperdisk or a Local SSD cache",
+          "es": "Acelerar el pipeline de entrada, por ejemplo con un tipo de disco más rápido como Hyperdisk o una caché en SSD local"
+        },
+        {
+          "en": "Attach a second GPU to the VM",
+          "es": "Conectar una segunda GPU a la VM"
+        },
+        {
+          "en": "Switch the VM to a Spot provisioning model",
+          "es": "Cambiar la VM a un modelo de aprovisionamiento Spot"
+        },
+        {
+          "en": "Increase the number of external IP addresses on the VM",
+          "es": "Aumentar la cantidad de direcciones IP externas de la VM"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Low GPU utilization with a saturated disk is the classic input-bound symptom: the accelerator waits for data, so the fix is a faster storage path — higher-throughput Hyperdisk, Local SSD staging, or prefetching. B makes it worse: a second idle GPU doubles cost while the same bottleneck starves both. C only changes pricing and interruption risk, not throughput. D is unrelated; external IPs affect connectivity, not local I/O.",
+        "es": "Baja utilización de GPU con el disco saturado es el síntoma clásico de estar limitado por la entrada: el acelerador espera datos, así que la solución es una ruta de almacenamiento más rápida — Hyperdisk de mayor rendimiento, staging en SSD local o prefetching. B lo empeora: una segunda GPU inactiva duplica el costo mientras el mismo cuello de botella deja sin datos a ambas. C solo cambia el precio y el riesgo de interrupción, no el rendimiento. D no tiene relación; las IPs externas afectan la conectividad, no el I/O local."
+      },
+      "doc": "https://cloud.google.com/compute/docs/disks"
+    },
+    {
+      "id": "gpu-041",
+      "curso": "ia-gpu",
+      "servicios": [
+        "gpus-tpus",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-gpus-tpus-choice"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A startup trains a very large transformer written in JAX, needs to scale to hundreds of chips, and wants the best price-performance for that training run. Which is the BEST option?",
+        "es": "Una startup entrena un transformer muy grande escrito en JAX, necesita escalar a cientos de chips y quiere la mejor relación precio-rendimiento para ese entrenamiento. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        {
+          "en": "Cloud TPU slices, which are purpose-built for large-scale matrix training and integrate natively with JAX",
+          "es": "Slices de Cloud TPU, diseñados para entrenamiento de matrices a gran escala e integrados de forma nativa con JAX"
+        },
+        {
+          "en": "A large fleet of N1 VMs with T4 GPUs",
+          "es": "Una flota grande de VMs N1 con GPUs T4"
+        },
+        {
+          "en": "A Cloud Run service with an L4 GPU and high maximum instances",
+          "es": "Un servicio de Cloud Run con GPU L4 y un máximo alto de instancias"
+        },
+        {
+          "en": "Compute Engine C4 CPU-only VMs with many vCPUs",
+          "es": "VMs C4 solo con CPU de Compute Engine con muchos vCPUs"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "TPU slices connect many chips over a dedicated high-speed interconnect and are optimized for exactly this workload — large dense matrix training with a framework TPUs support first-class, such as JAX — giving strong price-performance at scale. B uses inference-class T4 GPUs whose interconnect and memory make hundreds-of-chips training slow and expensive. C is wrong because Cloud Run is a stateless request-driven service, not a distributed training platform. D removes the accelerator entirely and would take orders of magnitude longer.",
+        "es": "Los slices de TPU conectan muchos chips mediante una interconexión dedicada de alta velocidad y están optimizados justo para esta carga — entrenamiento de matrices densas a gran escala con un framework de primera clase en TPU como JAX — con una excelente relación precio-rendimiento a escala. B usa GPUs T4 de clase inferencia, cuya interconexión y memoria hacen lento y caro entrenar con cientos de chips. C es incorrecta porque Cloud Run es un servicio sin estado orientado a solicitudes, no una plataforma de entrenamiento distribuido. D elimina el acelerador por completo y tardaría órdenes de magnitud más."
+      },
+      "doc": "https://cloud.google.com/tpu/docs/intro-to-tpu"
+    },
+    {
+      "id": "gpu-042",
+      "curso": "ia-gpu",
+      "servicios": [
+        "cloud-run",
+        "gpus-tpus",
+        "gke"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A team serves an open-source model with spiky, unpredictable traffic that is zero for hours at a time. They want minimal operational overhead and no charges while idle. What is the BEST platform?",
+        "es": "Un equipo publica un modelo de código abierto con tráfico irregular e impredecible que es cero durante horas. Quieren mínima carga operativa y no pagar mientras está inactivo. ¿Cuál es la MEJOR plataforma?"
+      },
+      "opciones": [
+        {
+          "en": "Cloud Run with a GPU, scaling to zero when there is no traffic",
+          "es": "Cloud Run con GPU, escalando a cero cuando no hay tráfico"
+        },
+        {
+          "en": "A GKE Standard cluster with a GPU node pool of fixed size",
+          "es": "Un clúster GKE Standard con un node pool de GPU de tamaño fijo"
+        },
+        {
+          "en": "A Compute Engine GPU VM kept running with a static IP",
+          "es": "Una VM de Compute Engine con GPU siempre encendida con una IP estática"
+        },
+        {
+          "en": "A managed instance group of GPU VMs with a minimum of two instances",
+          "es": "Un grupo de instancias administrado de VMs con GPU con un mínimo de dos instancias"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Cloud Run with an attached GPU is fully managed, scales out with request volume, and scales to zero, so nothing is billed during idle hours — the best match for spiky traffic and low operational effort, accepting cold starts. B keeps GPU nodes running and billing continuously and adds cluster management work. C is the most wasteful: a single always-on GPU VM is billed 24/7 and offers no elasticity. D is worse still, paying for two idle GPU VMs plus MIG and load balancer management.",
+        "es": "Cloud Run con GPU conectada es totalmente administrado, escala con el volumen de solicitudes y baja a cero, por lo que no se factura nada en las horas inactivas — la mejor opción para tráfico irregular y bajo esfuerzo operativo, aceptando arranques en frío. B mantiene nodos con GPU encendidos y facturando de forma continua, y agrega trabajo de administración del clúster. C es lo más derrochador: una única VM con GPU siempre encendida se factura 24/7 y no ofrece elasticidad. D es aún peor: paga dos VMs con GPU inactivas más la administración del MIG y del balanceador."
+      },
+      "doc": "https://cloud.google.com/run/docs/configuring/services/gpu"
+    },
+    {
+      "id": "gpu-043",
+      "curso": "ia-gpu",
+      "servicios": [
+        "compute-engine",
+        "gpus-tpus"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-spot-custom-machines"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A research team runs week-long training that must finish, but their budget only allows Spot pricing for the GPUs. What is the BEST design?",
+        "es": "Un equipo de investigación ejecuta entrenamientos de una semana que deben terminar, pero su presupuesto solo alcanza para precios Spot en las GPUs. ¿Cuál es el MEJOR diseño?"
+      },
+      "opciones": [
+        {
+          "en": "Run on Spot GPU VMs, write checkpoints to Cloud Storage regularly, and resume from the last checkpoint after each preemption",
+          "es": "Ejecutar en VMs Spot con GPU, escribir checkpoints en Cloud Storage con regularidad y reanudar desde el último checkpoint tras cada interrupción"
+        },
+        {
+          "en": "Run on Spot GPU VMs and rely on automatic live migration to survive preemption",
+          "es": "Ejecutar en VMs Spot con GPU y confiar en la migración en vivo automática para sobrevivir a la interrupción"
+        },
+        {
+          "en": "Run on on-demand GPU VMs and request a budget increase",
+          "es": "Ejecutar en VMs con GPU bajo demanda y solicitar un aumento de presupuesto"
+        },
+        {
+          "en": "Store checkpoints only on the local SSD of each Spot VM to avoid egress costs",
+          "es": "Guardar los checkpoints solo en el SSD local de cada VM Spot para evitar costos de egreso"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Spot capacity can disappear at any moment, so the workload must be made interruption-tolerant: frequent checkpoints in durable, VM-independent storage let a replacement instance resume with minimal lost work, which is the standard pattern for cheap long training. B is impossible because GPU VMs never live-migrate and Spot preemption is a shutdown, not a migration. C abandons the stated constraint instead of designing for it. D loses everything on preemption, since Local SSD data does not survive the instance.",
+        "es": "La capacidad Spot puede desaparecer en cualquier momento, así que la carga debe tolerar interrupciones: checkpoints frecuentes en almacenamiento durable e independiente de la VM permiten que una instancia de reemplazo reanude con mínima pérdida de trabajo, el patrón estándar para entrenamiento largo y barato. B es imposible porque las VMs con GPU nunca migran en vivo y la interrupción Spot es un apagado, no una migración. C abandona la restricción declarada en lugar de diseñar para ella. D pierde todo al ser interrumpida, ya que los datos del SSD local no sobreviven a la instancia."
+      },
+      "doc": "https://cloud.google.com/compute/docs/instances/spot"
+    },
+    {
+      "id": "gpu-044",
+      "curso": "ia-gpu",
+      "servicios": [
+        "gke",
+        "gpus-tpus"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-gke-node-pools"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A GKE cluster hosts twelve small inference services, each needing far less than a full L4 GPU. Latency requirements are relaxed and the priority is cost. What is the BEST approach?",
+        "es": "Un clúster de GKE aloja doce servicios de inferencia pequeños, cada uno necesita mucho menos que una L4 completa. Los requisitos de latencia son flexibles y la prioridad es el costo. ¿Cuál es el MEJOR enfoque?"
+      },
+      "opciones": [
+        {
+          "en": "Enable GPU time-sharing on the node pool so multiple Pods share each physical GPU",
+          "es": "Habilitar time-sharing de GPU en el node pool para que varios Pods compartan cada GPU física"
+        },
+        {
+          "en": "Give each service its own dedicated GPU node so they never interfere",
+          "es": "Dar a cada servicio su propio nodo con GPU dedicado para que nunca interfieran"
+        },
+        {
+          "en": "Move all twelve services to CPU-only nodes",
+          "es": "Mover los doce servicios a nodos solo con CPU"
+        },
+        {
+          "en": "Run each service on its own Spot GPU node pool",
+          "es": "Ejecutar cada servicio en su propio node pool de GPU Spot"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Time-sharing lets several containers take turns on one GPU through context switching, which raises utilization and cuts the number of GPUs you pay for; the cost is added latency and no memory isolation, both acceptable here. B is the most expensive layout, leaving twelve GPUs mostly idle. C removes acceleration entirely and can break the latency budget even when it is relaxed, while inflating CPU counts. D still provisions twelve GPUs — Spot lowers the unit price but does nothing about the underutilization, and adds preemption risk to serving traffic.",
+        "es": "El time-sharing permite que varios contenedores se turnen una GPU mediante cambio de contexto, lo que eleva la utilización y reduce la cantidad de GPUs que pagas; el costo es más latencia y sin aislamiento de memoria, ambos aceptables aquí. B es la distribución más cara, con doce GPUs mayormente inactivas. C elimina la aceleración por completo y puede romper el presupuesto de latencia aun siendo flexible, además de inflar la cantidad de CPU. D sigue aprovisionando doce GPUs — Spot baja el precio unitario pero no resuelve la subutilización y agrega riesgo de interrupción al tráfico en producción."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/timesharing-gpus"
+    },
+    {
+      "id": "gpu-045",
+      "curso": "ia-gpu",
+      "servicios": [
+        "quotas-apis",
+        "gpus-tpus",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-apis-quotas"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A production launch needs 64 H100 GPUs in a specific region next month. The project currently has a quota of 8. What is the BEST course of action?",
+        "es": "Un lanzamiento a producción necesita 64 GPUs H100 en una región específica el próximo mes. El proyecto tiene actualmente una cuota de 8. ¿Cuál es el MEJOR curso de acción?"
+      },
+      "opciones": [
+        {
+          "en": "Submit a quota increase request for that GPU model and region well before the launch, and plan capacity with your account team",
+          "es": "Enviar una solicitud de aumento de cuota para ese modelo de GPU y esa región mucho antes del lanzamiento, y planificar la capacidad con tu equipo de cuenta"
+        },
+        {
+          "en": "Spread the workload across eight projects with 8 GPUs each to stay under the quota",
+          "es": "Distribuir la carga en ocho proyectos con 8 GPUs cada uno para no superar la cuota"
+        },
+        {
+          "en": "Create the VMs in a loop and retry until they succeed, since quota is only advisory",
+          "es": "Crear las VMs en un bucle y reintentar hasta que tengan éxito, ya que la cuota es solo orientativa"
+        },
+        {
+          "en": "Grant the deployment service account roles/owner so it can exceed the quota",
+          "es": "Otorgar el rol roles/owner a la cuenta de servicio de implementación para que pueda exceder la cuota"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Quota increases for scarce accelerators are reviewed and are not instantaneous, so the supported path is to request the increase for the specific GPU model and region ahead of time, ideally with capacity planning support. B is an abuse pattern that fragments the deployment, complicates networking and billing, and still faces per-project review. C is false because quota is enforced; retrying just produces repeated failures. D confuses IAM with quota — no role lets a project exceed its quota.",
+        "es": "Los aumentos de cuota para aceleradores escasos se revisan y no son instantáneos, por lo que el camino admitido es solicitar el aumento para el modelo de GPU y la región específicos con anticipación, idealmente con apoyo de planificación de capacidad. B es un patrón abusivo que fragmenta la implementación, complica redes y facturación, y de todos modos pasa por revisión por proyecto. C es falsa porque la cuota se aplica; reintentar solo genera fallas repetidas. D confunde IAM con cuota: ningún rol permite a un proyecto superar su cuota."
+      },
+      "doc": "https://cloud.google.com/docs/quotas/view-manage"
+    },
+    {
+      "id": "gpu-046",
+      "curso": "ia-gpu",
+      "servicios": [
+        "compute-engine",
+        "gpus-tpus"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-networking-availability"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your Terraform run fails because the requested GPU model is not offered in the zone hardcoded in the module, although the region is correct. What is the BEST fix?",
+        "es": "Tu ejecución de Terraform falla porque el modelo de GPU solicitado no se ofrece en la zona codificada en el módulo, aunque la región es correcta. ¿Cuál es la MEJOR corrección?"
+      },
+      "opciones": [
+        {
+          "en": "Look up the zones that offer that accelerator type and deploy to a supported zone, parameterizing the zone in the module",
+          "es": "Consultar las zonas que ofrecen ese tipo de acelerador y desplegar en una zona compatible, parametrizando la zona en el módulo"
+        },
+        {
+          "en": "Request a quota increase for that GPU model in the failing zone",
+          "es": "Solicitar un aumento de cuota para ese modelo de GPU en la zona que falla"
+        },
+        {
+          "en": "Change the machine type to a larger CPU-only type and attach the GPU afterwards",
+          "es": "Cambiar el tipo de máquina por uno más grande solo con CPU y conectar la GPU después"
+        },
+        {
+          "en": "Deploy to a different region without checking accelerator availability",
+          "es": "Desplegar en otra región sin verificar la disponibilidad del acelerador"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "GPU models are offered per zone, not uniformly per region, so the fix is to check accelerator availability (for example with `gcloud compute accelerator-types list`) and target a zone that offers the model, keeping the zone configurable for future moves. B does not help: quota cannot create hardware that the zone does not offer. C is impossible because accelerators are attached at creation and only to supported machine types. D might work by luck but repeats the same mistake and risks breaking latency, data residency, or cost assumptions.",
+        "es": "Los modelos de GPU se ofrecen por zona, no de forma uniforme por región, así que la corrección es verificar la disponibilidad del acelerador (por ejemplo con `gcloud compute accelerator-types list`) y apuntar a una zona que lo ofrezca, dejando la zona configurable para cambios futuros. B no ayuda: la cuota no crea hardware que la zona no ofrece. C es imposible porque los aceleradores se conectan en la creación y solo a tipos de máquina compatibles. D podría funcionar por suerte, pero repite el mismo error y arriesga romper supuestos de latencia, residencia de datos o costo."
+      },
+      "doc": "https://cloud.google.com/compute/docs/gpus/gpu-regions-zones"
+    },
+    {
+      "id": "gpu-047",
+      "curso": "ia-gpu",
+      "servicios": [
+        "gpus-tpus",
+        "cloud-run",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-gpus-tpus-choice"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "An architecture review must decide between GPUs and TPUs for serving a custom vision model that uses several third-party CUDA-based libraries. Latency is the top requirement. What is the BEST recommendation?",
+        "es": "Una revisión de arquitectura debe decidir entre GPUs y TPUs para publicar un modelo de visión personalizado que usa varias bibliotecas de terceros basadas en CUDA. La latencia es el requisito principal. ¿Cuál es la MEJOR recomendación?"
+      },
+      "opciones": [
+        {
+          "en": "Use NVIDIA GPUs, because the CUDA-based dependencies only run on NVIDIA hardware",
+          "es": "Usar GPUs de NVIDIA, porque las dependencias basadas en CUDA solo se ejecutan en hardware de NVIDIA"
+        },
+        {
+          "en": "Use TPUs, since they are always faster than GPUs for inference",
+          "es": "Usar TPUs, ya que siempre son más rápidas que las GPUs para inferencia"
+        },
+        {
+          "en": "Use TPUs and rewrite the CUDA libraries in TPU assembly",
+          "es": "Usar TPUs y reescribir las bibliotecas CUDA en ensamblador de TPU"
+        },
+        {
+          "en": "Use CPU-only instances with more vCPUs to avoid accelerator portability issues",
+          "es": "Usar instancias solo con CPU con más vCPUs para evitar problemas de portabilidad de aceleradores"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The hard constraint is the dependency stack: CUDA is NVIDIA-specific, so any component that requires it forces GPUs, and GPUs also deliver the low-latency inference the review demands. B is a false generalization — TPU advantage depends on model, framework, and scale. C is not a real option: there is no supported way to hand-port CUDA kernels to TPUs, and the effort would be enormous. D drops the accelerator and would almost certainly miss the latency target for a vision model.",
+        "es": "La restricción dura es la pila de dependencias: CUDA es específico de NVIDIA, así que cualquier componente que lo requiera obliga a usar GPUs, y las GPUs además entregan la inferencia de baja latencia que exige la revisión. B es una generalización falsa: la ventaja de la TPU depende del modelo, el framework y la escala. C no es una opción real: no existe una forma admitida de portar a mano kernels CUDA a TPUs, y el esfuerzo sería enorme. D elimina el acelerador y con casi total seguridad incumpliría el objetivo de latencia de un modelo de visión."
+      },
+      "doc": "https://cloud.google.com/tpu/docs/intro-to-tpu"
+    },
+    {
+      "id": "gpu-048",
+      "curso": "ia-gpu",
+      "servicios": [
+        "gke",
+        "gpus-tpus",
+        "cloud-monitoring"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-ai-workloads"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Finance reports that GPU spend tripled, but the ML team insists nothing changed. What is the BEST first step to find the waste?",
+        "es": "Finanzas reporta que el gasto en GPU se triplicó, pero el equipo de ML insiste en que nada cambió. ¿Cuál es el MEJOR primer paso para encontrar el desperdicio?"
+      },
+      "opciones": [
+        {
+          "en": "Review GPU utilization metrics in Cloud Monitoring to find accelerators that are provisioned but idle",
+          "es": "Revisar las métricas de utilización de GPU en Cloud Monitoring para encontrar aceleradores aprovisionados pero inactivos"
+        },
+        {
+          "en": "Delete the largest GPU node pool and see whether anyone complains",
+          "es": "Borrar el node pool de GPU más grande y ver si alguien se queja"
+        },
+        {
+          "en": "Set a billing budget alert and wait for the next month's report",
+          "es": "Definir una alerta de presupuesto de facturación y esperar el informe del próximo mes"
+        },
+        {
+          "en": "Move all workloads to Spot GPUs immediately",
+          "es": "Mover de inmediato todas las cargas a GPUs Spot"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Utilization data (collected by the Ops Agent on VMs or via GKE metrics) tells you whether the GPUs you pay for are actually doing work, which is how you separate real demand growth from idle or over-provisioned accelerators before changing anything. B is reckless: deleting production capacity to test ownership risks an outage. C only tells you the size of the bill later, not where it comes from, and does not stop current waste. D applies a cost lever blindly and would expose latency-sensitive serving to preemption without knowing whether idleness, not price, is the problem.",
+        "es": "Los datos de utilización (recolectados por el Ops Agent en VMs o mediante métricas de GKE) indican si las GPUs que pagas están realmente trabajando, que es como separar el crecimiento real de demanda de aceleradores inactivos o sobreaprovisionados antes de cambiar nada. B es temerario: borrar capacidad de producción para averiguar de quién es arriesga una caída. C solo informa el tamaño de la factura después, no de dónde viene, y no detiene el desperdicio actual. D aplica una palanca de costo a ciegas y expondría cargas sensibles a la latencia a interrupciones sin saber si el problema es la inactividad y no el precio."
+      },
+      "doc": "https://cloud.google.com/compute/docs/gpus/monitor-gpus"
+    },
+    {
+      "id": "gpu-049",
+      "curso": "ia-gpu",
+      "servicios": [
+        "compute-engine",
+        "gpus-tpus",
+        "gke"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A team of researchers each needs an interactive GPU environment for a few hours per day, with root access to install custom drivers and kernels. Cost when nobody works must be near zero. What is the BEST solution?",
+        "es": "Un equipo de investigadores necesita cada uno un entorno interactivo con GPU unas pocas horas al día, con acceso root para instalar drivers y kernels personalizados. El costo cuando nadie trabaja debe ser casi cero. ¿Cuál es la MEJOR solución?"
+      },
+      "opciones": [
+        {
+          "en": "Per-user Compute Engine GPU VMs that users start when needed and stop when done",
+          "es": "VMs de Compute Engine con GPU por usuario, que los usuarios inician cuando las necesitan y detienen al terminar"
+        },
+        {
+          "en": "One shared always-on GPU VM that everyone SSHes into",
+          "es": "Una única VM con GPU siempre encendida a la que todos se conectan por SSH"
+        },
+        {
+          "en": "A Cloud Run service with a GPU, one revision per researcher",
+          "es": "Un servicio de Cloud Run con GPU, una revisión por investigador"
+        },
+        {
+          "en": "A GKE Autopilot deployment with one GPU Pod per researcher running continuously",
+          "es": "Una implementación de GKE Autopilot con un Pod con GPU por investigador ejecutándose de forma continua"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Stopped VMs stop billing for CPU, memory, and the attached GPU (you keep paying only for disks), and a dedicated VM gives each researcher root access for custom drivers and kernel modules — matching both requirements. B is always billed and denies isolation: one user installing a driver breaks everyone. C fails the root/kernel requirement, because Cloud Run runs sandboxed stateless containers and revisions are versions of one service, not personal environments. D keeps GPU Pods running continuously, which is the opposite of near-zero idle cost, and Autopilot does not give node-level root.",
+        "es": "Las VMs detenidas dejan de facturar CPU, memoria y la GPU conectada (solo sigues pagando los discos), y una VM dedicada le da a cada investigador acceso root para drivers y módulos de kernel personalizados, cumpliendo ambos requisitos. B factura siempre y no ofrece aislamiento: un usuario que instala un driver rompe el entorno de todos. C incumple el requisito de root/kernel, porque Cloud Run ejecuta contenedores sin estado en sandbox y las revisiones son versiones de un servicio, no entornos personales. D mantiene Pods con GPU corriendo de forma continua, lo opuesto a un costo inactivo casi nulo, y Autopilot no otorga root a nivel de nodo."
+      },
+      "doc": "https://cloud.google.com/compute/docs/instances/stop-start-instance"
+    },
+    {
+      "id": "gpu-050",
+      "curso": "ia-gpu",
+      "servicios": [
+        "gke",
+        "gpus-tpus"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-gke-node-pools"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "In a GKE cluster shared by many teams, expensive GPU nodes are being filled with ordinary CPU workloads. What is the BEST way to reserve them for GPU jobs?",
+        "es": "En un clúster de GKE compartido por muchos equipos, los costosos nodos con GPU se llenan de cargas ordinarias de CPU. ¿Cuál es la MEJOR forma de reservarlos para trabajos con GPU?"
+      },
+      "opciones": [
+        {
+          "en": "Keep the GPU taint on the node pool and let only Pods with the matching toleration and GPU request land there",
+          "es": "Mantener el taint de GPU en el node pool y permitir que solo aterricen ahí los Pods con la toleration correspondiente y solicitud de GPU"
+        },
+        {
+          "en": "Create a separate cluster per team so no one can see the GPU nodes",
+          "es": "Crear un clúster separado por equipo para que nadie vea los nodos con GPU"
+        },
+        {
+          "en": "Ask teams to add a nodeSelector to avoid GPU nodes, and document it in the wiki",
+          "es": "Pedir a los equipos que agreguen un nodeSelector para evitar los nodos con GPU y documentarlo en la wiki"
+        },
+        {
+          "en": "Set a ResourceQuota on CPU in every namespace",
+          "es": "Definir un ResourceQuota de CPU en cada namespace"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Taints are the enforcement mechanism: nodes repel any Pod without the matching toleration, and GKE adds that toleration automatically to Pods requesting nvidia.com/gpu, so GPU capacity is protected without relying on user behavior. B multiplies clusters and operational cost to solve a scheduling problem, and fragments GPU capacity. C depends on every team remembering to opt out, so a single omission wastes a GPU node. D limits how much CPU a namespace can consume overall but does not stop those Pods from being scheduled onto GPU nodes.",
+        "es": "Los taints son el mecanismo de aplicación: los nodos repelen todo Pod sin la toleration correspondiente, y GKE agrega esa toleration automáticamente a los Pods que solicitan nvidia.com/gpu, de modo que la capacidad de GPU queda protegida sin depender del comportamiento de los usuarios. B multiplica clústeres y costo operativo para resolver un problema de programación, y fragmenta la capacidad de GPU. C depende de que cada equipo recuerde excluirse, así que una sola omisión desperdicia un nodo con GPU. D limita cuánta CPU consume un namespace en total, pero no impide que esos Pods se programen en nodos con GPU."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/how-to/gpus"
+    },
+    {
+      "id": "gpu-051",
+      "curso": "ia-gpu",
+      "servicios": [
+        "compute-engine",
+        "gpus-tpus"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-ai-workloads"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "After a routine OS kernel upgrade, a GPU VM's training job fails with 'no CUDA-capable device is detected', although the GPU still appears attached in the console. What is the MOST likely cause?",
+        "es": "Tras una actualización rutinaria del kernel del sistema operativo, el trabajo de entrenamiento de una VM con GPU falla con 'no CUDA-capable device is detected', aunque la GPU sigue apareciendo conectada en la consola. ¿Cuál es la causa MÁS probable?"
+      },
+      "opciones": [
+        {
+          "en": "The NVIDIA kernel driver no longer matches the running kernel and must be rebuilt or reinstalled",
+          "es": "El driver de kernel de NVIDIA ya no coincide con el kernel en ejecución y debe recompilarse o reinstalarse"
+        },
+        {
+          "en": "The project's GPU quota was reduced during the upgrade",
+          "es": "La cuota de GPU del proyecto se redujo durante la actualización"
+        },
+        {
+          "en": "The VM's maintenance policy changed from TERMINATE to MIGRATE",
+          "es": "La política de mantenimiento de la VM cambió de TERMINATE a MIGRATE"
+        },
+        {
+          "en": "A firewall rule is blocking access to the GPU device",
+          "es": "Una regla de firewall está bloqueando el acceso al dispositivo GPU"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The NVIDIA driver includes a kernel module built against a specific kernel version; upgrading the kernel leaves the module unloadable, so user space sees no CUDA device even though the hardware is still attached — reinstalling the driver (or using DKMS or a prebuilt image) fixes it. B is wrong because quota is checked when resources are created, not while a VM runs, and a quota change would not remove a device from a running instance. C is wrong because GPU VMs cannot be set to MIGRATE, and the maintenance policy does not affect driver loading. D is wrong because firewall rules filter network traffic and have no role in local device access.",
+        "es": "El driver de NVIDIA incluye un módulo de kernel compilado contra una versión específica del kernel; al actualizarlo, el módulo ya no carga y el espacio de usuario no ve ningún dispositivo CUDA aunque el hardware siga conectado — reinstalar el driver (o usar DKMS o una imagen preconstruida) lo resuelve. B es incorrecta porque la cuota se verifica al crear recursos, no mientras una VM corre, y un cambio de cuota no quitaría un dispositivo de una instancia en ejecución. C es incorrecta porque las VMs con GPU no pueden configurarse en MIGRATE, y la política de mantenimiento no afecta la carga del driver. D es incorrecta porque las reglas de firewall filtran tráfico de red y no intervienen en el acceso a dispositivos locales."
+      },
+      "doc": "https://cloud.google.com/compute/docs/gpus/install-drivers-gpu"
+    },
+    {
+      "id": "gpu-052",
+      "curso": "ia-gpu",
+      "servicios": [
+        "gpus-tpus",
+        "gke",
+        "cloud-run"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "A latency-critical inference API must never be interrupted and must respond within tens of milliseconds. Which TWO design decisions fit these constraints?",
+        "es": "Una API de inferencia crítica en latencia nunca debe interrumpirse y debe responder en decenas de milisegundos. ¿Cuáles DOS decisiones de diseño se ajustan a estas restricciones?"
+      },
+      "opciones": [
+        {
+          "en": "Serve on on-demand (non-Spot) GPU capacity",
+          "es": "Publicar sobre capacidad de GPU bajo demanda (no Spot)"
+        },
+        {
+          "en": "Keep warm capacity available so the model is already loaded when requests arrive",
+          "es": "Mantener capacidad tibia disponible para que el modelo ya esté cargado cuando lleguen las solicitudes"
+        },
+        {
+          "en": "Use Spot GPUs to reduce the cost of the serving fleet",
+          "es": "Usar GPUs Spot para reducir el costo de la flota de publicación"
+        },
+        {
+          "en": "Scale the serving fleet to zero between requests",
+          "es": "Escalar la flota de publicación a cero entre solicitudes"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "On-demand capacity (A) removes the preemption risk that would break the never-interrupted requirement, and warm capacity (B) — minimum instances on Cloud Run or always-on replicas on GKE — avoids the driver initialization and model load that dominate cold starts. C is wrong because Spot instances can be reclaimed at any time, which is unacceptable for a critical API. D is wrong because scaling to zero guarantees a cold start on the next request, blowing a tens-of-milliseconds budget.",
+        "es": "La capacidad bajo demanda (A) elimina el riesgo de interrupción que rompería el requisito de no interrumpirse nunca, y la capacidad tibia (B) — mínimo de instancias en Cloud Run o réplicas siempre activas en GKE — evita la inicialización del driver y la carga del modelo que dominan los arranques en frío. C es incorrecta porque las instancias Spot pueden recuperarse en cualquier momento, algo inaceptable para una API crítica. D es incorrecta porque escalar a cero garantiza un arranque en frío en la siguiente solicitud, lo que revienta un presupuesto de decenas de milisegundos."
+      },
+      "doc": "https://cloud.google.com/run/docs/configuring/min-instances"
+    },
+    {
+      "id": "gpu-053",
+      "curso": "ia-gpu",
+      "servicios": [
+        "compute-engine",
+        "gpus-tpus",
+        "cloud-storage"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-spot-custom-machines"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A nightly rendering pipeline processes thousands of independent frames and must be as cheap as possible; a delayed frame can simply be re-rendered. What is the BEST architecture?",
+        "es": "Un pipeline de rendering nocturno procesa miles de cuadros independientes y debe ser lo más barato posible; un cuadro retrasado simplemente se puede volver a renderizar. ¿Cuál es la MEJOR arquitectura?"
+      },
+      "opciones": [
+        {
+          "en": "A managed instance group of Spot GPU VMs pulling frame tasks from a queue and writing results to Cloud Storage",
+          "es": "Un grupo de instancias administrado de VMs Spot con GPU que toman tareas de cuadros desde una cola y escriben los resultados en Cloud Storage"
+        },
+        {
+          "en": "A single very large on-demand GPU VM that renders every frame sequentially",
+          "es": "Una única VM con GPU bajo demanda muy grande que renderiza todos los cuadros de forma secuencial"
+        },
+        {
+          "en": "A Cloud Run service with a GPU and a maximum of one instance",
+          "es": "Un servicio de Cloud Run con GPU y un máximo de una instancia"
+        },
+        {
+          "en": "A GKE cluster with on-demand GPU nodes kept running all day",
+          "es": "Un clúster de GKE con nodos GPU bajo demanda encendidos todo el día"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Independent frames are embarrassingly parallel and re-runnable, which is the ideal profile for Spot GPUs: a queue hands out work, preempted instances simply lose one frame that is retried, and the MIG recreates capacity automatically. B wastes the parallelism and pays full price for a long serial run. C caps throughput at one instance and adds cold starts, defeating batch throughput. D pays on-demand prices around the clock for a workload that only runs at night.",
+        "es": "Los cuadros independientes son masivamente paralelos y reejecutables, el perfil ideal para GPUs Spot: una cola reparte el trabajo, las instancias interrumpidas solo pierden un cuadro que se reintenta y el MIG recrea la capacidad automáticamente. B desperdicia el paralelismo y paga precio completo por una ejecución serial larga. C limita el rendimiento a una instancia y agrega arranques en frío, contrario al throughput por lotes. D paga precios bajo demanda las 24 horas por una carga que solo corre de noche."
+      },
+      "doc": "https://cloud.google.com/compute/docs/instances/create-use-spot"
+    },
+    {
+      "id": "gpu-054",
+      "curso": "ia-gpu",
+      "servicios": [
+        "gke",
+        "gpus-tpus"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-gke-cluster-configs"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A small platform team wants to run GPU inference on Kubernetes with the least operational effort: no node sizing, no driver management, no node upgrades. What is the BEST choice?",
+        "es": "Un equipo de plataforma pequeño quiere ejecutar inferencia con GPU en Kubernetes con el menor esfuerzo operativo: sin dimensionar nodos, sin administrar drivers, sin actualizar nodos. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        {
+          "en": "GKE Autopilot with GPU workloads, letting Google manage nodes and drivers",
+          "es": "GKE Autopilot con cargas de trabajo con GPU, dejando que Google administre nodos y drivers"
+        },
+        {
+          "en": "GKE Standard with manually sized GPU node pools and a driver DaemonSet",
+          "es": "GKE Standard con node pools de GPU dimensionados manualmente y un DaemonSet de drivers"
+        },
+        {
+          "en": "Self-managed Kubernetes on Compute Engine GPU VMs",
+          "es": "Kubernetes autoadministrado sobre VMs de Compute Engine con GPU"
+        },
+        {
+          "en": "Docker containers started by a startup script on individual GPU VMs",
+          "es": "Contenedores de Docker iniciados por un script de arranque en VMs con GPU individuales"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Autopilot provisions and manages the nodes for you based on Pod requests, including GPU drivers and node upgrades, and bills for Pod resources — the lowest operational effort while staying on Kubernetes. B is a valid design but keeps node pool sizing, driver DaemonSets, and upgrades on the team. C is the highest-effort option, adding control plane operations on top of everything else. D abandons Kubernetes entirely, losing scheduling, self-healing, and rollouts that the team explicitly wants.",
+        "es": "Autopilot aprovisiona y administra los nodos por ti según las solicitudes de los Pods, incluidos los drivers de GPU y las actualizaciones de nodos, y factura por recursos de Pod: el menor esfuerzo operativo sin salir de Kubernetes. B es un diseño válido pero deja el dimensionamiento de node pools, los DaemonSets de drivers y las actualizaciones a cargo del equipo. C es la opción de mayor esfuerzo, ya que agrega la operación del plano de control encima de todo lo demás. D abandona Kubernetes por completo y pierde la programación, la autorreparación y los despliegues que el equipo quiere explícitamente."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/how-to/autopilot-gpus"
+    },
+    {
+      "id": "gpu-055",
+      "curso": "ia-gpu",
+      "servicios": [
+        "compute-engine",
+        "gpus-tpus",
+        "billing"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-spot-custom-machines"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A steady-state GPU inference fleet runs 24/7 for at least the next year with predictable capacity. Which cost strategy is BEST?",
+        "es": "Una flota de inferencia con GPU en estado estable funciona 24/7 durante al menos el próximo año con capacidad predecible. ¿Qué estrategia de costos es la MEJOR?"
+      },
+      "opciones": [
+        {
+          "en": "Purchase committed use discounts for the sustained GPU capacity and keep it on on-demand provisioning",
+          "es": "Comprar descuentos por uso comprometido para la capacidad de GPU sostenida y mantenerla en aprovisionamiento bajo demanda"
+        },
+        {
+          "en": "Move the entire fleet to Spot GPUs to get the largest discount",
+          "es": "Mover toda la flota a GPUs Spot para obtener el mayor descuento"
+        },
+        {
+          "en": "Stop and start the VMs every hour to trigger sustained use discounts",
+          "es": "Detener e iniciar las VMs cada hora para activar los descuentos por uso sostenido"
+        },
+        {
+          "en": "Over-provision GPUs so utilization stays low and hardware lasts longer",
+          "es": "Sobreaprovisionar GPUs para que la utilización se mantenga baja y el hardware dure más"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Committed use discounts are designed for exactly this case: predictable, always-on capacity over a one- or three-year term, in exchange for a significant discount without any availability risk. B trades away availability on a production serving fleet that cannot tolerate preemption. C is backwards — sustained use discounts reward continuous running, and constant restarts would reduce, not increase, the discount while hurting availability. D deliberately wastes money; cloud GPUs are rented, so lower utilization simply means paying for idle hardware.",
+        "es": "Los descuentos por uso comprometido están hechos justo para este caso: capacidad predecible y siempre activa por un plazo de uno o tres años, a cambio de un descuento significativo y sin riesgo de disponibilidad. B sacrifica la disponibilidad de una flota de producción que no tolera interrupciones. C está al revés: los descuentos por uso sostenido premian la ejecución continua, y los reinicios constantes reducirían el descuento además de dañar la disponibilidad. D desperdicia dinero a propósito; las GPUs en la nube se rentan, así que menor utilización solo significa pagar hardware inactivo."
+      },
+      "doc": "https://cloud.google.com/compute/docs/instances/committed-use-discounts-overview"
+    },
+    {
+      "id": "gpu-056",
+      "curso": "ia-gpu",
+      "servicios": [
+        "ops-agent",
+        "cloud-monitoring",
+        "gpus-tpus"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.4-alerts-metrics"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You must be paged when GPU memory on training VMs approaches exhaustion, before jobs crash with out-of-memory errors. What is the BEST implementation?",
+        "es": "Debes recibir una alerta cuando la memoria de GPU en las VMs de entrenamiento se acerque a agotarse, antes de que los trabajos fallen por falta de memoria. ¿Cuál es la MEJOR implementación?"
+      },
+      "opciones": [
+        {
+          "en": "Run the Ops Agent on the VMs and create a Cloud Monitoring alerting policy on the GPU memory metric with a notification channel",
+          "es": "Ejecutar el Ops Agent en las VMs y crear una política de alertas de Cloud Monitoring sobre la métrica de memoria de GPU con un canal de notificación"
+        },
+        {
+          "en": "Parse nvidia-smi output in a cron job on each VM and email the team from the VM",
+          "es": "Analizar la salida de nvidia-smi en un cron job en cada VM y enviar correos al equipo desde la VM"
+        },
+        {
+          "en": "Create a log-based alert on Cloud Logging for the string 'CUDA out of memory'",
+          "es": "Crear una alerta basada en registros en Cloud Logging para la cadena 'CUDA out of memory'"
+        },
+        {
+          "en": "Set a billing budget alert on the GPU SKU",
+          "es": "Definir una alerta de presupuesto de facturación sobre el SKU de GPU"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The Ops Agent ships GPU memory metrics to Cloud Monitoring, where an alerting policy with a threshold and notification channel pages the team before exhaustion — managed, centralized, and consistent across the fleet. B is fragile homegrown monitoring: per-VM cron jobs and VM-originated email are hard to maintain, easy to lose, and give no central history. C only fires after the failure has already happened, so it cannot be preventive. D tracks spend, which says nothing about memory pressure inside the GPU.",
+        "es": "El Ops Agent envía métricas de memoria de GPU a Cloud Monitoring, donde una política de alertas con umbral y canal de notificación avisa al equipo antes del agotamiento: administrada, centralizada y consistente en toda la flota. B es monitoreo casero y frágil: cron jobs por VM y correos originados en la VM son difíciles de mantener, fáciles de perder y sin historial central. C solo se dispara después de que la falla ya ocurrió, así que no puede ser preventiva. D rastrea gasto, que no dice nada sobre la presión de memoria dentro de la GPU."
+      },
+      "doc": "https://cloud.google.com/compute/docs/gpus/monitor-gpus"
+    },
+    {
+      "id": "gpu-057",
+      "curso": "ia-gpu",
+      "servicios": [
+        "gpus-tpus",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-gpus-tpus-choice"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "An engineering firm must run FP64 fluid dynamics simulations with MPI across many nodes, plus GPU-accelerated visualization of the results. What is the BEST accelerator strategy?",
+        "es": "Una firma de ingeniería debe ejecutar simulaciones de dinámica de fluidos en FP64 con MPI a través de muchos nodos, más visualización acelerada por GPU de los resultados. ¿Cuál es la MEJOR estrategia de aceleradores?"
+      },
+      "opciones": [
+        {
+          "en": "Data center GPUs on Compute Engine for both the FP64 simulation and the visualization workloads",
+          "es": "GPUs de centro de datos en Compute Engine tanto para la simulación en FP64 como para las cargas de visualización"
+        },
+        {
+          "en": "TPU slices for the simulation and GPUs only for visualization",
+          "es": "Slices de TPU para la simulación y GPUs solo para la visualización"
+        },
+        {
+          "en": "Cloud Run with GPUs for both workloads",
+          "es": "Cloud Run con GPUs para ambas cargas"
+        },
+        {
+          "en": "CPU-only instances for everything, since HPC codes are CPU-based",
+          "es": "Instancias solo con CPU para todo, ya que los códigos de HPC se basan en CPU"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Data center GPUs cover both needs: they provide the high-precision FP64 arithmetic and high-bandwidth interconnect that multi-node HPC simulations require, and they natively drive graphics APIs and virtual workstations for visualization. B fails on the simulation half, since TPUs are built around lower-precision ML matrix math and have no FP64 HPC or graphics story. C is unsuitable because Cloud Run is a stateless request-driven service with no MPI cluster networking. D ignores that modern CFD codes are heavily GPU-accelerated and would leave the visualization unaccelerated as well.",
+        "es": "Las GPUs de centro de datos cubren ambas necesidades: aportan la aritmética FP64 de alta precisión y la interconexión de alto ancho de banda que exigen las simulaciones HPC multinodo, y además manejan de forma nativa APIs gráficas y estaciones de trabajo virtuales para visualización. B falla en la mitad de simulación, ya que las TPUs están construidas para cálculos de matrices de ML de menor precisión y no ofrecen FP64 para HPC ni gráficos. C no es adecuada porque Cloud Run es un servicio sin estado orientado a solicitudes, sin red de clúster para MPI. D ignora que los códigos modernos de CFD están fuertemente acelerados por GPU y además dejaría la visualización sin aceleración."
+      },
+      "doc": "https://cloud.google.com/compute/docs/gpus"
+    },
+    {
+      "id": "gpu-058",
+      "curso": "ia-gpu",
+      "servicios": [
+        "cloud-run",
+        "gke",
+        "gpus-tpus"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-ai-workloads"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A GPU inference service must roll out a new model version to 5% of traffic first, with instant rollback if error rates rise, and the team wants no infrastructure to manage. What is the BEST option?",
+        "es": "Un servicio de inferencia con GPU debe lanzar una nueva versión del modelo primero al 5% del tráfico, con reversión instantánea si suben los errores, y el equipo no quiere administrar infraestructura. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        {
+          "en": "Deploy the new Cloud Run revision with GPU and no traffic, then split traffic 95/5 and shift it back to the old revision if needed",
+          "es": "Implementar la nueva revisión de Cloud Run con GPU sin tráfico, luego dividir el tráfico 95/5 y devolverlo a la revisión anterior si es necesario"
+        },
+        {
+          "en": "Replace the container image on the running Compute Engine GPU VMs one at a time",
+          "es": "Reemplazar la imagen del contenedor en las VMs de Compute Engine con GPU una por una"
+        },
+        {
+          "en": "Create a second GPU project and migrate DNS gradually",
+          "es": "Crear un segundo proyecto con GPU y migrar el DNS de forma gradual"
+        },
+        {
+          "en": "Delete the existing service and deploy the new model version in its place",
+          "es": "Borrar el servicio existente e implementar la nueva versión del modelo en su lugar"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Cloud Run creates an immutable revision per deployment and lets you assign percentages of traffic to revisions, so a 5% canary and an instant rollback are single configuration changes on a fully managed platform. B requires building rollout tooling yourself and gives no precise traffic percentage or instant revert. C is heavyweight and slow: DNS caching makes shifting and reverting traffic unreliable and far from instant. D causes an outage and leaves nothing to roll back to.",
+        "es": "Cloud Run crea una revisión inmutable por implementación y permite asignar porcentajes de tráfico a las revisiones, de modo que un canary del 5% y una reversión instantánea son simples cambios de configuración en una plataforma totalmente administrada. B obliga a construir tu propio tooling de despliegue y no ofrece porcentaje preciso de tráfico ni reversión instantánea. C es pesado y lento: el almacenamiento en caché de DNS hace que mover y revertir el tráfico sea poco confiable y nada instantáneo. D provoca una caída y no deja nada a lo que revertir."
+      },
+      "doc": "https://cloud.google.com/run/docs/rollouts-rollbacks-traffic-migration"
+    },
+    {
+      "id": "gpu-059",
+      "curso": "ia-gpu",
+      "servicios": [
+        "compute-engine",
+        "gpus-tpus",
+        "gke"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A single distributed training job needs eight GPUs working together with the fastest possible GPU-to-GPU communication. What is the BEST configuration?",
+        "es": "Un único trabajo de entrenamiento distribuido necesita ocho GPUs trabajando juntas con la comunicación GPU a GPU más rápida posible. ¿Cuál es la MEJOR configuración?"
+      },
+      "opciones": [
+        {
+          "en": "One accelerator-optimized VM with eight GPUs attached, so they communicate over the high-speed intra-node interconnect",
+          "es": "Una VM optimizada para aceleradores con ocho GPUs conectadas, de modo que se comuniquen por la interconexión interna de alta velocidad"
+        },
+        {
+          "en": "Eight separate single-GPU VMs in different zones for resilience",
+          "es": "Ocho VMs separadas de una GPU cada una en zonas distintas para tener resiliencia"
+        },
+        {
+          "en": "Eight Cloud Run instances with one GPU each behind a load balancer",
+          "es": "Ocho instancias de Cloud Run con una GPU cada una detrás de un balanceador de cargas"
+        },
+        {
+          "en": "One VM with eight GPUs spread across two regions",
+          "es": "Una VM con ocho GPUs distribuidas en dos regiones"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Accelerator-optimized machine types (such as A3 with H100) put all eight GPUs in one VM connected by a dedicated high-bandwidth intra-node link, which is by far the fastest path for the gradient exchange in synchronous training. B is the worst case: cross-zone network latency dominates and collective operations stall. C is wrong because Cloud Run instances are independent, stateless, request-scoped units with no collective communication between them. D is impossible — a VM lives in exactly one zone, and its GPUs cannot span regions.",
+        "es": "Los tipos de máquina optimizados para aceleradores (como A3 con H100) colocan las ocho GPUs en una sola VM conectadas por un enlace interno dedicado de alto ancho de banda, con diferencia la ruta más rápida para el intercambio de gradientes en entrenamiento sincrónico. B es el peor caso: la latencia de red entre zonas domina y las operaciones colectivas se estancan. C es incorrecta porque las instancias de Cloud Run son unidades independientes, sin estado y acotadas a una solicitud, sin comunicación colectiva entre ellas. D es imposible: una VM vive en exactamente una zona y sus GPUs no pueden abarcar regiones."
+      },
+      "doc": "https://cloud.google.com/compute/docs/accelerator-optimized-machines"
+    },
+    {
+      "id": "gpu-060",
+      "curso": "ia-gpu",
+      "servicios": [
+        "gke",
+        "gpus-tpus",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-gke-node-pools",
+        "3.1-ai-workloads"
+      ],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "One GKE cluster must host both a latency-critical inference API and interruptible batch training, keeping cost low without risking the API. Which TWO measures achieve this?",
+        "es": "Un mismo clúster de GKE debe alojar una API de inferencia crítica en latencia y entrenamiento por lotes interrumpible, manteniendo el costo bajo sin poner en riesgo la API. ¿Cuáles DOS medidas lo logran?"
+      },
+      "opciones": [
+        {
+          "en": "Put the batch training on a Spot GPU node pool that scales to zero when there are no jobs",
+          "es": "Colocar el entrenamiento por lotes en un node pool de GPU Spot que escale a cero cuando no haya trabajos"
+        },
+        {
+          "en": "Keep the inference API on a separate on-demand GPU node pool with a minimum number of nodes always available",
+          "es": "Mantener la API de inferencia en un node pool de GPU bajo demanda separado con un mínimo de nodos siempre disponibles"
+        },
+        {
+          "en": "Run both workloads on the same Spot GPU node pool to maximize savings",
+          "es": "Ejecutar ambas cargas en el mismo node pool de GPU Spot para maximizar el ahorro"
+        },
+        {
+          "en": "Remove the GPU taints from all node pools so any Pod can use spare capacity",
+          "es": "Quitar los taints de GPU de todos los node pools para que cualquier Pod pueda usar la capacidad libre"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Separating the two profiles is the key: Spot nodes that scale to zero (A) make the interruptible training cheap and free when idle, while a dedicated on-demand pool with warm nodes (B) protects the API from preemption and cold starts. C puts the latency-critical API on preemptible capacity, so a reclaim would take down production. D removes the very mechanism that keeps non-GPU Pods off expensive GPU nodes, causing contention on the nodes serving the API.",
+        "es": "Separar los dos perfiles es lo clave: nodos Spot que escalan a cero (A) hacen que el entrenamiento interrumpible sea barato y gratuito cuando está inactivo, mientras que un pool dedicado bajo demanda con nodos tibios (B) protege a la API de interrupciones y arranques en frío. C pone la API crítica en latencia sobre capacidad interrumpible, así que una recuperación tumbaría producción. D elimina justamente el mecanismo que mantiene a los Pods sin GPU fuera de los costosos nodos con GPU, provocando contención en los nodos que sirven la API."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/spot-vms"
     }
   ]
 }

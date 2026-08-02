@@ -3,9 +3,13 @@
     {
       "id": "lb-001",
       "curso": "badge-load-balancing",
-      "servicios": ["load-balancing"],
+      "servicios": [
+        "load-balancing"
+      ],
       "seccion_blueprint": 2,
-      "subtopicos": ["2.3-load-balancers"],
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -13,12 +17,26 @@
         "es": "¿Qué es Cloud Load Balancing en Google Cloud?"
       },
       "opciones": [
-        { "en": "A fully distributed, software-defined service that distributes user traffic across multiple backend instances", "es": "Un servicio completamente distribuido y definido por software que distribuye el tráfico de usuarios entre varias instancias de backend" },
-        { "en": "A hardware appliance you must install in each VPC to route traffic", "es": "Un dispositivo de hardware que debes instalar en cada VPC para enrutar el tráfico" },
-        { "en": "A DNS service that resolves domain names to IP addresses", "es": "Un servicio de DNS que resuelve nombres de dominio a direcciones IP" },
-        { "en": "A service that automatically creates virtual machines when traffic increases", "es": "Un servicio que crea máquinas virtuales automáticamente cuando aumenta el tráfico" }
+        {
+          "en": "A fully distributed, software-defined service that distributes user traffic across multiple backend instances",
+          "es": "Un servicio completamente distribuido y definido por software que distribuye el tráfico de usuarios entre varias instancias de backend"
+        },
+        {
+          "en": "A hardware appliance you must install in each VPC to route traffic",
+          "es": "Un dispositivo de hardware que debes instalar en cada VPC para enrutar el tráfico"
+        },
+        {
+          "en": "A DNS service that resolves domain names to IP addresses",
+          "es": "Un servicio de DNS que resuelve nombres de dominio a direcciones IP"
+        },
+        {
+          "en": "A service that automatically creates virtual machines when traffic increases",
+          "es": "Un servicio que crea máquinas virtuales automáticamente cuando aumenta el tráfico"
+        }
       ],
-      "respuesta": ["A"],
+      "respuesta": [
+        "A"
+      ],
       "explicacion": {
         "en": "Cloud Load Balancing is a software-defined, fully distributed managed service that spreads traffic across backends; there is no hardware appliance to manage. B is wrong because it is not an appliance, C describes Cloud DNS, and D describes autoscaling in a managed instance group, which is a separate feature.",
         "es": "Cloud Load Balancing es un servicio administrado, definido por software y completamente distribuido que reparte el tráfico entre backends; no hay hardware que administrar. B es incorrecta porque no es un dispositivo físico, C describe Cloud DNS y D describe el autoescalado de un grupo de instancias administrado, que es una función separada."
@@ -28,9 +46,13 @@
     {
       "id": "lb-002",
       "curso": "badge-load-balancing",
-      "servicios": ["compute-engine"],
+      "servicios": [
+        "compute-engine"
+      ],
       "seccion_blueprint": 2,
-      "subtopicos": ["2.1-migs-autoscaling"],
+      "subtopicos": [
+        "2.1-migs-autoscaling"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -38,12 +60,26 @@
         "es": "¿Qué es una plantilla de instancias (instance template) de Compute Engine?"
       },
       "opciones": [
-        { "en": "An immutable resource that defines the machine type, image, disks, and other properties used to create VMs or managed instance groups", "es": "Un recurso inmutable que define el tipo de máquina, la imagen, los discos y otras propiedades usadas para crear VMs o grupos de instancias administrados" },
-        { "en": "A snapshot of a running VM that can be restored later", "es": "Una instantánea de una VM en ejecución que se puede restaurar más tarde" },
-        { "en": "A configuration file stored inside each VM that controls its startup", "es": "Un archivo de configuración almacenado dentro de cada VM que controla su arranque" },
-        { "en": "A billing plan that reserves capacity for a group of VMs", "es": "Un plan de facturación que reserva capacidad para un grupo de VMs" }
+        {
+          "en": "An immutable resource that defines the machine type, image, disks, and other properties used to create VMs or managed instance groups",
+          "es": "Un recurso inmutable que define el tipo de máquina, la imagen, los discos y otras propiedades usadas para crear VMs o grupos de instancias administrados"
+        },
+        {
+          "en": "A snapshot of a running VM that can be restored later",
+          "es": "Una instantánea de una VM en ejecución que se puede restaurar más tarde"
+        },
+        {
+          "en": "A configuration file stored inside each VM that controls its startup",
+          "es": "Un archivo de configuración almacenado dentro de cada VM que controla su arranque"
+        },
+        {
+          "en": "A billing plan that reserves capacity for a group of VMs",
+          "es": "Un plan de facturación que reserva capacidad para un grupo de VMs"
+        }
       ],
-      "respuesta": ["A"],
+      "respuesta": [
+        "A"
+      ],
       "explicacion": {
         "en": "An instance template is a global, immutable definition of VM properties that MIGs and individual VMs are created from. B describes a snapshot, C confuses it with startup scripts/metadata inside a VM, and D describes reservations or committed use discounts, not templates.",
         "es": "Una plantilla de instancias es una definición global e inmutable de las propiedades de una VM a partir de la cual se crean MIGs y VMs individuales. B describe una instantánea, C la confunde con scripts de inicio/metadatos dentro de una VM y D describe reservas o descuentos por uso comprometido, no plantillas."
@@ -53,9 +89,13 @@
     {
       "id": "lb-003",
       "curso": "badge-load-balancing",
-      "servicios": ["compute-engine"],
+      "servicios": [
+        "compute-engine"
+      ],
       "seccion_blueprint": 2,
-      "subtopicos": ["2.1-migs-autoscaling"],
+      "subtopicos": [
+        "2.1-migs-autoscaling"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -63,12 +103,26 @@
         "es": "¿Qué es un grupo de instancias administrado (MIG)?"
       },
       "opciones": [
-        { "en": "A group of identical VMs created from an instance template that supports autoscaling, autohealing, and rolling updates", "es": "Un grupo de VMs idénticas creadas desde una plantilla de instancias que admite autoescalado, reparación automática y actualizaciones graduales" },
-        { "en": "A manually curated list of VMs with different configurations grouped for billing", "es": "Una lista seleccionada manualmente de VMs con diferentes configuraciones agrupadas para la facturación" },
-        { "en": "A Kubernetes cluster managed by Google", "es": "Un clúster de Kubernetes administrado por Google" },
-        { "en": "A folder in the resource hierarchy that contains Compute Engine resources", "es": "Una carpeta en la jerarquía de recursos que contiene recursos de Compute Engine" }
+        {
+          "en": "A group of identical VMs created from an instance template that supports autoscaling, autohealing, and rolling updates",
+          "es": "Un grupo de VMs idénticas creadas desde una plantilla de instancias que admite autoescalado, reparación automática y actualizaciones graduales"
+        },
+        {
+          "en": "A manually curated list of VMs with different configurations grouped for billing",
+          "es": "Una lista seleccionada manualmente de VMs con diferentes configuraciones agrupadas para la facturación"
+        },
+        {
+          "en": "A Kubernetes cluster managed by Google",
+          "es": "Un clúster de Kubernetes administrado por Google"
+        },
+        {
+          "en": "A folder in the resource hierarchy that contains Compute Engine resources",
+          "es": "Una carpeta en la jerarquía de recursos que contiene recursos de Compute Engine"
+        }
       ],
-      "respuesta": ["A"],
+      "respuesta": [
+        "A"
+      ],
       "explicacion": {
         "en": "A MIG keeps a set of identical VMs based on one template and adds autoscaling, autohealing, and rolling updates. B describes an unmanaged instance group at best (and those are not for billing), C describes GKE, and D describes folders in Resource Manager.",
         "es": "Un MIG mantiene un conjunto de VMs idénticas basadas en una plantilla y agrega autoescalado, reparación automática y actualizaciones graduales. B describe, en el mejor de los casos, un grupo de instancias no administrado (y no sirve para facturación), C describe GKE y D describe las carpetas de Resource Manager."
@@ -78,9 +132,14 @@
     {
       "id": "lb-004",
       "curso": "badge-load-balancing",
-      "servicios": ["load-balancing", "compute-engine"],
+      "servicios": [
+        "load-balancing",
+        "compute-engine"
+      ],
       "seccion_blueprint": 2,
-      "subtopicos": ["2.3-load-balancers"],
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -88,12 +147,26 @@
         "es": "¿Cuál es el propósito de una verificación de estado (health check) en la configuración de un balanceador de cargas?"
       },
       "opciones": [
-        { "en": "To probe each backend periodically so the load balancer only sends traffic to backends that respond correctly", "es": "Sondear cada backend periódicamente para que el balanceador de cargas solo envíe tráfico a los backends que responden correctamente" },
-        { "en": "To scan backends for security vulnerabilities", "es": "Analizar los backends en busca de vulnerabilidades de seguridad" },
-        { "en": "To measure billing usage of each VM", "es": "Medir el uso de facturación de cada VM" },
-        { "en": "To encrypt traffic between the load balancer and the backends", "es": "Encriptar el tráfico entre el balanceador de cargas y los backends" }
+        {
+          "en": "To probe each backend periodically so the load balancer only sends traffic to backends that respond correctly",
+          "es": "Sondear cada backend periódicamente para que el balanceador de cargas solo envíe tráfico a los backends que responden correctamente"
+        },
+        {
+          "en": "To scan backends for security vulnerabilities",
+          "es": "Analizar los backends en busca de vulnerabilidades de seguridad"
+        },
+        {
+          "en": "To measure billing usage of each VM",
+          "es": "Medir el uso de facturación de cada VM"
+        },
+        {
+          "en": "To encrypt traffic between the load balancer and the backends",
+          "es": "Encriptar el tráfico entre el balanceador de cargas y los backends"
+        }
       ],
-      "respuesta": ["A"],
+      "respuesta": [
+        "A"
+      ],
       "explicacion": {
         "en": "Health checks probe backends (for example, HTTP on a port and path) and the load balancer routes traffic only to healthy ones. B describes Security Command Center-type scanning, C is billing, and D is about TLS/encryption, none of which is the role of a health check.",
         "es": "Las verificaciones de estado sondean los backends (por ejemplo, HTTP en un puerto y una ruta) y el balanceador de cargas envía tráfico solo a los que están en buen estado. B describe un análisis tipo Security Command Center, C es facturación y D se refiere a TLS/encriptación; nada de eso es la función de un health check."
@@ -103,9 +176,13 @@
     {
       "id": "lb-005",
       "curso": "badge-load-balancing",
-      "servicios": ["load-balancing"],
+      "servicios": [
+        "load-balancing"
+      ],
       "seccion_blueprint": 2,
-      "subtopicos": ["2.3-load-balancers"],
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -113,12 +190,26 @@
         "es": "¿Cuál es la diferencia clave entre un balanceador de cargas global y uno regional en Google Cloud?"
       },
       "opciones": [
-        { "en": "A global load balancer uses a single anycast IP to serve backends in multiple regions; a regional one serves backends within a single region", "es": "Un balanceador global usa una sola IP anycast para atender backends en varias regiones; uno regional atiende backends dentro de una sola región" },
-        { "en": "Global load balancers only support UDP while regional ones only support TCP", "es": "Los balanceadores globales solo admiten UDP y los regionales solo TCP" },
-        { "en": "Regional load balancers are always free while global ones are billed per rule", "es": "Los balanceadores regionales siempre son gratuitos y los globales se cobran por regla" },
-        { "en": "Global load balancers require you to deploy a VM in every region", "es": "Los balanceadores globales requieren implementar una VM en cada región" }
+        {
+          "en": "A global load balancer uses a single anycast IP to serve backends in multiple regions; a regional one serves backends within a single region",
+          "es": "Un balanceador global usa una sola IP anycast para atender backends en varias regiones; uno regional atiende backends dentro de una sola región"
+        },
+        {
+          "en": "Global load balancers only support UDP while regional ones only support TCP",
+          "es": "Los balanceadores globales solo admiten UDP y los regionales solo TCP"
+        },
+        {
+          "en": "Regional load balancers are always free while global ones are billed per rule",
+          "es": "Los balanceadores regionales siempre son gratuitos y los globales se cobran por regla"
+        },
+        {
+          "en": "Global load balancers require you to deploy a VM in every region",
+          "es": "Los balanceadores globales requieren implementar una VM en cada región"
+        }
       ],
-      "respuesta": ["A"],
+      "respuesta": [
+        "A"
+      ],
       "explicacion": {
         "en": "Global load balancers (like the global external Application Load Balancer) expose one anycast IP and route users to the closest healthy backends across regions; regional load balancers operate in one region. B inverts reality (protocol support depends on the LB type, not global/regional this way), C is false because both are billed, and D is false because you deploy backends only where you need them.",
         "es": "Los balanceadores globales (como el balanceador de cargas de aplicaciones externo global) exponen una IP anycast y dirigen a los usuarios a los backends sanos más cercanos entre regiones; los regionales operan en una sola región. B invierte la realidad (el soporte de protocolos depende del tipo de LB, no de global/regional así), C es falsa porque ambos se cobran y D es falsa porque implementas backends solo donde los necesitas."
@@ -128,9 +219,13 @@
     {
       "id": "lb-006",
       "curso": "badge-load-balancing",
-      "servicios": ["load-balancing"],
+      "servicios": [
+        "load-balancing"
+      ],
       "seccion_blueprint": 2,
-      "subtopicos": ["2.3-load-balancers"],
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -138,12 +233,26 @@
         "es": "En un balanceador de cargas de aplicaciones externo, ¿cuál es la función del mapa de URLs (URL map)?"
       },
       "opciones": [
-        { "en": "It routes incoming requests to different backend services based on rules for host and path", "es": "Enruta las solicitudes entrantes a distintos servicios de backend según reglas de host y ruta" },
-        { "en": "It stores the list of allowed client IP addresses", "es": "Almacena la lista de direcciones IP de clientes permitidas" },
-        { "en": "It rewrites DNS records for the load balancer domain", "es": "Reescribe los registros DNS del dominio del balanceador" },
-        { "en": "It defines the machine types of the backend VMs", "es": "Define los tipos de máquina de las VMs de backend" }
+        {
+          "en": "It routes incoming requests to different backend services based on rules for host and path",
+          "es": "Enruta las solicitudes entrantes a distintos servicios de backend según reglas de host y ruta"
+        },
+        {
+          "en": "It stores the list of allowed client IP addresses",
+          "es": "Almacena la lista de direcciones IP de clientes permitidas"
+        },
+        {
+          "en": "It rewrites DNS records for the load balancer domain",
+          "es": "Reescribe los registros DNS del dominio del balanceador"
+        },
+        {
+          "en": "It defines the machine types of the backend VMs",
+          "es": "Define los tipos de máquina de las VMs de backend"
+        }
       ],
-      "respuesta": ["A"],
+      "respuesta": [
+        "A"
+      ],
       "explicacion": {
         "en": "The URL map holds routing rules: requests for /api can go to one backend service and /static to another, and it can also define redirects. B describes firewall/Cloud Armor policies, C describes Cloud DNS, and D is defined by instance templates, not the URL map.",
         "es": "El URL map contiene las reglas de enrutamiento: las solicitudes a /api pueden ir a un servicio de backend y las de /static a otro, y también puede definir redirecciones. B describe políticas de firewall/Cloud Armor, C describe Cloud DNS y D lo definen las plantillas de instancias, no el URL map."
@@ -153,9 +262,13 @@
     {
       "id": "lb-007",
       "curso": "badge-load-balancing",
-      "servicios": ["load-balancing"],
+      "servicios": [
+        "load-balancing"
+      ],
       "seccion_blueprint": 2,
-      "subtopicos": ["2.3-load-balancers"],
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -163,12 +276,26 @@
         "es": "¿Qué define una regla de reenvío (forwarding rule) en un balanceador de cargas de Google Cloud?"
       },
       "opciones": [
-        { "en": "The frontend: the IP address, protocol, and port on which the load balancer accepts traffic, and where to send it (for example, a target proxy)", "es": "El frontend: la dirección IP, el protocolo y el puerto en que el balanceador acepta tráfico, y hacia dónde enviarlo (por ejemplo, un proxy de destino)" },
-        { "en": "The health check interval and timeout for the backends", "es": "El intervalo y el tiempo de espera de la verificación de estado de los backends" },
-        { "en": "The firewall rules applied to backend VMs", "es": "Las reglas de firewall aplicadas a las VMs de backend" },
-        { "en": "The autoscaling policy of the managed instance group", "es": "La política de autoescalado del grupo de instancias administrado" }
+        {
+          "en": "The frontend: the IP address, protocol, and port on which the load balancer accepts traffic, and where to send it (for example, a target proxy)",
+          "es": "El frontend: la dirección IP, el protocolo y el puerto en que el balanceador acepta tráfico, y hacia dónde enviarlo (por ejemplo, un proxy de destino)"
+        },
+        {
+          "en": "The health check interval and timeout for the backends",
+          "es": "El intervalo y el tiempo de espera de la verificación de estado de los backends"
+        },
+        {
+          "en": "The firewall rules applied to backend VMs",
+          "es": "Las reglas de firewall aplicadas a las VMs de backend"
+        },
+        {
+          "en": "The autoscaling policy of the managed instance group",
+          "es": "La política de autoescalado del grupo de instancias administrado"
+        }
       ],
-      "respuesta": ["A"],
+      "respuesta": [
+        "A"
+      ],
       "explicacion": {
         "en": "A forwarding rule is the entry point of the load balancer: IP + protocol + port(s), pointing to a target proxy (Application LB) or backend service (passthrough LB). B is configured in the health check resource, C in VPC firewall rules, and D in the MIG autoscaler.",
         "es": "Una regla de reenvío es el punto de entrada del balanceador: IP + protocolo + puerto(s), apuntando a un proxy de destino (LB de aplicaciones) o a un servicio de backend (LB de tipo passthrough). B se configura en el recurso de health check, C en las reglas de firewall de la VPC y D en el autoescalador del MIG."
@@ -178,9 +305,13 @@
     {
       "id": "lb-008",
       "curso": "badge-load-balancing",
-      "servicios": ["load-balancing"],
+      "servicios": [
+        "load-balancing"
+      ],
       "seccion_blueprint": 2,
-      "subtopicos": ["2.3-load-balancers"],
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -188,12 +319,26 @@
         "es": "¿Qué es un servicio de backend (backend service) en Cloud Load Balancing?"
       },
       "opciones": [
-        { "en": "The resource that defines how the load balancer distributes traffic to its backends, including health checks, session affinity, and timeouts", "es": "El recurso que define cómo el balanceador distribuye el tráfico a sus backends, incluidas las verificaciones de estado, la afinidad de sesión y los tiempos de espera" },
-        { "en": "The physical server where the application runs", "es": "El servidor físico donde se ejecuta la aplicación" },
-        { "en": "A Cloud Storage bucket that stores backend logs", "es": "Un bucket de Cloud Storage que almacena los registros del backend" },
-        { "en": "The DNS zone that resolves the backend hostnames", "es": "La zona DNS que resuelve los nombres de host del backend" }
+        {
+          "en": "The resource that defines how the load balancer distributes traffic to its backends, including health checks, session affinity, and timeouts",
+          "es": "El recurso que define cómo el balanceador distribuye el tráfico a sus backends, incluidas las verificaciones de estado, la afinidad de sesión y los tiempos de espera"
+        },
+        {
+          "en": "The physical server where the application runs",
+          "es": "El servidor físico donde se ejecuta la aplicación"
+        },
+        {
+          "en": "A Cloud Storage bucket that stores backend logs",
+          "es": "Un bucket de Cloud Storage que almacena los registros del backend"
+        },
+        {
+          "en": "The DNS zone that resolves the backend hostnames",
+          "es": "La zona DNS que resuelve los nombres de host del backend"
+        }
       ],
-      "respuesta": ["A"],
+      "respuesta": [
+        "A"
+      ],
       "explicacion": {
         "en": "The backend service groups backends (instance groups or NEGs) and holds distribution settings: health checks, balancing mode, session affinity, connection draining, CDN, etc. B confuses it with the actual VMs, C describes log storage (a backend bucket serves static content, not logs), and D describes Cloud DNS.",
         "es": "El servicio de backend agrupa los backends (grupos de instancias o NEGs) y contiene la configuración de distribución: verificaciones de estado, modo de balanceo, afinidad de sesión, drenado de conexiones, CDN, etc. B lo confunde con las VMs reales, C describe almacenamiento de logs (un backend bucket sirve contenido estático, no registros) y D describe Cloud DNS."
@@ -203,9 +348,13 @@
     {
       "id": "lb-009",
       "curso": "badge-load-balancing",
-      "servicios": ["load-balancing"],
+      "servicios": [
+        "load-balancing"
+      ],
       "seccion_blueprint": 2,
-      "subtopicos": ["2.3-load-balancers"],
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -213,12 +362,26 @@
         "es": "¿Cuál es la función del proxy de destino HTTP(S) en un balanceador de cargas de aplicaciones externo?"
       },
       "opciones": [
-        { "en": "It receives connections from the forwarding rule, terminates them (including TLS for HTTPS), and consults the URL map to route each request", "es": "Recibe las conexiones de la regla de reenvío, las termina (incluido TLS para HTTPS) y consulta el URL map para enrutar cada solicitud" },
-        { "en": "It caches static content at Google's edge locations", "es": "Almacena en caché el contenido estático en las ubicaciones perimetrales de Google" },
-        { "en": "It creates new VMs when existing backends are overloaded", "es": "Crea nuevas VMs cuando los backends existentes están sobrecargados" },
-        { "en": "It blocks traffic that does not match firewall rules", "es": "Bloquea el tráfico que no coincide con las reglas de firewall" }
+        {
+          "en": "It receives connections from the forwarding rule, terminates them (including TLS for HTTPS), and consults the URL map to route each request",
+          "es": "Recibe las conexiones de la regla de reenvío, las termina (incluido TLS para HTTPS) y consulta el URL map para enrutar cada solicitud"
+        },
+        {
+          "en": "It caches static content at Google's edge locations",
+          "es": "Almacena en caché el contenido estático en las ubicaciones perimetrales de Google"
+        },
+        {
+          "en": "It creates new VMs when existing backends are overloaded",
+          "es": "Crea nuevas VMs cuando los backends existentes están sobrecargados"
+        },
+        {
+          "en": "It blocks traffic that does not match firewall rules",
+          "es": "Bloquea el tráfico que no coincide con las reglas de firewall"
+        }
       ],
-      "respuesta": ["A"],
+      "respuesta": [
+        "A"
+      ],
       "explicacion": {
         "en": "The target proxy sits between the forwarding rule and the URL map: it terminates client connections (and TLS when it is a target HTTPS proxy with SSL certificates) and evaluates the URL map. B describes Cloud CDN, C describes MIG autoscaling, and D describes VPC firewall rules.",
         "es": "El proxy de destino está entre la regla de reenvío y el URL map: termina las conexiones de los clientes (y TLS cuando es un target HTTPS proxy con certificados SSL) y evalúa el URL map. B describe Cloud CDN, C describe el autoescalado del MIG y D describe las reglas de firewall de la VPC."
@@ -228,9 +391,14 @@
     {
       "id": "lb-010",
       "curso": "badge-load-balancing",
-      "servicios": ["cloud-ngfw", "load-balancing"],
+      "servicios": [
+        "cloud-ngfw",
+        "load-balancing"
+      ],
       "seccion_blueprint": 2,
-      "subtopicos": ["2.3-firewall-ngfw"],
+      "subtopicos": [
+        "2.3-firewall-ngfw"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -238,12 +406,26 @@
         "es": "¿Desde qué rangos de IP de origen provienen los sondeos de verificación de estado de los balanceadores de cargas de Google Cloud?"
       },
       "opciones": [
-        { "en": "130.211.0.0/22 and 35.191.0.0/16", "es": "130.211.0.0/22 y 35.191.0.0/16" },
-        { "en": "35.235.240.0/20", "es": "35.235.240.0/20" },
-        { "en": "10.128.0.0/9", "es": "10.128.0.0/9" },
-        { "en": "192.168.0.0/16", "es": "192.168.0.0/16" }
+        {
+          "en": "130.211.0.0/22 and 35.191.0.0/16",
+          "es": "130.211.0.0/22 y 35.191.0.0/16"
+        },
+        {
+          "en": "35.235.240.0/20",
+          "es": "35.235.240.0/20"
+        },
+        {
+          "en": "10.128.0.0/9",
+          "es": "10.128.0.0/9"
+        },
+        {
+          "en": "192.168.0.0/16",
+          "es": "192.168.0.0/16"
+        }
       ],
-      "respuesta": ["A"],
+      "respuesta": [
+        "A"
+      ],
       "explicacion": {
         "en": "Most load balancer health check probes come from 130.211.0.0/22 and 35.191.0.0/16, so ingress firewall rules must allow those ranges. B is the IAP TCP forwarding range, C is the range used by auto-mode subnets, and D is generic RFC 1918 private space; none of them are the health check probe sources.",
         "es": "La mayoría de los sondeos de health check de los balanceadores provienen de 130.211.0.0/22 y 35.191.0.0/16, por lo que las reglas de firewall de entrada deben permitir esos rangos. B es el rango de reenvío TCP de IAP, C es el rango de las subredes en modo automático y D es espacio privado genérico RFC 1918; ninguno es el origen de los sondeos."
@@ -253,9 +435,14 @@
     {
       "id": "lb-011",
       "curso": "badge-load-balancing",
-      "servicios": ["vpc", "load-balancing"],
+      "servicios": [
+        "vpc",
+        "load-balancing"
+      ],
       "seccion_blueprint": 3,
-      "subtopicos": ["3.3-subnets-ips"],
+      "subtopicos": [
+        "3.3-subnets-ips"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -263,12 +450,26 @@
         "es": "¿Por qué deberías reservar una dirección IP externa estática para el frontend de un balanceador de cargas?"
       },
       "opciones": [
-        { "en": "So the address stays the same even if you delete and recreate the forwarding rule, keeping DNS records valid", "es": "Para que la dirección se mantenga igual aunque borres y vuelvas a crear la regla de reenvío, y así los registros DNS sigan siendo válidos" },
-        { "en": "Because load balancers cannot work with ephemeral IP addresses", "es": "Porque los balanceadores de cargas no pueden funcionar con direcciones IP efímeras" },
-        { "en": "Because static IPs provide more bandwidth than ephemeral IPs", "es": "Porque las IPs estáticas ofrecen más ancho de banda que las efímeras" },
-        { "en": "Because static IPs are required to enable health checks", "es": "Porque las IPs estáticas son obligatorias para habilitar las verificaciones de estado" }
+        {
+          "en": "So the address stays the same even if you delete and recreate the forwarding rule, keeping DNS records valid",
+          "es": "Para que la dirección se mantenga igual aunque borres y vuelvas a crear la regla de reenvío, y así los registros DNS sigan siendo válidos"
+        },
+        {
+          "en": "Because load balancers cannot work with ephemeral IP addresses",
+          "es": "Porque los balanceadores de cargas no pueden funcionar con direcciones IP efímeras"
+        },
+        {
+          "en": "Because static IPs provide more bandwidth than ephemeral IPs",
+          "es": "Porque las IPs estáticas ofrecen más ancho de banda que las efímeras"
+        },
+        {
+          "en": "Because static IPs are required to enable health checks",
+          "es": "Porque las IPs estáticas son obligatorias para habilitar las verificaciones de estado"
+        }
       ],
-      "respuesta": ["A"],
+      "respuesta": [
+        "A"
+      ],
       "explicacion": {
         "en": "A reserved static IP belongs to your project until you release it, so DNS entries pointing to the load balancer remain stable across configuration changes. B is false (an ephemeral IP works, it just is not stable), C is false (bandwidth is identical), and D is false (health checks do not depend on the frontend IP type).",
         "es": "Una IP estática reservada pertenece a tu proyecto hasta que la liberes, por lo que los registros DNS que apuntan al balanceador se mantienen estables ante cambios de configuración. B es falsa (una IP efímera funciona, solo que no es estable), C es falsa (el ancho de banda es idéntico) y D es falsa (los health checks no dependen del tipo de IP del frontend)."
@@ -278,9 +479,13 @@
     {
       "id": "lb-012",
       "curso": "badge-load-balancing",
-      "servicios": ["load-balancing"],
+      "servicios": [
+        "load-balancing"
+      ],
       "seccion_blueprint": 2,
-      "subtopicos": ["2.3-load-balancers"],
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -288,12 +493,26 @@
         "es": "¿Qué caracteriza a un balanceador de cargas de red externo de tipo passthrough?"
       },
       "opciones": [
-        { "en": "It is a regional layer 4 load balancer that forwards packets without proxying them, preserving the client's source IP", "es": "Es un balanceador regional de capa 4 que reenvía los paquetes sin actuar como proxy, y conserva la IP de origen del cliente" },
-        { "en": "It is a global layer 7 load balancer that terminates TLS and routes by URL path", "es": "Es un balanceador global de capa 7 que termina TLS y enruta según la ruta de la URL" },
-        { "en": "It only balances traffic between Google Cloud regions, never from the internet", "es": "Solo balancea tráfico entre regiones de Google Cloud, nunca desde internet" },
-        { "en": "It requires Cloud CDN to be enabled", "es": "Requiere que Cloud CDN esté habilitado" }
+        {
+          "en": "It is a regional layer 4 load balancer that forwards packets without proxying them, preserving the client's source IP",
+          "es": "Es un balanceador regional de capa 4 que reenvía los paquetes sin actuar como proxy, y conserva la IP de origen del cliente"
+        },
+        {
+          "en": "It is a global layer 7 load balancer that terminates TLS and routes by URL path",
+          "es": "Es un balanceador global de capa 7 que termina TLS y enruta según la ruta de la URL"
+        },
+        {
+          "en": "It only balances traffic between Google Cloud regions, never from the internet",
+          "es": "Solo balancea tráfico entre regiones de Google Cloud, nunca desde internet"
+        },
+        {
+          "en": "It requires Cloud CDN to be enabled",
+          "es": "Requiere que Cloud CDN esté habilitado"
+        }
       ],
-      "respuesta": ["A"],
+      "respuesta": [
+        "A"
+      ],
       "explicacion": {
         "en": "The external passthrough Network Load Balancer works at layer 4 (TCP/UDP and other protocols), is regional, and does not proxy connections, so backends see the original client IP. B describes the global external Application Load Balancer, C is false because it receives internet traffic, and D is false because Cloud CDN only works with Application Load Balancers.",
         "es": "El balanceador de cargas de red externo passthrough opera en capa 4 (TCP/UDP y otros protocolos), es regional y no actúa como proxy, por lo que los backends ven la IP original del cliente. B describe el balanceador de aplicaciones externo global, C es falsa porque sí recibe tráfico de internet y D es falsa porque Cloud CDN solo funciona con balanceadores de aplicaciones."
@@ -303,9 +522,14 @@
     {
       "id": "lb-013",
       "curso": "badge-load-balancing",
-      "servicios": ["load-balancing", "vpc"],
+      "servicios": [
+        "load-balancing",
+        "vpc"
+      ],
       "seccion_blueprint": 2,
-      "subtopicos": ["2.3-load-balancers"],
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -313,12 +537,26 @@
         "es": "¿Cuándo usarías un balanceador de cargas de aplicaciones interno?"
       },
       "opciones": [
-        { "en": "To balance HTTP(S) traffic between services that are only reachable from inside your VPC or connected networks, using a private IP", "es": "Para balancear tráfico HTTP(S) entre servicios accesibles solo desde tu VPC o redes conectadas, usando una IP privada" },
-        { "en": "To serve a public website to users on the internet", "es": "Para servir un sitio web público a usuarios en internet" },
-        { "en": "To balance UDP game traffic from external players", "es": "Para balancear tráfico UDP de jugadores externos" },
-        { "en": "To distribute traffic between different Google Cloud projects' billing accounts", "es": "Para distribuir tráfico entre las cuentas de facturación de distintos proyectos de Google Cloud" }
+        {
+          "en": "To balance HTTP(S) traffic between services that are only reachable from inside your VPC or connected networks, using a private IP",
+          "es": "Para balancear tráfico HTTP(S) entre servicios accesibles solo desde tu VPC o redes conectadas, usando una IP privada"
+        },
+        {
+          "en": "To serve a public website to users on the internet",
+          "es": "Para servir un sitio web público a usuarios en internet"
+        },
+        {
+          "en": "To balance UDP game traffic from external players",
+          "es": "Para balancear tráfico UDP de jugadores externos"
+        },
+        {
+          "en": "To distribute traffic between different Google Cloud projects' billing accounts",
+          "es": "Para distribuir tráfico entre las cuentas de facturación de distintos proyectos de Google Cloud"
+        }
       ],
-      "respuesta": ["A"],
+      "respuesta": [
+        "A"
+      ],
       "explicacion": {
         "en": "The internal Application Load Balancer exposes a private IP and applies layer 7 routing for clients inside the VPC (or connected via VPN/Interconnect/peering), which is ideal for internal microservices. B needs an external Application Load Balancer, C needs an external passthrough Network Load Balancer, and D makes no sense: load balancers distribute traffic, not billing.",
         "es": "El balanceador de aplicaciones interno expone una IP privada y aplica enrutamiento de capa 7 para clientes dentro de la VPC (o conectados por VPN/Interconnect/intercambio), ideal para microservicios internos. B necesita un balanceador de aplicaciones externo, C necesita un balanceador de red externo passthrough y D no tiene sentido: los balanceadores distribuyen tráfico, no facturación."
@@ -328,9 +566,13 @@
     {
       "id": "lb-014",
       "curso": "badge-load-balancing",
-      "servicios": ["load-balancing"],
+      "servicios": [
+        "load-balancing"
+      ],
       "seccion_blueprint": 2,
-      "subtopicos": ["2.3-load-balancers"],
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -338,12 +580,26 @@
         "es": "¿Dónde se termina TLS cuando sirves HTTPS a través de un balanceador de cargas de aplicaciones externo global?"
       },
       "opciones": [
-        { "en": "At the target HTTPS proxy, which uses the SSL certificates attached to it", "es": "En el target HTTPS proxy, que usa los certificados SSL asociados a él" },
-        { "en": "At each backend VM, which must have the certificate installed", "es": "En cada VM de backend, que debe tener el certificado instalado" },
-        { "en": "At the URL map, which decrypts requests before routing", "es": "En el URL map, que desencripta las solicitudes antes de enrutarlas" },
-        { "en": "TLS cannot be used with Google Cloud load balancers", "es": "TLS no se puede usar con los balanceadores de cargas de Google Cloud" }
+        {
+          "en": "At the target HTTPS proxy, which uses the SSL certificates attached to it",
+          "es": "En el target HTTPS proxy, que usa los certificados SSL asociados a él"
+        },
+        {
+          "en": "At each backend VM, which must have the certificate installed",
+          "es": "En cada VM de backend, que debe tener el certificado instalado"
+        },
+        {
+          "en": "At the URL map, which decrypts requests before routing",
+          "es": "En el URL map, que desencripta las solicitudes antes de enrutarlas"
+        },
+        {
+          "en": "TLS cannot be used with Google Cloud load balancers",
+          "es": "TLS no se puede usar con los balanceadores de cargas de Google Cloud"
+        }
       ],
-      "respuesta": ["A"],
+      "respuesta": [
+        "A"
+      ],
       "explicacion": {
         "en": "SSL certificates (Google-managed or self-managed) are attached to the target HTTPS proxy, where client TLS sessions terminate; traffic to backends can then use HTTP or re-encrypted HTTPS. B is not required (though backend encryption is optional), C is wrong because the URL map only routes, and D is plainly false.",
         "es": "Los certificados SSL (administrados por Google o autoadministrados) se asocian al target HTTPS proxy, donde terminan las sesiones TLS de los clientes; el tráfico hacia los backends puede ir por HTTP o re-encriptado por HTTPS. B no es necesario (aunque encriptar hacia el backend es opcional), C es incorrecta porque el URL map solo enruta y D es simplemente falsa."
@@ -353,9 +609,13 @@
     {
       "id": "lb-015",
       "curso": "badge-load-balancing",
-      "servicios": ["load-balancing"],
+      "servicios": [
+        "load-balancing"
+      ],
       "seccion_blueprint": 2,
-      "subtopicos": ["2.3-load-balancers"],
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -363,12 +623,26 @@
         "es": "¿Cómo se integra Cloud CDN con el balanceo de cargas de Google Cloud?"
       },
       "opciones": [
-        { "en": "It is enabled on backend services or backend buckets of an external Application Load Balancer to cache content at Google's edge", "es": "Se habilita en los servicios de backend o backend buckets de un balanceador de aplicaciones externo para almacenar contenido en caché en el borde de la red de Google" },
-        { "en": "It replaces the load balancer entirely for static websites", "es": "Reemplaza por completo al balanceador de cargas para sitios web estáticos" },
-        { "en": "It is enabled per VM using the Ops Agent", "es": "Se habilita por VM mediante el agente de operaciones" },
-        { "en": "It only works with internal passthrough Network Load Balancers", "es": "Solo funciona con balanceadores de cargas de red internos de tipo passthrough" }
+        {
+          "en": "It is enabled on backend services or backend buckets of an external Application Load Balancer to cache content at Google's edge",
+          "es": "Se habilita en los servicios de backend o backend buckets de un balanceador de aplicaciones externo para almacenar contenido en caché en el borde de la red de Google"
+        },
+        {
+          "en": "It replaces the load balancer entirely for static websites",
+          "es": "Reemplaza por completo al balanceador de cargas para sitios web estáticos"
+        },
+        {
+          "en": "It is enabled per VM using the Ops Agent",
+          "es": "Se habilita por VM mediante el agente de operaciones"
+        },
+        {
+          "en": "It only works with internal passthrough Network Load Balancers",
+          "es": "Solo funciona con balanceadores de cargas de red internos de tipo passthrough"
+        }
       ],
-      "respuesta": ["A"],
+      "respuesta": [
+        "A"
+      ],
       "explicacion": {
         "en": "Cloud CDN is a property of backend services/backend buckets behind an external Application Load Balancer: cacheable responses are served from Google edge locations close to users. B is wrong because CDN still needs the load balancer frontend, C is wrong because the Ops Agent is for observability, and D is wrong because CDN does not work with passthrough load balancers.",
         "es": "Cloud CDN es una propiedad de los servicios de backend/backend buckets detrás de un balanceador de aplicaciones externo: las respuestas almacenables en caché se sirven desde ubicaciones de borde de Google cercanas a los usuarios. B es incorrecta porque CDN sigue necesitando el frontend del balanceador, C es incorrecta porque el agente de operaciones es de observabilidad y D es incorrecta porque CDN no funciona con balanceadores passthrough."
@@ -378,9 +652,13 @@
     {
       "id": "lb-016",
       "curso": "badge-load-balancing",
-      "servicios": ["load-balancing"],
+      "servicios": [
+        "load-balancing"
+      ],
       "seccion_blueprint": 2,
-      "subtopicos": ["2.3-load-balancers"],
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -388,12 +666,26 @@
         "es": "¿Qué hace la afinidad de sesión (session affinity) en un servicio de backend?"
       },
       "opciones": [
-        { "en": "It tries to send requests from the same client to the same backend instance", "es": "Intenta enviar las solicitudes del mismo cliente a la misma instancia de backend" },
-        { "en": "It encrypts session cookies between client and server", "es": "Encripta las cookies de sesión entre el cliente y el servidor" },
-        { "en": "It limits how many sessions each user can open", "es": "Limita cuántas sesiones puede abrir cada usuario" },
-        { "en": "It stores user sessions in Cloud Storage automatically", "es": "Almacena automáticamente las sesiones de los usuarios en Cloud Storage" }
+        {
+          "en": "It tries to send requests from the same client to the same backend instance",
+          "es": "Intenta enviar las solicitudes del mismo cliente a la misma instancia de backend"
+        },
+        {
+          "en": "It encrypts session cookies between client and server",
+          "es": "Encripta las cookies de sesión entre el cliente y el servidor"
+        },
+        {
+          "en": "It limits how many sessions each user can open",
+          "es": "Limita cuántas sesiones puede abrir cada usuario"
+        },
+        {
+          "en": "It stores user sessions in Cloud Storage automatically",
+          "es": "Almacena automáticamente las sesiones de los usuarios en Cloud Storage"
+        }
       ],
-      "respuesta": ["A"],
+      "respuesta": [
+        "A"
+      ],
       "explicacion": {
         "en": "Session affinity (for example CLIENT_IP or GENERATED_COOKIE) makes the load balancer prefer the same backend for subsequent requests from a client, useful for apps that keep local session state. B, C, and D describe encryption, quota limiting, and storage behaviors that session affinity does not provide.",
         "es": "La afinidad de sesión (por ejemplo CLIENT_IP o GENERATED_COOKIE) hace que el balanceador prefiera el mismo backend para las siguientes solicitudes de un cliente, útil para apps que guardan estado de sesión local. B, C y D describen comportamientos de encriptación, límite de cuotas y almacenamiento que la afinidad de sesión no ofrece."
@@ -403,9 +695,13 @@
     {
       "id": "lb-017",
       "curso": "badge-load-balancing",
-      "servicios": ["network-service-tiers"],
+      "servicios": [
+        "network-service-tiers"
+      ],
       "seccion_blueprint": 2,
-      "subtopicos": ["2.3-network-tiers"],
+      "subtopicos": [
+        "2.3-network-tiers"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -413,12 +709,26 @@
         "es": "¿Cuál es la diferencia principal entre los niveles de servicio de red Premium y Standard?"
       },
       "opciones": [
-        { "en": "Premium carries traffic over Google's global backbone for higher performance; Standard uses the public internet and is regional, at lower cost", "es": "Premium transporta el tráfico por la red troncal global de Google para mayor rendimiento; Standard usa la internet pública y es regional, a menor costo" },
-        { "en": "Standard tier is only available for internal load balancers", "es": "El nivel Standard solo está disponible para balanceadores internos" },
-        { "en": "Premium tier is free for the first year of each project", "es": "El nivel Premium es gratuito durante el primer año de cada proyecto" },
-        { "en": "Standard tier encrypts traffic while Premium does not", "es": "El nivel Standard encripta el tráfico y Premium no" }
+        {
+          "en": "Premium carries traffic over Google's global backbone for higher performance; Standard uses the public internet and is regional, at lower cost",
+          "es": "Premium transporta el tráfico por la red troncal global de Google para mayor rendimiento; Standard usa la internet pública y es regional, a menor costo"
+        },
+        {
+          "en": "Standard tier is only available for internal load balancers",
+          "es": "El nivel Standard solo está disponible para balanceadores internos"
+        },
+        {
+          "en": "Premium tier is free for the first year of each project",
+          "es": "El nivel Premium es gratuito durante el primer año de cada proyecto"
+        },
+        {
+          "en": "Standard tier encrypts traffic while Premium does not",
+          "es": "El nivel Standard encripta el tráfico y Premium no"
+        }
       ],
-      "respuesta": ["A"],
+      "respuesta": [
+        "A"
+      ],
       "explicacion": {
         "en": "Premium Tier keeps traffic on Google's backbone as close to the user as possible (cold potato routing); Standard Tier hands traffic to the public internet near the region (hot potato) and only supports regional resources, at lower cost. B is wrong (internal LBs do not use external tiers), C is a made-up pricing claim, and D is wrong because tiers do not change encryption.",
         "es": "El nivel Premium mantiene el tráfico en la red troncal de Google lo más cerca posible del usuario (enrutamiento cold potato); el nivel Standard entrega el tráfico a la internet pública cerca de la región (hot potato), solo admite recursos regionales y cuesta menos. B es incorrecta (los LB internos no usan niveles externos), C es un supuesto de precios inventado y D es incorrecta porque los niveles no cambian la encriptación."
@@ -428,9 +738,13 @@
     {
       "id": "lb-018",
       "curso": "badge-load-balancing",
-      "servicios": ["load-balancing"],
+      "servicios": [
+        "load-balancing"
+      ],
       "seccion_blueprint": 2,
-      "subtopicos": ["2.3-load-balancers"],
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
       "nivel": "principiante",
       "tipo": "unica",
       "pregunta": {
@@ -438,12 +752,26 @@
         "es": "En un balanceador de cargas de aplicaciones externo, ¿dónde se configura una redirección de HTTP a HTTPS?"
       },
       "opciones": [
-        { "en": "In a URL map with a redirect action, served by an HTTP frontend on the same IP address as the HTTPS load balancer", "es": "En un URL map con una acción de redirección, servido por un frontend HTTP en la misma dirección IP que el balanceador HTTPS" },
-        { "en": "In the firewall rules, by blocking port 80", "es": "En las reglas de firewall, bloqueando el puerto 80" },
-        { "en": "In each backend VM's web server only; the load balancer cannot redirect", "es": "Solo en el servidor web de cada VM de backend; el balanceador no puede redirigir" },
-        { "en": "In Cloud DNS, using a redirect record type", "es": "En Cloud DNS, usando un tipo de registro de redirección" }
+        {
+          "en": "In a URL map with a redirect action, served by an HTTP frontend on the same IP address as the HTTPS load balancer",
+          "es": "En un URL map con una acción de redirección, servido por un frontend HTTP en la misma dirección IP que el balanceador HTTPS"
+        },
+        {
+          "en": "In the firewall rules, by blocking port 80",
+          "es": "En las reglas de firewall, bloqueando el puerto 80"
+        },
+        {
+          "en": "In each backend VM's web server only; the load balancer cannot redirect",
+          "es": "Solo en el servidor web de cada VM de backend; el balanceador no puede redirigir"
+        },
+        {
+          "en": "In Cloud DNS, using a redirect record type",
+          "es": "En Cloud DNS, usando un tipo de registro de redirección"
+        }
       ],
-      "respuesta": ["A"],
+      "respuesta": [
+        "A"
+      ],
       "explicacion": {
         "en": "The redirect is defined in a URL map (defaultUrlRedirect with httpsRedirect) attached to an HTTP proxy and a port 80 forwarding rule that shares the HTTPS load balancer's IP. B would drop HTTP clients instead of redirecting them, C is false because the URL map supports redirects natively, and D is false because DNS has no redirect record type.",
         "es": "La redirección se define en un URL map (defaultUrlRedirect con httpsRedirect) asociado a un proxy HTTP y a una regla de reenvío en el puerto 80 que comparte la IP del balanceador HTTPS. B dejaría sin servicio a los clientes HTTP en lugar de redirigirlos, C es falsa porque el URL map admite redirecciones de forma nativa y D es falsa porque DNS no tiene un tipo de registro de redirección."
@@ -453,9 +781,13 @@
     {
       "id": "lb-019",
       "curso": "badge-load-balancing",
-      "servicios": ["compute-engine"],
+      "servicios": [
+        "compute-engine"
+      ],
       "seccion_blueprint": 2,
-      "subtopicos": ["2.1-migs-autoscaling"],
+      "subtopicos": [
+        "2.1-migs-autoscaling"
+      ],
       "nivel": "principiante",
       "tipo": "multiple",
       "pregunta": {
@@ -463,12 +795,27 @@
         "es": "¿Cuáles DOS capacidades ofrece un grupo de instancias administrado para las VMs que administra?"
       },
       "opciones": [
-        { "en": "Autoscaling: adding or removing VMs based on load", "es": "Autoescalado: agregar o quitar VMs según la carga" },
-        { "en": "Autohealing: recreating VMs that fail a health check", "es": "Reparación automática: recrear las VMs que fallan una verificación de estado" },
-        { "en": "Automatic daily backups of Cloud SQL databases", "es": "Copias de seguridad diarias automáticas de bases de datos de Cloud SQL" },
-        { "en": "Free network egress between continents", "es": "Salida de red gratuita entre continentes" }
+        {
+          "en": "Autoscaling: adding or removing VMs based on load",
+          "es": "Autoescalado: agregar o quitar VMs según la carga"
+        },
+        {
+          "en": "Autohealing: recreating VMs that fail a health check",
+          "es": "Reparación automática: recrear las VMs que fallan una verificación de estado"
+        },
+        {
+          "en": "Automatic daily backups of Cloud SQL databases",
+          "es": "Copias de seguridad diarias automáticas de bases de datos de Cloud SQL"
+        },
+        {
+          "en": "Free network egress between continents",
+          "es": "Salida de red gratuita entre continentes"
+        }
       ],
-      "respuesta": ["A", "B"],
+      "respuesta": [
+        "A",
+        "B"
+      ],
       "explicacion": {
         "en": "MIGs provide autoscaling (based on CPU, load balancer capacity, or metrics) and autohealing (recreating instances that fail application health checks). C belongs to Cloud SQL, not MIGs, and D does not exist: inter-continental egress is billed regardless of instance groups.",
         "es": "Los MIGs ofrecen autoescalado (según CPU, capacidad del balanceador o métricas) y reparación automática (recrear instancias que fallan las verificaciones de estado de la aplicación). C corresponde a Cloud SQL, no a los MIGs, y D no existe: la salida entre continentes se cobra independientemente de los grupos de instancias."
@@ -478,9 +825,14 @@
     {
       "id": "lb-020",
       "curso": "badge-load-balancing",
-      "servicios": ["load-balancing", "compute-engine"],
+      "servicios": [
+        "load-balancing",
+        "compute-engine"
+      ],
       "seccion_blueprint": 2,
-      "subtopicos": ["2.3-load-balancers"],
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
       "nivel": "principiante",
       "tipo": "multiple",
       "pregunta": {
@@ -488,17 +840,1438 @@
         "es": "¿Cuáles DOS tipos de recursos puedes asociar como backends al servicio de backend de un balanceador de cargas de aplicaciones externo?"
       },
       "opciones": [
-        { "en": "Managed instance groups", "es": "Grupos de instancias administrados" },
-        { "en": "Network endpoint groups (NEGs), including serverless NEGs", "es": "Grupos de extremos de red (NEGs), incluidos los NEGs serverless" },
-        { "en": "Cloud SQL instances directly", "es": "Instancias de Cloud SQL directamente" },
-        { "en": "Filestore file shares", "es": "Recursos compartidos de archivos de Filestore" }
+        {
+          "en": "Managed instance groups",
+          "es": "Grupos de instancias administrados"
+        },
+        {
+          "en": "Network endpoint groups (NEGs), including serverless NEGs",
+          "es": "Grupos de extremos de red (NEGs), incluidos los NEGs serverless"
+        },
+        {
+          "en": "Cloud SQL instances directly",
+          "es": "Instancias de Cloud SQL directamente"
+        },
+        {
+          "en": "Filestore file shares",
+          "es": "Recursos compartidos de archivos de Filestore"
+        }
       ],
-      "respuesta": ["A", "B"],
+      "respuesta": [
+        "A",
+        "B"
+      ],
       "explicacion": {
         "en": "Backend services accept instance groups (managed or unmanaged) and NEGs (zonal, internet, serverless for Cloud Run, etc.). Cloud SQL and Filestore cannot be load balancer backends; databases and file shares are accessed by the application, not exposed through an Application Load Balancer backend service.",
         "es": "Los servicios de backend aceptan grupos de instancias (administrados o no) y NEGs (zonales, de internet, serverless para Cloud Run, etc.). Cloud SQL y Filestore no pueden ser backends de un balanceador; las bases de datos y los recursos de archivos los consume la aplicación, no se exponen mediante el servicio de backend de un balanceador de aplicaciones."
       },
       "doc": "https://cloud.google.com/load-balancing/docs/backend-service"
+    },
+    {
+      "id": "lb-021",
+      "curso": "badge-load-balancing",
+      "servicios": [
+        "compute-engine",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-migs-autoscaling"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You are preparing the backends for an external Application Load Balancer. Which gcloud command creates a reusable instance template named lb-backend-template that applies the network tag allow-health-check and installs a web server from a startup script?",
+        "es": "Estás preparando los backends para un balanceador de aplicaciones externo. ¿Qué comando de gcloud crea una plantilla de instancias reutilizable llamada lb-backend-template que aplica la etiqueta de red allow-health-check e instala un servidor web con un script de inicio?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud compute instance-templates create lb-backend-template --machine-type=e2-medium --tags=allow-health-check --metadata-from-file=startup-script=startup.sh",
+          "es": "gcloud compute instance-templates create lb-backend-template --machine-type=e2-medium --tags=allow-health-check --metadata-from-file=startup-script=startup.sh"
+        },
+        {
+          "en": "gcloud compute instances create lb-backend-template --machine-type=e2-medium --tags=allow-health-check --metadata-from-file=startup-script=startup.sh",
+          "es": "gcloud compute instances create lb-backend-template --machine-type=e2-medium --tags=allow-health-check --metadata-from-file=startup-script=startup.sh"
+        },
+        {
+          "en": "gcloud compute instance-groups managed create-template lb-backend-template --tags=allow-health-check",
+          "es": "gcloud compute instance-groups managed create-template lb-backend-template --tags=allow-health-check"
+        },
+        {
+          "en": "gcloud compute images create lb-backend-template --source-disk=startup.sh --tags=allow-health-check",
+          "es": "gcloud compute images create lb-backend-template --source-disk=startup.sh --tags=allow-health-check"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "gcloud compute instance-templates create defines the VM blueprint (machine type, image, network tags, metadata such as startup-script) that a managed instance group later uses to create identical VMs. B creates a single running VM instead of a template, so a MIG cannot consume it. C is not a valid gcloud command; managed instance groups reference an existing template with --template. D creates a disk image, which stores a disk's contents but carries no machine type, tags, or metadata.",
+        "es": "gcloud compute instance-templates create define el molde de la VM (tipo de máquina, imagen, etiquetas de red, metadatos como startup-script) que luego usa un grupo de instancias administrado para crear VMs idénticas. B crea una sola VM en ejecución, no una plantilla, por lo que un MIG no puede consumirla. C no es un comando válido de gcloud; los MIG referencian una plantilla existente con --template. D crea una imagen de disco, que guarda el contenido de un disco pero no incluye tipo de máquina, etiquetas ni metadatos."
+      },
+      "doc": "https://cloud.google.com/compute/docs/instance-templates/create-instance-templates"
+    },
+    {
+      "id": "lb-022",
+      "curso": "badge-load-balancing",
+      "servicios": [
+        "compute-engine",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-migs-autoscaling"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which command creates a zonal managed instance group named lb-backend-group with two VMs based on the instance template lb-backend-template?",
+        "es": "¿Qué comando crea un grupo de instancias administrado zonal llamado lb-backend-group con dos VMs basadas en la plantilla lb-backend-template?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud compute instance-groups managed create lb-backend-group --template=lb-backend-template --size=2 --zone=us-central1-a",
+          "es": "gcloud compute instance-groups managed create lb-backend-group --template=lb-backend-template --size=2 --zone=us-central1-a"
+        },
+        {
+          "en": "gcloud compute instance-groups unmanaged create lb-backend-group --template=lb-backend-template --size=2 --zone=us-central1-a",
+          "es": "gcloud compute instance-groups unmanaged create lb-backend-group --template=lb-backend-template --size=2 --zone=us-central1-a"
+        },
+        {
+          "en": "gcloud compute instances create lb-backend-group --count=2 --source-instance-template=lb-backend-template",
+          "es": "gcloud compute instances create lb-backend-group --count=2 --source-instance-template=lb-backend-template"
+        },
+        {
+          "en": "gcloud compute backend-services create lb-backend-group --template=lb-backend-template --size=2 --global",
+          "es": "gcloud compute backend-services create lb-backend-group --template=lb-backend-template --size=2 --global"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "A managed instance group is created with gcloud compute instance-groups managed create, passing the template, the initial size and the zone (or --region for a regional MIG). B is invalid: unmanaged groups are collections of pre-existing VMs and never accept a template. C would create standalone VMs from the template, so there is no group to attach as a load balancer backend and no autohealing or autoscaling. D creates a backend service, a load balancer resource that consumes instance groups but does not create VMs.",
+        "es": "Un grupo de instancias administrado se crea con gcloud compute instance-groups managed create, indicando la plantilla, el tamaño inicial y la zona (o --region para un MIG regional). B es inválida: los grupos no administrados son colecciones de VMs ya existentes y nunca aceptan una plantilla. C crearía VMs independientes a partir de la plantilla, así que no habría grupo para adjuntar como backend del balanceador ni autoreparación ni autoescalado. D crea un backend service, un recurso del balanceador que consume grupos de instancias pero no crea VMs."
+      },
+      "doc": "https://cloud.google.com/compute/docs/instance-groups/creating-groups-of-managed-instances"
+    },
+    {
+      "id": "lb-023",
+      "curso": "badge-load-balancing",
+      "servicios": [
+        "load-balancing",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your global backend service is configured with --port-name=http. Which command tells the managed instance group that the named port http maps to TCP port 80 on the VMs?",
+        "es": "Tu backend service global está configurado con --port-name=http. ¿Qué comando le indica al grupo de instancias administrado que el puerto con nombre http corresponde al puerto TCP 80 de las VMs?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud compute instance-groups set-named-ports lb-backend-group --named-ports=http:80 --zone=us-central1-a",
+          "es": "gcloud compute instance-groups set-named-ports lb-backend-group --named-ports=http:80 --zone=us-central1-a"
+        },
+        {
+          "en": "gcloud compute backend-services set-named-ports web-backend-service --named-ports=http:80 --global",
+          "es": "gcloud compute backend-services set-named-ports web-backend-service --named-ports=http:80 --global"
+        },
+        {
+          "en": "gcloud compute instances add-metadata lb-backend-group --metadata=named-ports=http:80",
+          "es": "gcloud compute instances add-metadata lb-backend-group --metadata=named-ports=http:80"
+        },
+        {
+          "en": "gcloud compute firewall-rules create allow-http --allow=tcp:80 --target-tags=allow-health-check",
+          "es": "gcloud compute firewall-rules create allow-http --allow=tcp:80 --target-tags=allow-health-check"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Named ports are a property of the instance group, not of the backend service: the backend service says which name to use and the group resolves that name to a port number. If the named port is missing or misspelled, the backend service cannot forward traffic. B is not a valid command; the backend service only references the name with --port-name. C stores arbitrary metadata on VMs, which the load balancer ignores. D opens a firewall port, which is necessary for traffic to arrive but does not create the name-to-port mapping.",
+        "es": "Los puertos con nombre son una propiedad del grupo de instancias, no del backend service: el backend service indica qué nombre usar y el grupo resuelve ese nombre a un número de puerto. Si falta el named port o está mal escrito, el backend service no puede enviar tráfico. B no es un comando válido; el backend service solo referencia el nombre con --port-name. C guarda metadatos arbitrarios en las VMs, que el balanceador ignora. D abre un puerto en el firewall, necesario para que llegue el tráfico, pero no crea la asignación nombre-puerto."
+      },
+      "doc": "https://cloud.google.com/load-balancing/docs/backend-service"
+    },
+    {
+      "id": "lb-024",
+      "curso": "badge-load-balancing",
+      "servicios": [
+        "load-balancing",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which command creates the health check that a global backend service of an external Application Load Balancer will use to probe HTTP on port 80?",
+        "es": "¿Qué comando crea la verificación de estado que usará un backend service global de un balanceador de aplicaciones externo para sondear HTTP en el puerto 80?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud compute health-checks create http http-basic-check --port=80",
+          "es": "gcloud compute health-checks create http http-basic-check --port=80"
+        },
+        {
+          "en": "gcloud compute target-http-proxies create http-basic-check --health-check-port=80",
+          "es": "gcloud compute target-http-proxies create http-basic-check --health-check-port=80"
+        },
+        {
+          "en": "gcloud compute backend-services create web-backend-service --health-check-port=80 --global",
+          "es": "gcloud compute backend-services create web-backend-service --health-check-port=80 --global"
+        },
+        {
+          "en": "gcloud compute firewall-rules create http-basic-check --allow=tcp:80 --source-ranges=130.211.0.0/22",
+          "es": "gcloud compute firewall-rules create http-basic-check --allow=tcp:80 --source-ranges=130.211.0.0/22"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Modern load balancers use the unified health check resource created with gcloud compute health-checks create <protocol>; the resulting check is then attached to the backend service with --health-checks. B is wrong because a target proxy only binds a URL map and never owns a health check. C invents a flag: the backend service attaches an existing health check, it does not define one inline. D creates the firewall rule that lets probes reach the VMs, which is required but is a different resource from the health check itself.",
+        "es": "Los balanceadores modernos usan el recurso unificado de health check que se crea con gcloud compute health-checks create <protocolo>; luego se adjunta al backend service con --health-checks. B es incorrecta porque un target proxy solo enlaza un URL map y nunca contiene una verificación de estado. C inventa una marca: el backend service adjunta un health check existente, no lo define en línea. D crea la regla de firewall que permite que los sondeos lleguen a las VMs, algo necesario pero que es un recurso distinto del health check."
+      },
+      "doc": "https://cloud.google.com/load-balancing/docs/health-checks"
+    },
+    {
+      "id": "lb-025",
+      "curso": "badge-load-balancing",
+      "servicios": [
+        "cloud-ngfw",
+        "load-balancing"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-firewall-ngfw"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Backends tagged allow-health-check must accept Google Cloud health check probes on TCP port 80. Which firewall rule is correct?",
+        "es": "Los backends con la etiqueta allow-health-check deben aceptar los sondeos de verificación de estado de Google Cloud en el puerto TCP 80. ¿Qué regla de firewall es correcta?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud compute firewall-rules create fw-allow-health-check --network=default --action=allow --direction=ingress --source-ranges=130.211.0.0/22,35.191.0.0/16 --target-tags=allow-health-check --rules=tcp:80",
+          "es": "gcloud compute firewall-rules create fw-allow-health-check --network=default --action=allow --direction=ingress --source-ranges=130.211.0.0/22,35.191.0.0/16 --target-tags=allow-health-check --rules=tcp:80"
+        },
+        {
+          "en": "gcloud compute firewall-rules create fw-allow-health-check --network=default --action=allow --direction=egress --destination-ranges=130.211.0.0/22,35.191.0.0/16 --target-tags=allow-health-check --rules=tcp:80",
+          "es": "gcloud compute firewall-rules create fw-allow-health-check --network=default --action=allow --direction=egress --destination-ranges=130.211.0.0/22,35.191.0.0/16 --target-tags=allow-health-check --rules=tcp:80"
+        },
+        {
+          "en": "gcloud compute firewall-rules create fw-allow-health-check --network=default --action=allow --direction=ingress --source-ranges=10.128.0.0/9 --target-tags=allow-health-check --rules=tcp:80",
+          "es": "gcloud compute firewall-rules create fw-allow-health-check --network=default --action=allow --direction=ingress --source-ranges=10.128.0.0/9 --target-tags=allow-health-check --rules=tcp:80"
+        },
+        {
+          "en": "gcloud compute firewall-rules create fw-allow-health-check --network=default --action=allow --direction=ingress --source-ranges=35.235.240.0/20 --target-tags=allow-health-check --rules=tcp:80",
+          "es": "gcloud compute firewall-rules create fw-allow-health-check --network=default --action=allow --direction=ingress --source-ranges=35.235.240.0/20 --target-tags=allow-health-check --rules=tcp:80"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Health check probes are sent from the Google-owned ranges 130.211.0.0/22 and 35.191.0.0/16, so an ingress allow rule scoped to those source ranges and to the backend tag is exactly what is needed. B points the wrong direction: probes arrive as ingress to the VMs, and egress replies are already allowed by the implied egress rule. C only covers internal RFC 1918 subnet traffic, so probes would be dropped and every backend would show as UNHEALTHY. D is the IAP TCP forwarding range used for SSH through Identity-Aware Proxy, not for health checks.",
+        "es": "Los sondeos de verificación de estado se envían desde los rangos de Google 130.211.0.0/22 y 35.191.0.0/16, por lo que una regla de entrada que permita esos rangos de origen hacia la etiqueta del backend es justo lo necesario. B apunta en la dirección equivocada: los sondeos llegan como ingress a las VMs y las respuestas de salida ya están permitidas por la regla implícita de egress. C solo cubre tráfico interno RFC 1918, así que los sondeos se descartarían y todos los backends aparecerían como UNHEALTHY. D es el rango de reenvío TCP de IAP que se usa para SSH mediante Identity-Aware Proxy, no para health checks."
+      },
+      "doc": "https://cloud.google.com/load-balancing/docs/health-check-concepts"
+    },
+    {
+      "id": "lb-026",
+      "curso": "badge-load-balancing",
+      "servicios": [
+        "load-balancing",
+        "vpc"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-subnets-ips"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You need a stable IPv4 address for the frontend of a global external Application Load Balancer so you can create a DNS A record for it. Which command reserves it?",
+        "es": "Necesitas una dirección IPv4 estable para el frontend de un balanceador de aplicaciones externo global y así crear un registro DNS de tipo A. ¿Qué comando la reserva?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud compute addresses create lb-ipv4-1 --ip-version=IPV4 --global",
+          "es": "gcloud compute addresses create lb-ipv4-1 --ip-version=IPV4 --global"
+        },
+        {
+          "en": "gcloud compute addresses create lb-ipv4-1 --ip-version=IPV4 --region=us-central1",
+          "es": "gcloud compute addresses create lb-ipv4-1 --ip-version=IPV4 --region=us-central1"
+        },
+        {
+          "en": "gcloud compute addresses create lb-ipv4-1 --subnet=default --purpose=GCE_ENDPOINT",
+          "es": "gcloud compute addresses create lb-ipv4-1 --subnet=default --purpose=GCE_ENDPOINT"
+        },
+        {
+          "en": "gcloud dns record-sets create www.example.com --type=A --ttl=300",
+          "es": "gcloud dns record-sets create www.example.com --type=A --ttl=300"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "A global external Application Load Balancer needs a global external IP address, reserved with --global; that anycast address is then referenced by the forwarding rule with --address. B reserves a regional external address, which a global forwarding rule will reject; regional addresses belong to regional load balancers such as passthrough Network Load Balancers. C reserves an internal address inside a subnet, not an external frontend IP. D creates a DNS record but you still need an address to point it at, and without a reserved IP the ephemeral address can change.",
+        "es": "Un balanceador de aplicaciones externo global necesita una dirección IP externa global, reservada con --global; luego la regla de reenvío la referencia con --address. B reserva una dirección externa regional, que una regla de reenvío global rechazará; las direcciones regionales corresponden a balanceadores regionales como el Network Load Balancer de tipo passthrough. C reserva una dirección interna dentro de una subred, no una IP de frontend externa. D crea un registro DNS, pero igual necesitas una dirección a la cual apuntarlo, y sin IP reservada la dirección efímera puede cambiar."
+      },
+      "doc": "https://cloud.google.com/compute/docs/ip-addresses/reserve-static-external-ip-address"
+    },
+    {
+      "id": "lb-027",
+      "curso": "badge-load-balancing",
+      "servicios": [
+        "load-balancing",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which command creates the backend service of a global external Application Load Balancer that serves HTTP traffic on the named port http and uses the health check http-basic-check?",
+        "es": "¿Qué comando crea el backend service de un balanceador de aplicaciones externo global que sirve tráfico HTTP en el puerto con nombre http y usa la verificación http-basic-check?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud compute backend-services create web-backend-service --protocol=HTTP --port-name=http --health-checks=http-basic-check --global",
+          "es": "gcloud compute backend-services create web-backend-service --protocol=HTTP --port-name=http --health-checks=http-basic-check --global"
+        },
+        {
+          "en": "gcloud compute backend-services create web-backend-service --protocol=HTTP --port-name=http --health-checks=http-basic-check --region=us-central1",
+          "es": "gcloud compute backend-services create web-backend-service --protocol=HTTP --port-name=http --health-checks=http-basic-check --region=us-central1"
+        },
+        {
+          "en": "gcloud compute target-pools create web-backend-service --http-health-check=http-basic-check --region=us-central1",
+          "es": "gcloud compute target-pools create web-backend-service --http-health-check=http-basic-check --region=us-central1"
+        },
+        {
+          "en": "gcloud compute url-maps create web-backend-service --default-service=http-basic-check --global",
+          "es": "gcloud compute url-maps create web-backend-service --default-service=http-basic-check --global"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The backend service of a global external Application Load Balancer is a global resource, so it is created with --global and needs the protocol, the named port that resolves on the instance groups, and at least one health check. B creates a regional backend service, which belongs to a regional load balancer and cannot be referenced by a global URL map. C creates a target pool, the legacy backend construct for external passthrough Network Load Balancers, which cannot do HTTP routing. D creates a URL map, a later step that points to an existing backend service, not to a health check.",
+        "es": "El backend service de un balanceador de aplicaciones externo global es un recurso global, por eso se crea con --global e indica el protocolo, el puerto con nombre que resuelven los grupos de instancias y al menos una verificación de estado. B crea un backend service regional, que pertenece a un balanceador regional y no puede ser referenciado por un URL map global. C crea un target pool, la construcción heredada de backends para el Network Load Balancer externo de tipo passthrough, que no hace enrutamiento HTTP. D crea un URL map, un paso posterior que apunta a un backend service existente, no a un health check."
+      },
+      "doc": "https://cloud.google.com/load-balancing/docs/backend-service"
+    },
+    {
+      "id": "lb-028",
+      "curso": "badge-load-balancing",
+      "servicios": [
+        "load-balancing",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "The backend service web-backend-service already exists. Which command attaches the zonal managed instance group lb-backend-group to it?",
+        "es": "El backend service web-backend-service ya existe. ¿Qué comando le adjunta el grupo de instancias administrado zonal lb-backend-group?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud compute backend-services add-backend web-backend-service --instance-group=lb-backend-group --instance-group-zone=us-central1-a --global",
+          "es": "gcloud compute backend-services add-backend web-backend-service --instance-group=lb-backend-group --instance-group-zone=us-central1-a --global"
+        },
+        {
+          "en": "gcloud compute instance-groups managed add-backend-service lb-backend-group --backend-service=web-backend-service --global",
+          "es": "gcloud compute instance-groups managed add-backend-service lb-backend-group --backend-service=web-backend-service --global"
+        },
+        {
+          "en": "gcloud compute url-maps add-path-matcher web-map-http --instance-group=lb-backend-group",
+          "es": "gcloud compute url-maps add-path-matcher web-map-http --instance-group=lb-backend-group"
+        },
+        {
+          "en": "gcloud compute forwarding-rules create http-content-rule --instance-group=lb-backend-group --global",
+          "es": "gcloud compute forwarding-rules create http-content-rule --instance-group=lb-backend-group --global"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Backends are attached from the backend service side with add-backend, telling it which instance group and where it lives (--instance-group-zone for zonal groups, --instance-group-region for regional ones), plus --global because the backend service is global. B reverses the relationship and is not a valid command. C edits routing rules in a URL map, which reference backend services, never instance groups directly. D creates the frontend forwarding rule, which points at a target proxy and has nothing to do with backends.",
+        "es": "Los backends se adjuntan desde el backend service con add-backend, indicando qué grupo de instancias y dónde vive (--instance-group-zone para grupos zonales, --instance-group-region para regionales), más --global porque el backend service es global. B invierte la relación y no es un comando válido. C edita reglas de enrutamiento en un URL map, que referencian backend services y nunca grupos de instancias directamente. D crea la regla de reenvío del frontend, que apunta a un target proxy y no tiene relación con los backends."
+      },
+      "doc": "https://cloud.google.com/load-balancing/docs/https/setting-up-https"
+    },
+    {
+      "id": "lb-029",
+      "curso": "badge-load-balancing",
+      "servicios": [
+        "load-balancing",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which command creates a URL map named web-map-http that sends every request to the backend service web-backend-service?",
+        "es": "¿Qué comando crea un URL map llamado web-map-http que envía todas las solicitudes al backend service web-backend-service?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud compute url-maps create web-map-http --default-service=web-backend-service",
+          "es": "gcloud compute url-maps create web-map-http --default-service=web-backend-service"
+        },
+        {
+          "en": "gcloud compute url-maps create web-map-http --default-backend-bucket=web-backend-service",
+          "es": "gcloud compute url-maps create web-map-http --default-backend-bucket=web-backend-service"
+        },
+        {
+          "en": "gcloud compute target-http-proxies create web-map-http --default-service=web-backend-service",
+          "es": "gcloud compute target-http-proxies create web-map-http --default-service=web-backend-service"
+        },
+        {
+          "en": "gcloud compute backend-services update web-backend-service --url-map=web-map-http --global",
+          "es": "gcloud compute backend-services update web-backend-service --url-map=web-map-http --global"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "A URL map always needs a default service that catches any request not matched by a host rule or path matcher; --default-service points to a backend service. B uses --default-backend-bucket, which expects a Cloud Storage backend bucket, not a backend service, so the command fails. C creates a target proxy, which references an existing URL map with --url-map and has no --default-service flag. D reverses the relationship: the URL map points to the backend service, never the other way around.",
+        "es": "Un URL map siempre necesita un servicio predeterminado que capture las solicitudes que no coincidan con ninguna regla de host o path matcher; --default-service apunta a un backend service. B usa --default-backend-bucket, que espera un backend bucket de Cloud Storage y no un backend service, por lo que el comando falla. C crea un target proxy, que referencia un URL map existente con --url-map y no tiene la marca --default-service. D invierte la relación: el URL map apunta al backend service, nunca al revés."
+      },
+      "doc": "https://cloud.google.com/load-balancing/docs/url-map-concepts"
+    },
+    {
+      "id": "lb-030",
+      "curso": "badge-load-balancing",
+      "servicios": [
+        "load-balancing",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which command creates the target HTTP proxy that routes incoming requests using the URL map web-map-http?",
+        "es": "¿Qué comando crea el target HTTP proxy que enruta las solicitudes entrantes usando el URL map web-map-http?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud compute target-http-proxies create http-lb-proxy --url-map=web-map-http",
+          "es": "gcloud compute target-http-proxies create http-lb-proxy --url-map=web-map-http"
+        },
+        {
+          "en": "gcloud compute target-http-proxies create http-lb-proxy --backend-service=web-backend-service",
+          "es": "gcloud compute target-http-proxies create http-lb-proxy --backend-service=web-backend-service"
+        },
+        {
+          "en": "gcloud compute url-maps create http-lb-proxy --target-http-proxy=web-map-http",
+          "es": "gcloud compute url-maps create http-lb-proxy --target-http-proxy=web-map-http"
+        },
+        {
+          "en": "gcloud compute forwarding-rules create http-lb-proxy --url-map=web-map-http --global",
+          "es": "gcloud compute forwarding-rules create http-lb-proxy --url-map=web-map-http --global"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The target HTTP proxy terminates the client connection and consults a URL map, so it is created with --url-map. B is invalid: a proxy never points directly at a backend service; the URL map sits in between. C inverts the dependency, and url-maps create has no --target-http-proxy flag. D confuses layers: the forwarding rule points at a target proxy with --target-http-proxy, not at a URL map.",
+        "es": "El target HTTP proxy termina la conexión del cliente y consulta un URL map, por eso se crea con --url-map. B es inválida: un proxy nunca apunta directamente a un backend service; el URL map va en medio. C invierte la dependencia y url-maps create no tiene la marca --target-http-proxy. D confunde capas: la regla de reenvío apunta a un target proxy con --target-http-proxy, no a un URL map."
+      },
+      "doc": "https://cloud.google.com/load-balancing/docs/target-proxies"
+    },
+    {
+      "id": "lb-031",
+      "curso": "badge-load-balancing",
+      "servicios": [
+        "load-balancing",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You reserved the global address lb-ipv4-1 and created the target proxy http-lb-proxy. Which command publishes the load balancer on port 80?",
+        "es": "Reservaste la dirección global lb-ipv4-1 y creaste el target proxy http-lb-proxy. ¿Qué comando publica el balanceador en el puerto 80?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud compute forwarding-rules create http-content-rule --address=lb-ipv4-1 --global --target-http-proxy=http-lb-proxy --ports=80",
+          "es": "gcloud compute forwarding-rules create http-content-rule --address=lb-ipv4-1 --global --target-http-proxy=http-lb-proxy --ports=80"
+        },
+        {
+          "en": "gcloud compute forwarding-rules create http-content-rule --address=lb-ipv4-1 --region=us-central1 --target-http-proxy=http-lb-proxy --ports=80",
+          "es": "gcloud compute forwarding-rules create http-content-rule --address=lb-ipv4-1 --region=us-central1 --target-http-proxy=http-lb-proxy --ports=80"
+        },
+        {
+          "en": "gcloud compute forwarding-rules create http-content-rule --address=lb-ipv4-1 --global --target-pool=http-lb-proxy --ports=80",
+          "es": "gcloud compute forwarding-rules create http-content-rule --address=lb-ipv4-1 --global --target-pool=http-lb-proxy --ports=80"
+        },
+        {
+          "en": "gcloud compute addresses update lb-ipv4-1 --target-http-proxy=http-lb-proxy --ports=80 --global",
+          "es": "gcloud compute addresses update lb-ipv4-1 --target-http-proxy=http-lb-proxy --ports=80 --global"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The frontend of a global external Application Load Balancer is a global forwarding rule that binds the reserved global IP, a port, and the target HTTP proxy. B uses --region, which requires a regional address and a regional proxy, so it cannot reference a global proxy or a global address. C mixes schemes: target pools belong to external passthrough Network Load Balancers and are regional only. D is not a valid operation; a reserved address is passive until a forwarding rule references it.",
+        "es": "El frontend de un balanceador de aplicaciones externo global es una regla de reenvío global que enlaza la IP global reservada, un puerto y el target HTTP proxy. B usa --region, lo que exige una dirección y un proxy regionales, así que no puede referenciar un proxy ni una dirección globales. C mezcla esquemas: los target pools pertenecen al Network Load Balancer externo de tipo passthrough y son solo regionales. D no es una operación válida; una dirección reservada permanece pasiva hasta que una regla de reenvío la referencia."
+      },
+      "doc": "https://cloud.google.com/load-balancing/docs/forwarding-rule-concepts"
+    },
+    {
+      "id": "lb-032",
+      "curso": "badge-load-balancing",
+      "servicios": [
+        "load-balancing"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You are building a global external Application Load Balancer from scratch with gcloud. Which sequence creates the resources in a valid dependency order?",
+        "es": "Estás construyendo desde cero un balanceador de aplicaciones externo global con gcloud. ¿Qué secuencia crea los recursos en un orden de dependencias válido?"
+      },
+      "opciones": [
+        {
+          "en": "Health check, backend service, add the instance group as a backend, URL map, target HTTP proxy, global forwarding rule",
+          "es": "Verificación de estado, backend service, agregar el grupo de instancias como backend, URL map, target HTTP proxy, regla de reenvío global"
+        },
+        {
+          "en": "Global forwarding rule, target HTTP proxy, URL map, backend service, health check",
+          "es": "Regla de reenvío global, target HTTP proxy, URL map, backend service, verificación de estado"
+        },
+        {
+          "en": "URL map, global forwarding rule, backend service, target HTTP proxy, health check",
+          "es": "URL map, regla de reenvío global, backend service, target HTTP proxy, verificación de estado"
+        },
+        {
+          "en": "Backend service, health check, global forwarding rule, target HTTP proxy, URL map",
+          "es": "Backend service, verificación de estado, regla de reenvío global, target HTTP proxy, URL map"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Each resource references the previous one, so you build from the backend upward: the health check must exist before the backend service that attaches it, backends are added to that service, the URL map points to the backend service, the target proxy points to the URL map, and the forwarding rule points to the target proxy. B, C and D all try to create a resource before the resource it references exists, so gcloud returns a resource-not-found error.",
+        "es": "Cada recurso referencia al anterior, por eso se construye desde el backend hacia arriba: la verificación de estado debe existir antes que el backend service que la adjunta, los backends se agregan a ese servicio, el URL map apunta al backend service, el target proxy apunta al URL map y la regla de reenvío apunta al target proxy. B, C y D intentan crear un recurso antes de que exista el recurso al que hace referencia, por lo que gcloud devuelve un error de recurso no encontrado."
+      },
+      "doc": "https://cloud.google.com/load-balancing/docs/https/setting-up-https"
+    },
+    {
+      "id": "lb-033",
+      "curso": "badge-load-balancing",
+      "servicios": [
+        "load-balancing",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
+      "nivel": "intermedio",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "A legacy TCP application runs on three VMs in us-central1 and must be exposed with a regional external passthrough Network Load Balancer built on target pools. Which TWO resources do you create?",
+        "es": "Una aplicación TCP heredada corre en tres VMs de us-central1 y debe exponerse con un Network Load Balancer externo de tipo passthrough regional construido sobre target pools. ¿Cuáles DOS recursos creas?"
+      },
+      "opciones": [
+        {
+          "en": "A target pool that contains the three instances, associated with a health check",
+          "es": "Un target pool que contiene las tres instancias, asociado a una verificación de estado"
+        },
+        {
+          "en": "A regional forwarding rule created with --region and --target-pool that listens on the application port",
+          "es": "Una regla de reenvío regional creada con --region y --target-pool que escucha en el puerto de la aplicación"
+        },
+        {
+          "en": "A URL map with a default service pointing to the target pool",
+          "es": "Un URL map con un servicio predeterminado que apunta al target pool"
+        },
+        {
+          "en": "A target TCP proxy that references the target pool",
+          "es": "Un target TCP proxy que referencia el target pool"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "An external passthrough Network Load Balancer is a Layer 4 pass-through balancer: a regional forwarding rule sends packets, unmodified, to the instances listed in a target pool, and the pool uses a health check to skip unhealthy VMs. C is wrong because URL maps only exist in proxy-based Application Load Balancers and understand HTTP, not raw TCP. D is wrong because target proxies belong to proxy load balancers; a passthrough balancer has no proxy and preserves the original client source IP.",
+        "es": "Un Network Load Balancer externo de tipo passthrough es un balanceador de capa 4: una regla de reenvío regional entrega los paquetes sin modificar a las instancias listadas en un target pool, y el pool usa una verificación de estado para omitir las VMs no saludables. C es incorrecta porque los URL maps solo existen en balanceadores de aplicaciones basados en proxy y entienden HTTP, no TCP puro. D es incorrecta porque los target proxies pertenecen a balanceadores de tipo proxy; un balanceador passthrough no tiene proxy y conserva la IP de origen original del cliente."
+      },
+      "doc": "https://cloud.google.com/load-balancing/docs/network/setting-up-network"
+    },
+    {
+      "id": "lb-034",
+      "curso": "badge-load-balancing",
+      "servicios": [
+        "load-balancing"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You want Google to provision and automatically renew the TLS certificate for www.example.com on your global external Application Load Balancer. Which command do you run?",
+        "es": "Quieres que Google aprovisione y renueve automáticamente el certificado TLS de www.example.com en tu balanceador de aplicaciones externo global. ¿Qué comando ejecutas?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud compute ssl-certificates create www-ssl-cert --domains=www.example.com --global",
+          "es": "gcloud compute ssl-certificates create www-ssl-cert --domains=www.example.com --global"
+        },
+        {
+          "en": "gcloud compute ssl-certificates create www-ssl-cert --certificate=cert.pem --private-key=key.pem --global",
+          "es": "gcloud compute ssl-certificates create www-ssl-cert --certificate=cert.pem --private-key=key.pem --global"
+        },
+        {
+          "en": "gcloud compute ssl-policies create www-ssl-cert --profile=MODERN --min-tls-version=1.2",
+          "es": "gcloud compute ssl-policies create www-ssl-cert --profile=MODERN --min-tls-version=1.2"
+        },
+        {
+          "en": "gcloud compute target-https-proxies create https-lb-proxy --domains=www.example.com",
+          "es": "gcloud compute target-https-proxies create https-lb-proxy --domains=www.example.com"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Passing --domains creates a Google-managed SSL certificate: Google obtains the certificate and renews it automatically, as long as DNS for the domain resolves to the load balancer's IP address. B creates a self-managed certificate from files you supply, which works but leaves renewal and rotation to you. C creates an SSL policy, which controls TLS versions and cipher suites but provides no certificate. D creates a target HTTPS proxy, which attaches an existing certificate with --ssl-certificates and has no --domains flag.",
+        "es": "Al pasar --domains se crea un certificado SSL administrado por Google: Google lo obtiene y lo renueva automáticamente, siempre que el DNS del dominio resuelva a la IP del balanceador. B crea un certificado autoadministrado a partir de archivos que tú entregas, lo cual funciona pero deja la renovación y la rotación a tu cargo. C crea una política SSL, que controla versiones de TLS y conjuntos de cifrado pero no entrega ningún certificado. D crea un target HTTPS proxy, que adjunta un certificado existente con --ssl-certificates y no tiene la marca --domains."
+      },
+      "doc": "https://cloud.google.com/load-balancing/docs/ssl-certificates/google-managed-certs"
+    },
+    {
+      "id": "lb-035",
+      "curso": "badge-load-balancing",
+      "servicios": [
+        "load-balancing"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your global external Application Load Balancer already serves HTTPS on port 443. What do you configure so that plain http:// requests are redirected to https:// by the load balancer itself?",
+        "es": "Tu balanceador de aplicaciones externo global ya sirve HTTPS en el puerto 443. ¿Qué configuras para que las solicitudes http:// se redirijan a https:// desde el propio balanceador?"
+      },
+      "opciones": [
+        {
+          "en": "A second URL map whose default route is an HTTPS redirect action, a target HTTP proxy that uses it, and a forwarding rule on port 80 that reuses the same IP address",
+          "es": "Un segundo URL map cuya ruta predeterminada es una acción de redirección a HTTPS, un target HTTP proxy que lo usa y una regla de reenvío en el puerto 80 que reutiliza la misma dirección IP"
+        },
+        {
+          "en": "A second backend service on port 80 created with the --enable-redirect flag",
+          "es": "Un segundo backend service en el puerto 80 creado con la marca --enable-redirect"
+        },
+        {
+          "en": "An update to the existing target HTTPS proxy so that it also listens on port 80",
+          "es": "Una actualización del target HTTPS proxy existente para que también escuche en el puerto 80"
+        },
+        {
+          "en": "A rewrite rule in the web server of every backend VM that answers 301 to HTTP requests",
+          "es": "Una regla de reescritura en el servidor web de cada VM de backend que responda 301 a las solicitudes HTTP"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The redirect is expressed in a URL map as a redirect action (HTTPS redirect with a 301 response code); that map is bound to a target HTTP proxy and exposed by a port-80 forwarding rule on the same frontend IP, so clients that type http:// are bounced to HTTPS before reaching any backend. B invents a flag that does not exist on backend services. C is impossible: a proxy does not define ports; forwarding rules do, and an HTTPS proxy expects TLS on its port. D would work only if you still created a port-80 frontend, and it pushes the logic into every VM, which is more work to operate and lets unencrypted requests reach the backends.",
+        "es": "La redirección se expresa en un URL map como acción de redirección (redirección a HTTPS con código 301); ese mapa se enlaza a un target HTTP proxy y se expone con una regla de reenvío en el puerto 80 sobre la misma IP de frontend, de modo que quien escriba http:// es enviado a HTTPS antes de llegar a cualquier backend. B inventa una marca que no existe en los backend services. C es imposible: un proxy no define puertos, eso lo hacen las reglas de reenvío, y un proxy HTTPS espera TLS en su puerto. D solo funcionaría si igual creas un frontend en el puerto 80, y traslada la lógica a cada VM, lo que cuesta más operar y permite que solicitudes sin cifrar lleguen a los backends."
+      },
+      "doc": "https://cloud.google.com/load-balancing/docs/https/setting-up-http-https-redirect"
+    },
+    {
+      "id": "lb-036",
+      "curso": "badge-load-balancing",
+      "servicios": [
+        "load-balancing",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which command turns on Cloud CDN for the existing global backend service web-backend-service?",
+        "es": "¿Qué comando activa Cloud CDN en el backend service global existente web-backend-service?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud compute backend-services update web-backend-service --enable-cdn --global",
+          "es": "gcloud compute backend-services update web-backend-service --enable-cdn --global"
+        },
+        {
+          "en": "gcloud compute url-maps update web-map-http --enable-cdn",
+          "es": "gcloud compute url-maps update web-map-http --enable-cdn"
+        },
+        {
+          "en": "gcloud compute target-http-proxies update http-lb-proxy --enable-cdn",
+          "es": "gcloud compute target-http-proxies update http-lb-proxy --enable-cdn"
+        },
+        {
+          "en": "gcloud compute forwarding-rules update http-content-rule --enable-cdn --global",
+          "es": "gcloud compute forwarding-rules update http-content-rule --enable-cdn --global"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Cloud CDN is a property of the origin, so it is enabled per backend service (or per backend bucket) with --enable-cdn; once on, Google's edge caches serve cacheable responses close to users. B, C and D target the URL map, the target proxy and the forwarding rule, none of which expose a CDN setting: they only describe routing and the frontend.",
+        "es": "Cloud CDN es una propiedad del origen, por eso se habilita por backend service (o por backend bucket) con --enable-cdn; una vez activo, las cachés perimetrales de Google sirven las respuestas cacheables cerca de los usuarios. B, C y D apuntan al URL map, al target proxy y a la regla de reenvío, y ninguno expone una opción de CDN: solo describen el enrutamiento y el frontend."
+      },
+      "doc": "https://cloud.google.com/cdn/docs/setting-up-cdn-with-compute-engine"
+    },
+    {
+      "id": "lb-037",
+      "curso": "badge-load-balancing",
+      "servicios": [
+        "load-balancing",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A web app behind a global external Application Load Balancer keeps each user session in the memory of the VM that served the first request. Which command makes the load balancer keep sending a returning user to the same backend?",
+        "es": "Una app web detrás de un balanceador de aplicaciones externo global guarda cada sesión de usuario en la memoria de la VM que atendió la primera solicitud. ¿Qué comando hace que el balanceador siga enviando al mismo backend a un usuario que regresa?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud compute backend-services update web-backend-service --session-affinity=GENERATED_COOKIE --global",
+          "es": "gcloud compute backend-services update web-backend-service --session-affinity=GENERATED_COOKIE --global"
+        },
+        {
+          "en": "gcloud compute target-http-proxies update http-lb-proxy --session-affinity=GENERATED_COOKIE",
+          "es": "gcloud compute target-http-proxies update http-lb-proxy --session-affinity=GENERATED_COOKIE"
+        },
+        {
+          "en": "gcloud compute url-maps update web-map-http --session-affinity=CLIENT_IP",
+          "es": "gcloud compute url-maps update web-map-http --session-affinity=CLIENT_IP"
+        },
+        {
+          "en": "gcloud compute health-checks update http http-basic-check --session-affinity=CLIENT_IP",
+          "es": "gcloud compute health-checks update http http-basic-check --session-affinity=CLIENT_IP"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Session affinity is a setting of the backend service, and on an HTTP(S) load balancer GENERATED_COOKIE is the most accurate mode because the load balancer issues its own cookie per client, which survives NAT and shared IP addresses. B, C and D try to set affinity on the target proxy, the URL map and the health check; none of those resources has such a property. Note that affinity is best effort: it can break when a backend becomes unhealthy or the group autoscales.",
+        "es": "La afinidad de sesión es una opción del backend service y, en un balanceador HTTP(S), GENERATED_COOKIE es el modo más preciso porque el balanceador emite su propia cookie por cliente, que sobrevive al NAT y a las IP compartidas. B, C y D intentan configurar la afinidad en el target proxy, el URL map y el health check; ninguno de esos recursos tiene esa propiedad. Ten presente que la afinidad es de mejor esfuerzo: puede romperse si un backend deja de estar saludable o si el grupo escala."
+      },
+      "doc": "https://cloud.google.com/load-balancing/docs/backend-service"
+    },
+    {
+      "id": "lb-038",
+      "curso": "badge-load-balancing",
+      "servicios": [
+        "compute-engine",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-migs-autoscaling"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which command configures the managed instance group lb-backend-group to scale between its current size and 5 VMs, targeting 60% average CPU utilization?",
+        "es": "¿Qué comando configura el grupo de instancias administrado lb-backend-group para escalar hasta 5 VMs con un objetivo del 60% de uso promedio de CPU?"
+      },
+      "opciones": [
+        {
+          "en": "gcloud compute instance-groups managed set-autoscaling lb-backend-group --max-num-replicas=5 --target-cpu-utilization=0.6 --cool-down-period=60 --zone=us-central1-a",
+          "es": "gcloud compute instance-groups managed set-autoscaling lb-backend-group --max-num-replicas=5 --target-cpu-utilization=0.6 --cool-down-period=60 --zone=us-central1-a"
+        },
+        {
+          "en": "gcloud compute instance-groups managed resize lb-backend-group --size=5 --zone=us-central1-a",
+          "es": "gcloud compute instance-groups managed resize lb-backend-group --size=5 --zone=us-central1-a"
+        },
+        {
+          "en": "gcloud compute backend-services update web-backend-service --enable-autoscaling --max-replicas=5 --global",
+          "es": "gcloud compute backend-services update web-backend-service --enable-autoscaling --max-replicas=5 --global"
+        },
+        {
+          "en": "gcloud compute instance-templates create lb-backend-template --autoscale --max-num-replicas=5",
+          "es": "gcloud compute instance-templates create lb-backend-template --autoscale --max-num-replicas=5"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "set-autoscaling attaches an autoscaler to the MIG with a maximum number of replicas and a scaling signal such as average CPU utilization; the cool-down period tells the autoscaler how long a new VM needs before its metrics count. B only sets a fixed size once, with no automatic reaction to load. C is invalid because autoscaling belongs to the instance group, not to the backend service. D is invalid because instance templates describe a single VM and carry no autoscaling policy.",
+        "es": "set-autoscaling adjunta un autoescalador al MIG con un número máximo de réplicas y una señal de escalado como el uso promedio de CPU; el período de enfriamiento indica cuánto tarda una VM nueva antes de que sus métricas cuenten. B solo fija un tamaño estático una vez, sin reacción automática a la carga. C es inválida porque el autoescalado pertenece al grupo de instancias, no al backend service. D es inválida porque las plantillas de instancias describen una sola VM y no contienen políticas de autoescalado."
+      },
+      "doc": "https://cloud.google.com/compute/docs/autoscaler"
+    },
+    {
+      "id": "lb-039",
+      "curso": "badge-load-balancing",
+      "servicios": [
+        "load-balancing",
+        "vpc"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Before you can deploy a regional internal Application Load Balancer in us-central1, which resource must exist in the VPC?",
+        "es": "Antes de poder implementar un balanceador de aplicaciones interno regional en us-central1, ¿qué recurso debe existir en la VPC?"
+      },
+      "opciones": [
+        {
+          "en": "A proxy-only subnet in us-central1 created with --purpose=REGIONAL_MANAGED_PROXY --role=ACTIVE",
+          "es": "Una subred solo de proxy en us-central1 creada con --purpose=REGIONAL_MANAGED_PROXY --role=ACTIVE"
+        },
+        {
+          "en": "An additional subnet created with --purpose=PRIVATE that holds the backend VMs",
+          "es": "Una subred adicional creada con --purpose=PRIVATE que aloje las VMs de backend"
+        },
+        {
+          "en": "A subnet created with --purpose=PRIVATE_SERVICE_CONNECT in the same region",
+          "es": "Una subred creada con --purpose=PRIVATE_SERVICE_CONNECT en la misma región"
+        },
+        {
+          "en": "A Cloud NAT gateway in us-central1 so the proxies can reach the backends",
+          "es": "Una puerta de enlace de Cloud NAT en us-central1 para que los proxies alcancen los backends"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Regional proxy-based load balancers (internal Application Load Balancer, regional external Application Load Balancer) run on Envoy proxies that take their IP addresses from a dedicated proxy-only subnet; one active proxy-only subnet per region and per VPC is required and no VM can use it. B describes an ordinary subnet, which backends need anyway but does not satisfy the proxy requirement. C reserves addresses for Private Service Connect endpoints, a different feature. D is unnecessary because the proxies reach the backends over internal VPC routes; Cloud NAT is for outbound internet access from private VMs.",
+        "es": "Los balanceadores regionales basados en proxy (balanceador de aplicaciones interno, balanceador de aplicaciones externo regional) se ejecutan sobre proxies Envoy que toman sus direcciones IP de una subred dedicada solo de proxy; se requiere una subred de este tipo activa por región y por VPC, y ninguna VM puede usarla. B describe una subred común, que los backends necesitan de todos modos, pero no cumple el requisito del proxy. C reserva direcciones para endpoints de Private Service Connect, una función distinta. D es innecesaria porque los proxies llegan a los backends por rutas internas de la VPC; Cloud NAT sirve para salida a internet desde VMs privadas."
+      },
+      "doc": "https://cloud.google.com/load-balancing/docs/proxy-only-subnets"
+    },
+    {
+      "id": "lb-040",
+      "curso": "badge-load-balancing",
+      "servicios": [
+        "load-balancing",
+        "vpc"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
+      "nivel": "intermedio",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "You are deploying a regional internal passthrough Network Load Balancer for a MySQL tier reached only from inside the VPC. Which TWO resources do you create?",
+        "es": "Estás implementando un Network Load Balancer interno de tipo passthrough regional para una capa MySQL a la que solo se accede desde dentro de la VPC. ¿Cuáles DOS recursos creas?"
+      },
+      "opciones": [
+        {
+          "en": "A regional backend service created with --load-balancing-scheme=INTERNAL and a health check",
+          "es": "Un backend service regional creado con --load-balancing-scheme=INTERNAL y una verificación de estado"
+        },
+        {
+          "en": "A forwarding rule created with --load-balancing-scheme=INTERNAL, a subnet, and an internal IP address",
+          "es": "Una regla de reenvío creada con --load-balancing-scheme=INTERNAL, una subred y una dirección IP interna"
+        },
+        {
+          "en": "A global static external IP address for the frontend",
+          "es": "Una dirección IP externa estática global para el frontend"
+        },
+        {
+          "en": "A target TCP proxy bound to the backend service",
+          "es": "Un target TCP proxy enlazado al backend service"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "An internal passthrough Network Load Balancer is made of a regional backend service with the INTERNAL scheme plus a forwarding rule that takes an internal IP from a subnet in the same region; clients inside the VPC connect to that internal address and packets reach the VMs unproxied. C is wrong because the frontend is internal by definition, so an external address would defeat the purpose and is rejected by the INTERNAL scheme. D is wrong because passthrough load balancers have no proxy layer; target proxies belong to proxy-based load balancers.",
+        "es": "Un Network Load Balancer interno de tipo passthrough se compone de un backend service regional con el esquema INTERNAL más una regla de reenvío que toma una IP interna de una subred de la misma región; los clientes dentro de la VPC se conectan a esa dirección interna y los paquetes llegan a las VMs sin pasar por un proxy. C es incorrecta porque el frontend es interno por definición, así que una dirección externa contradice el propósito y el esquema INTERNAL la rechaza. D es incorrecta porque los balanceadores passthrough no tienen capa de proxy; los target proxies pertenecen a los balanceadores basados en proxy."
+      },
+      "doc": "https://cloud.google.com/load-balancing/docs/internal"
+    },
+    {
+      "id": "lb-041",
+      "curso": "badge-load-balancing",
+      "servicios": [
+        "load-balancing"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A retail company serves an HTTPS storefront to customers in North America, Europe and Asia. They want one IP address in DNS, TLS terminated close to users, path-based routing between an API and a static site, and traffic sent to the closest healthy region. Which is the BEST load balancer choice?",
+        "es": "Una empresa de retail sirve una tienda HTTPS a clientes de Norteamérica, Europa y Asia. Quieren una sola dirección IP en el DNS, terminación de TLS cerca de los usuarios, enrutamiento por ruta entre una API y un sitio estático, y que el tráfico llegue a la región saludable más cercana. ¿Cuál es la MEJOR elección de balanceador?"
+      },
+      "opciones": [
+        {
+          "en": "A global external Application Load Balancer in the Premium Network Service Tier",
+          "es": "Un balanceador de aplicaciones externo global en el nivel de servicio de red Premium"
+        },
+        {
+          "en": "One regional external Application Load Balancer per region, with Cloud DNS geolocation routing policies in front",
+          "es": "Un balanceador de aplicaciones externo regional por región, con políticas de enrutamiento por geolocalización de Cloud DNS al frente"
+        },
+        {
+          "en": "An external passthrough Network Load Balancer in each region with a shared anycast IP address",
+          "es": "Un Network Load Balancer externo de tipo passthrough en cada región con una IP anycast compartida"
+        },
+        {
+          "en": "An internal Application Load Balancer published to the internet through Cloud NAT",
+          "es": "Un balanceador de aplicaciones interno publicado a internet a través de Cloud NAT"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Only the global external Application Load Balancer gives a single global anycast IP, TLS termination at the Google edge closest to the user, HTTP path-based routing through a URL map, and automatic cross-region failover; the Premium Tier is what carries traffic on Google's backbone from the nearest point of presence. B works but multiplies the number of load balancers, needs several IP addresses and DNS records, and fails over only as fast as DNS TTLs allow. C cannot terminate TLS or route by URL path because a passthrough balancer works at Layer 4 and is regional. D is not internet-facing: an internal load balancer only accepts clients inside the VPC, and Cloud NAT provides outbound, not inbound, connectivity.",
+        "es": "Solo el balanceador de aplicaciones externo global entrega una única IP anycast global, terminación de TLS en el borde de Google más cercano al usuario, enrutamiento HTTP por ruta mediante un URL map y conmutación por error automática entre regiones; el nivel Premium es el que transporta el tráfico por la red troncal de Google desde el punto de presencia más cercano. B funciona pero multiplica la cantidad de balanceadores, requiere varias IP y registros DNS, y conmuta solo tan rápido como lo permitan los TTL del DNS. C no puede terminar TLS ni enrutar por ruta de URL porque un balanceador passthrough opera en capa 4 y es regional. D no está expuesto a internet: un balanceador interno solo acepta clientes dentro de la VPC, y Cloud NAT ofrece conectividad de salida, no de entrada."
+      },
+      "doc": "https://cloud.google.com/load-balancing/docs/application-load-balancer"
+    },
+    {
+      "id": "lb-042",
+      "curso": "badge-load-balancing",
+      "servicios": [
+        "load-balancing",
+        "cloud-ngfw"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-firewall-ngfw"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You finished building an external Application Load Balancer. The VMs in the MIG serve pages correctly when you curl them from another VM in the same subnet, but the backend service reports every backend as UNHEALTHY and clients get 502 errors. What is the MOST likely cause?",
+        "es": "Terminaste de construir un balanceador de aplicaciones externo. Las VMs del MIG sirven páginas correctamente cuando les haces curl desde otra VM de la misma subred, pero el backend service reporta todos los backends como UNHEALTHY y los clientes reciben errores 502. ¿Cuál es la causa MÁS probable?"
+      },
+      "opciones": [
+        {
+          "en": "No firewall rule allows ingress from 130.211.0.0/22 and 35.191.0.0/16 to the backend port",
+          "es": "Ninguna regla de firewall permite la entrada desde 130.211.0.0/22 y 35.191.0.0/16 hacia el puerto del backend"
+        },
+        {
+          "en": "The VMs do not have external IP addresses, so the health check cannot reach them",
+          "es": "Las VMs no tienen direcciones IP externas, por lo que la verificación de estado no puede alcanzarlas"
+        },
+        {
+          "en": "The global forwarding rule uses an ephemeral IP address instead of a reserved one",
+          "es": "La regla de reenvío global usa una dirección IP efímera en lugar de una reservada"
+        },
+        {
+          "en": "The managed instance group has no autoscaling policy configured",
+          "es": "El grupo de instancias administrado no tiene configurada una política de autoescalado"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Health check probes come from Google's ranges 130.211.0.0/22 and 35.191.0.0/16, not from inside your subnet, so a working curl from a peer VM proves nothing about them. Without an ingress allow rule for those ranges the probes are dropped, every backend is marked UNHEALTHY and the load balancer answers 502 because it has nowhere to send traffic. B is wrong because probes are delivered to the VM's internal interface and external IPs are not required. C only affects whether the frontend address is stable over time. D affects capacity under load, not health status.",
+        "es": "Los sondeos de verificación de estado provienen de los rangos de Google 130.211.0.0/22 y 35.191.0.0/16, no de tu subred, así que un curl exitoso desde una VM vecina no prueba nada sobre ellos. Sin una regla de entrada que permita esos rangos, los sondeos se descartan, todos los backends quedan marcados como UNHEALTHY y el balanceador responde 502 porque no tiene a dónde enviar el tráfico. B es incorrecta porque los sondeos se entregan a la interfaz interna de la VM y no se requieren IP externas. C solo afecta si la dirección del frontend se mantiene estable en el tiempo. D afecta la capacidad bajo carga, no el estado de salud."
+      },
+      "doc": "https://cloud.google.com/load-balancing/docs/health-check-concepts"
+    },
+    {
+      "id": "lb-043",
+      "curso": "badge-load-balancing",
+      "servicios": [
+        "load-balancing"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "An application listens on TCP 8080 inside the backend VMs and exposes /healthz. The backend service is healthy for no instance. The health check was created with gcloud compute health-checks create http hc --port=80 and the firewall allows 130.211.0.0/22 and 35.191.0.0/16 on tcp:8080. What should you do FIRST?",
+        "es": "Una aplicación escucha en el puerto TCP 8080 dentro de las VMs de backend y expone /healthz. Ninguna instancia aparece saludable en el backend service. La verificación se creó con gcloud compute health-checks create http hc --port=80 y el firewall permite 130.211.0.0/22 y 35.191.0.0/16 en tcp:8080. ¿Qué deberías hacer PRIMERO?"
+      },
+      "opciones": [
+        {
+          "en": "Update the health check to probe port 8080 and request path /healthz",
+          "es": "Actualizar la verificación de estado para sondear el puerto 8080 y la ruta /healthz"
+        },
+        {
+          "en": "Widen the firewall rule to allow 0.0.0.0/0 on tcp:8080",
+          "es": "Ampliar la regla de firewall para permitir 0.0.0.0/0 en tcp:8080"
+        },
+        {
+          "en": "Recreate the managed instance group so the VMs pick up the new template",
+          "es": "Volver a crear el grupo de instancias administrado para que las VMs tomen la plantilla nueva"
+        },
+        {
+          "en": "Add a second forwarding rule on port 8080 to the load balancer frontend",
+          "es": "Agregar al frontend del balanceador una segunda regla de reenvío en el puerto 8080"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The probe is being sent to port 80 and to the default path /, where nothing is listening, so it times out on every VM. Fixing the health check's port and request path makes the probes match what the application actually serves. B loosens security without helping, because the problem is the destination port of the probe, not its source. C changes nothing: the VMs are already running the right application. D adds a frontend port, which affects how clients reach the load balancer and has no effect on health checking.",
+        "es": "El sondeo se envía al puerto 80 y a la ruta predeterminada /, donde no hay nada escuchando, por lo que expira en todas las VMs. Corregir el puerto y la ruta de la verificación hace que los sondeos coincidan con lo que la aplicación realmente sirve. B relaja la seguridad sin ayudar, porque el problema es el puerto de destino del sondeo y no su origen. C no cambia nada: las VMs ya ejecutan la aplicación correcta. D agrega un puerto al frontend, lo que afecta cómo llegan los clientes al balanceador y no influye en la verificación de estado."
+      },
+      "doc": "https://cloud.google.com/load-balancing/docs/health-checks"
+    },
+    {
+      "id": "lb-044",
+      "curso": "badge-load-balancing",
+      "servicios": [
+        "load-balancing",
+        "cloud-logging"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A global external Application Load Balancer serves an app on Compute Engine. Backends are healthy and most requests succeed, but a small percentage fail with HTTP 502 and the load balancer logs show backend_connection_closed_before_data_sent_to_client. What is the MOST likely cause?",
+        "es": "Un balanceador de aplicaciones externo global sirve una app en Compute Engine. Los backends están saludables y la mayoría de las solicitudes funcionan, pero un pequeño porcentaje falla con HTTP 502 y los registros del balanceador muestran backend_connection_closed_before_data_sent_to_client. ¿Cuál es la causa MÁS probable?"
+      },
+      "opciones": [
+        {
+          "en": "The backend web server's keepalive timeout is shorter than the load balancer's, so it closes idle connections the load balancer still intends to reuse",
+          "es": "El tiempo de espera de keepalive del servidor web de backend es menor que el del balanceador, por lo que cierra conexiones inactivas que el balanceador aún pretende reutilizar"
+        },
+        {
+          "en": "The health check interval is too long, so unhealthy VMs stay in rotation",
+          "es": "El intervalo de la verificación de estado es demasiado largo, por lo que las VMs no saludables siguen recibiendo tráfico"
+        },
+        {
+          "en": "Session affinity is disabled on the backend service",
+          "es": "La afinidad de sesión está desactivada en el backend service"
+        },
+        {
+          "en": "The forwarding rule is using the Standard Network Service Tier",
+          "es": "La regla de reenvío está usando el nivel de servicio de red Standard"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "That log detail means the backend closed a pooled connection while the Google Front End was reusing it. The documented fix is to set the backend's keepalive timeout greater than the load balancer's, so the load balancer is always the side that closes first. B would show up as errors concentrated on failing instances and the backends here are healthy. C only affects which backend a client lands on, not connection lifetime. D changes the network path and pricing, not connection reuse semantics.",
+        "es": "Ese detalle del registro indica que el backend cerró una conexión del pool mientras el Google Front End la estaba reutilizando. La solución documentada es configurar el keepalive del backend con un valor mayor que el del balanceador, para que el balanceador sea siempre quien cierre primero. B se manifestaría como errores concentrados en instancias con fallas, y aquí los backends están saludables. C solo afecta a qué backend llega un cliente, no la duración de las conexiones. D cambia la ruta de red y el precio, no la semántica de reutilización de conexiones."
+      },
+      "doc": "https://cloud.google.com/load-balancing/docs/https/troubleshooting-ext-https-lbs"
+    },
+    {
+      "id": "lb-045",
+      "curso": "badge-load-balancing",
+      "servicios": [
+        "load-balancing",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A security appliance running on VMs in us-east1 inspects raw TCP traffic and must see the original client source IP address in every packet. Clients are internet users in the same region. Which load balancer is the BEST fit?",
+        "es": "Un appliance de seguridad que corre en VMs de us-east1 inspecciona tráfico TCP puro y debe ver la dirección IP de origen original del cliente en cada paquete. Los clientes son usuarios de internet de la misma región. ¿Qué balanceador es el MÁS adecuado?"
+      },
+      "opciones": [
+        {
+          "en": "A regional external passthrough Network Load Balancer",
+          "es": "Un Network Load Balancer externo de tipo passthrough regional"
+        },
+        {
+          "en": "A global external Application Load Balancer with session affinity set to CLIENT_IP",
+          "es": "Un balanceador de aplicaciones externo global con afinidad de sesión CLIENT_IP"
+        },
+        {
+          "en": "A global external proxy Network Load Balancer with PROXY protocol enabled",
+          "es": "Un Network Load Balancer externo de tipo proxy global con el protocolo PROXY habilitado"
+        },
+        {
+          "en": "A regional internal passthrough Network Load Balancer",
+          "es": "Un Network Load Balancer interno de tipo passthrough regional"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "A passthrough load balancer does not terminate connections: packets arrive at the VM with the client's original source IP intact, which is exactly what a traffic-inspection appliance needs, and the external variant accepts internet clients in a region. B and C are proxy-based, so the backend sees the proxy's address; the real client IP only survives as an HTTP header or a PROXY protocol preamble, which raw TCP inspection cannot rely on, and CLIENT_IP affinity only influences backend selection. D preserves the source IP but only accepts clients inside the VPC, so internet users could not reach it.",
+        "es": "Un balanceador de tipo passthrough no termina las conexiones: los paquetes llegan a la VM con la IP de origen original del cliente intacta, que es justo lo que necesita un appliance de inspección, y la variante externa acepta clientes de internet en una región. B y C son basados en proxy, así que el backend ve la dirección del proxy; la IP real del cliente solo sobrevive como encabezado HTTP o como preámbulo del protocolo PROXY, algo en lo que la inspección de TCP puro no puede confiar, y la afinidad CLIENT_IP solo influye en la selección del backend. D conserva la IP de origen pero solo acepta clientes dentro de la VPC, por lo que los usuarios de internet no podrían alcanzarlo."
+      },
+      "doc": "https://cloud.google.com/load-balancing/docs/network"
+    },
+    {
+      "id": "lb-046",
+      "curso": "badge-load-balancing",
+      "servicios": [
+        "load-balancing",
+        "vpc"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Three microservices run on MIGs in us-central1 and are consumed only by other services inside the same VPC. Calls must be routed by URL path (/orders, /users, /billing) and the frontend must not be reachable from the internet. Which is the BEST option?",
+        "es": "Tres microservicios corren en MIGs de us-central1 y solo los consumen otros servicios dentro de la misma VPC. Las llamadas deben enrutarse por ruta de URL (/orders, /users, /billing) y el frontend no debe ser alcanzable desde internet. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        {
+          "en": "A regional internal Application Load Balancer with a URL map that has one path matcher per service",
+          "es": "Un balanceador de aplicaciones interno regional con un URL map que tenga un path matcher por servicio"
+        },
+        {
+          "en": "A regional internal passthrough Network Load Balancer with one forwarding rule per service port",
+          "es": "Un Network Load Balancer interno de tipo passthrough regional con una regla de reenvío por puerto de servicio"
+        },
+        {
+          "en": "A global external Application Load Balancer whose frontend IP is restricted with firewall rules",
+          "es": "Un balanceador de aplicaciones externo global cuyo frontend se restrinja con reglas de firewall"
+        },
+        {
+          "en": "Cloud DNS private zones with one A record per microservice pointing directly at the MIG VMs",
+          "es": "Zonas privadas de Cloud DNS con un registro A por microservicio que apunte directo a las VMs del MIG"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Only an Application Load Balancer understands HTTP and can route by path through a URL map, and the internal variant exposes a private frontend address reachable only from the VPC, so it meets both requirements at once. B works at Layer 4: it can separate services by port but cannot inspect a URL path. C exposes a public IP address; VPC firewall rules do not filter clients at the Google Front End, so this does not make the frontend private. D provides name resolution but no load balancing, no health checking and no path routing, and the records break every time the MIG replaces a VM.",
+        "es": "Solo un balanceador de aplicaciones entiende HTTP y puede enrutar por ruta mediante un URL map, y la variante interna expone una dirección de frontend privada alcanzable únicamente desde la VPC, con lo que cumple ambos requisitos a la vez. B opera en capa 4: puede separar servicios por puerto pero no puede inspeccionar una ruta de URL. C expone una IP pública; las reglas de firewall de VPC no filtran clientes en el Google Front End, así que eso no vuelve privado el frontend. D entrega resolución de nombres pero no balanceo, ni verificación de estado, ni enrutamiento por ruta, y los registros se rompen cada vez que el MIG reemplaza una VM."
+      },
+      "doc": "https://cloud.google.com/load-balancing/docs/l7-internal"
+    },
+    {
+      "id": "lb-047",
+      "curso": "badge-load-balancing",
+      "servicios": [
+        "load-balancing",
+        "cloud-storage"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Images and JavaScript served through a global external Application Load Balancer are slow for distant users and are saturating the backend VMs, even though the files change only on each release. Which TWO actions BEST address this?",
+        "es": "Las imágenes y el JavaScript que se sirven a través de un balanceador de aplicaciones externo global son lentos para usuarios lejanos y están saturando las VMs de backend, aunque los archivos solo cambian en cada versión. ¿Cuáles DOS acciones abordan MEJOR el problema?"
+      },
+      "opciones": [
+        {
+          "en": "Enable Cloud CDN on the backend service that serves the static content",
+          "es": "Habilitar Cloud CDN en el backend service que sirve el contenido estático"
+        },
+        {
+          "en": "Make the origin return cache-friendly headers, for example Cache-Control: public with a max-age, so responses become cacheable",
+          "es": "Hacer que el origen devuelva encabezados aptos para caché, por ejemplo Cache-Control: public con un max-age, para que las respuestas sean cacheables"
+        },
+        {
+          "en": "Increase the maximum number of replicas of the managed instance group",
+          "es": "Aumentar la cantidad máxima de réplicas del grupo de instancias administrado"
+        },
+        {
+          "en": "Switch the forwarding rule to the Standard Network Service Tier",
+          "es": "Cambiar la regla de reenvío al nivel de servicio de red Standard"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Cloud CDN caches responses at Google's edge locations, which both shortens the distance to the user and stops repeated requests from reaching the origin, but it can only cache responses the origin marks as cacheable, so public Cache-Control headers with a sensible max-age are part of the same fix. C adds capacity and cost without reducing latency for distant users, and it still serves every byte from the origin. D routes traffic over the public internet for most of the path, which typically increases latency instead of reducing it.",
+        "es": "Cloud CDN almacena en caché las respuestas en las ubicaciones perimetrales de Google, lo que acorta la distancia al usuario y evita que las solicitudes repetidas lleguen al origen, pero solo puede cachear respuestas que el origen marque como cacheables, así que los encabezados Cache-Control public con un max-age razonable son parte de la misma solución. C agrega capacidad y costo sin reducir la latencia de los usuarios lejanos, y sigue sirviendo cada byte desde el origen. D enruta el tráfico por internet público en la mayor parte del trayecto, lo que suele aumentar la latencia en vez de reducirla."
+      },
+      "doc": "https://cloud.google.com/cdn/docs/caching"
+    },
+    {
+      "id": "lb-048",
+      "curso": "badge-load-balancing",
+      "servicios": [
+        "load-balancing"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A messaging backend speaks a custom binary protocol over TCP with TLS. Clients are worldwide, the company wants a single anycast IP address, TLS offloaded at the edge, and traffic steered to the closest healthy region. Which load balancer should you deploy?",
+        "es": "Un backend de mensajería usa un protocolo binario propio sobre TCP con TLS. Los clientes están en todo el mundo, la empresa quiere una única IP anycast, descarga de TLS en el borde y que el tráfico se dirija a la región saludable más cercana. ¿Qué balanceador deberías implementar?"
+      },
+      "opciones": [
+        {
+          "en": "A global external proxy Network Load Balancer",
+          "es": "Un Network Load Balancer externo de tipo proxy global"
+        },
+        {
+          "en": "A global external Application Load Balancer",
+          "es": "Un balanceador de aplicaciones externo global"
+        },
+        {
+          "en": "A regional external passthrough Network Load Balancer in every region",
+          "es": "Un Network Load Balancer externo de tipo passthrough regional en cada región"
+        },
+        {
+          "en": "A regional internal Application Load Balancer exposed with Cloud VPN",
+          "es": "Un balanceador de aplicaciones interno regional expuesto mediante Cloud VPN"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The global external proxy Network Load Balancer terminates TCP (and TLS, in its SSL proxy form) at the Google edge and forwards the stream to the closest healthy backend using a single global anycast IP; it is the option for non-HTTP TCP traffic that still needs global reach and offload. B only handles HTTP/HTTPS and would not understand a custom binary protocol. C is regional and passthrough, so there is no global IP and no TLS offload. D is internal and regional, and Cloud VPN connects private networks rather than publishing a service to internet clients.",
+        "es": "El Network Load Balancer externo de tipo proxy global termina TCP (y TLS, en su variante de proxy SSL) en el borde de Google y reenvía el flujo al backend saludable más cercano usando una única IP anycast global; es la opción para tráfico TCP no HTTP que aun así necesita alcance global y descarga. B solo maneja HTTP/HTTPS y no entendería un protocolo binario propio. C es regional y passthrough, así que no hay IP global ni descarga de TLS. D es interno y regional, y Cloud VPN conecta redes privadas en lugar de publicar un servicio a clientes de internet."
+      },
+      "doc": "https://cloud.google.com/load-balancing/docs/proxy-network-load-balancer"
+    },
+    {
+      "id": "lb-049",
+      "curso": "badge-load-balancing",
+      "servicios": [
+        "load-balancing",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "You added a second managed instance group as a backend to an existing global backend service. Traffic sent to the new group returns 502 while the original group keeps working. Which TWO items should you verify FIRST?",
+        "es": "Agregaste un segundo grupo de instancias administrado como backend a un backend service global existente. El tráfico enviado al grupo nuevo devuelve 502 mientras el grupo original sigue funcionando. ¿Cuáles DOS elementos deberías verificar PRIMERO?"
+      },
+      "opciones": [
+        {
+          "en": "That the new instance group defines the same named port referenced by the backend service --port-name",
+          "es": "Que el grupo de instancias nuevo defina el mismo puerto con nombre que referencia --port-name del backend service"
+        },
+        {
+          "en": "That a firewall rule allows 130.211.0.0/22 and 35.191.0.0/16 to reach the new VMs on the serving port",
+          "es": "Que una regla de firewall permita que 130.211.0.0/22 y 35.191.0.0/16 alcancen las VMs nuevas en el puerto de servicio"
+        },
+        {
+          "en": "That the URL map lists the new instance group as an additional default service",
+          "es": "Que el URL map liste el grupo de instancias nuevo como servicio predeterminado adicional"
+        },
+        {
+          "en": "That the global forwarding rule uses a reserved static IP address",
+          "es": "Que la regla de reenvío global use una dirección IP estática reservada"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "A backend service resolves its --port-name against the named ports of each attached group, so a group missing that name has no destination port and its backends never receive traffic correctly. Health checks are evaluated per backend too, so if the new VMs carry different network tags or live in a network without the health check allow rule, they are marked UNHEALTHY and the load balancer returns 502. C is wrong because URL maps reference backend services, never instance groups, and the backend service already exists. D concerns frontend address stability and cannot explain why one group fails while the other succeeds.",
+        "es": "Un backend service resuelve su --port-name contra los puertos con nombre de cada grupo adjunto, de modo que un grupo sin ese nombre no tiene puerto de destino y sus backends nunca reciben tráfico correctamente. Las verificaciones de estado también se evalúan por backend: si las VMs nuevas tienen otras etiquetas de red o están en una red sin la regla que permite los health checks, quedan marcadas como UNHEALTHY y el balanceador devuelve 502. C es incorrecta porque los URL maps referencian backend services y nunca grupos de instancias, y el backend service ya existe. D tiene que ver con la estabilidad de la dirección del frontend y no explica que falle un grupo y el otro no."
+      },
+      "doc": "https://cloud.google.com/load-balancing/docs/backend-service"
+    },
+    {
+      "id": "lb-050",
+      "curso": "badge-load-balancing",
+      "servicios": [
+        "load-balancing",
+        "cloud-dns"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You attached a Google-managed SSL certificate for shop.example.com to a target HTTPS proxy. Hours later the certificate is still in PROVISIONING state and browsers show a certificate error. What is the MOST likely cause?",
+        "es": "Adjuntaste un certificado SSL administrado por Google para shop.example.com a un target HTTPS proxy. Horas después el certificado sigue en estado PROVISIONING y los navegadores muestran un error de certificado. ¿Cuál es la causa MÁS probable?"
+      },
+      "opciones": [
+        {
+          "en": "The DNS A record for shop.example.com does not resolve to the load balancer's frontend IP address",
+          "es": "El registro DNS de tipo A de shop.example.com no resuelve a la dirección IP del frontend del balanceador"
+        },
+        {
+          "en": "The backend service does not have Cloud CDN enabled",
+          "es": "El backend service no tiene Cloud CDN habilitado"
+        },
+        {
+          "en": "The health check is probing HTTP instead of HTTPS",
+          "es": "La verificación de estado sondea HTTP en lugar de HTTPS"
+        },
+        {
+          "en": "The forwarding rule is listening on port 443 instead of port 80",
+          "es": "La regla de reenvío escucha en el puerto 443 en lugar del puerto 80"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Google validates domain ownership for a managed certificate by reaching the load balancer over the address published in DNS; until the domain's A or AAAA record points at the frontend IP of a forwarding rule attached to the proxy that holds the certificate, validation cannot complete and the certificate stays in PROVISIONING. B is unrelated to certificate issuance. C affects backend health, and an unhealthy backend does not block certificate provisioning. D describes the correct configuration for HTTPS, not a fault.",
+        "es": "Google valida la propiedad del dominio de un certificado administrado alcanzando el balanceador por la dirección publicada en el DNS; hasta que el registro A o AAAA del dominio apunte a la IP del frontend de una regla de reenvío asociada al proxy que tiene el certificado, la validación no puede completarse y el certificado permanece en PROVISIONING. B no tiene relación con la emisión del certificado. C afecta la salud del backend, y un backend no saludable no bloquea el aprovisionamiento del certificado. D describe la configuración correcta para HTTPS, no una falla."
+      },
+      "doc": "https://cloud.google.com/load-balancing/docs/ssl-certificates/troubleshooting"
+    },
+    {
+      "id": "lb-051",
+      "curso": "badge-load-balancing",
+      "servicios": [
+        "network-service-tiers",
+        "load-balancing"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-network-tiers"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A startup serves an internal reporting web app to employees located only in Chile. The team wants to minimize network egress cost and accepts that traffic can travel over the public internet for most of the path. Which configuration is the BEST fit?",
+        "es": "Una startup sirve una app web de reportes a empleados ubicados solo en Chile. El equipo quiere minimizar el costo de salida de red y acepta que el tráfico viaje por internet público en la mayor parte del trayecto. ¿Qué configuración es la MÁS adecuada?"
+      },
+      "opciones": [
+        {
+          "en": "A regional external Application Load Balancer with a regional IP address in the Standard Network Service Tier",
+          "es": "Un balanceador de aplicaciones externo regional con una dirección IP regional en el nivel de servicio de red Standard"
+        },
+        {
+          "en": "A global external Application Load Balancer in the Premium Network Service Tier",
+          "es": "Un balanceador de aplicaciones externo global en el nivel de servicio de red Premium"
+        },
+        {
+          "en": "A global external Application Load Balancer in the Standard Network Service Tier with a global anycast IP address",
+          "es": "Un balanceador de aplicaciones externo global en el nivel de servicio de red Standard con una IP anycast global"
+        },
+        {
+          "en": "A regional internal passthrough Network Load Balancer published with a public DNS record",
+          "es": "Un Network Load Balancer interno de tipo passthrough regional publicado con un registro DNS público"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Standard Tier keeps traffic on the public internet until it reaches the region, which costs less, and it only supports regional external load balancers with regional IP addresses, which is enough when all users sit in one region. B is the higher-performance and higher-cost choice and is unnecessary for a single-country audience. C is contradictory: global anycast addresses and global external Application Load Balancers require Premium Tier. D cannot serve internet clients at all, because an internal load balancer only answers requests originated inside the VPC; a public DNS record pointing at a private IP does not change that.",
+        "es": "El nivel Standard mantiene el tráfico en internet público hasta llegar a la región, lo que cuesta menos, y solo admite balanceadores externos regionales con direcciones IP regionales, suficiente cuando todos los usuarios están en una región. B es la opción de mayor rendimiento y mayor costo, innecesaria para una audiencia de un solo país. C es contradictoria: las direcciones anycast globales y los balanceadores de aplicaciones externos globales requieren el nivel Premium. D no puede atender clientes de internet, porque un balanceador interno solo responde solicitudes originadas dentro de la VPC; un registro DNS público que apunte a una IP privada no cambia eso."
+      },
+      "doc": "https://cloud.google.com/network-tiers/docs/overview"
+    },
+    {
+      "id": "lb-052",
+      "curso": "badge-load-balancing",
+      "servicios": [
+        "compute-engine",
+        "load-balancing"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-migs-autoscaling"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your external Application Load Balancer sends traffic to a single zonal managed instance group in us-central1-a. A zone outage took the site down completely. With the least ongoing operational effort, how should you redesign the backends?",
+        "es": "Tu balanceador de aplicaciones externo envía tráfico a un único grupo de instancias administrado zonal en us-central1-a. Una interrupción de zona dejó el sitio completamente caído. Con el menor esfuerzo operativo continuo, ¿cómo deberías rediseñar los backends?"
+      },
+      "opciones": [
+        {
+          "en": "Replace the zonal MIG with a regional managed instance group that spreads instances across the zones of us-central1",
+          "es": "Reemplazar el MIG zonal por un grupo de instancias administrado regional que distribuya las instancias entre las zonas de us-central1"
+        },
+        {
+          "en": "Create additional zonal MIGs by hand in two more zones and attach each one as a separate backend",
+          "es": "Crear a mano MIGs zonales adicionales en dos zonas más y adjuntar cada uno como backend independiente"
+        },
+        {
+          "en": "Take periodic snapshots of the VM disks and restore them into another zone when an outage happens",
+          "es": "Tomar instantáneas periódicas de los discos de las VMs y restaurarlas en otra zona cuando ocurra una interrupción"
+        },
+        {
+          "en": "Increase the autoscaler maximum number of replicas in the existing zonal MIG",
+          "es": "Aumentar la cantidad máxima de réplicas del autoescalador en el MIG zonal existente"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "A regional MIG created from the same instance template distributes and rebalances VMs across several zones automatically, so a zone failure removes only part of the capacity and the load balancer keeps routing to healthy backends in the other zones, with no manual work. B achieves similar redundancy but you now own three groups, three autoscalers and three backend attachments to keep in sync. C is a manual recovery procedure with long downtime and data loss between snapshots. D adds more VMs inside the same failed zone, so the outage still takes everything down.",
+        "es": "Un MIG regional creado desde la misma plantilla distribuye y rebalancea las VMs entre varias zonas automáticamente, de modo que una falla de zona elimina solo parte de la capacidad y el balanceador sigue enrutando a backends saludables en las otras zonas, sin trabajo manual. B logra una redundancia parecida, pero ahora administras tres grupos, tres autoescaladores y tres adjunciones de backend que mantener sincronizados. C es un procedimiento de recuperación manual con mucho tiempo fuera de servicio y pérdida de datos entre instantáneas. D agrega más VMs dentro de la misma zona caída, así que la interrupción sigue derribando todo."
+      },
+      "doc": "https://cloud.google.com/compute/docs/instance-groups/regional-migs"
     }
   ]
 }
