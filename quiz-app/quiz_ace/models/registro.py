@@ -6,7 +6,9 @@ from sqlmodel import Field, SQLModel
 
 
 def ahora() -> datetime:
-    return datetime.now(UTC)
+    """UTC sin zona horaria: SQLite no la conserva, y mezclar fechas con y sin
+    tzinfo hace fallar cualquier resta contra un registro leído de la base."""
+    return datetime.now(UTC).replace(tzinfo=None)
 
 
 class Intento(SQLModel, table=True):
