@@ -2631,6 +2631,894 @@
         "es": "Database Center existe justamente para responder preguntas de postura a nivel de flota: ya agrega las bases de datos administradas de todos los proyectos y motores y clasifica brechas como falta de CMEK, falta de copias de seguridad y exposición de red demasiado permisiva, así que el trabajo se reduce a filtrar en vez de construir. B y C acaban produciendo los datos correctos, pero exigen código propio, conocimiento del esquema de cada motor y mantenimiento continuo, lo que contradice la restricción de esfuerzo mínimo. D usa la herramienta equivocada: Cloud Monitoring reporta métricas de tiempo de ejecución como CPU y conexiones, no la postura de configuración como si CMEK está habilitada."
       },
       "doc": "https://cloud.google.com/database-center/docs/overview"
+    },
+    {
+      "id": "ref3-061",
+      "curso": null,
+      "servicios": [
+        "observability-tools",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.4-diagnostics"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A batch service is autoscaling to its maximum instance count and driving up cost, yet request latency is fine and traces show no slow downstream calls. You suspect an inefficient code path is burning CPU. What is the BEST tool to confirm it?",
+        "es": "Un servicio por lotes está autoescalando hasta su número máximo de instancias y elevando el costo, pero la latencia de las solicitudes es correcta y los seguimientos no muestran llamadas lentas aguas abajo. Sospechas que una ruta de código ineficiente está consumiendo CPU. ¿Cuál es la MEJOR herramienta para confirmarlo?"
+      },
+      "opciones": [
+        {
+          "en": "Cloud Profiler, to see continuous CPU profiles attributed to functions and lines of the running production code",
+          "es": "Cloud Profiler, para ver perfiles continuos de CPU atribuidos a funciones y líneas del código de producción en ejecución"
+        },
+        {
+          "en": "Cloud Trace, to compare span durations across the service's endpoints",
+          "es": "Cloud Trace, para comparar la duración de los intervalos entre los extremos del servicio"
+        },
+        {
+          "en": "Cloud Monitoring CPU utilization charts per instance",
+          "es": "Gráficos de uso de CPU por instancia en Cloud Monitoring"
+        },
+        {
+          "en": "Query Insights, to check whether the database is the bottleneck",
+          "es": "Query Insights, para verificar si la base de datos es el cuello de botella"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Cloud Profiler is the only one of these that attributes CPU consumption to specific functions in production with negligible overhead, which is exactly what turns 'CPU is high' into 'this function is the hot spot'. B has already been ruled out by the scenario: latency is fine and no downstream call is slow, so tracing adds nothing. C confirms the symptom you already know without pointing at any code. D is aimed at database query cost, but the evidence points at CPU inside the service, not at the database.",
+        "es": "Cloud Profiler es el único de estos que atribuye el consumo de CPU a funciones concretas en producción con sobrecarga insignificante, que es justamente lo que convierte 'la CPU está alta' en 'esta función es el punto caliente'. B ya quedó descartada por el escenario: la latencia es correcta y ninguna llamada aguas abajo es lenta, así que el rastreo no aporta nada. C confirma el síntoma que ya conoces sin señalar ningún código. D apunta al costo de las consultas de base de datos, pero la evidencia señala la CPU dentro del servicio, no la base de datos."
+      },
+      "doc": "https://cloud.google.com/profiler/docs/about-profiler"
+    },
+    {
+      "id": "ref3-062",
+      "curso": null,
+      "servicios": [
+        "cloud-dns",
+        "vpc"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-dns-nat"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A shared-services VPC hosts a private zone svc.internal used by many teams. Workloads in a separate application VPC, connected by VPC Network Peering, must resolve those names without duplicating any records. What is the BEST solution?",
+        "es": "Una VPC de servicios compartidos aloja una zona privada svc.internal que usan muchos equipos. Las cargas de trabajo de una VPC de aplicaciones separada, conectada mediante VPC Network Peering, deben resolver esos nombres sin duplicar ningún registro. ¿Cuál es la MEJOR solución?"
+      },
+      "opciones": [
+        {
+          "en": "Create a DNS peering zone in the application VPC for svc.internal that targets the shared-services VPC as the DNS producer network",
+          "es": "Crear una zona de intercambio de DNS en la VPC de aplicaciones para svc.internal que apunte a la VPC de servicios compartidos como red productora de DNS"
+        },
+        {
+          "en": "Authorize the application VPC on the existing private zone and also create an identical private zone in the application VPC as a fallback",
+          "es": "Autorizar la VPC de aplicaciones en la zona privada existente y además crear una zona privada idéntica en la VPC de aplicaciones como respaldo"
+        },
+        {
+          "en": "Create a forwarding zone in the application VPC whose targets are the internal IP addresses of the shared-services VMs",
+          "es": "Crear una zona de reenvío en la VPC de aplicaciones cuyos destinos sean las direcciones IP internas de las VMs de servicios compartidos"
+        },
+        {
+          "en": "Export custom routes over the VPC Network Peering so DNS queries are routed to the shared-services VPC",
+          "es": "Exportar rutas personalizadas sobre el VPC Network Peering para que las consultas DNS se enruten a la VPC de servicios compartidos"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "DNS peering is the purpose-built mechanism for one VPC to resolve names in another VPC's Cloud DNS namespace: the consumer network forwards queries for the zone to the producer network, records live in exactly one place, and nothing is duplicated. B keeps a redundant copy that will drift out of sync, which the requirement explicitly forbids. C misuses forwarding zones, whose targets must be DNS servers, not arbitrary workload VMs. D is a routing action; VPC Network Peering does not propagate Cloud DNS private zones, which is precisely why DNS peering exists.",
+        "es": "El intercambio de DNS es el mecanismo diseñado para que una VPC resuelva nombres del espacio de nombres de Cloud DNS de otra VPC: la red consumidora reenvía las consultas de la zona a la red productora, los registros viven en un único lugar y no se duplica nada. B mantiene una copia redundante que se desincronizará, algo que el requisito prohíbe explícitamente. C usa mal las zonas de reenvío, cuyos destinos deben ser servidores DNS y no VMs de carga de trabajo cualesquiera. D es una acción de enrutamiento; el VPC Network Peering no propaga las zonas privadas de Cloud DNS, y por eso mismo existe el intercambio de DNS."
+      },
+      "doc": "https://cloud.google.com/dns/docs/zones/zones-overview"
+    },
+    {
+      "id": "ref3-063",
+      "curso": null,
+      "servicios": [
+        "bigtable"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-db-backup-restore"
+      ],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Before a risky bulk write, an operator wants a safety copy of a Bigtable table. Which TWO statements about Bigtable backups are correct?",
+        "es": "Antes de una escritura masiva riesgosa, un operador quiere una copia de seguridad de una tabla de Bigtable. ¿Cuáles DOS afirmaciones sobre las copias de seguridad de Bigtable son correctas?"
+      },
+      "opciones": [
+        {
+          "en": "A backup is taken per table and stored by Bigtable in a cluster; it is not written into a bucket you manage",
+          "es": "La copia de seguridad se toma por tabla y Bigtable la almacena en un clúster; no se escribe en un bucket que tú administres"
+        },
+        {
+          "en": "Restoring a backup creates a new table rather than overwriting the source table in place",
+          "es": "Restaurar una copia de seguridad crea una tabla nueva en lugar de sobrescribir la tabla de origen en el lugar"
+        },
+        {
+          "en": "Backups replace the need for replication, because a backup fails over automatically if the cluster becomes unavailable",
+          "es": "Las copias de seguridad reemplazan la necesidad de replicación, porque una copia conmuta automáticamente si el clúster deja de estar disponible"
+        },
+        {
+          "en": "A Bigtable backup can only be created by exporting the table to Cloud Storage with a Dataflow template",
+          "es": "Una copia de seguridad de Bigtable solo puede crearse exportando la tabla a Cloud Storage con una plantilla de Dataflow"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Bigtable backups are a managed, table-scoped feature: the service stores the backup against a cluster and a restore materializes a new table, so the original data is never clobbered and you can validate before switching over. C confuses backup with availability: replication across clusters provides failover, while a backup is a point-in-time copy with no automatic failover semantics. D describes the older export path, which still exists for portable files but is not the only way to protect a table.",
+        "es": "Las copias de seguridad de Bigtable son una función administrada con alcance de tabla: el servicio almacena la copia asociada a un clúster y la restauración materializa una tabla nueva, de modo que los datos originales nunca se sobrescriben y puedes validar antes de conmutar. C confunde copia de seguridad con disponibilidad: la replicación entre clústeres provee conmutación por error, mientras que una copia es un instantáneo en el tiempo sin semántica de conmutación automática. D describe la ruta de exportación anterior, que sigue existiendo para obtener archivos portables pero no es la única forma de proteger una tabla."
+      },
+      "doc": "https://cloud.google.com/bigtable/docs/backups"
+    },
+    {
+      "id": "ref3-064",
+      "curso": null,
+      "servicios": [
+        "cloud-workstations",
+        "iam"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-cloud-workstations"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "External contractors must contribute to a private repository, but security forbids source code from ever being stored on their personal laptops, and each contractor must be productive on day one with the team's exact toolchain. What is the BEST solution?",
+        "es": "Contratistas externos deben aportar a un repositorio privado, pero seguridad prohíbe que el código fuente se almacene en sus laptops personales, y cada contratista debe ser productivo desde el primer día con exactamente el mismo herramental del equipo. ¿Cuál es la MEJOR solución?"
+      },
+      "opciones": [
+        {
+          "en": "Give each contractor a Cloud Workstations workstation built from the team's custom image, reachable through the browser with IAM-controlled access and private networking",
+          "es": "Dar a cada contratista una estación de trabajo de Cloud Workstations creada a partir de la imagen personalizada del equipo, accesible desde el navegador con acceso controlado por IAM y red privada"
+        },
+        {
+          "en": "Create a Compute Engine VM per contractor with an external IP and share SSH keys so they can develop remotely",
+          "es": "Crear una VM de Compute Engine por contratista con IP externa y compartir claves SSH para que desarrollen de forma remota"
+        },
+        {
+          "en": "Publish a setup script and a container image so contractors can reproduce the environment locally on their laptops",
+          "es": "Publicar un script de configuración y una imagen de contenedor para que los contratistas reproduzcan el entorno localmente en sus laptops"
+        },
+        {
+          "en": "Give each contractor a Workbench notebook instance to use as their development environment",
+          "es": "Dar a cada contratista una instancia de notebook de Workbench para usarla como entorno de desarrollo"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Cloud Workstations was designed for exactly this pairing of constraints: the environment is a managed container defined once by the team, code and credentials stay inside Google Cloud, access is granted and revoked through IAM, and the workstation can run on a private network without public IPs. B meets neither requirement cleanly: it puts a public IP on a dev box, relies on shared SSH keys, and leaves every environment to be configured by hand. C directly violates the rule that code must not land on personal laptops. D is the wrong product shape: Workbench is a notebook environment for data science, not a general IDE workspace for repository work.",
+        "es": "Cloud Workstations fue diseñado exactamente para esta combinación de restricciones: el entorno es un contenedor administrado definido una sola vez por el equipo, el código y las credenciales permanecen dentro de Google Cloud, el acceso se otorga y revoca con IAM, y la estación de trabajo puede ejecutarse en una red privada sin IPs públicas. B no cumple bien ninguno de los requisitos: pone una IP pública en una máquina de desarrollo, depende de claves SSH compartidas y deja cada entorno para configurarse a mano. C viola directamente la regla de que el código no debe llegar a las laptops personales. D usa el producto con la forma equivocada: Workbench es un entorno de notebooks para ciencia de datos, no un espacio de trabajo IDE general para trabajar sobre un repositorio."
+      },
+      "doc": "https://cloud.google.com/workstations/docs/overview"
+    },
+    {
+      "id": "ref3-065",
+      "curso": null,
+      "servicios": [
+        "cmek-kms",
+        "cloud-storage"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-cmek"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "After an automatic rotation creates key version 5 of a CMEK, an auditor asks whether the 40 TB of objects already stored in the bucket are now protected by the new version. What is the accurate answer?",
+        "es": "Después de que una rotación automática crea la versión 5 de una clave CMEK, un auditor pregunta si los 40 TB de objetos ya almacenados en el bucket quedan ahora protegidos por la nueva versión. ¿Cuál es la respuesta correcta?"
+      },
+      "opciones": [
+        {
+          "en": "No. Existing objects stay encrypted with the key version used when they were written; only new writes use version 5, and older versions must remain enabled for those objects to be readable",
+          "es": "No. Los objetos existentes siguen encriptados con la versión de clave usada al escribirlos; solo las escrituras nuevas usan la versión 5, y las versiones anteriores deben permanecer habilitadas para que esos objetos sean legibles"
+        },
+        {
+          "en": "Yes. Cloud KMS re-encrypts all data protected by the key whenever a rotation occurs",
+          "es": "Sí. Cloud KMS vuelve a encriptar todos los datos protegidos por la clave cada vez que ocurre una rotación"
+        },
+        {
+          "en": "Yes, but only after the objects are read at least once, because decryption triggers a lazy re-encryption",
+          "es": "Sí, pero solo después de que los objetos se lean al menos una vez, porque la desencriptación dispara una reencriptación diferida"
+        },
+        {
+          "en": "No, and the old objects become unreadable as soon as a newer primary version exists",
+          "es": "No, y los objetos antiguos quedan ilegibles en cuanto existe una versión primaria más reciente"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Rotation changes only which version is primary for new encryption operations. Data already at rest keeps a reference to the version that wrapped it, so those versions must stay enabled; to actually move old data onto version 5 you must rewrite the objects. B is a common misconception: rotation is a metadata-level operation and never rewrites petabytes of customer data. C invents a lazy re-encryption behavior that does not exist. D is wrong because previous key versions remain usable for decryption unless you disable or destroy them, which is exactly what makes rotation safe.",
+        "es": "La rotación solo cambia qué versión es la primaria para las nuevas operaciones de encriptación. Los datos ya en reposo conservan una referencia a la versión que los envolvió, por lo que esas versiones deben permanecer habilitadas; para mover realmente los datos antiguos a la versión 5 hay que reescribir los objetos. B es un concepto erróneo frecuente: la rotación es una operación a nivel de metadatos y nunca reescribe petabytes de datos del cliente. C inventa un comportamiento de reencriptación diferida que no existe. D es incorrecta porque las versiones anteriores siguen siendo utilizables para desencriptar salvo que las deshabilites o destruyas, que es justamente lo que hace segura la rotación."
+      },
+      "doc": "https://cloud.google.com/kms/docs/rotate-key"
+    },
+    {
+      "id": "ref3-066",
+      "curso": null,
+      "servicios": [
+        "billing",
+        "cloud-storage"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-storage-costs"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Before signing off on a migration, management wants a documented monthly cost estimate for 500 TB in a dual-region bucket, including class transitions and expected egress to on-premises. Nothing has been deployed yet. What is the BEST way to produce it?",
+        "es": "Antes de aprobar una migración, la dirección quiere una estimación mensual documentada del costo de 500 TB en un bucket birregional, incluidas las transiciones de clase y la salida esperada hacia on-premises. Todavía no se ha implementado nada. ¿Cuál es la MEJOR forma de producirla?"
+      },
+      "opciones": [
+        {
+          "en": "Model the scenario in the Google Cloud Pricing Calculator, entering volume, location type, storage class mix, operations and egress, and share the saved estimate",
+          "es": "Modelar el escenario en la calculadora de precios de Google Cloud, ingresando volumen, tipo de ubicación, mezcla de clases de almacenamiento, operaciones y salida, y compartir la estimación guardada"
+        },
+        {
+          "en": "Deploy a small pilot bucket, watch the billing reports for a month, and extrapolate linearly to 500 TB",
+          "es": "Implementar un bucket piloto pequeño, observar los reportes de facturación durante un mes y extrapolar linealmente a 500 TB"
+        },
+        {
+          "en": "Create a billing budget with an alert threshold at the expected amount so overspend is caught",
+          "es": "Crear un presupuesto de facturación con un umbral de alerta en el monto esperado para detectar sobregastos"
+        },
+        {
+          "en": "Export billing data to BigQuery and query historical costs of a similar project",
+          "es": "Exportar los datos de facturación a BigQuery y consultar los costos históricos de un proyecto similar"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The Pricing Calculator is the tool built for pre-deployment estimates: it prices each dimension that actually drives Cloud Storage cost, dual-region storage, class mix, Class A/B operations and network egress, and produces a shareable estimate for sign-off. B costs money and time and extrapolates badly, because retrieval fees, operation counts and egress do not scale linearly with a pilot. C is a spend guardrail that presumes you already have a number, so it cannot produce the estimate. D reports what has already been spent elsewhere and cannot model a dual-region configuration that does not exist yet.",
+        "es": "La calculadora de precios es la herramienta pensada para estimaciones previas a la implementación: cotiza cada dimensión que realmente impulsa el costo de Cloud Storage (almacenamiento birregional, mezcla de clases, operaciones de Clase A/B y salida de red) y genera una estimación compartible para la aprobación. B cuesta dinero y tiempo y extrapola mal, porque las tarifas de recuperación, el conteo de operaciones y la salida no escalan linealmente desde un piloto. C es un control de gasto que supone que ya tienes una cifra, así que no puede producir la estimación. D reporta lo ya gastado en otro lugar y no puede modelar una configuración birregional que todavía no existe."
+      },
+      "doc": "https://cloud.google.com/products/calculator"
+    },
+    {
+      "id": "ref3-067",
+      "curso": null,
+      "servicios": [
+        "cloud-nat",
+        "cloud-logging"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-dns-nat",
+        "3.4-audit-flow-logs"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A partner reports abusive traffic arriving from one of your Cloud NAT external IP addresses at a specific time. You must identify which VM originated it. What is the BEST way?",
+        "es": "Un socio reporta tráfico abusivo proveniente de una de tus direcciones IP externas de Cloud NAT en un momento específico. Debes identificar qué VM lo originó. ¿Cuál es la MEJOR forma?"
+      },
+      "opciones": [
+        {
+          "en": "Enable Cloud NAT logging and query the NAT translation entries in Cloud Logging for the NAT IP, source port and timestamp reported by the partner",
+          "es": "Habilitar el registro de Cloud NAT y consultar en Cloud Logging las entradas de traducción de NAT por la IP de NAT, el puerto de origen y la marca de tiempo que reportó el socio"
+        },
+        {
+          "en": "Enable VPC Flow Logs and search for the partner's destination IP address",
+          "es": "Habilitar VPC Flow Logs y buscar la dirección IP de destino del socio"
+        },
+        {
+          "en": "Review Cloud Audit Logs for admin activity on the NAT gateway around that time",
+          "es": "Revisar los registros de auditoría de Cloud para actividad administrativa en el gateway de NAT alrededor de ese momento"
+        },
+        {
+          "en": "Assign a unique external IP address to every VM so that future incidents are attributable",
+          "es": "Asignar una dirección IP externa única a cada VM para que los incidentes futuros sean atribuibles"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Only NAT logs record the translation itself, mapping the external NAT IP and source port back to the originating VM and its internal address, which is the exact join the partner's evidence requires. B is a reasonable second source and can show which internal IP talked to that destination, but flow logs record the pre-translation tuple and do not contain the NAT source port, making correlation ambiguous when many VMs share one NAT IP. C only records administrative changes to the gateway, not data-plane traffic. D abandons the NAT design, enlarges the public attack surface and still does not explain the incident that already happened.",
+        "es": "Solo los registros de NAT guardan la traducción en sí, vinculando la IP externa de NAT y el puerto de origen con la VM que originó el tráfico y su dirección interna, que es exactamente la correlación que exige la evidencia del socio. B es una segunda fuente razonable y puede mostrar qué IP interna habló con ese destino, pero los registros de flujo guardan la tupla previa a la traducción y no contienen el puerto de origen de NAT, lo que vuelve ambigua la correlación cuando muchas VMs comparten una IP de NAT. C solo registra cambios administrativos del gateway, no el tráfico del plano de datos. D abandona el diseño de NAT, agranda la superficie de ataque pública y aun así no explica el incidente que ya ocurrió."
+      },
+      "doc": "https://cloud.google.com/nat/docs/monitoring"
+    },
+    {
+      "id": "ref3-068",
+      "curso": null,
+      "servicios": [
+        "spanner"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-db-backup-restore"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A bad deployment ran a DELETE without a WHERE clause on a Spanner database 40 minutes ago. The database has a version retention period of 7 days and a nightly backup from 9 hours ago. You must lose as little data as possible. What is the BEST recovery action?",
+        "es": "Una implementación defectuosa ejecutó un DELETE sin cláusula WHERE en una base de datos de Spanner hace 40 minutos. La base de datos tiene un período de retención de versiones de 7 días y una copia de seguridad nocturna de hace 9 horas. Debes perder la menor cantidad de datos posible. ¿Cuál es la MEJOR acción de recuperación?"
+      },
+      "opciones": [
+        {
+          "en": "Use point-in-time recovery to read the data as it was just before the DELETE and restore only the affected rows, since the timestamp falls inside the 7-day version retention period",
+          "es": "Usar la recuperación a un momento determinado para leer los datos tal como estaban justo antes del DELETE y restaurar solo las filas afectadas, ya que la marca de tiempo cae dentro del período de retención de versiones de 7 días"
+        },
+        {
+          "en": "Restore the nightly backup into a new database and switch the application to it",
+          "es": "Restaurar la copia de seguridad nocturna en una base de datos nueva y apuntar la aplicación a ella"
+        },
+        {
+          "en": "Increase the version retention period to 30 days and then re-run the query as of the earlier timestamp",
+          "es": "Aumentar el período de retención de versiones a 30 días y luego volver a ejecutar la consulta a la marca de tiempo anterior"
+        },
+        {
+          "en": "Create a new backup immediately and restore it over the existing database",
+          "es": "Crear una copia de seguridad nueva de inmediato y restaurarla sobre la base de datos existente"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Spanner keeps older versions of data for the configured version retention period, so a stale read at a timestamp just before the incident returns the deleted rows and lets you recover with roughly zero data loss and no cutover. B is a valid disaster procedure but discards 9 hours of legitimate writes, far worse than the 40 minutes at stake. C does not help retroactively: raising the retention period does not resurrect versions and the needed timestamp is already covered by the existing 7 days. D backs up the already-damaged state, and restoring it would simply reinstate the deletion.",
+        "es": "Spanner conserva versiones anteriores de los datos durante el período de retención de versiones configurado, así que una lectura obsoleta a una marca de tiempo justo anterior al incidente devuelve las filas borradas y permite recuperar con pérdida de datos prácticamente nula y sin conmutación. B es un procedimiento válido de desastre, pero descarta 9 horas de escrituras legítimas, mucho peor que los 40 minutos en juego. C no ayuda de forma retroactiva: subir el período de retención no resucita versiones y la marca de tiempo necesaria ya está cubierta por los 7 días existentes. D respalda el estado ya dañado, y restaurarlo simplemente reinstauraría el borrado."
+      },
+      "doc": "https://cloud.google.com/spanner/docs/pitr"
+    },
+    {
+      "id": "ref3-069",
+      "curso": null,
+      "servicios": [
+        "vpc",
+        "cloud-nat"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-subnets-ips"
+      ],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "A payment partner will only accept traffic from a fixed, declared set of source IP addresses. Your callers are a managed instance group of private VMs that scales between 3 and 40 instances. Which TWO steps produce a stable egress identity?",
+        "es": "Un socio de pagos solo aceptará tráfico desde un conjunto fijo y declarado de direcciones IP de origen. Quienes llaman son un grupo de instancias administrado de VMs privadas que escala entre 3 y 40 instancias. ¿Cuáles DOS pasos producen una identidad de salida estable?"
+      },
+      "opciones": [
+        {
+          "en": "Reserve static regional external IP addresses and assign them explicitly to the Cloud NAT gateway instead of letting it auto-allocate addresses",
+          "es": "Reservar direcciones IP externas regionales estáticas y asignarlas explícitamente al gateway de Cloud NAT en lugar de dejar que las asigne automáticamente"
+        },
+        {
+          "en": "Route the instance group's egress through that Cloud NAT gateway and give the partner the reserved NAT addresses to allowlist",
+          "es": "Enrutar la salida del grupo de instancias a través de ese gateway de Cloud NAT y entregar al socio las direcciones de NAT reservadas para su lista de permitidos"
+        },
+        {
+          "en": "Assign an ephemeral external IP address to each VM in the instance group and send the partner the current list weekly",
+          "es": "Asignar una dirección IP externa efímera a cada VM del grupo de instancias y enviar al socio la lista vigente cada semana"
+        },
+        {
+          "en": "Reserve a static internal IP address for each VM in the group, since the partner sees the internal address after NAT",
+          "es": "Reservar una dirección IP interna estática para cada VM del grupo, ya que el socio ve la dirección interna después de la NAT"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Manual NAT IP allocation is what makes the egress identity predictable: you reserve static external addresses, pin them to the NAT gateway, and every VM behind it, however many the autoscaler creates, appears to the partner as one of those declared addresses. C is the anti-pattern the requirement rules out, since ephemeral addresses change on stop/start and autoscaling constantly adds and removes VMs, so no allowlist can keep up. D is technically wrong: the partner sees the post-NAT public source address, and internal RFC 1918 addresses are never visible on the internet.",
+        "es": "La asignación manual de IPs de NAT es lo que vuelve predecible la identidad de salida: reservas direcciones externas estáticas, las fijas al gateway de NAT y toda VM detrás de él, sin importar cuántas cree el autoescalador, aparece ante el socio como una de esas direcciones declaradas. C es el antipatrón que el requisito descarta, ya que las direcciones efímeras cambian al detener/iniciar y el autoescalado agrega y quita VMs constantemente, de modo que ninguna lista de permitidos puede mantenerse al día. D es técnicamente incorrecta: el socio ve la dirección pública de origen posterior a la NAT, y las direcciones internas RFC 1918 nunca son visibles en internet."
+      },
+      "doc": "https://cloud.google.com/nat/docs/ports-and-addresses"
+    },
+    {
+      "id": "ref3-070",
+      "curso": null,
+      "servicios": [
+        "cloud-sql",
+        "observability-tools"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.4-diagnostics",
+        "3.2-data-queries"
+      ],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "A Cloud SQL for MySQL instance shows rising CPU every morning and the application feels slow, although no schema or code changed. Which TWO Google Cloud capabilities should you use to find and fix the offending queries?",
+        "es": "Una instancia de Cloud SQL para MySQL muestra un aumento de CPU cada mañana y la aplicación se siente lenta, aunque no cambiaron el esquema ni el código. ¿Cuáles DOS capacidades de Google Cloud deberías usar para encontrar y corregir las consultas problemáticas?"
+      },
+      "opciones": [
+        {
+          "en": "Query Insights, to rank queries by database load over time and drill into the specific statements and end users driving it",
+          "es": "Query Insights, para clasificar las consultas por carga de base de datos a lo largo del tiempo y profundizar en las sentencias y usuarios finales que la provocan"
+        },
+        {
+          "en": "The index advisor, to obtain concrete index recommendations for the expensive queries it detects",
+          "es": "El index advisor, para obtener recomendaciones concretas de índices para las consultas costosas que detecta"
+        },
+        {
+          "en": "Cloud Profiler, to profile the managed MySQL engine's internal functions",
+          "es": "Cloud Profiler, para perfilar las funciones internas del motor MySQL administrado"
+        },
+        {
+          "en": "VPC Flow Logs, to correlate query slowness with network throughput to the instance",
+          "es": "VPC Flow Logs, para correlacionar la lentitud de las consultas con el rendimiento de red hacia la instancia"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Query Insights identifies which statements dominate database load and correlates them with time and end users, and the index advisor converts that diagnosis into an actionable fix by recommending indexes for the detected patterns; together they cover find and fix. C is not possible: Cloud Profiler instruments your own application code, and you have no access to the internals of a managed database engine. D looks at packet-level flows, which cannot distinguish an unindexed query from a fast one and would not explain a CPU increase with unchanged code.",
+        "es": "Query Insights identifica qué sentencias dominan la carga de la base de datos y las correlaciona con el tiempo y los usuarios finales, y el index advisor convierte ese diagnóstico en una corrección accionable al recomendar índices para los patrones detectados; juntos cubren encontrar y corregir. C no es posible: Cloud Profiler instrumenta el código de tu propia aplicación y no tienes acceso a las entrañas de un motor de base de datos administrado. D observa flujos a nivel de paquetes, que no pueden distinguir una consulta sin índice de una rápida ni explicarían un aumento de CPU con el código sin cambios."
+      },
+      "doc": "https://cloud.google.com/sql/docs/mysql/using-query-insights"
+    },
+    {
+      "id": "ref3-071",
+      "curso": null,
+      "servicios": [
+        "database-center",
+        "cloud-sql"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-database-center",
+        "3.2-db-backup-restore"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Database Center reports that eleven production instances across several projects have no automated backups. Leadership wants the gap closed and wants to be told automatically if it reappears. What is the BEST plan?",
+        "es": "Database Center reporta que once instancias de producción de varios proyectos no tienen copias de seguridad automatizadas. La dirección quiere cerrar la brecha y quiere que se le avise automáticamente si vuelve a aparecer. ¿Cuál es el MEJOR plan?"
+      },
+      "opciones": [
+        {
+          "en": "Remediate each flagged instance by enabling automated backups and point-in-time recovery, then keep reviewing the Database Center findings on a schedule and enforce backup settings for new instances through organization policy and IaC",
+          "es": "Corregir cada instancia marcada habilitando copias de seguridad automatizadas y recuperación a un momento determinado, luego seguir revisando los hallazgos de Database Center de forma periódica y aplicar la configuración de copias a las instancias nuevas mediante política de organización e IaC"
+        },
+        {
+          "en": "Take a single on-demand backup of each of the eleven instances and mark the finding as resolved",
+          "es": "Tomar una única copia de seguridad bajo demanda de cada una de las once instancias y marcar el hallazgo como resuelto"
+        },
+        {
+          "en": "Export the eleven databases to Cloud Storage nightly with a scheduled Dataflow job",
+          "es": "Exportar las once bases de datos a Cloud Storage cada noche con un trabajo programado de Dataflow"
+        },
+        {
+          "en": "Create a Cloud Monitoring uptime check for each instance so an alert fires if one becomes unavailable",
+          "es": "Crear una verificación de tiempo de actividad de Cloud Monitoring para cada instancia para que se dispare una alerta si alguna deja de estar disponible"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The finding is a configuration gap, so the fix is to turn on the managed backup feature on each instance and then prevent regression: Database Center keeps re-evaluating the fleet, while organization policy and infrastructure as code stop non-compliant instances from being created in the first place. B closes the symptom for one point in time and leaves the instances unprotected tomorrow. C rebuilds a backup system by hand, costs more, loses managed point-in-time recovery, and still leaves the Database Center finding open. D monitors availability, which is a different concern entirely and provides no data protection.",
+        "es": "El hallazgo es una brecha de configuración, así que la corrección es activar la función administrada de copias de seguridad en cada instancia y luego evitar la regresión: Database Center sigue reevaluando la flota, mientras que la política de organización y la infraestructura como código impiden que se creen instancias no conformes. B cierra el síntoma para un instante y deja las instancias desprotegidas mañana. C reconstruye a mano un sistema de copias, cuesta más, pierde la recuperación administrada a un momento determinado y aun así deja abierto el hallazgo de Database Center. D supervisa la disponibilidad, que es una preocupación distinta y no ofrece ninguna protección de datos."
+      },
+      "doc": "https://cloud.google.com/database-center/docs/overview"
+    },
+    {
+      "id": "ref3-072",
+      "curso": null,
+      "servicios": [
+        "cmek-kms",
+        "service-accounts"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-cmek"
+      ],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "You are designing a CMEK deployment where keys live in a dedicated security project and the encrypted resources live in application projects. Which TWO statements are correct?",
+        "es": "Estás diseñando una implementación de CMEK donde las claves viven en un proyecto de seguridad dedicado y los recursos encriptados viven en proyectos de aplicación. ¿Cuáles DOS afirmaciones son correctas?"
+      },
+      "opciones": [
+        {
+          "en": "Each application project's per-service service agent must be granted roles/cloudkms.cryptoKeyEncrypterDecrypter on the key in the security project",
+          "es": "Al agente de servicio de cada servicio de cada proyecto de aplicación se le debe otorgar roles/cloudkms.cryptoKeyEncrypterDecrypter sobre la clave del proyecto de seguridad"
+        },
+        {
+          "en": "Revoking that role or disabling the key makes the protected resources inaccessible until access is restored, which is the intended kill switch of CMEK",
+          "es": "Revocar ese rol o deshabilitar la clave vuelve inaccesibles los recursos protegidos hasta que se restablezca el acceso, que es el interruptor de emergencia previsto de CMEK"
+        },
+        {
+          "en": "Keys in a separate project cannot be used by resources in other projects; CMEK requires the key and the resource to be in the same project",
+          "es": "Las claves de un proyecto separado no pueden usarlas recursos de otros proyectos; CMEK exige que la clave y el recurso estén en el mismo proyecto"
+        },
+        {
+          "en": "Granting the human operator roles/cloudkms.admin on the key is sufficient for the application projects to encrypt and decrypt data",
+          "es": "Otorgar al operador humano el rol roles/cloudkms.admin sobre la clave basta para que los proyectos de aplicación encripten y desencripten datos"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Cross-project CMEK is the recommended separation-of-duties pattern: the key stays under the security team's control and each consuming service acts through its own Google-managed service agent, which is the identity that needs encrypt/decrypt on the key. Because every read and write goes through that key, removing the grant or disabling the key immediately cuts access to the data, which is exactly the control CMEK is bought for. C is false; only the location must be compatible, not the project. D confuses identities: an admin role held by a person governs key management, not the runtime cryptographic operations performed by the service agents.",
+        "es": "La CMEK entre proyectos es el patrón recomendado de separación de funciones: la clave queda bajo control del equipo de seguridad y cada servicio consumidor actúa mediante su propio agente de servicio administrado por Google, que es la identidad que necesita encriptar/desencriptar con la clave. Como cada lectura y escritura pasa por esa clave, quitar el otorgamiento o deshabilitar la clave corta de inmediato el acceso a los datos, que es exactamente el control por el que se adopta CMEK. C es falsa; solo la ubicación debe ser compatible, no el proyecto. D confunde identidades: un rol de administrador en manos de una persona rige la gestión de claves, no las operaciones criptográficas en tiempo de ejecución que realizan los agentes de servicio."
+      },
+      "doc": "https://cloud.google.com/kms/docs/cmek"
+    },
+    {
+      "id": "ref3-073",
+      "curso": null,
+      "servicios": [
+        "cloud-dns",
+        "vpc"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-dns-nat"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "api.example.com must resolve to a public load balancer IP for internet clients, but VMs inside your VPC must reach the same name over a private internal address. What is the BEST Cloud DNS design?",
+        "es": "api.example.com debe resolverse a la IP de un balanceador de cargas público para los clientes de internet, pero las VMs dentro de tu VPC deben alcanzar el mismo nombre por una dirección interna privada. ¿Cuál es el MEJOR diseño de Cloud DNS?"
+      },
+      "opciones": [
+        {
+          "en": "Keep the public zone for example.com with the public record, and create a private zone for example.com authorized on the VPC containing an api record with the internal IP; VM queries match the private zone first",
+          "es": "Mantener la zona pública de example.com con el registro público y crear una zona privada de example.com autorizada en la VPC que contenga un registro api con la IP interna; las consultas de las VMs coinciden primero con la zona privada"
+        },
+        {
+          "en": "Add both the public and the internal IP address as two rrdatas of a single A record in the public zone",
+          "es": "Agregar la IP pública y la interna como dos rrdatas de un mismo registro A en la zona pública"
+        },
+        {
+          "en": "Create a forwarding zone for example.com in the VPC that points at the public authoritative name servers",
+          "es": "Crear una zona de reenvío para example.com en la VPC que apunte a los servidores de nombres autoritativos públicos"
+        },
+        {
+          "en": "Edit /etc/hosts on each VM to map api.example.com to the internal IP address",
+          "es": "Editar /etc/hosts en cada VM para asignar api.example.com a la dirección IP interna"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "This is split-horizon DNS, and Cloud DNS implements it by letting a private zone authorized on a VPC shadow the public namespace for queries coming from that network: internal clients get the internal answer while the internet keeps resolving the public record. B breaks clients in both directions, since resolvers would hand out an unreachable private address to internet users roughly half the time. C sends VM queries to the public authoritative servers and therefore returns the public IP, which is the opposite of the requirement. D is unmanageable at scale, drifts silently and bypasses DNS entirely.",
+        "es": "Esto es DNS de horizonte dividido, y Cloud DNS lo implementa dejando que una zona privada autorizada en una VPC oculte el espacio de nombres público para las consultas que vienen de esa red: los clientes internos obtienen la respuesta interna mientras internet sigue resolviendo el registro público. B rompe a los clientes en ambos sentidos, ya que los resolutores entregarían una dirección privada inalcanzable a los usuarios de internet aproximadamente la mitad de las veces. C envía las consultas de las VMs a los servidores autoritativos públicos y por lo tanto devuelve la IP pública, lo contrario del requisito. D es inmanejable a escala, se desincroniza en silencio y omite por completo el DNS."
+      },
+      "doc": "https://cloud.google.com/dns/docs/zones/zones-overview"
+    },
+    {
+      "id": "ref3-074",
+      "curso": null,
+      "servicios": [
+        "dataflow",
+        "pubsub"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-job-status"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You must stop a streaming Dataflow job that reads from Pub/Sub in order to deploy a new pipeline version. In-flight data must be fully processed and written to the sink before the job ends. What is the BEST action?",
+        "es": "Debes detener un trabajo de streaming de Dataflow que lee de Pub/Sub para implementar una nueva versión de la canalización. Los datos en tránsito deben procesarse por completo y escribirse en el receptor antes de que el trabajo termine. ¿Cuál es la MEJOR acción?"
+      },
+      "opciones": [
+        {
+          "en": "Drain the job, so it stops pulling new input, finishes processing buffered data, closes windows and then reaches the drained state",
+          "es": "Drenar el trabajo, de modo que deje de tomar entradas nuevas, termine de procesar los datos almacenados en búfer, cierre las ventanas y luego alcance el estado drenado"
+        },
+        {
+          "en": "Cancel the job, which is the fastest way to release worker resources",
+          "es": "Cancelar el trabajo, que es la forma más rápida de liberar los recursos de los trabajadores"
+        },
+        {
+          "en": "Delete the Pub/Sub subscription so the job runs out of input and terminates by itself",
+          "es": "Borrar la suscripción de Pub/Sub para que el trabajo se quede sin entradas y termine por sí solo"
+        },
+        {
+          "en": "Scale the job's worker pool down to zero and leave it running",
+          "es": "Reducir el grupo de trabajadores del trabajo a cero y dejarlo en ejecución"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Draining is the graceful stop designed for exactly this case: Dataflow stops consuming new input, advances the watermark so open windows are triggered, flushes buffered records to the sink and only then finishes. B is the abrupt stop, which discards in-flight data and any buffered state, violating the requirement. C leaves unacknowledged messages behind, causes data loss and leaves the job in an error path rather than a clean shutdown. D does not stop the job, and a streaming job with no workers simply accumulates backlog while still incurring charges.",
+        "es": "El drenaje es la detención ordenada diseñada justo para este caso: Dataflow deja de consumir entradas nuevas, avanza la marca de agua para que se disparen las ventanas abiertas, vacía los registros en búfer hacia el receptor y solo entonces finaliza. B es la detención abrupta, que descarta los datos en tránsito y el estado en búfer, incumpliendo el requisito. C deja atrás mensajes sin confirmar, provoca pérdida de datos y lleva al trabajo a una ruta de error en lugar de a un apagado limpio. D no detiene el trabajo, y un trabajo de streaming sin trabajadores simplemente acumula backlog mientras sigue generando cargos."
+      },
+      "doc": "https://cloud.google.com/dataflow/docs/guides/stopping-a-pipeline"
+    },
+    {
+      "id": "ref3-075",
+      "curso": null,
+      "servicios": [
+        "notebooks",
+        "bigquery"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-ai-workloads",
+        "3.2-data-queries"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A financial analyst must explore a 60 TB BigQuery table, chart the aggregates and share the analysis with colleagues. She does not administer VMs and the team wants no infrastructure to maintain. What is the BEST choice?",
+        "es": "Una analista financiera debe explorar una tabla de BigQuery de 60 TB, graficar los agregados y compartir el análisis con colegas. No administra VMs y el equipo no quiere infraestructura que mantener. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        {
+          "en": "A BigQuery notebook in BigQuery Studio, where SQL runs in BigQuery and Python analysis runs on a managed Colab Enterprise runtime, saved and shared as a project asset",
+          "es": "Un notebook de BigQuery en BigQuery Studio, donde el SQL se ejecuta en BigQuery y el análisis en Python corre en un entorno administrado de Colab Enterprise, guardado y compartido como un recurso del proyecto"
+        },
+        {
+          "en": "A Workbench instance sized to hold the 60 TB table in memory for fast iteration",
+          "es": "Una instancia de Workbench dimensionada para mantener la tabla de 60 TB en memoria y iterar rápido"
+        },
+        {
+          "en": "A Cloud Workstations workstation with a Python IDE and the BigQuery client library",
+          "es": "Una estación de trabajo de Cloud Workstations con un IDE de Python y la biblioteca cliente de BigQuery"
+        },
+        {
+          "en": "A Compute Engine VM running JupyterLab, with the table exported to local CSV files first",
+          "es": "Una VM de Compute Engine con JupyterLab, exportando primero la tabla a archivos CSV locales"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "BigQuery notebooks keep the heavy aggregation inside BigQuery, so only small result sets reach the notebook, and the runtime is managed, so the analyst maintains no infrastructure and can share the notebook alongside her saved queries. B is both unnecessary and infeasible: you never load a 60 TB table into a notebook's memory, and a Workbench instance is a VM the team would have to manage. C is a developer workspace and adds an environment to maintain for what is an analytics task. D is the worst option, exporting terabytes to local files discards BigQuery's compute engine, costs egress and time, and produces stale data.",
+        "es": "Los notebooks de BigQuery mantienen la agregación pesada dentro de BigQuery, de modo que al notebook solo llegan conjuntos de resultados pequeños, y el entorno de ejecución es administrado, así que la analista no mantiene infraestructura y puede compartir el notebook junto a sus consultas guardadas. B es innecesaria e inviable: nunca se carga una tabla de 60 TB en la memoria de un notebook, y una instancia de Workbench es una VM que el equipo tendría que administrar. C es un espacio de trabajo de desarrollo y agrega un entorno que mantener para lo que es una tarea de analítica. D es la peor opción: exportar terabytes a archivos locales descarta el motor de procesamiento de BigQuery, cuesta salida de red y tiempo, y produce datos desactualizados."
+      },
+      "doc": "https://cloud.google.com/bigquery/docs/notebooks-introduction"
+    },
+    {
+      "id": "ref3-076",
+      "curso": null,
+      "servicios": [
+        "bigquery",
+        "billing"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-storage-costs"
+      ],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "A BigQuery dataset holds 400 TB of highly compressible event data that is rarely modified after ingestion, and its storage line item has become the largest part of the bill. Which TWO actions reduce storage cost without deleting data?",
+        "es": "Un conjunto de datos de BigQuery contiene 400 TB de datos de eventos muy comprimibles que rara vez se modifican tras la ingesta, y su rubro de almacenamiento se ha vuelto la mayor parte de la factura. ¿Cuáles DOS acciones reducen el costo de almacenamiento sin borrar datos?"
+      },
+      "opciones": [
+        {
+          "en": "Switch the dataset to the physical bytes storage billing model, which bills the compressed size and typically wins for highly compressible data",
+          "es": "Cambiar el conjunto de datos al modelo de facturación de almacenamiento por bytes físicos, que factura el tamaño comprimido y suele convenir con datos muy comprimibles"
+        },
+        {
+          "en": "Stop modifying old partitions so they qualify for the long-term storage price after 90 days without changes",
+          "es": "Dejar de modificar las particiones antiguas para que califiquen al precio de almacenamiento a largo plazo tras 90 días sin cambios"
+        },
+        {
+          "en": "Buy additional slot commitments, since reserved compute capacity also discounts stored bytes",
+          "es": "Comprar compromisos adicionales de slots, ya que la capacidad de procesamiento reservada también descuenta los bytes almacenados"
+        },
+        {
+          "en": "Add clustering to the tables, which reduces the number of bytes stored on disk",
+          "es": "Agregar agrupamiento en clústeres a las tablas, lo que reduce la cantidad de bytes almacenados en disco"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "BigQuery lets a dataset be billed on logical (uncompressed) or physical (compressed) bytes, and for highly compressible event data the physical model is usually substantially cheaper. Independently, any table partition that goes 90 consecutive days without modification automatically drops to the long-term storage rate, so avoiding rewrites of historical partitions preserves that discount. C confuses the two axes of BigQuery pricing: slot commitments discount compute, never storage. D is wrong about the mechanism, clustering reorganizes data to reduce bytes scanned by queries, which lowers compute cost, not the stored footprint.",
+        "es": "BigQuery permite facturar un conjunto de datos por bytes lógicos (sin comprimir) o físicos (comprimidos), y con datos de eventos muy comprimibles el modelo físico suele ser bastante más barato. Por separado, cualquier partición de tabla que pase 90 días consecutivos sin modificarse baja automáticamente a la tarifa de almacenamiento a largo plazo, así que evitar reescrituras de las particiones históricas preserva ese descuento. C confunde los dos ejes del precio de BigQuery: los compromisos de slots descuentan procesamiento, nunca almacenamiento. D se equivoca en el mecanismo: el agrupamiento en clústeres reorganiza los datos para reducir los bytes analizados por las consultas, lo que baja el costo de procesamiento y no la huella almacenada."
+      },
+      "doc": "https://cloud.google.com/bigquery/docs/storage-overview"
+    },
+    {
+      "id": "ref3-077",
+      "curso": null,
+      "servicios": [
+        "cloud-nat",
+        "vpc"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-dns-nat"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your Cloud NAT gateway currently auto-allocates external IP addresses. Auditors now require that the exact set of egress addresses be documented and unchanged for the next year. What is the BEST change?",
+        "es": "Tu gateway de Cloud NAT asigna actualmente direcciones IP externas de forma automática. Los auditores ahora exigen que el conjunto exacto de direcciones de salida esté documentado y no cambie durante el próximo año. ¿Cuál es el MEJOR cambio?"
+      },
+      "opciones": [
+        {
+          "en": "Switch the gateway to manual NAT IP allocation using reserved static external addresses, sizing the pool for peak concurrent connections",
+          "es": "Cambiar el gateway a asignación manual de IPs de NAT usando direcciones externas estáticas reservadas, dimensionando el grupo para el pico de conexiones concurrentes"
+        },
+        {
+          "en": "Keep automatic allocation but document the addresses currently in use and refresh the document monthly",
+          "es": "Mantener la asignación automática pero documentar las direcciones actualmente en uso y actualizar el documento cada mes"
+        },
+        {
+          "en": "Replace Cloud NAT with per-VM external IP addresses that you reserve as static",
+          "es": "Reemplazar Cloud NAT con direcciones IP externas por VM que reserves como estáticas"
+        },
+        {
+          "en": "Enable Cloud NAT logging so the addresses in use are always discoverable from logs",
+          "es": "Habilitar el registro de Cloud NAT para que las direcciones en uso siempre puedan descubrirse en los registros"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Automatic allocation lets Cloud NAT add and remove external addresses as demand changes, so the set is by definition not stable; manual allocation with reserved static addresses pins the exact list, which is what an auditable, unchanging egress identity requires. The trade-off to plan for is capacity: with manual allocation you must provision enough addresses and ports for peak concurrency, because the gateway will not add addresses on its own. B documents a moving target and will be wrong the next time the gateway scales. C throws away the NAT design, multiplies public attack surface and is far harder to document than a small NAT pool. D makes the addresses observable but does nothing to make them stable.",
+        "es": "La asignación automática permite que Cloud NAT agregue y quite direcciones externas según cambia la demanda, así que el conjunto por definición no es estable; la asignación manual con direcciones estáticas reservadas fija la lista exacta, que es lo que exige una identidad de salida auditable e invariable. La contrapartida a planificar es la capacidad: con asignación manual debes aprovisionar suficientes direcciones y puertos para el pico de concurrencia, porque el gateway no agregará direcciones por su cuenta. B documenta un objetivo móvil y quedará desactualizado la próxima vez que el gateway escale. C descarta el diseño de NAT, multiplica la superficie de ataque pública y es mucho más difícil de documentar que un grupo pequeño de NAT. D hace observables las direcciones pero no las vuelve estables."
+      },
+      "doc": "https://cloud.google.com/nat/docs/ports-and-addresses"
+    },
+    {
+      "id": "ref3-078",
+      "curso": null,
+      "servicios": [
+        "vpc",
+        "hybrid-connectivity"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-custom-routes"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your on-premises network is connected by HA VPN, and its data center team adds or renumbers subnets several times per quarter. Today a colleague maintains custom static routes in the VPC for each on-premises prefix, and outages follow every change. What is the BEST fix?",
+        "es": "Tu red on-premises está conectada por HA VPN y el equipo del centro de datos agrega o renumera subredes varias veces por trimestre. Hoy un colega mantiene rutas estáticas personalizadas en la VPC para cada prefijo on-premises, y cada cambio provoca interrupciones. ¿Cuál es la MEJOR corrección?"
+      },
+      "opciones": [
+        {
+          "en": "Use a Cloud Router with BGP on the HA VPN tunnels so on-premises prefixes are learned as dynamic routes and withdrawn automatically when they change, and remove the redundant static routes",
+          "es": "Usar un Cloud Router con BGP en los túneles de HA VPN para que los prefijos on-premises se aprendan como rutas dinámicas y se retiren automáticamente cuando cambian, y eliminar las rutas estáticas redundantes"
+        },
+        {
+          "en": "Keep the static routes but give them priority 0 so they always take precedence over anything else",
+          "es": "Mantener las rutas estáticas pero darles prioridad 0 para que siempre tengan precedencia sobre cualquier otra cosa"
+        },
+        {
+          "en": "Replace the per-prefix static routes with one static route for 10.0.0.0/8 pointing at the VPN tunnel",
+          "es": "Reemplazar las rutas estáticas por prefijo con una única ruta estática para 10.0.0.0/8 que apunte al túnel VPN"
+        },
+        {
+          "en": "Create a VPC Network Peering with the on-premises network so routes are exchanged automatically",
+          "es": "Crear un VPC Network Peering con la red on-premises para que las rutas se intercambien automáticamente"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Dynamic routing exists precisely for networks whose prefixes change: BGP on a Cloud Router learns and withdraws on-premises routes as the peer advertises them, so no human edits routes and a renumbering does not blackhole traffic. Note also that HA VPN requires a Cloud Router, so the BGP session is already part of the supported design. B makes the problem worse by ensuring stale static routes override correct dynamic ones. C reduces the number of routes but still blackholes traffic for any prefix inside 10.0.0.0/8 that has moved or does not exist on premises. D is not possible: VPC Network Peering connects two Google Cloud VPC networks, never an on-premises network.",
+        "es": "El enrutamiento dinámico existe justamente para redes cuyos prefijos cambian: BGP en un Cloud Router aprende y retira las rutas on-premises según las anuncia el par, así que ningún humano edita rutas y una renumeración no descarta el tráfico. Además, HA VPN requiere un Cloud Router, por lo que la sesión BGP ya forma parte del diseño admitido. B empeora el problema al garantizar que rutas estáticas obsoletas anulen a las dinámicas correctas. C reduce la cantidad de rutas pero sigue descartando el tráfico de cualquier prefijo dentro de 10.0.0.0/8 que se haya movido o no exista on-premises. D no es posible: el VPC Network Peering conecta dos redes VPC de Google Cloud, nunca una red on-premises."
+      },
+      "doc": "https://cloud.google.com/network-connectivity/docs/router/concepts/overview"
+    },
+    {
+      "id": "ref3-079",
+      "curso": null,
+      "servicios": [
+        "vpc",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-custom-routes",
+        "3.3-firewall-mgmt"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Only VMs tagged 'scanner' must send their internet-bound traffic through a proxy VM; every other VM in the VPC must continue to use the default internet route. What is the BEST configuration?",
+        "es": "Solo las VMs etiquetadas con 'scanner' deben enviar su tráfico hacia internet a través de una VM proxy; el resto de las VMs de la VPC debe seguir usando la ruta predeterminada a internet. ¿Cuál es la MEJOR configuración?"
+      },
+      "opciones": [
+        {
+          "en": "Create a custom static route for 0.0.0.0/0 with the proxy VM as next hop, restricted with --tags=scanner and given a priority lower than the default internet route",
+          "es": "Crear una ruta estática personalizada para 0.0.0.0/0 con la VM proxy como siguiente salto, restringida con --tags=scanner y con una prioridad menor que la ruta predeterminada a internet"
+        },
+        {
+          "en": "Create a custom static route for 0.0.0.0/0 with the proxy VM as next hop and delete the default internet route from the VPC",
+          "es": "Crear una ruta estática personalizada para 0.0.0.0/0 con la VM proxy como siguiente salto y borrar la ruta predeterminada a internet de la VPC"
+        },
+        {
+          "en": "Create an egress firewall rule with target tag 'scanner' that redirects traffic to the proxy VM",
+          "es": "Crear una regla de firewall de salida con la etiqueta de destino 'scanner' que redirija el tráfico a la VM proxy"
+        },
+        {
+          "en": "Move the tagged VMs to a separate subnet and configure the proxy VM as that subnet's gateway address",
+          "es": "Mover las VMs etiquetadas a una subred separada y configurar la VM proxy como la dirección de gateway de esa subred"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "VPC static routes can be scoped to specific network tags, so a tagged 0.0.0.0/0 route applies only to the scanner VMs while every untagged VM continues to match the default internet route; giving the custom route a lower priority number makes it win for the VMs it applies to. B achieves the redirection but breaks internet access for the entire VPC, which the requirement forbids. C is impossible, firewall rules only allow or deny, they never steer traffic to a next hop. D does not work as described: a subnet's gateway address is reserved and assigned by Google Cloud and cannot be pointed at your own VM.",
+        "es": "Las rutas estáticas de VPC pueden acotarse a etiquetas de red específicas, así que una ruta 0.0.0.0/0 etiquetada aplica solo a las VMs scanner mientras que toda VM sin la etiqueta sigue coincidiendo con la ruta predeterminada a internet; darle a la ruta personalizada un número de prioridad menor hace que gane para las VMs a las que aplica. B logra la redirección pero rompe el acceso a internet de toda la VPC, algo que el requisito prohíbe. C es imposible: las reglas de firewall solo permiten o deniegan, nunca dirigen el tráfico a un siguiente salto. D no funciona como se describe: la dirección de gateway de una subred está reservada y la asigna Google Cloud, y no puede apuntarse a una VM propia."
+      },
+      "doc": "https://cloud.google.com/vpc/docs/using-routes"
+    },
+    {
+      "id": "ref3-080",
+      "curso": null,
+      "servicios": [
+        "observability-tools",
+        "gke"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.4-diagnostics"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "An on-call engineer must choose the right diagnostic tool for three separate reports: (1) requests are slow but only when a specific downstream service is called, (2) one service's memory grows until Pods are evicted, (3) a Cloud SQL instance saturates CPU during reporting hours. Which mapping is correct?",
+        "es": "Un ingeniero de guardia debe elegir la herramienta de diagnóstico adecuada para tres reportes distintos: (1) las solicitudes son lentas pero solo cuando se llama a un servicio específico aguas abajo, (2) la memoria de un servicio crece hasta que los Pods son expulsados, (3) una instancia de Cloud SQL satura la CPU durante el horario de reportes. ¿Qué correspondencia es correcta?"
+      },
+      "opciones": [
+        {
+          "en": "1 to Cloud Trace, 2 to Cloud Profiler, 3 to Query Insights and the index advisor",
+          "es": "1 con Cloud Trace, 2 con Cloud Profiler, 3 con Query Insights y el index advisor"
+        },
+        {
+          "en": "1 to Cloud Profiler, 2 to Cloud Trace, 3 to Cloud Logging",
+          "es": "1 con Cloud Profiler, 2 con Cloud Trace, 3 con Cloud Logging"
+        },
+        {
+          "en": "1 to Query Insights, 2 to Cloud Trace, 3 to Cloud Profiler",
+          "es": "1 con Query Insights, 2 con Cloud Trace, 3 con Cloud Profiler"
+        },
+        {
+          "en": "1 to Cloud Monitoring alerts, 2 to VPC Flow Logs, 3 to Cloud Trace",
+          "es": "1 con alertas de Cloud Monitoring, 2 con VPC Flow Logs, 3 con Cloud Trace"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Each tool answers a different question. Latency attributed to a particular hop in a call chain is a tracing problem, so Cloud Trace and its spans isolate the slow downstream call. Memory that grows until eviction is a resource-consumption problem inside one process, which Cloud Profiler diagnoses through heap profiles attributed to source code. CPU saturation on a managed database is a query problem: Query Insights ranks the statements causing the load and the index advisor recommends the indexes that fix them. B and C shuffle the tools onto the wrong symptoms, and D substitutes alerting and network-flow records, neither of which explains latency, memory growth or query cost.",
+        "es": "Cada herramienta responde una pregunta distinta. La latencia atribuida a un salto concreto de una cadena de llamadas es un problema de rastreo, así que Cloud Trace y sus intervalos aíslan la llamada lenta aguas abajo. La memoria que crece hasta la expulsión es un problema de consumo de recursos dentro de un proceso, que Cloud Profiler diagnostica mediante perfiles de heap atribuidos al código fuente. La saturación de CPU en una base de datos administrada es un problema de consultas: Query Insights clasifica las sentencias que generan la carga y el index advisor recomienda los índices que las corrigen. B y C mezclan las herramientas con los síntomas equivocados, y D sustituye por alertas y registros de flujo de red, que no explican ni la latencia ni el crecimiento de memoria ni el costo de las consultas."
+      },
+      "doc": "https://cloud.google.com/trace/docs/overview"
     }
   ]
 }

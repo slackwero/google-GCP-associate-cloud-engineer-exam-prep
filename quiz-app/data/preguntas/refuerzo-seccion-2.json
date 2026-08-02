@@ -2627,6 +2627,888 @@
         "es": "Las TPUs son los aceleradores propios de Google para cargas matriciales a gran escala, cuentan con soporte nativo en JAX y TensorFlow, y los slices de TPU aportan la interconexión dedicada de alto ancho de banda que hace eficiente el entrenamiento sincrónico entre miles de chips, que es donde aparece su ventaja de precio-rendimiento. B es la respuesta correcta cuando el modelo depende de kernels CUDA personalizados o de bibliotecas sin soporte en TPU, pero aquí el framework es JAX y la escala favorece a las TPUs. C no tiene acelerador alguno y sería órdenes de magnitud más lenta. D suma interrupciones y coordinación manual a un entrenamiento sincrónico fuertemente acoplado, el peor encaje posible."
       },
       "doc": "https://cloud.google.com/tpu/docs/intro-to-tpu"
+    },
+    {
+      "id": "ref2-061",
+      "curso": null,
+      "servicios": [
+        "cloud-ngfw",
+        "service-accounts"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-ngfw-tags-sa"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Frontend and backend VMs share the same subnet and are recreated constantly by autoscaling. You must allow only frontend VMs to reach the backend port, and prevent developers from granting themselves that access by editing their own VMs. What is the BEST approach?",
+        "es": "Las VMs de frontend y backend comparten la misma subred y el autoescalado las recrea constantemente. Debes permitir que solo las VMs de frontend alcancen el puerto del backend e impedir que los desarrolladores se otorguen ese acceso editando sus propias VMs. ¿Cuál es el MEJOR enfoque?"
+      },
+      "opciones": [
+        {
+          "en": "Write the rule with source and target service accounts, and grant the ability to run VMs as those service accounts only to the platform team",
+          "es": "Escribir la regla con cuentas de servicio de origen y destino, y otorgar la capacidad de ejecutar VMs con esas cuentas de servicio solo al equipo de plataforma"
+        },
+        {
+          "en": "Write the rule with network tags such as 'frontend' and 'backend' and ask developers not to change them",
+          "es": "Escribir la regla con network tags como 'frontend' y 'backend' y pedir a los desarrolladores que no los cambien"
+        },
+        {
+          "en": "Write the rule with the source IP ranges of the current frontend instances",
+          "es": "Escribir la regla con los rangos de IP de origen de las instancias de frontend actuales"
+        },
+        {
+          "en": "Split the workloads into two subnets and filter by subnet CIDR",
+          "es": "Separar las cargas de trabajo en dos subredes y filtrar por el CIDR de la subred"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Service-account-based rules bind the policy to workload identity: membership changes only if a VM is created running as that service account, and doing so requires the iam.serviceAccountUser permission, which you can restrict to the platform team. The rule also survives autoscaling because new instances inherit the identity. B is enforceable only by convention: any principal who can edit an instance can add the 'frontend' tag and grant themselves access. C breaks immediately, since autoscaled instances get new ephemeral IPs. D is a valid segmentation pattern in general, but the scenario states the workloads share a subnet, and re-architecting the network is heavier than expressing the rule by identity.",
+        "es": "Las reglas basadas en cuentas de servicio atan la política a la identidad de la carga de trabajo: la membresía cambia solo si se crea una VM ejecutándose con esa cuenta de servicio, y para eso se necesita el permiso iam.serviceAccountUser, que puedes restringir al equipo de plataforma. Además, la regla sobrevive al autoescalado porque las instancias nuevas heredan la identidad. B solo se aplica por convención: cualquier principal que pueda editar una instancia puede agregar el tag 'frontend' y otorgarse acceso. C se rompe de inmediato, ya que las instancias autoescaladas reciben IPs efímeras nuevas. D es un patrón de segmentación válido en general, pero el escenario indica que las cargas comparten subred y rediseñar la red es más pesado que expresar la regla por identidad."
+      },
+      "doc": "https://cloud.google.com/firewall/docs/firewalls#serviceaccounts"
+    },
+    {
+      "id": "ref2-062",
+      "curso": null,
+      "servicios": [
+        "cloud-ngfw",
+        "resource-manager"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-ngfw-tags-sa"
+      ],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "A security team must apply a single, consistently governed segmentation model across several VPC networks in different projects of the same organization. Which TWO capabilities of secure Tags make this possible, in contrast with network tags?",
+        "es": "Un equipo de seguridad debe aplicar un modelo de segmentación único y gobernado de forma consistente en varias redes de VPC de distintos proyectos de la misma organización. ¿Cuáles DOS capacidades de los secure Tags lo hacen posible, a diferencia de los network tags?"
+      },
+      "opciones": [
+        {
+          "en": "They are Resource Manager resources defined at the organization or project level and can be used across projects and VPC networks",
+          "es": "Son recursos de Resource Manager definidos a nivel de organización o proyecto y se pueden usar entre proyectos y redes de VPC"
+        },
+        {
+          "en": "Who may attach a given tag value to a resource is controlled with IAM permissions",
+          "es": "Quién puede adjuntar un valor de tag a un recurso se controla con permisos de IAM"
+        },
+        {
+          "en": "They encrypt the traffic between the tagged instances",
+          "es": "Cifran el tráfico entre las instancias etiquetadas"
+        },
+        {
+          "en": "They automatically create the corresponding firewall rules when attached",
+          "es": "Crean automáticamente las reglas de firewall correspondientes al adjuntarse"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Secure Tags are key/value resources managed by Resource Manager, so the same taxonomy is defined once in the hierarchy and referenced from firewall policies across projects and networks, and attaching a value requires an IAM role such as Tag User, which makes segmentation governable and auditable. Network tags, by contrast, are free-form strings local to a VPC network that anyone with instance edit permission can set. C is false: tags never encrypt anything; encryption in transit is a separate concern. D is false: tags only label resources, and rules must still be written and associated explicitly.",
+        "es": "Los secure Tags son recursos de clave/valor administrados por Resource Manager, así que la misma taxonomía se define una vez en la jerarquía y se referencia desde las políticas de firewall en distintos proyectos y redes, y adjuntar un valor requiere un rol de IAM como Tag User, lo que vuelve la segmentación gobernable y auditable. Los network tags, en cambio, son cadenas libres locales a una red de VPC que cualquiera con permiso de edición de instancias puede fijar. C es falsa: los tags nunca cifran nada; el cifrado en tránsito es un tema aparte. D es falsa: los tags solo etiquetan recursos, y las reglas se deben escribir y asociar explícitamente."
+      },
+      "doc": "https://cloud.google.com/firewall/docs/tags-firewalls-overview"
+    },
+    {
+      "id": "ref2-063",
+      "curso": null,
+      "servicios": [
+        "persistent-disk",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-storage"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A scale-out analytics cluster stores 200 TB per node group and its access pattern is large sequential reads and writes. The team wants the lowest cost per TB while sustaining high MB/s. Which volume type is the BEST fit?",
+        "es": "Un clúster analítico de escalado horizontal almacena 200 TB por grupo de nodos y su patrón de acceso son lecturas y escrituras secuenciales grandes. El equipo quiere el menor costo por TB manteniendo un MB/s alto. ¿Qué tipo de volumen es el MEJOR encaje?"
+      },
+      "opciones": [
+        {
+          "en": "Hyperdisk Throughput",
+          "es": "Hyperdisk Throughput"
+        },
+        {
+          "en": "Hyperdisk Extreme",
+          "es": "Hyperdisk Extreme"
+        },
+        {
+          "en": "Hyperdisk ML",
+          "es": "Hyperdisk ML"
+        },
+        {
+          "en": "Local SSD",
+          "es": "SSD local"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Hyperdisk Throughput is the cost-efficient tier for throughput-oriented, scale-out workloads such as Hadoop, Kafka or log processing: you provision MB/s independently and pay far less per TB than IOPS-optimized tiers. B is optimized for very high random IOPS and is the most expensive option, so it wastes money on a sequential workload. C is a read-only volume type for serving static AI/ML data to many clients, which does not match a read-write analytics cluster. D is ephemeral and capacity-limited per VM, so it cannot hold 200 TB durably.",
+        "es": "Hyperdisk Throughput es el tier eficiente en costo para cargas de escalado horizontal orientadas al throughput, como Hadoop, Kafka o procesamiento de registros: aprovisionas MB/s de forma independiente y pagas mucho menos por TB que los tiers optimizados para IOPS. B está optimizado para IOPS aleatorias muy altas y es la opción más cara, así que desperdicia dinero en una carga secuencial. C es un tipo de volumen de solo lectura para servir datos estáticos de IA/AA a muchos clientes, lo que no corresponde a un clúster analítico de lectura y escritura. D es efímero y tiene capacidad limitada por VM, así que no puede guardar 200 TB de forma duradera."
+      },
+      "doc": "https://cloud.google.com/compute/docs/disks/hyperdisks"
+    },
+    {
+      "id": "ref2-064",
+      "curso": null,
+      "servicios": [
+        "hybrid-connectivity"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-connectivity"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A retailer needs 500 Mbps of private connectivity from a data center to a VPC in six weeks. It has no equipment in a colocation facility with a Google point of presence and does not want to buy any. What is the BEST option?",
+        "es": "Un minorista necesita 500 Mbps de conectividad privada desde un centro de datos hacia una VPC en seis semanas. No tiene equipos en una instalación de colocación con punto de presencia de Google y no quiere comprarlos. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        {
+          "en": "Partner Interconnect through a supported service provider, with a VLAN attachment of the required capacity",
+          "es": "Partner Interconnect a través de un proveedor de servicios compatible, con un VLAN attachment de la capacidad requerida"
+        },
+        {
+          "en": "Dedicated Interconnect, ordering a 10 Gbps circuit and using only part of it",
+          "es": "Dedicated Interconnect, contratando un circuito de 10 Gbps y usando solo una parte"
+        },
+        {
+          "en": "Classic VPN with a single tunnel over the internet",
+          "es": "VPN clásica con un solo túnel sobre Internet"
+        },
+        {
+          "en": "Direct Peering with Google, announcing the data center prefixes",
+          "es": "Direct Peering con Google, anunciando los prefijos del centro de datos"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Partner Interconnect exists precisely for organizations that cannot or do not want to meet Google in a colocation facility: a supported service provider already has the physical connections, and you buy a VLAN attachment at sub-10 Gbps granularity, which suits 500 Mbps and a short timeline. B requires your own equipment in a colocation facility with a Google point of presence, has longer lead times and forces you to pay for 10 Gbps you will not use. C provides encrypted connectivity but over the public internet, with variable performance and a weaker SLA on a single tunnel, so it does not deliver the private, predictable path implied. D gives access to Google public services, not private RFC 1918 connectivity into a VPC.",
+        "es": "Partner Interconnect existe justamente para organizaciones que no pueden o no quieren encontrarse con Google en una instalación de colocación: un proveedor compatible ya tiene las conexiones físicas y tú compras un VLAN attachment con granularidad por debajo de 10 Gbps, lo que encaja con 500 Mbps y un plazo corto. B exige equipos propios en una instalación de colocación con punto de presencia de Google, tiene plazos más largos y obliga a pagar 10 Gbps que no usarás. C entrega conectividad cifrada, pero sobre Internet público, con rendimiento variable y un SLA menor en un solo túnel, así que no da la ruta privada y previsible que se plantea. D da acceso a servicios públicos de Google, no conectividad privada RFC 1918 hacia una VPC."
+      },
+      "doc": "https://cloud.google.com/network-connectivity/docs/interconnect/concepts/partner-overview"
+    },
+    {
+      "id": "ref2-065",
+      "curso": null,
+      "servicios": [
+        "file-storage",
+        "gpus-tpus"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-storage-products"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A training job on hundreds of GPU VMs stalls because the shared file system cannot keep the accelerators fed while reading small files and writing frequent checkpoints. Which storage change BEST addresses the bottleneck?",
+        "es": "Un entrenamiento en cientos de VMs con GPU se estanca porque el sistema de archivos compartido no logra alimentar a los aceleradores al leer archivos pequeños y escribir checkpoints frecuentes. ¿Qué cambio de almacenamiento aborda MEJOR el cuello de botella?"
+      },
+      "opciones": [
+        {
+          "en": "Move the working set to Google Cloud Managed Lustre, which scales parallel throughput and IOPS across all the clients",
+          "es": "Mover el conjunto de trabajo a Google Cloud Managed Lustre, que escala el throughput paralelo y las IOPS entre todos los clientes"
+        },
+        {
+          "en": "Move the working set to a Cloud Storage bucket and access it with the JSON API",
+          "es": "Mover el conjunto de trabajo a un bucket de Cloud Storage y acceder con la API JSON"
+        },
+        {
+          "en": "Increase the Filestore Basic HDD instance capacity to the maximum",
+          "es": "Aumentar al máximo la capacidad de la instancia de Filestore Basic HDD"
+        },
+        {
+          "en": "Give each VM its own Persistent Disk copy of the dataset",
+          "es": "Dar a cada VM su propia copia del conjunto de datos en un Persistent Disk"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Managed Lustre is a parallel file system: data is striped across many storage targets so aggregate throughput and metadata operations scale with the number of clients, which is what keeps hundreds of accelerators busy during small-file reads and checkpoint bursts. B has high aggregate bandwidth but object-storage latency and no POSIX semantics, so small random reads and checkpoint rewrites get worse, not better. C only adds capacity on the lowest-performance tier, and Basic HDD throughput will remain the limit. D wastes capacity, adds a long copy step and does not solve checkpoint writes, which must be shared and consistent across nodes.",
+        "es": "Managed Lustre es un sistema de archivos paralelo: los datos se distribuyen entre muchos destinos de almacenamiento, de modo que el throughput agregado y las operaciones de metadatos escalan con la cantidad de clientes, que es lo que mantiene ocupados a cientos de aceleradores durante lecturas de archivos pequeños y ráfagas de checkpoints. B tiene buen ancho de banda agregado, pero latencia de almacenamiento de objetos y sin semántica POSIX, así que las lecturas aleatorias pequeñas y las reescrituras de checkpoints empeoran. C solo agrega capacidad en el tier de menor rendimiento, y el throughput de Basic HDD seguirá siendo el límite. D desperdicia capacidad, agrega un paso de copia largo y no resuelve la escritura de checkpoints, que debe ser compartida y consistente entre nodos."
+      },
+      "doc": "https://cloud.google.com/managed-lustre/docs/overview"
+    },
+    {
+      "id": "ref2-066",
+      "curso": null,
+      "servicios": [
+        "cloud-storage"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-multiregion-redundancy"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A media company serves assets from applications in us-central1 and us-east1. The data must survive the loss of an entire region, both applications need regional read latency, and auditors require knowing exactly where the copies live. What is the BEST storage design?",
+        "es": "Una empresa de medios sirve recursos desde aplicaciones en us-central1 y us-east1. Los datos deben sobrevivir la pérdida de una región completa, ambas aplicaciones necesitan latencia de lectura regional y los auditores exigen saber exactamente dónde viven las copias. ¿Cuál es el MEJOR diseño de almacenamiento?"
+      },
+      "opciones": [
+        {
+          "en": "One dual-region bucket configured with the placement us-central1 and us-east1",
+          "es": "Un bucket dual-region configurado con la ubicación us-central1 y us-east1"
+        },
+        {
+          "en": "One multi-region bucket in the 'us' location",
+          "es": "Un bucket multi-region en la ubicación 'us'"
+        },
+        {
+          "en": "Two regional buckets kept in sync by a nightly gcloud storage rsync job",
+          "es": "Dos buckets regionales sincronizados por un trabajo nocturno de gcloud storage rsync"
+        },
+        {
+          "en": "One regional bucket in us-central1 with Object Versioning and a retention policy",
+          "es": "Un bucket regional en us-central1 con Object Versioning y una política de retención"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "A configurable dual-region bucket stores the data redundantly in the two regions you name, so it survives a regional outage, serves both applications with regional latency from a single bucket namespace, and the placement makes the data locations explicit for auditors. B is geo-redundant too, but Google chooses the regions inside the 'us' area, which does not satisfy the audit requirement about exact locations and gives no guarantee of a copy in each application's region. C is operationally fragile and its RPO is one day, plus applications must handle two names and reconcile conflicts. D protects against accidental deletion and overwrites but not against losing the region: all copies live in us-central1.",
+        "es": "Un bucket dual-region configurable almacena los datos de forma redundante en las dos regiones que indicas, así que sobrevive a una caída regional, sirve a ambas aplicaciones con latencia regional desde un único espacio de nombres de bucket, y la ubicación deja explícitas las ubicaciones de los datos para los auditores. B también es georredundante, pero Google elige las regiones dentro del área 'us', lo que no satisface el requisito de auditoría sobre ubicaciones exactas ni garantiza una copia en la región de cada aplicación. C es frágil desde lo operativo y su RPO es de un día, además de que las aplicaciones deben manejar dos nombres y resolver conflictos. D protege ante borrados accidentales y sobrescrituras, pero no ante la pérdida de la región: todas las copias viven en us-central1."
+      },
+      "doc": "https://cloud.google.com/storage/docs/locations"
+    },
+    {
+      "id": "ref2-067",
+      "curso": null,
+      "servicios": [
+        "storage-transfer",
+        "cloud-storage"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-data-loading"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A studio must move a 600 TB archive from its data center into Cloud Storage. The site has a 100 Mbps uplink shared with production traffic, and the migration must finish in weeks, not years. What is the BEST approach?",
+        "es": "Un estudio debe mover un archivo histórico de 600 TB desde su centro de datos a Cloud Storage. El sitio tiene un enlace de subida de 100 Mbps compartido con el tráfico de producción y la migración debe terminar en semanas, no en años. ¿Cuál es el MEJOR enfoque?"
+      },
+      "opciones": [
+        {
+          "en": "Use Transfer Appliance to ship the data physically, and reserve the network for the final incremental sync",
+          "es": "Usar Transfer Appliance para enviar los datos físicamente y reservar la red para la sincronización incremental final"
+        },
+        {
+          "en": "Run Storage Transfer Service with on-premises agents and bandwidth throttling",
+          "es": "Ejecutar Storage Transfer Service con agentes locales y limitación de ancho de banda"
+        },
+        {
+          "en": "Run gcloud storage cp in parallel from several on-premises servers",
+          "es": "Ejecutar gcloud storage cp en paralelo desde varios servidores locales"
+        },
+        {
+          "en": "Order a Partner Interconnect VLAN attachment and copy the data over it",
+          "es": "Contratar un VLAN attachment de Partner Interconnect y copiar los datos por ahí"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "At 100 Mbps, and sharing that link with production, 600 TB would take well over a year, so the network is simply not a viable path: Transfer Appliance is designed for this case, capturing the data on site and shipping it to Google for ingestion, with a small online delta afterwards. B and C both push the same bytes through the same saturated uplink; throttling or parallel copies do not change the physics of the available bandwidth. D would eventually help but provisioning a circuit takes time, adds recurring cost and is disproportionate for a one-time archive migration.",
+        "es": "A 100 Mbps, y compartiendo ese enlace con producción, 600 TB tardarían bastante más de un año, así que la red simplemente no es una vía viable: Transfer Appliance está diseñado para este caso, captura los datos en el sitio y se envía a Google para su ingesta, con un delta pequeño en línea después. B y C empujan los mismos bytes por el mismo enlace saturado; limitar o paralelizar copias no cambia la física del ancho de banda disponible. D con el tiempo ayudaría, pero aprovisionar un circuito toma tiempo, agrega costo recurrente y es desproporcionado para una migración de archivo histórico por única vez."
+      },
+      "doc": "https://cloud.google.com/transfer-appliance/docs/4.0/overview"
+    },
+    {
+      "id": "ref2-068",
+      "curso": null,
+      "servicios": [
+        "cloud-ngfw",
+        "vpc"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-firewall-ngfw"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A VM receives traffic that a hierarchical firewall policy on its folder denies, while a network firewall policy associated with its VPC allows it and a VPC firewall rule also allows it. What is the outcome and why?",
+        "es": "Una VM recibe tráfico que una política de firewall jerárquica de su carpeta deniega, mientras que una política de firewall de red asociada a su VPC lo permite y una regla de firewall de VPC también lo permite. ¿Cuál es el resultado y por qué?"
+      },
+      "opciones": [
+        {
+          "en": "The traffic is denied, because hierarchical policies are evaluated first and a deny there is final unless the rule delegates evaluation with goto_next",
+          "es": "El tráfico se deniega, porque las políticas jerárquicas se evalúan primero y una denegación allí es definitiva salvo que la regla delegue la evaluación con goto_next"
+        },
+        {
+          "en": "The traffic is allowed, because the most specific rule, the one closest to the VM, always wins",
+          "es": "El tráfico se permite, porque siempre gana la regla más específica, la más cercana a la VM"
+        },
+        {
+          "en": "The traffic is allowed, because two allow decisions outvote one deny",
+          "es": "El tráfico se permite, porque dos decisiones de permiso superan a una de denegación"
+        },
+        {
+          "en": "The traffic is allowed, because hierarchical policies only apply to egress",
+          "es": "El tráfico se permite, porque las políticas jerárquicas solo se aplican al egreso"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Firewall evaluation follows the hierarchy: organization and folder hierarchical policies first, then global and regional network firewall policies, then VPC firewall rules. A hierarchical rule that matches with a deny action ends the evaluation; only the goto_next action delegates the decision to the next level, which is exactly how central teams enforce guardrails that lower levels cannot loosen. B inverts the model: proximity to the VM does not grant precedence over the hierarchy. C is invented: firewall evaluation is not a vote count. D is false: hierarchical policies support both ingress and egress rules.",
+        "es": "La evaluación del firewall sigue la jerarquía: primero las políticas jerárquicas de organización y carpeta, luego las políticas de firewall de red globales y regionales, y después las reglas de firewall de VPC. Una regla jerárquica que coincide con acción de denegación termina la evaluación; solo la acción goto_next delega la decisión al siguiente nivel, que es justamente como los equipos centrales imponen barreras que los niveles inferiores no pueden aflojar. B invierte el modelo: la cercanía a la VM no otorga precedencia sobre la jerarquía. C es inventada: la evaluación del firewall no es un conteo de votos. D es falsa: las políticas jerárquicas admiten reglas de ingreso y de egreso."
+      },
+      "doc": "https://cloud.google.com/firewall/docs/firewall-policies-overview"
+    },
+    {
+      "id": "ref2-069",
+      "curso": null,
+      "servicios": [
+        "memorystore"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-data-products"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A cache outage takes the whole storefront down because every miss hits the database. The team needs the cache to keep serving if a zone fails, with minimal application changes. What is the BEST action?",
+        "es": "Una caída de la caché tumba toda la tienda en línea porque cada fallo de caché golpea la base de datos. El equipo necesita que la caché siga sirviendo si falla una zona, con cambios mínimos en la aplicación. ¿Cuál es la MEJOR acción?"
+      },
+      "opciones": [
+        {
+          "en": "Use a Memorystore Standard tier instance, which keeps a replica in another zone and fails over automatically",
+          "es": "Usar una instancia de Memorystore en tier Standard, que mantiene una réplica en otra zona y hace failover automáticamente"
+        },
+        {
+          "en": "Deploy two Basic tier instances in different zones and have the application write to both",
+          "es": "Implementar dos instancias en tier Basic en distintas zonas y hacer que la aplicación escriba en ambas"
+        },
+        {
+          "en": "Increase the memory size of the existing Basic tier instance",
+          "es": "Aumentar el tamaño de memoria de la instancia existente en tier Basic"
+        },
+        {
+          "en": "Replace the cache with a Cloud SQL read replica",
+          "es": "Reemplazar la caché por una réplica de lectura de Cloud SQL"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The Standard tier provisions a replica in a second zone and performs automatic failover behind the same endpoint, so availability improves without the application implementing anything. B forces the application to own dual writes, invalidation and failover logic, and Basic instances still lose their data on failure. C changes capacity, not availability: a single-node Basic instance remains a single point of failure. D removes the sub-millisecond in-memory layer and puts more load on the relational tier, which is the opposite of the goal.",
+        "es": "El tier Standard aprovisiona una réplica en una segunda zona y ejecuta failover automático detrás del mismo endpoint, así que la disponibilidad mejora sin que la aplicación implemente nada. B obliga a la aplicación a hacerse cargo de la escritura doble, la invalidación y la lógica de failover, y las instancias Basic igual pierden sus datos ante una falla. C cambia la capacidad, no la disponibilidad: una instancia Basic de un solo nodo sigue siendo un punto único de falla. D elimina la capa en memoria de menos de un milisegundo y pone más carga en la capa relacional, lo opuesto al objetivo."
+      },
+      "doc": "https://cloud.google.com/memorystore/docs/redis/high-availability"
+    },
+    {
+      "id": "ref2-070",
+      "curso": null,
+      "servicios": [
+        "dataflow",
+        "pubsub",
+        "cloud-run-functions"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-data-products"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Telemetry arrives on Pub/Sub out of order and must be aggregated into five-minute windows by event time, tolerating late data, with exactly-once results written to BigQuery. What is the BEST processing choice?",
+        "es": "La telemetría llega a Pub/Sub fuera de orden y debe agregarse en ventanas de cinco minutos por tiempo de evento, tolerando datos tardíos, con resultados exactamente una vez escritos en BigQuery. ¿Cuál es la MEJOR opción de procesamiento?"
+      },
+      "opciones": [
+        {
+          "en": "A streaming Dataflow pipeline using event-time windowing, watermarks and triggers for late data",
+          "es": "Un pipeline de streaming en Dataflow con ventanas por tiempo de evento, watermarks y activadores para datos tardíos"
+        },
+        {
+          "en": "A Cloud Run functions subscriber that accumulates counters in memory and flushes every five minutes",
+          "es": "Un suscriptor en Cloud Run functions que acumula contadores en memoria y los vacía cada cinco minutos"
+        },
+        {
+          "en": "A BigQuery subscription that writes raw messages, with a scheduled query aggregating afterwards",
+          "es": "Una suscripción de BigQuery que escribe los mensajes crudos, con una consulta programada que agrega después"
+        },
+        {
+          "en": "A Cloud Run service that stores every message in Memorystore and aggregates on read",
+          "es": "Un servicio de Cloud Run que guarda cada mensaje en Memorystore y agrega en la lectura"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Event-time windowing with watermarks and late-data triggers is precisely the Apache Beam and Dataflow programming model, and Dataflow provides the exactly-once processing semantics and a managed BigQuery sink. B has no event-time notion, and function instances are stateless and can be recycled at any moment, so in-memory counters are lost or double counted. C is a reasonable ingestion path but pushes correctness onto queries, which must then reprocess windows and handle late arrivals and duplicates by hand. D turns a cache into a queue and an aggregator, with no windowing, no watermarks and no exactly-once guarantees.",
+        "es": "Las ventanas por tiempo de evento con watermarks y activadores para datos tardíos son justamente el modelo de programación de Apache Beam y Dataflow, y Dataflow aporta la semántica de procesamiento exactamente una vez y un sink administrado hacia BigQuery. B no tiene noción de tiempo de evento, y las instancias de funciones son sin estado y pueden reciclarse en cualquier momento, así que los contadores en memoria se pierden o se cuentan dos veces. C es una vía de ingesta razonable, pero traslada la corrección a las consultas, que deben reprocesar ventanas y manejar a mano las llegadas tardías y los duplicados. D convierte una caché en cola y agregador, sin ventanas, sin watermarks y sin garantías de exactamente una vez."
+      },
+      "doc": "https://cloud.google.com/dataflow/docs/concepts/streaming-pipelines"
+    },
+    {
+      "id": "ref2-071",
+      "curso": null,
+      "servicios": [
+        "cloud-ngfw",
+        "cloud-logging"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-firewall-ngfw"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "After tightening the rules, an internal service intermittently fails and the team suspects the firewall. They need to confirm which rule is dropping the connections and from which sources, with the smallest possible change. What is the BEST action?",
+        "es": "Tras endurecer las reglas, un servicio interno falla de forma intermitente y el equipo sospecha del firewall. Necesitan confirmar qué regla descarta las conexiones y desde qué orígenes, con el menor cambio posible. ¿Cuál es la MEJOR acción?"
+      },
+      "opciones": [
+        {
+          "en": "Enable Firewall Rules Logging on the suspected rules and inspect the entries in Cloud Logging, filtering by connection and the rule reference",
+          "es": "Habilitar el registro de reglas de firewall en las reglas sospechosas e inspeccionar las entradas en Cloud Logging, filtrando por conexión y por la referencia de la regla"
+        },
+        {
+          "en": "Temporarily delete the deny rules to see whether the failures disappear",
+          "es": "Borrar temporalmente las reglas de denegación para ver si desaparecen las fallas"
+        },
+        {
+          "en": "Enable VPC Flow Logs on all subnets and correlate the samples manually",
+          "es": "Habilitar VPC Flow Logs en todas las subredes y correlacionar las muestras manualmente"
+        },
+        {
+          "en": "Read the Compute Engine Admin Activity audit logs to see the blocked traffic",
+          "es": "Leer los registros de auditoría de Actividad del administrador de Compute Engine para ver el tráfico bloqueado"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Firewall Rules Logging records each connection evaluated by a rule with its five-tuple, the reference to the rule that matched and the allow or deny verdict, which answers both questions directly and can be enabled per rule without touching enforcement. B changes the security posture in production to run an experiment and may expose the service while proving nothing about which rule matched. C gives sampled flow data but does not attribute the decision to a rule, and enabling it everywhere is a costly, noisy way to answer a narrow question. D records administrative API calls, such as who created or modified a rule, never the packets a rule drops.",
+        "es": "El registro de reglas de firewall guarda cada conexión evaluada por una regla con su quíntupla, la referencia a la regla que coincidió y el veredicto de permiso o denegación, lo que responde ambas preguntas directamente y se puede habilitar por regla sin tocar la aplicación de la política. B cambia la postura de seguridad en producción para hacer un experimento, puede exponer el servicio y no prueba qué regla coincidió. C entrega datos de flujo muestreados, pero no atribuye la decisión a una regla, y habilitarlo en todas partes es una forma costosa y ruidosa de responder una pregunta acotada. D registra llamadas administrativas a la API, como quién creó o modificó una regla, nunca los paquetes que una regla descarta."
+      },
+      "doc": "https://cloud.google.com/firewall/docs/firewall-rules-logging"
+    },
+    {
+      "id": "ref2-072",
+      "curso": null,
+      "servicios": [
+        "persistent-disk",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-storage"
+      ],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "A team is deciding between Hyperdisk Balanced and pd-balanced for a database whose capacity needs are modest but whose IOPS needs are high. Which TWO statements correctly justify choosing Hyperdisk?",
+        "es": "Un equipo decide entre Hyperdisk Balanced y pd-balanced para una base de datos con necesidades de capacidad modestas pero de IOPS altas. ¿Cuáles DOS afirmaciones justifican correctamente elegir Hyperdisk?"
+      },
+      "opciones": [
+        {
+          "en": "Performance is provisioned separately from capacity, so you do not have to overprovision the disk size to obtain IOPS",
+          "es": "El rendimiento se aprovisiona por separado de la capacidad, así que no hay que sobredimensionar el tamaño del disco para obtener IOPS"
+        },
+        {
+          "en": "Provisioned IOPS and throughput can be adjusted later as the workload changes",
+          "es": "Las IOPS y el throughput aprovisionados se pueden ajustar después, a medida que cambia la carga de trabajo"
+        },
+        {
+          "en": "Hyperdisk replicates the volume across regions by default",
+          "es": "Hyperdisk replica el volumen entre regiones de forma predeterminada"
+        },
+        {
+          "en": "Hyperdisk removes the need to take snapshots because it is inherently fault tolerant",
+          "es": "Hyperdisk elimina la necesidad de tomar instantáneas porque es tolerante a fallas por diseño"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "The two real advantages here are decoupling: you buy the IOPS and throughput you need without paying for terabytes you do not use, and you can tune the provisioned performance afterwards as demand changes. C is false: cross-region protection comes from replicated disk options, snapshots or database-level replication, not from Hyperdisk by default. D is false and dangerous: durable storage protects against hardware failure, but snapshots and backups still protect against accidental deletion, corruption and logical errors.",
+        "es": "Las dos ventajas reales aquí son el desacople: compras las IOPS y el throughput que necesitas sin pagar terabytes que no usas, y puedes ajustar después el rendimiento aprovisionado a medida que cambia la demanda. C es falsa: la protección entre regiones proviene de opciones de disco replicado, de instantáneas o de la replicación a nivel de base de datos, no de Hyperdisk de forma predeterminada. D es falsa y peligrosa: el almacenamiento duradero protege ante fallas de hardware, pero las instantáneas y los respaldos siguen protegiendo ante borrados accidentales, corrupción y errores lógicos."
+      },
+      "doc": "https://cloud.google.com/compute/docs/disks/hyperdisks"
+    },
+    {
+      "id": "ref2-073",
+      "curso": null,
+      "servicios": [
+        "hybrid-connectivity",
+        "vpc"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-connectivity"
+      ],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO statements about Cloud Interconnect are correct when comparing it with Cloud VPN for a production hybrid design?",
+        "es": "¿Cuáles DOS afirmaciones sobre Cloud Interconnect son correctas al compararlo con Cloud VPN en un diseño híbrido de producción?"
+      },
+      "opciones": [
+        {
+          "en": "Interconnect traffic does not traverse the public internet, which gives more predictable latency and throughput",
+          "es": "El tráfico de Interconnect no atraviesa Internet público, lo que da latencia y throughput más previsibles"
+        },
+        {
+          "en": "Interconnect traffic is not encrypted by default, so you add encryption at the application layer or with an IPsec overlay if it is required",
+          "es": "El tráfico de Interconnect no va cifrado de forma predeterminada, así que agregas cifrado en la capa de aplicación o con una superposición IPsec si se requiere"
+        },
+        {
+          "en": "Interconnect can be provisioned in minutes, just like a VPN tunnel",
+          "es": "Interconnect se puede aprovisionar en minutos, igual que un túnel de VPN"
+        },
+        {
+          "en": "Interconnect replaces the need for a Cloud Router, since routes are configured statically",
+          "es": "Interconnect elimina la necesidad de un Cloud Router, ya que las rutas se configuran de forma estática"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Interconnect provides a private physical path into Google's network, so performance is far more predictable than IPsec over the internet, and precisely because it is a private circuit the traffic is not encrypted by default, which matters when a compliance requirement demands encryption in transit. C is false: physical circuits and provider provisioning take days or weeks, which is one of the reasons Cloud VPN is used as an interim or backup path. D is false: VLAN attachments are associated with a Cloud Router that exchanges routes with your on-premises router over BGP.",
+        "es": "Interconnect entrega una ruta física privada hacia la red de Google, así que el rendimiento es mucho más previsible que IPsec sobre Internet, y justamente por ser un circuito privado el tráfico no va cifrado de forma predeterminada, lo que importa cuando un requisito de cumplimiento exige cifrado en tránsito. C es falsa: los circuitos físicos y el aprovisionamiento del proveedor toman días o semanas, y esa es una de las razones por las que se usa Cloud VPN como ruta provisional o de respaldo. D es falsa: los VLAN attachments se asocian a un Cloud Router que intercambia rutas con tu router local mediante BGP."
+      },
+      "doc": "https://cloud.google.com/network-connectivity/docs/interconnect/concepts/overview"
+    },
+    {
+      "id": "ref2-074",
+      "curso": null,
+      "servicios": [
+        "file-storage",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-storage-products"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "An enterprise lifts and shifts an application whose storage relies on ONTAP features: instant snapshots, thin clones for test environments and replication between sites. Rewriting the storage layer is out of scope. What is the BEST Google Cloud service?",
+        "es": "Una empresa migra tal cual una aplicación cuyo almacenamiento depende de funciones de ONTAP: instantáneas instantáneas, clones ligeros para entornos de prueba y replicación entre sitios. Reescribir la capa de almacenamiento está fuera de alcance. ¿Cuál es el MEJOR servicio de Google Cloud?"
+      },
+      "opciones": [
+        {
+          "en": "Google Cloud NetApp Volumes",
+          "es": "Google Cloud NetApp Volumes"
+        },
+        {
+          "en": "Filestore Enterprise",
+          "es": "Filestore Enterprise"
+        },
+        {
+          "en": "Cloud Storage with Object Versioning and lifecycle rules",
+          "es": "Cloud Storage con Object Versioning y reglas de ciclo de vida"
+        },
+        {
+          "en": "Managed Lustre",
+          "es": "Managed Lustre"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Google Cloud NetApp Volumes is a first-party managed service built on NetApp ONTAP, so the snapshot, clone and replication capabilities the application already depends on are available natively and the migration stays a lift and shift. B is a solid managed NFS service with snapshots and higher availability, but it is not ONTAP and does not provide the same feature set or tooling the application expects. C changes the storage paradigm entirely, from a file system to object storage, which is exactly the rewrite that is out of scope. D targets HPC and AI throughput and offers none of the enterprise data management features requested.",
+        "es": "Google Cloud NetApp Volumes es un servicio administrado de primera parte construido sobre NetApp ONTAP, así que las capacidades de instantáneas, clones y replicación de las que ya depende la aplicación están disponibles de forma nativa y la migración sigue siendo tal cual. B es un buen servicio administrado de NFS con instantáneas y mayor disponibilidad, pero no es ONTAP y no ofrece el mismo conjunto de funciones ni las herramientas que espera la aplicación. C cambia por completo el paradigma de almacenamiento, de un sistema de archivos a objetos, que es justo la reescritura fuera de alcance. D apunta al throughput de HPC e IA y no ofrece ninguna de las funciones de gestión de datos empresariales solicitadas."
+      },
+      "doc": "https://cloud.google.com/netapp/volumes/docs/discover/overview"
+    },
+    {
+      "id": "ref2-075",
+      "curso": null,
+      "servicios": [
+        "bigquery"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-multiregion-redundancy"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Analysts in Europe query a BigQuery dataset that lives in the US region, and the business also wants the data to remain queryable if the US region has an outage. What is the BEST approach?",
+        "es": "Analistas en Europa consultan un conjunto de datos de BigQuery que reside en la región de EE. UU., y el negocio también quiere que los datos sigan siendo consultables si esa región sufre una interrupción. ¿Cuál es el MEJOR enfoque?"
+      },
+      "opciones": [
+        {
+          "en": "Configure cross-region dataset replication to a European region and point local analysts at the replica",
+          "es": "Configurar la replicación de conjuntos de datos entre regiones hacia una región europea y apuntar a la réplica a los analistas locales"
+        },
+        {
+          "en": "Ask the analysts to query the US dataset over a Cloud Interconnect circuit",
+          "es": "Pedir a los analistas que consulten el conjunto de datos de EE. UU. a través de un circuito de Cloud Interconnect"
+        },
+        {
+          "en": "Export the tables to a dual-region bucket every night and load them into a European dataset",
+          "es": "Exportar las tablas cada noche a un bucket dual-region y cargarlas en un conjunto de datos europeo"
+        },
+        {
+          "en": "Create authorized views in a European dataset that select from the US tables",
+          "es": "Crear vistas autorizadas en un conjunto de datos europeo que seleccionen de las tablas de EE. UU."
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "BigQuery cross-region dataset replication keeps a managed, continuously updated replica of the dataset in a second region, so local analysts read nearby data and the replica remains available if the primary region has an outage, with no pipeline to build. B does not help: BigQuery is a regional service accessed over Google's API, and network connectivity is not the source of the latency or the availability requirement. C is a home-made pipeline with a daily RPO, extra storage cost and schema drift risk. D does not work as stated: a query cannot join or read across dataset locations, and views do not move or replicate data.",
+        "es": "La replicación de conjuntos de datos entre regiones de BigQuery mantiene una réplica administrada y actualizada de forma continua en una segunda región, así que los analistas locales leen datos cercanos y la réplica sigue disponible si la región principal sufre una interrupción, sin construir ningún pipeline. B no ayuda: BigQuery es un servicio regional al que se accede por la API de Google, y la conectividad de red no es el origen de la latencia ni del requisito de disponibilidad. C es un pipeline casero con RPO diario, costo adicional de almacenamiento y riesgo de desviación de esquema. D no funciona tal como se plantea: una consulta no puede leer ni unir datos entre ubicaciones distintas, y las vistas no mueven ni replican datos."
+      },
+      "doc": "https://cloud.google.com/bigquery/docs/data-replication"
+    },
+    {
+      "id": "ref2-076",
+      "curso": null,
+      "servicios": [
+        "storage-transfer",
+        "cloud-storage"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-data-loading"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A partner drops new files daily into an S3 bucket and they must appear in Cloud Storage each morning. Only new or changed objects should be copied, and the team wants no servers and no custom code. What is the BEST solution?",
+        "es": "Un socio deja archivos nuevos a diario en un bucket de S3 y deben aparecer cada mañana en Cloud Storage. Solo se deben copiar los objetos nuevos o modificados, y el equipo no quiere servidores ni código propio. ¿Cuál es la MEJOR solución?"
+      },
+      "opciones": [
+        {
+          "en": "A scheduled, recurring Storage Transfer Service job that transfers only objects modified since the last run",
+          "es": "Un trabajo recurrente y programado de Storage Transfer Service que transfiera solo los objetos modificados desde la última ejecución"
+        },
+        {
+          "en": "A Cloud Scheduler job that triggers a Compute Engine VM running gcloud storage rsync",
+          "es": "Un trabajo de Cloud Scheduler que active una VM de Compute Engine ejecutando gcloud storage rsync"
+        },
+        {
+          "en": "A daily Dataflow batch job that reads the whole S3 bucket and rewrites it into Cloud Storage",
+          "es": "Un trabajo batch diario de Dataflow que lea todo el bucket de S3 y lo reescriba en Cloud Storage"
+        },
+        {
+          "en": "A Cloud Run functions job triggered by S3 notifications that copies each object individually",
+          "es": "Un trabajo de Cloud Run functions activado por notificaciones de S3 que copie cada objeto de forma individual"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Storage Transfer Service supports recurring schedules and filters such as last-modified time, so it copies only the new or changed objects, retries failures, reports metrics and requires no infrastructure or code. B introduces a VM you must patch, monitor and pay for, plus scheduling glue for something the managed service already does. C reprocesses the entire bucket daily, wasting egress and compute, and is heavy for a plain copy. D adds cross-cloud event plumbing and custom code, and gives up the managed retries, throughput control and observability of a transfer job.",
+        "es": "Storage Transfer Service admite programaciones recurrentes y filtros como la fecha de última modificación, así que copia solo los objetos nuevos o modificados, reintenta las fallas, reporta métricas y no requiere infraestructura ni código. B introduce una VM que debes parchar, supervisar y pagar, además del pegamento de programación para algo que el servicio administrado ya hace. C reprocesa todo el bucket a diario, desperdiciando egreso y cómputo, y es excesivo para una copia simple. D agrega cableado de eventos entre nubes y código propio, y renuncia a los reintentos administrados, al control de throughput y a la observabilidad de un trabajo de transferencia."
+      },
+      "doc": "https://cloud.google.com/storage-transfer/docs/create-transfers"
+    },
+    {
+      "id": "ref2-077",
+      "curso": null,
+      "servicios": [
+        "gpus-tpus",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-gpus-tpus-choice"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A computer vision team serves inference with a PyTorch model that depends on custom CUDA kernels and a third-party library with no TPU support, and also uses the accelerator for video transcoding. Which accelerator should they deploy?",
+        "es": "Un equipo de visión por computadora sirve inferencia con un modelo de PyTorch que depende de kernels CUDA personalizados y de una biblioteca de terceros sin soporte para TPU, y además usa el acelerador para transcodificación de video. ¿Qué acelerador deben implementar?"
+      },
+      "opciones": [
+        {
+          "en": "NVIDIA GPUs attached to Compute Engine or GKE nodes",
+          "es": "GPUs NVIDIA adjuntas a nodos de Compute Engine o de GKE"
+        },
+        {
+          "en": "Cloud TPUs, porting the custom kernels to XLA first",
+          "es": "Cloud TPUs, portando primero los kernels personalizados a XLA"
+        },
+        {
+          "en": "CPU-only instances with more vCPUs, since inference is not training",
+          "es": "Instancias solo con CPU y más vCPUs, ya que la inferencia no es entrenamiento"
+        },
+        {
+          "en": "Cloud Run with concurrency raised, since the model is small enough",
+          "es": "Cloud Run con mayor concurrencia, porque el modelo es lo bastante pequeño"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "GPUs are the general-purpose accelerator: they run the CUDA ecosystem, support arbitrary custom kernels and third-party libraries, and also handle media workloads such as video transcoding, which TPUs do not. B contradicts the constraints: the custom kernels and the unsupported library are exactly what makes a TPU port expensive or impossible, and TPUs do not do video transcoding. C ignores the stated requirement and would be far slower and more expensive per inference for a vision model. D is a hosting choice, not an accelerator choice, and does not address the CUDA and transcoding requirements.",
+        "es": "Las GPUs son el acelerador de propósito general: ejecutan el ecosistema CUDA, admiten kernels personalizados arbitrarios y bibliotecas de terceros, y además manejan cargas multimedia como la transcodificación de video, cosa que las TPUs no hacen. B contradice las restricciones: los kernels personalizados y la biblioteca sin soporte son justamente lo que vuelve caro o imposible el port a TPU, y las TPUs no hacen transcodificación de video. C ignora el requisito planteado y sería mucho más lenta y cara por inferencia para un modelo de visión. D es una decisión de alojamiento, no de acelerador, y no atiende los requisitos de CUDA ni de transcodificación."
+      },
+      "doc": "https://cloud.google.com/compute/docs/gpus"
+    },
+    {
+      "id": "ref2-078",
+      "curso": null,
+      "servicios": [
+        "agent-runtime",
+        "cloud-run"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "A platform team is choosing between Agent Runtime and Cloud Run for a new workload. Which TWO characteristics point toward Agent Runtime?",
+        "es": "Un equipo de plataforma decide entre Agent Runtime y Cloud Run para una carga de trabajo nueva. ¿Cuáles DOS características apuntan hacia Agent Runtime?"
+      },
+      "opciones": [
+        {
+          "en": "The workload is an AI agent that needs managed sessions and memory across multiple turns",
+          "es": "La carga de trabajo es un agente de IA que necesita sesiones y memoria administradas entre varios turnos"
+        },
+        {
+          "en": "The team wants built-in agent observability, such as traces of reasoning steps and tool calls, without building it",
+          "es": "El equipo quiere observabilidad de agentes integrada, como trazas de los pasos de razonamiento y de las llamadas a herramientas, sin construirla"
+        },
+        {
+          "en": "The workload is a stateless HTTP API packaged as a container image",
+          "es": "La carga de trabajo es una API HTTP sin estado empaquetada como imagen de contenedor"
+        },
+        {
+          "en": "The workload is a scheduled batch job that processes files and exits",
+          "es": "La carga de trabajo es un trabajo batch programado que procesa archivos y termina"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Agent Runtime is the specialized target when the workload is an agent: it provides session and memory management and agent-level observability out of the box, which is the difference against a generic container runtime. C is the canonical Cloud Run service use case, where a stateless container behind an HTTPS endpoint is exactly what you want. D maps to Cloud Run jobs or a scheduled workload, not to an agent runtime. Choosing Agent Runtime for C or D would add agent-specific machinery with no benefit.",
+        "es": "Agent Runtime es el destino especializado cuando la carga de trabajo es un agente: aporta administración de sesiones y memoria y observabilidad a nivel de agente listas para usar, y esa es la diferencia frente a un runtime de contenedores genérico. C es el caso de uso canónico de un servicio de Cloud Run, donde un contenedor sin estado detrás de un endpoint HTTPS es exactamente lo que buscas. D corresponde a un job de Cloud Run o a una carga programada, no a un runtime de agentes. Elegir Agent Runtime para C o D agregaría maquinaria específica de agentes sin ningún beneficio."
+      },
+      "doc": "https://cloud.google.com/vertex-ai/generative-ai/docs/agent-engine/overview"
+    },
+    {
+      "id": "ref2-079",
+      "curso": null,
+      "servicios": [
+        "cloud-ngfw",
+        "cloud-nat",
+        "vpc"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-firewall-ngfw"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "VMs without external IP addresses must download packages from two vendor endpoints, while a broad egress deny rule blocks the rest of the internet. What is the BEST configuration?",
+        "es": "Las VMs sin direcciones IP externas deben descargar paquetes desde dos endpoints de un proveedor, mientras que una regla amplia de denegación de egreso bloquea el resto de Internet. ¿Cuál es la MEJOR configuración?"
+      },
+      "opciones": [
+        {
+          "en": "Configure Cloud NAT for the subnet and add egress allow rules for the vendor destination ranges with a priority lower in number than the broad deny",
+          "es": "Configurar Cloud NAT para la subred y agregar reglas de egreso de permiso hacia los rangos de destino del proveedor con un número de prioridad menor que el de la denegación amplia"
+        },
+        {
+          "en": "Assign external IP addresses to the VMs and keep only the broad egress deny rule",
+          "es": "Asignar direcciones IP externas a las VMs y mantener solo la regla amplia de denegación de egreso"
+        },
+        {
+          "en": "Raise the priority number of the deny rule so that the implied allow egress rule takes precedence",
+          "es": "Subir el número de prioridad de la regla de denegación para que la regla implícita de permiso de egreso tenga precedencia"
+        },
+        {
+          "en": "Add ingress allow rules for the vendor ranges, since the packages come into the VMs",
+          "es": "Agregar reglas de ingreso de permiso para los rangos del proveedor, ya que los paquetes entran a las VMs"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Two independent things must be true: the VMs need a path to the internet without external IPs, which Cloud NAT provides, and the firewall must permit that egress, which requires allow rules for the specific destinations with a lower priority number so they are evaluated before the broad deny. B contradicts the design goal of keeping the VMs private and still leaves the egress deny blocking the traffic. C is wrong on both counts: raising the number lowers precedence, and the implied allow egress rule has the lowest possible priority, so it never overrides a specific deny. D misreads the direction: the VM initiates the connection, so it is egress, and the implied ingress rules already handle the return traffic of an established connection.",
+        "es": "Deben cumplirse dos cosas independientes: las VMs necesitan una ruta a Internet sin IPs externas, que aporta Cloud NAT, y el firewall debe permitir ese egreso, lo que requiere reglas de permiso hacia los destinos específicos con un número de prioridad menor para que se evalúen antes que la denegación amplia. B contradice el objetivo de mantener privadas las VMs y, además, la denegación de egreso seguiría bloqueando el tráfico. C es incorrecta por partida doble: subir el número reduce la precedencia, y la regla implícita de permiso de egreso tiene la prioridad más baja posible, así que nunca anula una denegación específica. D confunde la dirección: la VM inicia la conexión, así que es egreso, y las reglas implícitas de ingreso ya manejan el tráfico de retorno de una conexión establecida."
+      },
+      "doc": "https://cloud.google.com/nat/docs/overview"
+    },
+    {
+      "id": "ref2-080",
+      "curso": null,
+      "servicios": [
+        "cloud-sql",
+        "cloud-storage"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-multiregion-redundancy"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A Cloud SQL primary in us-east1 has regional HA and a cross-region read replica in europe-west1. The us-east1 region becomes unavailable and the business accepts a few minutes of data loss but needs writes restored quickly. What is the BEST action?",
+        "es": "Una instancia principal de Cloud SQL en us-east1 tiene alta disponibilidad regional y una réplica de lectura entre regiones en europe-west1. La región us-east1 queda no disponible y el negocio acepta unos minutos de pérdida de datos pero necesita restaurar las escrituras rápido. ¿Cuál es la MEJOR acción?"
+      },
+      "opciones": [
+        {
+          "en": "Promote the cross-region replica in europe-west1 to a standalone primary and repoint the applications to it",
+          "es": "Promover la réplica entre regiones de europe-west1 a instancia principal independiente y reapuntar las aplicaciones hacia ella"
+        },
+        {
+          "en": "Wait for the regional HA failover to bring the primary back in another zone of us-east1",
+          "es": "Esperar a que el failover de alta disponibilidad regional recupere la instancia principal en otra zona de us-east1"
+        },
+        {
+          "en": "Restore the most recent automated backup into a new instance in europe-west1",
+          "es": "Restaurar la copia de seguridad automática más reciente en una instancia nueva en europe-west1"
+        },
+        {
+          "en": "Create a new empty instance in europe-west1 and let the application rebuild the data",
+          "es": "Crear una instancia nueva y vacía en europe-west1 y dejar que la aplicación reconstruya los datos"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Promoting the cross-region replica is the designed regional disaster recovery path: the replica already holds a near-current copy, promotion makes it writable in minutes, and the accepted RPO covers the small asynchronous replication lag. B does not help, because regional HA only fails over between zones of the same region and that region is the one that is down. C is much slower and loses more data, since the restore point is the last backup, not the last replicated transaction. D loses all the data and is only conceivable for a stateless system, which a database is not.",
+        "es": "Promover la réplica entre regiones es la vía de recuperación ante desastres regionales prevista: la réplica ya tiene una copia casi al día, la promoción la vuelve escribible en minutos y el RPO aceptado cubre el pequeño retraso de la replicación asincrónica. B no ayuda, porque la alta disponibilidad regional solo hace failover entre zonas de la misma región y esa región es justamente la que está caída. C es mucho más lenta y pierde más datos, ya que el punto de restauración es la última copia de seguridad, no la última transacción replicada. D pierde todos los datos y solo es concebible para un sistema sin estado, que una base de datos no es."
+      },
+      "doc": "https://cloud.google.com/sql/docs/postgres/replication/cross-region-replicas"
     }
   ]
 }

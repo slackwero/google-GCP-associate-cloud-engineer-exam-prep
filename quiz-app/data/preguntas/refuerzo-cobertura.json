@@ -1,0 +1,364 @@
+{
+  "preguntas": [
+    {
+      "id": "cob-001",
+      "curso": null,
+      "servicios": [
+        "cloud-ngfw",
+        "resource-manager"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-ngfw-tags-sa"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is the main difference between secure tags (Resource Manager tags) and classic network tags when they are used in firewall rules?",
+        "es": "¿Cuál es la diferencia principal entre los secure tags (tags de Resource Manager) y los network tags clásicos cuando se usan en reglas de firewall?"
+      },
+      "opciones": [
+        {
+          "en": "Secure tags are IAM-governed resources that are bound to a VM by a principal holding a tag permission, while network tags are free-form strings that anyone who can edit the instance can change",
+          "es": "Los secure tags son recursos gobernados por IAM que se vinculan a una VM por un principal con permiso sobre el tag, mientras que los network tags son cadenas libres que cualquiera con permiso para editar la instancia puede cambiar"
+        },
+        {
+          "en": "Secure tags are encrypted with Cloud KMS and network tags are stored in plaintext",
+          "es": "Los secure tags se encriptan con Cloud KMS y los network tags se guardan en texto plano"
+        },
+        {
+          "en": "Secure tags can only be used in egress rules and network tags only in ingress rules",
+          "es": "Los secure tags solo se pueden usar en reglas de salida y los network tags solo en reglas de entrada"
+        },
+        {
+          "en": "Secure tags apply to Cloud Storage buckets while network tags apply to VM instances",
+          "es": "Los secure tags se aplican a buckets de Cloud Storage y los network tags a instancias de VM"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Secure tags are key/value resources created in Resource Manager and bound to VMs; binding one requires an IAM permission (Tag User), so tag membership is access-controlled. Network tags are arbitrary strings in the instance definition, so any principal with compute.instances.setTags can add or remove them and change which firewall rules apply. B is wrong: neither tag type involves Cloud KMS encryption. C is wrong: both kinds of tags can be used for ingress and egress targets. D is wrong: secure tags for firewalls are bound to VMs and networks, not buckets.",
+        "es": "Los secure tags son recursos clave/valor creados en Resource Manager y vinculados a VMs; vincular uno exige un permiso de IAM (Tag User), así que la pertenencia al tag está controlada por acceso. Los network tags son cadenas arbitrarias dentro de la definición de la instancia, por lo que cualquier principal con compute.instances.setTags puede agregarlos o quitarlos y cambiar qué reglas de firewall aplican. B es falsa: ninguno de los dos tipos usa encriptación con Cloud KMS. C es falsa: ambos tipos sirven como destino en reglas de entrada y de salida. D es falsa: los secure tags para firewall se vinculan a VMs y redes, no a buckets."
+      },
+      "doc": "https://cloud.google.com/firewall/docs/tags-firewalls-overview"
+    },
+    {
+      "id": "cob-002",
+      "curso": null,
+      "servicios": [
+        "cloud-ngfw",
+        "iam",
+        "resource-manager"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-ngfw-tags-sa"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which IAM role must a principal have to bind an existing secure tag value to a Compute Engine instance?",
+        "es": "¿Qué rol de IAM debe tener un principal para vincular un valor de secure tag existente a una instancia de Compute Engine?"
+      },
+      "opciones": [
+        {
+          "en": "Tag User (roles/resourcemanager.tagUser) on the tag value, plus permission on the instance",
+          "es": "Tag User (roles/resourcemanager.tagUser) sobre el valor del tag, además de permiso sobre la instancia"
+        },
+        {
+          "en": "Compute Network Admin (roles/compute.networkAdmin) on the VPC network",
+          "es": "Compute Network Admin (roles/compute.networkAdmin) sobre la red VPC"
+        },
+        {
+          "en": "Billing Account User (roles/billing.user) on the billing account",
+          "es": "Billing Account User (roles/billing.user) sobre la cuenta de facturación"
+        },
+        {
+          "en": "Only the Organization Administrator can bind tags; the role cannot be delegated",
+          "es": "Solo el administrador de la organización puede vincular tags; el rol no se puede delegar"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Tag User grants the permission to attach (bind) a tag value to a resource, and it is granted on the tag value itself, which is exactly what makes secure tags access-controlled. B is wrong: network admin manages networks and firewall rules but does not grant the tag binding permission. C is wrong: billing roles are unrelated to tags. D is wrong: tag administration and tag usage are delegable roles (Tag Administrator creates keys and values, Tag User binds them).",
+        "es": "Tag User otorga el permiso para adjuntar (vincular) un valor de tag a un recurso y se concede sobre el propio valor del tag, que es precisamente lo que hace que los secure tags estén controlados por acceso. B es falsa: el administrador de red gestiona redes y reglas de firewall, pero no otorga el permiso de vinculación de tags. C es falsa: los roles de facturación no tienen relación con los tags. D es falsa: la administración y el uso de tags son roles delegables (Tag Administrator crea claves y valores, y Tag User los vincula)."
+      },
+      "doc": "https://cloud.google.com/resource-manager/docs/tags/tags-creating-and-managing"
+    },
+    {
+      "id": "cob-003",
+      "curso": null,
+      "servicios": [
+        "cloud-ngfw",
+        "service-accounts"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-ngfw-tags-sa"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Why does Google recommend filtering firewall rules by service account instead of by network tag in security-sensitive environments?",
+        "es": "¿Por qué Google recomienda filtrar las reglas de firewall por cuenta de servicio en lugar de por network tag en entornos sensibles a la seguridad?"
+      },
+      "opciones": [
+        {
+          "en": "Changing the service account of a VM requires permission to act as that service account, so firewall membership cannot be changed by anyone who can merely edit the instance",
+          "es": "Cambiar la cuenta de servicio de una VM exige permiso para actuar como esa cuenta de servicio, por lo que la pertenencia al firewall no puede cambiarla cualquiera que solo pueda editar la instancia"
+        },
+        {
+          "en": "Service accounts make firewall rules evaluate faster than network tags",
+          "es": "Las cuentas de servicio hacen que las reglas de firewall se evalúen más rápido que con network tags"
+        },
+        {
+          "en": "Network tags are deprecated and no longer supported in VPC firewall rules",
+          "es": "Los network tags están obsoletos y ya no se admiten en las reglas de firewall de VPC"
+        },
+        {
+          "en": "Service accounts allow more than the maximum number of tags per instance",
+          "es": "Las cuentas de servicio permiten superar el número máximo de tags por instancia"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Attaching or changing a service account on an instance requires the iam.serviceAccountUser permission on that service account, so the set of VMs a rule matches is protected by IAM. Network tags are just strings on the instance resource, so anyone with instance edit rights can move a VM into or out of a firewall rule's scope. B is wrong: performance is not the reason and there is no meaningful evaluation-speed difference. C is wrong: network tags are still fully supported. D is wrong: the argument is about access control, not tag quotas.",
+        "es": "Adjuntar o cambiar la cuenta de servicio de una instancia exige el permiso iam.serviceAccountUser sobre esa cuenta, por lo que el conjunto de VMs que una regla afecta queda protegido por IAM. Los network tags son solo cadenas en el recurso de la instancia, así que cualquiera con permisos de edición puede meter o sacar una VM del alcance de una regla. B es falsa: el motivo no es el rendimiento y no hay una diferencia relevante de velocidad de evaluación. C es falsa: los network tags siguen totalmente admitidos. D es falsa: el argumento es de control de acceso, no de cuotas de tags."
+      },
+      "doc": "https://cloud.google.com/firewall/docs/firewalls"
+    },
+    {
+      "id": "cob-004",
+      "curso": null,
+      "servicios": [
+        "cloud-ngfw",
+        "service-accounts",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-ngfw-tags-sa"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You must allow TCP 8080 only to VMs that run with the service account app-sa@my-project.iam.gserviceaccount.com. Which gcloud flag defines that set of VMs as the destination of the ingress rule?",
+        "es": "Debes permitir TCP 8080 solo hacia las VMs que se ejecutan con la cuenta de servicio app-sa@my-project.iam.gserviceaccount.com. ¿Qué marca de gcloud define ese conjunto de VMs como destino de la regla de entrada?"
+      },
+      "opciones": [
+        {
+          "en": "--target-service-accounts=app-sa@my-project.iam.gserviceaccount.com",
+          "es": "--target-service-accounts=app-sa@my-project.iam.gserviceaccount.com"
+        },
+        {
+          "en": "--source-service-accounts=app-sa@my-project.iam.gserviceaccount.com",
+          "es": "--source-service-accounts=app-sa@my-project.iam.gserviceaccount.com"
+        },
+        {
+          "en": "--impersonate-service-account=app-sa@my-project.iam.gserviceaccount.com",
+          "es": "--impersonate-service-account=app-sa@my-project.iam.gserviceaccount.com"
+        },
+        {
+          "en": "--target-tags=app-sa@my-project.iam.gserviceaccount.com",
+          "es": "--target-tags=app-sa@my-project.iam.gserviceaccount.com"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "--target-service-accounts selects the instances the rule applies to (the destination of an ingress rule) based on the service account attached to them. B selects the originating VMs, which is the source side, not the protected destination. C is a gcloud authentication flag that impersonates a service account for the API call itself and has nothing to do with rule matching. D expects a network tag value, not a service account email, and mixing them this way does not work.",
+        "es": "--target-service-accounts selecciona las instancias a las que se aplica la regla (el destino de una regla de entrada) según la cuenta de servicio adjunta. B selecciona las VMs de origen, que es el lado del origen, no el destino protegido. C es una marca de autenticación de gcloud que suplanta una cuenta de servicio para la llamada a la API y no influye en la coincidencia de la regla. D espera un valor de network tag, no un correo de cuenta de servicio, y mezclarlos así no funciona."
+      },
+      "doc": "https://cloud.google.com/sdk/gcloud/reference/compute/firewall-rules/create"
+    },
+    {
+      "id": "cob-005",
+      "curso": null,
+      "servicios": [
+        "cloud-ngfw",
+        "service-accounts",
+        "vpc"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-ngfw-tags-sa",
+        "2.3-firewall-ngfw"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "In a single VPC firewall rule, what is the restriction when combining network tags and service accounts?",
+        "es": "En una misma regla de firewall de VPC, ¿cuál es la restricción al combinar network tags y cuentas de servicio?"
+      },
+      "opciones": [
+        {
+          "en": "A rule cannot mix them: you must use either tags or service accounts for both the source and the target filters",
+          "es": "Una regla no puede mezclarlos: debes usar tags o cuentas de servicio para los filtros de origen y de destino"
+        },
+        {
+          "en": "They can be mixed freely, and the rule matches when either condition is true",
+          "es": "Se pueden mezclar libremente y la regla coincide cuando cualquiera de las condiciones es verdadera"
+        },
+        {
+          "en": "They can be mixed, but the rule then only applies to egress traffic",
+          "es": "Se pueden mezclar, pero entonces la regla solo se aplica al tráfico de salida"
+        },
+        {
+          "en": "They can be mixed only if the priority of the rule is lower than 1000",
+          "es": "Se pueden mezclar solo si la prioridad de la regla es menor que 1000"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "A VPC firewall rule uses one filtering method consistently: source and target filters must both be tag based or both be service account based, so you cannot set --source-tags together with --target-service-accounts. B is wrong because the mix is rejected, not evaluated as an OR. C is wrong: direction does not lift the restriction, and egress rules have no source-tag filter at all. D is wrong: priority controls rule evaluation order, not which filters are legal.",
+        "es": "Una regla de firewall de VPC usa un solo método de filtrado de forma consistente: los filtros de origen y destino deben ser ambos por tags o ambos por cuentas de servicio, así que no puedes usar --source-tags junto con --target-service-accounts. B es falsa porque la mezcla se rechaza, no se evalúa como un OR. C es falsa: la dirección no elimina la restricción y las reglas de salida no tienen filtro por tag de origen. D es falsa: la prioridad controla el orden de evaluación, no qué filtros son válidos."
+      },
+      "doc": "https://cloud.google.com/firewall/docs/firewalls"
+    },
+    {
+      "id": "cob-006",
+      "curso": null,
+      "servicios": [
+        "cloud-ngfw",
+        "resource-manager",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-ngfw-tags-sa"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "After creating the secure tag value env/prod, how do you make a firewall policy rule that targets env/prod apply to an existing VM?",
+        "es": "Después de crear el valor de secure tag env/prod, ¿cómo haces que una regla de política de firewall dirigida a env/prod se aplique a una VM existente?"
+      },
+      "opciones": [
+        {
+          "en": "Create a tag binding between the tag value and the instance, for example with gcloud resource-manager tags bindings create",
+          "es": "Crea una vinculación entre el valor del tag y la instancia, por ejemplo con gcloud resource-manager tags bindings create"
+        },
+        {
+          "en": "Add env/prod to the instance with gcloud compute instances add-tags",
+          "es": "Agrega env/prod a la instancia con gcloud compute instances add-tags"
+        },
+        {
+          "en": "Add a label env=prod to the instance with gcloud compute instances add-labels",
+          "es": "Agrega la etiqueta env=prod a la instancia con gcloud compute instances add-labels"
+        },
+        {
+          "en": "Recreate the VM from an instance template that includes the tag value in its metadata",
+          "es": "Vuelve a crear la VM desde una plantilla de instancia que incluya el valor del tag en sus metadatos"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Secure tags are attached through tag bindings that reference the tag value and the resource, and the binding can be created on a running VM. B adds a classic network tag, which is a different mechanism and would not match a rule written against a secure tag value. C adds a label, which is only for organization, billing and filtering, never for firewall matching. D is unnecessary work, and metadata is not where tag bindings live.",
+        "es": "Los secure tags se adjuntan mediante tag bindings que referencian el valor del tag y el recurso, y la vinculación se puede crear sobre una VM en ejecución. B agrega un network tag clásico, que es otro mecanismo y no coincidiría con una regla escrita para un valor de secure tag. C agrega una etiqueta (label), que solo sirve para organizar, facturar y filtrar, nunca para coincidencia de firewall. D es trabajo innecesario y los metadatos no son donde viven las vinculaciones de tags."
+      },
+      "doc": "https://cloud.google.com/firewall/docs/use-tags-for-firewalls"
+    },
+    {
+      "id": "cob-007",
+      "curso": null,
+      "servicios": [
+        "cloud-ngfw",
+        "resource-manager",
+        "iam"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-ngfw-tags-sa"
+      ],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO statements about secure tags used in Cloud NGFW firewall policies are correct?",
+        "es": "¿Cuáles DOS afirmaciones sobre los secure tags usados en políticas de firewall de Cloud NGFW son correctas?"
+      },
+      "opciones": [
+        {
+          "en": "A secure tag is defined at the organization or project level as a key/value pair and is governed by IAM, so binding it requires an explicit permission",
+          "es": "Un secure tag se define a nivel de organización o proyecto como par clave/valor y está gobernado por IAM, por lo que vincularlo exige un permiso explícito"
+        },
+        {
+          "en": "Secure tags can be used as the source of an ingress rule, letting you allow traffic between workloads without hardcoding IP ranges",
+          "es": "Los secure tags se pueden usar como origen de una regla de entrada, lo que permite habilitar tráfico entre cargas de trabajo sin fijar rangos de IP"
+        },
+        {
+          "en": "Secure tags replace IP-based matching entirely: a firewall policy rule may not specify IP ranges once tags exist",
+          "es": "Los secure tags reemplazan por completo la coincidencia por IP: una regla de política de firewall no puede especificar rangos de IP cuando existen tags"
+        },
+        {
+          "en": "Any principal with the Compute Instance Admin role can create new secure tag keys and values without further IAM grants",
+          "es": "Cualquier principal con el rol Compute Instance Admin puede crear claves y valores de secure tags sin otras concesiones de IAM"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "A is correct because secure tags are Resource Manager key/value resources whose binding is gated by the Tag User permission. B is correct because tag based rules let you express workload-to-workload policy by the identity of the workload instead of by IP range. C is wrong: firewall policy rules still support IP range matching, and tags are an additional attribute, not a replacement. D is wrong: creating tag keys and values requires Tag Administrator on the organization or project, which Compute Instance Admin does not include.",
+        "es": "A es correcta porque los secure tags son recursos clave/valor de Resource Manager cuya vinculación está condicionada por el permiso Tag User. B es correcta porque las reglas basadas en tags permiten expresar la política entre cargas de trabajo por la identidad de la carga y no por rango de IP. C es falsa: las reglas de política de firewall siguen admitiendo coincidencia por rangos de IP y los tags son un atributo adicional, no un reemplazo. D es falsa: crear claves y valores de tags exige Tag Administrator en la organización o el proyecto, que Compute Instance Admin no incluye."
+      },
+      "doc": "https://cloud.google.com/firewall/docs/tags-firewalls-overview"
+    },
+    {
+      "id": "cob-008",
+      "curso": null,
+      "servicios": [
+        "cloud-ngfw",
+        "service-accounts",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-ngfw-tags-sa"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Developers hold roles/compute.instanceAdmin.v1 in a project. Auditors found that a developer added the network tag db-access to a test VM and reached the production database subnet. You must prevent this while keeping developers able to manage their VMs, with minimal operational effort. What should you do?",
+        "es": "Los desarrolladores tienen roles/compute.instanceAdmin.v1 en un proyecto. Los auditores detectaron que un desarrollador agregó el network tag db-access a una VM de prueba y alcanzó la subred de la base de datos de producción. Debes impedirlo manteniendo que los desarrolladores administren sus VMs, con el mínimo esfuerzo operativo. ¿Qué haces?"
+      },
+      "opciones": [
+        {
+          "en": "Rewrite the rule to filter by the service account of the database clients (or by a secure tag) and grant developers no permission on that service account or tag value",
+          "es": "Reescribe la regla para filtrar por la cuenta de servicio de los clientes de la base de datos (o por un secure tag) y no otorgues a los desarrolladores permiso sobre esa cuenta de servicio o valor de tag"
+        },
+        {
+          "en": "Keep the network tag but raise the priority of the allow rule to 0 so it cannot be overridden",
+          "es": "Conserva el network tag pero sube la prioridad de la regla de permiso a 0 para que no se pueda anular"
+        },
+        {
+          "en": "Remove roles/compute.instanceAdmin.v1 from developers and grant them roles/viewer instead",
+          "es": "Quita roles/compute.instanceAdmin.v1 a los desarrolladores y otórgales roles/viewer en su lugar"
+        },
+        {
+          "en": "Enable firewall rules logging on the allow rule so the security team can detect misuse",
+          "es": "Habilita el registro de reglas de firewall en la regla de permiso para que el equipo de seguridad detecte el uso indebido"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The root cause is that network tag membership is not access controlled. Filtering by service account or by a secure tag moves membership under IAM: a developer who cannot act as the service account, or who lacks Tag User on the tag value, cannot place a VM in scope of the rule. B does not help, because priority governs rule ordering and the developer would still match the rule by adding the tag. C breaks the requirement that developers keep managing their VMs. D only detects the problem after the fact and does not prevent the access.",
+        "es": "La causa raíz es que la pertenencia a un network tag no está controlada por acceso. Filtrar por cuenta de servicio o por un secure tag lleva esa pertenencia a IAM: un desarrollador que no puede actuar como la cuenta de servicio, o que no tiene Tag User sobre el valor del tag, no puede poner una VM dentro del alcance de la regla. B no ayuda porque la prioridad rige el orden de evaluación y el desarrollador seguiría coincidiendo con solo agregar el tag. C rompe el requisito de que los desarrolladores sigan administrando sus VMs. D solo detecta el problema después de ocurrido y no impide el acceso."
+      },
+      "doc": "https://cloud.google.com/firewall/docs/firewalls"
+    }
+  ]
+}
