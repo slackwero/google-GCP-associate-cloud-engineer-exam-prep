@@ -150,7 +150,7 @@ def _fallada(item: rx.Var) -> rx.Component:
     )
 
 
-@rx.page(route="/resultados", title="Results · Google Cloud ACE Certification Exam")
+@rx.page(route="/results", title="Results · Google Cloud ACE Certification Exam")
 def resultados() -> rx.Component:
     return base_layout(
         ui.stack(

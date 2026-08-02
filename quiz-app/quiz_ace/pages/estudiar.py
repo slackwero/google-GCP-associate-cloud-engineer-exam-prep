@@ -91,11 +91,11 @@ def _pagina(titulo, filas, plantilla) -> rx.Component:
     )
 
 
-@rx.page(route="/estudiar/curso", title="Study by course · Google Cloud ACE Certification Exam")
+@rx.page(route="/study/course", title="Study by course · Google Cloud ACE Certification Exam")
 def estudiar_curso() -> rx.Component:
     return _pagina(LangState.t["por_curso"], CatalogState.cursos, _fila_curso)
 
 
-@rx.page(route="/estudiar/servicio", title="Study by service · Google Cloud ACE Certification Exam")
+@rx.page(route="/study/service", title="Study by service · Google Cloud ACE Certification Exam")
 def estudiar_servicio() -> rx.Component:
     return _pagina(LangState.t["por_servicio"], CatalogState.servicios, _fila_servicio)

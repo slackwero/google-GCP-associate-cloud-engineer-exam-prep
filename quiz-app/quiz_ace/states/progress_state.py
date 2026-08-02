@@ -6,6 +6,7 @@ from sqlmodel import select
 from ..models.registro import Intento, Respuesta, ahora
 from ..services.db import abrir_sesion
 from ..services.estadisticas import calcular_cobertura, calcular_dominio, calcular_enfoque
+from ..services.historial import borrar_incompletos, borrar_todo, contar_historial
 from .catalog_state import BANCO, CATALOGOS
 
 PESOS_SECCION = {s["numero"]: s["peso"] for s in CATALOGOS.secciones}
@@ -32,6 +33,13 @@ class ProgressState(rx.State):
     enfoque: list[dict] = []
     hay_datos: bool = False
 
+    # Actual scope of each deletion. `intentos_totales` above is the KPI and only
+    # counts finished attempts; these count everything stored in the database.
+    historial_intentos: int = 0
+    historial_incompletos: int = 0
+    historial_respuestas: int = 0
+    historial_respuestas_incompletas: int = 0
+
     # Indexar una lista de dicts dentro de un componente devuelve Any, así que
     # el foco recomendado se expone como vars tipadas para la home.
     @rx.var
@@ -55,6 +63,12 @@ class ProgressState(rx.State):
         with abrir_sesion() as session:
             intentos = session.exec(select(Intento).where(Intento.completado == True)).all()  # noqa: E712
             filas = session.exec(select(Respuesta)).all()
+            conteo = contar_historial(session)
+
+        self.historial_intentos = conteo["intentos"]
+        self.historial_incompletos = conteo["intentos_incompletos"]
+        self.historial_respuestas = conteo["respuestas"]
+        self.historial_respuestas_incompletas = conteo["respuestas_incompletas"]
 
         respuestas = [
             {
@@ -114,6 +128,20 @@ class ProgressState(rx.State):
             }
             for e in calcular_enfoque(dominio_secciones, cobertura_secciones, PESOS_SECCION)
         ]
+
+    @rx.event
+    def resetear_todo(self):
+        """Wipe the history and reload: the page falls back to its empty state."""
+        with abrir_sesion() as session:
+            borrar_todo(session)
+        self.cargar()
+
+    @rx.event
+    def limpiar_incompletos(self):
+        """Drop abandoned attempts and keep the ones that were finished."""
+        with abrir_sesion() as session:
+            borrar_incompletos(session)
+        self.cargar()
 
     def _con_nombres_seccion(self, dominio: dict) -> list[dict]:
         secciones = {s["numero"]: s for s in CATALOGOS.secciones}

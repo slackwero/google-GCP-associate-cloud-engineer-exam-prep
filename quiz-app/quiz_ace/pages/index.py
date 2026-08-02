@@ -67,7 +67,7 @@ def _panel_con_datos() -> rx.Component:
         ),
         ui.cluster(
             ui.link_button(LangState.t["ver_avances"], href="/dashboard", variante="filled"),
-            ui.link_button(LangState.t["practicar"], href="/estudiar/curso", variante="outlined"),
+            ui.link_button(LangState.t["practicar"], href="/study/course", variante="outlined"),
             margin_top="20px",
         ),
     )
@@ -89,7 +89,7 @@ def _panel_vacio() -> rx.Component:
                 on_click=ExamState.iniciar("corto"),
                 variante="filled",
             ),
-            ui.link_button(LangState.t["practicar"], href="/estudiar/curso", variante="outlined"),
+            ui.link_button(LangState.t["practicar"], href="/study/course", variante="outlined"),
         ),
     )
 
@@ -106,12 +106,12 @@ def _seccion_practicar() -> rx.Component:
         fila_accion(
             LangState.t["por_curso"],
             LangState.t["por_curso_desc"],
-            ui.link_button(LangState.t["comenzar"], href="/estudiar/curso", variante="tonal"),
+            ui.link_button(LangState.t["comenzar"], href="/study/course", variante="tonal"),
         ),
         fila_accion(
             LangState.t["por_servicio"],
             LangState.t["por_servicio_desc"],
-            ui.link_button(LangState.t["comenzar"], href="/estudiar/servicio", variante="tonal"),
+            ui.link_button(LangState.t["comenzar"], href="/study/service", variante="tonal"),
         ),
     )
 

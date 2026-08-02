@@ -110,7 +110,7 @@ def _sin_preguntas() -> rx.Component:
     )
 
 
-@rx.page(route="/examen", title="Exam · Google Cloud ACE Certification Exam")
+@rx.page(route="/exam", title="Exam · Google Cloud ACE Certification Exam")
 def examen() -> rx.Component:
     return base_layout(
         rx.cond(

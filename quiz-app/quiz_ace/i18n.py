@@ -8,13 +8,13 @@ IDIOMA_DEFAULT = "en"
 IDIOMAS = ("en", "es")
 
 TEXTOS: dict[str, dict[str, str]] = {
-    # Forma corta para la barra. El nombre completo del producto —"Google Cloud
-    # Associate Cloud Engineer Certification Exam"— va en el título del
-    # navegador y en el encabezado de la home, donde sí cabe.
-    "app_titulo": {"en": "Associate Cloud Engineer", "es": "Associate Cloud Engineer"},
+    # Short form for the top bar. The full product name — "Google Cloud
+    # Associate Cloud Engineer Certification Exam" — goes in the browser title,
+    # where it actually fits.
+    "app_titulo": {"en": "GCP - Associate Cloud Engineer", "es": "GCP - Associate Cloud Engineer"},
     "app_subtitulo": {
-        "en": "Google Associate Cloud Engineer exam prep",
-        "es": "Preparación para el examen Google Associate Cloud Engineer",
+        "en": "GCP - Associate Cloud Engineer exam prep",
+        "es": "GCP - Associate Cloud Engineer: preparación para el examen",
     },
     "nav_inicio": {"en": "Home", "es": "Inicio"},
     "nav_dashboard": {"en": "Progress", "es": "Avances"},
@@ -107,6 +107,30 @@ TEXTOS: dict[str, dict[str, str]] = {
         "en": "No questions available for this filter yet",
         "es": "Aún no hay preguntas disponibles para este filtro",
     },
+    # History maintenance. The counts are composed separately, with the lowercase
+    # keys below, to keep placeholders out of the translated strings.
+    "mantenimiento": {"en": "Data maintenance", "es": "Mantenimiento de datos"},
+    "mantenimiento_desc": {
+        "en": "Reset your local practice history. The question bank is not affected.",
+        "es": "Reinicia tu historial local de práctica. El banco de preguntas no se ve afectado.",
+    },
+    "limpiar_incompletos": {"en": "Clear unfinished attempts", "es": "Limpiar intentos sin terminar"},
+    "borrar_historial": {"en": "Delete all history", "es": "Borrar todo el historial"},
+    "reset_incompletos_desc": {
+        "en": "Deletes the attempts you left unfinished and their answers. Completed quizzes and exams stay.",
+        "es": "Borra los intentos sin terminar y sus respuestas. Los quizzes y exámenes completados se conservan.",
+    },
+    "reset_todo_desc": {
+        "en": "Deletes every attempt and answer in your local history. This cannot be undone.",
+        "es": "Borra todos los intentos y respuestas de tu historial local. Esto no se puede deshacer.",
+    },
+    "reset_alcance": {"en": "Will be deleted:", "es": "Se borrará:"},
+    "intentos_min": {"en": "attempts", "es": "intentos"},
+    "respuestas_min": {"en": "answers", "es": "respuestas"},
+    "intento_min": {"en": "attempt", "es": "intento"},
+    "respuesta_min": {"en": "answer", "es": "respuesta"},
+    "cancelar": {"en": "Cancel", "es": "Cancelar"},
+    "borrar": {"en": "Delete", "es": "Borrar"},
     "abandonado": {"en": "Abandoned", "es": "Abandonado"},
     "modo_estudio_curso": {"en": "Study · course", "es": "Estudio · curso"},
     "modo_estudio_servicio": {"en": "Study · service", "es": "Estudio · servicio"},

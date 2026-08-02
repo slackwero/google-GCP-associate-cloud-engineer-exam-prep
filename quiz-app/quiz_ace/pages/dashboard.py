@@ -126,6 +126,90 @@ def _fila_enfoque(fila: rx.Var, indice: rx.Var) -> rx.Component:
     )
 
 
+def _cifra(cantidad: rx.Var, singular: str, plural: str) -> rx.Component:
+    """A count with its noun. Both languages break the plural at one."""
+    return rx.el.span(
+        cantidad,
+        " ",
+        rx.cond(cantidad == 1, LangState.t[singular], LangState.t[plural]),
+        class_name="g-numeral",
+    )
+
+
+def _alcance(intentos: rx.Var, respuestas: rx.Var) -> rx.Component:
+    """How much the deletion takes away, in figures, before confirming it."""
+    return ui.body_sm(
+        LangState.t["reset_alcance"],
+        " ",
+        _cifra(intentos, "intento_min", "intentos_min"),
+        " · ",
+        _cifra(respuestas, "respuesta_min", "respuestas_min"),
+        color="var(--g-on-surface-variant)",
+        margin="12px 0 0",
+    )
+
+
+def _dialogo_reset(
+    etiqueta: rx.Var,
+    descripcion: rx.Var,
+    alcance: rx.Component,
+    accion,
+    variante: str,
+    deshabilitado: rx.Var | bool = False,
+) -> rx.Component:
+    """Confirmation for a deletion, same pattern as the exam submit dialog."""
+    return rx.alert_dialog.root(
+        rx.alert_dialog.trigger(
+            ui.button(etiqueta, variante=variante, disabled=deshabilitado),
+        ),
+        rx.alert_dialog.content(
+            rx.alert_dialog.title(etiqueta),
+            rx.alert_dialog.description(descripcion),
+            alcance,
+            ui.cluster(
+                rx.alert_dialog.cancel(
+                    ui.button(LangState.t["cancelar"], variante="text"),
+                ),
+                rx.alert_dialog.action(
+                    ui.button(LangState.t["borrar"], on_click=accion, variante="danger"),
+                ),
+                justify_content="flex-end",
+                margin_top="20px",
+            ),
+        ),
+    )
+
+
+def _mantenimiento() -> rx.Component:
+    """Local history reset. Only rendered when there is something to delete."""
+    return ui.section(
+        ui.divider(margin="8px 0 20px"),
+        ui.title(LangState.t["mantenimiento"], nivel=2, margin="0 0 4px"),
+        ui.muted(LangState.t["mantenimiento_desc"], class_name="g-body-sm g-measure"),
+        ui.cluster(
+            _dialogo_reset(
+                LangState.t["limpiar_incompletos"],
+                LangState.t["reset_incompletos_desc"],
+                _alcance(
+                    ProgressState.historial_incompletos,
+                    ProgressState.historial_respuestas_incompletas,
+                ),
+                ProgressState.limpiar_incompletos,
+                variante="outlined",
+                deshabilitado=ProgressState.historial_incompletos == 0,
+            ),
+            _dialogo_reset(
+                LangState.t["borrar_historial"],
+                LangState.t["reset_todo_desc"],
+                _alcance(ProgressState.historial_intentos, ProgressState.historial_respuestas),
+                ProgressState.resetear_todo,
+                variante="danger",
+            ),
+            margin_top="16px",
+        ),
+    )
+
+
 def _con_datos() -> rx.Component:
     return ui.stack(
         ui.panel(
@@ -157,6 +241,7 @@ def _con_datos() -> rx.Component:
             rx.el.h2(LangState.t["cobertura"], class_name="g-title", margin="0 0 4px"),
             rx.foreach(ProgressState.cobertura_curso, _fila_cobertura),
         ),
+        _mantenimiento(),
         gap="28px",
     )
 
@@ -165,7 +250,7 @@ def _sin_datos() -> rx.Component:
     return ui.panel(
         rx.el.p(LangState.t["sin_datos"], class_name="g-title g-measure", margin="0 0 16px"),
         ui.cluster(
-            ui.link_button(LangState.t["practicar"], href="/estudiar/curso", variante="filled"),
+            ui.link_button(LangState.t["practicar"], href="/study/course", variante="filled"),
             ui.link_button(LangState.t["volver_inicio"], href="/", variante="outlined"),
         ),
     )

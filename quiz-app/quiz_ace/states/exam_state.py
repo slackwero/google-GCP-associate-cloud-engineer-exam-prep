@@ -68,7 +68,7 @@ class ExamState(rx.State):
             session.commit()
             session.refresh(intento)
             self.intento_id = intento.id
-        yield rx.redirect("/examen")
+        yield rx.redirect("/exam")
         yield ExamState.correr_temporizador
 
     @rx.event(background=True)
@@ -191,7 +191,7 @@ class ExamState(rx.State):
                     )
                 )
             session.commit()
-        return rx.redirect("/resultados")
+        return rx.redirect("/results")
 
     @rx.var
     def pregunta_actual(self) -> dict:
