@@ -12,6 +12,8 @@
 > simulacros cronometrados y un dashboard de avances que te mide contra la guía
 > oficial. Practicas preguntas hasta que el puntaje diga que estás listo.
 
+![Pantalla de inicio de la app: promedio, punto más débil, modos de práctica y simulacros cronometrados](docs/screenshot-home.png)
+
 Todo corre en tu máquina. Sin cuentas, sin servidor, sin telemetría — tu
 historial de estudio es un archivo en tu disco.
 

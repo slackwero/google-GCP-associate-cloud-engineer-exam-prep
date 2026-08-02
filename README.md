@@ -12,6 +12,8 @@
 > timed mock exams, and a progress dashboard that measures you against the
 > official exam guide. You drill questions until the score says you are ready.
 
+![The app's home screen: average score, weakest area, practice modes and timed exams](docs/screenshot-home.png)
+
 Everything runs on your machine. No accounts, no server, no telemetry — your
 study history is a file on your disk.
 
