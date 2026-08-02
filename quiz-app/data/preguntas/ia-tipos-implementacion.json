@@ -2449,6 +2449,183 @@
         "es": "Autopilot conserva la superficie de API de Kubernetes que el equipo ya usa mientras Google aprovisiona, dimensiona y actualiza los nodos, incluidos los nodos con GPU creados a partir de las solicitudes de recursos del Pod. B funciona pero devuelve el ciclo de vida de los nodos al equipo, que es justo lo que quieren evitar; C descarta la semántica de Kubernetes de la que dependen sus microservicios; y D abandona por completo la plataforma y aumenta la carga operativa."
       },
       "doc": "https://cloud.google.com/kubernetes-engine/docs/how-to/autopilot-gpus"
+    },
+    {
+      "id": "iadep-057",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "notebooks",
+        "cmek-kms"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-ai-workloads"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A regulated bank lets data scientists use notebooks, but requires customer-managed encryption keys, no public IP, and automatic shutdown when idle. Which option BEST meets all three requirements?",
+        "es": "Un banco regulado permite que los científicos de datos usen notebooks, pero exige claves de encriptación administradas por el cliente, sin IP pública y apagado automático por inactividad. ¿Qué opción cumple MEJOR los tres requisitos?"
+      },
+      "opciones": [
+        {
+          "en": "Workbench instances configured with CMEK, internal-only networking, and idle shutdown",
+          "es": "Instancias de Workbench configuradas con CMEK, red solo interna y apagado por inactividad"
+        },
+        {
+          "en": "Self-managed JupyterLab on a Compute Engine VM with a public IP and a shutdown script maintained by each user",
+          "es": "JupyterLab autoadministrado en una VM de Compute Engine con IP pública y un script de apagado mantenido por cada usuario"
+        },
+        {
+          "en": "Notebooks running on developer laptops with data downloaded from BigQuery",
+          "es": "Notebooks ejecutados en las laptops de los desarrolladores con datos descargados desde BigQuery"
+        },
+        {
+          "en": "A shared Cloud Workstation where everyone runs Jupyter under the same identity",
+          "es": "Una Cloud Workstation compartida donde todos ejecutan Jupyter con la misma identidad"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Workbench instances support CMEK, private networking without external IPs, and built-in idle shutdown, so all three controls are managed platform features rather than custom work. B violates the no-public-IP rule and relies on per-user scripts, C moves regulated data onto endpoints, and D breaks per-user attribution and auditability by sharing one identity.",
+        "es": "Las instancias de Workbench admiten CMEK, red privada sin IPs externas y apagado por inactividad integrado, de modo que los tres controles son funciones administradas de la plataforma y no trabajo a medida. B viola la regla de no tener IP pública y depende de scripts por usuario, C traslada datos regulados a los equipos de los usuarios y D rompe la atribución y la auditabilidad por usuario al compartir una identidad."
+      },
+      "doc": "https://cloud.google.com/vertex-ai/docs/workbench/instances/introduction"
+    },
+    {
+      "id": "iadep-058",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "file-storage"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-storage-products"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Four Pods in a GKE cluster share a few hundred gigabytes of model artifacts and configuration over NFS. Throughput needs are modest and the team wants the lowest cost and least complexity. What is the BEST choice?",
+        "es": "Cuatro Pods de un clúster de GKE comparten unos cientos de gigabytes de artefactos de modelos y configuración por NFS. Las necesidades de rendimiento son moderadas y el equipo quiere el menor costo y la menor complejidad. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        {
+          "en": "A Filestore instance mounted as a ReadWriteMany volume",
+          "es": "Una instancia de Filestore montada como volumen ReadWriteMany"
+        },
+        {
+          "en": "Google Cloud Managed Lustre",
+          "es": "Google Cloud Managed Lustre"
+        },
+        {
+          "en": "A Hyperdisk Extreme volume attached to one Pod that re-serves files to the others",
+          "es": "Un volumen Hyperdisk Extreme conectado a un Pod que vuelve a servir los archivos a los demás"
+        },
+        {
+          "en": "A self-managed NFS server on a Compute Engine VM",
+          "es": "Un servidor NFS autoadministrado en una VM de Compute Engine"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Filestore is the managed NFS service and fits modest, small-scale sharing with minimal operational effort. Managed Lustre is engineered and priced for very large parallel HPC workloads and is overkill here, option C invents a single point of failure and custom serving logic, and a self-managed NFS server means the team patches, sizes, and backs up the file server themselves.",
+        "es": "Filestore es el servicio NFS administrado y encaja con un uso compartido moderado y de pequeña escala con el mínimo esfuerzo operativo. Managed Lustre está diseñado y tarifado para cargas HPC paralelas muy grandes y aquí es excesivo, la opción C inventa un punto único de falla y lógica de serving a medida, y un servidor NFS autoadministrado implica que el equipo parchea, dimensiona y respalda el servidor por su cuenta."
+      },
+      "doc": "https://cloud.google.com/filestore/docs/overview"
+    },
+    {
+      "id": "iadep-059",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "cloud-workstations",
+        "notebooks"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-cloud-workstations",
+        "3.1-ai-workloads"
+      ],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Finance reports that managed developer and notebook environments are the largest line item, mostly outside business hours. Which TWO actions reduce this cost with the least disruption?",
+        "es": "Finanzas informa que los entornos administrados de desarrollo y notebooks son el mayor rubro de costo, sobre todo fuera del horario laboral. ¿Cuáles DOS acciones reducen ese costo con la menor interrupción?"
+      },
+      "opciones": [
+        {
+          "en": "Enable idle timeouts so Cloud Workstations stop automatically when unused",
+          "es": "Habilitar tiempos de espera por inactividad para que las Cloud Workstations se detengan automáticamente cuando no se usan"
+        },
+        {
+          "en": "Turn on idle shutdown for Workbench instances and right-size their machine types",
+          "es": "Activar el apagado por inactividad en las instancias de Workbench y ajustar el tamaño de sus tipos de máquina"
+        },
+        {
+          "en": "Delete the workstation clusters and notebook instances every Friday",
+          "es": "Borrar los clústeres de workstations y las instancias de notebooks cada viernes"
+        },
+        {
+          "en": "Move all interactive environments to Spot VMs so they are preempted regularly",
+          "es": "Mover todos los entornos interactivos a VMs Spot para que sean interrumpidos con frecuencia"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Both managed products bill for running compute, so idle timeouts plus right-sizing eliminate the after-hours waste while persistent disks keep the user's work intact. C destroys state and forces weekly rebuilds, and D applies an interruption-tolerant model to interactive sessions, where preemption would kill in-progress work.",
+        "es": "Ambos productos administrados facturan el cómputo en ejecución, así que los tiempos de espera por inactividad más el ajuste de tamaño eliminan el desperdicio fuera de horario mientras los discos persistentes conservan el trabajo del usuario. C destruye el estado y obliga a reconstruir cada semana, y D aplica un modelo tolerante a interrupciones a sesiones interactivas, donde la interrupción mataría el trabajo en curso."
+      },
+      "doc": "https://cloud.google.com/workstations/docs/manage-idle-timeouts"
+    },
+    {
+      "id": "iadep-060",
+      "curso": "ia-tipos-implementacion",
+      "servicios": [
+        "agent-runtime",
+        "gke"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-ai-workloads"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "An enterprise wants to expose several internally built agents to employees, with managed scaling, per-user sessions, and central observability, while its data platform stays on GKE. What is the BEST allocation of workloads?",
+        "es": "Una empresa quiere exponer varios agentes desarrollados internamente a sus empleados, con escalado administrado, sesiones por usuario y observabilidad centralizada, mientras su plataforma de datos sigue en GKE. ¿Cuál es la MEJOR asignación de cargas de trabajo?"
+      },
+      "opciones": [
+        {
+          "en": "Deploy the agents to Agent Runtime and keep the data platform on GKE, integrating the two over APIs",
+          "es": "Implementar los agentes en Agent Runtime y mantener la plataforma de datos en GKE, integrando ambas por APIs"
+        },
+        {
+          "en": "Move everything, including the agents, into the existing GKE cluster to have one platform",
+          "es": "Mover todo, incluidos los agentes, al clúster de GKE existente para tener una sola plataforma"
+        },
+        {
+          "en": "Move the data platform to Agent Runtime so both live in the same managed service",
+          "es": "Mover la plataforma de datos a Agent Runtime para que ambas vivan en el mismo servicio administrado"
+        },
+        {
+          "en": "Run each agent on its own Compute Engine VM for maximum isolation",
+          "es": "Ejecutar cada agente en su propia VM de Compute Engine para lograr el máximo aislamiento"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Each workload lands where it is cheapest to operate: Agent Runtime provides agent scaling, sessions, and tracing without custom code, and GKE keeps the existing data platform unchanged, with normal API calls between them. B forces the team to rebuild agent capabilities on Kubernetes, C is impossible because Agent Runtime hosts agents and not arbitrary data infrastructure, and D multiplies VMs to patch and scale manually.",
+        "es": "Cada carga queda donde es más barata de operar: Agent Runtime aporta escalado, sesiones y trazado de agentes sin código propio, y GKE conserva sin cambios la plataforma de datos existente, con llamadas de API normales entre ambas. B obliga al equipo a reconstruir las capacidades de agentes sobre Kubernetes, C es inviable porque Agent Runtime aloja agentes y no infraestructura de datos arbitraria, y D multiplica VMs que hay que parchear y escalar a mano."
+      },
+      "doc": "https://cloud.google.com/vertex-ai/generative-ai/docs/agent-engine/overview"
     }
   ]
 }

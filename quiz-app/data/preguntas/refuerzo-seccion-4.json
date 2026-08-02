@@ -2406,6 +2406,453 @@
         "es": "Workload Identity Federation para GKE asocia un ServiceAccount de Kubernetes con una cuenta de servicio de IAM, así la identidad sigue a la carga de trabajo y no a la máquina, los permisos pueden diferir por Pod y nunca se almacena una credencial en el clúster. B ata la identidad a la infraestructura: solo funciona si la programación se aplica perfectamente, agrega costo y trabajo operativo, y cualquier Pod que caiga en el pool equivocado hereda los permisos equivocados. C viola explícitamente el requisito de no usar llaves y convierte cada Secret en una credencial de larga duración que hay que proteger y rotar. D deja a todos los Pods compartiendo una identidad, con lo que el mínimo privilegio por carga es imposible, y los scopes son un control heredado y grueso, no un modelo de autorización."
       },
       "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/workload-identity"
+    },
+    {
+      "id": "ref4-055",
+      "curso": null,
+      "servicios": [
+        "iam",
+        "resource-manager"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.1-policy-inheritance",
+        "4.1-iam-policies"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A compliance rule states that production access must be requested per incident and must never persist. Your team already uses a Cloud Identity group for on-call engineers. With native IAM features only, what is the BEST way to satisfy the rule?",
+        "es": "Una regla de cumplimiento indica que el acceso a producción debe solicitarse por incidente y nunca debe persistir. Tu equipo ya usa un grupo de Cloud Identity para los ingenieros de guardia. Usando solo funciones nativas de IAM, ¿cuál es la MEJOR forma de cumplir la regla?"
+      },
+      "opciones": [
+        {
+          "en": "Grant the on-call group the required role on the production project with an IAM condition on request.time that expires at the end of the shift, recreating the conditional binding for each incident",
+          "es": "Otorgar al grupo de guardia el rol necesario en el proyecto de producción con una condición de IAM sobre request.time que expire al final del turno, recreando la vinculación condicional en cada incidente"
+        },
+        {
+          "en": "Grant the role permanently and rely on quarterly access reviews to catch stale access",
+          "es": "Otorgar el rol de forma permanente y confiar en revisiones de acceso trimestrales para detectar accesos obsoletos"
+        },
+        {
+          "en": "Grant the role at the organization level so it is easier to audit in one place",
+          "es": "Otorgar el rol a nivel de organización para que sea más fácil auditarlo en un solo lugar"
+        },
+        {
+          "en": "Create a custom role with the same permissions and set its launch stage to ALPHA so it is treated as temporary",
+          "es": "Crear un rol personalizado con los mismos permisos y poner su etapa de lanzamiento en ALPHA para que se trate como temporal"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "A time-bound conditional binding is the native mechanism for temporary access: IAM stops honoring the grant once the expression is false, so nothing persists and no revocation step can be forgotten. B leaves standing access between reviews, which is exactly what the rule forbids. C makes the problem worse by widening the blast radius from one project to the whole organization while still being permanent. D misunderstands launch stages: ALPHA is metadata about a role's maturity and support level, and it neither limits nor expires the access the role grants.",
+        "es": "Una vinculación condicional acotada en el tiempo es el mecanismo nativo para acceso temporal: IAM deja de honrar el otorgamiento cuando la expresión es falsa, así nada persiste y no hay paso de revocación que olvidar. B deja acceso permanente entre revisiones, justo lo que la regla prohíbe. C empeora el problema al ampliar el radio de impacto de un proyecto a toda la organización, y sigue siendo permanente. D malinterpreta las etapas de lanzamiento: ALPHA es metadato sobre la madurez y el soporte del rol, y no limita ni hace expirar el acceso que otorga."
+      },
+      "doc": "https://cloud.google.com/iam/docs/configuring-temporary-access"
+    },
+    {
+      "id": "ref4-056",
+      "curso": null,
+      "servicios": [
+        "iam"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.1-role-types"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your organization has accumulated 40 custom roles that duplicate predefined roles with one or two permissions removed. Teams report that new API features stop working after Google releases them. What is the BEST way to reduce this operational burden?",
+        "es": "Tu organización acumuló 40 roles personalizados que duplican roles predefinidos con uno o dos permisos menos. Los equipos reportan que las funciones nuevas de las APIs dejan de funcionar cuando Google las publica. ¿Cuál es la MEJOR forma de reducir esta carga operativa?"
+      },
+      "opciones": [
+        {
+          "en": "Replace custom roles with predefined roles wherever a predefined role is an acceptable fit, and keep custom roles only where a documented requirement demands a narrower permission set",
+          "es": "Reemplazar los roles personalizados por roles predefinidos donde un rol predefinido sea aceptable, y conservar roles personalizados solo donde un requisito documentado exija un conjunto de permisos más acotado"
+        },
+        {
+          "en": "Grant Editor instead, since it always includes new permissions automatically",
+          "es": "Otorgar Editor en su lugar, ya que siempre incluye los permisos nuevos automáticamente"
+        },
+        {
+          "en": "Set every custom role's launch stage to GA so Google keeps them synchronized with predefined roles",
+          "es": "Poner la etapa de lanzamiento de todos los roles personalizados en GA para que Google los mantenga sincronizados con los roles predefinidos"
+        },
+        {
+          "en": "Create the custom roles at the organization level instead of the project level so they update automatically",
+          "es": "Crear los roles personalizados a nivel de organización en lugar de proyecto para que se actualicen automáticamente"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Custom roles are never updated by Google, so every new permission in a service must be added by hand — the failures the teams see are the expected cost of that model. Preferring predefined roles removes most of the maintenance, and custom roles remain justified only where least privilege genuinely requires them. B trades a maintenance problem for a serious security problem, since Editor is a basic role with sweeping write access. C is wrong because launch stage describes support expectations for your role; it creates no synchronization with Google's roles. D is wrong because scope determines where a custom role can be used, not whether Google maintains its contents.",
+        "es": "Google nunca actualiza los roles personalizados, así que cada permiso nuevo de un servicio debe agregarse a mano: las fallas que reportan los equipos son el costo esperado de ese modelo. Preferir roles predefinidos elimina la mayor parte del mantenimiento, y los personalizados quedan justificados solo donde el mínimo privilegio realmente los exige. B cambia un problema de mantenimiento por uno serio de seguridad, ya que Editor es un rol básico con acceso de escritura amplísimo. C es incorrecta porque la etapa de lanzamiento describe las expectativas de soporte de tu rol; no genera sincronización con los roles de Google. D es incorrecta porque el alcance determina dónde puede usarse un rol personalizado, no si Google mantiene su contenido."
+      },
+      "doc": "https://cloud.google.com/iam/docs/roles-overview"
+    },
+    {
+      "id": "ref4-057",
+      "curso": null,
+      "servicios": [
+        "service-accounts",
+        "iam",
+        "cloud-storage"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.2-sa-creation"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "While cleaning up IAM, an administrator removed a binding for an account named service-123456789@gcp-sa-pubsub.iam.gserviceaccount.com. Pub/Sub push subscriptions and CMEK-encrypted topics immediately start failing. What happened, and what is the correct fix?",
+        "es": "Mientras limpiaba IAM, un administrador quitó una vinculación de una cuenta llamada service-123456789@gcp-sa-pubsub.iam.gserviceaccount.com. Las suscripciones push de Pub/Sub y los temas cifrados con CMEK empiezan a fallar de inmediato. ¿Qué ocurrió y cuál es la corrección adecuada?"
+      },
+      "opciones": [
+        {
+          "en": "That account is a Google-managed service agent; restore the service agent role that Pub/Sub requires so the service can act on your resources again",
+          "es": "Esa cuenta es un service agent administrado por Google; restaurar el rol de service agent que Pub/Sub requiere para que el servicio pueda volver a actuar sobre tus recursos"
+        },
+        {
+          "en": "The account was an unused user-managed service account; recreate it with the same email and the bindings will return",
+          "es": "La cuenta era una cuenta de servicio del usuario sin uso; recrearla con el mismo correo hará que las vinculaciones vuelvan"
+        },
+        {
+          "en": "Nothing can be done from IAM; you must recreate the topics and subscriptions",
+          "es": "No se puede hacer nada desde IAM; hay que volver a crear los temas y las suscripciones"
+        },
+        {
+          "en": "Grant the Pub/Sub agent roles/owner so it can never be blocked again",
+          "es": "Otorgar al agente de Pub/Sub el rol roles/owner para que nunca vuelva a bloquearse"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Emails of the form service-PROJECT_NUMBER@gcp-sa-SERVICE.iam.gserviceaccount.com belong to Google-managed service agents, and the service uses them to perform work such as delivering push messages and calling Cloud KMS on your behalf; removing their role breaks the service until the role is restored. B is wrong because this is not a user-managed account, and recreating a deleted account never restores old bindings — the new principal has a different unique ID. C is wrong because the problem is a missing IAM binding, not corrupted resources. D would restore function but by granting an enormous, unnecessary privilege; service agents should hold only their documented service agent role.",
+        "es": "Los correos con el formato service-PROJECT_NUMBER@gcp-sa-SERVICE.iam.gserviceaccount.com pertenecen a service agents administrados por Google, y el servicio los usa para tareas como entregar mensajes push y llamar a Cloud KMS en tu nombre; quitarles el rol rompe el servicio hasta restaurarlo. B es incorrecta porque no es una cuenta administrada por el usuario, y recrear una cuenta borrada nunca restaura las vinculaciones antiguas: el principal nuevo tiene otro ID único. C es incorrecta porque el problema es una vinculación de IAM faltante, no recursos corruptos. D restauraría el funcionamiento pero otorgando un privilegio enorme e innecesario; los service agents deben tener solo su rol de service agent documentado."
+      },
+      "doc": "https://cloud.google.com/iam/docs/service-agents"
+    },
+    {
+      "id": "ref4-058",
+      "curso": null,
+      "servicios": [
+        "service-accounts",
+        "cloud-logging",
+        "iam"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.2-sa-impersonation"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "After an incident, you must prove which human principal was behind an action performed by a highly privileged service account. Impersonation is used throughout the organization. What is the MOST reliable way to establish this?",
+        "es": "Tras un incidente, debes demostrar qué principal humano estuvo detrás de una acción realizada por una cuenta de servicio muy privilegiada. La suplantación se usa en toda la organización. ¿Cuál es la forma MÁS confiable de establecerlo?"
+      },
+      "opciones": [
+        {
+          "en": "Correlate the resource's Admin Activity log entry, which shows the service account as the caller, with the Data Access audit logs of the IAM Service Account Credentials API, which record the authenticated principal that requested the token",
+          "es": "Correlacionar la entrada de Actividad del administrador del recurso, que muestra la cuenta de servicio como invocadora, con los Data Access audit logs de la API IAM Service Account Credentials, que registran el principal autenticado que solicitó el token"
+        },
+        {
+          "en": "Read only the resource's Admin Activity log, which always names the original human principal",
+          "es": "Leer únicamente el registro de Actividad del administrador del recurso, que siempre nombra al principal humano original"
+        },
+        {
+          "en": "Ask each team member to confirm whether they ran the command",
+          "es": "Preguntar a cada integrante del equipo si ejecutó el comando"
+        },
+        {
+          "en": "Enable VPC Flow Logs and match the source IP address of the API call",
+          "es": "Habilitar VPC Flow Logs y hacer coincidir la dirección IP de origen de la llamada a la API"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The action itself is authenticated as the service account, so the resource log alone cannot attribute it to a person; the missing link is the token-generation event, which is logged by the credentials API with the requesting principal, and joining the two by time and account gives the chain. B is exactly the misconception being tested — the resource log's principal is the impersonated service account. C is not evidence and cannot be relied on in an investigation. D observes network flows and never carries IAM principal identity, and API calls to Google services are not what flow logs are designed to attribute.",
+        "es": "La acción se autentica como la cuenta de servicio, así que el registro del recurso por sí solo no puede atribuirla a una persona; el eslabón faltante es el evento de generación del token, que la API de credenciales registra junto con el principal solicitante, y unir ambos por tiempo y cuenta da la cadena. B es justo la confusión que se evalúa: el principal del registro del recurso es la cuenta de servicio suplantada. C no es evidencia y no puede sustentar una investigación. D observa flujos de red y nunca lleva la identidad del principal de IAM, y las llamadas a APIs de Google no son lo que los flow logs están diseñados para atribuir."
+      },
+      "doc": "https://cloud.google.com/iam/docs/audit-logging"
+    },
+    {
+      "id": "ref4-059",
+      "curso": null,
+      "servicios": [
+        "identity-federation",
+        "iam"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.2-sa-gke-workload-identity"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You configured Workload Identity Federation for GitHub Actions and mapped google.subject to assertion.sub. A security review warns that any repository in the GitHub organization, and any branch, could obtain credentials. What is the BEST fix?",
+        "es": "Configuraste Workload Identity Federation para GitHub Actions y mapeaste google.subject a assertion.sub. Una revisión de seguridad advierte que cualquier repositorio de la organización de GitHub, y cualquier rama, podría obtener credenciales. ¿Cuál es la MEJOR corrección?"
+      },
+      "opciones": [
+        {
+          "en": "Add an attribute condition on the provider that requires the repository claim to equal the intended repository, and grant access to a principalSet restricted to that repository and branch",
+          "es": "Agregar al proveedor una condición de atributos que exija que el reclamo del repositorio sea el repositorio previsto, y otorgar acceso a un principalSet restringido a ese repositorio y rama"
+        },
+        {
+          "en": "Rotate the workload identity pool every 30 days",
+          "es": "Rotar el workload identity pool cada 30 días"
+        },
+        {
+          "en": "Switch to a service account key stored as a GitHub encrypted secret, which only that repository can read",
+          "es": "Cambiar a una llave de cuenta de servicio guardada como secreto cifrado de GitHub, que solo ese repositorio puede leer"
+        },
+        {
+          "en": "Reduce the access token lifetime to five minutes",
+          "es": "Reducir la vida útil del access token a cinco minutos"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The provider's attribute condition is what decides which external identities are even allowed to exchange a token, and the IAM binding on a narrow principalSet decides what they can do; together they pin trust to one repository and, if desired, one branch or environment. B is meaningless as a control: the pool's age has nothing to do with which claims it trusts, and rotating it only breaks working pipelines. C abandons federation and reintroduces a long-lived key, moving the risk rather than removing it. D shortens the window but any unauthorized repository can simply request a fresh token, so the wrong identities still get access.",
+        "es": "La condición de atributos del proveedor decide qué identidades externas siquiera pueden intercambiar un token, y la vinculación de IAM sobre un principalSet acotado decide qué pueden hacer; juntas fijan la confianza a un repositorio y, si se quiere, a una rama o entorno. B no es un control real: la antigüedad del pool no tiene relación con qué reclamos confía, y rotarlo solo rompe pipelines que funcionan. C abandona la federación y reintroduce una llave de larga duración, moviendo el riesgo en vez de eliminarlo. D acorta la ventana, pero cualquier repositorio no autorizado puede pedir un token nuevo, así que las identidades equivocadas siguen obteniendo acceso."
+      },
+      "doc": "https://cloud.google.com/iam/docs/workload-identity-federation-with-deployment-pipelines"
+    },
+    {
+      "id": "ref4-060",
+      "curso": null,
+      "servicios": [
+        "active-assist",
+        "iam"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.2-sa-least-privilege",
+        "4.1-iam-policies"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Leadership asks you to reduce excess permissions across 300 projects without breaking running workloads, and with the least manual analysis. What should you do?",
+        "es": "La dirección te pide reducir los permisos excesivos en 300 proyectos sin romper cargas de trabajo en ejecución y con el mínimo análisis manual. ¿Qué deberías hacer?"
+      },
+      "opciones": [
+        {
+          "en": "Review IAM role recommendations from Active Assist, which are based on 90 days of observed permission usage, and apply them starting with the highest-impact bindings",
+          "es": "Revisar las recomendaciones de roles de IAM de Active Assist, basadas en 90 días de uso observado de permisos, y aplicarlas empezando por las vinculaciones de mayor impacto"
+        },
+        {
+          "en": "Remove all Editor bindings organization-wide in a single change and restore individually whatever breaks",
+          "es": "Quitar todas las vinculaciones de Editor en toda la organización en un solo cambio y restaurar individualmente lo que se rompa"
+        },
+        {
+          "en": "Replace every predefined role with a custom role containing half of its permissions",
+          "es": "Reemplazar cada rol predefinido por un rol personalizado que contenga la mitad de sus permisos"
+        },
+        {
+          "en": "Enable Data Access audit logs and have an engineer read them project by project to infer unused permissions",
+          "es": "Habilitar los Data Access audit logs y que un ingeniero los lea proyecto por proyecto para inferir permisos sin uso"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Role recommendations are exactly this tool: the recommender analyzes real usage over a 90-day window and proposes a less permissive role for each over-granted binding, which is both evidence-based and low effort at scale. B is a self-inflicted outage: it removes access before knowing what depends on it. C is arbitrary — cutting permissions without usage data breaks workloads and creates 300 projects' worth of unmaintained custom roles. D is essentially the manual version of what the recommender already computes, and the requirement explicitly asks for the least manual analysis.",
+        "es": "Las recomendaciones de roles son justo esta herramienta: el recommender analiza el uso real en una ventana de 90 días y propone un rol menos permisivo por cada vinculación excesiva, lo que es a la vez basado en evidencia y de bajo esfuerzo a gran escala. B es una interrupción autoinfligida: quita accesos antes de saber qué depende de ellos. C es arbitraria: recortar permisos sin datos de uso rompe cargas de trabajo y crea roles personalizados sin mantenimiento en 300 proyectos. D es esencialmente la versión manual de lo que el recommender ya calcula, y el requisito pide explícitamente el mínimo análisis manual."
+      },
+      "doc": "https://cloud.google.com/iam/docs/recommender-overview"
+    },
+    {
+      "id": "ref4-061",
+      "curso": null,
+      "servicios": [
+        "cloud-storage",
+        "service-accounts",
+        "iam"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.2-short-lived-credentials"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A backend running on Cloud Run must issue Cloud Storage signed URLs so browsers can upload files directly, and the platform team has disabled service account key creation organization-wide. What is the BEST way to sign the URLs?",
+        "es": "Un backend en Cloud Run debe emitir URLs firmadas de Cloud Storage para que los navegadores suban archivos directamente, y el equipo de plataforma deshabilitó la creación de llaves de cuentas de servicio en toda la organización. ¿Cuál es la MEJOR forma de firmar las URLs?"
+      },
+      "opciones": [
+        {
+          "en": "Let the service sign with the IAM Service Account Credentials API (signBlob), granting its own service account roles/iam.serviceAccountTokenCreator on the signing service account",
+          "es": "Que el servicio firme con la API IAM Service Account Credentials (signBlob), otorgando a su propia cuenta de servicio el rol roles/iam.serviceAccountTokenCreator sobre la cuenta firmante"
+        },
+        {
+          "en": "Request an exception to the organization policy and embed a private key in the container image",
+          "es": "Solicitar una excepción a la política de la organización e incrustar una llave privada en la imagen del contenedor"
+        },
+        {
+          "en": "Make the bucket public so no signing is needed",
+          "es": "Hacer público el bucket para que no haga falta firmar"
+        },
+        {
+          "en": "Use an API key with an HTTP referrer restriction instead of a signed URL",
+          "es": "Usar una API key con restricción de referente HTTP en lugar de una URL firmada"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Signing does not require possession of a private key: the credentials API performs the signature server-side for a service account you are authorized to impersonate, which is why signBlob is included in the Token Creator role and why client libraries can sign with no key material. B defeats the organization policy and puts a permanent credential inside an image that many people can pull. C removes access control entirely and would let anyone read or overwrite data. D is not a substitute — API keys do not authorize Cloud Storage object access and referrer restrictions are trivially spoofed.",
+        "es": "Firmar no requiere poseer una llave privada: la API de credenciales realiza la firma del lado del servidor para una cuenta de servicio que estás autorizado a suplantar, por eso signBlob está incluido en el rol Token Creator y por eso las bibliotecas cliente pueden firmar sin material de llave. B anula la política de la organización y coloca una credencial permanente dentro de una imagen que muchas personas pueden descargar. C elimina por completo el control de acceso y permitiría a cualquiera leer o sobrescribir datos. D no es un sustituto: las API keys no autorizan el acceso a objetos de Cloud Storage y las restricciones de referente se falsifican con facilidad."
+      },
+      "doc": "https://cloud.google.com/storage/docs/access-control/signed-urls"
+    },
+    {
+      "id": "ref4-062",
+      "curso": null,
+      "servicios": [
+        "resource-manager",
+        "iam"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.1-policy-inheritance"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You must ensure that no VM in any project of the org can be created with an external IP address, and separately that only the network team can modify firewall rules. Which combination is correct?",
+        "es": "Debes garantizar que ninguna VM de ningún proyecto de la organización pueda crearse con dirección IP externa y, por separado, que solo el equipo de redes pueda modificar reglas de firewall. ¿Qué combinación es correcta?"
+      },
+      "opciones": [
+        {
+          "en": "An organization policy constraint (constraints/compute.vmExternalIpAccess) for the external IP restriction, and IAM bindings granting the network team the appropriate networking role for firewall changes",
+          "es": "Una restricción de política de la organización (constraints/compute.vmExternalIpAccess) para la restricción de IP externa, y vinculaciones de IAM que otorguen al equipo de redes el rol de redes adecuado para los cambios de firewall"
+        },
+        {
+          "en": "IAM deny policies for both requirements, since they both concern security",
+          "es": "Deny policies de IAM para ambos requisitos, ya que ambos son de seguridad"
+        },
+        {
+          "en": "Organization policy constraints for both requirements",
+          "es": "Restricciones de política de la organización para ambos requisitos"
+        },
+        {
+          "en": "A single custom role that omits compute.instances.create and compute.firewalls.update",
+          "es": "Un único rol personalizado que omita compute.instances.create y compute.firewalls.update"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The two requirements are different kinds of control: what configurations a resource may have is governed by organization policy constraints, which apply to everyone regardless of role, while who may perform an action is governed by IAM. B misapplies deny policies, which act on permissions and cannot express 'a VM may not have an external IP'. C has no constraint that expresses 'only this group may edit firewalls', because organization policy does not target principals. D fails on both counts: a custom role restricts only its own members, so anyone holding a predefined role such as Compute Admin still creates VMs with external IPs and edits firewall rules.",
+        "es": "Los dos requisitos son controles de tipos distintos: qué configuraciones puede tener un recurso lo gobiernan las restricciones de política de la organización, que aplican a todos sin importar su rol, mientras que quién puede realizar una acción lo gobierna IAM. B aplica mal las deny policies, que actúan sobre permisos y no pueden expresar 'una VM no puede tener IP externa'. C no tiene ninguna restricción que exprese 'solo este grupo puede editar firewalls', porque la política de organización no apunta a principales. D falla en ambos frentes: un rol personalizado restringe solo a sus propios miembros, así que quien tenga un rol predefinido como Compute Admin sigue creando VMs con IP externa y editando reglas de firewall."
+      },
+      "doc": "https://cloud.google.com/resource-manager/docs/organization-policy/overview"
+    },
+    {
+      "id": "ref4-063",
+      "curso": null,
+      "servicios": [
+        "service-accounts",
+        "iam",
+        "bigquery"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.2-sa-least-privilege",
+        "4.2-sa-resources"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A nightly pipeline reads from a BigQuery dataset in project data-prod and writes results to a bucket in project app-prod. It currently runs with a single service account that has Editor on both projects. What is the BEST least-privilege redesign?",
+        "es": "Un pipeline nocturno lee un dataset de BigQuery del proyecto data-prod y escribe resultados en un bucket del proyecto app-prod. Hoy corre con una única cuenta de servicio que tiene Editor en ambos proyectos. ¿Cuál es el MEJOR rediseño de mínimo privilegio?"
+      },
+      "opciones": [
+        {
+          "en": "Keep one service account in the pipeline's project and grant it BigQuery Data Viewer plus Job User on the specific dataset and project in data-prod, and Storage Object Creator on the specific bucket in app-prod",
+          "es": "Mantener una cuenta de servicio en el proyecto del pipeline y otorgarle BigQuery Data Viewer más Job User sobre el dataset y proyecto específicos en data-prod, y Storage Object Creator sobre el bucket específico en app-prod"
+        },
+        {
+          "en": "Create one service account per project and share a JSON key between them so the pipeline can switch identities",
+          "es": "Crear una cuenta de servicio por proyecto y compartir una llave JSON entre ellas para que el pipeline pueda cambiar de identidad"
+        },
+        {
+          "en": "Grant the pipeline's service account Editor at the organization level so cross-project access is simpler",
+          "es": "Otorgar Editor a la cuenta de servicio del pipeline a nivel de organización para simplificar el acceso entre proyectos"
+        },
+        {
+          "en": "Move both the dataset and the bucket into the pipeline's project so no cross-project permissions are needed",
+          "es": "Mover el dataset y el bucket al proyecto del pipeline para no necesitar permisos entre proyectos"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "A service account is a project-scoped identity that can be granted roles on resources in other projects, so one identity with narrow, resource-level roles in each project is both simple and minimal — read-only where it reads, write-only where it writes. B is wrong on principle and mechanism: keys should not be created at all, and sharing one between accounts is not how identity switching works. C is the opposite of least privilege and widens the blast radius to every project in the organization. D forces a data architecture change to solve a permissions problem and breaks the ownership boundaries the two projects represent.",
+        "es": "Una cuenta de servicio es una identidad con alcance de proyecto que puede recibir roles sobre recursos de otros proyectos, así que una sola identidad con roles acotados a nivel de recurso en cada proyecto es a la vez simple y mínima: solo lectura donde lee, solo escritura donde escribe. B es incorrecta en principio y en mecanismo: no deberían crearse llaves, y compartir una entre cuentas no es como funciona el cambio de identidad. C es lo contrario del mínimo privilegio y amplía el radio de impacto a todos los proyectos de la organización. D obliga a cambiar la arquitectura de datos para resolver un problema de permisos y rompe los límites de propiedad que representan los dos proyectos."
+      },
+      "doc": "https://cloud.google.com/iam/docs/best-practices-service-accounts"
+    },
+    {
+      "id": "ref4-064",
+      "curso": null,
+      "servicios": [
+        "iam",
+        "resource-manager"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.1-role-types",
+        "4.1-policy-inheritance"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A custom role must be usable in bindings across 60 projects that live under several folders, and its definition must be maintained in one place. What is the BEST way to create it?",
+        "es": "Un rol personalizado debe poder usarse en vinculaciones de 60 proyectos que viven bajo varias carpetas, y su definición debe mantenerse en un solo lugar. ¿Cuál es la MEJOR forma de crearlo?"
+      },
+      "opciones": [
+        {
+          "en": "Create it once at the organization level with gcloud iam roles create --organization, then reference it in bindings on any folder, project, or resource in the organization",
+          "es": "Crearlo una vez a nivel de organización con gcloud iam roles create --organization y luego referenciarlo en vinculaciones de cualquier carpeta, proyecto o recurso de la organización"
+        },
+        {
+          "en": "Create it once at the folder level so it is shared by the projects under each folder",
+          "es": "Crearlo una vez a nivel de carpeta para que lo compartan los proyectos de cada carpeta"
+        },
+        {
+          "en": "Create an identical copy in each of the 60 projects with a script",
+          "es": "Crear una copia idéntica en cada uno de los 60 proyectos con un script"
+        },
+        {
+          "en": "Create it in one project and grant the other 59 projects Viewer on that project so they can use the role",
+          "es": "Crearlo en un proyecto y otorgar a los otros 59 proyectos el rol Viewer sobre ese proyecto para que puedan usarlo"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "An organization-level custom role has a single definition that can be referenced anywhere in that organization, so one update propagates to every binding — exactly the maintain-in-one-place requirement. B is impossible: IAM does not support custom roles at the folder level. C technically works but creates 60 definitions that will drift apart, which is the failure mode the requirement is trying to avoid. D misunderstands the model — a project-level custom role can only be used within its own project, and granting Viewer elsewhere does not make a role visible or usable.",
+        "es": "Un rol personalizado a nivel de organización tiene una única definición que puede referenciarse en cualquier parte de esa organización, así que una actualización se propaga a todas las vinculaciones: justo el requisito de mantener en un solo lugar. B es imposible: IAM no admite roles personalizados a nivel de carpeta. C funciona técnicamente pero crea 60 definiciones que se desincronizarán, que es el modo de falla que el requisito quiere evitar. D malinterpreta el modelo: un rol personalizado de proyecto solo puede usarse dentro de su propio proyecto, y otorgar Viewer en otro lado no hace que un rol sea visible ni utilizable."
+      },
+      "doc": "https://cloud.google.com/iam/docs/creating-custom-roles"
     }
   ]
 }

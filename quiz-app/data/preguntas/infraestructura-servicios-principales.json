@@ -2631,6 +2631,227 @@
         "es": "La evaluación se detiene en la coincidencia de mayor prioridad, y un número menor significa mayor prioridad, así que un permitir acotado en 400 gana para tcp:8080 mientras la denegación amplia en 500 sigue bloqueando todo lo demás: el patrón estándar de denegar por defecto. B descarta el control de seguridad que el escenario pide conservar. C debilita aún más la regla de permitir, ya que 2000 se evalúa después de 500 y nunca se alcanza. D confunde la selección de origen con la prioridad: la regla de denegar seguiría coincidiendo primero sin importar las etiquetas del emisor."
       },
       "doc": "https://cloud.google.com/firewall/docs/firewalls#priority_order_for_firewall_rules"
+    },
+    {
+      "id": "infra-061",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "vpc",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-subnets-ips"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A licensing server on a VM is referenced by clients through a hardcoded private address, and the VM is stopped every weekend to save cost. The address must never change. What is the BEST option?",
+        "es": "Un servidor de licencias en una VM es referenciado por los clientes mediante una dirección privada codificada, y la VM se detiene cada fin de semana para ahorrar costos. La dirección nunca debe cambiar. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        {
+          "en": "Reserve a static internal IP address in the subnet and assign it to the VM network interface",
+          "es": "Reservar una dirección IP interna estática en la subred y asignarla a la interfaz de red de la VM"
+        },
+        {
+          "en": "Reserve a static external IP address and have the clients connect to it",
+          "es": "Reservar una dirección IP externa estática y hacer que los clientes se conecten a ella"
+        },
+        {
+          "en": "Keep the ephemeral internal IP, since internal addresses never change while the VM exists",
+          "es": "Conservar la IP interna efímera, ya que las direcciones internas nunca cambian mientras la VM exista"
+        },
+        {
+          "en": "Stop stopping the VM, so the ephemeral address is never released",
+          "es": "Dejar de detener la VM para que la dirección efímera nunca se libere"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "A reserved static internal IP is an address resource held in the subnet, so it stays bound to the instance across stop and start cycles and is never handed to another VM. B routes private traffic over the internet unnecessarily, adds egress cost and widens the attack surface for a purely internal service. C is a common misconception: an ephemeral internal IP is normally kept while the VM exists, but it is not guaranteed nor reserved, which is exactly the risk a licensing dependency cannot take. D solves the symptom by removing the weekend savings the team wants and still leaves the address unreserved.",
+        "es": "Una IP interna estática reservada es un recurso de dirección retenido en la subred, así que permanece ligada a la instancia a lo largo de los ciclos de detención e inicio y nunca se entrega a otra VM. B enruta tráfico privado por internet sin necesidad, agrega costo de salida y amplía la superficie de ataque de un servicio puramente interno. C es un error común: una IP interna efímera normalmente se conserva mientras la VM existe, pero no está garantizada ni reservada, que es justo el riesgo que una dependencia de licenciamiento no puede correr. D resuelve el síntoma eliminando el ahorro de fin de semana que el equipo quiere y aun así deja la dirección sin reservar."
+      },
+      "doc": "https://cloud.google.com/compute/docs/ip-addresses/reserve-static-internal-ip-address"
+    },
+    {
+      "id": "infra-062",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "persistent-disk",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-storage"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A transactional database on Compute Engine needs very high IOPS and throughput on a volume of only 500 GB, and the team does not want to overprovision capacity just to obtain performance. What is the BEST option?",
+        "es": "Una base de datos transaccional en Compute Engine necesita IOPS y rendimiento muy altos en un volumen de apenas 500 GB, y el equipo no quiere sobreaprovisionar capacidad solo para obtener rendimiento. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        {
+          "en": "Use Hyperdisk, where provisioned IOPS and throughput are configured independently of the disk size",
+          "es": "Usar Hyperdisk, donde los IOPS y el rendimiento aprovisionados se configuran de forma independiente del tamaño del disco"
+        },
+        {
+          "en": "Use a 10 TB pd-ssd Persistent Disk so the size-based performance limits are high enough",
+          "es": "Usar un Persistent Disk pd-ssd de 10 TB para que los límites de rendimiento basados en el tamaño sean suficientes"
+        },
+        {
+          "en": "Use a pd-standard Persistent Disk and add more vCPUs to the instance",
+          "es": "Usar un Persistent Disk pd-standard y agregar más vCPUs a la instancia"
+        },
+        {
+          "en": "Use Local SSD and replicate to a second VM with application-level replication",
+          "es": "Usar Local SSD y replicar a una segunda VM con replicación a nivel de aplicación"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Hyperdisk decouples performance from capacity: you provision IOPS and throughput as separate, tunable attributes, so a small volume can be fast without buying terabytes you do not need. B is the classic overprovisioning workaround the scenario explicitly rejects, and it wastes money on 9.5 TB of unused capacity. C is the wrong axis entirely — pd-standard is HDD-backed with low IOPS, and vCPUs do not raise disk limits beyond the instance-level cap. D gives high local performance but the data is ephemeral, so a durable transactional database would depend on custom replication and still lose the primary copy on any host event.",
+        "es": "Hyperdisk desacopla el rendimiento de la capacidad: aprovisionas IOPS y rendimiento como atributos separados y ajustables, por lo que un volumen pequeño puede ser rápido sin comprar terabytes que no necesitas. B es la solución clásica de sobreaprovisionamiento que el escenario rechaza explícitamente y desperdicia dinero en 9.5 TB de capacidad sin usar. C apunta al eje equivocado: pd-standard está respaldado por HDD con IOPS bajos, y las vCPUs no elevan los límites del disco más allá del tope de la instancia. D entrega alto rendimiento local, pero los datos son efímeros, así que una base transaccional durable dependería de replicación propia y aun así perdería la copia primaria ante cualquier evento del host."
+      },
+      "doc": "https://cloud.google.com/compute/docs/disks/hyperdisks"
+    },
+    {
+      "id": "infra-063",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "compute-engine",
+        "iam"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-snapshots-images"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A central platform project builds approved VM images. Application teams in other projects must be able to launch VMs from those images, but must not be able to modify or delete them. What is the BEST option?",
+        "es": "Un proyecto central de plataforma construye imágenes de VM aprobadas. Los equipos de aplicaciones en otros proyectos deben poder lanzar VMs desde esas imágenes, pero no deben poder modificarlas ni borrarlas. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        {
+          "en": "Keep the images in the platform project and grant the teams roles/compute.imageUser on that project",
+          "es": "Mantener las imágenes en el proyecto de plataforma y otorgar a los equipos roles/compute.imageUser en ese proyecto"
+        },
+        {
+          "en": "Copy each image into every application project and grant the teams roles/compute.admin there",
+          "es": "Copiar cada imagen a todos los proyectos de aplicaciones y otorgar allí a los equipos roles/compute.admin"
+        },
+        {
+          "en": "Export the images to a Cloud Storage bucket and grant the teams roles/storage.objectViewer",
+          "es": "Exportar las imágenes a un bucket de Cloud Storage y otorgar a los equipos roles/storage.objectViewer"
+        },
+        {
+          "en": "Grant the teams roles/compute.imageAdmin on the platform project",
+          "es": "Otorgar a los equipos roles/compute.imageAdmin en el proyecto de plataforma"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "roles/compute.imageUser is the purpose-built role for cross-project image consumption: holders can list and create instances from the images but cannot change them, and the images stay in one place so a new version is immediately available everywhere. B multiplies copies that drift, and compute.admin lets teams delete or alter the approved artifacts. C turns images into raw files the teams would have to import before use, adding a manual step and losing image family semantics. D grants full administration of the images, which directly violates the 'must not modify or delete' requirement.",
+        "es": "roles/compute.imageUser es el rol diseñado para el consumo de imágenes entre proyectos: quienes lo tienen pueden listar y crear instancias a partir de las imágenes, pero no modificarlas, y las imágenes permanecen en un solo lugar para que una versión nueva esté disponible de inmediato en todas partes. B multiplica copias que se desvían, y compute.admin permite a los equipos borrar o alterar los artefactos aprobados. C convierte las imágenes en archivos crudos que los equipos tendrían que importar antes de usar, agregando un paso manual y perdiendo la semántica de familias de imágenes. D otorga administración completa de las imágenes, lo que viola directamente el requisito de 'no modificar ni borrar'."
+      },
+      "doc": "https://cloud.google.com/compute/docs/images/managing-access-custom-images"
+    },
+    {
+      "id": "infra-064",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "cloud-storage",
+        "iam"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-gcs-management"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "An audit found that permissions on a bucket with thousands of objects are inconsistent: some objects were shared through per-object ACLs. The team must be able to answer 'who can read this bucket?' from one place, with minimal ongoing effort. What is the BEST option?",
+        "es": "Una auditoría detectó que los permisos de un bucket con miles de objetos son inconsistentes: algunos objetos se compartieron mediante ACLs por objeto. El equipo debe poder responder '¿quién puede leer este bucket?' desde un solo lugar y con el mínimo esfuerzo continuo. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        {
+          "en": "Enable uniform bucket-level access and grant the required roles in the bucket IAM policy",
+          "es": "Habilitar el acceso uniforme a nivel de bucket y otorgar los roles necesarios en la política de IAM del bucket"
+        },
+        {
+          "en": "Write a script that lists every object and normalizes its ACL every night",
+          "es": "Escribir un script que liste cada objeto y normalice su ACL cada noche"
+        },
+        {
+          "en": "Grant roles/storage.admin on the project to the security team so they can see all permissions",
+          "es": "Otorgar roles/storage.admin en el proyecto al equipo de seguridad para que pueda ver todos los permisos"
+        },
+        {
+          "en": "Recreate the bucket, copy the objects, and keep using ACLs but document them in a spreadsheet",
+          "es": "Recrear el bucket, copiar los objetos y seguir usando ACLs pero documentarlas en una hoja de cálculo"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Uniform bucket-level access disables object ACLs entirely, so access is described by a single IAM policy that can be read, audited and analyzed with Policy Analyzer; it is the recommended configuration and there is a 90-day window in which the change can be reverted. B keeps the fragmented model and adds fragile automation and per-object API cost. C changes who can inspect the mess without fixing it — and grants broad write access as a side effect. D preserves the exact problem and moves the source of truth into a document that will drift from reality.",
+        "es": "El acceso uniforme a nivel de bucket desactiva por completo las ACLs de objeto, de modo que el acceso queda descrito por una única política de IAM que se puede leer, auditar y analizar con Policy Analyzer; es la configuración recomendada y existe una ventana de 90 días para revertir el cambio. B mantiene el modelo fragmentado y agrega automatización frágil y costo de API por objeto. C cambia quién puede inspeccionar el desorden sin corregirlo, y como efecto secundario otorga amplio acceso de escritura. D conserva exactamente el problema y traslada la fuente de verdad a un documento que se desviará de la realidad."
+      },
+      "doc": "https://cloud.google.com/storage/docs/uniform-bucket-level-access"
+    },
+    {
+      "id": "infra-065",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-instance-config",
+        "2.1-spot-custom-machines"
+      ],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "A team plans to move a stateful, latency-sensitive production service to Spot VMs to cut cost. Which TWO facts should make them reconsider?",
+        "es": "Un equipo planea mover un servicio de producción con estado y sensible a la latencia a VMs Spot para reducir costos. ¿Cuáles DOS hechos deberían hacerlos reconsiderar?"
+      },
+      "opciones": [
+        {
+          "en": "Compute Engine can preempt a Spot VM at any time with only a short termination notice, and there is no availability SLA",
+          "es": "Compute Engine puede interrumpir una VM Spot en cualquier momento con solo un breve aviso de finalización, y no hay SLA de disponibilidad"
+        },
+        {
+          "en": "Spot VMs do not support live migration, so they are also terminated by host maintenance events",
+          "es": "Las VMs Spot no admiten migración en vivo, por lo que también se terminan ante eventos de mantenimiento del host"
+        },
+        {
+          "en": "Spot VMs cannot use Persistent Disk, so all state would have to live in memory",
+          "es": "Las VMs Spot no pueden usar Persistent Disk, así que todo el estado tendría que vivir en memoria"
+        },
+        {
+          "en": "Spot VMs are limited to a single zone per project, which prevents any redundancy",
+          "es": "Las VMs Spot se limitan a una sola zona por proyecto, lo que impide cualquier redundancia"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "The two real disqualifiers are unpredictable preemption with no availability SLA and the absence of live migration, which together mean the service can disappear during peak load and during routine host maintenance — unacceptable for a latency-sensitive stateful tier. C is false: Spot VMs use Persistent Disk normally, and disks can be preserved when the VM is preempted with the STOP termination action. D is false: Spot capacity is requested per zone like any other VM and you can spread instances across zones and regions.",
+        "es": "Los dos descalificadores reales son la interrupción impredecible sin SLA de disponibilidad y la ausencia de migración en vivo, que en conjunto implican que el servicio puede desaparecer en plena carga máxima y durante el mantenimiento rutinario del host: inaceptable para una capa con estado y sensible a la latencia. C es falsa: las VMs Spot usan Persistent Disk con normalidad, y los discos se pueden conservar cuando la VM se interrumpe con la acción de finalización STOP. D es falsa: la capacidad Spot se solicita por zona como cualquier otra VM y puedes distribuir instancias entre zonas y regiones."
+      },
+      "doc": "https://cloud.google.com/compute/docs/instances/spot"
     }
   ]
 }

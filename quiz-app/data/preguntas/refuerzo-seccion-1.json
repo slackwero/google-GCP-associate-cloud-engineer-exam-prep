@@ -2634,6 +2634,449 @@
         "es": "La federación evita aprovisionar y desaprovisionar cuentas, que es su principal ventaja para contratistas y socios, mientras que las cuentas sincronizadas de Cloud Identity siguen siendo necesarias cuando la persona además consume servicios de Workspace. La opción C es incorrecta: la autorización siempre permanece en IAM de Google Cloud, la federación solo establece quién es el llamador. La opción D describe lo contrario de lo que hace GCDS: crea y mantiene sincronizadas cuentas reales de Cloud Identity."
       },
       "doc": "https://cloud.google.com/iam/docs/workforce-identity-federation"
+    },
+    {
+      "id": "ref1-061",
+      "curso": null,
+      "servicios": [
+        "asset-inventory",
+        "iam",
+        "cloud-storage"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-asset-inventory-gemini"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Before an audit you must prove exactly which principals can read a sensitive Cloud Storage bucket, including access inherited from folders and granted through groups. What is the BEST tool?",
+        "es": "Antes de una auditoría debes demostrar exactamente qué principales pueden leer un bucket sensible de Cloud Storage, incluido el acceso heredado de carpetas y el otorgado a través de grupos. ¿Cuál es la MEJOR herramienta?"
+      },
+      "opciones": [
+        {
+          "en": "Policy Analyzer (gcloud asset analyze-iam-policy), which resolves effective access including inheritance and group expansion",
+          "es": "Policy Analyzer (gcloud asset analyze-iam-policy), que resuelve el acceso efectivo incluyendo herencia y expansión de grupos"
+        },
+        {
+          "en": "gcloud storage buckets get-iam-policy on the bucket",
+          "es": "gcloud storage buckets get-iam-policy sobre el bucket"
+        },
+        {
+          "en": "The Cloud Logging data access logs of the bucket for the last 30 days",
+          "es": "Los registros de acceso a datos de Cloud Logging del bucket de los últimos 30 días"
+        },
+        {
+          "en": "A Cloud Monitoring alert on the bucket's request count",
+          "es": "Una alerta de Cloud Monitoring sobre la cantidad de solicitudes del bucket"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Policy Analyzer, part of Cloud Asset Inventory's policy intelligence, answers 'who can do what on this resource' by evaluating the allow policies of the whole hierarchy and expanding group memberships, which is precisely what an access review demands. Option B returns only the bindings attached directly to the bucket and misses everything inherited from the project, folder, or organization. Option C shows who actually accessed it, not who is allowed to. Option D measures traffic and says nothing about authorization.",
+        "es": "Policy Analyzer, parte de la inteligencia de políticas de Cloud Asset Inventory, responde '¿quién puede hacer qué sobre este recurso?' evaluando las políticas de permiso de toda la jerarquía y expandiendo la pertenencia a grupos, que es justo lo que exige una revisión de accesos. La opción B devuelve solo las vinculaciones adjuntas directamente al bucket y omite todo lo heredado del proyecto, la carpeta o la organización. La opción C muestra quién accedió realmente, no quién tiene permiso. La opción D mide tráfico y no dice nada sobre autorización."
+      },
+      "doc": "https://cloud.google.com/policy-intelligence/docs/analyze-iam-policies"
+    },
+    {
+      "id": "ref1-062",
+      "curso": null,
+      "servicios": [
+        "billing"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.2-budgets-alerts"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A team overspends on BigQuery every month and is always warned too late. They want to be alerted while there is still time to react, and only for BigQuery spend of their own projects. What is the BEST budget configuration?",
+        "es": "Un equipo se excede cada mes en BigQuery y siempre lo advierten demasiado tarde. Quieren que se les alerte cuando todavía hay tiempo de reaccionar, y solo por el gasto de BigQuery de sus propios proyectos. ¿Cuál es la MEJOR configuración de presupuesto?"
+      },
+      "opciones": [
+        {
+          "en": "A budget scoped to those projects and to the BigQuery service, with forecasted-spend threshold rules in addition to actual-spend rules",
+          "es": "Un presupuesto acotado a esos proyectos y al servicio BigQuery, con reglas de umbral sobre el gasto pronosticado además de las de gasto real"
+        },
+        {
+          "en": "A budget for the whole billing account with a single 100% threshold on actual spend",
+          "es": "Un presupuesto para toda la cuenta de facturación con un único umbral de 100% sobre el gasto real"
+        },
+        {
+          "en": "A daily scheduled query on the billing export that emails the team the accumulated total",
+          "es": "Una consulta programada diaria sobre la exportación de facturación que envíe por correo al equipo el total acumulado"
+        },
+        {
+          "en": "A BigQuery custom quota, because budgets cannot be filtered by service",
+          "es": "Una cuota personalizada de BigQuery, porque los presupuestos no se pueden filtrar por servicio"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Budgets can be scoped by projects, services, labels, and other filters, and threshold rules can be evaluated against forecasted spend, which warns the team before the money is actually gone. Option B is too coarse and too late: it mixes every service and only fires at the end. Option C reinvents budgets with custom code and still reports after the fact. Option D is doubly wrong: budgets do support service filters, and a BigQuery custom quota limits bytes processed, a different (although complementary) control.",
+        "es": "Los presupuestos se pueden acotar por proyectos, servicios, etiquetas y otros filtros, y las reglas de umbral se pueden evaluar contra el gasto pronosticado, lo que avisa al equipo antes de que el dinero se haya gastado. La opción B es demasiado gruesa y tardía: mezcla todos los servicios y solo se dispara al final. La opción C reinventa los presupuestos con código propio y sigue informando después del hecho. La opción D es doblemente incorrecta: los presupuestos sí admiten filtros por servicio, y una cuota personalizada de BigQuery limita los bytes procesados, un control distinto (aunque complementario)."
+      },
+      "doc": "https://cloud.google.com/billing/docs/how-to/budgets"
+    },
+    {
+      "id": "ref1-063",
+      "curso": null,
+      "servicios": [
+        "resource-manager",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-resource-hierarchy"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "The organization denies all values of compute.vmExternalIpAccess. The 'demos' folder needs external IPs, but only for two specific instances. What is the BEST way to allow it?",
+        "es": "La organización rechaza todos los valores de compute.vmExternalIpAccess. La carpeta 'demos' necesita IPs externas, pero solo para dos instancias específicas. ¿Cuál es la MEJOR forma de permitirlo?"
+      },
+      "opciones": [
+        {
+          "en": "Set a policy on the 'demos' folder for the same list constraint that allows only those two instances, replacing the inherited policy for that branch",
+          "es": "Fijar en la carpeta 'demos' una política de la misma restricción de lista que permita solo esas dos instancias, reemplazando la política heredada para esa rama"
+        },
+        {
+          "en": "Remove the constraint at the organization level and re-apply it on every other folder",
+          "es": "Quitar la restricción a nivel de organización y volver a aplicarla en todas las demás carpetas"
+        },
+        {
+          "en": "Grant roles/compute.networkAdmin to the demos team, which bypasses the constraint",
+          "es": "Otorgar roles/compute.networkAdmin al equipo de demos, lo que evita la restricción"
+        },
+        {
+          "en": "Create the two instances in a project outside the organization",
+          "es": "Crear las dos instancias en un proyecto fuera de la organización"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "compute.vmExternalIpAccess is a list constraint whose values are instance identifiers, so a policy on the folder that allows exactly those two instances scopes the exception as narrowly as possible while the rest of the organization stays denied. Option B inverts the safe default and leaves any new folder unprotected. Option C is a misconception: IAM roles never override an enforced organization policy. Option D moves resources out of governance and billing structure just to dodge a policy, which is what the override mechanism exists to prevent.",
+        "es": "compute.vmExternalIpAccess es una restricción de lista cuyos valores son identificadores de instancias, así que una política en la carpeta que permita exactamente esas dos instancias acota la excepción lo más posible mientras el resto de la organización sigue con el rechazo. La opción B invierte el valor seguro por defecto y deja desprotegida cualquier carpeta nueva. La opción C es una confusión: los roles de IAM nunca anulan una política de la organización aplicada. La opción D saca recursos de la estructura de gobernanza y facturación solo para esquivar una política, que es justo lo que el mecanismo de anulación existe para evitar."
+      },
+      "doc": "https://cloud.google.com/resource-manager/docs/organization-policy/org-policy-constraints"
+    },
+    {
+      "id": "ref1-064",
+      "curso": null,
+      "servicios": [
+        "identity-federation",
+        "iam"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-workforce-identity-federation"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "External auditors federated through a workforce pool need read-only visibility over the whole organization for one quarter, with the least administrative overhead. What is the BEST way to grant it?",
+        "es": "Auditores externos federados mediante un workforce pool necesitan visibilidad de solo lectura sobre toda la organización durante un trimestre, con la menor carga administrativa. ¿Cuál es la MEJOR forma de otorgarla?"
+      },
+      "opciones": [
+        {
+          "en": "Bind roles/viewer at the organization to the principalSet of the pool that represents the auditors' IdP group",
+          "es": "Vincular roles/viewer en la organización al principalSet del pool que representa al grupo del IdP de los auditores"
+        },
+        {
+          "en": "Bind roles/viewer individually to each auditor's principal in every project",
+          "es": "Vincular roles/viewer individualmente al principal de cada auditor en cada proyecto"
+        },
+        {
+          "en": "Grant roles/editor at the organization, since Viewer does not include the resource listings auditors need",
+          "es": "Otorgar roles/editor en la organización, ya que Viewer no incluye los listados de recursos que los auditores necesitan"
+        },
+        {
+          "en": "Create Cloud Identity accounts for the auditors and add them to an existing admin group",
+          "es": "Crear cuentas de Cloud Identity para los auditores y agregarlas a un grupo de administradores existente"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "A single organization-level binding to a principalSet based on an IdP attribute covers every project by inheritance, and membership is then managed entirely in the IdP: adding or removing an auditor there changes their access with no IAM edits. Option B multiplies bindings by auditors and projects and drifts as projects are created. Option C grants write permissions that auditors do not need and violates least privilege; Viewer already allows reading resource metadata. Option D contradicts the federation model and adds accounts to deprovision, plus admin group membership is far too much privilege.",
+        "es": "Una sola vinculación a nivel de organización con un principalSet basado en un atributo del IdP cubre todos los proyectos por herencia, y la pertenencia se administra por completo en el IdP: agregar o quitar un auditor ahí cambia su acceso sin editar IAM. La opción B multiplica las vinculaciones por auditores y proyectos y se desactualiza cuando se crean proyectos. La opción C otorga permisos de escritura que los auditores no necesitan y viola el privilegio mínimo; Viewer ya permite leer metadatos de recursos. La opción D contradice el modelo de federación y agrega cuentas que habrá que desaprovisionar, además de que pertenecer a un grupo de administradores es un privilegio excesivo."
+      },
+      "doc": "https://cloud.google.com/iam/docs/workforce-identity-federation"
+    },
+    {
+      "id": "ref1-065",
+      "curso": null,
+      "servicios": [
+        "billing",
+        "bigquery"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.2-billing-exports"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A FinOps engineer must model the cost of a workload that has not been deployed yet, using the exact list prices and any negotiated rates of your account, refreshed automatically. Which billing export serves this BEST?",
+        "es": "Un ingeniero de FinOps debe modelar el costo de una carga de trabajo que aún no se implementa, usando los precios de lista exactos y las tarifas negociadas de tu cuenta, actualizados automáticamente. ¿Qué exportación de facturación sirve MEJOR?"
+      },
+      "opciones": [
+        {
+          "en": "The pricing export, which publishes SKU pricing information for the billing account to BigQuery",
+          "es": "La exportación de precios, que publica en BigQuery la información de precios de los SKU de la cuenta de facturación"
+        },
+        {
+          "en": "The standard usage cost export",
+          "es": "La exportación estándar de costos de uso"
+        },
+        {
+          "en": "The detailed usage cost export",
+          "es": "La exportación detallada de costos de uso"
+        },
+        {
+          "en": "A budget with a forecasted-spend threshold on the future workload",
+          "es": "Un presupuesto con umbral de gasto pronosticado sobre la carga de trabajo futura"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The pricing export writes the SKU-level price list applicable to the billing account, including account-specific rates, so it is the only export that lets you price something you have not run yet. Options B and C only contain cost of usage that already happened, so a workload with no history produces no rows. Option D forecasts from historical spend of existing resources and therefore cannot model a workload that does not exist.",
+        "es": "La exportación de precios escribe la lista de precios a nivel de SKU aplicable a la cuenta de facturación, incluidas las tarifas específicas de la cuenta, así que es la única exportación que permite cotizar algo que aún no se ejecuta. Las opciones B y C solo contienen el costo del uso que ya ocurrió, por lo que una carga de trabajo sin historial no produce filas. La opción D pronostica a partir del gasto histórico de recursos existentes y por lo tanto no puede modelar una carga de trabajo que no existe."
+      },
+      "doc": "https://cloud.google.com/billing/docs/how-to/export-data-bigquery-tables/pricing"
+    },
+    {
+      "id": "ref1-066",
+      "curso": null,
+      "servicios": [
+        "asset-inventory",
+        "bigquery",
+        "pubsub"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-asset-inventory-gemini"
+      ],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "You must keep an always-current inventory of the organization in BigQuery for compliance dashboards. Which TWO mechanisms of Cloud Asset Inventory do you combine?",
+        "es": "Debes mantener en BigQuery un inventario siempre actualizado de la organización para paneles de cumplimiento. ¿Cuáles DOS mecanismos de Cloud Asset Inventory combinas?"
+      },
+      "opciones": [
+        {
+          "en": "A scheduled export of periodic snapshots to BigQuery, which rebuilds the baseline",
+          "es": "Una exportación programada de instantáneas periódicas a BigQuery, que reconstruye la línea base"
+        },
+        {
+          "en": "An asset feed to Pub/Sub whose messages are processed and written into BigQuery between snapshots",
+          "es": "Un feed de assets hacia Pub/Sub cuyos mensajes se procesan y escriben en BigQuery entre instantáneas"
+        },
+        {
+          "en": "A Cloud Monitoring uptime check against each resource to detect if it still exists",
+          "es": "Una verificación de tiempo de actividad de Cloud Monitoring contra cada recurso para detectar si sigue existiendo"
+        },
+        {
+          "en": "An organization policy that writes each resource creation into a BigQuery table",
+          "es": "Una política de la organización que escribe cada creación de recurso en una tabla de BigQuery"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Snapshot exports give a complete, consistent baseline on a schedule, while feeds stream the changes that happen in between, and together they keep the BigQuery dataset both complete and fresh. Option C does not work: uptime checks probe HTTP or TCP endpoints, and most assets have none, so it would neither enumerate nor validate the inventory. Option D is invented; organization policies constrain configurations and never write data anywhere.",
+        "es": "Las exportaciones de instantáneas entregan una línea base completa y consistente de forma programada, mientras que los feeds transmiten los cambios que ocurren en el intervalo, y juntos mantienen el dataset de BigQuery completo y actualizado. La opción C no funciona: las verificaciones de tiempo de actividad sondean endpoints HTTP o TCP, y la mayoría de los assets no tienen ninguno, así que no enumeraría ni validaría el inventario. La opción D es inventada; las políticas de la organización restringen configuraciones y nunca escriben datos en ningún lado."
+      },
+      "doc": "https://cloud.google.com/asset-inventory/docs/exporting-to-bigquery"
+    },
+    {
+      "id": "ref1-067",
+      "curso": null,
+      "servicios": [
+        "gpus-tpus",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-networking-availability"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your architecture requires a specific GPU accelerator, but data residency rules force you into a region where that accelerator is not offered. What is the BEST first step?",
+        "es": "Tu arquitectura requiere un acelerador GPU específico, pero las reglas de residencia de datos te obligan a una región donde ese acelerador no se ofrece. ¿Cuál es el MEJOR primer paso?"
+      },
+      "opciones": [
+        {
+          "en": "Check the regions and zones availability tables to identify which accelerators the compliant region does offer, and validate the workload against those options",
+          "es": "Revisar las tablas de disponibilidad por regiones y zonas para identificar qué aceleradores sí ofrece la región permitida y validar la carga de trabajo contra esas opciones"
+        },
+        {
+          "en": "Deploy in the closest region that has the accelerator and accept the residency deviation",
+          "es": "Implementar en la región más cercana que tenga el acelerador y aceptar la desviación de residencia"
+        },
+        {
+          "en": "Request a quota increase for that accelerator in the compliant region",
+          "es": "Solicitar un aumento de cuota para ese acelerador en la región permitida"
+        },
+        {
+          "en": "Open a support case asking Google to install that GPU model in the region",
+          "es": "Abrir un caso de soporte pidiendo a Google que instale ese modelo de GPU en la región"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Product and hardware availability varies by region and zone, so the design must be reconciled with what the compliant region actually offers, which usually means selecting a different accelerator or machine family and re-benchmarking. Option B knowingly breaks a regulatory requirement, which is never the recommended trade-off. Option C fails at the premise: quota can only be raised for resources that exist there, and it is zero because the hardware is not offered, not because of a limit. Option D is not an actionable path for a deadline, hardware rollout is a Google roadmap decision.",
+        "es": "La disponibilidad de productos y hardware varía por región y zona, así que el diseño debe conciliarse con lo que la región permitida realmente ofrece, lo que normalmente implica elegir otro acelerador o familia de máquinas y volver a medir el rendimiento. La opción B rompe a sabiendas un requisito regulatorio, algo que nunca es el equilibrio recomendado. La opción C falla en la premisa: la cuota solo se puede aumentar para recursos que existen ahí, y es cero porque el hardware no se ofrece, no por un límite. La opción D no es una vía accionable para una fecha límite, el despliegue de hardware es una decisión de la hoja de ruta de Google."
+      },
+      "doc": "https://cloud.google.com/compute/docs/gpus/gpu-regions-zones"
+    },
+    {
+      "id": "ref1-068",
+      "curso": null,
+      "servicios": [
+        "cloud-monitoring",
+        "cloud-logging",
+        "ops-agent"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-observability-setup"
+      ],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "A new project has just been created and its Compute Engine VMs report no memory or disk metrics and no application logs. Which TWO actions BEST fix the observability setup?",
+        "es": "Un proyecto recién creado tiene VMs de Compute Engine que no reportan métricas de memoria ni de disco ni registros de la aplicación. ¿Cuáles DOS acciones corrigen MEJOR la configuración de observabilidad?"
+      },
+      "opciones": [
+        {
+          "en": "Install and configure the Ops Agent on the VMs so they send system metrics and logs",
+          "es": "Instalar y configurar el Ops Agent en las VMs para que envíen métricas del sistema y registros"
+        },
+        {
+          "en": "Ensure the VM service account has the roles needed to write metrics and logs (for example roles/monitoring.metricWriter and roles/logging.logWriter)",
+          "es": "Asegurar que la cuenta de servicio de la VM tenga los roles necesarios para escribir métricas y registros (por ejemplo roles/monitoring.metricWriter y roles/logging.logWriter)"
+        },
+        {
+          "en": "Add the project to a metrics scope, which starts collecting memory metrics automatically",
+          "es": "Agregar el proyecto a un permiso de métricas, lo que empieza a recolectar métricas de memoria automáticamente"
+        },
+        {
+          "en": "Enable the detailed billing export so that resource usage becomes visible",
+          "es": "Habilitar la exportación detallada de facturación para que el uso de recursos sea visible"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Compute Engine reports hypervisor-level metrics such as CPU by default, but guest metrics like memory and disk usage and any application log require the Ops Agent, and the agent can only send data if the VM's service account holds the metric and log writer roles. Option C is a viewing mechanism: a metrics scope lets you see metrics that exist, it never generates them. Option D concerns cost data and has no effect on telemetry.",
+        "es": "Compute Engine informa por defecto métricas a nivel de hipervisor como la CPU, pero las métricas del huésped como el uso de memoria y disco y cualquier registro de la aplicación requieren el Ops Agent, y el agente solo puede enviar datos si la cuenta de servicio de la VM tiene los roles de escritor de métricas y de registros. La opción C es un mecanismo de visualización: un permiso de métricas permite ver métricas que existen, nunca las genera. La opción D se refiere a datos de costo y no tiene efecto sobre la telemetría."
+      },
+      "doc": "https://cloud.google.com/monitoring/agent/ops-agent"
+    },
+    {
+      "id": "ref1-069",
+      "curso": null,
+      "servicios": [
+        "resource-manager"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-resource-hierarchy"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You want to introduce a restrictive organization policy but you do not know how many existing workloads would break. What is the BEST way to find out before enforcing it?",
+        "es": "Quieres introducir una política de la organización restrictiva, pero no sabes cuántas cargas de trabajo existentes se romperían. ¿Cuál es la MEJOR forma de averiguarlo antes de aplicarla?"
+      },
+      "opciones": [
+        {
+          "en": "Create the policy in dry-run mode, which logs the violations it would cause without blocking anything, and review those logs",
+          "es": "Crear la política en modo dry-run, que registra las violaciones que causaría sin bloquear nada, y revisar esos registros"
+        },
+        {
+          "en": "Enforce it on Friday evening and roll it back if incidents appear",
+          "es": "Aplicarla un viernes por la noche y revertirla si aparecen incidentes"
+        },
+        {
+          "en": "Enforce it only on the development folder and assume production behaves the same",
+          "es": "Aplicarla solo en la carpeta de desarrollo y suponer que producción se comporta igual"
+        },
+        {
+          "en": "Ask each project owner whether their workload would be affected",
+          "es": "Preguntar a cada propietario de proyecto si su carga de trabajo se vería afectada"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Dry-run policies evaluate the constraint against real requests and write audit log entries for every operation that would be denied, so you measure the blast radius with zero production impact and can fix or exempt before enforcing. Option B is a controlled outage waiting to happen and gives no advance information. Option C is only a partial signal: development rarely mirrors production configuration and traffic. Option D is slow, subjective, and unverifiable compared to evidence from real requests.",
+        "es": "Las políticas en dry-run evalúan la restricción contra solicitudes reales y escriben entradas de registro de auditoría por cada operación que sería rechazada, así que mides el radio de impacto sin afectar producción y puedes corregir o exceptuar antes de aplicarla. La opción B es una interrupción controlada esperando a ocurrir y no aporta información anticipada. La opción C es solo una señal parcial: desarrollo rara vez refleja la configuración y el tráfico de producción. La opción D es lenta, subjetiva y no verificable frente a la evidencia de solicitudes reales."
+      },
+      "doc": "https://cloud.google.com/resource-manager/docs/organization-policy/dry-run-policy"
+    },
+    {
+      "id": "ref1-070",
+      "curso": null,
+      "servicios": [
+        "quotas-apis",
+        "vpc"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.1-apis-quotas"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A production deployment fails because the project reached its regional quota for in-use external IP addresses. The application genuinely needs more public endpoints. What is the BEST action?",
+        "es": "Una implementación de producción falla porque el proyecto alcanzó su cuota regional de direcciones IP externas en uso. La aplicación realmente necesita más endpoints públicos. ¿Cuál es la MEJOR acción?"
+      },
+      "opciones": [
+        {
+          "en": "Release unused reserved addresses and, if the need persists, request an increase of that specific quota in that region",
+          "es": "Liberar las direcciones reservadas sin usar y, si la necesidad persiste, solicitar un aumento de esa cuota específica en esa región"
+        },
+        {
+          "en": "Create a second project and deploy the extra endpoints there to obtain a fresh quota",
+          "es": "Crear un segundo proyecto e implementar ahí los endpoints adicionales para obtener una cuota nueva"
+        },
+        {
+          "en": "Switch the billing account, because quotas are attached to the billing account",
+          "es": "Cambiar la cuenta de facturación, porque las cuotas están asociadas a la cuenta de facturación"
+        },
+        {
+          "en": "Contact support to remove all quotas from the project permanently",
+          "es": "Contactar a soporte para eliminar permanentemente todas las cuotas del proyecto"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "In-use external IP addresses are an allocation quota per region, so the correct sequence is to reclaim reserved addresses that are no longer attached (they also cost money) and then request an increase for that quota and region with a justification. Option B fragments a single application across projects purely to dodge a limit, complicating networking, IAM, and monitoring. Option C is factually wrong: quotas apply per project and per region, not per billing account. Option D is not something Google does; quotas are a protection mechanism for you and for the platform.",
+        "es": "Las direcciones IP externas en uso son una cuota de asignación por región, así que la secuencia correcta es recuperar las direcciones reservadas que ya no están adjuntas (además cuestan dinero) y luego solicitar un aumento de esa cuota y esa región con una justificación. La opción B fragmenta una sola aplicación entre proyectos solo para esquivar un límite, complicando redes, IAM y supervisión. La opción C es incorrecta de hecho: las cuotas aplican por proyecto y por región, no por cuenta de facturación. La opción D no es algo que Google haga; las cuotas son un mecanismo de protección para ti y para la plataforma."
+      },
+      "doc": "https://cloud.google.com/docs/quotas/view-manage"
     }
   ]
 }
