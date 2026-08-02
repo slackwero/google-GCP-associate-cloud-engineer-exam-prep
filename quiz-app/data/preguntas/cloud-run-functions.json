@@ -1,0 +1,554 @@
+{
+  "preguntas": [
+    {
+      "id": "crf-001",
+      "curso": "cloud-run-functions",
+      "servicios": ["cloud-run-functions"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.1-compute-choices"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is Cloud Run functions?",
+        "es": "¿Qué es Cloud Run functions?"
+      },
+      "opciones": [
+        { "en": "Google Cloud's function-as-a-service offering that runs single-purpose code in response to events or HTTP requests without managing servers", "es": "La oferta de funciones como servicio (FaaS) de Google Cloud que ejecuta código de propósito único en respuesta a eventos o solicitudes HTTP sin administrar servidores" },
+        { "en": "A managed Kubernetes service for orchestrating containers across node pools", "es": "Un servicio administrado de Kubernetes para orquestar contenedores en node pools" },
+        { "en": "A service for provisioning and managing virtual machines with custom machine types", "es": "Un servicio para aprovisionar y administrar máquinas virtuales con tipos de máquina personalizados" },
+        { "en": "A fully managed relational database compatible with PostgreSQL", "es": "Una base de datos relacional completamente administrada compatible con PostgreSQL" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Cloud Run functions (the evolution of Cloud Functions) is Google's FaaS: you write single-purpose code and Google runs it in response to HTTP requests or events, with no server management. B describes GKE, C describes Compute Engine, and D describes Cloud SQL or AlloyDB.",
+        "es": "Cloud Run functions (la evolución de Cloud Functions) es el FaaS de Google: escribes código de propósito único y Google lo ejecuta en respuesta a solicitudes HTTP o eventos, sin administrar servidores. B describe GKE, C describe Compute Engine y D describe Cloud SQL o AlloyDB."
+      },
+      "doc": "https://cloud.google.com/functions/docs/concepts/overview"
+    },
+    {
+      "id": "crf-002",
+      "curso": "cloud-run-functions",
+      "servicios": ["cloud-run-functions"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.1-serverless-events"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What are the two main categories of triggers for a Cloud Run function?",
+        "es": "¿Cuáles son las dos categorías principales de triggers para una Cloud Run function?"
+      },
+      "opciones": [
+        { "en": "HTTP triggers and event triggers", "es": "Triggers HTTP y triggers por eventos" },
+        { "en": "SSH triggers and console triggers", "es": "Triggers por SSH y triggers desde la consola" },
+        { "en": "SQL triggers and NoSQL triggers", "es": "Triggers SQL y triggers NoSQL" },
+        { "en": "Batch triggers and streaming triggers", "es": "Triggers por lotes y triggers de streaming" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Functions are invoked either by HTTP requests to their endpoint (HTTP triggers) or by events from sources like Pub/Sub, Cloud Storage, or Eventarc (event triggers). B, C, and D are not trigger categories for functions: SSH is for VMs, SQL/NoSQL are database models, and batch/streaming describe data processing patterns.",
+        "es": "Las funciones se invocan por solicitudes HTTP a su endpoint (triggers HTTP) o por eventos de fuentes como Pub/Sub, Cloud Storage o Eventarc (triggers por eventos). B, C y D no son categorías de triggers de funciones: SSH es para VMs, SQL/NoSQL son modelos de bases de datos y lotes/streaming describen patrones de procesamiento de datos."
+      },
+      "doc": "https://cloud.google.com/functions/docs/calling"
+    },
+    {
+      "id": "crf-003",
+      "curso": "cloud-run-functions",
+      "servicios": ["eventarc", "cloud-run-functions"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.1-serverless-events"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which Google Cloud service routes events from sources such as Cloud Storage or Cloud Audit Logs to destinations like Cloud Run functions?",
+        "es": "¿Qué servicio de Google Cloud enruta eventos desde fuentes como Cloud Storage o Cloud Audit Logs hacia destinos como Cloud Run functions?"
+      },
+      "opciones": [
+        { "en": "Eventarc", "es": "Eventarc" },
+        { "en": "Cloud Scheduler", "es": "Cloud Scheduler" },
+        { "en": "Cloud DNS", "es": "Cloud DNS" },
+        { "en": "Cloud NAT", "es": "Cloud NAT" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Eventarc is the eventing layer that connects event sources (Google Cloud services, custom sources, third parties) to destinations such as Cloud Run functions. Cloud Scheduler runs jobs on a cron schedule (time-based, not event-based), Cloud DNS resolves domain names, and Cloud NAT provides outbound internet access for private resources.",
+        "es": "Eventarc es la capa de eventos que conecta fuentes (servicios de Google Cloud, fuentes personalizadas, terceros) con destinos como Cloud Run functions. Cloud Scheduler ejecuta trabajos con programación cron (basado en tiempo, no en eventos), Cloud DNS resuelve nombres de dominio y Cloud NAT da salida a internet a recursos privados."
+      },
+      "doc": "https://cloud.google.com/eventarc/docs/overview"
+    },
+    {
+      "id": "crf-004",
+      "curso": "cloud-run-functions",
+      "servicios": ["pubsub", "cloud-run-functions"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.1-serverless-events"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which messaging service lets applications publish messages to a topic so that a Cloud Run function can process them asynchronously?",
+        "es": "¿Qué servicio de mensajería permite que las aplicaciones publiquen mensajes en un topic para que una Cloud Run function los procese de forma asíncrona?"
+      },
+      "opciones": [
+        { "en": "Pub/Sub", "es": "Pub/Sub" },
+        { "en": "Cloud SQL", "es": "Cloud SQL" },
+        { "en": "Memorystore", "es": "Memorystore" },
+        { "en": "Filestore", "es": "Filestore" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Pub/Sub is Google Cloud's asynchronous publish/subscribe messaging service and one of the most common event sources for functions. Cloud SQL is a relational database, Memorystore is an in-memory cache (Redis/Valkey), and Filestore is a managed NFS file service; none of them are messaging systems.",
+        "es": "Pub/Sub es el servicio de mensajería asíncrona de publicación/suscripción de Google Cloud y una de las fuentes de eventos más comunes para funciones. Cloud SQL es una base de datos relacional, Memorystore es una caché en memoria (Redis/Valkey) y Filestore es un servicio de archivos NFS administrado; ninguno es un sistema de mensajería."
+      },
+      "doc": "https://cloud.google.com/pubsub/docs/overview"
+    },
+    {
+      "id": "crf-005",
+      "curso": "cloud-run-functions",
+      "servicios": ["cloud-storage", "cloud-run-functions"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.1-serverless-events"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which Cloud Storage event type fires when a new object is uploaded to a bucket (or an existing object is overwritten)?",
+        "es": "¿Qué tipo de evento de Cloud Storage se dispara cuando se sube un objeto nuevo a un bucket (o se sobrescribe uno existente)?"
+      },
+      "opciones": [
+        { "en": "Object finalized", "es": "Object finalized (objeto finalizado)" },
+        { "en": "Object deleted", "es": "Object deleted (objeto borrado)" },
+        { "en": "Object archived", "es": "Object archived (objeto archivado)" },
+        { "en": "Object metadata updated", "es": "Object metadata updated (metadatos actualizados)" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "The finalized event fires when a write completes successfully, i.e., a new object or a new generation of an existing object is created. Deleted fires on permanent deletions, archived fires when a versioned object is replaced or removed from the live state, and metadata updated fires only when object metadata changes.",
+        "es": "El evento finalized se dispara cuando una escritura se completa con éxito, es decir, cuando se crea un objeto nuevo o una nueva generación de uno existente. Deleted se dispara en borrados permanentes, archived cuando un objeto con versionado se reemplaza o deja el estado activo, y metadata updated solo cuando cambian los metadatos del objeto."
+      },
+      "doc": "https://cloud.google.com/functions/docs/calling/storage"
+    },
+    {
+      "id": "crf-006",
+      "curso": "cloud-run-functions",
+      "servicios": ["cloud-run-functions"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.1-serverless-events"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is a cold start in the context of Cloud Run functions?",
+        "es": "¿Qué es un cold start (arranque en frío) en el contexto de Cloud Run functions?"
+      },
+      "opciones": [
+        { "en": "The extra latency incurred when a new instance must be initialized to serve a request, for example after scaling from zero", "es": "La latencia adicional que ocurre cuando una instancia nueva debe inicializarse para atender una solicitud, por ejemplo tras escalar desde cero" },
+        { "en": "An error that occurs when the function code crashes at runtime", "es": "Un error que ocurre cuando el código de la función falla en tiempo de ejecución" },
+        { "en": "The period during which a function is suspended for exceeding its budget", "es": "El período en que una función queda suspendida por exceder su presupuesto" },
+        { "en": "A network outage between the function and its event source", "es": "Una interrupción de red entre la función y su fuente de eventos" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "A cold start is the startup latency of creating and initializing a new instance (loading the runtime and your code) before it can serve traffic; it typically happens after idle periods or sudden traffic spikes. B is a runtime error, not a cold start; C does not exist as a platform behavior (budgets alert, they do not suspend); and D is a connectivity failure, unrelated to instance startup.",
+        "es": "Un cold start es la latencia de crear e inicializar una instancia nueva (cargar el runtime y tu código) antes de poder atender tráfico; suele ocurrir tras períodos de inactividad o picos repentinos. B es un error de ejecución, no un cold start; C no existe como comportamiento de la plataforma (los presupuestos alertan, no suspenden); y D es una falla de conectividad, sin relación con el arranque de instancias."
+      },
+      "doc": "https://cloud.google.com/run/docs/tips/general"
+    },
+    {
+      "id": "crf-007",
+      "curso": "cloud-run-functions",
+      "servicios": ["cloud-run-functions", "cloud-run"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.1-compute-choices"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "When should you choose Cloud Run functions instead of a regular Cloud Run service?",
+        "es": "¿Cuándo deberías elegir Cloud Run functions en lugar de un servicio regular de Cloud Run?"
+      },
+      "opciones": [
+        { "en": "When you want to deploy single-purpose source code that responds to events or requests, without building your own container image", "es": "Cuando quieres desplegar código fuente de propósito único que responde a eventos o solicitudes, sin construir tu propia imagen de contenedor" },
+        { "en": "When you need full control over the container image, web server, and system libraries", "es": "Cuando necesitas control total sobre la imagen de contenedor, el servidor web y las librerías del sistema" },
+        { "en": "When you need to run a stateful database inside the service", "es": "Cuando necesitas ejecutar una base de datos con estado dentro del servicio" },
+        { "en": "When you need direct SSH access to the underlying machines", "es": "Cuando necesitas acceso SSH directo a las máquinas subyacentes" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Cloud Run functions lets you deploy just your source code for event handlers and small APIs; Google builds and runs it on Cloud Run. B is the case for a container-based Cloud Run service, C is a job for managed databases (serverless instances are ephemeral), and D is only possible with Compute Engine VMs, not serverless platforms.",
+        "es": "Cloud Run functions te permite desplegar solo tu código fuente para manejadores de eventos y APIs pequeñas; Google lo construye y ejecuta sobre Cloud Run. B es el caso de un servicio de Cloud Run basado en contenedor, C corresponde a bases de datos administradas (las instancias serverless son efímeras) y D solo es posible con VMs de Compute Engine, no con plataformas serverless."
+      },
+      "doc": "https://cloud.google.com/run/docs/deploy-functions"
+    },
+    {
+      "id": "crf-008",
+      "curso": "cloud-run-functions",
+      "servicios": ["eventarc"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.1-serverless-events"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "In which standard format does Eventarc deliver events to its destinations?",
+        "es": "¿En qué formato estándar entrega Eventarc los eventos a sus destinos?"
+      },
+      "opciones": [
+        { "en": "CloudEvents", "es": "CloudEvents" },
+        { "en": "SOAP XML envelopes", "es": "Sobres SOAP XML" },
+        { "en": "CSV rows", "es": "Filas CSV" },
+        { "en": "Protocol Buffers over gRPC only", "es": "Solo Protocol Buffers sobre gRPC" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Eventarc delivers all events in the CloudEvents format (a CNCF specification) via HTTP, which standardizes event metadata such as type and source. SOAP and CSV are not used for event delivery, and although Google APIs use Protocol Buffers internally, Eventarc delivers CloudEvents over HTTP, not gRPC-only payloads.",
+        "es": "Eventarc entrega todos los eventos en formato CloudEvents (una especificación de la CNCF) vía HTTP, lo que estandariza metadatos como el tipo y la fuente del evento. SOAP y CSV no se usan para entrega de eventos, y aunque las APIs de Google usan Protocol Buffers internamente, Eventarc entrega CloudEvents sobre HTTP, no cargas exclusivas de gRPC."
+      },
+      "doc": "https://cloud.google.com/eventarc/docs/overview"
+    },
+    {
+      "id": "crf-009",
+      "curso": "cloud-run-functions",
+      "servicios": ["cloud-run-functions", "cloud-run"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.1-compute-choices"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "On which platform does a Cloud Run function actually execute after you deploy it?",
+        "es": "¿Sobre qué plataforma se ejecuta realmente una Cloud Run function después de desplegarla?"
+      },
+      "opciones": [
+        { "en": "It is built into a container and runs as a service on Cloud Run", "es": "Se empaqueta en un contenedor y se ejecuta como un servicio en Cloud Run" },
+        { "en": "It runs inside a GKE Autopilot cluster that you must create first", "es": "Se ejecuta dentro de un clúster de GKE Autopilot que debes crear primero" },
+        { "en": "It runs on a dedicated Compute Engine VM per function", "es": "Se ejecuta en una VM dedicada de Compute Engine por función" },
+        { "en": "It runs in the browser of the end user", "es": "Se ejecuta en el navegador del usuario final" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Cloud Run functions are built from source into containers and deployed as Cloud Run services, inheriting Cloud Run capabilities such as revisions, concurrency, and traffic management. B is wrong because no cluster is required, C is wrong because there is no dedicated VM per function, and D is wrong because functions run server-side in Google Cloud.",
+        "es": "Las Cloud Run functions se construyen desde el código fuente en contenedores y se despliegan como servicios de Cloud Run, heredando capacidades como revisiones, concurrencia y administración de tráfico. B es incorrecta porque no se requiere clúster, C es incorrecta porque no hay una VM dedicada por función y D es incorrecta porque las funciones se ejecutan del lado del servidor en Google Cloud."
+      },
+      "doc": "https://cloud.google.com/run/docs/deploy-functions"
+    },
+    {
+      "id": "crf-010",
+      "curso": "cloud-run-functions",
+      "servicios": ["cloud-run-functions"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.1-compute-choices"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What happens to a Cloud Run function when it stops receiving traffic and no minimum instances are configured?",
+        "es": "¿Qué ocurre con una Cloud Run function cuando deja de recibir tráfico y no hay instancias mínimas configuradas?"
+      },
+      "opciones": [
+        { "en": "It scales down to zero instances and you stop paying for compute while idle", "es": "Escala a cero instancias y dejas de pagar por cómputo mientras está inactiva" },
+        { "en": "It keeps one VM running that you continue to pay for", "es": "Mantiene una VM en ejecución que sigues pagando" },
+        { "en": "It is automatically deleted after 24 hours of inactivity", "es": "Se borra automáticamente después de 24 horas de inactividad" },
+        { "en": "It moves to a cheaper region automatically", "es": "Se mueve automáticamente a una región más barata" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "With no minimum instances, the autoscaler scales the function to zero when idle, and billing for compute stops. B describes VM-based models like Compute Engine, C is false because the deployment and its configuration persist, and D is false because services stay in the region where they were deployed.",
+        "es": "Sin instancias mínimas, el autoescalador reduce la función a cero cuando está inactiva y se deja de facturar cómputo. B describe modelos basados en VMs como Compute Engine, C es falsa porque el despliegue y su configuración persisten, y D es falsa porque los servicios permanecen en la región donde se desplegaron."
+      },
+      "doc": "https://cloud.google.com/run/docs/about-instance-autoscaling"
+    },
+    {
+      "id": "crf-011",
+      "curso": "cloud-run-functions",
+      "servicios": ["cloud-run-functions"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.1-serverless-events"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What does an HTTP trigger provide when you deploy a Cloud Run function?",
+        "es": "¿Qué proporciona un trigger HTTP cuando despliegas una Cloud Run function?"
+      },
+      "opciones": [
+        { "en": "A unique HTTPS URL that invokes the function whenever it receives a request", "es": "Una URL HTTPS única que invoca la función cada vez que recibe una solicitud" },
+        { "en": "A static external IP address attached to a VM", "es": "Una dirección IP externa estática asociada a una VM" },
+        { "en": "A Pub/Sub subscription that must be polled by clients", "es": "Una suscripción de Pub/Sub que los clientes deben consultar (poll)" },
+        { "en": "An SSH endpoint for administering the function", "es": "Un endpoint SSH para administrar la función" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "An HTTP-triggered function gets its own HTTPS endpoint; each request to that URL invokes the function. B applies to Compute Engine instances, C describes pull-based messaging which is unrelated to HTTP triggers, and D is wrong because serverless platforms do not expose SSH.",
+        "es": "Una función con trigger HTTP obtiene su propio endpoint HTTPS; cada solicitud a esa URL invoca la función. B aplica a instancias de Compute Engine, C describe mensajería pull que no tiene relación con triggers HTTP, y D es incorrecta porque las plataformas serverless no exponen SSH."
+      },
+      "doc": "https://cloud.google.com/functions/docs/calling/http"
+    },
+    {
+      "id": "crf-012",
+      "curso": "cloud-run-functions",
+      "servicios": ["cloud-run-functions", "service-accounts"],
+      "seccion_blueprint": 4,
+      "subtopicos": ["4.2-sa-resources"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which identity does a Cloud Run function use when it calls other Google Cloud APIs at runtime?",
+        "es": "¿Qué identidad usa una Cloud Run function cuando llama a otras APIs de Google Cloud en tiempo de ejecución?"
+      },
+      "opciones": [
+        { "en": "The runtime service account attached to the function", "es": "La cuenta de servicio de runtime asociada a la función" },
+        { "en": "The personal Google account of the developer who deployed it", "es": "La cuenta personal de Google del desarrollador que la desplegó" },
+        { "en": "An API key embedded in the source code", "es": "Una clave de API incrustada en el código fuente" },
+        { "en": "The organization administrator account", "es": "La cuenta del administrador de la organización" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Each function runs with a service identity: the runtime service account, whose IAM roles determine what the function can access. B is wrong because deployer credentials are not used at runtime, C is wrong because API keys are neither required nor recommended for service-to-service calls, and D is wrong because org admin accounts are never used as workload identities.",
+        "es": "Cada función se ejecuta con una identidad de servicio: la cuenta de servicio de runtime, cuyos roles de IAM determinan a qué puede acceder la función. B es incorrecta porque las credenciales de quien despliega no se usan en runtime, C es incorrecta porque las claves de API no son necesarias ni recomendadas para llamadas entre servicios, y D es incorrecta porque las cuentas de administrador de la organización nunca se usan como identidad de cargas de trabajo."
+      },
+      "doc": "https://cloud.google.com/run/docs/securing/service-identity"
+    },
+    {
+      "id": "crf-013",
+      "curso": "cloud-run-functions",
+      "servicios": ["cloud-run-functions", "iam"],
+      "seccion_blueprint": 4,
+      "subtopicos": ["4.2-sa-least-privilege"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What does deploying a Cloud Run function with the --allow-unauthenticated flag do?",
+        "es": "¿Qué hace desplegar una Cloud Run function con la marca --allow-unauthenticated?"
+      },
+      "opciones": [
+        { "en": "It grants the roles/run.invoker role to allUsers, making the function publicly invocable", "es": "Otorga el rol roles/run.invoker a allUsers, haciendo que la función sea invocable públicamente" },
+        { "en": "It disables HTTPS and serves traffic over plain HTTP", "es": "Deshabilita HTTPS y sirve el tráfico por HTTP sin cifrar" },
+        { "en": "It removes the runtime service account from the function", "es": "Quita la cuenta de servicio de runtime de la función" },
+        { "en": "It allows the function to call any Google Cloud API without permissions", "es": "Permite que la función llame a cualquier API de Google Cloud sin permisos" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "--allow-unauthenticated adds an IAM binding of roles/run.invoker for allUsers, so anyone on the internet can invoke the endpoint. B is false because traffic is always served over HTTPS, C is false because the runtime identity is unaffected, and D is false because outbound API access still depends on the runtime service account's IAM roles.",
+        "es": "--allow-unauthenticated agrega una vinculación de IAM de roles/run.invoker para allUsers, de modo que cualquiera en internet puede invocar el endpoint. B es falsa porque el tráfico siempre se sirve por HTTPS, C es falsa porque la identidad de runtime no se ve afectada y D es falsa porque el acceso saliente a APIs sigue dependiendo de los roles de IAM de la cuenta de servicio de runtime."
+      },
+      "doc": "https://cloud.google.com/run/docs/authenticating/public"
+    },
+    {
+      "id": "crf-014",
+      "curso": "cloud-run-functions",
+      "servicios": ["cloud-run-functions"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.1-compute-choices"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which of the following workloads is NOT a good fit for a Cloud Run function?",
+        "es": "¿Cuál de las siguientes cargas de trabajo NO es adecuada para una Cloud Run function?"
+      },
+      "opciones": [
+        { "en": "A multi-hour batch job that must run without interruption for 5 hours", "es": "Un trabajo por lotes de varias horas que debe ejecutarse sin interrupción durante 5 horas" },
+        { "en": "A webhook that receives notifications from an external SaaS", "es": "Un webhook que recibe notificaciones de un SaaS externo" },
+        { "en": "Resizing images when they are uploaded to a bucket", "es": "Redimensionar imágenes cuando se suben a un bucket" },
+        { "en": "Processing individual messages from a Pub/Sub topic", "es": "Procesar mensajes individuales de un topic de Pub/Sub" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Functions handle individual requests or events bounded by a request timeout (up to 60 minutes for HTTP), so a 5-hour uninterrupted batch job exceeds the model; Cloud Run jobs or other compute options fit better. B, C, and D are classic function use cases: short-lived, event- or request-driven pieces of work.",
+        "es": "Las funciones atienden solicitudes o eventos individuales limitados por un timeout de solicitud (hasta 60 minutos para HTTP), por lo que un trabajo por lotes ininterrumpido de 5 horas excede el modelo; los Cloud Run jobs u otras opciones de cómputo encajan mejor. B, C y D son casos de uso clásicos de funciones: trabajos breves impulsados por eventos o solicitudes."
+      },
+      "doc": "https://cloud.google.com/run/docs/configuring/request-timeout"
+    },
+    {
+      "id": "crf-015",
+      "curso": "cloud-run-functions",
+      "servicios": ["firestore", "eventarc", "cloud-run-functions"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.1-serverless-events"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "How can a Cloud Run function react automatically when a document changes in a Firestore database?",
+        "es": "¿Cómo puede una Cloud Run function reaccionar automáticamente cuando un documento cambia en una base de datos de Firestore?"
+      },
+      "opciones": [
+        { "en": "By configuring a Firestore trigger (via Eventarc) that fires on document create, update, or delete events", "es": "Configurando un trigger de Firestore (vía Eventarc) que se dispara ante eventos de creación, actualización o borrado de documentos" },
+        { "en": "By running an infinite loop in the function that queries Firestore every second", "es": "Ejecutando un bucle infinito en la función que consulta Firestore cada segundo" },
+        { "en": "By enabling binary logging on the Firestore instance", "es": "Habilitando el registro binario en la instancia de Firestore" },
+        { "en": "It is not possible; Firestore cannot generate events", "es": "No es posible; Firestore no puede generar eventos" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Firestore emits document change events that Eventarc routes to a function, so your code runs on create/update/delete without polling. B is an anti-pattern that wastes compute and conflicts with the scale-to-zero model, C confuses Firestore with MySQL-style databases (binary logging is not a Firestore trigger mechanism), and D is simply false.",
+        "es": "Firestore emite eventos de cambio de documentos que Eventarc enruta a una función, así tu código se ejecuta en creaciones/actualizaciones/borrados sin hacer polling. B es un antipatrón que desperdicia cómputo y contradice el modelo de escala a cero, C confunde Firestore con bases estilo MySQL (el registro binario no es un mecanismo de triggers de Firestore) y D es simplemente falsa."
+      },
+      "doc": "https://cloud.google.com/functions/docs/calling/cloud-firestore"
+    },
+    {
+      "id": "crf-016",
+      "curso": "cloud-run-functions",
+      "servicios": ["cloud-run-functions", "pubsub"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.1-compute-choices"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You need to run a small piece of code every time a message arrives on a Pub/Sub topic, without managing any servers. Which option should you choose?",
+        "es": "Necesitas ejecutar un fragmento pequeño de código cada vez que llega un mensaje a un topic de Pub/Sub, sin administrar servidores. ¿Qué opción deberías elegir?"
+      },
+      "opciones": [
+        { "en": "A Cloud Run function with a Pub/Sub trigger", "es": "Una Cloud Run function con un trigger de Pub/Sub" },
+        { "en": "A Compute Engine VM running a subscriber script 24/7", "es": "Una VM de Compute Engine ejecutando un script suscriptor 24/7" },
+        { "en": "A GKE Standard cluster with a Deployment that pulls messages", "es": "Un clúster de GKE Standard con un Deployment que consume mensajes" },
+        { "en": "A Cloud SQL instance with a scheduled stored procedure", "es": "Una instancia de Cloud SQL con un procedimiento almacenado programado" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "A Pub/Sub-triggered function runs your code per message with zero server management and scales to zero when idle. B and C work but require managing VMs or clusters and paying for idle capacity, violating the 'no servers' requirement. D cannot subscribe to Pub/Sub; stored procedures are for database logic.",
+        "es": "Una función con trigger de Pub/Sub ejecuta tu código por mensaje sin administrar servidores y escala a cero cuando está inactiva. B y C funcionan pero requieren administrar VMs o clústeres y pagar capacidad inactiva, violando el requisito de 'sin servidores'. D no puede suscribirse a Pub/Sub; los procedimientos almacenados son para lógica de base de datos."
+      },
+      "doc": "https://cloud.google.com/functions/docs/calling/pubsub"
+    },
+    {
+      "id": "crf-017",
+      "curso": "cloud-run-functions",
+      "servicios": ["cloud-run-functions"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.1-compute-choices"],
+      "nivel": "principiante",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO characteristics describe Cloud Run functions?",
+        "es": "¿Cuáles DOS características describen a Cloud Run functions?"
+      },
+      "opciones": [
+        { "en": "They scale automatically with demand, including down to zero instances", "es": "Escalan automáticamente con la demanda, incluso hasta cero instancias" },
+        { "en": "You pay only for the resources consumed while handling requests or events", "es": "Pagas solo por los recursos consumidos mientras se atienden solicitudes o eventos" },
+        { "en": "You must patch and upgrade the operating system of their servers", "es": "Debes parchar y actualizar el sistema operativo de sus servidores" },
+        { "en": "They require an existing Kubernetes cluster to run", "es": "Requieren un clúster de Kubernetes existente para ejecutarse" }
+      ],
+      "respuesta": ["A", "B"],
+      "explicacion": {
+        "en": "Automatic scaling (including to zero) and pay-per-use billing are core serverless properties of Cloud Run functions. C is false because Google manages the underlying infrastructure and OS, and D is false because functions run on Cloud Run, which needs no cluster from you.",
+        "es": "El escalado automático (incluso a cero) y el cobro por uso son propiedades serverless centrales de Cloud Run functions. C es falsa porque Google administra la infraestructura y el sistema operativo subyacentes, y D es falsa porque las funciones se ejecutan en Cloud Run, que no requiere ningún clúster de tu parte."
+      },
+      "doc": "https://cloud.google.com/functions/docs/concepts/overview"
+    },
+    {
+      "id": "crf-018",
+      "curso": "cloud-run-functions",
+      "servicios": ["cloud-run", "cloud-run-functions"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.1-cloud-run-ops"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "In Cloud Run, what is a revision?",
+        "es": "En Cloud Run, ¿qué es una revisión?"
+      },
+      "opciones": [
+        { "en": "An immutable snapshot of the code and configuration of a service, created each time you deploy or change configuration", "es": "Una instantánea inmutable del código y la configuración de un servicio, creada cada vez que despliegas o cambias la configuración" },
+        { "en": "A manual code review required before each deployment", "es": "Una revisión manual de código requerida antes de cada despliegue" },
+        { "en": "A backup of the container image stored in Cloud Storage", "es": "Una copia de seguridad de la imagen de contenedor almacenada en Cloud Storage" },
+        { "en": "A billing report of the service's monthly usage", "es": "Un informe de facturación del uso mensual del servicio" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Every deployment or configuration change creates a new immutable revision; traffic can be split or rolled back between revisions. B confuses the platform concept with human code review, C is wrong because images live in Artifact Registry and a revision is not a backup, and D has nothing to do with the resource model.",
+        "es": "Cada despliegue o cambio de configuración crea una nueva revisión inmutable; el tráfico puede dividirse o revertirse entre revisiones. B confunde el concepto de la plataforma con la revisión humana de código, C es incorrecta porque las imágenes viven en Artifact Registry y una revisión no es una copia de seguridad, y D no tiene relación con el modelo de recursos."
+      },
+      "doc": "https://cloud.google.com/run/docs/resource-model"
+    },
+    {
+      "id": "crf-019",
+      "curso": "cloud-run-functions",
+      "servicios": ["cloud-logging", "cloud-run-functions"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-logging-usage"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Where can you view the execution logs (including stdout/stderr) of a Cloud Run function?",
+        "es": "¿Dónde puedes ver los registros de ejecución (incluidos stdout/stderr) de una Cloud Run function?"
+      },
+      "opciones": [
+        { "en": "In Cloud Logging, for example through the Logs Explorer or the service's Logs tab", "es": "En Cloud Logging, por ejemplo mediante el Explorador de registros o la pestaña Logs del servicio" },
+        { "en": "By connecting via SSH to the function's instance and reading /var/log", "es": "Conectándote por SSH a la instancia de la función y leyendo /var/log" },
+        { "en": "Only by downloading log files from a Cloud Storage bucket", "es": "Solo descargando archivos de registro desde un bucket de Cloud Storage" },
+        { "en": "In Cloud Trace, which stores all application logs", "es": "En Cloud Trace, que almacena todos los registros de la aplicación" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Function logs are automatically sent to Cloud Logging, viewable in the Logs Explorer or the service's Logs tab. B is impossible because there is no SSH access to serverless instances, C is wrong because export to Cloud Storage is optional, not the primary access path, and D is wrong because Cloud Trace stores latency traces, not application logs.",
+        "es": "Los registros de las funciones se envían automáticamente a Cloud Logging y se ven en el Explorador de registros o en la pestaña Logs del servicio. B es imposible porque no hay acceso SSH a instancias serverless, C es incorrecta porque exportar a Cloud Storage es opcional y no la vía principal, y D es incorrecta porque Cloud Trace almacena trazas de latencia, no registros de aplicación."
+      },
+      "doc": "https://cloud.google.com/run/docs/logging"
+    },
+    {
+      "id": "crf-020",
+      "curso": "cloud-run-functions",
+      "servicios": ["eventarc", "cloud-run-functions"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.1-serverless-events"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "How does Eventarc handle delivery when a Cloud Run function returns an error (non-2xx status) for an event?",
+        "es": "¿Cómo maneja Eventarc la entrega cuando una Cloud Run function devuelve un error (estado distinto de 2xx) para un evento?"
+      },
+      "opciones": [
+        { "en": "It retries delivery with exponential backoff for up to the message retention period", "es": "Reintenta la entrega con retirada exponencial (exponential backoff) hasta el período de retención del mensaje" },
+        { "en": "It discards the event immediately and permanently", "es": "Descarta el evento de inmediato y de forma permanente" },
+        { "en": "It shuts down the function until an administrator intervenes", "es": "Apaga la función hasta que un administrador intervenga" },
+        { "en": "It converts the event into an email notification to the project owner", "es": "Convierte el evento en una notificación por correo al propietario del proyecto" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Eventarc delivery is backed by Pub/Sub: failed deliveries are retried with exponential backoff until they succeed or the retention window expires (a dead-letter topic can capture persistent failures). B is wrong because events are not dropped on first failure, C is wrong because the service keeps serving, and D is not a delivery mechanism that exists.",
+        "es": "La entrega de Eventarc se apoya en Pub/Sub: las entregas fallidas se reintentan con retirada exponencial hasta que tienen éxito o expira la ventana de retención (un dead-letter topic puede capturar fallas persistentes). B es incorrecta porque los eventos no se descartan al primer fallo, C es incorrecta porque el servicio sigue atendiendo, y D no es un mecanismo de entrega existente."
+      },
+      "doc": "https://cloud.google.com/eventarc/docs/retry-events"
+    },
+    {
+      "id": "crf-021",
+      "curso": "cloud-run-functions",
+      "servicios": ["pubsub", "cloud-storage", "cloud-run-functions"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.1-serverless-events"],
+      "nivel": "principiante",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO Google Cloud services can directly generate events that trigger a Cloud Run function?",
+        "es": "¿Cuáles DOS servicios de Google Cloud pueden generar directamente eventos que disparen una Cloud Run function?"
+      },
+      "opciones": [
+        { "en": "Pub/Sub (message published to a topic)", "es": "Pub/Sub (mensaje publicado en un topic)" },
+        { "en": "Cloud Storage (object created, deleted, or archived in a bucket)", "es": "Cloud Storage (objeto creado, borrado o archivado en un bucket)" },
+        { "en": "Persistent Disk (block written to a disk)", "es": "Persistent Disk (bloque escrito en un disco)" },
+        { "en": "Cloud NAT (outbound connection established)", "es": "Cloud NAT (conexión saliente establecida)" }
+      ],
+      "respuesta": ["A", "B"],
+      "explicacion": {
+        "en": "Pub/Sub messages and Cloud Storage object change notifications are the two classic event sources for functions. Persistent Disk does not emit block-level events to trigger functions, and Cloud NAT does not publish per-connection events consumable as function triggers.",
+        "es": "Los mensajes de Pub/Sub y las notificaciones de cambio de objetos de Cloud Storage son las dos fuentes de eventos clásicas para funciones. Persistent Disk no emite eventos a nivel de bloque para disparar funciones, y Cloud NAT no publica eventos por conexión consumibles como triggers de funciones."
+      },
+      "doc": "https://cloud.google.com/functions/docs/calling"
+    },
+    {
+      "id": "crf-022",
+      "curso": "cloud-run-functions",
+      "servicios": ["cloud-run-functions", "cloud-run"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.1-cloud-run-ops"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What does the concurrency setting of a Cloud Run function control?",
+        "es": "¿Qué controla la configuración de concurrencia de una Cloud Run function?"
+      },
+      "opciones": [
+        { "en": "The maximum number of requests a single instance can handle at the same time", "es": "La cantidad máxima de solicitudes que una sola instancia puede atender al mismo tiempo" },
+        { "en": "The number of regions where the function is replicated", "es": "La cantidad de regiones donde se replica la función" },
+        { "en": "The number of CPU cores of the underlying VM", "es": "La cantidad de núcleos de CPU de la VM subyacente" },
+        { "en": "How many deployments can run in parallel in CI/CD", "es": "Cuántos despliegues pueden ejecutarse en paralelo en CI/CD" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Concurrency is the per-instance limit of simultaneous requests; higher concurrency can reduce cost and cold starts, while concurrency=1 isolates each request. B is about multi-region architecture, not concurrency; C is the CPU allocation setting, a different knob; and D relates to deployment pipelines, not the runtime setting.",
+        "es": "La concurrencia es el límite por instancia de solicitudes simultáneas; una concurrencia mayor puede reducir costos y cold starts, mientras que concurrencia=1 aísla cada solicitud. B trata de arquitectura multirregión, no de concurrencia; C es la asignación de CPU, otro parámetro; y D se relaciona con pipelines de despliegue, no con la configuración de runtime."
+      },
+      "doc": "https://cloud.google.com/run/docs/about-concurrency"
+    }
+  ]
+}

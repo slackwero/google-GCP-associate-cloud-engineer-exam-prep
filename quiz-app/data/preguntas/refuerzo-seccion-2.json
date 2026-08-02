@@ -1,0 +1,504 @@
+{
+  "preguntas": [
+    {
+      "id": "ref2-001",
+      "curso": null,
+      "servicios": ["cloud-ngfw"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.3-firewall-ngfw"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is Cloud Next Generation Firewall (Cloud NGFW)?",
+        "es": "¿Qué es Cloud Next Generation Firewall (Cloud NGFW)?"
+      },
+      "opciones": [
+        { "en": "A fully distributed, cloud-native stateful firewall service enforced at each workload and configured with firewall rules and firewall policies", "es": "Un servicio de firewall con estado, nativo de la nube y totalmente distribuido, aplicado en cada carga de trabajo y configurado con reglas y políticas de firewall" },
+        { "en": "A hardware firewall appliance that you must install in a colocation facility", "es": "Un dispositivo de firewall de hardware que debes instalar en una instalación de colocación" },
+        { "en": "A web application firewall that filters HTTP(S) requests at the load balancer", "es": "Un firewall de aplicaciones web que filtra solicitudes HTTP(S) en el balanceador de cargas" },
+        { "en": "A third-party virtual appliance from the Marketplace that you deploy and patch manually", "es": "Un dispositivo virtual de terceros del Marketplace que implementas y parchas manualmente" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Cloud NGFW is Google Cloud's distributed, stateful firewall service: enforcement happens at each VM, with no appliance to manage. B describes physical hardware, which Cloud NGFW does not require. C describes Cloud Armor (a WAF for HTTP(S) traffic). D describes self-managed Marketplace appliances, not the native managed service.",
+        "es": "Cloud NGFW es el servicio de firewall distribuido y con estado de Google Cloud: la aplicación ocurre en cada VM, sin appliances que administrar. B describe hardware físico, que Cloud NGFW no requiere. C describe Cloud Armor (un WAF para tráfico HTTP(S)). D describe appliances autoadministrados del Marketplace, no el servicio administrado nativo."
+      },
+      "doc": "https://cloud.google.com/firewall/docs/about-firewalls"
+    },
+    {
+      "id": "ref2-002",
+      "curso": null,
+      "servicios": ["persistent-disk"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.1-compute-storage"],
+      "nivel": "principiante",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO performance dimensions can you provision independently of capacity on a Hyperdisk volume?",
+        "es": "¿Cuáles DOS dimensiones de rendimiento puedes aprovisionar independientemente de la capacidad en un volumen de Hyperdisk?"
+      },
+      "opciones": [
+        { "en": "IOPS", "es": "IOPS" },
+        { "en": "Throughput (MB/s)", "es": "Throughput (MB/s)" },
+        { "en": "Number of vCPUs", "es": "Cantidad de vCPUs" },
+        { "en": "Network egress bandwidth", "es": "Ancho de banda de salida de red" }
+      ],
+      "respuesta": ["A", "B"],
+      "explicacion": {
+        "en": "Unlike Persistent Disk, where performance scales with disk size and VM type, Hyperdisk lets you provision IOPS and throughput independently of capacity. vCPUs (C) belong to the machine type, not the disk, and network egress bandwidth (D) is a VM networking property, not a disk setting.",
+        "es": "A diferencia de Persistent Disk, donde el rendimiento escala con el tamaño del disco y el tipo de VM, Hyperdisk permite aprovisionar IOPS y throughput independientemente de la capacidad. Las vCPUs (C) pertenecen al tipo de máquina, no al disco, y el ancho de banda de salida (D) es una propiedad de red de la VM, no una configuración del disco."
+      },
+      "doc": "https://cloud.google.com/compute/docs/disks/hyperdisks"
+    },
+    {
+      "id": "ref2-003",
+      "curso": null,
+      "servicios": ["agent-runtime"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.1-compute-choices"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which Google Cloud service is purpose-built for deploying and scaling AI agents in production?",
+        "es": "¿Qué servicio de Google Cloud está diseñado específicamente para implementar y escalar agentes de IA en producción?"
+      },
+      "opciones": [
+        { "en": "Agent Runtime in the Gemini Enterprise Agent Platform", "es": "Agent Runtime en la Gemini Enterprise Agent Platform" },
+        { "en": "Cloud Run functions", "es": "Cloud Run functions" },
+        { "en": "GKE Autopilot", "es": "GKE Autopilot" },
+        { "en": "A managed instance group on Compute Engine", "es": "Un grupo de instancias administrado en Compute Engine" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Agent Runtime is the managed runtime designed for AI agents, providing agent-specific capabilities such as managed sessions, memory, and scaling. Cloud Run functions (B) runs event-driven functions, GKE Autopilot (C) runs general containerized workloads, and a MIG (D) runs VMs; none provides built-in agent session or memory management.",
+        "es": "Agent Runtime es el entorno de ejecución administrado diseñado para agentes de IA, con capacidades específicas como sesiones administradas, memoria y escalamiento. Cloud Run functions (B) ejecuta funciones basadas en eventos, GKE Autopilot (C) ejecuta cargas de trabajo en contenedores de propósito general y un MIG (D) ejecuta VMs; ninguno ofrece administración integrada de sesiones o memoria de agentes."
+      },
+      "doc": "https://cloud.google.com/vertex-ai/generative-ai/docs/agent-engine/overview"
+    },
+    {
+      "id": "ref2-004",
+      "curso": null,
+      "servicios": ["memorystore"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.2-data-products"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is Memorystore?",
+        "es": "¿Qué es Memorystore?"
+      },
+      "opciones": [
+        { "en": "A fully managed in-memory data store service compatible with open-source engines like Redis and Valkey, commonly used for caching and session storage", "es": "Un servicio de almacenamiento de datos en memoria completamente administrado, compatible con motores de código abierto como Redis y Valkey, usado comúnmente para caché y almacenamiento de sesiones" },
+        { "en": "A managed relational database for transactional workloads", "es": "Una base de datos relacional administrada para cargas de trabajo transaccionales" },
+        { "en": "A block storage service that attaches SSD volumes to VMs", "es": "Un servicio de almacenamiento en bloques que conecta volúmenes SSD a las VMs" },
+        { "en": "A content delivery network for caching static assets at the edge", "es": "Una red de distribución de contenido para almacenar en caché recursos estáticos en el borde" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Memorystore provides managed, in-memory data stores (Redis, Valkey, Memcached) with sub-millisecond latency, ideal for session caches and lookups. B describes Cloud SQL, C describes Persistent Disk/Hyperdisk, and D describes Cloud CDN.",
+        "es": "Memorystore ofrece almacenes de datos en memoria administrados (Redis, Valkey, Memcached) con latencia de submilisegundos, ideales para cachés de sesión y búsquedas rápidas. B describe Cloud SQL, C describe Persistent Disk/Hyperdisk y D describe Cloud CDN."
+      },
+      "doc": "https://cloud.google.com/memorystore/docs/redis/memorystore-for-redis-overview"
+    },
+    {
+      "id": "ref2-005",
+      "curso": null,
+      "servicios": ["file-storage"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.2-storage-products"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which service provides fully managed NFS file shares that multiple Compute Engine VMs can mount at the same time?",
+        "es": "¿Qué servicio proporciona recursos compartidos de archivos NFS completamente administrados que varias VMs de Compute Engine pueden montar al mismo tiempo?"
+      },
+      "opciones": [
+        { "en": "Filestore", "es": "Filestore" },
+        { "en": "Persistent Disk", "es": "Persistent Disk" },
+        { "en": "Cloud Storage", "es": "Cloud Storage" },
+        { "en": "Local SSD", "es": "Local SSD" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Filestore offers managed NFS file shares that many VMs mount concurrently with a standard file system interface. Persistent Disk (B) is block storage, generally attached read-write to one VM. Cloud Storage (C) is object storage, not a POSIX file system. Local SSD (D) is ephemeral storage physically attached to a single VM.",
+        "es": "Filestore ofrece recursos compartidos NFS administrados que muchas VMs montan de forma concurrente con una interfaz de sistema de archivos estándar. Persistent Disk (B) es almacenamiento en bloques, normalmente conectado en lectura-escritura a una sola VM. Cloud Storage (C) es almacenamiento de objetos, no un sistema de archivos POSIX. Local SSD (D) es almacenamiento efímero conectado físicamente a una sola VM."
+      },
+      "doc": "https://cloud.google.com/filestore/docs/filestore-overview"
+    },
+    {
+      "id": "ref2-006",
+      "curso": null,
+      "servicios": ["hybrid-connectivity"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.3-connectivity"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is Dedicated Interconnect?",
+        "es": "¿Qué es Dedicated Interconnect?"
+      },
+      "opciones": [
+        { "en": "A direct physical connection between your on-premises network and Google's network at a colocation facility", "es": "Una conexión física directa entre tu red local y la red de Google en una instalación de colocación" },
+        { "en": "An encrypted IPsec tunnel over the public internet", "es": "Un túnel IPsec encriptado sobre la internet pública" },
+        { "en": "A connection to Google Cloud through a supported service provider's network", "es": "Una conexión a Google Cloud a través de la red de un proveedor de servicios compatible" },
+        { "en": "A peering connection between two VPC networks", "es": "Una conexión de intercambio entre dos redes VPC" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Dedicated Interconnect provides direct physical links (10 Gbps or 100 Gbps per link) between your network and Google's at a colocation facility. B describes Cloud VPN, C describes Partner Interconnect, and D describes VPC Network Peering, which connects VPCs, not on-premises networks.",
+        "es": "Dedicated Interconnect ofrece enlaces físicos directos (10 Gbps o 100 Gbps por enlace) entre tu red y la de Google en una instalación de colocación. B describe Cloud VPN, C describe Partner Interconnect y D describe el intercambio entre redes VPC, que conecta VPCs, no redes locales."
+      },
+      "doc": "https://cloud.google.com/network-connectivity/docs/interconnect/concepts/dedicated-overview"
+    },
+    {
+      "id": "ref2-007",
+      "curso": null,
+      "servicios": ["managed-kafka"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.2-data-products"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is Managed Service for Apache Kafka?",
+        "es": "¿Qué es el servicio administrado para Apache Kafka?"
+      },
+      "opciones": [
+        { "en": "A Google-managed service that runs Apache Kafka clusters compatible with the open-source Kafka API", "es": "Un servicio administrado por Google que ejecuta clústeres de Apache Kafka compatibles con la API de Kafka de código abierto" },
+        { "en": "A new name for Pub/Sub with the same messaging API", "es": "Un nuevo nombre para Pub/Sub con la misma API de mensajería" },
+        { "en": "A migration tool that converts Kafka topics into Pub/Sub topics", "es": "Una herramienta de migración que convierte topics de Kafka en topics de Pub/Sub" },
+        { "en": "A Helm chart for self-managing Kafka on GKE", "es": "Un chart de Helm para autoadministrar Kafka en GKE" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Managed Service for Apache Kafka runs real Kafka clusters for you, keeping full compatibility with the open-source Kafka protocol and client libraries. B is wrong because Pub/Sub is a different product with its own API. C is wrong: it runs Kafka, it does not convert it to Pub/Sub. D is wrong because it is a managed service, not a self-managed deployment on GKE.",
+        "es": "El servicio administrado para Apache Kafka ejecuta clústeres reales de Kafka por ti, manteniendo compatibilidad total con el protocolo de Kafka de código abierto y sus bibliotecas cliente. B es incorrecta porque Pub/Sub es un producto distinto con su propia API. C es incorrecta: ejecuta Kafka, no lo convierte a Pub/Sub. D es incorrecta porque es un servicio administrado, no una implementación autoadministrada en GKE."
+      },
+      "doc": "https://cloud.google.com/managed-service-for-apache-kafka/docs/overview"
+    },
+    {
+      "id": "ref2-008",
+      "curso": null,
+      "servicios": ["cloud-ngfw", "resource-manager"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.3-firewall-ngfw"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What distinguishes hierarchical firewall policies from VPC firewall rules?",
+        "es": "¿Qué distingue a las políticas de firewall jerárquicas de las reglas de firewall de VPC?"
+      },
+      "opciones": [
+        { "en": "Hierarchical policies are attached to the organization or folders and are inherited by all projects and VPC networks below them", "es": "Las políticas jerárquicas se asocian a la organización o a carpetas y son heredadas por todos los proyectos y redes VPC debajo de ellas" },
+        { "en": "Hierarchical policies apply only to a single VPC network", "es": "Las políticas jerárquicas se aplican solo a una única red VPC" },
+        { "en": "Hierarchical policies replace the need for IAM roles on network resources", "es": "Las políticas jerárquicas reemplazan la necesidad de roles de IAM en los recursos de red" },
+        { "en": "Hierarchical policies can only contain allow rules, never deny rules", "es": "Las políticas jerárquicas solo pueden contener reglas de permiso, nunca de denegación" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Hierarchical firewall policies live at the organization or folder level and apply to every VPC in the hierarchy below, letting central teams enforce rules across all projects. B describes VPC firewall rules and network firewall policies, which are scoped to networks. C is false: IAM still controls who administers firewalls. D is false: they support allow, deny, and goto_next actions.",
+        "es": "Las políticas de firewall jerárquicas viven a nivel de organización o carpeta y se aplican a todas las VPC de la jerarquía inferior, lo que permite a los equipos centrales imponer reglas en todos los proyectos. B describe las reglas de firewall de VPC y las políticas de firewall de red, cuyo alcance son las redes. C es falsa: IAM sigue controlando quién administra los firewalls. D es falsa: admiten acciones allow, deny y goto_next."
+      },
+      "doc": "https://cloud.google.com/firewall/docs/firewall-policies"
+    },
+    {
+      "id": "ref2-009",
+      "curso": null,
+      "servicios": ["dataflow"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.2-data-products"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is Dataflow?",
+        "es": "¿Qué es Dataflow?"
+      },
+      "opciones": [
+        { "en": "A fully managed service for running batch and streaming data pipelines built with Apache Beam", "es": "Un servicio completamente administrado para ejecutar canalizaciones de datos por lotes y de transmisión creadas con Apache Beam" },
+        { "en": "A managed service for running Apache Spark and Hadoop clusters", "es": "Un servicio administrado para ejecutar clústeres de Apache Spark y Hadoop" },
+        { "en": "A global message queue for asynchronous communication between services", "es": "Una cola de mensajes global para la comunicación asíncrona entre servicios" },
+        { "en": "A business intelligence tool for building dashboards", "es": "Una herramienta de inteligencia de negocios para crear paneles" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Dataflow executes Apache Beam pipelines for both batch and streaming processing, with automatic provisioning and autoscaling of workers. B describes Dataproc, C describes Pub/Sub, and D describes Looker/Looker Studio.",
+        "es": "Dataflow ejecuta canalizaciones de Apache Beam para procesamiento por lotes y de transmisión, con aprovisionamiento y autoescalado automáticos de los trabajadores. B describe Dataproc, C describe Pub/Sub y D describe Looker/Looker Studio."
+      },
+      "doc": "https://cloud.google.com/dataflow/docs/overview"
+    },
+    {
+      "id": "ref2-010",
+      "curso": null,
+      "servicios": ["cloud-storage"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.2-multiregion-redundancy"],
+      "nivel": "principiante",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO Cloud Storage bucket location types replicate your data geo-redundantly across two or more regions?",
+        "es": "¿Cuáles DOS tipos de ubicación de buckets de Cloud Storage replican tus datos con geo-redundancia en dos o más regiones?"
+      },
+      "opciones": [
+        { "en": "Dual-region", "es": "Birregional (dual-region)" },
+        { "en": "Multi-region", "es": "Multirregional (multi-region)" },
+        { "en": "Region (single region)", "es": "Regional (una sola región)" },
+        { "en": "Any bucket using the Nearline storage class", "es": "Cualquier bucket que use la clase de almacenamiento Nearline" }
+      ],
+      "respuesta": ["A", "B"],
+      "explicacion": {
+        "en": "Dual-region buckets replicate data across two specific regions you choose, and multi-region buckets replicate across a large geographic area with multiple regions; both are geo-redundant. A single-region bucket (C) keeps data in one region only. Storage class (D) controls pricing and access patterns, not geographic redundancy.",
+        "es": "Los buckets birregionales replican los datos entre dos regiones específicas que eliges, y los multirregionales lo hacen en un área geográfica amplia con varias regiones; ambos son geo-redundantes. Un bucket regional (C) mantiene los datos en una sola región. La clase de almacenamiento (D) controla el precio y el patrón de acceso, no la redundancia geográfica."
+      },
+      "doc": "https://cloud.google.com/storage/docs/locations"
+    },
+    {
+      "id": "ref2-011",
+      "curso": null,
+      "servicios": ["storage-transfer", "cloud-storage"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.2-data-loading"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which service is designed to transfer large datasets into Cloud Storage from other clouds, on-premises storage, or between buckets, with scheduling and managed retries?",
+        "es": "¿Qué servicio está diseñado para transferir grandes conjuntos de datos hacia Cloud Storage desde otras nubes, almacenamiento local o entre buckets, con programación y reintentos administrados?"
+      },
+      "opciones": [
+        { "en": "Storage Transfer Service", "es": "Storage Transfer Service (Servicio de transferencia de almacenamiento)" },
+        { "en": "Cloud CDN", "es": "Cloud CDN" },
+        { "en": "Database Migration Service", "es": "Database Migration Service" },
+        { "en": "Pub/Sub", "es": "Pub/Sub" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Storage Transfer Service moves data at scale into Cloud Storage from Amazon S3, Azure, HTTP sources, on-premises file systems (via agents), or between buckets, with schedules, incremental sync, and retries. Cloud CDN (B) caches content for delivery, Database Migration Service (C) migrates databases, and Pub/Sub (D) is a messaging service, not a bulk data mover.",
+        "es": "Storage Transfer Service mueve datos a escala hacia Cloud Storage desde Amazon S3, Azure, orígenes HTTP, sistemas de archivos locales (mediante agentes) o entre buckets, con programación, sincronización incremental y reintentos. Cloud CDN (B) almacena contenido en caché para su distribución, Database Migration Service (C) migra bases de datos y Pub/Sub (D) es un servicio de mensajería, no un transportador masivo de datos."
+      },
+      "doc": "https://cloud.google.com/storage-transfer/docs/overview"
+    },
+    {
+      "id": "ref2-012",
+      "curso": null,
+      "servicios": ["gpus-tpus"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.1-gpus-tpus-choice"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What are Tensor Processing Units (TPUs)?",
+        "es": "¿Qué son las Tensor Processing Units (TPUs)?"
+      },
+      "opciones": [
+        { "en": "Custom ASICs designed by Google to accelerate large-scale machine learning workloads dominated by matrix operations", "es": "ASICs personalizados diseñados por Google para acelerar cargas de trabajo de aprendizaje automático a gran escala dominadas por operaciones matriciales" },
+        { "en": "General-purpose graphics cards used mainly for video rendering", "es": "Tarjetas gráficas de propósito general usadas principalmente para renderizado de video" },
+        { "en": "A family of high-frequency CPUs for compute-intensive applications", "es": "Una familia de CPUs de alta frecuencia para aplicaciones de cómputo intensivo" },
+        { "en": "Programmable network cards that offload packet processing", "es": "Tarjetas de red programables que descargan el procesamiento de paquetes" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "TPUs are Google-designed ASICs optimized for the dense matrix math at the heart of neural network training and inference. B describes GPUs in their graphics role, C describes compute-optimized CPU machine series, and D describes SmartNICs/DPUs, none of which are TPUs.",
+        "es": "Las TPUs son ASICs diseñados por Google, optimizados para las operaciones matriciales densas que están en el corazón del entrenamiento y la inferencia de redes neuronales. B describe las GPUs en su rol gráfico, C describe las series de máquinas con CPU optimizadas para cómputo y D describe SmartNICs/DPUs; nada de eso es una TPU."
+      },
+      "doc": "https://cloud.google.com/tpu/docs/intro-to-tpu"
+    },
+    {
+      "id": "ref2-013",
+      "curso": null,
+      "servicios": ["cloud-ngfw", "resource-manager"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.3-ngfw-tags-sa"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is the key difference between secure Tags and network tags?",
+        "es": "¿Cuál es la diferencia clave entre los Tags seguros (secure Tags) y las etiquetas de red (network tags)?"
+      },
+      "opciones": [
+        { "en": "Secure Tags are Resource Manager resources governed by IAM permissions, while network tags are simple strings anyone with instance edit access can set", "es": "Los secure Tags son recursos de Resource Manager gobernados por permisos de IAM, mientras que las network tags son cadenas simples que cualquiera con acceso de edición a la instancia puede establecer" },
+        { "en": "Secure Tags are encrypted and network tags are stored in plain text", "es": "Los secure Tags están encriptados y las network tags se almacenan en texto plano" },
+        { "en": "Network tags can only be applied to GKE nodes, not to VMs", "es": "Las network tags solo pueden aplicarse a nodos de GKE, no a VMs" },
+        { "en": "Secure Tags are free while network tags have a monthly cost", "es": "Los secure Tags son gratuitos mientras que las network tags tienen un costo mensual" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Secure Tags (Resource Manager tags with the GCE_FIREWALL purpose) are first-class resources: creating and attaching them requires specific IAM permissions, so firewall targeting cannot be changed by just any instance editor. Network tags are arbitrary strings with no access control of their own. B is false: neither is about encryption. C is false: network tags apply to VMs. D is false: cost is not the differentiator.",
+        "es": "Los secure Tags (tags de Resource Manager con propósito GCE_FIREWALL) son recursos de primera clase: crearlos y asociarlos requiere permisos específicos de IAM, por lo que el objetivo del firewall no puede ser alterado por cualquier editor de instancias. Las network tags son cadenas arbitrarias sin control de acceso propio. B es falsa: no se trata de encriptación. C es falsa: las network tags se aplican a VMs. D es falsa: el costo no es la diferencia."
+      },
+      "doc": "https://cloud.google.com/firewall/docs/tags-firewalls-overview"
+    },
+    {
+      "id": "ref2-014",
+      "curso": null,
+      "servicios": ["persistent-disk"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.1-compute-storage"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which Hyperdisk type offers the highest IOPS for the most demanding databases, such as SAP HANA or large transactional systems?",
+        "es": "¿Qué tipo de Hyperdisk ofrece el mayor número de IOPS para las bases de datos más exigentes, como SAP HANA o grandes sistemas transaccionales?"
+      },
+      "opciones": [
+        { "en": "Hyperdisk Extreme", "es": "Hyperdisk Extreme" },
+        { "en": "Hyperdisk Balanced", "es": "Hyperdisk Balanced" },
+        { "en": "Hyperdisk Throughput", "es": "Hyperdisk Throughput" },
+        { "en": "Hyperdisk ML", "es": "Hyperdisk ML" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Hyperdisk Extreme delivers the highest provisioned IOPS and lowest latency, targeting top-tier databases. Hyperdisk Balanced (B) is the general-purpose default for most workloads. Hyperdisk Throughput (C) optimizes cost-effective sequential throughput for analytics. Hyperdisk ML (D) is optimized for feeding data to many VMs in read-only mode for ML workloads.",
+        "es": "Hyperdisk Extreme entrega el mayor número de IOPS aprovisionadas y la menor latencia, orientado a bases de datos de primer nivel. Hyperdisk Balanced (B) es la opción de propósito general para la mayoría de las cargas. Hyperdisk Throughput (C) optimiza el throughput secuencial a bajo costo para analítica. Hyperdisk ML (D) está optimizado para alimentar datos a muchas VMs en modo de solo lectura en cargas de ML."
+      },
+      "doc": "https://cloud.google.com/compute/docs/disks/hyperdisks"
+    },
+    {
+      "id": "ref2-015",
+      "curso": null,
+      "servicios": ["file-storage"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.2-storage-products"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which Google Cloud service provides a high-performance parallel file system for HPC and AI training workloads?",
+        "es": "¿Qué servicio de Google Cloud proporciona un sistema de archivos paralelo de alto rendimiento para cargas de trabajo de HPC y entrenamiento de IA?"
+      },
+      "opciones": [
+        { "en": "Managed Lustre", "es": "Managed Lustre" },
+        { "en": "Filestore Basic", "es": "Filestore Basic" },
+        { "en": "Cloud Storage", "es": "Cloud Storage" },
+        { "en": "Persistent Disk", "es": "Persistent Disk" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Managed Lustre is Google Cloud's managed parallel file system, built for HPC and AI workloads needing very high aggregate throughput and low latency across many clients. Filestore Basic (B) is general-purpose NFS with far lower performance. Cloud Storage (C) is object storage, not a POSIX parallel file system. Persistent Disk (D) is block storage for individual VMs.",
+        "es": "Managed Lustre es el sistema de archivos paralelo administrado de Google Cloud, creado para cargas de HPC e IA que necesitan un throughput agregado muy alto y baja latencia entre muchos clientes. Filestore Basic (B) es NFS de propósito general con un rendimiento mucho menor. Cloud Storage (C) es almacenamiento de objetos, no un sistema de archivos paralelo POSIX. Persistent Disk (D) es almacenamiento en bloques para VMs individuales."
+      },
+      "doc": "https://cloud.google.com/managed-lustre/docs/overview"
+    },
+    {
+      "id": "ref2-016",
+      "curso": null,
+      "servicios": ["hybrid-connectivity"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.3-connectivity"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "When would you choose Partner Interconnect instead of Dedicated Interconnect?",
+        "es": "¿Cuándo elegirías Partner Interconnect en lugar de Dedicated Interconnect?"
+      },
+      "opciones": [
+        { "en": "When you cannot reach a Google colocation facility or need less than 10 Gbps of capacity", "es": "Cuando no puedes llegar a una instalación de colocación de Google o necesitas menos de 10 Gbps de capacidad" },
+        { "en": "When you need the connection to traverse the public internet", "es": "Cuando necesitas que la conexión atraviese la internet pública" },
+        { "en": "When you need capacities of exactly 10 Gbps or 100 Gbps per link", "es": "Cuando necesitas capacidades de exactamente 10 Gbps o 100 Gbps por enlace" },
+        { "en": "When you want to connect two VPC networks in the same organization", "es": "Cuando quieres conectar dos redes VPC de la misma organización" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Partner Interconnect connects you through a supported service provider, useful when your equipment cannot reach a colocation facility or when you need smaller capacities (50 Mbps to 50 Gbps). B is false: neither Interconnect option uses the public internet (that is Cloud VPN). C describes Dedicated Interconnect link sizes. D is solved with VPC Network Peering, not Interconnect.",
+        "es": "Partner Interconnect te conecta a través de un proveedor de servicios compatible; es útil cuando tu equipo no puede llegar a una instalación de colocación o cuando necesitas capacidades menores (de 50 Mbps a 50 Gbps). B es falsa: ninguna opción de Interconnect usa la internet pública (eso es Cloud VPN). C describe los tamaños de enlace de Dedicated Interconnect. D se resuelve con el intercambio entre redes VPC, no con Interconnect."
+      },
+      "doc": "https://cloud.google.com/network-connectivity/docs/interconnect/concepts/partner-overview"
+    },
+    {
+      "id": "ref2-017",
+      "curso": null,
+      "servicios": ["agent-runtime", "cloud-run"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.1-compute-choices"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is the main difference between Agent Runtime and Cloud Run as deployment targets?",
+        "es": "¿Cuál es la diferencia principal entre Agent Runtime y Cloud Run como destinos de implementación?"
+      },
+      "opciones": [
+        { "en": "Agent Runtime provides agent-specific managed capabilities like sessions, memory, and tool orchestration, while Cloud Run is a general-purpose container platform", "es": "Agent Runtime ofrece capacidades administradas específicas para agentes, como sesiones, memoria y orquestación de herramientas, mientras que Cloud Run es una plataforma de contenedores de propósito general" },
+        { "en": "Agent Runtime runs virtual machines while Cloud Run runs containers", "es": "Agent Runtime ejecuta máquinas virtuales mientras que Cloud Run ejecuta contenedores" },
+        { "en": "Cloud Run cannot serve AI models under any circumstances", "es": "Cloud Run no puede servir modelos de IA bajo ninguna circunstancia" },
+        { "en": "Agent Runtime requires you to manage the underlying GKE cluster", "es": "Agent Runtime requiere que administres el clúster de GKE subyacente" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Agent Runtime is purpose-built for AI agents: it manages sessions, memory, and agent scaling so you do not build that plumbing yourself. Cloud Run runs any stateless container. B is false: neither service exposes VMs to you. C is false: Cloud Run can serve AI workloads, it just lacks agent-specific management. D is false: Agent Runtime is fully managed with no cluster to administer.",
+        "es": "Agent Runtime está diseñado específicamente para agentes de IA: administra sesiones, memoria y el escalamiento del agente para que no construyas esa infraestructura tú mismo. Cloud Run ejecuta cualquier contenedor sin estado. B es falsa: ninguno de los dos te expone VMs. C es falsa: Cloud Run puede servir cargas de IA, solo que sin administración específica de agentes. D es falsa: Agent Runtime es completamente administrado, sin clúster que operar."
+      },
+      "doc": "https://cloud.google.com/vertex-ai/generative-ai/docs/agent-engine/overview"
+    },
+    {
+      "id": "ref2-018",
+      "curso": null,
+      "servicios": ["memorystore"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.2-data-products"],
+      "nivel": "principiante",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO Redis-compatible open-source engines does Memorystore offer as managed services?",
+        "es": "¿Cuáles DOS motores de código abierto compatibles con el protocolo de Redis ofrece Memorystore como servicios administrados?"
+      },
+      "opciones": [
+        { "en": "Redis", "es": "Redis" },
+        { "en": "Valkey", "es": "Valkey" },
+        { "en": "MongoDB", "es": "MongoDB" },
+        { "en": "Cassandra", "es": "Cassandra" }
+      ],
+      "respuesta": ["A", "B"],
+      "explicacion": {
+        "en": "Memorystore offers managed Redis and managed Valkey (an open-source, Redis-compatible fork), in addition to Memcached. MongoDB (C) is a document database and Cassandra (D) is a wide-column database; neither is offered by Memorystore nor speaks the Redis protocol.",
+        "es": "Memorystore ofrece Redis administrado y Valkey administrado (un fork de código abierto compatible con Redis), además de Memcached. MongoDB (C) es una base de datos de documentos y Cassandra (D) es una base de datos de columnas anchas; Memorystore no ofrece ninguna de las dos y tampoco hablan el protocolo de Redis."
+      },
+      "doc": "https://cloud.google.com/memorystore/docs/valkey/product-overview"
+    },
+    {
+      "id": "ref2-019",
+      "curso": null,
+      "servicios": ["cloud-ngfw", "vpc"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.3-firewall-ngfw"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What are the implied firewall rules that exist in every VPC network?",
+        "es": "¿Cuáles son las reglas de firewall implícitas que existen en toda red VPC?"
+      },
+      "opciones": [
+        { "en": "Allow all egress traffic and deny all ingress traffic, both at the lowest priority", "es": "Permitir todo el tráfico de salida y denegar todo el tráfico de entrada, ambas con la prioridad más baja" },
+        { "en": "Deny all egress traffic and allow all ingress traffic", "es": "Denegar todo el tráfico de salida y permitir todo el tráfico de entrada" },
+        { "en": "Deny all traffic in both directions until you create rules", "es": "Denegar todo el tráfico en ambas direcciones hasta que crees reglas" },
+        { "en": "Allow all traffic in both directions until you create rules", "es": "Permitir todo el tráfico en ambas direcciones hasta que crees reglas" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Every VPC network has two implied rules at priority 65535: allow all egress and deny all ingress. You override them with higher-priority rules. B inverts the actual behavior. C and D are wrong because the directions are treated differently: egress is open by default while ingress is blocked by default.",
+        "es": "Toda red VPC tiene dos reglas implícitas con prioridad 65535: permitir toda la salida y denegar toda la entrada. Se anulan con reglas de mayor prioridad. B invierte el comportamiento real. C y D son incorrectas porque las direcciones se tratan distinto: la salida está abierta de forma predeterminada mientras que la entrada está bloqueada."
+      },
+      "doc": "https://cloud.google.com/firewall/docs/firewalls"
+    },
+    {
+      "id": "ref2-020",
+      "curso": null,
+      "servicios": ["cloud-ngfw", "cloud-logging"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.3-firewall-ngfw"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What does enabling logging on a firewall rule do?",
+        "es": "¿Qué hace habilitar el registro (logging) en una regla de firewall?"
+      },
+      "opciones": [
+        { "en": "It records metadata about connections that match the rule so you can audit and analyze its effect in Cloud Logging", "es": "Registra metadatos de las conexiones que coinciden con la regla para que puedas auditar y analizar su efecto en Cloud Logging" },
+        { "en": "It captures the full packet payloads of matching traffic", "es": "Captura el contenido completo de los paquetes del tráfico coincidente" },
+        { "en": "Nothing extra; logging is already enabled by default on all rules", "es": "Nada adicional; el registro ya está habilitado de forma predeterminada en todas las reglas" },
+        { "en": "It only works on allow rules, never on deny rules", "es": "Solo funciona en reglas de permiso, nunca en reglas de denegación" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Firewall Rules Logging records connection metadata (source, destination, ports, whether allowed or denied) for traffic matching rules where logging is enabled, sending entries to Cloud Logging. B is wrong: it logs metadata, not payloads (packet capture is Packet Mirroring). C is wrong: logging is disabled by default. D is wrong: it works on both allow and deny rules, though not on implied rules.",
+        "es": "Firewall Rules Logging registra metadatos de conexión (origen, destino, puertos, si se permitió o denegó) del tráfico que coincide con reglas donde el registro está habilitado, enviando las entradas a Cloud Logging. B es incorrecta: registra metadatos, no contenido (la captura de paquetes es Packet Mirroring). C es incorrecta: el registro está deshabilitado de forma predeterminada. D es incorrecta: funciona en reglas de permiso y de denegación, aunque no en las reglas implícitas."
+      },
+      "doc": "https://cloud.google.com/firewall/docs/firewall-rules-logging"
+    }
+  ]
+}

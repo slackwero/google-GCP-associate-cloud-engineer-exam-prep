@@ -1,0 +1,555 @@
+{
+  "preguntas": [
+    {
+      "id": "ops-001",
+      "curso": "registro-supervision",
+      "servicios": ["cloud-logging"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-logging-usage"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is Cloud Logging?",
+        "es": "¿Qué es Cloud Logging?"
+      },
+      "opciones": [
+        { "en": "A fully managed service to store, search, analyze, and alert on log data from Google Cloud and other sources", "es": "Un servicio completamente administrado para almacenar, buscar, analizar y generar alertas sobre datos de registro de Google Cloud y otras fuentes" },
+        { "en": "A service that collects performance metrics and displays them in dashboards", "es": "Un servicio que recopila métricas de rendimiento y las muestra en dashboards" },
+        { "en": "A distributed tracing tool that measures request latency across services", "es": "Una herramienta de tracing distribuido que mide la latencia de solicitudes entre servicios" },
+        { "en": "A data warehouse for running SQL analytics at petabyte scale", "es": "Un almacén de datos para ejecutar analítica SQL a escala de petabytes" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Cloud Logging is the managed log management service of Google Cloud Observability. B describes Cloud Monitoring, C describes Cloud Trace, and D describes BigQuery.",
+        "es": "Cloud Logging es el servicio administrado de gestión de registros de Google Cloud Observability. B describe Cloud Monitoring, C describe Cloud Trace y D describe BigQuery."
+      },
+      "doc": "https://cloud.google.com/logging/docs/overview"
+    },
+    {
+      "id": "ops-002",
+      "curso": "registro-supervision",
+      "servicios": ["cloud-monitoring"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-alerts-metrics"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "In Cloud Monitoring, what is an alerting policy?",
+        "es": "En Cloud Monitoring, ¿qué es una política de alertas?"
+      },
+      "opciones": [
+        { "en": "A configuration that defines conditions over metrics or logs and sends notifications when those conditions are met", "es": "Una configuración que define condiciones sobre métricas o registros y envía notificaciones cuando esas condiciones se cumplen" },
+        { "en": "An IAM policy that controls who can view monitoring dashboards", "es": "Una política de IAM que controla quién puede ver los dashboards de monitoreo" },
+        { "en": "A firewall policy that blocks traffic when an attack is detected", "es": "Una política de firewall que bloquea el tráfico cuando se detecta un ataque" },
+        { "en": "A billing budget that stops resources when spending exceeds a limit", "es": "Un presupuesto de facturación que detiene recursos cuando el gasto supera un límite" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "An alerting policy combines one or more conditions (e.g., CPU > 80%) with notification channels that fire when the condition is violated. B confuses it with IAM, C with Cloud NGFW, and D with billing budgets, which also never stop resources automatically by themselves.",
+        "es": "Una política de alertas combina una o más condiciones (p. ej., CPU > 80%) con canales de notificación que se activan cuando la condición se viola. B la confunde con IAM, C con Cloud NGFW y D con presupuestos de facturación, que además por sí solos nunca detienen recursos automáticamente."
+      },
+      "doc": "https://cloud.google.com/monitoring/alerts"
+    },
+    {
+      "id": "ops-003",
+      "curso": "registro-supervision",
+      "servicios": ["cloud-logging"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-audit-flow-logs"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which Cloud Audit Logs type records user-initiated API calls that modify resource configuration (for example, creating a VM) and can never be disabled?",
+        "es": "¿Qué tipo de Cloud Audit Logs registra las llamadas a la API iniciadas por usuarios que modifican la configuración de recursos (por ejemplo, crear una VM) y nunca se puede inhabilitar?"
+      },
+      "opciones": [
+        { "en": "Admin Activity audit logs", "es": "Registros de auditoría de Admin Activity (actividad de administración)" },
+        { "en": "Data Access audit logs", "es": "Registros de auditoría de Data Access (acceso a los datos)" },
+        { "en": "System Event audit logs", "es": "Registros de auditoría de System Event (evento del sistema)" },
+        { "en": "Policy Denied audit logs", "es": "Registros de auditoría de Policy Denied (política denegada)" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Admin Activity logs record user-driven configuration changes and are always enabled at no cost. Data Access logs record reads/writes of user data and are disabled by default (except BigQuery). System Event logs record Google-initiated changes, not user calls. Policy Denied logs record access denials, not configuration changes.",
+        "es": "Los registros de Admin Activity registran cambios de configuración hechos por usuarios y siempre están habilitados sin costo. Los de Data Access registran lecturas/escrituras de datos de usuario y están inhabilitados por defecto (excepto BigQuery). Los de System Event registran cambios iniciados por Google, no llamadas de usuarios. Los de Policy Denied registran denegaciones de acceso, no cambios de configuración."
+      },
+      "doc": "https://cloud.google.com/logging/docs/audit"
+    },
+    {
+      "id": "ops-004",
+      "curso": "registro-supervision",
+      "servicios": ["cloud-logging"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-log-routing"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which Cloud Logging component receives every log entry through the Logging API and directs it to destinations based on sinks?",
+        "es": "¿Qué componente de Cloud Logging recibe cada entrada de registro a través de la API de Logging y la dirige a destinos según los sinks?"
+      },
+      "opciones": [
+        { "en": "The Log Router", "es": "El Log Router (enrutador de registros)" },
+        { "en": "The Logs Explorer", "es": "El Logs Explorer (explorador de registros)" },
+        { "en": "Pub/Sub", "es": "Pub/Sub" },
+        { "en": "Error Reporting", "es": "Error Reporting" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "The Log Router evaluates each entry against sink filters and exclusions to decide where it goes. Logs Explorer is only the viewing/query UI, Pub/Sub is a possible sink destination (not the router itself), and Error Reporting aggregates application errors, it does not route logs.",
+        "es": "El Log Router evalúa cada entrada contra los filtros y exclusiones de los sinks para decidir a dónde va. Logs Explorer es solo la interfaz de consulta/visualización, Pub/Sub es un posible destino de sink (no el enrutador) y Error Reporting agrega errores de aplicaciones, no enruta registros."
+      },
+      "doc": "https://cloud.google.com/logging/docs/routing/overview"
+    },
+    {
+      "id": "ops-005",
+      "curso": "registro-supervision",
+      "servicios": ["ops-agent", "compute-engine"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-agents-prometheus"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is the Ops Agent?",
+        "es": "¿Qué es el Ops Agent (agente de operaciones)?"
+      },
+      "opciones": [
+        { "en": "A single agent for Compute Engine VMs that collects both logs and detailed system/application metrics", "es": "Un único agente para VMs de Compute Engine que recopila tanto registros como métricas detalladas del sistema y de aplicaciones" },
+        { "en": "A Kubernetes controller that scrapes Prometheus metrics inside GKE clusters", "es": "Un controlador de Kubernetes que hace scraping de métricas de Prometheus dentro de clústeres de GKE" },
+        { "en": "A service that applies OS patches to VM fleets on a schedule", "es": "Un servicio que aplica parches de sistema operativo a flotas de VMs de forma programada" },
+        { "en": "The local command-line tool used to manage Google Cloud resources", "es": "La herramienta local de línea de comandos para administrar recursos de Google Cloud" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "The Ops Agent is the recommended, unified telemetry agent for Compute Engine, replacing the legacy separate logging and monitoring agents. B describes Managed Service for Prometheus managed collection, C describes VM Manager patch management, and D describes the gcloud CLI.",
+        "es": "El Ops Agent es el agente de telemetría unificado y recomendado para Compute Engine, que reemplaza a los antiguos agentes separados de logging y monitoring. B describe la recolección administrada de Managed Service for Prometheus, C describe la administración de parches de VM Manager y D describe la CLI de gcloud."
+      },
+      "doc": "https://cloud.google.com/stackdriver/docs/solutions/agents/ops-agent"
+    },
+    {
+      "id": "ops-006",
+      "curso": "registro-supervision",
+      "servicios": ["cloud-hub"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-service-health-hub"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What does Personalized Service Health provide?",
+        "es": "¿Qué proporciona Personalized Service Health?"
+      },
+      "opciones": [
+        { "en": "Visibility into Google Cloud service incidents and disruptions that are relevant to your specific projects", "es": "Visibilidad de los incidentes e interrupciones de los servicios de Google Cloud que son relevantes para tus proyectos específicos" },
+        { "en": "Availability checks of your own application endpoints from multiple regions", "es": "Verificaciones de disponibilidad de los endpoints de tus propias aplicaciones desde varias regiones" },
+        { "en": "Recommendations to reduce the cost of underutilized resources", "es": "Recomendaciones para reducir el costo de recursos subutilizados" },
+        { "en": "SLO reports for the microservices that you operate", "es": "Informes de SLO para los microservicios que tú operas" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Personalized Service Health surfaces Google-side incidents filtered to the products and locations your projects actually use. B describes uptime checks, C describes Active Assist recommenders, and D describes SLO monitoring for your own services.",
+        "es": "Personalized Service Health muestra incidentes del lado de Google filtrados según los productos y ubicaciones que tus proyectos realmente usan. B describe los uptime checks, C describe los recomendadores de Active Assist y D describe el monitoreo de SLO de tus propios servicios."
+      },
+      "doc": "https://cloud.google.com/service-health/docs/overview"
+    },
+    {
+      "id": "ops-007",
+      "curso": "registro-supervision",
+      "servicios": ["observability-tools"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-diagnostics"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which diagnostics tool collects latency data as a request propagates through the services of a distributed application?",
+        "es": "¿Qué herramienta de diagnóstico recopila datos de latencia a medida que una solicitud se propaga por los servicios de una aplicación distribuida?"
+      },
+      "opciones": [
+        { "en": "Cloud Trace", "es": "Cloud Trace" },
+        { "en": "Cloud Profiler", "es": "Cloud Profiler" },
+        { "en": "Query Insights", "es": "Query Insights" },
+        { "en": "Cloud Logging", "es": "Cloud Logging" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Cloud Trace is the distributed tracing system that shows per-span latency across services for each request. Cloud Profiler measures CPU/memory consumption inside a process, Query Insights diagnoses database query performance, and Cloud Logging stores log entries but does not build latency traces.",
+        "es": "Cloud Trace es el sistema de tracing distribuido que muestra la latencia por span entre servicios para cada solicitud. Cloud Profiler mide el consumo de CPU/memoria dentro de un proceso, Query Insights diagnostica el rendimiento de consultas de bases de datos y Cloud Logging almacena entradas de registro, pero no construye trazas de latencia."
+      },
+      "doc": "https://cloud.google.com/trace/docs/overview"
+    },
+    {
+      "id": "ops-008",
+      "curso": "registro-supervision",
+      "servicios": ["cloud-monitoring", "cloud-logging"],
+      "seccion_blueprint": 1,
+      "subtopicos": ["1.1-observability-setup"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You just created a new Google Cloud project. Which statement about observability is true?",
+        "es": "Acabas de crear un proyecto nuevo de Google Cloud. ¿Qué afirmación sobre observabilidad es verdadera?"
+      },
+      "opciones": [
+        { "en": "Cloud Logging and Cloud Monitoring work by default: platform logs and basic infrastructure metrics are collected automatically", "es": "Cloud Logging y Cloud Monitoring funcionan por defecto: los registros de plataforma y las métricas básicas de infraestructura se recopilan automáticamente" },
+        { "en": "No metric is collected until you install the Ops Agent on every VM", "es": "No se recopila ninguna métrica hasta que instales el Ops Agent en cada VM" },
+        { "en": "You must manually create a log bucket before any log can be stored", "es": "Debes crear manualmente un bucket de registros antes de que se pueda almacenar cualquier registro" },
+        { "en": "Observability requires activating a separate paid subscription first", "es": "La observabilidad requiere activar primero una suscripción de pago independiente" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "New projects get observability out of the box: audit/platform logs flow into the automatically created _Required and _Default buckets, and basic metrics like CPU utilization are collected without agents. B is false because agentless metrics (CPU, some disk/network) exist; the Ops Agent only adds detail like memory. C is false because the _Required and _Default buckets are created automatically. D is false: there is no subscription; you pay per usage beyond free allotments.",
+        "es": "Los proyectos nuevos traen observabilidad lista: los registros de auditoría/plataforma fluyen a los buckets _Required y _Default creados automáticamente, y métricas básicas como la utilización de CPU se recopilan sin agentes. B es falsa porque existen métricas sin agente (CPU, algo de disco/red); el Ops Agent solo agrega detalle como memoria. C es falsa porque los buckets _Required y _Default se crean automáticamente. D es falsa: no hay suscripción; se paga por uso más allá de las asignaciones gratuitas."
+      },
+      "doc": "https://cloud.google.com/monitoring/docs/monitoring-overview"
+    },
+    {
+      "id": "ops-009",
+      "curso": "registro-supervision",
+      "servicios": ["cloud-monitoring"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-alerts-metrics"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is an uptime check in Cloud Monitoring?",
+        "es": "¿Qué es un uptime check (verificación de tiempo de actividad) en Cloud Monitoring?"
+      },
+      "opciones": [
+        { "en": "A periodic request sent from multiple locations around the world to verify that an endpoint responds correctly", "es": "Una solicitud periódica enviada desde varias ubicaciones del mundo para verificar que un endpoint responde correctamente" },
+        { "en": "An agent process that verifies whether a VM finished booting", "es": "Un proceso de agente que verifica si una VM terminó de iniciar" },
+        { "en": "A Kubernetes liveness probe configured on each Pod", "es": "Una liveness probe de Kubernetes configurada en cada Pod" },
+        { "en": "A cron job on your own VM that pings your website", "es": "Un cron job en tu propia VM que hace ping a tu sitio web" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Uptime checks probe HTTP(S)/TCP endpoints from Google's global checker locations and record availability and latency, which you can alert on. B confuses it with instance startup status, C is a Kubernetes-level health mechanism unrelated to Cloud Monitoring checks, and D is a self-managed approach that lacks global probes and integration with alerting.",
+        "es": "Los uptime checks sondean endpoints HTTP(S)/TCP desde las ubicaciones verificadoras globales de Google y registran disponibilidad y latencia, sobre las que puedes alertar. B lo confunde con el estado de arranque de la instancia, C es un mecanismo de salud a nivel de Kubernetes ajeno a las verificaciones de Cloud Monitoring y D es un enfoque autogestionado sin sondas globales ni integración con las alertas.",
+        "": ""
+      },
+      "doc": "https://cloud.google.com/monitoring/uptime-checks"
+    },
+    {
+      "id": "ops-010",
+      "curso": "registro-supervision",
+      "servicios": ["cloud-logging"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-logging-usage"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which Google Cloud console tool do you use to search and filter log entries with a dedicated query language?",
+        "es": "¿Qué herramienta de la consola de Google Cloud usas para buscar y filtrar entradas de registro con un lenguaje de consulta dedicado?"
+      },
+      "opciones": [
+        { "en": "Logs Explorer", "es": "Logs Explorer (explorador de registros)" },
+        { "en": "Metrics Explorer", "es": "Metrics Explorer (explorador de métricas)" },
+        { "en": "The BigQuery console", "es": "La consola de BigQuery" },
+        { "en": "Cloud Shell only, via gcloud", "es": "Solo Cloud Shell, mediante gcloud" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Logs Explorer is the console UI for querying logs with the Logging query language, viewing entry details and building filters. Metrics Explorer queries metrics, not logs. BigQuery only sees logs if you route them there with a sink. gcloud logging read works, but it is not the console tool and is not the only option.",
+        "es": "Logs Explorer es la interfaz de la consola para consultar registros con el lenguaje de consulta de Logging, ver detalles de entradas y construir filtros. Metrics Explorer consulta métricas, no registros. BigQuery solo ve registros si los enrutas allí con un sink. gcloud logging read funciona, pero no es la herramienta de la consola ni la única opción."
+      },
+      "doc": "https://cloud.google.com/logging/docs/view/logs-explorer-interface"
+    },
+    {
+      "id": "ops-011",
+      "curso": "registro-supervision",
+      "servicios": ["vpc", "cloud-logging"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-audit-flow-logs"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What do VPC Flow Logs record?",
+        "es": "¿Qué registran los VPC Flow Logs?"
+      },
+      "opciones": [
+        { "en": "Samples of the network flows sent and received by VM instances, including source, destination, ports, and bytes", "es": "Muestras de los flujos de red enviados y recibidos por instancias de VM, incluidos origen, destino, puertos y bytes" },
+        { "en": "A full packet capture of all traffic in the VPC", "es": "Una captura completa de paquetes de todo el tráfico de la VPC" },
+        { "en": "Changes to firewall rules made by administrators", "es": "Los cambios en reglas de firewall hechos por administradores" },
+        { "en": "The DNS queries resolved by Cloud DNS", "es": "Las consultas DNS resueltas por Cloud DNS" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "VPC Flow Logs are sampled flow metadata (5-tuple, bytes, packets) useful for network monitoring, forensics, and cost/capacity analysis. B is wrong because they are sampled metadata, not packet captures. C describes Admin Activity audit logs. D describes Cloud DNS logging, a different feature.",
+        "es": "Los VPC Flow Logs son metadatos de flujo muestreados (5-tupla, bytes, paquetes) útiles para monitoreo de red, análisis forense y de costos/capacidad. B es incorrecta porque son metadatos muestreados, no capturas de paquetes. C describe los registros de auditoría de Admin Activity. D describe el logging de Cloud DNS, una función distinta."
+      },
+      "doc": "https://cloud.google.com/vpc/docs/flow-logs"
+    },
+    {
+      "id": "ops-012",
+      "curso": "registro-supervision",
+      "servicios": ["cloud-logging"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-log-routing"],
+      "nivel": "principiante",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO log buckets does Cloud Logging create automatically in every project?",
+        "es": "¿Cuáles DOS buckets de registros crea Cloud Logging automáticamente en cada proyecto?"
+      },
+      "opciones": [
+        { "en": "_Required", "es": "_Required" },
+        { "en": "_Default", "es": "_Default" },
+        { "en": "_Archive", "es": "_Archive" },
+        { "en": "_Analytics", "es": "_Analytics" }
+      ],
+      "respuesta": ["A", "B"],
+      "explicacion": {
+        "en": "_Required stores Admin Activity, System Event, and Access Transparency logs for 400 days (not configurable, no charge), and _Default stores all other ingested logs for 30 days by default (configurable). _Archive and _Analytics do not exist as automatic buckets; long-term archiving uses sinks to Cloud Storage and SQL analysis uses Log Analytics on existing buckets.",
+        "es": "_Required almacena los registros de Admin Activity, System Event y Access Transparency por 400 días (no configurable, sin cargo), y _Default almacena el resto de los registros ingeridos por 30 días por defecto (configurable). _Archive y _Analytics no existen como buckets automáticos; el archivado a largo plazo usa sinks hacia Cloud Storage y el análisis SQL usa Log Analytics sobre buckets existentes."
+      },
+      "doc": "https://cloud.google.com/logging/docs/buckets"
+    },
+    {
+      "id": "ops-013",
+      "curso": "registro-supervision",
+      "servicios": ["ops-agent", "gke"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-agents-prometheus"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is Managed Service for Prometheus?",
+        "es": "¿Qué es Managed Service for Prometheus?"
+      },
+      "opciones": [
+        { "en": "A fully managed, Prometheus-compatible service that collects, stores, and queries metrics with PromQL without you operating Prometheus servers", "es": "Un servicio completamente administrado y compatible con Prometheus que recopila, almacena y consulta métricas con PromQL sin que tú operes servidores de Prometheus" },
+        { "en": "A hosted Grafana offering from Google Cloud", "es": "Una oferta de Grafana alojado de Google Cloud" },
+        { "en": "A tool that requires you to deploy and manage Thanos for long-term storage", "es": "Una herramienta que requiere que implementes y administres Thanos para almacenamiento a largo plazo" },
+        { "en": "A logging service specialized in Kubernetes container logs", "es": "Un servicio de logging especializado en registros de contenedores de Kubernetes" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Managed Service for Prometheus provides managed collection and globally scalable storage (Monarch) queryable with PromQL. B is wrong: Google does not host Grafana, though Grafana can query the service. C is wrong: the service removes the need for Thanos/Cortex-style setups. D confuses metrics with logs; container logs go to Cloud Logging.",
+        "es": "Managed Service for Prometheus ofrece recolección administrada y almacenamiento escalable global (Monarch) consultable con PromQL. B es incorrecta: Google no aloja Grafana, aunque Grafana puede consultar el servicio. C es incorrecta: el servicio elimina la necesidad de montajes tipo Thanos/Cortex. D confunde métricas con registros; los registros de contenedores van a Cloud Logging."
+      },
+      "doc": "https://cloud.google.com/stackdriver/docs/managed-prometheus"
+    },
+    {
+      "id": "ops-014",
+      "curso": "registro-supervision",
+      "servicios": ["observability-tools"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-diagnostics"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What does Cloud Profiler do?",
+        "es": "¿Qué hace Cloud Profiler?"
+      },
+      "opciones": [
+        { "en": "It continuously profiles CPU and memory consumption of running production applications with very low overhead", "es": "Perfila continuamente el consumo de CPU y memoria de aplicaciones en producción con muy poca sobrecarga" },
+        { "en": "It analyzes slow SQL queries in Cloud SQL databases", "es": "Analiza consultas SQL lentas en bases de datos de Cloud SQL" },
+        { "en": "It follows a request across microservices to measure end-to-end latency", "es": "Sigue una solicitud a través de microservicios para medir la latencia de extremo a extremo" },
+        { "en": "It lists the resource usage of Pods, like kubectl top", "es": "Enumera el uso de recursos de los Pods, como kubectl top" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Cloud Profiler uses statistical sampling to attribute CPU and heap usage to functions and call stacks in production, helping find hot spots. B describes Query Insights, C describes Cloud Trace, and D describes Kubernetes resource metrics, which show usage per Pod but not per function.",
+        "es": "Cloud Profiler usa muestreo estadístico para atribuir el uso de CPU y heap a funciones y pilas de llamadas en producción, ayudando a encontrar puntos calientes. B describe Query Insights, C describe Cloud Trace y D describe las métricas de recursos de Kubernetes, que muestran uso por Pod pero no por función."
+      },
+      "doc": "https://cloud.google.com/profiler/docs/about-profiler"
+    },
+    {
+      "id": "ops-015",
+      "curso": "registro-supervision",
+      "servicios": ["cloud-hub"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-service-health-hub"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is Cloud Hub in the Google Cloud console?",
+        "es": "¿Qué es Cloud Hub en la consola de Google Cloud?"
+      },
+      "opciones": [
+        { "en": "A central, application-centric place to monitor the health, alerts, and resources of your applications and workloads", "es": "Un lugar central y centrado en aplicaciones para supervisar la salud, las alertas y los recursos de tus aplicaciones y cargas de trabajo" },
+        { "en": "A physical interconnect location for hybrid connectivity", "es": "Una ubicación física de interconexión para conectividad híbrida" },
+        { "en": "The hub-and-spoke component of Network Connectivity Center", "es": "El componente hub-and-spoke de Network Connectivity Center" },
+        { "en": "A Git repository hosting service for source code", "es": "Un servicio de alojamiento de repositorios Git para código fuente" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Cloud Hub gives an app-centric operations view: application health, incidents, alerts, and the underlying resources in one place. B describes Interconnect colocation facilities, C describes Network Connectivity Center hubs, and D describes source repository products, none of which are the Cloud Hub console experience.",
+        "es": "Cloud Hub brinda una vista de operaciones centrada en aplicaciones: salud de la aplicación, incidentes, alertas y los recursos subyacentes en un solo lugar. B describe instalaciones de colocación de Interconnect, C describe los hubs de Network Connectivity Center y D describe productos de repositorios de código, y ninguno es la experiencia de consola de Cloud Hub."
+      },
+      "doc": "https://cloud.google.com/cloud-hub/docs/overview"
+    },
+    {
+      "id": "ops-016",
+      "curso": "registro-supervision",
+      "servicios": ["gemini-cloud-assist", "cloud-monitoring"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-gemini-assist-monitoring"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "How does Gemini Cloud Assist help with Cloud Monitoring and observability tasks?",
+        "es": "¿Cómo ayuda Gemini Cloud Assist en tareas de Cloud Monitoring y observabilidad?"
+      },
+      "opciones": [
+        { "en": "It provides natural-language assistance to build queries and dashboards and to investigate and troubleshoot issues", "es": "Brinda asistencia en lenguaje natural para construir consultas y dashboards, y para investigar y solucionar problemas" },
+        { "en": "It automatically rewrites and deploys your application code to fix bugs without review", "es": "Reescribe e implementa automáticamente el código de tu aplicación para corregir errores sin revisión" },
+        { "en": "It replaces IAM as the access control system for dashboards", "es": "Reemplaza a IAM como el sistema de control de acceso de los dashboards" },
+        { "en": "It is only available for BigQuery SQL generation", "es": "Solo está disponible para generar SQL de BigQuery" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Gemini Cloud Assist adds AI assistance across the console, including Monitoring and Logging: generating queries from natural language, explaining data, and helping investigations. B is false: it assists, it does not deploy unreviewed fixes. C is false: IAM still governs access. D is false: assistance spans many products, not just BigQuery.",
+        "es": "Gemini Cloud Assist agrega asistencia de IA en toda la consola, incluidos Monitoring y Logging: generar consultas desde lenguaje natural, explicar datos y ayudar en investigaciones. B es falsa: asiste, no implementa correcciones sin revisión. C es falsa: IAM sigue gobernando el acceso. D es falsa: la asistencia abarca muchos productos, no solo BigQuery."
+      },
+      "doc": "https://cloud.google.com/gemini/docs/cloud-assist/overview"
+    },
+    {
+      "id": "ops-017",
+      "curso": "registro-supervision",
+      "servicios": ["active-assist"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-active-assist"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is Active Assist?",
+        "es": "¿Qué es Active Assist?"
+      },
+      "opciones": [
+        { "en": "A portfolio of recommenders and insights that analyze your usage and suggest optimizations for cost, security, performance, and manageability", "es": "Un portafolio de recomendadores e insights que analizan tu uso y sugieren optimizaciones de costo, seguridad, rendimiento y administración" },
+        { "en": "A premium support plan with a dedicated technical account manager", "es": "Un plan de soporte premium con un gerente técnico de cuenta dedicado" },
+        { "en": "A paid consulting service delivered by Google engineers", "es": "Un servicio de consultoría pagado brindado por ingenieros de Google" },
+        { "en": "The autoscaler component of managed instance groups", "es": "El componente de autoescalado de los grupos de instancias administrados" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Active Assist is the family of Recommender-based tools (idle VM recommendations, machine type rightsizing, IAM role recommendations, etc.) that proactively suggest improvements. B and C describe human support/consulting offerings, and D describes MIG autoscaling, which reacts to load instead of issuing recommendations.",
+        "es": "Active Assist es la familia de herramientas basadas en Recommender (recomendaciones de VMs inactivas, ajuste de tipo de máquina, recomendaciones de roles de IAM, etc.) que sugieren mejoras de forma proactiva. B y C describen ofertas humanas de soporte/consultoría, y D describe el autoescalado de MIGs, que reacciona a la carga en lugar de emitir recomendaciones."
+      },
+      "doc": "https://cloud.google.com/solutions/active-assist"
+    },
+    {
+      "id": "ops-018",
+      "curso": "registro-supervision",
+      "servicios": ["cloud-monitoring"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-alerts-metrics"],
+      "nivel": "principiante",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO of the following are supported notification channel types for Cloud Monitoring alerting policies?",
+        "es": "¿Cuáles DOS de los siguientes son tipos de canales de notificación compatibles con las políticas de alertas de Cloud Monitoring?"
+      },
+      "opciones": [
+        { "en": "Email", "es": "Correo electrónico" },
+        { "en": "Pub/Sub", "es": "Pub/Sub" },
+        { "en": "Upload to an FTP server", "es": "Carga a un servidor FTP" },
+        { "en": "Insert into a Cloud SQL table", "es": "Inserción en una tabla de Cloud SQL" }
+      ],
+      "respuesta": ["A", "B"],
+      "explicacion": {
+        "en": "Supported channels include email, SMS, Slack, PagerDuty, webhooks, the Google Cloud console mobile app, and Pub/Sub (useful for programmatic integrations). FTP upload and direct Cloud SQL inserts are not notification channel types; you would need to build them yourself, for example consuming a Pub/Sub channel.",
+        "es": "Los canales compatibles incluyen correo electrónico, SMS, Slack, PagerDuty, webhooks, la app móvil de la consola de Google Cloud y Pub/Sub (útil para integraciones programáticas). La carga por FTP y la inserción directa en Cloud SQL no son tipos de canal de notificación; tendrías que construirlos tú mismo, por ejemplo consumiendo un canal de Pub/Sub."
+      },
+      "doc": "https://cloud.google.com/monitoring/support/notification-options"
+    },
+    {
+      "id": "ops-019",
+      "curso": "registro-supervision",
+      "servicios": ["cloud-logging"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-audit-flow-logs"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which Cloud Audit Logs type is disabled by default for most services (BigQuery being the notable exception)?",
+        "es": "¿Qué tipo de Cloud Audit Logs está inhabilitado por defecto para la mayoría de los servicios (siendo BigQuery la excepción notable)?"
+      },
+      "opciones": [
+        { "en": "Data Access audit logs", "es": "Registros de auditoría de Data Access (acceso a los datos)" },
+        { "en": "Admin Activity audit logs", "es": "Registros de auditoría de Admin Activity (actividad de administración)" },
+        { "en": "System Event audit logs", "es": "Registros de auditoría de System Event (evento del sistema)" },
+        { "en": "Policy Denied audit logs", "es": "Registros de auditoría de Policy Denied (política denegada)" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Data Access logs record reads and writes of user data and can be very high volume, so they are off by default except for BigQuery, and you enable them per service. Admin Activity and System Event logs are always enabled and cannot be disabled. Policy Denied logs are generated by default when access is denied.",
+        "es": "Los registros de Data Access registran lecturas y escrituras de datos de usuario y pueden ser de volumen muy alto, por lo que están apagados por defecto excepto en BigQuery, y se habilitan por servicio. Los de Admin Activity y System Event siempre están habilitados y no se pueden inhabilitar. Los de Policy Denied se generan por defecto cuando se deniega un acceso."
+      },
+      "doc": "https://cloud.google.com/logging/docs/audit"
+    },
+    {
+      "id": "ops-020",
+      "curso": "registro-supervision",
+      "servicios": ["cloud-logging"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-log-routing"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "In Cloud Logging, what is a sink?",
+        "es": "En Cloud Logging, ¿qué es un sink?"
+      },
+      "opciones": [
+        { "en": "A configuration with a filter and a destination that routes matching log entries to log buckets, BigQuery, Cloud Storage, Pub/Sub, or other projects", "es": "Una configuración con un filtro y un destino que enruta las entradas de registro coincidentes hacia buckets de registros, BigQuery, Cloud Storage, Pub/Sub u otros proyectos" },
+        { "en": "The storage location where deleted log entries are kept for recovery", "es": "La ubicación de almacenamiento donde se guardan las entradas de registro borradas para su recuperación" },
+        { "en": "A local buffer used by the Ops Agent before sending logs", "es": "Un búfer local usado por el Ops Agent antes de enviar registros" },
+        { "en": "A dashboard widget that displays recent log entries", "es": "Un widget de dashboard que muestra entradas de registro recientes" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Sinks are the routing rules the Log Router evaluates; each has an inclusion filter, optional exclusions, and one destination. B does not exist: deleted logs are not recoverable. C describes agent internals, not a Logging resource. D describes a logs panel widget, unrelated to routing.",
+        "es": "Los sinks son las reglas de enrutamiento que evalúa el Log Router; cada uno tiene un filtro de inclusión, exclusiones opcionales y un destino. B no existe: los registros borrados no se recuperan. C describe partes internas del agente, no un recurso de Logging. D describe un widget de panel de registros, sin relación con el enrutamiento."
+      },
+      "doc": "https://cloud.google.com/logging/docs/export/configure_export_v2"
+    },
+    {
+      "id": "ops-021",
+      "curso": "registro-supervision",
+      "servicios": ["cloud-logging"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-logging-usage"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "How long does the _Required log bucket retain Admin Activity audit logs, and can you change it?",
+        "es": "¿Por cuánto tiempo retiene el bucket _Required los registros de auditoría de Admin Activity y puedes cambiarlo?"
+      },
+      "opciones": [
+        { "en": "400 days, and the retention period cannot be modified", "es": "400 días, y el período de retención no se puede modificar" },
+        { "en": "30 days, configurable up to 10 years", "es": "30 días, configurable hasta 10 años" },
+        { "en": "7 days, configurable up to 90 days", "es": "7 días, configurable hasta 90 días" },
+        { "en": "Indefinitely, until you delete them manually", "es": "Indefinidamente, hasta que los borres manualmente" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "The _Required bucket keeps Admin Activity, System Event, and Access Transparency logs for a fixed 400 days at no charge; you cannot change its retention or delete it. B describes the _Default bucket (30 days by default, configurable). C matches no Logging bucket. D is wrong because retention is automatic and entries expire after 400 days.",
+        "es": "El bucket _Required conserva los registros de Admin Activity, System Event y Access Transparency por 400 días fijos sin cargo; no puedes cambiar su retención ni borrarlo. B describe el bucket _Default (30 días por defecto, configurable). C no corresponde a ningún bucket de Logging. D es incorrecta porque la retención es automática y las entradas expiran a los 400 días."
+      },
+      "doc": "https://cloud.google.com/logging/quotas"
+    },
+    {
+      "id": "ops-022",
+      "curso": "registro-supervision",
+      "servicios": ["cloud-monitoring", "cloud-logging"],
+      "seccion_blueprint": 1,
+      "subtopicos": ["1.1-observability-setup"],
+      "nivel": "principiante",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO products are part of Google Cloud Observability?",
+        "es": "¿Cuáles DOS productos forman parte de Google Cloud Observability?"
+      },
+      "opciones": [
+        { "en": "Cloud Monitoring", "es": "Cloud Monitoring" },
+        { "en": "Cloud Logging", "es": "Cloud Logging" },
+        { "en": "Cloud Build", "es": "Cloud Build" },
+        { "en": "Cloud Deploy", "es": "Cloud Deploy" }
+      ],
+      "respuesta": ["A", "B"],
+      "explicacion": {
+        "en": "Google Cloud Observability (formerly the Stackdriver suite) includes Cloud Monitoring, Cloud Logging, Cloud Trace, and Cloud Profiler. Cloud Build is a CI service and Cloud Deploy is a continuous delivery service; both belong to the DevOps toolchain, not to the observability suite.",
+        "es": "Google Cloud Observability (antes la suite Stackdriver) incluye Cloud Monitoring, Cloud Logging, Cloud Trace y Cloud Profiler. Cloud Build es un servicio de CI y Cloud Deploy es un servicio de entrega continua; ambos pertenecen a la cadena de herramientas de DevOps, no a la suite de observabilidad."
+      },
+      "doc": "https://cloud.google.com/stackdriver/docs"
+    }
+  ]
+}

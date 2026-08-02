@@ -1,0 +1,455 @@
+{
+  "preguntas": [
+    {
+      "id": "ref4-001",
+      "curso": null,
+      "servicios": ["service-accounts", "iam"],
+      "seccion_blueprint": 4,
+      "subtopicos": ["4.2-sa-impersonation"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is service account impersonation in Google Cloud?",
+        "es": "¿Qué es la suplantación (impersonation) de cuentas de servicio en Google Cloud?"
+      },
+      "opciones": [
+        { "en": "An authorized principal obtains short-lived credentials for a service account and acts with that account's permissions, without needing its key", "es": "Un principal autorizado obtiene credenciales de corta duración de una cuenta de servicio y actúa con los permisos de esa cuenta, sin necesitar su llave" },
+        { "en": "Permanently copying the IAM roles of a service account to a user account", "es": "Copiar permanentemente los roles de IAM de una cuenta de servicio a una cuenta de usuario" },
+        { "en": "Signing in to the Google Cloud console using the service account's email and a password", "es": "Iniciar sesión en la consola de Google Cloud con el correo de la cuenta de servicio y una contraseña" },
+        { "en": "Renaming a service account so it looks like a user account", "es": "Renombrar una cuenta de servicio para que parezca una cuenta de usuario" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Impersonation lets an authorized principal request short-lived credentials for a service account and act as it temporarily, with no key file involved. B is wrong because no roles are copied — access is temporary and indirect. C is wrong because service accounts have no passwords and cannot sign in to the console. D is wrong because impersonation is an authentication mechanism, not a renaming operation.",
+        "es": "La suplantación permite a un principal autorizado solicitar credenciales de corta duración de una cuenta de servicio y actuar como ella temporalmente, sin archivos de llaves. B es incorrecta porque no se copian roles: el acceso es temporal e indirecto. C es incorrecta porque las cuentas de servicio no tienen contraseña ni pueden iniciar sesión en la consola. D es incorrecta porque la suplantación es un mecanismo de autenticación, no un cambio de nombre."
+      },
+      "doc": "https://cloud.google.com/iam/docs/service-account-impersonation"
+    },
+    {
+      "id": "ref4-002",
+      "curso": null,
+      "servicios": ["iam", "resource-manager"],
+      "seccion_blueprint": 4,
+      "subtopicos": ["4.1-policy-inheritance"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "How is the effective IAM allow policy for a resource determined in the Google Cloud resource hierarchy?",
+        "es": "¿Cómo se determina la política de permisos (allow policy) efectiva de un recurso en la jerarquía de recursos de Google Cloud?"
+      },
+      "opciones": [
+        { "en": "Only the policy set at the most specific level applies, overriding higher levels", "es": "Solo aplica la política del nivel más específico, que anula los niveles superiores" },
+        { "en": "It is the union of the policy set on the resource and the policies inherited from its ancestors (project, folder, organization)", "es": "Es la unión de la política definida en el recurso y las políticas heredadas de sus ancestros (proyecto, carpeta, organización)" },
+        { "en": "The organization policy always replaces any project-level policy", "es": "La política de la organización siempre reemplaza cualquier política a nivel de proyecto" },
+        { "en": "Policies must be duplicated manually at every level to take effect", "es": "Las políticas deben duplicarse manualmente en cada nivel para que tengan efecto" }
+      ],
+      "respuesta": ["B"],
+      "explicacion": {
+        "en": "The effective allow policy is the union of the policy on the resource plus everything inherited from ancestors — access granted higher up also applies below. A and C are wrong because allow policies are additive; no level overrides or replaces another. D is wrong because inheritance is automatic and duplication is unnecessary.",
+        "es": "La política efectiva es la unión de la política del recurso más todo lo heredado de los ancestros: el acceso otorgado arriba también aplica abajo. A y C son incorrectas porque las allow policies son aditivas; ningún nivel anula o reemplaza a otro. D es incorrecta porque la herencia es automática y no requiere duplicación."
+      },
+      "doc": "https://cloud.google.com/iam/docs/resource-hierarchy-access-control"
+    },
+    {
+      "id": "ref4-003",
+      "curso": null,
+      "servicios": ["service-accounts", "iam"],
+      "seccion_blueprint": 4,
+      "subtopicos": ["4.2-short-lived-credentials"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is a short-lived credential for a service account?",
+        "es": "¿Qué es una credencial de corta duración de una cuenta de servicio?"
+      },
+      "opciones": [
+        { "en": "A JSON key file that must be rotated every year", "es": "Un archivo de llave JSON que debe rotarse cada año" },
+        { "en": "An SSH key stored in the instance metadata", "es": "Una llave SSH almacenada en los metadatos de la instancia" },
+        { "en": "A token (such as an OAuth 2.0 access token or an OpenID Connect ID token) with a limited lifetime, typically one hour, that expires automatically", "es": "Un token (como un access token de OAuth 2.0 o un ID token de OpenID Connect) con vida útil limitada, típicamente una hora, que expira automáticamente" },
+        { "en": "A password that Google resets every 24 hours", "es": "Una contraseña que Google restablece cada 24 horas" }
+      ],
+      "respuesta": ["C"],
+      "explicacion": {
+        "en": "Short-lived credentials are tokens (access tokens, ID tokens, or signed JWTs) that expire automatically after a short period, typically one hour, which limits the impact of a leak. A describes a long-lived user-managed key, exactly what short-lived credentials replace. B is an SSH mechanism unrelated to service account API authentication. D is wrong because service accounts do not use passwords.",
+        "es": "Las credenciales de corta duración son tokens (access tokens, ID tokens o JWTs firmados) que expiran automáticamente tras un periodo corto, típicamente una hora, lo que limita el impacto de una filtración. A describe una llave de larga duración administrada por el usuario, justo lo que reemplazan. B es un mecanismo SSH sin relación con la autenticación de APIs. D es incorrecta porque las cuentas de servicio no usan contraseñas."
+      },
+      "doc": "https://cloud.google.com/iam/docs/create-short-lived-credentials-direct"
+    },
+    {
+      "id": "ref4-004",
+      "curso": null,
+      "servicios": ["identity-federation", "iam"],
+      "seccion_blueprint": 4,
+      "subtopicos": ["4.2-sa-gke-workload-identity"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is Workload Identity Federation?",
+        "es": "¿Qué es Workload Identity Federation?"
+      },
+      "opciones": [
+        { "en": "A feature that lets external workloads (on AWS, Azure, or any OIDC provider like GitHub Actions) authenticate to Google Cloud using tokens from their own identity provider, without service account keys", "es": "Una función que permite a cargas de trabajo externas (en AWS, Azure o cualquier proveedor OIDC como GitHub Actions) autenticarse en Google Cloud con tokens de su propio proveedor de identidad, sin llaves de cuentas de servicio" },
+        { "en": "A single sign-on system for human users to access the Google Cloud console", "es": "Un sistema de inicio de sesión único para que usuarios humanos accedan a la consola de Google Cloud" },
+        { "en": "A service that replicates IAM policies between two Google Cloud projects", "es": "Un servicio que replica políticas de IAM entre dos proyectos de Google Cloud" },
+        { "en": "A managed VPN that federates networks between clouds", "es": "Una VPN administrada que federa redes entre nubes" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Workload Identity Federation exchanges tokens from an external identity provider for short-lived Google Cloud credentials, eliminating the need to create and distribute service account keys. B describes Workforce Identity Federation, which is for human users. C is wrong because it does not replicate policies. D is wrong because it is an identity feature, not a networking product.",
+        "es": "Workload Identity Federation intercambia tokens de un proveedor de identidad externo por credenciales de Google Cloud de corta duración, eliminando la necesidad de crear y distribuir llaves de cuentas de servicio. B describe Workforce Identity Federation, que es para usuarios humanos. C es incorrecta porque no replica políticas. D es incorrecta porque es una función de identidad, no un producto de redes."
+      },
+      "doc": "https://cloud.google.com/iam/docs/workload-identity-federation"
+    },
+    {
+      "id": "ref4-005",
+      "curso": null,
+      "servicios": ["service-accounts"],
+      "seccion_blueprint": 4,
+      "subtopicos": ["4.2-sa-creation"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is the difference between Google-managed and user-managed service accounts?",
+        "es": "¿Cuál es la diferencia entre las cuentas de servicio administradas por Google y las administradas por el usuario?"
+      },
+      "opciones": [
+        { "en": "Google-managed service accounts cannot be granted IAM roles, while user-managed ones can", "es": "A las cuentas administradas por Google no se les pueden otorgar roles de IAM, mientras que a las del usuario sí" },
+        { "en": "User-managed service accounts only exist inside GKE clusters", "es": "Las cuentas administradas por el usuario solo existen dentro de clústeres de GKE" },
+        { "en": "Google-managed accounts are created and used internally by Google services on your behalf, while user-managed accounts are created in your project and you manage their lifecycle and bindings", "es": "Las administradas por Google las crea y usa internamente cada servicio de Google en tu nombre, mientras que las administradas por el usuario se crean en tu proyecto y tú gestionas su ciclo de vida y sus permisos" },
+        { "en": "Google-managed accounts are free and user-managed accounts have a monthly cost", "es": "Las administradas por Google son gratuitas y las del usuario tienen un costo mensual" }
+      ],
+      "respuesta": ["C"],
+      "explicacion": {
+        "en": "Google-managed service accounts (like service agents) are created and controlled by Google so its services can act on your resources; you cannot manage their keys. User-managed service accounts are created by you (or automatically, like the Compute Engine default) and you control their roles, keys, and lifecycle. A is wrong because Google-managed accounts do receive IAM roles. B is wrong because user-managed accounts are project-level IAM identities, not GKE objects. D is wrong because service accounts have no cost.",
+        "es": "Las cuentas administradas por Google (como los service agents) las crea y controla Google para que sus servicios actúen sobre tus recursos; no puedes administrar sus llaves. Las administradas por el usuario las creas tú (o se crean automáticamente, como la default de Compute Engine) y tú controlas sus roles, llaves y ciclo de vida. A es incorrecta porque las cuentas administradas por Google sí reciben roles de IAM. B es incorrecta porque las cuentas del usuario son identidades de IAM a nivel de proyecto, no objetos de GKE. D es incorrecta porque las cuentas de servicio no tienen costo.",
+        "": ""
+      },
+      "doc": "https://cloud.google.com/iam/docs/service-account-types"
+    },
+    {
+      "id": "ref4-006",
+      "curso": null,
+      "servicios": ["iam"],
+      "seccion_blueprint": 4,
+      "subtopicos": ["4.1-role-types"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is a custom role in IAM?",
+        "es": "¿Qué es un rol personalizado en IAM?"
+      },
+      "opciones": [
+        { "en": "A role that Google creates automatically based on your usage patterns", "es": "Un rol que Google crea automáticamente según tus patrones de uso" },
+        { "en": "A role you define with an exact set of permissions, created at the project or organization level, used when predefined roles grant more than you need", "es": "Un rol que tú defines con un conjunto exacto de permisos, creado a nivel de proyecto u organización, que se usa cuando los roles predefinidos otorgan más de lo necesario" },
+        { "en": "A basic role (Owner, Editor, Viewer) renamed for your team", "es": "Un rol básico (Owner, Editor, Viewer) renombrado para tu equipo" },
+        { "en": "A temporary role that expires after 90 days", "es": "Un rol temporal que expira a los 90 días" }
+      ],
+      "respuesta": ["B"],
+      "explicacion": {
+        "en": "Custom roles let you bundle exactly the permissions a job function needs, supporting least privilege when no predefined role fits. A describes role recommendations, which suggest roles but do not create them automatically. C is wrong because basic roles are a separate, fixed role type. D is wrong because roles do not expire; expiration can only come from IAM conditions on a binding.",
+        "es": "Los roles personalizados permiten agrupar exactamente los permisos que necesita una función, aplicando mínimo privilegio cuando ningún rol predefinido se ajusta. A describe las recomendaciones de roles, que sugieren roles pero no los crean automáticamente. C es incorrecta porque los roles básicos son un tipo aparte y fijo. D es incorrecta porque los roles no expiran; la expiración solo puede venir de condiciones de IAM en una vinculación."
+      },
+      "doc": "https://cloud.google.com/iam/docs/roles-overview"
+    },
+    {
+      "id": "ref4-007",
+      "curso": null,
+      "servicios": ["iam"],
+      "seccion_blueprint": 4,
+      "subtopicos": ["4.1-iam-policies"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which tool explains why a specific principal does or does not have a specific permission on a resource?",
+        "es": "¿Qué herramienta explica por qué un principal específico tiene o no tiene un permiso específico sobre un recurso?"
+      },
+      "opciones": [
+        { "en": "Cloud Asset Inventory", "es": "Cloud Asset Inventory" },
+        { "en": "Security Command Center", "es": "Security Command Center" },
+        { "en": "IAM role recommendations", "es": "Recomendaciones de roles de IAM" },
+        { "en": "Policy Troubleshooter", "es": "Policy Troubleshooter" }
+      ],
+      "respuesta": ["D"],
+      "explicacion": {
+        "en": "Policy Troubleshooter evaluates all relevant allow and deny policies to explain whether a principal has a permission on a resource and which bindings cause that result. Cloud Asset Inventory searches resources and policies but does not evaluate a specific access question. Security Command Center reports security findings, not permission evaluations. Role recommendations suggest reducing unused permissions; they do not diagnose access.",
+        "es": "Policy Troubleshooter evalúa todas las políticas de permiso y denegación relevantes para explicar si un principal tiene un permiso sobre un recurso y qué vinculaciones causan ese resultado. Cloud Asset Inventory busca recursos y políticas, pero no evalúa una pregunta de acceso específica. Security Command Center reporta hallazgos de seguridad, no evaluaciones de permisos. Las recomendaciones de roles sugieren reducir permisos sin uso; no diagnostican accesos."
+      },
+      "doc": "https://cloud.google.com/policy-intelligence/docs/troubleshoot-access"
+    },
+    {
+      "id": "ref4-008",
+      "curso": null,
+      "servicios": ["service-accounts", "iam"],
+      "seccion_blueprint": 4,
+      "subtopicos": ["4.2-sa-impersonation"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which predefined role must a principal have on a service account to impersonate it by creating short-lived access tokens?",
+        "es": "¿Qué rol predefinido debe tener un principal sobre una cuenta de servicio para suplantarla creando access tokens de corta duración?"
+      },
+      "opciones": [
+        { "en": "roles/iam.serviceAccountKeyAdmin", "es": "roles/iam.serviceAccountKeyAdmin" },
+        { "en": "roles/iam.serviceAccountTokenCreator", "es": "roles/iam.serviceAccountTokenCreator" },
+        { "en": "roles/iam.serviceAccountAdmin", "es": "roles/iam.serviceAccountAdmin" },
+        { "en": "roles/viewer", "es": "roles/viewer" }
+      ],
+      "respuesta": ["B"],
+      "explicacion": {
+        "en": "roles/iam.serviceAccountTokenCreator includes iam.serviceAccounts.getAccessToken, the permission required to generate short-lived tokens for a service account. serviceAccountKeyAdmin manages persistent JSON keys, not tokens. serviceAccountAdmin manages the service account resource itself (create, delete, set IAM) but does not include token creation. Viewer is read-only and grants no impersonation capability.",
+        "es": "roles/iam.serviceAccountTokenCreator incluye iam.serviceAccounts.getAccessToken, el permiso requerido para generar tokens de corta duración de una cuenta de servicio. serviceAccountKeyAdmin administra llaves JSON persistentes, no tokens. serviceAccountAdmin administra el recurso de la cuenta (crear, borrar, configurar IAM) pero no incluye la creación de tokens. Viewer es de solo lectura y no otorga capacidad de suplantación."
+      },
+      "doc": "https://cloud.google.com/iam/docs/service-account-permissions"
+    },
+    {
+      "id": "ref4-009",
+      "curso": null,
+      "servicios": ["iam", "resource-manager"],
+      "seccion_blueprint": 4,
+      "subtopicos": ["4.1-policy-inheritance"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "At which levels of the resource hierarchy can IAM allow policies be attached?",
+        "es": "¿En qué niveles de la jerarquía de recursos se pueden asignar políticas de permisos (allow policies) de IAM?"
+      },
+      "opciones": [
+        { "en": "Only at the project level", "es": "Solo a nivel de proyecto" },
+        { "en": "Only at the organization and project levels", "es": "Solo a nivel de organización y de proyecto" },
+        { "en": "At the organization, folder, and project levels, and on many individual resources such as buckets or service accounts", "es": "A nivel de organización, carpeta y proyecto, y en muchos recursos individuales como buckets o cuentas de servicio" },
+        { "en": "Only on individual resources", "es": "Solo en recursos individuales" }
+      ],
+      "respuesta": ["C"],
+      "explicacion": {
+        "en": "Allow policies can be set at every level of the hierarchy — organization, folder, project — and on many resources themselves (Cloud Storage buckets, service accounts, Pub/Sub topics, etc.), with lower levels inheriting from above. A, B, and D are all incomplete subsets of the levels that actually support policies.",
+        "es": "Las allow policies pueden definirse en cada nivel de la jerarquía — organización, carpeta, proyecto — y en muchos recursos individuales (buckets de Cloud Storage, cuentas de servicio, temas de Pub/Sub, etc.), y los niveles inferiores heredan de los superiores. A, B y D son subconjuntos incompletos de los niveles que realmente admiten políticas."
+      },
+      "doc": "https://cloud.google.com/iam/docs/resource-hierarchy-access-control"
+    },
+    {
+      "id": "ref4-010",
+      "curso": null,
+      "servicios": ["service-accounts", "iam"],
+      "seccion_blueprint": 4,
+      "subtopicos": ["4.2-short-lived-credentials"],
+      "nivel": "principiante",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO advantages do short-lived credentials have over user-managed service account JSON keys?",
+        "es": "¿Cuáles DOS ventajas tienen las credenciales de corta duración sobre las llaves JSON administradas por el usuario?"
+      },
+      "opciones": [
+        { "en": "They expire automatically, limiting the exposure window if they are leaked", "es": "Expiran automáticamente, lo que limita la ventana de exposición si se filtran" },
+        { "en": "There is no long-lived secret that you must store, distribute, and rotate", "es": "No existe un secreto de larga duración que debas almacenar, distribuir y rotar" },
+        { "en": "They grant more permissions than the service account has", "es": "Otorgan más permisos de los que tiene la cuenta de servicio" },
+        { "en": "They work without any IAM permission on the service account", "es": "Funcionan sin ningún permiso de IAM sobre la cuenta de servicio" }
+      ],
+      "respuesta": ["A", "B"],
+      "explicacion": {
+        "en": "Short-lived tokens expire on their own (typically after one hour), so a leaked token quickly becomes useless, and because they are generated on demand there is no persistent secret to manage or rotate. C is wrong because any credential is limited to the service account's own permissions. D is wrong because generating them requires permissions such as iam.serviceAccounts.getAccessToken on the account.",
+        "es": "Los tokens de corta duración expiran solos (típicamente en una hora), por lo que un token filtrado pierde utilidad rápido, y como se generan bajo demanda no hay un secreto persistente que administrar o rotar. C es incorrecta porque cualquier credencial se limita a los permisos de la propia cuenta de servicio. D es incorrecta porque generarlos requiere permisos como iam.serviceAccounts.getAccessToken sobre la cuenta."
+      },
+      "doc": "https://cloud.google.com/iam/docs/best-practices-for-managing-service-account-keys"
+    },
+    {
+      "id": "ref4-011",
+      "curso": null,
+      "servicios": ["identity-federation", "service-accounts"],
+      "seccion_blueprint": 4,
+      "subtopicos": ["4.2-sa-gke-workload-identity"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A team runs CI/CD pipelines on GitHub Actions and wants to deploy to Google Cloud without storing service account keys as repository secrets. Which feature should they use?",
+        "es": "Un equipo ejecuta pipelines de CI/CD en GitHub Actions y quiere desplegar en Google Cloud sin guardar llaves de cuentas de servicio como secretos del repositorio. ¿Qué función deberían usar?"
+      },
+      "opciones": [
+        { "en": "Export a JSON key and encrypt it inside the repository", "es": "Exportar una llave JSON y cifrarla dentro del repositorio" },
+        { "en": "Workload Identity Federation with an OIDC provider for GitHub Actions", "es": "Workload Identity Federation con un proveedor OIDC para GitHub Actions" },
+        { "en": "An API key restricted to the deployment APIs", "es": "Una API key restringida a las APIs de despliegue" },
+        { "en": "Cloud VPN between GitHub and Google Cloud", "es": "Cloud VPN entre GitHub y Google Cloud" }
+      ],
+      "respuesta": ["B"],
+      "explicacion": {
+        "en": "Workload Identity Federation accepts the OIDC tokens that GitHub Actions issues to each workflow and exchanges them for short-lived Google credentials, so no key ever needs to be stored. A still uses a long-lived key, which is exactly what should be avoided. C is wrong because API keys do not authenticate as a service account and are not accepted for deployment operations. D is wrong because a VPN provides network connectivity, not identity.",
+        "es": "Workload Identity Federation acepta los tokens OIDC que GitHub Actions emite para cada workflow y los intercambia por credenciales de Google de corta duración, así que nunca se guarda una llave. A sigue usando una llave de larga duración, justo lo que debe evitarse. C es incorrecta porque las API keys no autentican como una cuenta de servicio y no sirven para operaciones de despliegue. D es incorrecta porque una VPN da conectividad de red, no identidad."
+      },
+      "doc": "https://cloud.google.com/iam/docs/workload-identity-federation-with-deployment-pipelines"
+    },
+    {
+      "id": "ref4-012",
+      "curso": null,
+      "servicios": ["compute-engine", "service-accounts"],
+      "seccion_blueprint": 4,
+      "subtopicos": ["4.2-sa-creation"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is the Compute Engine default service account?",
+        "es": "¿Qué es la cuenta de servicio predeterminada (default) de Compute Engine?"
+      },
+      "opciones": [
+        { "en": "A Google-managed account that cannot be attached to VMs", "es": "Una cuenta administrada por Google que no puede asociarse a VMs" },
+        { "en": "An account you must create manually before launching any VM", "es": "Una cuenta que debes crear manualmente antes de iniciar cualquier VM" },
+        { "en": "The account used by the Compute Engine control plane to create disks", "es": "La cuenta que usa el plano de control de Compute Engine para crear discos" },
+        { "en": "A user-managed account created automatically when the Compute Engine API is enabled, with the email PROJECT_NUMBER-compute@developer.gserviceaccount.com, attached to new VMs when no other account is specified", "es": "Una cuenta administrada por el usuario que se crea automáticamente al habilitar la API de Compute Engine, con el correo PROJECT_NUMBER-compute@developer.gserviceaccount.com, y que se asocia a las VMs nuevas cuando no se especifica otra" }
+      ],
+      "respuesta": ["D"],
+      "explicacion": {
+        "en": "The default service account is created automatically with the Compute Engine API, uses the PROJECT_NUMBER-compute@developer.gserviceaccount.com format, and is attached to new instances by default. It is classified as user-managed: you can grant it roles, disable it, or replace it. A is wrong because it can and does attach to VMs, and it is not Google-managed. B is wrong because it is created automatically. C describes a Google-managed service agent, not the default account.",
+        "es": "La cuenta de servicio default se crea automáticamente con la API de Compute Engine, usa el formato PROJECT_NUMBER-compute@developer.gserviceaccount.com y se asocia por defecto a las instancias nuevas. Se clasifica como administrada por el usuario: puedes otorgarle roles, inhabilitarla o reemplazarla. A es incorrecta porque sí se asocia a VMs y no es administrada por Google. B es incorrecta porque se crea automáticamente. C describe un service agent administrado por Google, no la cuenta default."
+      },
+      "doc": "https://cloud.google.com/compute/docs/access/service-accounts"
+    },
+    {
+      "id": "ref4-013",
+      "curso": null,
+      "servicios": ["iam", "resource-manager"],
+      "seccion_blueprint": 4,
+      "subtopicos": ["4.1-role-types"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "At which levels of the resource hierarchy can you create a custom role?",
+        "es": "¿En qué niveles de la jerarquía de recursos puedes crear un rol personalizado?"
+      },
+      "opciones": [
+        { "en": "At the project or organization level, but not at the folder level", "es": "A nivel de proyecto u organización, pero no a nivel de carpeta" },
+        { "en": "At any level, including folders", "es": "En cualquier nivel, incluidas las carpetas" },
+        { "en": "Only at the organization level", "es": "Solo a nivel de organización" },
+        { "en": "Only at the project level", "es": "Solo a nivel de proyecto" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Custom roles can only be created in a project or in an organization; IAM does not support folder-level custom roles. B is wrong precisely because folders are excluded. C and D are wrong because both projects and organizations are supported — an org-level role can additionally be used for bindings in any project under the organization.",
+        "es": "Los roles personalizados solo pueden crearse en un proyecto o en una organización; IAM no admite roles personalizados a nivel de carpeta. B es incorrecta precisamente porque las carpetas están excluidas. C y D son incorrectas porque tanto proyectos como organizaciones son válidos — un rol a nivel de organización puede usarse además en vinculaciones de cualquier proyecto de la organización."
+      },
+      "doc": "https://cloud.google.com/iam/docs/creating-custom-roles"
+    },
+    {
+      "id": "ref4-014",
+      "curso": null,
+      "servicios": ["iam", "resource-manager"],
+      "seccion_blueprint": 4,
+      "subtopicos": ["4.1-policy-inheritance"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A role is granted to a group on a folder. What effect does this have on the projects inside that folder?",
+        "es": "Se otorga un rol a un grupo sobre una carpeta. ¿Qué efecto tiene esto en los proyectos dentro de esa carpeta?"
+      },
+      "opciones": [
+        { "en": "It has no effect until each project administrator accepts the grant", "es": "No tiene efecto hasta que el administrador de cada proyecto acepte el otorgamiento" },
+        { "en": "The group inherits that role on all projects and resources under the folder, including projects created later", "es": "El grupo hereda ese rol en todos los proyectos y recursos bajo la carpeta, incluidos los proyectos creados después" },
+        { "en": "It only applies to projects that existed when the role was granted", "es": "Solo aplica a los proyectos que existían cuando se otorgó el rol" },
+        { "en": "It applies to the folder's metadata but not to the projects", "es": "Aplica a los metadatos de la carpeta pero no a los proyectos" }
+      ],
+      "respuesta": ["B"],
+      "explicacion": {
+        "en": "Policies flow down the hierarchy: a grant on a folder applies to everything beneath it, now and in the future. A is wrong because inheritance is automatic, with no acceptance step. C is wrong because new projects under the folder inherit the same policy the moment they are created or moved there. D is wrong because inheritance covers the child resources, not just folder metadata.",
+        "es": "Las políticas descienden por la jerarquía: un otorgamiento en una carpeta aplica a todo lo que está debajo, ahora y en el futuro. A es incorrecta porque la herencia es automática, sin paso de aceptación. C es incorrecta porque los proyectos nuevos bajo la carpeta heredan la misma política en cuanto se crean o se mueven allí. D es incorrecta porque la herencia cubre los recursos hijos, no solo los metadatos de la carpeta."
+      },
+      "doc": "https://cloud.google.com/iam/docs/resource-hierarchy-access-control"
+    },
+    {
+      "id": "ref4-015",
+      "curso": null,
+      "servicios": ["service-accounts", "iam"],
+      "seccion_blueprint": 4,
+      "subtopicos": ["4.2-sa-impersonation"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "When a user impersonates a service account to call an API, whose permissions determine what the call can do?",
+        "es": "Cuando un usuario suplanta una cuenta de servicio para llamar a una API, ¿los permisos de quién determinan lo que puede hacer la llamada?"
+      },
+      "opciones": [
+        { "en": "The union of the user's and the service account's permissions", "es": "La unión de los permisos del usuario y de la cuenta de servicio" },
+        { "en": "The user's own permissions", "es": "Los permisos propios del usuario" },
+        { "en": "The intersection of both sets of permissions", "es": "La intersección de ambos conjuntos de permisos" },
+        { "en": "The service account's permissions — the call acts as the service account", "es": "Los permisos de la cuenta de servicio: la llamada actúa como la cuenta de servicio" }
+      ],
+      "respuesta": ["D"],
+      "explicacion": {
+        "en": "During impersonation the request is authenticated as the service account, so only the service account's roles apply — which is why impersonation is useful for testing exactly what a workload identity can do. A and C are wrong because permissions are neither combined nor intersected. B is wrong because the user's own permissions matter only for being allowed to impersonate, not for the impersonated calls.",
+        "es": "Durante la suplantación la solicitud se autentica como la cuenta de servicio, así que solo aplican los roles de esa cuenta — por eso la suplantación sirve para probar exactamente qué puede hacer una identidad de carga de trabajo. A y C son incorrectas porque los permisos no se combinan ni se intersectan. B es incorrecta porque los permisos del usuario solo importan para tener derecho a suplantar, no para las llamadas suplantadas."
+      },
+      "doc": "https://cloud.google.com/iam/docs/service-account-impersonation"
+    },
+    {
+      "id": "ref4-016",
+      "curso": null,
+      "servicios": ["cloud-run", "service-accounts"],
+      "seccion_blueprint": 4,
+      "subtopicos": ["4.2-short-lived-credentials"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which credential type must a client present to invoke a Cloud Run service that requires authentication?",
+        "es": "¿Qué tipo de credencial debe presentar un cliente para invocar un servicio de Cloud Run que requiere autenticación?"
+      },
+      "opciones": [
+        { "en": "An OpenID Connect (OIDC) ID token whose audience is the URL of the target service", "es": "Un ID token de OpenID Connect (OIDC) cuya audiencia sea la URL del servicio de destino" },
+        { "en": "An API key in the request URL", "es": "Una API key en la URL de la solicitud" },
+        { "en": "The service account's JSON key sent in a request header", "es": "La llave JSON de la cuenta de servicio enviada en un encabezado de la solicitud" },
+        { "en": "A Cloud KMS encryption key", "es": "Una llave de encriptación de Cloud KMS" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Authenticated Cloud Run invocations require an OIDC ID token with the receiving service's URL as the audience; IAM then checks that the caller has run.invoker. B is wrong because Cloud Run does not accept API keys for invocation. C is wrong because raw key files are never sent as credentials in requests. D is wrong because KMS keys encrypt data; they do not authenticate callers.",
+        "es": "Las invocaciones autenticadas de Cloud Run requieren un ID token de OIDC con la URL del servicio receptor como audiencia; IAM verifica entonces que el invocador tenga run.invoker. B es incorrecta porque Cloud Run no acepta API keys para invocación. C es incorrecta porque los archivos de llaves nunca se envían como credencial en las solicitudes. D es incorrecta porque las llaves de KMS cifran datos; no autentican invocadores."
+      },
+      "doc": "https://cloud.google.com/run/docs/authenticating/service-to-service"
+    },
+    {
+      "id": "ref4-017",
+      "curso": null,
+      "servicios": ["gke", "service-accounts", "identity-federation"],
+      "seccion_blueprint": 4,
+      "subtopicos": ["4.2-sa-gke-workload-identity"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What does Workload Identity Federation for GKE provide?",
+        "es": "¿Qué proporciona Workload Identity Federation para GKE?"
+      },
+      "opciones": [
+        { "en": "A shared node-level service account that all Pods use with the same permissions", "es": "Una cuenta de servicio compartida a nivel de nodo que todos los Pods usan con los mismos permisos" },
+        { "en": "Automatic TLS certificates for services inside the cluster", "es": "Certificados TLS automáticos para los servicios dentro del clúster" },
+        { "en": "A way for Pods to authenticate to Google Cloud APIs as distinct IAM principals through their Kubernetes ServiceAccount, without service account keys", "es": "Una forma de que los Pods se autentiquen ante las APIs de Google Cloud como principales de IAM distintos a través de su ServiceAccount de Kubernetes, sin llaves de cuentas de servicio" },
+        { "en": "Federation of user identities between two GKE clusters", "es": "Federación de identidades de usuarios entre dos clústeres de GKE" }
+      ],
+      "respuesta": ["C"],
+      "explicacion": {
+        "en": "Workload Identity Federation for GKE lets each workload authenticate with the identity of its Kubernetes ServiceAccount, so different Pods can have different, minimal IAM permissions and no keys are stored. A describes the legacy pattern it replaces — using the node's service account for every Pod violates least privilege. B is unrelated to API authentication. D is wrong because it federates workloads to Google Cloud IAM, not clusters to each other.",
+        "es": "Workload Identity Federation para GKE permite que cada carga de trabajo se autentique con la identidad de su ServiceAccount de Kubernetes, de modo que distintos Pods pueden tener permisos de IAM distintos y mínimos, sin llaves almacenadas. A describe el patrón heredado que reemplaza: usar la cuenta del nodo para todos los Pods viola el mínimo privilegio. B no tiene relación con la autenticación de APIs. D es incorrecta porque federa cargas de trabajo hacia IAM de Google Cloud, no clústeres entre sí."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/workload-identity"
+    },
+    {
+      "id": "ref4-018",
+      "curso": null,
+      "servicios": ["service-accounts"],
+      "seccion_blueprint": 4,
+      "subtopicos": ["4.2-sa-creation"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is a service agent in Google Cloud?",
+        "es": "¿Qué es un service agent en Google Cloud?"
+      },
+      "opciones": [
+        { "en": "A monitoring agent installed on Compute Engine VMs", "es": "Un agente de supervisión instalado en las VMs de Compute Engine" },
+        { "en": "A Google-managed service account that a Google Cloud service (such as Cloud Build or Pub/Sub) uses to act on your resources on your behalf", "es": "Una cuenta de servicio administrada por Google que un servicio de Google Cloud (como Cloud Build o Pub/Sub) usa para actuar sobre tus recursos en tu nombre" },
+        { "en": "A human support engineer assigned to your organization", "es": "Un ingeniero de soporte humano asignado a tu organización" },
+        { "en": "Any service account that has the Editor role", "es": "Cualquier cuenta de servicio que tenga el rol Editor" }
+      ],
+      "respuesta": ["B"],
+      "explicacion": {
+        "en": "Service agents are Google-managed service accounts, typically with emails like service-PROJECT_NUMBER@gcp-sa-SERVICE.iam.gserviceaccount.com, that services use to operate on your project's resources (for example, Cloud Build pulling images). A describes the Ops Agent, which is software, not an identity. C is wrong because service agents are automated identities. D is wrong because a role grant does not make an account a service agent — being Google-managed does.",
+        "es": "Los service agents son cuentas de servicio administradas por Google, típicamente con correos como service-PROJECT_NUMBER@gcp-sa-SERVICE.iam.gserviceaccount.com, que los servicios usan para operar sobre los recursos de tu proyecto (por ejemplo, Cloud Build al extraer imágenes). A describe el Ops Agent, que es software, no una identidad. C es incorrecta porque los service agents son identidades automatizadas. D es incorrecta porque un rol no convierte a una cuenta en service agent — lo que la define es ser administrada por Google."
+      },
+      "doc": "https://cloud.google.com/iam/docs/service-agents"
+    }
+  ]
+}

@@ -749,6 +749,881 @@
         "es": "Inhabilitar el endpoint externo y permitir solo redes internas autorizadas mantiene privado el plano de control mientras los administradores llegan por VPN. B deja el endpoint en internet, C bloquea tráfico de nodos pero no el endpoint del plano de control y D controla el acceso a apps, no al plano de control."
       },
       "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/private-cluster-concept"
+    },
+    {
+      "id": "gke-031",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.1-k8s-resources"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is the purpose of a ConfigMap in Kubernetes?",
+        "es": "¿Cuál es el propósito de un ConfigMap en Kubernetes?"
+      },
+      "opciones": [
+        { "en": "To store non-confidential configuration data as key-value pairs that Pods can consume as environment variables or mounted files", "es": "Almacenar datos de configuración no confidenciales como pares clave-valor que los Pods pueden consumir como variables de entorno o archivos montados" },
+        { "en": "To store passwords and API keys with base64 encoding", "es": "Almacenar contraseñas y llaves de API con codificación base64" },
+        { "en": "To provide persistent block storage to Pods", "es": "Proporcionar almacenamiento persistente en bloques a los Pods" },
+        { "en": "To define how a container image is built", "es": "Definir cómo se construye una imagen de contenedor" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "A ConfigMap decouples non-sensitive configuration from container images so the same image works across environments. B describes a Secret (the object intended for sensitive data), C describes PersistentVolumes, and D describes a Dockerfile or Cloud Build config, not a Kubernetes object.",
+        "es": "Un ConfigMap desacopla la configuración no sensible de las imágenes de contenedores para que la misma imagen funcione en varios entornos. B describe un Secret (el objeto pensado para datos sensibles), C describe los PersistentVolumes y D describe un Dockerfile o una configuración de Cloud Build, no un objeto de Kubernetes."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/configmap"
+    },
+    {
+      "id": "gke-032",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.1-gke-cluster-configs"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is a GKE release channel?",
+        "es": "¿Qué es un canal de versiones (release channel) de GKE?"
+      },
+      "opciones": [
+        { "en": "A subscription that keeps your cluster automatically updated on a Kubernetes version with a chosen balance between new features and stability (Rapid, Regular, Stable, Extended)", "es": "Una suscripción que mantiene tu clúster actualizado automáticamente en una versión de Kubernetes con el equilibrio elegido entre funciones nuevas y estabilidad (Rapid, Regular, Stable, Extended)" },
+        { "en": "A Pub/Sub topic where Google publishes GKE release notes", "es": "Un tema de Pub/Sub donde Google publica las notas de versión de GKE" },
+        { "en": "A node pool configuration for canary deployments of your application", "es": "Una configuración de node pool para despliegues canary de tu aplicación" },
+        { "en": "A billing tier that determines the price per node", "es": "Un nivel de facturación que determina el precio por nodo" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Release channels enroll the cluster in automatic upgrades: Rapid gets versions earliest, Regular balances freshness and stability, Stable prioritizes stability, and Extended offers longer support. B confuses channels with communication feeds, C confuses them with application rollout strategies, and D confuses them with pricing — channels affect versions, not cost tiers.",
+        "es": "Los canales de versiones inscriben al clúster en actualizaciones automáticas: Rapid recibe versiones antes, Regular equilibra novedad y estabilidad, Stable prioriza la estabilidad y Extended ofrece soporte más largo. B confunde los canales con feeds de comunicación, C los confunde con estrategias de despliegue de aplicaciones y D los confunde con precios — los canales afectan versiones, no niveles de costo."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/release-channels"
+    },
+    {
+      "id": "gke-033",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.1-k8s-resources"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which Kubernetes workload object ensures that a copy of a Pod runs on every node (or a selected set of nodes), such as a log collection agent?",
+        "es": "¿Qué objeto de cargas de trabajo de Kubernetes garantiza que una copia de un Pod se ejecute en cada nodo (o en un conjunto seleccionado de nodos), como un agente de recolección de registros?"
+      },
+      "opciones": [
+        { "en": "DaemonSet", "es": "DaemonSet" },
+        { "en": "Deployment", "es": "Deployment" },
+        { "en": "StatefulSet", "es": "StatefulSet" },
+        { "en": "Job", "es": "Job" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "A DaemonSet schedules one Pod per node and automatically adds Pods when nodes join the cluster — ideal for node-level agents. A Deployment places replicas wherever there is capacity without a per-node guarantee, a StatefulSet targets stateful apps with stable identities, and a Job runs a task to completion rather than continuously on each node.",
+        "es": "Un DaemonSet programa un Pod por nodo y agrega Pods automáticamente cuando se suman nodos al clúster — ideal para agentes a nivel de nodo. Un Deployment coloca réplicas donde haya capacidad sin garantía por nodo, un StatefulSet apunta a apps con estado con identidades estables y un Job ejecuta una tarea hasta completarse en lugar de correr continuamente en cada nodo."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/daemonset"
+    },
+    {
+      "id": "gke-034",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke", "load-balancing"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.1-gke-deploy-containers"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "In GKE, what happens when you create an Ingress resource?",
+        "es": "En GKE, ¿qué sucede cuando creas un recurso Ingress?"
+      },
+      "opciones": [
+        { "en": "GKE provisions a Google Cloud Application Load Balancer that routes external HTTP(S) traffic to your Services based on hosts and paths", "es": "GKE aprovisiona un Application Load Balancer de Google Cloud que enruta el tráfico HTTP(S) externo hacia tus Services según hosts y rutas" },
+        { "en": "A firewall rule is created that allows all traffic to every node", "es": "Se crea una regla de firewall que permite todo el tráfico hacia cada nodo" },
+        { "en": "Each Pod receives its own public IP address", "es": "Cada Pod recibe su propia dirección IP pública" },
+        { "en": "All Pod-to-Pod traffic inside the cluster is encrypted", "es": "Todo el tráfico entre Pods dentro del clúster se encripta" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "The GKE Ingress controller reads the Ingress rules and configures an Application Load Balancer for host- and path-based HTTP(S) routing. B is false — only the specific health check and proxy ranges are allowed, not all traffic; C is false — Pods keep internal IPs; and D describes service mesh mTLS features, not Ingress.",
+        "es": "El controlador de Ingress de GKE lee las reglas del Ingress y configura un Application Load Balancer para enrutamiento HTTP(S) por host y ruta. B es falsa — solo se permiten los rangos específicos de health checks y proxies, no todo el tráfico; C es falsa — los Pods conservan IPs internas; y D describe funciones de mTLS de una malla de servicios, no de Ingress."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/ingress"
+    },
+    {
+      "id": "gke-035",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.1-k8s-resources"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What are Kubernetes namespaces used for?",
+        "es": "¿Para qué se usan los namespaces de Kubernetes?"
+      },
+      "opciones": [
+        { "en": "To logically partition cluster resources among teams or environments, scoping resource names and enabling per-group quotas and permissions", "es": "Particionar lógicamente los recursos del clúster entre equipos o entornos, delimitando los nombres de recursos y habilitando cuotas y permisos por grupo" },
+        { "en": "To physically dedicate specific nodes to each team", "es": "Dedicar físicamente nodos específicos a cada equipo" },
+        { "en": "To create a separate Google Cloud project for each application", "es": "Crear un proyecto de Google Cloud separado para cada aplicación" },
+        { "en": "To assign a different VPC subnet to each Pod", "es": "Asignar una subred de VPC distinta a cada Pod" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Namespaces provide logical separation inside one cluster: names are scoped per namespace and you can attach quotas and RBAC per namespace. B is false — namespaces do not pin workloads to nodes (that requires selectors/taints); C is false — namespaces live inside a cluster, not at the project level; and D is false — Pod networking is cluster-wide, not per namespace.",
+        "es": "Los namespaces brindan separación lógica dentro de un clúster: los nombres se delimitan por namespace y puedes asociar cuotas y RBAC por namespace. B es falsa — los namespaces no fijan cargas a nodos (eso requiere selectores/taints); C es falsa — los namespaces viven dentro de un clúster, no a nivel de proyecto; y D es falsa — la red de Pods es del clúster completo, no por namespace."
+      },
+      "doc": "https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/"
+    },
+    {
+      "id": "gke-036",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.1-gke-cluster-configs"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "At a high level, what does GKE Enterprise add on top of standard GKE?",
+        "es": "A alto nivel, ¿qué agrega GKE Enterprise sobre GKE estándar?"
+      },
+      "opciones": [
+        { "en": "A fleet-based platform to manage, secure, and apply consistent configuration and policies across multiple clusters and environments", "es": "Una plataforma basada en flotas (fleets) para administrar, proteger y aplicar configuración y políticas consistentes en múltiples clústeres y entornos" },
+        { "en": "A cheaper billing plan for single small clusters", "es": "Un plan de facturación más barato para clústeres pequeños individuales" },
+        { "en": "A proprietary orchestrator that replaces Kubernetes", "es": "Un orquestador propietario que reemplaza a Kubernetes" },
+        { "en": "A tool that converts containers into virtual machines", "es": "Una herramienta que convierte contenedores en máquinas virtuales" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "GKE Enterprise groups clusters into fleets and adds multi-cluster capabilities such as centralized config management, policy enforcement, and service management across clouds and on-premises. B is false — it is a premium tier, not a discount; C is false — it is built on standard Kubernetes; and D describes nothing GKE Enterprise does (migration tools work the other way, VMs to containers).",
+        "es": "GKE Enterprise agrupa clústeres en flotas y agrega capacidades multiclúster como administración centralizada de configuración, aplicación de políticas y gestión de servicios entre nubes y entornos locales. B es falsa — es un nivel premium, no un descuento; C es falsa — se basa en Kubernetes estándar; y D no describe nada que haga GKE Enterprise (las herramientas de migración van al revés, de VMs a contenedores)."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/enterprise/docs/concepts/overview"
+    },
+    {
+      "id": "gke-037",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.1-k8s-resources"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which Kubernetes object should you use to run a containerized task on a recurring schedule, such as a nightly data export?",
+        "es": "¿Qué objeto de Kubernetes deberías usar para ejecutar una tarea en contenedor con una programación recurrente, como una exportación de datos cada noche?"
+      },
+      "opciones": [
+        { "en": "CronJob", "es": "CronJob" },
+        { "en": "Job", "es": "Job" },
+        { "en": "DaemonSet", "es": "DaemonSet" },
+        { "en": "Deployment", "es": "Deployment" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "A CronJob creates Jobs on a cron schedule, perfect for recurring tasks. A plain Job runs once to completion without a schedule, a DaemonSet runs continuously on every node, and a Deployment keeps long-running replicas alive instead of running finite tasks.",
+        "es": "Un CronJob crea Jobs según una programación cron, perfecto para tareas recurrentes. Un Job simple se ejecuta una vez hasta completarse sin programación, un DaemonSet corre continuamente en cada nodo y un Deployment mantiene réplicas de larga duración en lugar de ejecutar tareas finitas."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/how-to/cronjobs"
+    },
+    {
+      "id": "gke-038",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.1-gke-deploy-containers"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What does a liveness probe do in Kubernetes?",
+        "es": "¿Qué hace un liveness probe en Kubernetes?"
+      },
+      "opciones": [
+        { "en": "It periodically checks the container's health and restarts the container if the check fails", "es": "Verifica periódicamente la salud del contenedor y lo reinicia si la verificación falla" },
+        { "en": "It decides whether the Pod receives traffic from a Service", "es": "Decide si el Pod recibe tráfico de un Service" },
+        { "en": "It scales the number of replicas when CPU is high", "es": "Escala la cantidad de réplicas cuando la CPU está alta" },
+        { "en": "It verifies node health and drains unhealthy nodes", "es": "Verifica la salud de los nodos y vacía los nodos con problemas" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Liveness probes detect containers stuck in a broken state and trigger a restart by the kubelet. B describes a readiness probe, C describes the Horizontal Pod Autoscaler, and D describes node auto-repair in GKE, not a Pod-level probe.",
+        "es": "Los liveness probes detectan contenedores atascados en un estado roto y hacen que el kubelet los reinicie. B describe un readiness probe, C describe el Horizontal Pod Autoscaler y D describe la reparación automática de nodos de GKE, no un probe a nivel de Pod."
+      },
+      "doc": "https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/"
+    },
+    {
+      "id": "gke-039",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke", "persistent-disk"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.1-k8s-resources"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is a PersistentVolumeClaim (PVC) in GKE?",
+        "es": "¿Qué es un PersistentVolumeClaim (PVC) en GKE?"
+      },
+      "opciones": [
+        { "en": "A request for durable storage made by a workload, which GKE satisfies by binding it to a PersistentVolume backed by storage such as Persistent Disk", "es": "Una solicitud de almacenamiento duradero hecha por una carga de trabajo, que GKE satisface vinculándola a un PersistentVolume respaldado por almacenamiento como Persistent Disk" },
+        { "en": "The local ephemeral disk of each node", "es": "El disco efímero local de cada nodo" },
+        { "en": "A backup of the cluster's etcd database", "es": "Una copia de seguridad de la base de datos etcd del clúster" },
+        { "en": "A Cloud Storage bucket created automatically for each Pod", "es": "Un bucket de Cloud Storage creado automáticamente para cada Pod" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "A PVC declares how much storage and which access mode a workload needs; the cluster binds it to a matching PersistentVolume that survives Pod restarts. B describes ephemeral node storage that is lost with the node, C describes control plane backups managed by Google, and D is false — buckets are not created per Pod nor mounted by default.",
+        "es": "Un PVC declara cuánto almacenamiento y qué modo de acceso necesita una carga de trabajo; el clúster lo vincula a un PersistentVolume compatible que sobrevive a los reinicios del Pod. B describe el almacenamiento efímero del nodo que se pierde con él, C describe copias de seguridad del plano de control administradas por Google y D es falsa — no se crean buckets por Pod ni se montan por defecto."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/persistent-volumes"
+    },
+    {
+      "id": "gke-040",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke", "kubectl"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.1-gke-ops"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which command shows the stdout output of the container running in Pod web-1?",
+        "es": "¿Qué comando muestra la salida stdout del contenedor que corre en el Pod web-1?"
+      },
+      "opciones": [
+        { "en": "kubectl logs web-1", "es": "kubectl logs web-1" },
+        { "en": "kubectl describe pod web-1", "es": "kubectl describe pod web-1" },
+        { "en": "gcloud container logs web-1", "es": "gcloud container logs web-1" },
+        { "en": "kubectl exec web-1", "es": "kubectl exec web-1" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "kubectl logs streams the container's stdout/stderr. describe pod shows the Pod's spec, status, and events but not application output; gcloud container logs is not a real command (container logs are read via kubectl or Cloud Logging); and kubectl exec runs a command inside the container but needs a command argument and does not show past output.",
+        "es": "kubectl logs muestra el stdout/stderr del contenedor. describe pod muestra la spec, el estado y los eventos del Pod pero no la salida de la aplicación; gcloud container logs no es un comando real (los registros se leen con kubectl o Cloud Logging); y kubectl exec ejecuta un comando dentro del contenedor pero necesita un argumento de comando y no muestra la salida pasada."
+      },
+      "doc": "https://kubernetes.io/docs/reference/kubectl/generated/kubectl_logs/"
+    },
+    {
+      "id": "gke-041",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.1-k8s-resources"],
+      "nivel": "principiante",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO Kubernetes objects are designed to inject configuration data into Pods?",
+        "es": "¿Cuáles DOS objetos de Kubernetes están diseñados para inyectar datos de configuración en los Pods?"
+      },
+      "opciones": [
+        { "en": "ConfigMap", "es": "ConfigMap" },
+        { "en": "Secret", "es": "Secret" },
+        { "en": "Ingress", "es": "Ingress" },
+        { "en": "PersistentVolume", "es": "PersistentVolume" }
+      ],
+      "respuesta": ["A", "B"],
+      "explicacion": {
+        "en": "ConfigMaps hold non-sensitive configuration and Secrets hold sensitive values; both can be exposed to Pods as environment variables or mounted files. An Ingress routes external HTTP(S) traffic and a PersistentVolume provides durable storage — neither injects configuration values.",
+        "es": "Los ConfigMaps guardan configuración no sensible y los Secrets guardan valores sensibles; ambos pueden exponerse a los Pods como variables de entorno o archivos montados. Un Ingress enruta tráfico HTTP(S) externo y un PersistentVolume proporciona almacenamiento duradero — ninguno inyecta valores de configuración."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/secret"
+    },
+    {
+      "id": "gke-042",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.1-gke-deploy-containers"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What happens when a container's readiness probe fails?",
+        "es": "¿Qué sucede cuando falla el readiness probe de un contenedor?"
+      },
+      "opciones": [
+        { "en": "The Pod is removed from the Service endpoints and stops receiving traffic, without being restarted", "es": "El Pod se quita de los endpoints del Service y deja de recibir tráfico, sin ser reiniciado" },
+        { "en": "The container is restarted immediately by the kubelet", "es": "El kubelet reinicia el contenedor de inmediato" },
+        { "en": "The Pod is deleted and rescheduled on another node", "es": "El Pod se borra y se reprograma en otro nodo" },
+        { "en": "The node is cordoned and drained", "es": "El nodo se acordona y se vacía" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Readiness failures only take the Pod out of load balancing until it reports ready again — useful during warm-up or temporary overload. B describes a liveness probe failure, C is not the readiness behavior (the Pod stays where it is), and D is a node-level operation unrelated to probes.",
+        "es": "Las fallas de readiness solo sacan al Pod del balanceo de cargas hasta que vuelva a reportarse listo — útil durante el arranque o una sobrecarga temporal. B describe la falla de un liveness probe, C no es el comportamiento de readiness (el Pod se queda donde está) y D es una operación a nivel de nodo sin relación con los probes."
+      },
+      "doc": "https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/"
+    },
+    {
+      "id": "gke-043",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke", "kubectl"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.1-k8s-resources"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which command creates a Kubernetes Secret named db-pass containing the key password?",
+        "es": "¿Qué comando crea un Secret de Kubernetes llamado db-pass que contenga la clave password?"
+      },
+      "opciones": [
+        { "en": "kubectl create secret generic db-pass --from-literal=password=S3cret!", "es": "kubectl create secret generic db-pass --from-literal=password=S3cret!" },
+        { "en": "kubectl create configmap db-pass --from-literal=password=S3cret!", "es": "kubectl create configmap db-pass --from-literal=password=S3cret!" },
+        { "en": "gcloud secrets create db-pass --data-file=password.txt", "es": "gcloud secrets create db-pass --data-file=password.txt" },
+        { "en": "kubectl apply secret db-pass --value password=S3cret!", "es": "kubectl apply secret db-pass --value password=S3cret!" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "kubectl create secret generic with --from-literal creates the Secret in the cluster. B creates a ConfigMap, which stores the value as plain non-sensitive config; C creates a secret in Secret Manager (a Google Cloud service, not a Kubernetes Secret object); and D is invalid syntax — kubectl apply takes manifests with -f, not inline values.",
+        "es": "kubectl create secret generic con --from-literal crea el Secret en el clúster. B crea un ConfigMap, que guarda el valor como configuración simple no sensible; C crea un secreto en Secret Manager (un servicio de Google Cloud, no un objeto Secret de Kubernetes); y D es sintaxis inválida — kubectl apply recibe manifiestos con -f, no valores en línea."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/secret"
+    },
+    {
+      "id": "gke-044",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke", "kubectl"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.1-gke-ops"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You need an interactive shell inside a running container to inspect its filesystem. Which command should you use?",
+        "es": "Necesitas una shell interactiva dentro de un contenedor en ejecución para inspeccionar su sistema de archivos. ¿Qué comando deberías usar?"
+      },
+      "opciones": [
+        { "en": "kubectl exec -it POD_NAME -- /bin/sh", "es": "kubectl exec -it POD_NAME -- /bin/sh" },
+        { "en": "kubectl attach POD_NAME", "es": "kubectl attach POD_NAME" },
+        { "en": "gcloud compute ssh POD_NAME", "es": "gcloud compute ssh POD_NAME" },
+        { "en": "kubectl logs POD_NAME -f", "es": "kubectl logs POD_NAME -f" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "kubectl exec -it starts a new interactive shell process inside the container. kubectl attach connects to the container's existing main process instead of giving you a new shell, gcloud compute ssh targets VMs (nodes), not Pods, and kubectl logs -f only streams output without letting you run commands.",
+        "es": "kubectl exec -it inicia un nuevo proceso de shell interactivo dentro del contenedor. kubectl attach se conecta al proceso principal existente del contenedor en lugar de darte una shell nueva, gcloud compute ssh apunta a VMs (nodos), no a Pods, y kubectl logs -f solo transmite la salida sin permitirte ejecutar comandos."
+      },
+      "doc": "https://kubernetes.io/docs/tasks/debug/debug-application/get-shell-running-container/"
+    },
+    {
+      "id": "gke-045",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.1-k8s-resources"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Several teams share one GKE cluster, each in its own namespace. You must cap the total CPU and memory each team can consume. What should you create?",
+        "es": "Varios equipos comparten un clúster de GKE, cada uno en su propio namespace. Debes limitar el total de CPU y memoria que cada equipo puede consumir. ¿Qué deberías crear?"
+      },
+      "opciones": [
+        { "en": "A ResourceQuota object in each team's namespace", "es": "Un objeto ResourceQuota en el namespace de cada equipo" },
+        { "en": "A LimitRange object, which caps the namespace's total consumption", "es": "Un objeto LimitRange, que limita el consumo total del namespace" },
+        { "en": "A separate billing account per team", "es": "Una cuenta de facturación separada por equipo" },
+        { "en": "IAM deny policies on the compute.instances.create permission", "es": "Políticas de denegación de IAM sobre el permiso compute.instances.create" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "ResourceQuota limits the aggregate resources (CPU, memory, object counts) that all workloads in a namespace can request. A LimitRange sets per-Pod/per-container defaults and min/max, not namespace totals; billing accounts track cost but don't enforce resource limits; and IAM controls API permissions, not in-cluster resource consumption.",
+        "es": "ResourceQuota limita los recursos agregados (CPU, memoria, cantidad de objetos) que todas las cargas de un namespace pueden solicitar. Un LimitRange define valores predeterminados y mínimos/máximos por Pod/contenedor, no totales del namespace; las cuentas de facturación rastrean costos pero no imponen límites de recursos; y IAM controla permisos de API, no el consumo de recursos dentro del clúster."
+      },
+      "doc": "https://kubernetes.io/docs/concepts/policy/resource-quotas/"
+    },
+    {
+      "id": "gke-046",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke", "load-balancing"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.1-gke-deploy-containers"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your platform team manages the load balancing infrastructure while app teams manage their own routes, including header-based and cross-namespace routing. Which GKE feature is designed for this model?",
+        "es": "Tu equipo de plataforma administra la infraestructura de balanceo de cargas mientras los equipos de aplicaciones administran sus propias rutas, incluyendo enrutamiento por encabezados y entre namespaces. ¿Qué función de GKE está diseñada para este modelo?"
+      },
+      "opciones": [
+        { "en": "The Gateway API, with a shared Gateway managed by the platform team and HTTPRoutes owned by app teams", "es": "La Gateway API, con un Gateway compartido administrado por el equipo de plataforma y HTTPRoutes propiedad de los equipos de aplicaciones" },
+        { "en": "A classic Ingress resource per application with annotations", "es": "Un recurso Ingress clásico por aplicación con anotaciones" },
+        { "en": "A Service of type LoadBalancer per application", "es": "Un Service de tipo LoadBalancer por aplicación" },
+        { "en": "NetworkPolicies that route traffic between namespaces", "es": "NetworkPolicies que enruten el tráfico entre namespaces" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "The Gateway API is role-oriented: infrastructure teams own Gateways, app teams own routes, and it natively supports header-based and cross-namespace routing. Classic Ingress mixes both roles in one resource with limited expressiveness, Service type LoadBalancer is L4 with no HTTP routing rules, and NetworkPolicies filter traffic — they never route it.",
+        "es": "La Gateway API está orientada a roles: los equipos de infraestructura son dueños de los Gateways, los de aplicaciones son dueños de las rutas, y soporta de forma nativa enrutamiento por encabezados y entre namespaces. El Ingress clásico mezcla ambos roles en un recurso con expresividad limitada, el Service de tipo LoadBalancer es de capa 4 sin reglas de enrutamiento HTTP, y las NetworkPolicies filtran tráfico — nunca lo enrutan."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/gateway-api"
+    },
+    {
+      "id": "gke-047",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke", "persistent-disk"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.1-k8s-resources"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "In GKE, you create a PVC without specifying a storageClassName. What happens?",
+        "es": "En GKE, creas un PVC sin especificar storageClassName. ¿Qué sucede?"
+      },
+      "opciones": [
+        { "en": "The default StorageClass dynamically provisions a Persistent Disk through the CSI driver and binds it to the PVC", "es": "La StorageClass predeterminada aprovisiona dinámicamente un Persistent Disk mediante el controlador CSI y lo vincula al PVC" },
+        { "en": "The PVC stays Pending until an administrator manually creates a matching PersistentVolume", "es": "El PVC queda en Pending hasta que un administrador cree manualmente un PersistentVolume compatible" },
+        { "en": "A Cloud Storage bucket is created and mounted into the Pod", "es": "Se crea un bucket de Cloud Storage y se monta en el Pod" },
+        { "en": "The Pod uses the node's boot disk for persistent data", "es": "El Pod usa el disco de arranque del nodo para los datos persistentes" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "GKE ships with a default StorageClass backed by the Persistent Disk CSI driver, so PVCs are provisioned dynamically with no admin action. B describes clusters without dynamic provisioning, which is not GKE's default; C is false — buckets require the Cloud Storage FUSE CSI driver and an explicit configuration; and D is false — boot disks are ephemeral from the workload's perspective and are never bound to PVCs.",
+        "es": "GKE incluye una StorageClass predeterminada respaldada por el controlador CSI de Persistent Disk, así que los PVC se aprovisionan dinámicamente sin acción del administrador. B describe clústeres sin aprovisionamiento dinámico, que no es el caso predeterminado de GKE; C es falsa — los buckets requieren el controlador CSI de Cloud Storage FUSE y una configuración explícita; y D es falsa — los discos de arranque son efímeros desde la perspectiva de la carga y nunca se vinculan a PVCs."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/persistent-volumes"
+    },
+    {
+      "id": "gke-048",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke", "kubectl"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.1-gke-ops"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You want to test a ClusterIP Service named backend from your workstation without exposing it outside the cluster. What should you do?",
+        "es": "Quieres probar un Service ClusterIP llamado backend desde tu estación de trabajo sin exponerlo fuera del clúster. ¿Qué deberías hacer?"
+      },
+      "opciones": [
+        { "en": "Run kubectl port-forward svc/backend 8080:80 and send requests to localhost:8080", "es": "Ejecutar kubectl port-forward svc/backend 8080:80 y enviar solicitudes a localhost:8080" },
+        { "en": "Temporarily change the Service type to LoadBalancer", "es": "Cambiar temporalmente el tipo del Service a LoadBalancer" },
+        { "en": "Create an Ingress pointing to the Service", "es": "Crear un Ingress que apunte al Service" },
+        { "en": "SSH into a node and run curl against the Pod IP", "es": "Entrar por SSH a un nodo y ejecutar curl contra la IP del Pod" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "kubectl port-forward tunnels traffic from your local machine to the Service through the Kubernetes API, with no external exposure. B and C both publish the Service externally, which the requirement forbids, and D requires node access (unavailable in Autopilot) and bypasses the Service, making it a poor test.",
+        "es": "kubectl port-forward canaliza el tráfico desde tu máquina local hacia el Service a través de la API de Kubernetes, sin exposición externa. B y C publican el Service externamente, lo que el requisito prohíbe, y D requiere acceso a los nodos (no disponible en Autopilot) y omite el Service, lo que lo hace una mala prueba."
+      },
+      "doc": "https://kubernetes.io/docs/tasks/access-application-cluster/port-forward-access-application-cluster/"
+    },
+    {
+      "id": "gke-049",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.1-gke-cluster-configs"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which statement about GKE cluster upgrades is correct?",
+        "es": "¿Qué afirmación sobre las actualizaciones de clústeres de GKE es correcta?"
+      },
+      "opciones": [
+        { "en": "Google automatically upgrades the control plane, and you control the timing with maintenance windows; nodes follow the cluster's release channel", "es": "Google actualiza automáticamente el plano de control, y tú controlas el momento con ventanas de mantenimiento; los nodos siguen el canal de versiones del clúster" },
+        { "en": "The control plane is never upgraded unless you run a manual command", "es": "El plano de control nunca se actualiza a menos que ejecutes un comando manual" },
+        { "en": "You must delete and recreate the cluster to change its Kubernetes version", "es": "Debes borrar y recrear el clúster para cambiar su versión de Kubernetes" },
+        { "en": "Node pools cannot be upgraded in Standard mode", "es": "Los node pools no se pueden actualizar en modo Standard" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "GKE keeps the control plane updated automatically for security and support, and maintenance windows let you schedule when disruptions occur; node auto-upgrade follows the release channel. B is false — control plane auto-upgrade cannot be fully disabled; C is false — in-place upgrades are the standard mechanism; and D is false — node pools upgrade automatically or manually in Standard mode.",
+        "es": "GKE mantiene el plano de control actualizado automáticamente por seguridad y soporte, y las ventanas de mantenimiento te permiten programar cuándo ocurren las interrupciones; la actualización automática de nodos sigue el canal de versiones. B es falsa — la actualización automática del plano de control no puede desactivarse por completo; C es falsa — las actualizaciones en el lugar son el mecanismo estándar; y D es falsa — los node pools se actualizan automática o manualmente en modo Standard."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/cluster-upgrades"
+    },
+    {
+      "id": "gke-050",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.1-gke-node-pools"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You created a node pool with --node-taints=workload=batch:NoSchedule. What must batch Pods include so they can be scheduled on those nodes?",
+        "es": "Creaste un node pool con --node-taints=workload=batch:NoSchedule. ¿Qué deben incluir los Pods de batch para poder programarse en esos nodos?"
+      },
+      "opciones": [
+        { "en": "A toleration matching the workload=batch:NoSchedule taint (plus a node selector or affinity to target the pool)", "es": "Una toleration que coincida con el taint workload=batch:NoSchedule (más un selector de nodos o afinidad para apuntar al pool)" },
+        { "en": "An annotation with the name of the node pool", "es": "Una anotación con el nombre del node pool" },
+        { "en": "A privileged securityContext", "es": "Un securityContext privilegiado" },
+        { "en": "A ResourceQuota in their namespace", "es": "Un ResourceQuota en su namespace" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Taints repel Pods unless they carry a matching toleration; adding a node selector or affinity ensures the batch Pods actually land on the tainted pool rather than elsewhere. B is false — annotations have no scheduling effect; C relates to container privileges, not scheduling; and D limits aggregate resource usage but does not interact with taints.",
+        "es": "Los taints repelen a los Pods salvo que lleven una toleration coincidente; agregar un selector de nodos o afinidad garantiza que los Pods de batch realmente caigan en el pool con taint y no en otro lado. B es falsa — las anotaciones no afectan la programación; C se relaciona con privilegios del contenedor, no con la programación; y D limita el uso agregado de recursos pero no interactúa con los taints."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/how-to/node-taints"
+    },
+    {
+      "id": "gke-051",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke", "cloud-logging"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.1-gke-ops"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "By default, where can you find the stdout/stderr logs of workloads running in a GKE cluster?",
+        "es": "De forma predeterminada, ¿dónde puedes encontrar los registros stdout/stderr de las cargas de trabajo que corren en un clúster de GKE?"
+      },
+      "opciones": [
+        { "en": "In Cloud Logging, collected automatically by GKE's built-in logging agent", "es": "En Cloud Logging, recolectados automáticamente por el agente de registro integrado de GKE" },
+        { "en": "Nowhere, unless you manually install the Ops Agent on each node", "es": "En ningún lado, a menos que instales manualmente el Ops Agent en cada nodo" },
+        { "en": "In a Cloud Storage bucket created for the cluster", "es": "En un bucket de Cloud Storage creado para el clúster" },
+        { "en": "Only via kubectl logs while the Pod exists", "es": "Solo mediante kubectl logs mientras el Pod exista" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "GKE enables system and workload logging to Cloud Logging by default, so container stdout/stderr is searchable in Logs Explorer even after Pods are deleted. B is false — the Ops Agent is for Compute Engine VMs, not GKE nodes; C is false — logs go to Cloud Logging (export to buckets is optional); and D is incomplete — kubectl logs works but Cloud Logging retains logs beyond the Pod's lifetime.",
+        "es": "GKE habilita por defecto el registro del sistema y de las cargas hacia Cloud Logging, por lo que el stdout/stderr de los contenedores puede buscarse en el Explorador de registros incluso después de borrar los Pods. B es falsa — el Ops Agent es para VMs de Compute Engine, no para nodos de GKE; C es falsa — los registros van a Cloud Logging (la exportación a buckets es opcional); y D es incompleta — kubectl logs funciona, pero Cloud Logging conserva los registros más allá de la vida del Pod."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/about-logs"
+    },
+    {
+      "id": "gke-052",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.1-k8s-resources"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You must process 100 independent work items to completion, running at most 10 at a time. Which Kubernetes configuration fits best?",
+        "es": "Debes procesar 100 elementos de trabajo independientes hasta completarlos, ejecutando como máximo 10 a la vez. ¿Qué configuración de Kubernetes se ajusta mejor?"
+      },
+      "opciones": [
+        { "en": "A Job with completions: 100 and parallelism: 10", "es": "Un Job con completions: 100 y parallelism: 10" },
+        { "en": "A Deployment with 10 replicas", "es": "Un Deployment con 10 réplicas" },
+        { "en": "A CronJob that runs every minute", "es": "Un CronJob que se ejecute cada minuto" },
+        { "en": "A DaemonSet limited to 10 nodes", "es": "Un DaemonSet limitado a 10 nodos" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "A Job tracks successful completions and caps concurrency with parallelism, terminating when all 100 items finish. A Deployment keeps Pods running forever and never 'completes'; a CronJob adds a schedule the task doesn't need and doesn't track a completion count across runs; and a DaemonSet ties Pod count to nodes, not to work items.",
+        "es": "Un Job registra las finalizaciones exitosas y limita la concurrencia con parallelism, terminando cuando los 100 elementos concluyen. Un Deployment mantiene los Pods corriendo para siempre y nunca 'se completa'; un CronJob agrega una programación que la tarea no necesita y no rastrea un conteo de finalizaciones entre ejecuciones; y un DaemonSet ata la cantidad de Pods a los nodos, no a los elementos de trabajo."
+      },
+      "doc": "https://kubernetes.io/docs/concepts/workloads/controllers/job/"
+    },
+    {
+      "id": "gke-053",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke", "kubectl"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.1-gke-ops"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which command shows the current CPU and memory usage of the Pods in a namespace?",
+        "es": "¿Qué comando muestra el uso actual de CPU y memoria de los Pods en un namespace?"
+      },
+      "opciones": [
+        { "en": "kubectl top pods -n NAMESPACE", "es": "kubectl top pods -n NAMESPACE" },
+        { "en": "kubectl get pods -n NAMESPACE -o wide", "es": "kubectl get pods -n NAMESPACE -o wide" },
+        { "en": "kubectl describe namespace NAMESPACE", "es": "kubectl describe namespace NAMESPACE" },
+        { "en": "gcloud container clusters describe CLUSTER_NAME", "es": "gcloud container clusters describe CLUSTER_NAME" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "kubectl top pods reads live metrics from the metrics server and shows actual CPU/memory consumption. get pods -o wide shows status, node, and IP but no usage metrics; describe namespace shows quotas and labels, not per-Pod usage; and gcloud container clusters describe returns cluster configuration, not workload metrics.",
+        "es": "kubectl top pods lee métricas en vivo del servidor de métricas y muestra el consumo real de CPU/memoria. get pods -o wide muestra estado, nodo e IP pero no métricas de uso; describe namespace muestra cuotas y etiquetas, no el uso por Pod; y gcloud container clusters describe devuelve la configuración del clúster, no métricas de las cargas."
+      },
+      "doc": "https://kubernetes.io/docs/reference/kubectl/generated/kubectl_top/"
+    },
+    {
+      "id": "gke-054",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.1-k8s-resources"],
+      "nivel": "intermedio",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO ways can a Pod consume the values stored in a ConfigMap?",
+        "es": "¿Cuáles DOS formas tiene un Pod de consumir los valores almacenados en un ConfigMap?"
+      },
+      "opciones": [
+        { "en": "As environment variables in its containers", "es": "Como variables de entorno en sus contenedores" },
+        { "en": "As files in a volume mounted into the containers", "es": "Como archivos en un volumen montado en los contenedores" },
+        { "en": "As build arguments baked into the container image", "es": "Como argumentos de build incorporados en la imagen del contenedor" },
+        { "en": "As labels applied automatically to the node", "es": "Como etiquetas aplicadas automáticamente al nodo" }
+      ],
+      "respuesta": ["A", "B"],
+      "explicacion": {
+        "en": "ConfigMap data can be injected as environment variables or projected as files through a volume; volume-mounted keys even update when the ConfigMap changes. C happens at image build time, before Kubernetes is involved, and D is false — ConfigMaps never modify node labels.",
+        "es": "Los datos de un ConfigMap pueden inyectarse como variables de entorno o proyectarse como archivos mediante un volumen; las claves montadas por volumen incluso se actualizan cuando el ConfigMap cambia. C ocurre al construir la imagen, antes de que Kubernetes intervenga, y D es falsa — los ConfigMaps nunca modifican etiquetas de nodos."
+      },
+      "doc": "https://kubernetes.io/docs/concepts/configuration/configmap/"
+    },
+    {
+      "id": "gke-055",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.1-pod-autoscaling"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your team suspects that most Deployments have oversized CPU/memory requests but does not want Pods restarted automatically. What is the BEST first step?",
+        "es": "Tu equipo sospecha que la mayoría de los Deployments tienen solicitudes de CPU/memoria sobredimensionadas, pero no quiere que los Pods se reinicien automáticamente. ¿Cuál es el MEJOR primer paso?"
+      },
+      "opciones": [
+        { "en": "Deploy Vertical Pod Autoscaler in recommendation mode (updateMode: Off) and review its suggested requests", "es": "Implementar el Vertical Pod Autoscaler en modo de recomendación (updateMode: Off) y revisar las solicitudes que sugiere" },
+        { "en": "Configure a Horizontal Pod Autoscaler targeting 50% CPU", "es": "Configurar un Horizontal Pod Autoscaler apuntando a 50% de CPU" },
+        { "en": "Set very high requests on every Deployment to guarantee capacity", "es": "Definir solicitudes muy altas en cada Deployment para garantizar capacidad" },
+        { "en": "Enable the cluster autoscaler on all node pools", "es": "Habilitar el autoescalador del clúster en todos los node pools" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "VPA in recommendation mode analyzes real usage and suggests right-sized requests without evicting Pods, exactly matching the no-restart requirement. HPA changes replica counts, not per-Pod sizing; raising requests worsens the oversizing and cost problem; and the cluster autoscaler adds/removes nodes but does not fix Pod request sizes.",
+        "es": "El VPA en modo de recomendación analiza el uso real y sugiere solicitudes bien dimensionadas sin desalojar Pods, cumpliendo exactamente el requisito de no reiniciar. El HPA cambia la cantidad de réplicas, no el tamaño por Pod; subir las solicitudes agrava el sobredimensionamiento y el costo; y el autoescalador del clúster agrega o quita nodos pero no corrige las solicitudes de los Pods."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/verticalpodautoscaler"
+    },
+    {
+      "id": "gke-056",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.1-gke-cluster-configs"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which requirement would force you to choose GKE Standard instead of Autopilot?",
+        "es": "¿Qué requisito te obligaría a elegir GKE Standard en lugar de Autopilot?"
+      },
+      "opciones": [
+        { "en": "Running a node-level agent that needs privileged host access and custom node OS configuration, including SSH to the nodes", "es": "Ejecutar un agente a nivel de nodo que necesita acceso privilegiado al host y configuración personalizada del SO del nodo, incluido SSH a los nodos" },
+        { "en": "Running stateful workloads with PersistentVolumes", "es": "Ejecutar cargas de trabajo con estado con PersistentVolumes" },
+        { "en": "Running workloads that require GPUs", "es": "Ejecutar cargas de trabajo que requieren GPUs" },
+        { "en": "Needing a regional, highly available control plane", "es": "Necesitar un plano de control regional con alta disponibilidad" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Autopilot blocks SSH to nodes, most privileged host access, and node OS customization because Google manages the nodes — such workloads need Standard. B is supported in Autopilot (StatefulSets and PVCs work normally), C is supported (Autopilot offers GPU Pods), and D is inherent to Autopilot, whose clusters are regional by default.",
+        "es": "Autopilot bloquea el SSH a los nodos, la mayoría de los accesos privilegiados al host y la personalización del SO del nodo porque Google administra los nodos — esas cargas necesitan Standard. B sí se admite en Autopilot (los StatefulSets y PVCs funcionan con normalidad), C se admite (Autopilot ofrece Pods con GPU) y D es inherente a Autopilot, cuyos clústeres son regionales por defecto."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/resources/autopilot-standard-feature-comparison"
+    },
+    {
+      "id": "gke-057",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke", "service-accounts", "identity-federation"],
+      "seccion_blueprint": 4,
+      "subtopicos": ["4.2-sa-gke-workload-identity"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You enabled Workload Identity Federation for GKE on the cluster, but your Pods still authenticate as the node's service account. Linking a Kubernetes ServiceAccount (KSA) to an IAM service account, what is MOST likely missing?",
+        "es": "Habilitaste Workload Identity Federation para GKE en el clúster, pero tus Pods siguen autenticándose como la cuenta de servicio del nodo. Al vincular una ServiceAccount de Kubernetes (KSA) con una cuenta de servicio de IAM, ¿qué es lo que MÁS probablemente falta?"
+      },
+      "opciones": [
+        { "en": "Annotating the KSA with iam.gke.io/gcp-service-account, granting roles/iam.workloadIdentityUser to the KSA principal, and setting serviceAccountName in the Pod spec", "es": "Anotar la KSA con iam.gke.io/gcp-service-account, otorgar roles/iam.workloadIdentityUser al principal de la KSA y definir serviceAccountName en la spec del Pod" },
+        { "en": "Exporting a JSON key of the IAM service account and mounting it in the Pods", "es": "Exportar una llave JSON de la cuenta de servicio de IAM y montarla en los Pods" },
+        { "en": "Granting the Editor role to the node service account", "es": "Otorgar el rol Editor a la cuenta de servicio del nodo" },
+        { "en": "Enabling legacy metadata endpoints on the node pool", "es": "Habilitar los endpoints de metadatos heredados en el node pool" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Enabling the feature at cluster level is not enough: each workload needs its KSA linked to the IAM service account (annotation plus workloadIdentityUser binding) and the Pod must use that KSA; otherwise Pods fall back to default credentials. B reintroduces long-lived keys, the anti-pattern Workload Identity eliminates; C broadens node permissions instead of scoping per workload; and D weakens metadata security and is unrelated to the linkage.",
+        "es": "Habilitar la función a nivel de clúster no basta: cada carga necesita su KSA vinculada a la cuenta de servicio de IAM (anotación más el binding de workloadIdentityUser) y el Pod debe usar esa KSA; de lo contrario los Pods recurren a las credenciales predeterminadas. B reintroduce llaves de larga vida, el antipatrón que Workload Identity elimina; C amplía los permisos del nodo en lugar de acotarlos por carga; y D debilita la seguridad de los metadatos y no tiene relación con la vinculación."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity"
+    },
+    {
+      "id": "gke-058",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.1-k8s-resources"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Only Pods labeled app=frontend may connect to Pods labeled app=backend on port 8080; all other Pod traffic to backend must be denied. What should you apply?",
+        "es": "Solo los Pods con la etiqueta app=frontend pueden conectarse a los Pods con app=backend en el puerto 8080; todo el resto del tráfico de Pods hacia backend debe denegarse. ¿Qué deberías aplicar?"
+      },
+      "opciones": [
+        { "en": "A NetworkPolicy selecting the backend Pods that allows ingress only from Pods labeled app=frontend on port 8080", "es": "Una NetworkPolicy que seleccione los Pods de backend y permita el ingreso solo desde Pods con la etiqueta app=frontend en el puerto 8080" },
+        { "en": "A VPC firewall rule allowing port 8080 between the node IP ranges", "es": "Una regla de firewall de VPC que permita el puerto 8080 entre los rangos de IP de los nodos" },
+        { "en": "Placing frontend and backend in different namespaces", "es": "Colocar frontend y backend en namespaces diferentes" },
+        { "en": "An IAM policy that restricts which service accounts can call the backend", "es": "Una política de IAM que restrinja qué cuentas de servicio pueden llamar al backend" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "NetworkPolicies filter Pod-to-Pod traffic by label and port, and require network policy enforcement (default with GKE Dataplane V2). B operates on node IPs, so it cannot distinguish which Pod sent the traffic; C provides organization only — namespaces do not block traffic by themselves; and D controls Google Cloud API authorization, not network connections between Pods.",
+        "es": "Las NetworkPolicies filtran el tráfico entre Pods por etiqueta y puerto, y requieren la aplicación de políticas de red (predeterminada con GKE Dataplane V2). B opera sobre IPs de nodos, por lo que no puede distinguir qué Pod envió el tráfico; C solo aporta organización — los namespaces no bloquean tráfico por sí solos; y D controla la autorización de APIs de Google Cloud, no las conexiones de red entre Pods."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy"
+    },
+    {
+      "id": "gke-059",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.1-gke-cluster-configs"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A production cluster must maximize version stability while still receiving automatic security patches. Which release channel is the BEST choice?",
+        "es": "Un clúster de producción debe maximizar la estabilidad de versiones y aun así recibir parches de seguridad automáticos. ¿Qué canal de versiones es la MEJOR opción?"
+      },
+      "opciones": [
+        { "en": "Stable", "es": "Stable" },
+        { "en": "Rapid", "es": "Rapid" },
+        { "en": "Regular", "es": "Regular" },
+        { "en": "No channel, pinning a static version permanently", "es": "Sin canal, fijando una versión estática permanentemente" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "The Stable channel receives versions after the longest validation period while still delivering automatic patches — the best stability/patching balance for production. Rapid gets the newest, least-proven versions; Regular is a middle ground but less stable than Stable, so it doesn't 'maximize' stability; and pinning a static version forgoes automatic security patches, violating the requirement.",
+        "es": "El canal Stable recibe versiones tras el período de validación más largo y aun así entrega parches automáticos — el mejor equilibrio estabilidad/parcheo para producción. Rapid recibe las versiones más nuevas y menos probadas; Regular es un punto medio pero menos estable que Stable, así que no 'maximiza' la estabilidad; y fijar una versión estática renuncia a los parches de seguridad automáticos, violando el requisito."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/release-channels"
+    },
+    {
+      "id": "gke-060",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke", "file-storage"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.1-k8s-resources"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Multiple Pods running on different GKE nodes must read and write the same shared file system simultaneously. What should you provision?",
+        "es": "Varios Pods que corren en diferentes nodos de GKE deben leer y escribir el mismo sistema de archivos compartido simultáneamente. ¿Qué deberías aprovisionar?"
+      },
+      "opciones": [
+        { "en": "A PVC with access mode ReadWriteMany backed by the Filestore CSI driver", "es": "Un PVC con modo de acceso ReadWriteMany respaldado por el controlador CSI de Filestore" },
+        { "en": "A PVC with access mode ReadWriteOnce backed by Persistent Disk", "es": "Un PVC con modo de acceso ReadWriteOnce respaldado por Persistent Disk" },
+        { "en": "hostPath volumes on each node", "es": "Volúmenes hostPath en cada nodo" },
+        { "en": "An emptyDir volume shared by the Pods", "es": "Un volumen emptyDir compartido por los Pods" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Filestore provides NFS storage that supports ReadWriteMany, letting Pods on different nodes mount the same file system for reads and writes. A ReadWriteOnce Persistent Disk can only be mounted for writing by a single node; hostPath is local to each node, so Pods would see different data; and emptyDir is ephemeral and shared only between containers of the same Pod.",
+        "es": "Filestore proporciona almacenamiento NFS que admite ReadWriteMany, permitiendo que Pods en distintos nodos monten el mismo sistema de archivos para lectura y escritura. Un Persistent Disk ReadWriteOnce solo puede montarse para escritura desde un único nodo; hostPath es local a cada nodo, así que los Pods verían datos distintos; y emptyDir es efímero y se comparte solo entre contenedores del mismo Pod."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/how-to/persistent-volumes/filestore-csi-driver"
+    },
+    {
+      "id": "gke-061",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke", "cloud-monitoring"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.1-gke-ops"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your SRE team must be notified automatically when containers in a production GKE cluster restart repeatedly. What is the BEST approach?",
+        "es": "Tu equipo de SRE debe recibir una notificación automática cuando los contenedores de un clúster de GKE de producción se reinicien repetidamente. ¿Cuál es el MEJOR enfoque?"
+      },
+      "opciones": [
+        { "en": "Create a Cloud Monitoring alerting policy on the Kubernetes container restart count metric with a notification channel", "es": "Crear una política de alertas en Cloud Monitoring sobre la métrica de conteo de reinicios de contenedores de Kubernetes con un canal de notificaciones" },
+        { "en": "Run kubectl get pods periodically and check the RESTARTS column by hand", "es": "Ejecutar kubectl get pods periódicamente y revisar la columna RESTARTS a mano" },
+        { "en": "Enable Vertical Pod Autoscaler so restarts stop happening", "es": "Habilitar el Vertical Pod Autoscaler para que los reinicios dejen de ocurrir" },
+        { "en": "Export all cluster logs to BigQuery and run a daily query for restarts", "es": "Exportar todos los registros del clúster a BigQuery y ejecutar una consulta diaria de reinicios" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "GKE system metrics in Cloud Monitoring include container restart counts, and an alerting policy delivers real-time notifications through channels like email or PagerDuty. B is manual and does not scale or notify; C treats a symptom — VPA adjusts resources but cannot prevent all restart causes and sends no notifications; and D adds cost and up to a day of delay versus a managed, near-real-time alert.",
+        "es": "Las métricas del sistema de GKE en Cloud Monitoring incluyen el conteo de reinicios de contenedores, y una política de alertas entrega notificaciones en tiempo real por canales como correo o PagerDuty. B es manual y no escala ni notifica; C trata un síntoma — el VPA ajusta recursos pero no puede evitar todas las causas de reinicio y no envía notificaciones; y D agrega costo y hasta un día de retraso frente a una alerta administrada casi en tiempo real."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/how-to/configure-metrics"
+    },
+    {
+      "id": "gke-062",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.1-gke-cluster-configs"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your e-commerce platform on GKE has a change freeze from November 15 to January 15. The cluster is enrolled in the Regular channel and must stay enrolled. How do you prevent automatic upgrades during the freeze?",
+        "es": "Tu plataforma de e-commerce en GKE tiene un congelamiento de cambios del 15 de noviembre al 15 de enero. El clúster está inscrito en el canal Regular y debe seguir inscrito. ¿Cómo evitas las actualizaciones automáticas durante el congelamiento?"
+      },
+      "opciones": [
+        { "en": "Configure a maintenance exclusion covering the freeze period", "es": "Configurar una exclusión de mantenimiento que cubra el período de congelamiento" },
+        { "en": "Unenroll the cluster from the release channel permanently", "es": "Anular la inscripción del clúster en el canal de versiones de forma permanente" },
+        { "en": "Disable control plane upgrades in the cluster settings", "es": "Inhabilitar las actualizaciones del plano de control en la configuración del clúster" },
+        { "en": "Delete the cluster's maintenance window", "es": "Borrar la ventana de mantenimiento del clúster" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Maintenance exclusions block automatic upgrades during a defined period while keeping the cluster on its release channel — exactly the seasonal-freeze use case. B violates the requirement to stay enrolled; C is not possible — GKE control plane auto-upgrades cannot be disabled outright; and D makes upgrades possible at any time instead of preventing them.",
+        "es": "Las exclusiones de mantenimiento bloquean las actualizaciones automáticas durante un período definido manteniendo al clúster en su canal de versiones — exactamente el caso de un congelamiento estacional. B viola el requisito de seguir inscrito; C no es posible — las actualizaciones automáticas del plano de control de GKE no pueden inhabilitarse por completo; y D hace que las actualizaciones puedan ocurrir en cualquier momento en lugar de evitarlas."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/maintenance-windows-and-exclusions"
+    },
+    {
+      "id": "gke-063",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke", "kubectl"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.1-gke-ops", "3.1-k8s-resources"],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "A container keeps entering CrashLoopBackOff. Which TWO commands BEST help you find the cause?",
+        "es": "Un contenedor entra repetidamente en CrashLoopBackOff. ¿Cuáles DOS comandos te ayudan MEJOR a encontrar la causa?"
+      },
+      "opciones": [
+        { "en": "kubectl logs POD_NAME --previous", "es": "kubectl logs POD_NAME --previous" },
+        { "en": "kubectl describe pod POD_NAME", "es": "kubectl describe pod POD_NAME" },
+        { "en": "kubectl delete pod POD_NAME --force", "es": "kubectl delete pod POD_NAME --force" },
+        { "en": "kubectl port-forward POD_NAME 8080:80", "es": "kubectl port-forward POD_NAME 8080:80" }
+      ],
+      "respuesta": ["A", "B"],
+      "explicacion": {
+        "en": "logs --previous shows the output of the crashed container instance (the current one may have no logs yet), and describe pod reveals exit codes, OOMKilled status, probe failures, and recent events. Force-deleting the Pod destroys the evidence and the controller just recreates it, and port-forward cannot even connect to a crashing container, let alone explain the crash.",
+        "es": "logs --previous muestra la salida de la instancia del contenedor que falló (la actual puede no tener registros aún), y describe pod revela códigos de salida, estado OOMKilled, fallas de probes y eventos recientes. Borrar el Pod a la fuerza destruye la evidencia y el controlador simplemente lo recrea, y port-forward ni siquiera puede conectarse a un contenedor que falla, mucho menos explicar la causa."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/troubleshooting/deployed-workloads"
+    },
+    {
+      "id": "gke-064",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.1-k8s-resources"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "In a regional GKE cluster, you must guarantee that the 3 replicas of a critical Deployment run in different zones so the app survives a zone outage. What is the BEST configuration?",
+        "es": "En un clúster regional de GKE, debes garantizar que las 3 réplicas de un Deployment crítico corran en zonas diferentes para que la app sobreviva a la caída de una zona. ¿Cuál es la MEJOR configuración?"
+      },
+      "opciones": [
+        { "en": "Add topology spread constraints (or Pod anti-affinity) on the topology.kubernetes.io/zone key to the Pod template", "es": "Agregar topology spread constraints (o anti-afinidad de Pods) sobre la clave topology.kubernetes.io/zone en la plantilla del Pod" },
+        { "en": "Increase the Deployment to 6 replicas and hope they spread out", "es": "Aumentar el Deployment a 6 réplicas y esperar que se distribuyan" },
+        { "en": "Create three zonal clusters, one per zone, each running one replica", "es": "Crear tres clústeres zonales, uno por zona, cada uno con una réplica" },
+        { "en": "Use a nodeSelector that pins all replicas to a single zone", "es": "Usar un nodeSelector que fije todas las réplicas en una sola zona" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Topology spread constraints (or zone-keyed anti-affinity) make the scheduler enforce distribution across zones inside the regional cluster. B relies on default scheduling with no guarantee and doubles cost; C multiplies operational burden (three clusters, three control planes, external traffic management) for something one regional cluster already solves; and D concentrates all replicas in one zone — the opposite of the goal.",
+        "es": "Las topology spread constraints (o la anti-afinidad con clave de zona) hacen que el programador imponga la distribución entre zonas dentro del clúster regional. B depende de la programación predeterminada sin garantía y duplica el costo; C multiplica la carga operativa (tres clústeres, tres planos de control, gestión de tráfico externa) para algo que un clúster regional ya resuelve; y D concentra todas las réplicas en una zona — lo contrario del objetivo."
+      },
+      "doc": "https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/"
+    },
+    {
+      "id": "gke-065",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke", "artifact-registry", "service-accounts"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.1-gke-ops"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your images live in Artifact Registry in project registry-prod, and your GKE cluster runs in project apps-prod. Pods fail to pull images with 403 errors. Following least privilege, what should you do?",
+        "es": "Tus imágenes viven en Artifact Registry en el proyecto registry-prod y tu clúster de GKE corre en el proyecto apps-prod. Los Pods no pueden descargar imágenes y reciben errores 403. Siguiendo el mínimo privilegio, ¿qué deberías hacer?"
+      },
+      "opciones": [
+        { "en": "Grant roles/artifactregistry.reader on the repository in registry-prod to the cluster's node service account from apps-prod", "es": "Otorgar roles/artifactregistry.reader sobre el repositorio en registry-prod a la cuenta de servicio de nodo del clúster de apps-prod" },
+        { "en": "Make the Artifact Registry repository publicly readable", "es": "Hacer que el repositorio de Artifact Registry sea de lectura pública" },
+        { "en": "Copy every image manually into a new repository in apps-prod on each release", "es": "Copiar cada imagen manualmente a un repositorio nuevo en apps-prod en cada versión" },
+        { "en": "Grant roles/owner in registry-prod to the node service account", "es": "Otorgar roles/owner en registry-prod a la cuenta de servicio del nodo" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "IAM grants work across projects: giving the node service account artifactregistry.reader on the repository (or the registry-prod project) is the minimal permission that fixes the 403. B exposes private images to the whole internet; C works but adds continuous manual toil and drift risk, which the scenario's best practice framing rules out; and D grants full project control — a massive violation of least privilege.",
+        "es": "Los otorgamientos de IAM funcionan entre proyectos: dar a la cuenta de servicio del nodo artifactregistry.reader sobre el repositorio (o el proyecto registry-prod) es el permiso mínimo que corrige el 403. B expone las imágenes privadas a todo internet; C funciona pero agrega trabajo manual continuo y riesgo de desincronización, lo que el marco de buenas prácticas del escenario descarta; y D otorga control total del proyecto — una violación enorme del mínimo privilegio."
+      },
+      "doc": "https://cloud.google.com/artifact-registry/docs/integrate-gke"
     }
   ]
 }

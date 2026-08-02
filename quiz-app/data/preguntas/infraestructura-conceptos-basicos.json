@@ -1,0 +1,829 @@
+{
+  "preguntas": [
+    {
+      "id": "fund-001",
+      "curso": "infraestructura-conceptos-basicos",
+      "servicios": ["resource-manager"],
+      "seccion_blueprint": 1,
+      "subtopicos": ["1.1-resource-hierarchy"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which option correctly shows the Google Cloud resource hierarchy from top to bottom?",
+        "es": "¿Qué opción muestra correctamente la jerarquía de recursos de Google Cloud de arriba hacia abajo?"
+      },
+      "opciones": [
+        { "en": "Organization > Folders > Projects > Resources", "es": "Organización > Carpetas > Proyectos > Recursos" },
+        { "en": "Projects > Organization > Folders > Resources", "es": "Proyectos > Organización > Carpetas > Recursos" },
+        { "en": "Organization > Projects > Folders > Resources", "es": "Organización > Proyectos > Carpetas > Recursos" },
+        { "en": "Folders > Organization > Projects > Resources", "es": "Carpetas > Organización > Proyectos > Recursos" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "The organization is the root node, folders group projects (and other folders), projects contain resources like VMs and buckets. B and D place the organization below other nodes, which is impossible since it is the root. C inverts folders and projects: folders contain projects, never the other way around.",
+        "es": "La organización es el nodo raíz, las carpetas agrupan proyectos (y otras carpetas) y los proyectos contienen recursos como VMs y buckets. B y D ponen la organización debajo de otros nodos, lo cual es imposible porque es la raíz. C invierte carpetas y proyectos: las carpetas contienen proyectos, nunca al revés."
+      },
+      "doc": "https://cloud.google.com/resource-manager/docs/cloud-platform-resource-hierarchy"
+    },
+    {
+      "id": "fund-002",
+      "curso": "infraestructura-conceptos-basicos",
+      "servicios": ["compute-engine"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.1-compute-choices"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is Compute Engine?",
+        "es": "¿Qué es Compute Engine?"
+      },
+      "opciones": [
+        { "en": "An infrastructure-as-a-service (IaaS) offering that lets you create and run virtual machines", "es": "Una oferta de infraestructura como servicio (IaaS) que permite crear y ejecutar máquinas virtuales" },
+        { "en": "A managed Kubernetes service for orchestrating containers", "es": "Un servicio administrado de Kubernetes para orquestar contenedores" },
+        { "en": "A serverless platform that runs code in response to events", "es": "Una plataforma serverless que ejecuta código en respuesta a eventos" },
+        { "en": "An object storage service for unstructured data", "es": "Un servicio de almacenamiento de objetos para datos no estructurados" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Compute Engine is Google Cloud's IaaS product for creating and managing virtual machines. B describes Google Kubernetes Engine (GKE), C describes Cloud Run functions, and D describes Cloud Storage.",
+        "es": "Compute Engine es el producto IaaS de Google Cloud para crear y administrar máquinas virtuales. B describe Google Kubernetes Engine (GKE), C describe Cloud Run functions y D describe Cloud Storage."
+      },
+      "doc": "https://cloud.google.com/compute/docs/overview"
+    },
+    {
+      "id": "fund-003",
+      "curso": "infraestructura-conceptos-basicos",
+      "servicios": ["iam"],
+      "seccion_blueprint": 4,
+      "subtopicos": ["4.1-role-types"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which are the three types of IAM roles in Google Cloud?",
+        "es": "¿Cuáles son los tres tipos de roles de IAM en Google Cloud?"
+      },
+      "opciones": [
+        { "en": "Basic, predefined, and custom roles", "es": "Roles básicos, predefinidos y personalizados" },
+        { "en": "Owner, Editor, and Viewer roles", "es": "Roles Owner, Editor y Viewer" },
+        { "en": "Allow, deny, and audit roles", "es": "Roles de permitir, denegar y auditar" },
+        { "en": "User, group, and service account roles", "es": "Roles de usuario, grupo y cuenta de servicio" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "IAM offers basic roles (Owner, Editor, Viewer), predefined roles maintained by Google per service, and custom roles you define. B lists the three basic roles, which are one of the types, not the three types. C mixes IAM policy concepts that are not role types. D lists principal (member) types, not role types.",
+        "es": "IAM ofrece roles básicos (Owner, Editor, Viewer), roles predefinidos mantenidos por Google por servicio y roles personalizados que tú defines. B enumera los tres roles básicos, que son uno de los tipos, no los tres tipos. C mezcla conceptos de políticas que no son tipos de roles. D enumera tipos de principales (miembros), no tipos de roles."
+      },
+      "doc": "https://cloud.google.com/iam/docs/roles-overview"
+    },
+    {
+      "id": "fund-004",
+      "curso": "infraestructura-conceptos-basicos",
+      "servicios": ["billing"],
+      "seccion_blueprint": 1,
+      "subtopicos": ["1.2-billing-accounts"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is the purpose of a Cloud Billing account?",
+        "es": "¿Cuál es el propósito de una cuenta de facturación de Cloud?"
+      },
+      "opciones": [
+        { "en": "It defines who pays for the usage of the Google Cloud projects linked to it", "es": "Define quién paga por el uso de los proyectos de Google Cloud vinculados a ella" },
+        { "en": "It is the container where virtual machines and buckets are deployed", "es": "Es el contenedor donde se implementan las máquinas virtuales y los buckets" },
+        { "en": "It stores the IAM policies for every project in the organization", "es": "Almacena las políticas de IAM de todos los proyectos de la organización" },
+        { "en": "It is required only when using the free tier", "es": "Solo se requiere cuando se usa el nivel gratuito" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "A billing account is connected to a payment method and pays for the usage of all projects linked to it; a project must be linked to an active billing account to use billable services. B describes a project, C describes IAM (policies live on resources, not billing accounts), and D is backwards: billing accounts are needed for paid usage, not only for the free tier.",
+        "es": "Una cuenta de facturación está conectada a un método de pago y paga el uso de todos los proyectos vinculados a ella; un proyecto debe estar vinculado a una cuenta de facturación activa para usar servicios facturables. B describe un proyecto, C describe IAM (las políticas viven en los recursos, no en la cuenta de facturación) y D es al revés: las cuentas de facturación se necesitan para el uso pagado, no solo para el nivel gratuito."
+      },
+      "doc": "https://cloud.google.com/billing/docs/how-to/manage-billing-account"
+    },
+    {
+      "id": "fund-005",
+      "curso": "infraestructura-conceptos-basicos",
+      "servicios": ["cloud-identity"],
+      "seccion_blueprint": 1,
+      "subtopicos": ["1.1-cloud-identity"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is Cloud Identity?",
+        "es": "¿Qué es Cloud Identity?"
+      },
+      "opciones": [
+        { "en": "An identity-as-a-service (IDaaS) solution to centrally manage users, groups, and devices", "es": "Una solución de identidad como servicio (IDaaS) para administrar de forma central usuarios, grupos y dispositivos" },
+        { "en": "A service that assigns IAM roles automatically based on job title", "es": "Un servicio que asigna roles de IAM automáticamente según el cargo" },
+        { "en": "A VPN service to connect on-premises networks with Google Cloud", "es": "Un servicio de VPN para conectar redes on-premises con Google Cloud" },
+        { "en": "A vault for storing service account keys", "es": "Una bóveda para almacenar claves de cuentas de servicio" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Cloud Identity provides centralized identity management (users, groups, devices) and is the source of identities that IAM then authorizes. B does not exist: IAM roles are granted explicitly, not by job title. C describes Cloud VPN. D describes a secret store, which is not what Cloud Identity does.",
+        "es": "Cloud Identity ofrece administración centralizada de identidades (usuarios, grupos, dispositivos) y es la fuente de identidades que IAM luego autoriza. B no existe: los roles de IAM se otorgan explícitamente, no por cargo. C describe Cloud VPN. D describe un almacén de secretos, que no es lo que hace Cloud Identity."
+      },
+      "doc": "https://cloud.google.com/identity/docs/overview"
+    },
+    {
+      "id": "fund-006",
+      "curso": "infraestructura-conceptos-basicos",
+      "servicios": ["quotas-apis"],
+      "seccion_blueprint": 1,
+      "subtopicos": ["1.1-apis-quotas"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Before using a service such as Compute Engine in a brand-new project, what must you do first?",
+        "es": "Antes de usar un servicio como Compute Engine en un proyecto recién creado, ¿qué debes hacer primero?"
+      },
+      "opciones": [
+        { "en": "Enable the service's API in the project", "es": "Habilitar la API del servicio en el proyecto" },
+        { "en": "Request a quota increase for the service", "es": "Solicitar un aumento de cuota para el servicio" },
+        { "en": "Create a custom IAM role for the service", "es": "Crear un rol de IAM personalizado para el servicio" },
+        { "en": "Install the service agent on a virtual machine", "es": "Instalar el agente del servicio en una máquina virtual" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Each Google Cloud service exposes an API that must be enabled per project before use; some are enabled by default, but most must be enabled explicitly. B is only needed when default quotas are insufficient, not as a first step. C is unnecessary because predefined roles already exist. D confuses in-VM agents (like the Ops Agent) with enabling a service API.",
+        "es": "Cada servicio de Google Cloud expone una API que debe habilitarse por proyecto antes de usarlo; algunas vienen habilitadas por defecto, pero la mayoría debe habilitarse explícitamente. B solo se necesita cuando las cuotas por defecto son insuficientes, no como primer paso. C es innecesario porque ya existen roles predefinidos. D confunde agentes dentro de la VM (como el Ops Agent) con habilitar la API de un servicio."
+      },
+      "doc": "https://cloud.google.com/service-usage/docs/enable-disable"
+    },
+    {
+      "id": "fund-007",
+      "curso": "infraestructura-conceptos-basicos",
+      "servicios": ["compute-engine"],
+      "seccion_blueprint": 1,
+      "subtopicos": ["1.1-networking-availability"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is the relationship between a region and a zone in Google Cloud?",
+        "es": "¿Cuál es la relación entre una región y una zona en Google Cloud?"
+      },
+      "opciones": [
+        { "en": "A region is a geographic area made up of multiple isolated zones", "es": "Una región es un área geográfica compuesta por varias zonas aisladas" },
+        { "en": "A zone is a geographic area made up of multiple regions", "es": "Una zona es un área geográfica compuesta por varias regiones" },
+        { "en": "Regions and zones are interchangeable names for the same concept", "es": "Región y zona son nombres intercambiables para el mismo concepto" },
+        { "en": "A zone spans several regions to provide global availability", "es": "Una zona abarca varias regiones para brindar disponibilidad global" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "A region (like us-central1) is a geographic area containing multiple zones (like us-central1-a), which are isolated deployment areas. B and D invert the relationship: zones live inside regions, never the other way around. C is false because a zone is a subdivision of a region, not a synonym.",
+        "es": "Una región (como us-central1) es un área geográfica que contiene varias zonas (como us-central1-a), que son áreas de implementación aisladas. B y D invierten la relación: las zonas viven dentro de las regiones, nunca al revés. C es falsa porque una zona es una subdivisión de una región, no un sinónimo."
+      },
+      "doc": "https://cloud.google.com/compute/docs/regions-zones"
+    },
+    {
+      "id": "fund-008",
+      "curso": "infraestructura-conceptos-basicos",
+      "servicios": ["iam"],
+      "seccion_blueprint": 4,
+      "subtopicos": ["4.1-iam-policies"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is an IAM allow policy in Google Cloud?",
+        "es": "¿Qué es una política de permisos de IAM en Google Cloud?"
+      },
+      "opciones": [
+        { "en": "A collection of role bindings that associate principals (users, groups, service accounts) with roles on a resource", "es": "Una colección de vinculaciones de roles que asocian principales (usuarios, grupos, cuentas de servicio) con roles en un recurso" },
+        { "en": "A list of firewall rules that control network traffic", "es": "Una lista de reglas de firewall que controlan el tráfico de red" },
+        { "en": "A set of constraints that restrict which resource configurations are allowed", "es": "Un conjunto de restricciones que limitan qué configuraciones de recursos están permitidas" },
+        { "en": "A password and MFA policy for user accounts", "es": "Una política de contraseñas y MFA para cuentas de usuario" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "An IAM allow policy is attached to a resource and contains bindings, each linking one role to a list of principals. B describes VPC firewall rules, which control traffic, not identity access. C describes organization policies, which constrain configurations rather than grant access. D describes identity security settings managed in Cloud Identity, not IAM policies.",
+        "es": "Una política de permisos de IAM se adjunta a un recurso y contiene vinculaciones, cada una asociando un rol con una lista de principales. B describe reglas de firewall de VPC, que controlan tráfico, no acceso por identidad. C describe políticas de organización, que restringen configuraciones en lugar de otorgar acceso. D describe configuraciones de seguridad de identidad administradas en Cloud Identity, no políticas de IAM."
+      },
+      "doc": "https://cloud.google.com/iam/docs/overview"
+    },
+    {
+      "id": "fund-009",
+      "curso": "infraestructura-conceptos-basicos",
+      "servicios": ["billing"],
+      "seccion_blueprint": 1,
+      "subtopicos": ["1.2-budgets-alerts"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What happens when actual spend crosses a threshold of a Cloud Billing budget?",
+        "es": "¿Qué sucede cuando el gasto real cruza un umbral de un presupuesto de facturación de Cloud?"
+      },
+      "opciones": [
+        { "en": "Alert notifications are sent, but spending and resources continue unaffected", "es": "Se envían notificaciones de alerta, pero el gasto y los recursos continúan sin verse afectados" },
+        { "en": "All resources in the linked projects are automatically shut down", "es": "Todos los recursos de los proyectos vinculados se apagan automáticamente" },
+        { "en": "Billing is automatically disabled on the project", "es": "La facturación se inhabilita automáticamente en el proyecto" },
+        { "en": "New resource creation is blocked until the next billing cycle", "es": "Se bloquea la creación de recursos nuevos hasta el siguiente ciclo de facturación" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Budgets are a monitoring and alerting tool: crossing a threshold triggers notifications only. B, C, and D describe enforcement actions that budgets do not perform by themselves; stopping spend requires custom automation, for example a Pub/Sub notification that triggers code to disable billing.",
+        "es": "Los presupuestos son una herramienta de supervisión y alertas: cruzar un umbral solo genera notificaciones. B, C y D describen acciones de control que los presupuestos no realizan por sí solos; detener el gasto requiere automatización propia, por ejemplo una notificación de Pub/Sub que active código para inhabilitar la facturación."
+      },
+      "doc": "https://cloud.google.com/billing/docs/how-to/budgets"
+    },
+    {
+      "id": "fund-010",
+      "curso": "infraestructura-conceptos-basicos",
+      "servicios": ["iam", "resource-manager"],
+      "seccion_blueprint": 4,
+      "subtopicos": ["4.1-policy-inheritance"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "How does IAM policy inheritance work in the resource hierarchy?",
+        "es": "¿Cómo funciona la herencia de políticas de IAM en la jerarquía de recursos?"
+      },
+      "opciones": [
+        { "en": "Roles granted on a parent (organization or folder) are inherited by all child resources below it", "es": "Los roles otorgados en un nodo padre (organización o carpeta) son heredados por todos los recursos hijos debajo de él" },
+        { "en": "Roles granted on a project propagate upward to the organization", "es": "Los roles otorgados en un proyecto se propagan hacia arriba a la organización" },
+        { "en": "Each resource has an independent policy and nothing is inherited", "es": "Cada recurso tiene una política independiente y nada se hereda" },
+        { "en": "A child resource can remove roles that were granted at the parent level", "es": "Un recurso hijo puede quitar roles que fueron otorgados en el nivel padre" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "IAM policies flow top-down: a role granted at the organization or folder applies to everything underneath. B is backwards, inheritance never goes upward. C is false because the effective policy of a resource includes ancestor policies. D is false: a less restrictive or independent child policy cannot revoke access granted higher in the hierarchy.",
+        "es": "Las políticas de IAM fluyen de arriba hacia abajo: un rol otorgado en la organización o en una carpeta aplica a todo lo que está debajo. B es al revés, la herencia nunca va hacia arriba. C es falsa porque la política efectiva de un recurso incluye las políticas de sus ancestros. D es falsa: una política hija no puede revocar accesos otorgados más arriba en la jerarquía."
+      },
+      "doc": "https://cloud.google.com/iam/docs/resource-hierarchy-access-control"
+    },
+    {
+      "id": "fund-011",
+      "curso": "infraestructura-conceptos-basicos",
+      "servicios": ["compute-engine", "vpc"],
+      "seccion_blueprint": 1,
+      "subtopicos": ["1.1-networking-availability"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which of the following is a zonal resource, meaning it becomes unavailable if its zone fails?",
+        "es": "¿Cuál de los siguientes es un recurso zonal, es decir, que queda no disponible si falla su zona?"
+      },
+      "opciones": [
+        { "en": "A Compute Engine VM instance", "es": "Una instancia de VM de Compute Engine" },
+        { "en": "A VPC network", "es": "Una red de VPC" },
+        { "en": "A custom VM image", "es": "Una imagen de VM personalizada" },
+        { "en": "A Cloud Storage multi-region bucket", "es": "Un bucket multirregión de Cloud Storage" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "A VM instance lives in exactly one zone, so a zone outage takes it down. A VPC network is a global resource, custom images are global resources usable in any zone, and a multi-region Cloud Storage bucket is geo-redundant across regions, so none of them depend on a single zone.",
+        "es": "Una instancia de VM vive en exactamente una zona, por lo que una interrupción de la zona la deja fuera de servicio. Una red de VPC es un recurso global, las imágenes personalizadas son recursos globales usables en cualquier zona y un bucket multirregión de Cloud Storage es georredundante entre regiones, así que ninguno de ellos depende de una sola zona."
+      },
+      "doc": "https://cloud.google.com/compute/docs/regions-zones/global-regional-zonal-resources"
+    },
+    {
+      "id": "fund-012",
+      "curso": "infraestructura-conceptos-basicos",
+      "servicios": ["cloud-storage"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.2-storage-products"],
+      "nivel": "principiante",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO Cloud Storage classes are designed for data accessed at most a few times a year?",
+        "es": "¿Cuáles DOS clases de Cloud Storage están diseñadas para datos a los que se accede como máximo unas pocas veces al año?"
+      },
+      "opciones": [
+        { "en": "Coldline", "es": "Coldline" },
+        { "en": "Archive", "es": "Archive" },
+        { "en": "Standard", "es": "Standard" },
+        { "en": "Nearline", "es": "Nearline" }
+      ],
+      "respuesta": ["A", "B"],
+      "explicacion": {
+        "en": "Coldline targets data read at most about once a quarter (90-day minimum storage) and Archive targets data read less than once a year (365-day minimum), both trading higher access costs for lower storage prices. Standard is for frequently accessed hot data, and Nearline is for roughly monthly access (30-day minimum), which is more than a few times a year.",
+        "es": "Coldline apunta a datos leídos como máximo una vez por trimestre (mínimo de almacenamiento de 90 días) y Archive a datos leídos menos de una vez al año (mínimo de 365 días); ambas cambian costos de acceso más altos por precios de almacenamiento más bajos. Standard es para datos calientes de acceso frecuente y Nearline es para acceso aproximadamente mensual (mínimo de 30 días), que es más que unas pocas veces al año."
+      },
+      "doc": "https://cloud.google.com/storage/docs/storage-classes"
+    },
+    {
+      "id": "fund-013",
+      "curso": "infraestructura-conceptos-basicos",
+      "servicios": ["quotas-apis"],
+      "seccion_blueprint": 1,
+      "subtopicos": ["1.1-apis-quotas"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is a quota in Google Cloud?",
+        "es": "¿Qué es una cuota en Google Cloud?"
+      },
+      "opciones": [
+        { "en": "A limit on how much of a resource or API your project can use, which can often be increased on request", "es": "Un límite sobre cuánto de un recurso o API puede usar tu proyecto, que a menudo puede aumentarse a pedido" },
+        { "en": "A fixed monthly fee charged per enabled API", "es": "Una tarifa mensual fija que se cobra por cada API habilitada" },
+        { "en": "A security rule that blocks unauthorized users", "es": "Una regla de seguridad que bloquea usuarios no autorizados" },
+        { "en": "The maximum number of users allowed in Cloud Identity", "es": "El número máximo de usuarios permitidos en Cloud Identity" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Quotas cap resource usage (allocation quotas, like CPUs per region) and request rates (rate quotas, like API calls per minute) per project; many can be raised via a quota increase request. B is wrong because quotas are limits, not fees. C describes IAM or firewall behavior. D confuses quotas with Cloud Identity licensing.",
+        "es": "Las cuotas limitan el uso de recursos (cuotas de asignación, como CPUs por región) y las tasas de solicitudes (cuotas de frecuencia, como llamadas a la API por minuto) por proyecto; muchas pueden elevarse con una solicitud de aumento. B es incorrecta porque las cuotas son límites, no tarifas. C describe el comportamiento de IAM o del firewall. D confunde cuotas con licenciamiento de Cloud Identity."
+      },
+      "doc": "https://cloud.google.com/docs/quotas/overview"
+    },
+    {
+      "id": "fund-014",
+      "curso": "infraestructura-conceptos-basicos",
+      "servicios": ["billing"],
+      "seccion_blueprint": 1,
+      "subtopicos": ["1.2-budgets-alerts"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "By default, who receives the email notifications when a billing budget alert threshold is crossed?",
+        "es": "Por defecto, ¿quién recibe los correos de notificación cuando se cruza un umbral de alerta de un presupuesto de facturación?"
+      },
+      "opciones": [
+        { "en": "Billing Account Administrators and Billing Account Users on the billing account", "es": "Los administradores y usuarios de la cuenta de facturación (Billing Account Administrators y Billing Account Users)" },
+        { "en": "Every member of every project linked to the billing account", "es": "Todos los miembros de todos los proyectos vinculados a la cuenta de facturación" },
+        { "en": "Only the Organization Administrator", "es": "Solo el administrador de la organización" },
+        { "en": "Nobody, unless a Pub/Sub topic is configured first", "es": "Nadie, a menos que primero se configure un tema de Pub/Sub" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "By default, budget alert emails go to Billing Account Administrators and Billing Account Users; you can additionally route notifications to Cloud Monitoring channels or Pub/Sub. B is false, project members do not receive them by default. C is false, org admins are not the default recipients. D is false because email notifications work without Pub/Sub, which is only needed for programmatic responses.",
+        "es": "Por defecto, los correos de alerta de presupuesto llegan a los Billing Account Administrators y Billing Account Users; además puedes enrutar notificaciones a canales de Cloud Monitoring o a Pub/Sub. B es falsa, los miembros de los proyectos no los reciben por defecto. C es falsa, los administradores de la organización no son los destinatarios por defecto. D es falsa porque los correos funcionan sin Pub/Sub, que solo se necesita para respuestas programáticas."
+      },
+      "doc": "https://cloud.google.com/billing/docs/how-to/budgets"
+    },
+    {
+      "id": "fund-015",
+      "curso": "infraestructura-conceptos-basicos",
+      "servicios": ["vpc"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.3-vpc-subnets"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which statement about VPC networks and subnets in Google Cloud is correct?",
+        "es": "¿Qué afirmación sobre las redes de VPC y las subredes en Google Cloud es correcta?"
+      },
+      "opciones": [
+        { "en": "A VPC network is a global resource, and its subnets are regional resources", "es": "Una red de VPC es un recurso global y sus subredes son recursos regionales" },
+        { "en": "A VPC network is regional, and its subnets are zonal", "es": "Una red de VPC es regional y sus subredes son zonales" },
+        { "en": "Both VPC networks and subnets are zonal resources", "es": "Tanto las redes de VPC como las subredes son recursos zonales" },
+        { "en": "You need one VPC network per region where you deploy resources", "es": "Necesitas una red de VPC por cada región donde implementas recursos" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "A single VPC network spans all Google Cloud regions (global), while each subnet belongs to one region and can be used by any zone in that region. B and C assign the wrong scope to both resources. D is false precisely because one global VPC can contain subnets in many regions, so you do not need a VPC per region.",
+        "es": "Una sola red de VPC abarca todas las regiones de Google Cloud (global), mientras que cada subred pertenece a una región y puede usarse desde cualquier zona de esa región. B y C asignan el alcance incorrecto a ambos recursos. D es falsa precisamente porque una VPC global puede contener subredes en muchas regiones, así que no necesitas una VPC por región."
+      },
+      "doc": "https://cloud.google.com/vpc/docs/vpc"
+    },
+    {
+      "id": "fund-016",
+      "curso": "infraestructura-conceptos-basicos",
+      "servicios": ["iam"],
+      "seccion_blueprint": 1,
+      "subtopicos": ["1.1-iam-project-roles"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which question does IAM answer in Google Cloud?",
+        "es": "¿Qué pregunta responde IAM en Google Cloud?"
+      },
+      "opciones": [
+        { "en": "Who (principal) can do what (role) on which resource", "es": "Quién (principal) puede hacer qué (rol) sobre qué recurso" },
+        { "en": "How much each project spends per month", "es": "Cuánto gasta cada proyecto por mes" },
+        { "en": "Which network routes traffic between two VMs", "es": "Qué red enruta el tráfico entre dos VMs" },
+        { "en": "Where each resource is physically located", "es": "Dónde está ubicado físicamente cada recurso" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "IAM's model is exactly 'who can do what on which resource': principals are granted roles (bundles of permissions) on resources. B is answered by Cloud Billing reports and exports, C by VPC routing, and D by the regions and zones where resources are deployed.",
+        "es": "El modelo de IAM es exactamente 'quién puede hacer qué sobre qué recurso': a los principales se les otorgan roles (conjuntos de permisos) sobre recursos. B la responden los informes y exportaciones de facturación, C el enrutamiento de la VPC y D las regiones y zonas donde se implementan los recursos."
+      },
+      "doc": "https://cloud.google.com/iam/docs/overview"
+    },
+    {
+      "id": "fund-017",
+      "curso": "infraestructura-conceptos-basicos",
+      "servicios": ["service-accounts"],
+      "seccion_blueprint": 4,
+      "subtopicos": ["4.2-sa-creation"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is a service account in Google Cloud?",
+        "es": "¿Qué es una cuenta de servicio en Google Cloud?"
+      },
+      "opciones": [
+        { "en": "A special identity used by applications and VMs, not people, to authenticate and call Google Cloud APIs", "es": "Una identidad especial usada por aplicaciones y VMs, no por personas, para autenticarse y llamar a las APIs de Google Cloud" },
+        { "en": "A shared user account that a team uses to log in to the console", "es": "Una cuenta de usuario compartida que un equipo usa para iniciar sesión en la consola" },
+        { "en": "A group of users defined in Cloud Identity", "es": "Un grupo de usuarios definido en Cloud Identity" },
+        { "en": "The account that receives the monthly invoice", "es": "La cuenta que recibe la factura mensual" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Service accounts are workload identities: applications, VMs, and services use them to authenticate to Google APIs, and they can be granted IAM roles like any principal. B describes a shared human account, which is an anti-pattern and not a service account. C describes a Google group. D describes a billing account.",
+        "es": "Las cuentas de servicio son identidades de cargas de trabajo: aplicaciones, VMs y servicios las usan para autenticarse ante las APIs de Google, y se les pueden otorgar roles de IAM como a cualquier principal. B describe una cuenta humana compartida, que es un antipatrón y no una cuenta de servicio. C describe un grupo de Google. D describe una cuenta de facturación."
+      },
+      "doc": "https://cloud.google.com/iam/docs/service-account-overview"
+    },
+    {
+      "id": "fund-018",
+      "curso": "infraestructura-conceptos-basicos",
+      "servicios": ["cloud-sql"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.2-data-products"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which Google Cloud service provides fully managed MySQL, PostgreSQL, and SQL Server databases?",
+        "es": "¿Qué servicio de Google Cloud ofrece bases de datos administradas de MySQL, PostgreSQL y SQL Server?"
+      },
+      "opciones": [
+        { "en": "Cloud SQL", "es": "Cloud SQL" },
+        { "en": "Bigtable", "es": "Bigtable" },
+        { "en": "Firestore", "es": "Firestore" },
+        { "en": "BigQuery", "es": "BigQuery" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Cloud SQL is the managed service for the MySQL, PostgreSQL, and SQL Server engines, handling backups, patches, and replication. Bigtable is a wide-column NoSQL database, Firestore is a serverless document NoSQL database, and BigQuery is an analytics data warehouse, none of which run those relational engines.",
+        "es": "Cloud SQL es el servicio administrado para los motores MySQL, PostgreSQL y SQL Server, y se encarga de copias de seguridad, parches y replicación. Bigtable es una base NoSQL de columnas anchas, Firestore es una base NoSQL de documentos serverless y BigQuery es un almacén de datos analítico; ninguno ejecuta esos motores relacionales."
+      },
+      "doc": "https://cloud.google.com/sql/docs/introduction"
+    },
+    {
+      "id": "fund-019",
+      "curso": "infraestructura-conceptos-basicos",
+      "servicios": ["gke"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.1-compute-choices"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "At a high level, what does Google Kubernetes Engine (GKE) provide?",
+        "es": "A alto nivel, ¿qué proporciona Google Kubernetes Engine (GKE)?"
+      },
+      "opciones": [
+        { "en": "A managed Kubernetes environment to deploy, scale, and operate containerized applications", "es": "Un entorno administrado de Kubernetes para implementar, escalar y operar aplicaciones en contenedores" },
+        { "en": "A managed relational database with automatic failover", "es": "Una base de datos relacional administrada con conmutación por error automática" },
+        { "en": "A tool to migrate physical servers to the cloud", "es": "Una herramienta para migrar servidores físicos a la nube" },
+        { "en": "A content delivery network for static assets", "es": "Una red de distribución de contenido para recursos estáticos" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "GKE runs the Kubernetes control plane for you and orchestrates containers across nodes, with Autopilot mode also managing the nodes. B describes Cloud SQL, C describes Migrate to Virtual Machines, and D describes Cloud CDN.",
+        "es": "GKE ejecuta el plano de control de Kubernetes por ti y orquesta contenedores entre nodos; el modo Autopilot además administra los nodos. B describe Cloud SQL, C describe Migrate to Virtual Machines y D describe Cloud CDN."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/kubernetes-engine-overview"
+    },
+    {
+      "id": "fund-020",
+      "curso": "infraestructura-conceptos-basicos",
+      "servicios": ["bigquery"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.2-data-products"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is BigQuery?",
+        "es": "¿Qué es BigQuery?"
+      },
+      "opciones": [
+        { "en": "A serverless data warehouse for analyzing large datasets with SQL", "es": "Un almacén de datos serverless para analizar grandes conjuntos de datos con SQL" },
+        { "en": "A transactional database optimized for shopping-cart workloads", "es": "Una base de datos transaccional optimizada para cargas de carrito de compras" },
+        { "en": "A message queue for decoupling microservices", "es": "Una cola de mensajes para desacoplar microservicios" },
+        { "en": "A block storage service for virtual machines", "es": "Un servicio de almacenamiento en bloques para máquinas virtuales" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "BigQuery is Google Cloud's serverless, highly scalable data warehouse for OLAP-style SQL analytics; you pay for storage and queries without managing infrastructure. B describes an OLTP use case better served by Cloud SQL or Spanner, C describes Pub/Sub, and D describes Persistent Disk or Hyperdisk.",
+        "es": "BigQuery es el almacén de datos serverless y altamente escalable de Google Cloud para análisis SQL de tipo OLAP; pagas por almacenamiento y consultas sin administrar infraestructura. B describe un caso OLTP que se resuelve mejor con Cloud SQL o Spanner, C describe Pub/Sub y D describe Persistent Disk o Hyperdisk."
+      },
+      "doc": "https://cloud.google.com/bigquery/docs/introduction"
+    },
+    {
+      "id": "fund-021",
+      "curso": "infraestructura-conceptos-basicos",
+      "servicios": ["cloud-run", "cloud-run-functions"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.1-compute-choices"],
+      "nivel": "principiante",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO Google Cloud compute options are serverless and can scale down to zero when there is no traffic?",
+        "es": "¿Cuáles DOS opciones de cómputo de Google Cloud son serverless y pueden escalar a cero cuando no hay tráfico?"
+      },
+      "opciones": [
+        { "en": "Cloud Run", "es": "Cloud Run" },
+        { "en": "Cloud Run functions", "es": "Cloud Run functions" },
+        { "en": "Compute Engine", "es": "Compute Engine" },
+        { "en": "GKE Standard", "es": "GKE Standard" }
+      ],
+      "respuesta": ["A", "B"],
+      "explicacion": {
+        "en": "Cloud Run (containers) and Cloud Run functions (event-driven functions) are serverless: Google manages the infrastructure and instances scale to zero when idle. Compute Engine VMs keep billing while running and never scale to zero by themselves, and GKE Standard requires you to manage node pools that keep running even without workload traffic.",
+        "es": "Cloud Run (contenedores) y Cloud Run functions (funciones controladas por eventos) son serverless: Google administra la infraestructura y las instancias escalan a cero cuando están inactivas. Las VMs de Compute Engine siguen facturando mientras corren y no escalan a cero por sí solas, y GKE Standard requiere administrar node pools que siguen ejecutándose aunque no haya tráfico."
+      },
+      "doc": "https://cloud.google.com/run/docs/overview/what-is-cloud-run"
+    },
+    {
+      "id": "fund-022",
+      "curso": "infraestructura-conceptos-basicos",
+      "servicios": ["billing", "bigquery"],
+      "seccion_blueprint": 1,
+      "subtopicos": ["1.2-billing-exports"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "To which destination can Cloud Billing automatically export detailed usage and cost data?",
+        "es": "¿A qué destino puede exportar automáticamente Cloud Billing los datos detallados de uso y costos?"
+      },
+      "opciones": [
+        { "en": "A BigQuery dataset", "es": "Un conjunto de datos de BigQuery" },
+        { "en": "A Cloud SQL database", "es": "Una base de datos de Cloud SQL" },
+        { "en": "A Google Sheets spreadsheet", "es": "Una hoja de cálculo de Google Sheets" },
+        { "en": "A Firestore collection", "es": "Una colección de Firestore" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Cloud Billing export writes usage, cost, and pricing data automatically to a BigQuery dataset you choose, where you can analyze it with SQL. Cloud SQL, Google Sheets, and Firestore are not supported destinations for the automatic billing export; you would have to move data there yourself.",
+        "es": "La exportación de Cloud Billing escribe automáticamente datos de uso, costos y precios en un conjunto de datos de BigQuery que tú eliges, donde puedes analizarlos con SQL. Cloud SQL, Google Sheets y Firestore no son destinos compatibles con la exportación automática de facturación; tendrías que mover los datos por tu cuenta."
+      },
+      "doc": "https://cloud.google.com/billing/docs/how-to/export-data-bigquery"
+    },
+    {
+      "id": "fund-023",
+      "curso": "infraestructura-conceptos-basicos",
+      "servicios": ["resource-manager"],
+      "seccion_blueprint": 1,
+      "subtopicos": ["1.1-resource-hierarchy"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your security team wants to prevent anyone in the company from creating VMs with external IP addresses, in every current and future project. What should you use?",
+        "es": "Tu equipo de seguridad quiere impedir que cualquier persona de la empresa cree VMs con direcciones IP externas, en todos los proyectos actuales y futuros. ¿Qué deberías usar?"
+      },
+      "opciones": [
+        { "en": "An organization policy constraint (compute.vmExternalIpAccess) applied at the organization node", "es": "Una restricción de política de la organización (compute.vmExternalIpAccess) aplicada en el nodo de la organización" },
+        { "en": "A VPC firewall rule denying all ingress in each project", "es": "Una regla de firewall de VPC que deniegue toda la entrada en cada proyecto" },
+        { "en": "Removing the Editor role from all users", "es": "Quitar el rol Editor a todos los usuarios" },
+        { "en": "A budget alert on the billing account", "es": "Una alerta de presupuesto en la cuenta de facturación" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Organization policies constrain WHAT configurations are allowed regardless of who requests them, and setting the constraint at the organization node makes it inherited by all current and future projects. B controls network traffic but does not prevent assigning external IPs. C removes broad permissions but users with other roles could still create such VMs, and it does not target the configuration itself. D only alerts about spend and enforces nothing.",
+        "es": "Las políticas de la organización restringen QUÉ configuraciones están permitidas sin importar quién las solicite, y establecer la restricción en el nodo de la organización hace que todos los proyectos actuales y futuros la hereden. B controla el tráfico de red pero no impide asignar IPs externas. C quita permisos amplios pero usuarios con otros roles aún podrían crear esas VMs, y no apunta a la configuración en sí. D solo alerta sobre gastos y no impone nada."
+      },
+      "doc": "https://cloud.google.com/resource-manager/docs/organization-policy/overview"
+    },
+    {
+      "id": "fund-024",
+      "curso": "infraestructura-conceptos-basicos",
+      "servicios": ["quotas-apis", "gcloud-cli"],
+      "seccion_blueprint": 1,
+      "subtopicos": ["1.1-apis-quotas"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which command enables the Compute Engine API in your current project?",
+        "es": "¿Qué comando habilita la API de Compute Engine en tu proyecto actual?"
+      },
+      "opciones": [
+        { "en": "gcloud services enable compute.googleapis.com", "es": "gcloud services enable compute.googleapis.com" },
+        { "en": "gcloud apis enable compute.googleapis.com", "es": "gcloud apis enable compute.googleapis.com" },
+        { "en": "gcloud compute enable-api", "es": "gcloud compute enable-api" },
+        { "en": "gcloud projects enable compute.googleapis.com", "es": "gcloud projects enable compute.googleapis.com" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "The gcloud services command group manages API enablement, so gcloud services enable with the service name is correct. There is no 'gcloud apis' group (B), 'gcloud compute enable-api' does not exist (C), and 'gcloud projects' manages projects and IAM policies, not API enablement (D).",
+        "es": "El grupo de comandos gcloud services administra la habilitación de APIs, por lo que gcloud services enable con el nombre del servicio es correcto. No existe el grupo 'gcloud apis' (B), 'gcloud compute enable-api' no existe (C) y 'gcloud projects' administra proyectos y políticas de IAM, no la habilitación de APIs (D)."
+      },
+      "doc": "https://cloud.google.com/service-usage/docs/enable-disable"
+    },
+    {
+      "id": "fund-025",
+      "curso": "infraestructura-conceptos-basicos",
+      "servicios": ["iam", "gcloud-cli"],
+      "seccion_blueprint": 1,
+      "subtopicos": ["1.1-iam-project-roles"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which command grants the role roles/compute.viewer to the user ana@example.com on the project my-proj?",
+        "es": "¿Qué comando otorga el rol roles/compute.viewer a la usuaria ana@example.com en el proyecto my-proj?"
+      },
+      "opciones": [
+        { "en": "gcloud projects add-iam-policy-binding my-proj --member=user:ana@example.com --role=roles/compute.viewer", "es": "gcloud projects add-iam-policy-binding my-proj --member=user:ana@example.com --role=roles/compute.viewer" },
+        { "en": "gcloud iam roles add-user my-proj ana@example.com roles/compute.viewer", "es": "gcloud iam roles add-user my-proj ana@example.com roles/compute.viewer" },
+        { "en": "gcloud projects set-iam-policy my-proj ana@example.com", "es": "gcloud projects set-iam-policy my-proj ana@example.com" },
+        { "en": "gcloud iam service-accounts add-iam-policy-binding ana@example.com --role=roles/compute.viewer", "es": "gcloud iam service-accounts add-iam-policy-binding ana@example.com --role=roles/compute.viewer" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "add-iam-policy-binding adds a single member-role binding to the project's IAM policy, which is the recommended way to grant one role. B is not a real command ('gcloud iam roles' manages role definitions, not grants). C exists but expects a full policy JSON file and replaces the entire policy, so it is both misused here and risky for a single grant. D manages the IAM policy of a service account resource, not project access for a user.",
+        "es": "add-iam-policy-binding agrega una única vinculación miembro-rol a la política de IAM del proyecto, que es la forma recomendada de otorgar un rol. B no es un comando real ('gcloud iam roles' administra definiciones de roles, no otorgamientos). C existe pero espera un archivo JSON con la política completa y reemplaza toda la política, así que está mal usado aquí y es riesgoso para un solo otorgamiento. D administra la política de IAM de una cuenta de servicio como recurso, no el acceso de una usuaria al proyecto."
+      },
+      "doc": "https://cloud.google.com/iam/docs/granting-changing-revoking-access"
+    },
+    {
+      "id": "fund-026",
+      "curso": "infraestructura-conceptos-basicos",
+      "servicios": ["cloud-identity", "iam"],
+      "seccion_blueprint": 1,
+      "subtopicos": ["1.1-cloud-identity", "1.1-iam-project-roles"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Fifteen developers need the same access to a project. Following Google's recommended practices, how should you grant it?",
+        "es": "Quince desarrolladores necesitan el mismo acceso a un proyecto. Siguiendo las prácticas recomendadas de Google, ¿cómo deberías otorgarlo?"
+      },
+      "opciones": [
+        { "en": "Create a Google group in Cloud Identity, add the developers, and grant the role to the group", "es": "Crear un grupo de Google en Cloud Identity, agregar a los desarrolladores y otorgar el rol al grupo" },
+        { "en": "Add fifteen individual role bindings, one per developer", "es": "Agregar quince vinculaciones de rol individuales, una por desarrollador" },
+        { "en": "Create one shared user account that all developers use", "es": "Crear una cuenta de usuario compartida que usen todos los desarrolladores" },
+        { "en": "Grant each developer the Owner basic role to avoid future requests", "es": "Otorgar a cada desarrollador el rol básico Owner para evitar solicitudes futuras" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Granting roles to groups centralizes access management: onboarding and offboarding become group membership changes, with no policy edits. B works but does not scale and makes auditing and offboarding error-prone. C destroys individual accountability in audit logs and violates security best practices. D grossly over-privileges everyone, violating least privilege.",
+        "es": "Otorgar roles a grupos centraliza la administración de accesos: las altas y bajas se vuelven cambios de membresía del grupo, sin editar políticas. B funciona pero no escala y hace que la auditoría y las bajas sean propensas a errores. C destruye la responsabilidad individual en los registros de auditoría y viola las buenas prácticas de seguridad. D sobreprivilegia gravemente a todos y viola el mínimo privilegio."
+      },
+      "doc": "https://cloud.google.com/iam/docs/using-iam-securely"
+    },
+    {
+      "id": "fund-027",
+      "curso": "infraestructura-conceptos-basicos",
+      "servicios": ["iam", "gcloud-cli"],
+      "seccion_blueprint": 4,
+      "subtopicos": ["4.1-iam-policies"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which command shows the IAM policy (role bindings) set directly on the project my-proj?",
+        "es": "¿Qué comando muestra la política de IAM (vinculaciones de roles) establecida directamente en el proyecto my-proj?"
+      },
+      "opciones": [
+        { "en": "gcloud projects get-iam-policy my-proj", "es": "gcloud projects get-iam-policy my-proj" },
+        { "en": "gcloud iam list-roles my-proj", "es": "gcloud iam list-roles my-proj" },
+        { "en": "gcloud projects describe my-proj --show-policy", "es": "gcloud projects describe my-proj --show-policy" },
+        { "en": "gcloud iam policies list --project=my-proj", "es": "gcloud iam policies list --project=my-proj" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "gcloud projects get-iam-policy prints the allow policy with all bindings set on the project. B is not a valid command (gcloud iam roles list exists, but lists role definitions, not who has access). C: describe shows project metadata and has no --show-policy flag. D: 'gcloud iam policies' manages deny policies, not the project's allow policy bindings.",
+        "es": "gcloud projects get-iam-policy imprime la política de permisos con todas las vinculaciones establecidas en el proyecto. B no es un comando válido (existe gcloud iam roles list, pero lista definiciones de roles, no quién tiene acceso). C: describe muestra metadatos del proyecto y no tiene la marca --show-policy. D: 'gcloud iam policies' administra políticas de denegación, no las vinculaciones de la política de permisos del proyecto."
+      },
+      "doc": "https://cloud.google.com/iam/docs/granting-changing-revoking-access"
+    },
+    {
+      "id": "fund-028",
+      "curso": "infraestructura-conceptos-basicos",
+      "servicios": ["iam", "resource-manager"],
+      "seccion_blueprint": 4,
+      "subtopicos": ["4.1-policy-inheritance"],
+      "nivel": "intermedio",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO statements about IAM policy inheritance are true?",
+        "es": "¿Cuáles DOS afirmaciones sobre la herencia de políticas de IAM son verdaderas?"
+      },
+      "opciones": [
+        { "en": "The effective policy of a resource is the union of its own policy and the policies of its ancestors", "es": "La política efectiva de un recurso es la unión de su propia política y las políticas de sus ancestros" },
+        { "en": "A role granted at the organization level applies to every folder, project, and resource below it", "es": "Un rol otorgado a nivel de organización aplica a todas las carpetas, proyectos y recursos debajo de ella" },
+        { "en": "A project administrator can remove a binding that was granted at the folder level", "es": "Un administrador de proyecto puede quitar una vinculación que fue otorgada a nivel de carpeta" },
+        { "en": "Inheritance can be disabled per project in the IAM settings", "es": "La herencia puede desactivarse por proyecto en la configuración de IAM" }
+      ],
+      "respuesta": ["A", "B"],
+      "explicacion": {
+        "en": "A and B describe how inheritance works: policies accumulate down the hierarchy, so the effective policy is the union of the resource's policy and all ancestor policies, and org-level grants reach everything below. C is false: an inherited binding can only be removed where it was granted (the folder), not from the child project. D is false: IAM allow policy inheritance cannot be turned off.",
+        "es": "A y B describen cómo funciona la herencia: las políticas se acumulan hacia abajo en la jerarquía, por lo que la política efectiva es la unión de la política del recurso y las de todos sus ancestros, y los otorgamientos a nivel de organización alcanzan todo lo que está debajo. C es falsa: una vinculación heredada solo puede quitarse donde fue otorgada (la carpeta), no desde el proyecto hijo. D es falsa: la herencia de políticas de permisos de IAM no puede desactivarse."
+      },
+      "doc": "https://cloud.google.com/iam/docs/resource-hierarchy-access-control"
+    },
+    {
+      "id": "fund-029",
+      "curso": "infraestructura-conceptos-basicos",
+      "servicios": ["iam", "gcloud-cli"],
+      "seccion_blueprint": 4,
+      "subtopicos": ["4.1-role-types"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which command creates a custom role with specific permissions in the project my-proj?",
+        "es": "¿Qué comando crea un rol personalizado con permisos específicos en el proyecto my-proj?"
+      },
+      "opciones": [
+        { "en": "gcloud iam roles create instanceOperator --project=my-proj --permissions=compute.instances.start,compute.instances.stop", "es": "gcloud iam roles create instanceOperator --project=my-proj --permissions=compute.instances.start,compute.instances.stop" },
+        { "en": "gcloud iam roles add instanceOperator --permissions=compute.instances.start", "es": "gcloud iam roles add instanceOperator --permissions=compute.instances.start" },
+        { "en": "gcloud projects create-role instanceOperator --permissions=compute.instances.start", "es": "gcloud projects create-role instanceOperator --permissions=compute.instances.start" },
+        { "en": "gcloud iam permissions bind instanceOperator compute.instances.start", "es": "gcloud iam permissions bind instanceOperator compute.instances.start" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "gcloud iam roles create with --project and --permissions defines a project-level custom role containing exactly the listed permissions (use --organization for org-level roles). B, C, and D are not real commands: there is no 'roles add', no 'projects create-role', and no 'iam permissions' command group.",
+        "es": "gcloud iam roles create con --project y --permissions define un rol personalizado a nivel de proyecto que contiene exactamente los permisos listados (usa --organization para roles a nivel de organización). B, C y D no son comandos reales: no existe 'roles add', ni 'projects create-role', ni el grupo de comandos 'iam permissions'."
+      },
+      "doc": "https://cloud.google.com/iam/docs/creating-custom-roles"
+    },
+    {
+      "id": "fund-030",
+      "curso": "infraestructura-conceptos-basicos",
+      "servicios": ["billing", "gcloud-cli"],
+      "seccion_blueprint": 1,
+      "subtopicos": ["1.2-billing-accounts"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which command links the project my-proj to the billing account 0X0X0X-0X0X0X-0X0X0X?",
+        "es": "¿Qué comando vincula el proyecto my-proj a la cuenta de facturación 0X0X0X-0X0X0X-0X0X0X?"
+      },
+      "opciones": [
+        { "en": "gcloud billing projects link my-proj --billing-account=0X0X0X-0X0X0X-0X0X0X", "es": "gcloud billing projects link my-proj --billing-account=0X0X0X-0X0X0X-0X0X0X" },
+        { "en": "gcloud projects link-billing my-proj 0X0X0X-0X0X0X-0X0X0X", "es": "gcloud projects link-billing my-proj 0X0X0X-0X0X0X-0X0X0X" },
+        { "en": "gcloud billing accounts attach 0X0X0X-0X0X0X-0X0X0X --project=my-proj", "es": "gcloud billing accounts attach 0X0X0X-0X0X0X-0X0X0X --project=my-proj" },
+        { "en": "gcloud billing link --account=0X0X0X-0X0X0X-0X0X0X", "es": "gcloud billing link --account=0X0X0X-0X0X0X-0X0X0X" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "gcloud billing projects link associates a project with a billing account so its usage is charged there. B, C, and D use command paths that do not exist: there is no 'projects link-billing', no 'billing accounts attach', and no bare 'billing link' command.",
+        "es": "gcloud billing projects link asocia un proyecto con una cuenta de facturación para que su uso se cobre allí. B, C y D usan rutas de comandos que no existen: no hay 'projects link-billing', ni 'billing accounts attach', ni un comando 'billing link' a secas."
+      },
+      "doc": "https://cloud.google.com/billing/docs/how-to/modify-project"
+    },
+    {
+      "id": "fund-031",
+      "curso": "infraestructura-conceptos-basicos",
+      "servicios": ["billing", "pubsub"],
+      "seccion_blueprint": 1,
+      "subtopicos": ["1.2-budgets-alerts"],
+      "nivel": "intermedio",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO statements about Cloud Billing budgets are true?",
+        "es": "¿Cuáles DOS afirmaciones sobre los presupuestos de facturación de Cloud son verdaderas?"
+      },
+      "opciones": [
+        { "en": "You can define multiple alert thresholds (for example 50%, 90%, 100%) based on actual or forecasted spend", "es": "Puedes definir varios umbrales de alerta (por ejemplo 50%, 90%, 100%) basados en el gasto real o previsto" },
+        { "en": "You can publish budget notifications to a Pub/Sub topic to trigger programmatic responses", "es": "Puedes publicar las notificaciones del presupuesto en un tema de Pub/Sub para activar respuestas programáticas" },
+        { "en": "A budget automatically stops all resources when spend reaches 100%", "es": "Un presupuesto detiene automáticamente todos los recursos cuando el gasto llega al 100%" },
+        { "en": "A budget can only track the entire billing account, never individual projects or services", "es": "Un presupuesto solo puede rastrear la cuenta de facturación completa, nunca proyectos o servicios individuales" }
+      ],
+      "respuesta": ["A", "B"],
+      "explicacion": {
+        "en": "Budgets support multiple thresholds on actual or forecasted spend (A) and can send notifications to Pub/Sub for automation (B). C is false: budgets only notify, they never stop resources by themselves. D is false: a budget's scope can be filtered to specific projects, services, or labels within the billing account.",
+        "es": "Los presupuestos admiten varios umbrales sobre gasto real o previsto (A) y pueden enviar notificaciones a Pub/Sub para automatizar (B). C es falsa: los presupuestos solo notifican, nunca detienen recursos por sí solos. D es falsa: el alcance de un presupuesto puede filtrarse a proyectos, servicios o etiquetas específicos dentro de la cuenta de facturación."
+      },
+      "doc": "https://cloud.google.com/billing/docs/how-to/budgets"
+    },
+    {
+      "id": "fund-032",
+      "curso": "infraestructura-conceptos-basicos",
+      "servicios": ["billing", "bigquery"],
+      "seccion_blueprint": 1,
+      "subtopicos": ["1.2-billing-exports"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "How do you make your Cloud Billing cost data available for SQL analysis?",
+        "es": "¿Cómo haces que los datos de costos de Cloud Billing estén disponibles para análisis con SQL?"
+      },
+      "opciones": [
+        { "en": "Enable Cloud Billing export to a BigQuery dataset; data flows from the moment you enable it (it is not retroactive)", "es": "Habilitar la exportación de Cloud Billing a un conjunto de datos de BigQuery; los datos fluyen desde el momento en que la habilitas (no es retroactiva)" },
+        { "en": "Nothing; billing data is exported to BigQuery by default in every project", "es": "Nada; los datos de facturación se exportan a BigQuery por defecto en todos los proyectos" },
+        { "en": "Enable the export to Cloud SQL from the billing console", "es": "Habilitar la exportación a Cloud SQL desde la consola de facturación" },
+        { "en": "Wait for BigQuery to automatically discover the billing data in your organization", "es": "Esperar a que BigQuery descubra automáticamente los datos de facturación de tu organización" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "You must explicitly configure the export in the billing account settings, choosing a project and BigQuery dataset; only data generated after enablement is exported, so Google recommends enabling it early. B is false because the export is opt-in. C is false since Cloud SQL is not a supported destination. D is false: BigQuery never discovers billing data on its own.",
+        "es": "Debes configurar explícitamente la exportación en la configuración de la cuenta de facturación, eligiendo un proyecto y un conjunto de datos de BigQuery; solo se exportan los datos generados después de habilitarla, por eso Google recomienda habilitarla temprano. B es falsa porque la exportación es opcional y se activa manualmente. C es falsa ya que Cloud SQL no es un destino compatible. D es falsa: BigQuery nunca descubre datos de facturación por sí solo."
+      },
+      "doc": "https://cloud.google.com/billing/docs/how-to/export-data-bigquery-setup"
+    },
+    {
+      "id": "fund-033",
+      "curso": "infraestructura-conceptos-basicos",
+      "servicios": ["compute-engine"],
+      "seccion_blueprint": 1,
+      "subtopicos": ["1.1-networking-availability"],
+      "nivel": "intermedio",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO statements about regions and zones are true?",
+        "es": "¿Cuáles DOS afirmaciones sobre regiones y zonas son verdaderas?"
+      },
+      "opciones": [
+        { "en": "A zone is an isolated deployment area within a region, with independent failure characteristics", "es": "Una zona es un área de implementación aislada dentro de una región, con características de falla independientes" },
+        { "en": "Deploying VMs across multiple zones in a region protects against a single-zone failure", "es": "Implementar VMs en varias zonas de una región protege contra la falla de una sola zona" },
+        { "en": "Every region has exactly two zones", "es": "Toda región tiene exactamente dos zonas" },
+        { "en": "All zones in a region share a single point of failure by design", "es": "Todas las zonas de una región comparten un único punto de falla por diseño" }
+      ],
+      "respuesta": ["A", "B"],
+      "explicacion": {
+        "en": "Zones are isolated failure domains within a region (A), which is exactly why spreading VMs across zones survives a zone outage (B). C is false: most regions have three or more zones, and the number varies. D contradicts the design goal: zones are engineered to have independent failure domains, not a shared single point of failure.",
+        "es": "Las zonas son dominios de falla aislados dentro de una región (A), y precisamente por eso distribuir VMs entre zonas permite sobrevivir a la caída de una zona (B). C es falsa: la mayoría de las regiones tiene tres o más zonas, y el número varía. D contradice el objetivo de diseño: las zonas se diseñan con dominios de falla independientes, no con un punto único de falla compartido."
+      },
+      "doc": "https://cloud.google.com/compute/docs/regions-zones"
+    }
+  ]
+}
