@@ -1,0 +1,19 @@
+# Herramientas de asistencia de desarrollo — locales, no se publican
+AGENTS.md
+GEMINI.md
+.cursor/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+
+# Base de datos local con el historial de estudio
+*.db
+
+# Build de Reflex
+.web/
+.states/
+
+# Sistema
+.DS_Store
