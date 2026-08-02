@@ -109,25 +109,12 @@ quiz-app/
 recursos/               official exam guides, coverage analysis, study plan
 ```
 
-## Design
-
-The interface follows **Material 3 on Google's own brand palette** — deliberately
-close to the tools you're studying, so there's no translation step between
-learning the platform and practising for the exam.
-
-One rule shapes most of it: **colour means mastery, never decoration.** Green,
-amber and red mean mastered / in progress / weak, everywhere in the app. Blue
-
-The interface uses **Roboto** ([Apache License 2.0][roboto]), self-hosted so the
-app works offline. It deliberately avoids Google Sans and any Google logotype.
-
-[roboto]: https://fonts.google.com/specimen/Roboto
-
 ## License
 
 **Not yet decided.** Until a license file is added, default copyright applies and
 no reuse rights are granted.
 
 The bundled Roboto font files are a separate matter: they are distributed under
-the Apache License 2.0, as documented in
+the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0), as
+documented in
 [`quiz-app/assets/fonts/README.md`](quiz-app/assets/fonts/README.md).

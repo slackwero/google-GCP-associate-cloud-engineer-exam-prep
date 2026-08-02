@@ -111,26 +111,11 @@ quiz-app/
 recursos/               guías oficiales del examen, análisis de cobertura, plan de estudio
 ```
 
-## Diseño
-
-La interfaz sigue **Material 3 sobre la paleta de marca de Google** —
-deliberadamente cercana a las herramientas que estás estudiando, para que no haya
-un paso de traducción entre aprender la plataforma y practicar para el examen.
-
-Una regla explica casi todo: **el color significa dominio, nunca decora.** Verde,
-ámbar y rojo significan dominado / en progreso / débil en toda la app. El azul
-
-La interfaz usa **Roboto** ([Apache License 2.0][roboto]), alojada en el propio
-repositorio para que la app funcione sin conexión. Evita deliberadamente Google
-Sans y cualquier logotipo de Google.
-
-[roboto]: https://fonts.google.com/specimen/Roboto
-
 ## Licencia
 
 **Aún sin decidir.** Mientras no exista un archivo de licencia, aplica el
 copyright por defecto y no se conceden derechos de reutilización.
 
 Los archivos de la fuente Roboto son un caso aparte: se distribuyen bajo la
-Apache License 2.0, como documenta
+[Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0), como documenta
 [`quiz-app/assets/fonts/README.md`](quiz-app/assets/fonts/README.md).
