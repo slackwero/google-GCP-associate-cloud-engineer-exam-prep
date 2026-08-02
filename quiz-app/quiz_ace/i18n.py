@@ -90,6 +90,7 @@ TEXTOS: dict[str, dict[str, str]] = {
     "cobertura": {"en": "Bank coverage", "es": "Cobertura del banco"},
     "enfoque_recomendado": {"en": "Recommended focus", "es": "Enfoque recomendado"},
     "sin_practicar": {"en": "Not practiced", "es": "Sin practicar"},
+    "refuerzo_blueprint": {"en": "Blueprint reinforcement", "es": "Refuerzo del blueprint"},
     "fuerte": {"en": "Strong", "es": "Fuerte"},
     "medio": {"en": "Medium", "es": "Medio"},
     "debil": {"en": "Weak", "es": "Débil"},

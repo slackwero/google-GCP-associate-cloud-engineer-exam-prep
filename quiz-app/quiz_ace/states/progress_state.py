@@ -12,6 +12,9 @@ PESOS_SECCION = {s["numero"]: s["peso"] for s in CATALOGOS.secciones}
 
 
 def _nombre(catalogo: dict, clave: str) -> dict:
+    # Las preguntas de refuerzo no pertenecen a ningún curso del path.
+    if clave == "":
+        return {"en": "Blueprint reinforcement", "es": "Refuerzo del blueprint"}
     entrada = catalogo.get(clave)
     return entrada["nombre"] if entrada else {"en": str(clave), "es": str(clave)}
 
