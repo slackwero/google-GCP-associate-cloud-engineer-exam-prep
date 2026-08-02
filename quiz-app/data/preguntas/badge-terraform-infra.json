@@ -2107,6 +2107,359 @@
         "es": "Con count, la identidad de un recurso es su índice numérico, así que borrar un elemento desplaza a todos los siguientes y Terraform interpreta los renombres como reemplazos. for_each identifica las instancias con una clave significativa, de modo que solo se destruye la clave quitada. B es una convención imposible de hacer cumplir y además deja recursos muertos. C convertiría el mismo plan en un error duro en vez de resolver el problema de direccionamiento. D oculta el diff, pero el desplazamiento de índices subyacente, y la pérdida de datos que provoca, siguen ahí."
       },
       "doc": "https://cloud.google.com/storage/docs/creating-buckets"
+    },
+    {
+      "id": "tfi-049",
+      "curso": "badge-terraform-infra",
+      "servicios": [
+        "terraform-iac",
+        "service-accounts",
+        "identity-federation"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.2-sa-creation"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your CI system runs terraform apply against production and currently authenticates with a downloaded service account key stored as a pipeline secret. Security wants the key gone. What is the BEST option?",
+        "es": "Tu sistema de CI ejecuta terraform apply contra producción y hoy se autentica con una clave de cuenta de servicio descargada y guardada como secreto del pipeline. Seguridad quiere eliminar la clave. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        {
+          "en": "Configure Workload Identity Federation so the pipeline exchanges its own identity token for short-lived Google Cloud credentials for the Terraform service account",
+          "es": "Configurar Workload Identity Federation para que el pipeline intercambie su propio token de identidad por credenciales de corta duración de Google Cloud para la cuenta de servicio de Terraform"
+        },
+        {
+          "en": "Rotate the service account key every 30 days with a scheduled job",
+          "es": "Rotar la clave de la cuenta de servicio cada 30 días con un job programado"
+        },
+        {
+          "en": "Encrypt the key file and commit it to the Terraform repository",
+          "es": "Cifrar el archivo de clave y versionarlo en el repositorio de Terraform"
+        },
+        {
+          "en": "Give the pipeline a user account with the Owner basic role instead of a service account",
+          "es": "Dar al pipeline una cuenta de usuario con el rol básico Owner en lugar de una cuenta de servicio"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Workload Identity Federation removes long-lived key material entirely: the external workload proves its identity and receives short-lived tokens, which is Google's recommended pattern for CI. B still leaves a downloadable key that can leak for up to a month. C puts a decryptable secret in source control, where anyone with repository access can eventually reach it. D is worse on two counts: it uses a human identity for automation and grants a basic role far beyond least privilege.",
+        "es": "Workload Identity Federation elimina por completo el material de clave de larga duración: la carga de trabajo externa demuestra su identidad y recibe tokens de corta duración, que es el patrón recomendado por Google para CI. B deja igualmente una clave descargable que puede filtrarse por hasta un mes. C coloca un secreto descifrable en el control de código, donde cualquiera con acceso al repositorio puede llegar a él. D es peor por dos motivos: usa una identidad humana para automatización y otorga un rol básico muy por encima del mínimo privilegio."
+      },
+      "doc": "https://cloud.google.com/iam/docs/workload-identity-federation"
+    },
+    {
+      "id": "tfi-050",
+      "curso": "badge-terraform-infra",
+      "servicios": [
+        "terraform-iac",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-instance-config"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "An instance template feeding a managed instance group must change its boot image. The template is immutable, and the plan shows a destroy then create that would break the group during the gap. What is the BEST option?",
+        "es": "Una plantilla de instancia que alimenta un grupo de instancias administrado debe cambiar su imagen de arranque. La plantilla es inmutable y el plan muestra una destrucción y luego una creación que rompería el grupo durante el intervalo. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        {
+          "en": "Add lifecycle { create_before_destroy = true } to the template and use name_prefix so the new template exists before the old one is removed",
+          "es": "Agregar lifecycle { create_before_destroy = true } a la plantilla y usar name_prefix para que la nueva exista antes de eliminar la anterior"
+        },
+        {
+          "en": "Add prevent_destroy to the template so it is never replaced",
+          "es": "Agregar prevent_destroy a la plantilla para que nunca se reemplace"
+        },
+        {
+          "en": "Add ignore_changes on the boot image so the plan stays empty",
+          "es": "Agregar ignore_changes en la imagen de arranque para que el plan quede vacío"
+        },
+        {
+          "en": "Delete the managed instance group first, then apply the template change",
+          "es": "Borrar primero el grupo de instancias administrado y luego aplicar el cambio de plantilla"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Instance templates cannot be updated in place, so the replacement must be ordered correctly; create_before_destroy builds the new template first and the fixed name is dropped in favor of name_prefix to avoid a name collision between the two. B blocks the required change entirely. C means the new image is never rolled out at all. D deliberately removes the capacity the group is serving, causing a full outage.",
+        "es": "Las plantillas de instancia no se pueden actualizar en el lugar, así que el reemplazo debe ordenarse correctamente; create_before_destroy crea primero la plantilla nueva y el nombre fijo se sustituye por name_prefix para evitar la colisión de nombres entre ambas. B bloquea por completo el cambio requerido. C hace que la imagen nueva nunca se despliegue. D quita a propósito la capacidad que el grupo está sirviendo y provoca una caída total."
+      },
+      "doc": "https://cloud.google.com/compute/docs/instance-templates"
+    },
+    {
+      "id": "tfi-051",
+      "curso": "badge-terraform-infra",
+      "servicios": [
+        "terraform-iac",
+        "gke"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.4-iac-tooling"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A Standard GKE node pool has cluster autoscaling enabled, and node_count is also declared in Terraform. Every nightly plan wants to scale the pool back to the declared number. What is the BEST option?",
+        "es": "Un node pool de GKE Standard tiene habilitado el autoescalado del clúster y además declara node_count en Terraform. Cada plan nocturno quiere devolver el pool al número declarado. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        {
+          "en": "Manage min and max through autoscaling in the configuration and add ignore_changes for node_count, since the autoscaler legitimately owns that value",
+          "es": "Administrar min y max mediante autoscaling en la configuración y agregar ignore_changes para node_count, ya que el escalador automático es el dueño legítimo de ese valor"
+        },
+        {
+          "en": "Disable cluster autoscaling so Terraform is the only thing setting the node count",
+          "es": "Deshabilitar el autoescalado del clúster para que Terraform sea lo único que fija la cantidad de nodos"
+        },
+        {
+          "en": "Update node_count in the configuration every morning to match what the autoscaler chose",
+          "es": "Actualizar node_count en la configuración cada mañana para que coincida con lo que eligió el escalador automático"
+        },
+        {
+          "en": "Run terraform state rm on the node pool so it stops appearing in plans",
+          "es": "Ejecutar terraform state rm sobre el node pool para que deje de aparecer en los planes"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "This is the textbook case for ignore_changes: an attribute deliberately controlled by another system at runtime, while Terraform still owns the policy (the min and max bounds). B removes elasticity and makes the cluster either wasteful or unable to absorb load. C is a manual chase that can never converge, because the autoscaler moves again minutes later. D unmanages the node pool completely, so real configuration changes would also stop being tracked.",
+        "es": "Este es el caso de manual para ignore_changes: un atributo controlado a propósito por otro sistema en tiempo de ejecución, mientras Terraform sigue siendo dueño de la política (los límites min y max). B elimina la elasticidad y deja el clúster sobredimensionado o incapaz de absorber la carga. C es una persecución manual que nunca converge, porque el escalador vuelve a moverse minutos después. D deja el node pool sin administrar por completo, así que los cambios reales de configuración también dejarían de rastrearse."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/cluster-autoscaler"
+    },
+    {
+      "id": "tfi-052",
+      "curso": "badge-terraform-infra",
+      "servicios": [
+        "terraform-iac",
+        "cloud-ngfw",
+        "service-accounts"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-firewall-ngfw"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A reusable firewall module currently allows tcp:22 from 0.0.0.0/0 to every VM in the VPC. You must keep administrative access working while tightening the rule. What is the BEST option?",
+        "es": "Un módulo de firewall reutilizable permite hoy tcp:22 desde 0.0.0.0/0 hacia todas las VMs de la VPC. Debes conservar el acceso administrativo y a la vez endurecer la regla. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        {
+          "en": "Scope the rule to the IAP TCP forwarding range for SSH and target only VMs identified by a specific service account or tag",
+          "es": "Acotar la regla al rango de reenvío TCP de IAP para SSH y apuntar solo a las VMs identificadas por una cuenta de servicio o etiqueta específica"
+        },
+        {
+          "en": "Raise the rule's priority number so it is evaluated later",
+          "es": "Aumentar el número de prioridad de la regla para que se evalúe más tarde"
+        },
+        {
+          "en": "Delete the rule and rely on the implied allow ingress rule for internal traffic",
+          "es": "Borrar la regla y confiar en la regla implícita de permiso de ingreso para el tráfico interno"
+        },
+        {
+          "en": "Replace source_ranges with the public IP of each engineer's home connection",
+          "es": "Reemplazar source_ranges con la IP pública de la conexión doméstica de cada ingeniero"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Narrowing both the source and the target is what actually reduces exposure: SSH arrives through IAP's documented forwarding range and lands only on the VMs that carry the chosen identity or tag, so no VM keeps a path open to the whole internet. B changes evaluation order but leaves the same wide-open permission in place. C is based on a false premise, since the implied rule for ingress is deny, so this would cut off all access. D breaks whenever a residential IP changes and does not narrow the target set at all.",
+        "es": "Acotar tanto el origen como el destino es lo que realmente reduce la exposición: el SSH llega por el rango de reenvío documentado de IAP y solo alcanza las VMs que llevan la identidad o etiqueta elegida, de modo que ninguna VM conserva una ruta abierta a todo internet. B cambia el orden de evaluación pero deja intacto el mismo permiso abierto. C parte de una premisa falsa, ya que la regla implícita de ingreso es de denegación, así que esto cortaría todo el acceso. D se rompe cada vez que cambia una IP residencial y no acota en absoluto el conjunto de destinos."
+      },
+      "doc": "https://cloud.google.com/iap/docs/using-tcp-forwarding"
+    },
+    {
+      "id": "tfi-053",
+      "curso": "badge-terraform-infra",
+      "servicios": [
+        "terraform-iac",
+        "cloud-storage"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-gcs-management"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "An interrupted apply left the remote state object truncated, and the team cannot plan. Which prior configuration of the state bucket would have made recovery straightforward?",
+        "es": "Un apply interrumpido dejó truncado el objeto de estado remoto y el equipo no puede hacer plan. ¿Qué configuración previa del bucket de estado habría hecho sencilla la recuperación?"
+      },
+      "opciones": [
+        {
+          "en": "Object versioning enabled on the state bucket, so the previous generation can be restored",
+          "es": "Versiones de objetos habilitadas en el bucket de estado, para poder restaurar la generación anterior"
+        },
+        {
+          "en": "A lifecycle rule that deletes objects older than 7 days to keep the bucket small",
+          "es": "Una regla de ciclo de vida que borra objetos con más de 7 días para mantener el bucket pequeño"
+        },
+        {
+          "en": "The Archive storage class on the state bucket to reduce cost",
+          "es": "La clase de almacenamiento Archive en el bucket de estado para reducir el costo"
+        },
+        {
+          "en": "Public read access so any engineer can download the state quickly",
+          "es": "Acceso público de lectura para que cualquier ingeniero descargue el estado rápidamente"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Object versioning keeps every previous generation of the state object, so a corrupt or truncated write is fixed by restoring the last good generation; it is the standard recommendation for Terraform state buckets. B would delete exactly the history you need for recovery. C adds retrieval cost and minimum storage duration to an object written on every apply, and does nothing for corruption. D exposes secrets contained in state to the internet and still provides no earlier copy.",
+        "es": "Las versiones de objetos conservan cada generación previa del objeto de estado, así que una escritura corrupta o truncada se corrige restaurando la última generación válida; es la recomendación estándar para buckets de estado de Terraform. B borraría justamente el historial que necesitas para recuperarte. C agrega costo de recuperación y duración mínima de almacenamiento a un objeto que se escribe en cada apply, y no ayuda ante la corrupción. D expone a internet los secretos contenidos en el estado y aun así no aporta ninguna copia anterior."
+      },
+      "doc": "https://cloud.google.com/storage/docs/object-versioning"
+    },
+    {
+      "id": "tfi-054",
+      "curso": "badge-terraform-infra",
+      "servicios": [
+        "terraform-iac"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.4-iac-tooling"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Two engineers start terraform apply on the same gcs-backed configuration at the same second. What happens, and what should the second engineer do?",
+        "es": "Dos ingenieros inician terraform apply sobre la misma configuración con backend gcs en el mismo segundo. ¿Qué ocurre y qué debe hacer el segundo ingeniero?"
+      },
+      "opciones": [
+        {
+          "en": "The backend grants the lock to one run; the other fails with a state lock error and should wait for the first apply to finish and then re-plan",
+          "es": "El backend otorga el bloqueo a una ejecución; la otra falla con un error de bloqueo de estado y debe esperar a que termine el primer apply y luego volver a planificar"
+        },
+        {
+          "en": "Both applies proceed and Terraform merges the resulting states automatically",
+          "es": "Ambos applies continúan y Terraform fusiona los estados resultantes automáticamente"
+        },
+        {
+          "en": "The second engineer should immediately run terraform force-unlock and continue",
+          "es": "El segundo ingeniero debe ejecutar de inmediato terraform force-unlock y continuar"
+        },
+        {
+          "en": "The second engineer should switch to a local backend for that run",
+          "es": "El segundo ingeniero debe cambiar a un backend local para esa ejecución"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The gcs backend locks the state for the duration of a write, which is precisely how it prevents two concurrent applies from corrupting it; re-planning afterwards is important because the first apply may have changed what the second one still intends to do. B is false: Terraform never merges states. C is a recovery tool for a stale lock left by a crashed process, and using it against a live apply is exactly how state gets corrupted. D abandons the shared state and creates a divergent copy.",
+        "es": "El backend gcs bloquea el estado mientras dura una escritura, que es justamente cómo evita que dos applies concurrentes lo corrompan; volver a planificar después importa porque el primer apply pudo cambiar lo que el segundo todavía pretende hacer. B es falsa: Terraform nunca fusiona estados. C es una herramienta de recuperación para un bloqueo obsoleto dejado por un proceso caído, y usarla contra un apply en curso es exactamente como se corrompe el estado. D abandona el estado compartido y crea una copia divergente."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/resource-management/store-state"
+    },
+    {
+      "id": "tfi-055",
+      "curso": "badge-terraform-infra",
+      "servicios": [
+        "terraform-iac",
+        "vpc"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.4-iac-tooling"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A configuration consumes a registry module with source pointing at terraform-google-modules and no version argument. A routine apply in production suddenly proposes destroying subnets. What is the BEST corrective practice?",
+        "es": "Una configuración consume un módulo del registry con source apuntando a terraform-google-modules y sin argumento version. Un apply rutinario en producción propone de repente destruir subredes. ¿Cuál es la MEJOR práctica correctiva?"
+      },
+      "opciones": [
+        {
+          "en": "Pin the module to an explicit version and upgrade deliberately, reviewing the plan in a non-production environment first",
+          "es": "Fijar el módulo a una versión explícita y actualizar de forma deliberada, revisando el plan primero en un entorno que no sea de producción"
+        },
+        {
+          "en": "Copy the module's source code into the repository and stop using the registry",
+          "es": "Copiar el código fuente del módulo al repositorio y dejar de usar el registry"
+        },
+        {
+          "en": "Add prevent_destroy to every resource inside the module",
+          "es": "Agregar prevent_destroy a cada recurso dentro del módulo"
+        },
+        {
+          "en": "Delete the .terraform directory before every apply so modules are always fresh",
+          "es": "Borrar el directorio .terraform antes de cada apply para que los módulos estén siempre actualizados"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Without a version constraint, terraform init can pull a newer major release whose renamed or restructured resources translate into destroys; pinning makes upgrades an explicit, reviewable change. B loses upstream fixes and the maintenance the community module provides, and is a heavy answer to a version-pinning problem. C cannot be done from the outside on a third-party module and would only convert the surprise into a blocked apply. D is the opposite of the fix, since it guarantees you get the newest version every time.",
+        "es": "Sin una restricción de versión, terraform init puede traer una versión mayor más nueva cuyos recursos renombrados o reestructurados se traducen en destrucciones; fijar la versión convierte las actualizaciones en un cambio explícito y revisable. B pierde las correcciones upstream y el mantenimiento que aporta el módulo comunitario, y es una respuesta pesada para un problema de fijación de versión. C no se puede hacer desde afuera sobre un módulo de terceros y solo convertiría la sorpresa en un apply bloqueado. D es lo contrario de la solución, ya que garantiza obtener la versión más nueva cada vez."
+      },
+      "doc": "https://cloud.google.com/docs/terraform/blueprints/terraform-blueprints"
+    },
+    {
+      "id": "tfi-056",
+      "curso": "badge-terraform-infra",
+      "servicios": [
+        "terraform-iac",
+        "cloud-sql"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.4-iac-tooling"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A database password is currently hardcoded in main.tf and the repository is shared with contractors. What is the BEST option?",
+        "es": "Una contraseña de base de datos está hoy escrita directamente en main.tf y el repositorio se comparte con contratistas. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        {
+          "en": "Remove it from the code, store it in Secret Manager, read it from there at apply time, and rotate the exposed password",
+          "es": "Quitarla del código, guardarla en Secret Manager, leerla desde ahí al aplicar y rotar la contraseña expuesta"
+        },
+        {
+          "en": "Move the value into a terraform.tfvars file committed alongside main.tf",
+          "es": "Mover el valor a un archivo terraform.tfvars versionado junto a main.tf"
+        },
+        {
+          "en": "Mark the variable as sensitive = true and leave the value where it is",
+          "es": "Marcar la variable como sensitive = true y dejar el valor donde está"
+        },
+        {
+          "en": "Rely on the state bucket being private, since the password ends up in state anyway",
+          "es": "Confiar en que el bucket de estado sea privado, ya que la contraseña termina igualmente en el estado"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The secret must leave version control, and because it was already exposed in Git history it also has to be rotated; Secret Manager supplies the value at apply time to the identity that runs Terraform. B keeps the secret in the repository under a different filename. C only stops the value from printing in plan output, which does nothing about the copy sitting in the code. D confuses two separate exposures: locking down state is necessary, but the plaintext in Git remains readable by every contractor.",
+        "es": "El secreto debe salir del control de versiones y, como ya quedó expuesto en el historial de Git, además debe rotarse; Secret Manager entrega el valor al aplicar a la identidad que ejecuta Terraform. B mantiene el secreto en el repositorio con otro nombre de archivo. C solo evita que el valor se imprima en la salida del plan, lo que no hace nada con la copia que está en el código. D confunde dos exposiciones distintas: proteger el estado es necesario, pero el texto plano en Git sigue siendo legible para cada contratista."
+      },
+      "doc": "https://cloud.google.com/secret-manager/docs/overview"
     }
   ]
 }

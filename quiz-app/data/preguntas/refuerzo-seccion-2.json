@@ -2188,6 +2188,445 @@
         "es": "Las transferencias desde un sistema de archivos se basan en agentes: creas un agent pool y ejecutas uno o más agentes de transferencia (como contenedores) en hosts con acceso a los datos de origen; los agentes mueven los bytes y el servicio orquesta y da seguimiento al trabajo. C es otro producto, usado cuando la red no puede mover el volumen en un tiempo razonable, y aquí no es necesario. D es incorrecta: los agentes funcionan sobre cualquier conectividad hacia Google Cloud, incluido Internet público; Interconnect solo mejora el ancho de banda y la previsibilidad."
       },
       "doc": "https://cloud.google.com/storage-transfer/docs/on-prem-agent-pools"
+    },
+    {
+      "id": "ref2-051",
+      "curso": null,
+      "servicios": [
+        "cloud-ngfw",
+        "resource-manager"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-firewall-ngfw"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Compliance requires that no VM in the 'production' folder can reach the internet on tcp:23, in every current and future project, and project owners must not be able to override it. What is the BEST implementation?",
+        "es": "Cumplimiento exige que ninguna VM de la carpeta 'production' pueda salir a Internet por tcp:23, en todos los proyectos actuales y futuros, y que los propietarios de proyecto no puedan anularlo. ¿Cuál es la MEJOR implementación?"
+      },
+      "opciones": [
+        {
+          "en": "Create a hierarchical firewall policy on the 'production' folder with a high-priority egress deny rule for tcp:23 to 0.0.0.0/0",
+          "es": "Crear una política de firewall jerárquica en la carpeta 'production' con una regla de egreso de denegación de alta prioridad para tcp:23 hacia 0.0.0.0/0"
+        },
+        {
+          "en": "Add an egress deny rule for tcp:23 to the VPC firewall of each project and document the requirement",
+          "es": "Agregar una regla de egreso de denegación para tcp:23 al firewall de VPC de cada proyecto y documentar el requisito"
+        },
+        {
+          "en": "Create a global network firewall policy in one project and associate it with that project's VPC networks",
+          "es": "Crear una política de firewall de red global en un proyecto y asociarla a las redes de VPC de ese proyecto"
+        },
+        {
+          "en": "Remove external IP addresses from all VMs with an organization policy constraint",
+          "es": "Quitar las direcciones IP externas de todas las VMs con una restricción de política de la organización"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Hierarchical firewall policies are attached to the organization or a folder and are evaluated before any VPC-level rule, so a deny at the folder level applies to every project underneath, including projects created later, and project administrators cannot override it. B is per project and per network: it must be repeated everywhere, it is easy to forget on new projects, and a project owner can simply delete the rule. C is scoped to the VPC networks it is associated with in that project, so it does not cover the whole folder. D reduces exposure but does not meet the requirement: VMs without external IPs can still reach the internet through Cloud NAT or a proxy, and the control is about a specific port, not about IP addressing.",
+        "es": "Las políticas de firewall jerárquicas se adjuntan a la organización o a una carpeta y se evalúan antes que cualquier regla a nivel de VPC, así que una denegación en la carpeta se aplica a todos los proyectos que cuelgan de ella, incluidos los que se creen después, y los administradores de proyecto no pueden anularla. B es por proyecto y por red: hay que repetirla en todas partes, es fácil olvidarla en proyectos nuevos y un propietario de proyecto puede simplemente borrarla. C queda acotada a las redes de VPC a las que se asocia en ese proyecto, así que no cubre toda la carpeta. D reduce la exposición pero no cumple el requisito: las VMs sin IP externa igual pueden salir a Internet por Cloud NAT o un proxy, y el control es sobre un puerto específico, no sobre el direccionamiento IP."
+      },
+      "doc": "https://cloud.google.com/firewall/docs/firewall-policies"
+    },
+    {
+      "id": "ref2-052",
+      "curso": null,
+      "servicios": [
+        "persistent-disk",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-storage"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A self-managed SAP HANA database on a large memory-optimized VM needs sustained low-latency random I/O well above 300,000 IOPS on a single volume. Which storage is the BEST choice?",
+        "es": "Una base de datos SAP HANA autoadministrada en una VM grande optimizada para memoria necesita E/S aleatoria sostenida de baja latencia muy por encima de 300,000 IOPS en un solo volumen. ¿Qué almacenamiento es la MEJOR opción?"
+      },
+      "opciones": [
+        {
+          "en": "Hyperdisk Extreme with provisioned IOPS on a machine type that supports it",
+          "es": "Hyperdisk Extreme con IOPS aprovisionadas en un tipo de máquina que lo admita"
+        },
+        {
+          "en": "Hyperdisk Throughput sized for several terabytes",
+          "es": "Hyperdisk Throughput dimensionado para varios terabytes"
+        },
+        {
+          "en": "A regional pd-ssd Persistent Disk of the maximum supported size",
+          "es": "Un Persistent Disk pd-ssd regional del tamaño máximo admitido"
+        },
+        {
+          "en": "Several Local SSD devices combined in a software RAID array",
+          "es": "Varios dispositivos de SSD local combinados en un arreglo RAID por software"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Hyperdisk Extreme is the tier built for the most demanding IOPS-bound databases and lets you provision very high IOPS independently of capacity, on machine types that support it. B optimizes sequential MB/s per TB for scale-out analytics workloads, not low-latency random IOPS. C tops out far below the requirement, because Persistent Disk performance is bounded by size and machine type. D delivers extreme raw performance but Local SSD is ephemeral: the data is lost when the VM is stopped or the host fails, which is unacceptable for a database's primary volume.",
+        "es": "Hyperdisk Extreme es el tier creado para las bases de datos más exigentes en IOPS y permite aprovisionar IOPS muy altas de forma independiente de la capacidad, en tipos de máquina que lo admiten. B optimiza MB/s secuenciales por TB para cargas analíticas de escalado horizontal, no IOPS aleatorias de baja latencia. C se queda muy por debajo del requisito, porque el rendimiento de Persistent Disk está limitado por el tamaño y el tipo de máquina. D entrega un rendimiento bruto extremo, pero el SSD local es efímero: los datos se pierden si la VM se detiene o falla el host, algo inaceptable para el volumen principal de una base de datos."
+      },
+      "doc": "https://cloud.google.com/compute/docs/disks/hyperdisks"
+    },
+    {
+      "id": "ref2-053",
+      "curso": null,
+      "servicios": [
+        "hybrid-connectivity"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-connectivity"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A bank moves 20 Gbps of steady traffic between its data center and Google Cloud, needs predictable latency, private addressing and the 99.99% availability SLA, and already has equipment in a colocation facility with a Google point of presence. What is the BEST design?",
+        "es": "Un banco mueve 20 Gbps de tráfico constante entre su centro de datos y Google Cloud, necesita latencia previsible, direccionamiento privado y el SLA de disponibilidad de 99.99%, y ya tiene equipos en una instalación de colocación con un punto de presencia de Google. ¿Cuál es el MEJOR diseño?"
+      },
+      "opciones": [
+        {
+          "en": "Dedicated Interconnect with four connections across two metropolitan availability zones, and VLAN attachments to Cloud Routers in each region",
+          "es": "Dedicated Interconnect con cuatro conexiones repartidas en dos zonas de disponibilidad metropolitanas y VLAN attachments a Cloud Routers en cada región"
+        },
+        {
+          "en": "A single Dedicated Interconnect connection of 100 Gbps, since one large circuit already exceeds the bandwidth requirement",
+          "es": "Una sola conexión de Dedicated Interconnect de 100 Gbps, ya que un circuito grande de por sí supera el requisito de ancho de banda"
+        },
+        {
+          "en": "Partner Interconnect with a single 10 Gbps VLAN attachment through a service provider",
+          "es": "Partner Interconnect con un solo VLAN attachment de 10 Gbps a través de un proveedor de servicios"
+        },
+        {
+          "en": "Several HA VPN tunnels aggregated with ECMP over the public internet",
+          "es": "Varios túneles de HA VPN agregados con ECMP sobre Internet público"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The 99.99% SLA for Dedicated Interconnect requires redundancy at every layer: at least four connections, two in each of two different edge availability domains (metropolitan zones), with attachments to Cloud Routers, so no single device, circuit or facility failure takes the link down. B meets the bandwidth but a single connection has no redundancy and qualifies for a lower SLA. C is the right product family when you lack a colocation presence, but a single 10 Gbps attachment neither covers 20 Gbps nor provides the redundancy needed for 99.99%. D rides the public internet: throughput per tunnel is limited and latency is not predictable, which contradicts the stated requirements.",
+        "es": "El SLA de 99.99% de Dedicated Interconnect exige redundancia en todas las capas: al menos cuatro conexiones, dos en cada uno de dos dominios de disponibilidad perimetrales distintos (zonas metropolitanas), con attachments hacia Cloud Routers, para que ninguna falla de un dispositivo, circuito o instalación derribe el enlace. B cumple el ancho de banda, pero una sola conexión no tiene redundancia y califica para un SLA menor. C es la familia de producto correcta cuando no tienes presencia en colocación, pero un único attachment de 10 Gbps no cubre 20 Gbps ni aporta la redundancia necesaria para 99.99%. D viaja por Internet público: el throughput por túnel es limitado y la latencia no es previsible, lo que contradice los requisitos planteados."
+      },
+      "doc": "https://cloud.google.com/network-connectivity/docs/interconnect/tutorials/dedicated-creating-9999-availability"
+    },
+    {
+      "id": "ref2-054",
+      "curso": null,
+      "servicios": [
+        "file-storage",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-storage-products"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A rendering farm of 200 VMs reads and writes intermediate frames on a shared POSIX file system. The application cannot be modified, latency matters, and the team wants a managed service with regional availability. What is the BEST option?",
+        "es": "Una granja de renderizado de 200 VMs lee y escribe fotogramas intermedios en un sistema de archivos POSIX compartido. La aplicación no se puede modificar, la latencia importa y el equipo quiere un servicio administrado con disponibilidad regional. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        {
+          "en": "A Filestore instance in a high-performance tier such as Zonal or Regional, mounted over NFS by all the VMs",
+          "es": "Una instancia de Filestore en un tier de alto rendimiento como Zonal o Regional, montada por NFS en todas las VMs"
+        },
+        {
+          "en": "A Cloud Storage bucket mounted with Cloud Storage FUSE on every VM",
+          "es": "Un bucket de Cloud Storage montado con Cloud Storage FUSE en cada VM"
+        },
+        {
+          "en": "A Filestore Basic HDD instance, which is the cheapest way to share files",
+          "es": "Una instancia de Filestore Basic HDD, la forma más barata de compartir archivos"
+        },
+        {
+          "en": "A self-managed NFS server on a VM with a large Hyperdisk Balanced volume",
+          "es": "Un servidor NFS autoadministrado en una VM con un volumen Hyperdisk Balanced grande"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Filestore gives real NFS with POSIX semantics, so the unmodified application works as is, and the higher tiers provide the throughput and IOPS a large render farm needs, with the Regional tier adding availability across zones. B changes the semantics: Cloud Storage FUSE emulates a file system over object storage, with different consistency, poor small-file and rewrite performance, and higher latency. C is the wrong tier: Basic HDD cannot sustain 200 concurrent clients doing heavy read-write work. D is not managed: you own patching, failover and capacity, and a single VM becomes the bottleneck and the single point of failure.",
+        "es": "Filestore entrega NFS real con semántica POSIX, así que la aplicación sin modificar funciona tal cual, y los tiers superiores aportan el throughput y las IOPS que necesita una granja de renderizado grande, con el tier Regional agregando disponibilidad entre zonas. B cambia la semántica: Cloud Storage FUSE emula un sistema de archivos sobre almacenamiento de objetos, con otra consistencia, mal rendimiento con archivos pequeños y reescrituras, y mayor latencia. C es el tier equivocado: Basic HDD no sostiene 200 clientes concurrentes con trabajo intenso de lectura y escritura. D no es administrado: te haces cargo de parches, failover y capacidad, y una sola VM se convierte en cuello de botella y punto único de falla."
+      },
+      "doc": "https://cloud.google.com/filestore/docs/service-tiers"
+    },
+    {
+      "id": "ref2-055",
+      "curso": null,
+      "servicios": [
+        "spanner",
+        "cloud-sql"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-multiregion-redundancy"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A global payments system needs a relational database with strong consistency, an RPO of zero and automatic failover if a region is lost, with no application-side sharding. What is the BEST choice?",
+        "es": "Un sistema de pagos global necesita una base de datos relacional con consistencia sólida, RPO de cero y failover automático si se pierde una región, sin sharding del lado de la aplicación. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        {
+          "en": "Spanner with a multi-region instance configuration",
+          "es": "Spanner con una configuración de instancia multirregión"
+        },
+        {
+          "en": "Cloud SQL with regional high availability plus a cross-region read replica",
+          "es": "Cloud SQL con alta disponibilidad regional más una réplica de lectura entre regiones"
+        },
+        {
+          "en": "AlloyDB in one region with continuous backups to a multi-region bucket",
+          "es": "AlloyDB en una región con copias de seguridad continuas a un bucket multi-region"
+        },
+        {
+          "en": "Bigtable with a replicated instance in two regions",
+          "es": "Bigtable con una instancia replicada en dos regiones"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Spanner in a multi-region configuration synchronously replicates across regions, keeps external (strong) consistency, survives a regional outage with automatic failover and no data loss, and scales horizontally without the application sharding anything. B protects against a zonal failure synchronously, but the cross-region replica is asynchronous, so a regional loss means non-zero RPO and a manual promotion. C is single-region for serving: restoring from backups implies data loss and long downtime. D is not relational and offers eventual consistency across replicated clusters, so it cannot satisfy transactional payments with strong consistency.",
+        "es": "Spanner en configuración multirregión replica de forma sincrónica entre regiones, mantiene consistencia externa (sólida), sobrevive una caída regional con failover automático y sin pérdida de datos, y escala horizontalmente sin que la aplicación haga sharding. B protege sincrónicamente ante una falla zonal, pero la réplica entre regiones es asincrónica, así que perder una región implica un RPO distinto de cero y una promoción manual. C sirve desde una sola región: restaurar desde copias implica pérdida de datos y mucho tiempo fuera de servicio. D no es relacional y ofrece consistencia eventual entre clústeres replicados, así que no puede satisfacer pagos transaccionales con consistencia sólida."
+      },
+      "doc": "https://cloud.google.com/spanner/docs/instance-configurations"
+    },
+    {
+      "id": "ref2-056",
+      "curso": null,
+      "servicios": [
+        "memorystore",
+        "cloud-run"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-data-products"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A stateless API on Cloud Run must share session data across instances with sub-millisecond reads, minimal operational overhead and no public exposure. What is the BEST design?",
+        "es": "Una API sin estado en Cloud Run debe compartir datos de sesión entre instancias con lecturas de menos de un milisegundo, mínima carga operativa y sin exposición pública. ¿Cuál es el MEJOR diseño?"
+      },
+      "opciones": [
+        {
+          "en": "Store sessions in Memorystore and reach it privately from Cloud Run through Direct VPC egress or a Serverless VPC Access connector",
+          "es": "Guardar las sesiones en Memorystore y llegar a él de forma privada desde Cloud Run mediante Direct VPC egress o un conector de Serverless VPC Access"
+        },
+        {
+          "en": "Run Redis in a container as a sidecar of each Cloud Run instance",
+          "es": "Ejecutar Redis en un contenedor como sidecar de cada instancia de Cloud Run"
+        },
+        {
+          "en": "Persist sessions in Cloud SQL and cache them in the container's local memory",
+          "es": "Persistir las sesiones en Cloud SQL y almacenarlas en caché en la memoria local del contenedor"
+        },
+        {
+          "en": "Keep the sessions in a Cloud Storage bucket and read the object on every request",
+          "es": "Mantener las sesiones en un bucket de Cloud Storage y leer el objeto en cada solicitud"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Memorystore is the managed in-memory store for exactly this pattern: shared, low-latency session state with no servers to patch. It only has private IPs, so Cloud Run reaches it over the VPC using Direct VPC egress or a Serverless VPC Access connector, which also satisfies the no-public-exposure requirement. B does not share anything: each instance would have its own isolated cache and sessions would break as requests are load balanced, and Cloud Run instances are ephemeral. C adds database latency on the hot path and the local cache is per instance, so it is inconsistent across instances. D has object-storage latency measured in tens of milliseconds and is not designed for per-request mutable state.",
+        "es": "Memorystore es el almacén en memoria administrado para exactamente este patrón: estado de sesión compartido y de baja latencia, sin servidores que parchar. Solo tiene IPs privadas, así que Cloud Run lo alcanza por la VPC mediante Direct VPC egress o un conector de Serverless VPC Access, lo que además cumple el requisito de no exposición pública. B no comparte nada: cada instancia tendría su propia caché aislada y las sesiones se romperían al balancear las solicitudes, además de que las instancias de Cloud Run son efímeras. C agrega latencia de base de datos en la ruta crítica y la caché local es por instancia, así que resulta inconsistente entre instancias. D tiene latencia de almacenamiento de objetos del orden de decenas de milisegundos y no está diseñado para estado mutable por solicitud."
+      },
+      "doc": "https://cloud.google.com/memorystore/docs/redis/connect-redis-instance-cloud-run"
+    },
+    {
+      "id": "ref2-057",
+      "curso": null,
+      "servicios": [
+        "managed-kafka",
+        "pubsub"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-data-products"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A company migrates an on-premises Kafka platform with 60 producer and consumer applications, Kafka Connect connectors and strict topic ordering. The deadline is tight and rewriting the applications is not an option. What is the BEST target on Google Cloud?",
+        "es": "Una empresa migra una plataforma de Kafka local con 60 aplicaciones productoras y consumidoras, conectores de Kafka Connect y ordenamiento estricto por tema. El plazo es corto y reescribir las aplicaciones no es una opción. ¿Cuál es el MEJOR destino en Google Cloud?"
+      },
+      "opciones": [
+        {
+          "en": "Google Cloud Managed Service for Apache Kafka, repointing the clients at the managed cluster",
+          "es": "Google Cloud Managed Service for Apache Kafka, reapuntando los clientes al clúster administrado"
+        },
+        {
+          "en": "Pub/Sub, migrating every producer and consumer to the Pub/Sub client libraries",
+          "es": "Pub/Sub, migrando cada productor y consumidor a las bibliotecas cliente de Pub/Sub"
+        },
+        {
+          "en": "Self-managed Kafka on GKE using a community Helm chart",
+          "es": "Kafka autoadministrado en GKE con un chart de Helm de la comunidad"
+        },
+        {
+          "en": "Dataflow streaming jobs that replace the brokers",
+          "es": "Trabajos de streaming de Dataflow que reemplacen a los brokers"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The managed Kafka service speaks the open-source Kafka protocol, so existing applications, connectors and ordering guarantees per partition keep working with a configuration change instead of a rewrite, while Google operates the brokers. B is the correct choice for a greenfield design but here it forces 60 application rewrites and a semantic change, which the deadline rules out. C keeps compatibility but you inherit all the operational burden the company is trying to shed. D is a processing engine, not a message broker: Dataflow consumes from and writes to brokers, it does not replace them.",
+        "es": "El servicio administrado de Kafka habla el protocolo de Kafka de código abierto, así que las aplicaciones existentes, los conectores y las garantías de orden por partición siguen funcionando con un cambio de configuración en lugar de una reescritura, mientras Google opera los brokers. B es la elección correcta para un diseño nuevo, pero aquí obliga a reescribir 60 aplicaciones y a cambiar la semántica, algo que el plazo descarta. C conserva la compatibilidad, pero heredas toda la carga operativa de la que la empresa quiere deshacerse. D es un motor de procesamiento, no un broker de mensajes: Dataflow consume de los brokers y escribe hacia ellos, no los reemplaza."
+      },
+      "doc": "https://cloud.google.com/managed-service-for-apache-kafka/docs/overview"
+    },
+    {
+      "id": "ref2-058",
+      "curso": null,
+      "servicios": [
+        "dataflow",
+        "cloud-storage",
+        "bigquery"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-data-products"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Every night 4 TB of CSV files land in a bucket and must be validated, transformed and loaded into BigQuery. The team has no Beam experience and wants the least operational overhead. What is the BEST approach?",
+        "es": "Cada noche llegan 4 TB de archivos CSV a un bucket y deben validarse, transformarse y cargarse en BigQuery. El equipo no tiene experiencia en Beam y quiere la menor carga operativa. ¿Cuál es el MEJOR enfoque?"
+      },
+      "opciones": [
+        {
+          "en": "Launch a Google-provided Dataflow template with a JavaScript UDF for the transformation, triggered on a schedule",
+          "es": "Ejecutar una plantilla de Dataflow provista por Google con una UDF en JavaScript para la transformación, activada de forma programada"
+        },
+        {
+          "en": "Write a custom Apache Beam pipeline in Java and deploy it as a Flex Template",
+          "es": "Escribir un pipeline propio de Apache Beam en Java e implementarlo como Flex Template"
+        },
+        {
+          "en": "Process the files with a Cloud Run functions instance triggered per object",
+          "es": "Procesar los archivos con una instancia de Cloud Run functions activada por objeto"
+        },
+        {
+          "en": "Spin up a Dataproc cluster each night and run a Spark job",
+          "es": "Levantar un clúster de Dataproc cada noche y ejecutar un trabajo de Spark"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Google-provided templates cover the text-to-BigQuery pattern and expose a UDF hook for row-level validation and transformation, so the team gets an autoscaling, fully managed Dataflow job without learning Beam or maintaining pipeline code. B is the fallback when a template cannot express the logic, but it contradicts the no-Beam-experience and low-overhead constraints. C does not fit the volume: a per-object function has memory and runtime limits and would need custom orchestration, retries and load management for 4 TB. D introduces a cluster to size, tune and shut down, plus Spark code to maintain, which is more operational overhead than a template.",
+        "es": "Las plantillas provistas por Google cubren el patrón de texto a BigQuery y exponen un punto de extensión con UDF para validar y transformar a nivel de fila, así que el equipo obtiene un trabajo de Dataflow totalmente administrado y con autoescalado sin aprender Beam ni mantener código de pipeline. B es la alternativa cuando una plantilla no puede expresar la lógica, pero contradice las restricciones de falta de experiencia en Beam y baja carga operativa. C no encaja con el volumen: una función por objeto tiene límites de memoria y tiempo de ejecución, y necesitaría orquestación, reintentos y control de carga propios para 4 TB. D introduce un clúster que dimensionar, ajustar y apagar, además de código Spark que mantener, lo que es más carga operativa que una plantilla."
+      },
+      "doc": "https://cloud.google.com/dataflow/docs/guides/templates/provided/cloud-storage-to-bigquery"
+    },
+    {
+      "id": "ref2-059",
+      "curso": null,
+      "servicios": [
+        "agent-runtime",
+        "cloud-run"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A team is productionizing an AI agent that keeps multi-turn sessions, long-term memory per user and needs traces of each tool call for evaluation. They do not want to build session or memory infrastructure. What is the BEST deployment target?",
+        "es": "Un equipo lleva a producción un agente de IA que mantiene sesiones de varios turnos, memoria de largo plazo por usuario y necesita trazas de cada llamada a herramientas para evaluarlo. No quieren construir infraestructura de sesiones ni de memoria. ¿Cuál es el MEJOR destino de implementación?"
+      },
+      "opciones": [
+        {
+          "en": "Agent Runtime in the Gemini Enterprise Agent Platform, which provides managed sessions, memory and agent observability",
+          "es": "Agent Runtime de Gemini Enterprise Agent Platform, que aporta sesiones, memoria y observabilidad de agentes administradas"
+        },
+        {
+          "en": "Cloud Run, adding Memorystore for sessions and a custom tracing layer",
+          "es": "Cloud Run, agregando Memorystore para las sesiones y una capa de trazas propia"
+        },
+        {
+          "en": "GKE Autopilot with a StatefulSet so each user keeps affinity to a Pod",
+          "es": "GKE Autopilot con un StatefulSet para que cada usuario mantenga afinidad con un Pod"
+        },
+        {
+          "en": "Compute Engine VMs behind a load balancer with sticky sessions",
+          "es": "VMs de Compute Engine detrás de un balanceador de cargas con sesiones persistentes"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Agent Runtime is purpose-built for hosting agents: it manages the session lifecycle, agent memory and per-invocation traces, and scales the agent without you assembling those pieces. B is a perfectly good home for a stateless container, but the team would have to build and operate exactly the session, memory and tracing infrastructure they want to avoid. C makes state a Pod affinity problem, which is fragile under scaling and node upgrades and adds cluster operations. D is the heaviest option: sticky sessions tie users to VMs, break on instance replacement and still leave memory and evaluation tooling unsolved.",
+        "es": "Agent Runtime está diseñado específicamente para alojar agentes: administra el ciclo de vida de las sesiones, la memoria del agente y las trazas por invocación, y escala el agente sin que tú ensambles esas piezas. B es un buen hogar para un contenedor sin estado, pero el equipo tendría que construir y operar justo la infraestructura de sesiones, memoria y trazas que quiere evitar. C convierte el estado en un problema de afinidad de Pods, algo frágil ante el escalado y las actualizaciones de nodos, y agrega operación del clúster. D es la opción más pesada: las sesiones persistentes atan a los usuarios a VMs, se rompen al reemplazar instancias y siguen dejando sin resolver la memoria y las herramientas de evaluación."
+      },
+      "doc": "https://cloud.google.com/vertex-ai/generative-ai/docs/agent-engine/overview"
+    },
+    {
+      "id": "ref2-060",
+      "curso": null,
+      "servicios": [
+        "gpus-tpus"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-gpus-tpus-choice"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A research team pretrains a very large transformer written in JAX, needs to scale to thousands of chips with high-bandwidth interconnect and wants the best price-performance for that training run. Which accelerator should they choose?",
+        "es": "Un equipo de investigación preentrena un transformador muy grande escrito en JAX, necesita escalar a miles de chips con interconexión de alto ancho de banda y quiere la mejor relación precio-rendimiento para ese entrenamiento. ¿Qué acelerador deberían elegir?"
+      },
+      "opciones": [
+        {
+          "en": "Cloud TPU slices",
+          "es": "Slices de Cloud TPU"
+        },
+        {
+          "en": "VMs with NVIDIA GPUs and custom CUDA kernels",
+          "es": "VMs con GPUs NVIDIA y kernels CUDA personalizados"
+        },
+        {
+          "en": "General-purpose C3 VMs with many vCPUs",
+          "es": "VMs C3 de uso general con muchas vCPUs"
+        },
+        {
+          "en": "Spot VMs with a single GPU each, coordinated by the application",
+          "es": "VMs Spot con una GPU cada una, coordinadas por la aplicación"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "TPUs are Google's custom accelerators for large-scale matrix workloads, they are natively supported by JAX and TensorFlow, and TPU slices provide the dedicated high-bandwidth interconnect that makes synchronous training across thousands of chips efficient, which is where their price-performance advantage shows. B is the right answer when the model depends on custom CUDA kernels or libraries without TPU support, but here the framework is JAX and the scale favors TPUs. C has no accelerator at all and would be orders of magnitude slower. D adds preemption and manual coordination to a tightly coupled synchronous training job, which is the worst possible fit.",
+        "es": "Las TPUs son los aceleradores propios de Google para cargas matriciales a gran escala, cuentan con soporte nativo en JAX y TensorFlow, y los slices de TPU aportan la interconexión dedicada de alto ancho de banda que hace eficiente el entrenamiento sincrónico entre miles de chips, que es donde aparece su ventaja de precio-rendimiento. B es la respuesta correcta cuando el modelo depende de kernels CUDA personalizados o de bibliotecas sin soporte en TPU, pero aquí el framework es JAX y la escala favorece a las TPUs. C no tiene acelerador alguno y sería órdenes de magnitud más lenta. D suma interrupciones y coordinación manual a un entrenamiento sincrónico fuertemente acoplado, el peor encaje posible."
+      },
+      "doc": "https://cloud.google.com/tpu/docs/intro-to-tpu"
     }
   ]
 }
