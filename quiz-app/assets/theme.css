@@ -1,14 +1,21 @@
 /* ============================================================================
+   DESIGN SYSTEM — Google Cloud ACE Certification Exam
    ----------------------------------------------------------------------------
-     equal-size icon+heading+text cards on a landing page; the home screen opens
-     on your standing and the single next action, because the user came to work.
-     (#4285F4 brand, #0B57D0 actionable) carries structure and action; green,
-     amber and red are never decoration — they mean mastered / in progress /
-     weak, everywhere, always. Roboto, self-hosted. Tonal surfaces (#F8FAFD
-     light, #131314 dark), 1px outlines, 12/16/28px corners, M3 elevation.
-     believes the number because it traces to real sections, and starts the one
-     activity that closes the gap.
-     the fold; practice modes as a dense action list below, never a card grid.
+   Material 3 built on Google's brand palette. This file is the single source of
+   truth for every colour, shape, elevation and motion value in the app; no
+   component hardcodes any of them.
+
+   The rules the rest of the codebase assumes:
+
+   - Two blues. #4285F4 is the brand mark and is used for shapes, chart strokes
+     and fills. #0B57D0 is used for anything carrying text or needing a contrast
+     ratio, because white on #4285F4 measures 3.6:1 and fails WCAG AA.
+   - Colour means mastery, never decoration. Green, amber and red mean
+     mastered / in progress / weak, everywhere in the app, always.
+   - Tonal depth. Surfaces step #F8FAFD → #FFFFFF → #F1F3F4 with 1px outlines.
+     Shadows are a response to interaction, never a resting decoration.
+   - One typeface: Roboto, self-hosted. Hierarchy is size, weight and colour.
+   - One authored motion: the answer reveal. Anything else competes with it.
    ============================================================================ */
 
 /* ---------------------------------------------------------------- Roboto
