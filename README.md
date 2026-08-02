@@ -5,10 +5,12 @@
 ![questions](https://img.shields.io/badge/questions-1%2C465-blue)
 ![license](https://img.shields.io/badge/license-MIT-lightgrey)
 
-A local, bilingual (English / Latin American Spanish) practice app for the
-**Google Cloud Associate Cloud Engineer** certification: 1,465 exam-style
-questions, timed mock exams, and a progress dashboard that measures you against
-the official exam guide.
+> [!IMPORTANT]
+> **This is exam practice, not a course.** Everything here is built around
+> **exam-style questions** for the **Google Cloud Associate Cloud Engineer**
+> certification: 1,465 bilingual questions (English / Latin American Spanish),
+> timed mock exams, and a progress dashboard that measures you against the
+> official exam guide. You drill questions until the score says you are ready.
 
 Everything runs on your machine. No accounts, no server, no telemetry — your
 study history is a file on your disk.
@@ -26,7 +28,7 @@ study history is a file on your disk.
 - **1,465 bilingual questions**, every one of them mapped to the official exam
   blueprint. Each question explains why the correct answer is correct **and why
   each distractor fails**, with a link to the official documentation.
-- **100% blueprint coverage** — all 68 sub-topics of the guide effective
+- **100% blueprint coverage** — all 70 sub-topics of the guide effective
   **2026-06-30** (4 sections, weights 20/30/30/20).
 - **Practice mode** by course (the 15 activities of the official learning path)
   or by Google Cloud service, with instant feedback.
@@ -49,15 +51,17 @@ stores your history in SQLite, which ships inside Python's standard library.
 
 ```bash
 git clone git@github.com:slackwero/google-GCP-associate-cloud-engineer-exam-prep.git
-cd google-GCP-associate-cloud-engineer-exam-prep/quiz-app
+cd google-GCP-associate-cloud-engineer-exam-prep
 
-python3 -m venv .venv
-.venv/bin/pip install -r requirements.txt
-
-.venv/bin/reflex run
+./run.sh
 ```
 
-Then open <http://localhost:3000>.
+Then open <http://localhost:3000>. Press `Ctrl+C` to stop the app.
+
+That is the whole setup. The first time, `run.sh` creates an isolated Python
+environment and installs the dependencies into it; every run after that it just
+starts the app. It reinstalls by itself only when the dependencies change, and
+it never touches the Python packages on the rest of your system.
 
 Two things worth knowing:
 
@@ -69,11 +73,61 @@ Two things worth knowing:
 The database is created automatically on first run. You start with an empty
 history and the full question bank.
 
-If ports 3000/8000 are still busy from a previous session:
+If the app is already running and ports 3000/8000 are busy, replace it with:
 
 ```bash
-lsof -ti:3000,8000 | xargs kill -9
+./run.sh --restart
 ```
+
+`./run.sh --reinstall` rebuilds the environment from scratch, should it ever end
+up in a broken state.
+
+## What it covers
+
+Every question is tagged with the exam section and sub-topic it belongs to, and
+the bank is distributed to match the weights of the official guide — so a full
+mock exam feels like the real thing rather than whatever was easiest to write.
+
+| Exam section | Weight | Questions | Sub-topics |
+|---|---|---|---|
+| 1. Setting up a cloud solution environment | 20% | 211 | 11 |
+| 2. Planning and implementing a cloud solution | 30% | 606 | 21 |
+| 3. Ensuring the successful operation of a cloud solution | 30% | 429 | 29 |
+| 4. Configuring access and security | 20% | 219 | 9 |
+| **Total** | **100%** | **1,465** | **70** |
+
+You can practise by exam topic, by course from the official learning path (15
+activities), or by service. These are the 52 services and topic areas the bank
+is indexed by:
+
+**Compute and containers** — Compute Engine · Google Kubernetes Engine (GKE) ·
+Cloud Run · Cloud Run functions · Persistent Disk / Hyperdisk · Artifact
+Registry · kubectl / Kubernetes CLI · Helm · Eventarc
+
+**Storage and data** — Cloud Storage · Cloud SQL · AlloyDB · Spanner ·
+Firestore · Bigtable · BigQuery · Memorystore · Filestore / NetApp Volumes /
+Managed Lustre · Dataflow · Pub/Sub · Managed Service for Apache Kafka ·
+Storage Transfer Service · Database Center
+
+**Networking** — VPC / Networking · Cloud Load Balancing · Cloud DNS · Cloud
+NAT · Cloud NGFW / Firewall · Cloud VPN / Interconnect · Network Service Tiers
+
+**Operations and observability** — Cloud Monitoring · Cloud Logging · Ops Agent
+/ Managed Prometheus · Cloud Trace / Profiler / diagnostics · Active Assist /
+Recommender · Cloud Hub / Service Health · Cloud Asset Inventory
+
+**Identity and security** — IAM · Service accounts · Cloud Identity · Resource
+hierarchy / Organization · Workforce / Workload Identity Federation · CMEK /
+Cloud KMS
+
+**Billing and governance** — Cloud Billing · APIs / Quotas
+
+**AI and tooling** — Gemini Cloud Assist / Gemini CLI · Agent Runtime (Gemini
+Enterprise Agent Platform) · GPUs / TPUs · Notebooks (Workbench / BigQuery) ·
+Cloud Workstations · Terraform / IaC · gcloud CLI / Cloud Shell
+
+A test in the suite fails if any sub-topic drops below five questions, so the
+coverage above is enforced on every change rather than just claimed here.
 
 ## How your data is stored
 
@@ -85,34 +139,6 @@ lsof -ti:3000,8000 | xargs kill -9
 Content is versioned like code: it is reviewed in diffs and validated by the
 test suite. Your progress is yours and never leaves your machine — deleting
 `quiz_ace.db` resets your history and nothing else.
-
-## Development
-
-```bash
-cd quiz-app
-.venv/bin/pip install -r requirements-dev.txt
-
-.venv/bin/pytest          # 57 tests, including the blueprint coverage gate
-.venv/bin/ruff check .    # lint
-```
-
-The test suite validates the question bank itself: schema, bilingual fields,
-blueprint mapping, and minimum coverage per sub-topic and per course. An invalid
-question is excluded with a warning rather than breaking the app.
-
-## Project layout
-
-```
-quiz-app/
-  data/                 question bank + catalogs (JSON, bilingual)
-  quiz_ace/
-    services/           pure Python logic, no Reflex — this is what the tests cover
-    states/             Reflex state (language, quiz, exam, progress)
-    components/         UI primitives and shared pieces
-    pages/              the 7 routes
-  assets/theme.css      the design system: every colour, shape and motion token
-recursos/               official exam guides, coverage analysis, study plan
-```
 
 ## License
 

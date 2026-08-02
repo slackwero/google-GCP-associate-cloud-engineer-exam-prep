@@ -5,10 +5,12 @@
 ![preguntas](https://img.shields.io/badge/preguntas-1%2C465-blue)
 ![licencia](https://img.shields.io/badge/licencia-MIT-lightgrey)
 
-Una app local y bilingüe (inglés / español latinoamericano) para preparar la
-certificación **Google Cloud Associate Cloud Engineer**: 1.465 preguntas tipo
-examen, simulacros cronometrados y un dashboard de avances que te mide contra la
-guía oficial.
+> [!IMPORTANT]
+> **Esto es práctica para el examen, no un curso.** Todo aquí gira en torno a
+> **preguntas tipo examen** para la certificación **Google Cloud Associate Cloud
+> Engineer**: 1.465 preguntas bilingües (inglés / español latinoamericano),
+> simulacros cronometrados y un dashboard de avances que te mide contra la guía
+> oficial. Practicas preguntas hasta que el puntaje diga que estás listo.
 
 Todo corre en tu máquina. Sin cuentas, sin servidor, sin telemetría — tu
 historial de estudio es un archivo en tu disco.
@@ -26,7 +28,7 @@ historial de estudio es un archivo en tu disco.
 - **1.465 preguntas bilingües**, todas mapeadas al blueprint oficial del examen.
   Cada una explica por qué la respuesta correcta lo es **y por qué falla cada
   distractor**, con enlace a la documentación oficial.
-- **100% de cobertura del blueprint** — los 68 subtópicos de la guía vigente
+- **100% de cobertura del blueprint** — los 70 subtópicos de la guía vigente
   desde el **2026-06-30** (4 secciones, pesos 20/30/30/20).
 - **Modo de práctica** por curso (las 15 actividades del path oficial) o por
   servicio de Google Cloud, con feedback inmediato.
@@ -51,15 +53,17 @@ de Python.
 
 ```bash
 git clone git@github.com:slackwero/google-GCP-associate-cloud-engineer-exam-prep.git
-cd google-GCP-associate-cloud-engineer-exam-prep/quiz-app
+cd google-GCP-associate-cloud-engineer-exam-prep
 
-python3 -m venv .venv
-.venv/bin/pip install -r requirements.txt
-
-.venv/bin/reflex run
+./run.sh
 ```
 
-Luego abre <http://localhost:3000>.
+Luego abre <http://localhost:3000>. Con `Ctrl+C` detienes la app.
+
+Esa es toda la instalación. La primera vez, `run.sh` crea un entorno de Python
+aislado e instala ahí las dependencias; a partir de entonces solo levanta la app.
+Vuelve a instalar por su cuenta únicamente si las dependencias cambian, y nunca
+toca los paquetes de Python del resto de tu sistema.
 
 Dos cosas que conviene saber:
 
@@ -71,11 +75,63 @@ Dos cosas que conviene saber:
 La base de datos se crea sola en el primer arranque. Empiezas con el historial
 vacío y el banco de preguntas completo.
 
-Si los puertos 3000/8000 quedaron ocupados de una sesión previa:
+Si la app ya está corriendo y los puertos 3000/8000 están ocupados, reemplázala
+con:
 
 ```bash
-lsof -ti:3000,8000 | xargs kill -9
+./run.sh --restart
 ```
+
+`./run.sh --reinstall` reconstruye el entorno desde cero, por si alguna vez queda
+en mal estado.
+
+## Qué cubre
+
+Cada pregunta lleva etiquetada la sección y el subtópico del examen al que
+pertenece, y el banco está repartido según los pesos de la guía oficial — así un
+simulacro completo se siente como el examen real y no como lo que era más fácil
+de escribir.
+
+| Sección del examen | Peso | Preguntas | Subtópicos |
+|---|---|---|---|
+| 1. Configuración de un entorno de solución en la nube | 20% | 211 | 11 |
+| 2. Planificación e implementación de una solución en la nube | 30% | 606 | 21 |
+| 3. Cómo asegurar la operación exitosa de una solución en la nube | 30% | 429 | 29 |
+| 4. Configuración del acceso y la seguridad | 20% | 219 | 9 |
+| **Total** | **100%** | **1.465** | **70** |
+
+Puedes practicar por tema del examen, por curso del learning path oficial (15
+actividades) o por servicio. Estos son los 52 servicios y áreas por los que está
+indexado el banco:
+
+**Cómputo y contenedores** — Compute Engine · Google Kubernetes Engine (GKE) ·
+Cloud Run · Cloud Run functions · Persistent Disk / Hyperdisk · Artifact
+Registry · kubectl / Kubernetes CLI · Helm · Eventarc
+
+**Almacenamiento y datos** — Cloud Storage · Cloud SQL · AlloyDB · Spanner ·
+Firestore · Bigtable · BigQuery · Memorystore · Filestore / NetApp Volumes /
+Managed Lustre · Dataflow · Pub/Sub · Managed Service for Apache Kafka ·
+Storage Transfer Service · Database Center
+
+**Redes** — VPC / Networking · Cloud Load Balancing · Cloud DNS · Cloud NAT ·
+Cloud NGFW / Firewall · Cloud VPN / Interconnect · Network Service Tiers
+
+**Operación y observabilidad** — Cloud Monitoring · Cloud Logging · Ops Agent /
+Managed Prometheus · Cloud Trace / Profiler / diagnostics · Active Assist /
+Recommender · Cloud Hub / Service Health · Cloud Asset Inventory
+
+**Identidad y seguridad** — IAM · Service accounts · Cloud Identity · Resource
+hierarchy / Organization · Workforce / Workload Identity Federation · CMEK /
+Cloud KMS
+
+**Facturación y gobierno** — Cloud Billing · APIs / Quotas
+
+**IA y herramientas** — Gemini Cloud Assist / Gemini CLI · Agent Runtime (Gemini
+Enterprise Agent Platform) · GPUs / TPUs · Notebooks (Workbench / BigQuery) ·
+Cloud Workstations · Terraform / IaC · gcloud CLI / Cloud Shell
+
+Un test de la suite falla si algún subtópico baja de cinco preguntas, así que la
+cobertura de arriba se verifica en cada cambio en vez de solo prometerse aquí.
 
 ## Dónde se guardan los datos
 
@@ -87,34 +143,6 @@ lsof -ti:3000,8000 | xargs kill -9
 El contenido se versiona como si fuera código: se revisa en diffs y lo valida la
 suite de tests. Tu progreso es tuyo y nunca sale de tu máquina — borrar
 `quiz_ace.db` reinicia tu historial y nada más.
-
-## Desarrollo
-
-```bash
-cd quiz-app
-.venv/bin/pip install -r requirements-dev.txt
-
-.venv/bin/pytest          # 57 tests, incluido el quality gate de cobertura
-.venv/bin/ruff check .    # lint
-```
-
-Los tests validan el propio banco de preguntas: esquema, campos bilingües, mapeo
-al blueprint y cobertura mínima por subtópico y por curso. Una pregunta inválida
-se excluye con un warning en vez de romper la app.
-
-## Estructura del proyecto
-
-```
-quiz-app/
-  data/                 banco de preguntas + catálogos (JSON, bilingüe)
-  quiz_ace/
-    services/           lógica en Python puro, sin Reflex — es lo que cubren los tests
-    states/             estado de Reflex (idioma, quiz, examen, avances)
-    components/         primitivas de UI y piezas compartidas
-    pages/              las 7 rutas
-  assets/theme.css      el sistema de diseño: cada token de color, forma y movimiento
-recursos/               guías oficiales del examen, análisis de cobertura, plan de estudio
-```
 
 ## Licencia
 
