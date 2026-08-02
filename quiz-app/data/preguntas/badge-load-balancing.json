@@ -2272,6 +2272,358 @@
         "es": "Un MIG regional creado desde la misma plantilla distribuye y rebalancea las VMs entre varias zonas automáticamente, de modo que una falla de zona elimina solo parte de la capacidad y el balanceador sigue enrutando a backends saludables en las otras zonas, sin trabajo manual. B logra una redundancia parecida, pero ahora administras tres grupos, tres autoescaladores y tres adjunciones de backend que mantener sincronizados. C es un procedimiento de recuperación manual con mucho tiempo fuera de servicio y pérdida de datos entre instantáneas. D agrega más VMs dentro de la misma zona caída, así que la interrupción sigue derribando todo."
       },
       "doc": "https://cloud.google.com/compute/docs/instance-groups/regional-migs"
+    },
+    {
+      "id": "lb-053",
+      "curso": "badge-load-balancing",
+      "servicios": [
+        "load-balancing"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A compliance rule says no user request may be served over plain HTTP. The site already runs behind a global external Application Load Balancer with a Google-managed certificate. Which approach meets the rule with the LEAST operational effort?",
+        "es": "Una regla de cumplimiento indica que ninguna solicitud de usuario puede atenderse por HTTP sin cifrar. El sitio ya corre detrás de un balanceador de aplicaciones externo global con un certificado administrado por Google. ¿Qué enfoque cumple la regla con el MENOR esfuerzo operativo?"
+      },
+      "opciones": [
+        {
+          "en": "Keep a port-80 frontend whose URL map only performs an HTTPS redirect, so the load balancer answers 301 without contacting any backend",
+          "es": "Mantener un frontend en el puerto 80 cuyo URL map solo realice una redirección a HTTPS, de modo que el balanceador responda 301 sin contactar ningún backend"
+        },
+        {
+          "en": "Delete the port-80 forwarding rule so HTTP requests simply time out",
+          "es": "Eliminar la regla de reenvío del puerto 80 para que las solicitudes HTTP simplemente expiren"
+        },
+        {
+          "en": "Configure each backend web server to answer 301 to HTTP requests and keep sending port-80 traffic to the backends",
+          "es": "Configurar cada servidor web de backend para responder 301 a las solicitudes HTTP y seguir enviando el tráfico del puerto 80 a los backends"
+        },
+        {
+          "en": "Add a Cloud NGFW rule that denies TCP port 80 at the load balancer frontend",
+          "es": "Agregar una regla de Cloud NGFW que deniegue el puerto TCP 80 en el frontend del balanceador"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "A redirect-only URL map bound to a target HTTP proxy lets Google's edge answer every HTTP request with a 301 to the HTTPS URL; no unencrypted request ever reaches a backend and there is nothing to maintain on the VMs. B technically prevents plaintext traffic but breaks every user who types the bare domain, since browsers try HTTP first. C works but duplicates the logic on every backend, must be reapplied to new images, and still allows plaintext requests to reach the VMs. D is not possible: VPC firewall rules and Cloud NGFW policies apply to VM network interfaces, not to the Google Front End that hosts a global load balancer frontend.",
+        "es": "Un URL map dedicado a redirigir, enlazado a un target HTTP proxy, permite que el borde de Google responda cada solicitud HTTP con un 301 hacia la URL HTTPS; ninguna solicitud sin cifrar llega a un backend y no hay nada que mantener en las VMs. B evita técnicamente el tráfico en texto plano, pero rompe la experiencia de todo usuario que escriba el dominio sin esquema, ya que los navegadores intentan HTTP primero. C funciona pero duplica la lógica en cada backend, hay que reaplicarla en imágenes nuevas y aun así las solicitudes sin cifrar llegan a las VMs. D no es posible: las reglas de firewall de VPC y las políticas de Cloud NGFW se aplican a las interfaces de red de las VMs, no al Google Front End que aloja el frontend de un balanceador global."
+      },
+      "doc": "https://cloud.google.com/load-balancing/docs/https/setting-up-http-https-redirect"
+    },
+    {
+      "id": "lb-054",
+      "curso": "badge-load-balancing",
+      "servicios": [
+        "load-balancing",
+        "cloud-storage"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You enabled Cloud CDN on the backend service, but the Cloud Monitoring cache hit ratio stays near zero and the backends still receive every request for the same product images. What is the MOST likely cause?",
+        "es": "Habilitaste Cloud CDN en el backend service, pero la tasa de aciertos de caché en Cloud Monitoring se mantiene cerca de cero y los backends siguen recibiendo todas las solicitudes de las mismas imágenes de producto. ¿Cuál es la causa MÁS probable?"
+      },
+      "opciones": [
+        {
+          "en": "The origin returns responses marked Cache-Control: private or no-store, so Cloud CDN is not allowed to cache them",
+          "es": "El origen devuelve respuestas marcadas con Cache-Control: private o no-store, por lo que Cloud CDN no tiene permitido almacenarlas en caché"
+        },
+        {
+          "en": "Cloud CDN must also be enabled on the URL map for caching to start",
+          "es": "También hay que habilitar Cloud CDN en el URL map para que empiece el almacenamiento en caché"
+        },
+        {
+          "en": "The load balancer is using a Google-managed certificate, which disables caching for HTTPS responses",
+          "es": "El balanceador usa un certificado administrado por Google, lo que desactiva el almacenamiento en caché para respuestas HTTPS"
+        },
+        {
+          "en": "The managed instance group is autoscaling, so cached objects are invalidated whenever a VM is added",
+          "es": "El grupo de instancias administrado está autoescalando, por lo que los objetos en caché se invalidan cada vez que se agrega una VM"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Cloud CDN honours the origin's cache directives: responses marked private, no-store or no-cache are treated as uncacheable, so every request is proxied to the backend and the hit ratio stays at zero. The fix is to return public caching headers with a max-age, or to use a cache mode such as CACHE_ALL_STATIC that caches static content regardless. B is false, since CDN is a backend service setting only. C is false, because HTTPS responses are cached normally and TLS is terminated at the edge. D is false, because the cache lives at Google's edge and is not tied to the lifetime of backend VMs.",
+        "es": "Cloud CDN respeta las directivas de caché del origen: las respuestas marcadas como private, no-store o no-cache se consideran no cacheables, por lo que cada solicitud se envía al backend y la tasa de aciertos queda en cero. La solución es devolver encabezados de caché públicos con un max-age, o usar un modo de caché como CACHE_ALL_STATIC que almacene contenido estático de todos modos. B es falsa, ya que CDN es una opción exclusiva del backend service. C es falsa, porque las respuestas HTTPS se almacenan en caché con normalidad y TLS se termina en el borde. D es falsa, porque la caché vive en el borde de Google y no depende del ciclo de vida de las VMs de backend."
+      },
+      "doc": "https://cloud.google.com/cdn/docs/caching"
+    },
+    {
+      "id": "lb-055",
+      "curso": "badge-load-balancing",
+      "servicios": [
+        "load-balancing"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A backend service uses CLIENT_IP session affinity. Users at a large corporate office complain that their shopping carts empty at random, while users on mobile networks rarely see the issue. What is the BEST fix?",
+        "es": "Un backend service usa afinidad de sesión CLIENT_IP. Los usuarios de una oficina corporativa grande reportan que sus carritos de compra se vacían al azar, mientras que los usuarios en redes móviles casi no ven el problema. ¿Cuál es la MEJOR solución?"
+      },
+      "opciones": [
+        {
+          "en": "Change the backend service session affinity to GENERATED_COOKIE",
+          "es": "Cambiar la afinidad de sesión del backend service a GENERATED_COOKIE"
+        },
+        {
+          "en": "Increase the number of backends so each client has a dedicated VM",
+          "es": "Aumentar la cantidad de backends para que cada cliente tenga una VM dedicada"
+        },
+        {
+          "en": "Disable session affinity and enable Cloud CDN on the backend service",
+          "es": "Desactivar la afinidad de sesión y habilitar Cloud CDN en el backend service"
+        },
+        {
+          "en": "Reserve a static external IP address for the load balancer frontend",
+          "es": "Reservar una dirección IP externa estática para el frontend del balanceador"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Every user behind the corporate NAT shares one source IP, so CLIENT_IP affinity pins them all to a single backend and any rebalancing or backend change scatters their sessions unevenly; a load-balancer-generated cookie identifies each browser individually and keeps affinity accurate behind NAT. B does not help because affinity still keys on the shared IP, and it wastes capacity. C removes affinity entirely, so in-memory carts break for everyone, and Cloud CDN caches static content rather than user-specific state. D affects the stability of the frontend address, not backend selection. The durable design is to move session state to a shared store such as Memorystore.",
+        "es": "Todos los usuarios detrás del NAT corporativo comparten una IP de origen, así que la afinidad CLIENT_IP los fija a un solo backend y cualquier rebalanceo o cambio de backend dispersa sus sesiones de forma despareja; una cookie generada por el balanceador identifica cada navegador de manera individual y mantiene la afinidad precisa detrás de NAT. B no ayuda porque la afinidad sigue basándose en la IP compartida, y desperdicia capacidad. C elimina la afinidad por completo, así que los carritos en memoria se rompen para todos, y Cloud CDN cachea contenido estático, no estado propio de cada usuario. D afecta la estabilidad de la dirección del frontend, no la selección de backend. El diseño duradero es mover el estado de sesión a un almacén compartido como Memorystore."
+      },
+      "doc": "https://cloud.google.com/load-balancing/docs/backend-service"
+    },
+    {
+      "id": "lb-056",
+      "curso": "badge-load-balancing",
+      "servicios": [
+        "cloud-ngfw",
+        "load-balancing"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-firewall-mgmt"
+      ],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "You deployed a regional internal Application Load Balancer with a proxy-only subnet of 10.129.0.0/23. Clients get 502 and all backends are UNHEALTHY. Which TWO ingress firewall rules must exist for the backend VMs?",
+        "es": "Implementaste un balanceador de aplicaciones interno regional con una subred solo de proxy 10.129.0.0/23. Los clientes reciben 502 y todos los backends están UNHEALTHY. ¿Cuáles DOS reglas de firewall de entrada deben existir para las VMs de backend?"
+      },
+      "opciones": [
+        {
+          "en": "Allow ingress from 130.211.0.0/22 and 35.191.0.0/16 to the backend serving port",
+          "es": "Permitir entrada desde 130.211.0.0/22 y 35.191.0.0/16 hacia el puerto de servicio del backend"
+        },
+        {
+          "en": "Allow ingress from the proxy-only subnet range 10.129.0.0/23 to the backend serving port",
+          "es": "Permitir entrada desde el rango de la subred solo de proxy 10.129.0.0/23 hacia el puerto de servicio del backend"
+        },
+        {
+          "en": "Allow ingress from 0.0.0.0/0 to the backend serving port",
+          "es": "Permitir entrada desde 0.0.0.0/0 hacia el puerto de servicio del backend"
+        },
+        {
+          "en": "Allow ingress from 35.235.240.0/20 to TCP port 22 on the backends",
+          "es": "Permitir entrada desde 35.235.240.0/20 hacia el puerto TCP 22 de los backends"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Two different sources must reach the VMs: the health check probes, which always originate from 130.211.0.0/22 and 35.191.0.0/16, and the Envoy proxies of the regional load balancer, whose addresses come from the proxy-only subnet. Missing the first leaves every backend UNHEALTHY; missing the second means healthy backends that still cannot receive requests. C would open the service to the whole internet, which is both unnecessary for an internal load balancer and a security problem. D is the Identity-Aware Proxy TCP forwarding range used for SSH, unrelated to serving traffic.",
+        "es": "Dos orígenes distintos deben alcanzar las VMs: los sondeos de verificación de estado, que siempre provienen de 130.211.0.0/22 y 35.191.0.0/16, y los proxies Envoy del balanceador regional, cuyas direcciones salen de la subred solo de proxy. Si falta la primera regla, todos los backends quedan UNHEALTHY; si falta la segunda, los backends están saludables pero igual no reciben solicitudes. C abriría el servicio a todo internet, algo innecesario para un balanceador interno y además un problema de seguridad. D es el rango de reenvío TCP de Identity-Aware Proxy que se usa para SSH, sin relación con el tráfico de servicio."
+      },
+      "doc": "https://cloud.google.com/load-balancing/docs/l7-internal"
+    },
+    {
+      "id": "lb-057",
+      "curso": "badge-load-balancing",
+      "servicios": [
+        "load-balancing",
+        "vpc"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-subnets-ips"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "After recreating the frontend of a production load balancer during a maintenance window, users could not reach the site until DNS was updated by hand. You must prevent this from happening again. What should you do?",
+        "es": "Después de volver a crear el frontend de un balanceador en producción durante una ventana de mantenimiento, los usuarios no pudieron llegar al sitio hasta que se actualizó el DNS a mano. Debes evitar que esto se repita. ¿Qué deberías hacer?"
+      },
+      "opciones": [
+        {
+          "en": "Reserve a static external IP address and create the forwarding rule with --address pointing to it",
+          "es": "Reservar una dirección IP externa estática y crear la regla de reenvío con --address apuntando a ella"
+        },
+        {
+          "en": "Lower the TTL of the DNS record to 60 seconds and keep using the ephemeral address",
+          "es": "Bajar el TTL del registro DNS a 60 segundos y seguir usando la dirección efímera"
+        },
+        {
+          "en": "Add a second forwarding rule so the load balancer always keeps at least one address",
+          "es": "Agregar una segunda regla de reenvío para que el balanceador siempre conserve al menos una dirección"
+        },
+        {
+          "en": "Switch the load balancer to the Standard Network Service Tier, which assigns persistent addresses",
+          "es": "Cambiar el balanceador al nivel de servicio de red Standard, que asigna direcciones persistentes"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "A forwarding rule created without --address receives an ephemeral IP that is released when the rule is deleted, so the address changes on the next creation. Reserving a static address (global for global load balancers, regional for regional ones) keeps the same IP across frontend rebuilds, so the DNS record never has to change. B only shortens the outage; the IP still changes and someone must edit DNS. C keeps a second ephemeral address that is equally unstable and complicates the design. D is false: the tier determines the network path and the scope of the address, not whether it is ephemeral or reserved.",
+        "es": "Una regla de reenvío creada sin --address recibe una IP efímera que se libera al borrar la regla, así que la dirección cambia en la siguiente creación. Reservar una dirección estática (global para balanceadores globales, regional para los regionales) mantiene la misma IP entre reconstrucciones del frontend, de modo que el registro DNS nunca debe cambiar. B solo acorta la interrupción; la IP igual cambia y alguien debe editar el DNS. C conserva una segunda dirección efímera igual de inestable y complica el diseño. D es falsa: el nivel determina la ruta de red y el alcance de la dirección, no si es efímera o reservada."
+      },
+      "doc": "https://cloud.google.com/compute/docs/ip-addresses/reserve-static-external-ip-address"
+    },
+    {
+      "id": "lb-058",
+      "curso": "badge-load-balancing",
+      "servicios": [
+        "load-balancing",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Your gcloud compute forwarding-rules create --global --target-http-proxy=http-lb-proxy --address=lb-ipv4-1 --ports=80 command fails with a resource-not-found error. Which TWO resources must already exist for this command to succeed?",
+        "es": "Tu comando gcloud compute forwarding-rules create --global --target-http-proxy=http-lb-proxy --address=lb-ipv4-1 --ports=80 falla con un error de recurso no encontrado. ¿Cuáles DOS recursos deben existir ya para que el comando funcione?"
+      },
+      "opciones": [
+        {
+          "en": "The target HTTP proxy http-lb-proxy, which in turn references an existing URL map",
+          "es": "El target HTTP proxy http-lb-proxy, que a su vez referencia un URL map existente"
+        },
+        {
+          "en": "The reserved global address lb-ipv4-1",
+          "es": "La dirección global reservada lb-ipv4-1"
+        },
+        {
+          "en": "A target pool containing the backend instances",
+          "es": "Un target pool que contenga las instancias de backend"
+        },
+        {
+          "en": "A proxy-only subnet in the region of the backends",
+          "es": "Una subred solo de proxy en la región de los backends"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "A global forwarding rule is the last resource of the chain: it can only be created once the target proxy it points to exists (and that proxy in turn required a URL map, which required a backend service and a health check) and once the address passed with --address has been reserved as a global address. C belongs to external passthrough Network Load Balancers, which use target pools instead of proxies. D is required only by regional proxy-based load balancers such as the internal Application Load Balancer; a global external Application Load Balancer runs on Google Front Ends and needs no proxy-only subnet.",
+        "es": "Una regla de reenvío global es el último recurso de la cadena: solo puede crearse cuando ya existe el target proxy al que apunta (y ese proxy, a su vez, requirió un URL map, que requirió un backend service y una verificación de estado) y cuando la dirección pasada con --address ya fue reservada como dirección global. C pertenece a los Network Load Balancer externos de tipo passthrough, que usan target pools en lugar de proxies. D solo lo exigen los balanceadores regionales basados en proxy, como el balanceador de aplicaciones interno; un balanceador de aplicaciones externo global corre sobre Google Front Ends y no necesita subred solo de proxy."
+      },
+      "doc": "https://cloud.google.com/load-balancing/docs/forwarding-rule-concepts"
+    },
+    {
+      "id": "lb-059",
+      "curso": "badge-load-balancing",
+      "servicios": [
+        "load-balancing",
+        "cloud-storage"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A site behind a global external Application Load Balancer must serve /static/* from a Cloud Storage bucket and everything else from the existing MIG backends, all under the same hostname and IP address. What is the BEST way to do this?",
+        "es": "Un sitio detrás de un balanceador de aplicaciones externo global debe servir /static/* desde un bucket de Cloud Storage y todo lo demás desde los backends del MIG existente, todo bajo el mismo nombre de host y la misma dirección IP. ¿Cuál es la MEJOR forma de lograrlo?"
+      },
+      "opciones": [
+        {
+          "en": "Create a backend bucket and add a path matcher in the URL map that routes /static/* to it, keeping the backend service as the default service",
+          "es": "Crear un backend bucket y agregar en el URL map un path matcher que enrute /static/* hacia él, dejando el backend service como servicio predeterminado"
+        },
+        {
+          "en": "Create a second load balancer for the bucket and publish it under a different hostname",
+          "es": "Crear un segundo balanceador para el bucket y publicarlo con otro nombre de host"
+        },
+        {
+          "en": "Mount the Cloud Storage bucket on every backend VM and let the web server serve /static/* from it",
+          "es": "Montar el bucket de Cloud Storage en cada VM de backend y dejar que el servidor web sirva /static/* desde ahí"
+        },
+        {
+          "en": "Add the bucket as an additional backend of the existing backend service with add-backend",
+          "es": "Agregar el bucket como backend adicional del backend service existente con add-backend"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "A backend bucket lets an Application Load Balancer treat a Cloud Storage bucket as an origin, and a path matcher in the URL map splits traffic by path while keeping one hostname, one certificate and one IP address; the bucket can also have Cloud CDN enabled independently. B breaks the single-hostname requirement and doubles the frontends to operate. C adds a filesystem dependency on every VM and gives up the scalability and cost profile of serving directly from Cloud Storage. D is not possible: backend services accept instance groups and network endpoint groups, never buckets, which is exactly why backend buckets exist.",
+        "es": "Un backend bucket permite que un balanceador de aplicaciones trate un bucket de Cloud Storage como origen, y un path matcher del URL map divide el tráfico por ruta manteniendo un solo nombre de host, un solo certificado y una sola dirección IP; además, el bucket puede tener Cloud CDN habilitado de forma independiente. B rompe el requisito de un único nombre de host y duplica los frontends por operar. C agrega una dependencia de sistema de archivos en cada VM y renuncia a la escalabilidad y al perfil de costo de servir directamente desde Cloud Storage. D no es posible: los backend services aceptan grupos de instancias y grupos de extremos de red, nunca buckets, y por eso existen los backend buckets."
+      },
+      "doc": "https://cloud.google.com/load-balancing/docs/backend-bucket"
+    },
+    {
+      "id": "lb-060",
+      "curso": "badge-load-balancing",
+      "servicios": [
+        "load-balancing",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "After moving an application behind a global external Application Load Balancer, the application logs show Google Front End addresses instead of real client IPs, breaking geolocation and rate limiting. Which is the BEST way to recover the client IP without losing HTTPS termination and URL routing?",
+        "es": "Después de mover una aplicación detrás de un balanceador de aplicaciones externo global, los registros de la aplicación muestran direcciones de Google Front End en lugar de las IP reales de los clientes, lo que rompe la geolocalización y la limitación de tasa. ¿Cuál es la MEJOR forma de recuperar la IP del cliente sin perder la terminación HTTPS ni el enrutamiento por URL?"
+      },
+      "opciones": [
+        {
+          "en": "Read the client IP from the X-Forwarded-For header that the load balancer appends to each request",
+          "es": "Leer la IP del cliente desde el encabezado X-Forwarded-For que el balanceador agrega a cada solicitud"
+        },
+        {
+          "en": "Replace the Application Load Balancer with an external passthrough Network Load Balancer",
+          "es": "Reemplazar el balanceador de aplicaciones por un Network Load Balancer externo de tipo passthrough"
+        },
+        {
+          "en": "Enable CLIENT_IP session affinity on the backend service",
+          "es": "Habilitar la afinidad de sesión CLIENT_IP en el backend service"
+        },
+        {
+          "en": "Give every backend VM an external IP address so clients connect directly",
+          "es": "Asignar a cada VM de backend una dirección IP externa para que los clientes se conecten directo"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Proxy-based load balancers terminate the client connection, so the backend necessarily sees the proxy address; the load balancer preserves the original client IP in X-Forwarded-For, and the application should read the client entry from that header rather than the socket address. B does preserve the source IP but is a Layer 4 regional balancer, so you lose TLS termination, URL maps and global reach. C only influences which backend is selected and does not change what the backend observes as the source address. D removes the load balancer from the path entirely, sacrificing scaling, health checking and centralized TLS.",
+        "es": "Los balanceadores basados en proxy terminan la conexión del cliente, por lo que el backend necesariamente ve la dirección del proxy; el balanceador conserva la IP original del cliente en X-Forwarded-For, y la aplicación debe leer la entrada del cliente desde ese encabezado en lugar de la dirección del socket. B sí conserva la IP de origen, pero es un balanceador regional de capa 4, así que pierdes la terminación TLS, los URL maps y el alcance global. C solo influye en qué backend se elige y no cambia lo que el backend observa como dirección de origen. D quita por completo al balanceador del camino, sacrificando escalado, verificación de estado y TLS centralizado."
+      },
+      "doc": "https://cloud.google.com/load-balancing/docs/https"
     }
   ]
 }

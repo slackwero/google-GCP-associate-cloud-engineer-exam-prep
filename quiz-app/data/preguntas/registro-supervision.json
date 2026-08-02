@@ -1500,6 +1500,131 @@
         "es": "Las condiciones de ausencia de métrica existen justamente para las fallas por datos faltantes: se activan cuando una serie temporal deja de recibir puntos durante la ventana configurada, que es la señal que produce un agente caído. B no funciona: cuando el agente muere no envía nada, así que nunca se escribe un punto con valor 0 y una condición de umbral no tiene qué evaluar. C solo indica que la VM responde en un puerto, lo que puede ser cierto mientras el proceso ETL está muerto. D ayuda al análisis posterior, pero nunca genera una notificación."
       },
       "doc": "https://cloud.google.com/monitoring/alerts/types-of-conditions"
+    },
+    {
+      "id": "ops-061",
+      "curso": "registro-supervision",
+      "servicios": ["cloud-logging", "observability-tools"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-logging-usage"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A customer reports one failed order and gives you the timestamp. The request crossed four services, each writing its own logs. You must reconstruct only that request's path across all of them. What is the BEST approach?",
+        "es": "Un cliente reporta un pedido fallido y te da la marca de tiempo. La solicitud atravesó cuatro servicios, cada uno con sus propios registros. Debes reconstruir el recorrido de esa única solicitud en todos ellos. ¿Cuál es el MEJOR enfoque?"
+      },
+      "opciones": [
+        { "en": "Find one entry near that timestamp, take its trace identifier, and query all services in Logs Explorer filtering by that trace field", "es": "Encontrar una entrada cercana a esa marca de tiempo, tomar su identificador de traza y consultar todos los servicios en Logs Explorer filtrando por ese campo trace" },
+        { "en": "Read each service's logs separately around the timestamp and match them by eye", "es": "Leer los registros de cada servicio por separado alrededor de la marca de tiempo y emparejarlos a ojo" },
+        { "en": "Create a log-based metric counting failed orders", "es": "Crear una métrica basada en registros que cuente pedidos fallidos" },
+        { "en": "Enable Cloud Profiler on the four services", "es": "Habilitar Cloud Profiler en los cuatro servicios" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Google Cloud runtimes propagate a trace context and stamp log entries with the trace and span identifiers, so filtering by that trace value returns every entry of that single request across services, and the entries link directly to the trace in Cloud Trace. B is error-prone at any real traffic level because many concurrent requests share the same seconds. C aggregates a count and loses the individual case entirely. D profiles resource consumption and cannot reconstruct a specific request.",
+        "es": "Los entornos de ejecución de Google Cloud propagan un contexto de traza y marcan las entradas de registro con los identificadores de traza y span, así que filtrar por ese valor de trace devuelve todas las entradas de esa única solicitud en todos los servicios, y las entradas enlazan directamente con la traza en Cloud Trace. B es propensa a errores con cualquier tráfico real, porque muchas solicitudes concurrentes comparten los mismos segundos. C agrega un conteo y pierde por completo el caso individual. D perfila el consumo de recursos y no puede reconstruir una solicitud específica."
+      },
+      "doc": "https://cloud.google.com/logging/docs/view/correlate-logs"
+    },
+    {
+      "id": "ops-062",
+      "curso": "registro-supervision",
+      "servicios": ["cloud-sql", "observability-tools"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-diagnostics"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Query Insights shows that a single SELECT dominates the load of a Cloud SQL for MySQL instance and its plan performs a full table scan on a 200-million-row table. Cost must stay as low as possible. What is the BEST action?",
+        "es": "Query Insights muestra que un solo SELECT domina la carga de una instancia de Cloud SQL para MySQL y su plan realiza un escaneo completo de una tabla de 200 millones de filas. El costo debe mantenerse lo más bajo posible. ¿Cuál es la MEJOR acción?"
+      },
+      "opciones": [
+        { "en": "Review the index advisor recommendation for that query and create the suggested index", "es": "Revisar la recomendación del index advisor para esa consulta y crear el índice sugerido" },
+        { "en": "Upgrade the instance to a larger machine type", "es": "Actualizar la instancia a un tipo de máquina más grande" },
+        { "en": "Add read replicas and send the query to them", "es": "Agregar réplicas de lectura y enviar la consulta hacia ellas" },
+        { "en": "Migrate the table to BigQuery", "es": "Migrar la tabla a BigQuery" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "The index advisor analyzes real query patterns and proposes indexes that remove the full scan, which fixes the root cause at essentially no infrastructure cost. B pays permanently for more hardware to run the same inefficient plan. C multiplies the cost of instances while each replica still performs the same full scan, and it adds replication lag. D is a major re-architecture: BigQuery is an analytical warehouse and is not a drop-in replacement for an OLTP query path.",
+        "es": "El index advisor analiza los patrones reales de consulta y propone índices que eliminan el escaneo completo, lo que corrige la causa raíz prácticamente sin costo de infraestructura. B paga permanentemente más hardware para ejecutar el mismo plan ineficiente. C multiplica el costo de instancias mientras cada réplica sigue haciendo el mismo escaneo completo, y agrega retraso de replicación. D es una rearquitectura mayor: BigQuery es un almacén analítico y no reemplaza directamente una ruta de consulta OLTP."
+      },
+      "doc": "https://cloud.google.com/sql/docs/mysql/using-index-advisor"
+    },
+    {
+      "id": "ops-063",
+      "curso": "registro-supervision",
+      "servicios": ["ops-agent", "cloud-monitoring", "compute-engine"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-agents-prometheus"],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "A third-party application on Compute Engine VMs exposes a Prometheus /metrics endpoint. Which TWO approaches get those metrics into Cloud Monitoring without operating a Prometheus server?",
+        "es": "Una aplicación de terceros en VMs de Compute Engine expone un endpoint /metrics de Prometheus. ¿Cuáles DOS enfoques llevan esas métricas a Cloud Monitoring sin operar un servidor Prometheus?"
+      },
+      "opciones": [
+        { "en": "Configure the Ops Agent with a Prometheus receiver that scrapes the endpoint and forwards the metrics", "es": "Configurar el Ops Agent con un receptor de Prometheus que haga scraping del endpoint y reenvíe las métricas" },
+        { "en": "Run the Managed Service for Prometheus standalone collector on the VMs to scrape and send the metrics", "es": "Ejecutar el recolector independiente de Managed Service for Prometheus en las VMs para hacer scraping y enviar las métricas" },
+        { "en": "Enable VPC Flow Logs on the subnet where the VMs run", "es": "Habilitar VPC Flow Logs en la subred donde se ejecutan las VMs" },
+        { "en": "Create an uptime check against the /metrics endpoint", "es": "Crear un uptime check contra el endpoint /metrics" }
+      ],
+      "respuesta": ["A", "B"],
+      "explicacion": {
+        "en": "The Ops Agent supports a Prometheus receiver in its configuration, and Managed Service for Prometheus offers self-deployed or standalone collection for non-Kubernetes environments; both send the scraped series to Cloud Monitoring without you running or storing Prometheus. VPC Flow Logs capture network flow metadata and never read an application endpoint. An uptime check only records whether the endpoint responds and its latency; it does not parse or ingest the exposed metric values.",
+        "es": "El Ops Agent admite un receptor de Prometheus en su configuración, y Managed Service for Prometheus ofrece recolección autoimplementada o independiente para entornos que no son Kubernetes; ambos envían las series recolectadas a Cloud Monitoring sin que tú operes ni almacenes Prometheus. Los VPC Flow Logs capturan metadatos de flujos de red y nunca leen un endpoint de aplicación. Un uptime check solo registra si el endpoint responde y su latencia; no interpreta ni ingiere los valores de las métricas expuestas."
+      },
+      "doc": "https://cloud.google.com/stackdriver/docs/managed-prometheus/setup-unmanaged"
+    },
+    {
+      "id": "ops-064",
+      "curso": "registro-supervision",
+      "servicios": ["cloud-hub", "cloud-monitoring"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-service-health-hub"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A platform team wants one console view where they can see, per application, its resources, active alerts, and any Google Cloud incidents affecting it, with the least configuration effort. What is the BEST option?",
+        "es": "Un equipo de plataforma quiere una única vista en la consola donde pueda ver, por aplicación, sus recursos, las alertas activas y cualquier incidente de Google Cloud que la afecte, con el menor esfuerzo de configuración. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        { "en": "Use Cloud Hub, which brings application-centric health, alerts, resources, and service health signals together", "es": "Usar Cloud Hub, que reúne la salud centrada en la aplicación, las alertas, los recursos y las señales de estado del servicio" },
+        { "en": "Build a custom dashboard per application in Cloud Monitoring and manually add every widget", "es": "Construir un dashboard personalizado por aplicación en Cloud Monitoring y agregar manualmente cada widget" },
+        { "en": "Export metrics, logs, and incidents to BigQuery and build a Looker Studio report", "es": "Exportar métricas, registros e incidentes a BigQuery y construir un informe en Looker Studio" },
+        { "en": "Ask each team to keep a spreadsheet of their resources and open incidents", "es": "Pedir a cada equipo que mantenga una hoja de cálculo con sus recursos e incidentes abiertos" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Cloud Hub is the application-centric operations surface that aggregates workload health, alerts, the underlying resources, and service health information without building anything, which matches the minimal-effort requirement. B is a lot of manual work per application and still does not surface Google-side incidents. C is an expensive pipeline that duplicates data and reproduces, with delay, what the console already offers. D is manual, always outdated, and not a monitoring solution.",
+        "es": "Cloud Hub es la superficie de operaciones centrada en aplicaciones que agrega la salud de las cargas de trabajo, las alertas, los recursos subyacentes y la información de estado del servicio sin construir nada, lo que encaja con el requisito de mínimo esfuerzo. B implica mucho trabajo manual por aplicación y aun así no muestra los incidentes del lado de Google. C es un pipeline costoso que duplica datos y reproduce, con retraso, lo que la consola ya ofrece. D es manual, siempre desactualizado y no es una solución de supervisión."
+      },
+      "doc": "https://cloud.google.com/cloud-hub/docs/overview"
+    },
+    {
+      "id": "ops-065",
+      "curso": "registro-supervision",
+      "servicios": ["gemini-cloud-assist", "cloud-run", "cloud-logging"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.4-gemini-assist-monitoring"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A Cloud Run service starts returning 5xx errors after a deployment. You must accelerate root-cause analysis across logs, metrics, and recent changes, while keeping a human decision before any fix is applied. What is the BEST use of Gemini Cloud Assist?",
+        "es": "Un servicio de Cloud Run empieza a devolver errores 5xx después de un despliegue. Debes acelerar el análisis de causa raíz entre registros, métricas y cambios recientes, manteniendo una decisión humana antes de aplicar cualquier corrección. ¿Cuál es el MEJOR uso de Gemini Cloud Assist?"
+      },
+      "opciones": [
+        { "en": "Start a Gemini Cloud Assist investigation on the service so it correlates logs, metrics, and recent changes and proposes probable causes for the team to validate", "es": "Iniciar una investigación de Gemini Cloud Assist sobre el servicio para que correlacione registros, métricas y cambios recientes y proponga causas probables que el equipo valide" },
+        { "en": "Let Gemini automatically roll back the revision and change the IAM policy without review", "es": "Dejar que Gemini revierta automáticamente la revisión y cambie la política de IAM sin revisión" },
+        { "en": "Ask Gemini to disable the alerting policies so the noise stops during the incident", "es": "Pedirle a Gemini que inhabilite las políticas de alertas para que el ruido pare durante el incidente" },
+        { "en": "Wait for the next Active Assist recommendation cycle to report the problem", "es": "Esperar al siguiente ciclo de recomendaciones de Active Assist para que reporte el problema" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Gemini Cloud Assist investigations gather observability signals and recent configuration changes, summarize likely causes, and present evidence the engineer reviews before acting, which speeds up analysis while keeping the human in the loop. B is not how the product works and would violate change-control practices. C hides the symptom and blinds the team during the incident. D is the wrong tool and timescale: Active Assist produces optimization recommendations over days, not real-time incident diagnosis.",
+        "es": "Las investigaciones de Gemini Cloud Assist reúnen señales de observabilidad y cambios de configuración recientes, resumen las causas probables y presentan evidencia que el ingeniero revisa antes de actuar, lo que acelera el análisis manteniendo a la persona en el circuito. B no es como funciona el producto y violaría las prácticas de control de cambios. C oculta el síntoma y deja al equipo a ciegas durante el incidente. D es la herramienta y la escala de tiempo equivocadas: Active Assist produce recomendaciones de optimización a lo largo de días, no diagnóstico de incidentes en tiempo real."
+      },
+      "doc": "https://cloud.google.com/gemini/docs/cloud-assist/investigations"
     }
   ]
 }

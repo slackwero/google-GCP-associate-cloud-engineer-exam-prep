@@ -1,0 +1,350 @@
+{
+  "preguntas": [
+    {
+      "id": "elas-001",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "load-balancing"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which Google Cloud load balancer is a global, proxy-based Layer 7 load balancer for HTTP(S) traffic coming from the internet?",
+        "es": "¿Cuál balanceador de cargas de Google Cloud es un balanceador global basado en proxy de capa 7 para tráfico HTTP(S) que llega desde internet?"
+      },
+      "opciones": [
+        {
+          "en": "A regional internal passthrough Network Load Balancer",
+          "es": "Un balanceador de cargas de red interno de tipo passthrough regional"
+        },
+        {
+          "en": "An external passthrough Network Load Balancer",
+          "es": "Un balanceador de cargas de red externo de tipo passthrough"
+        },
+        {
+          "en": "A global external Application Load Balancer",
+          "es": "Un balanceador de cargas de aplicaciones externo global"
+        },
+        {
+          "en": "A regional internal Application Load Balancer",
+          "es": "Un balanceador de cargas de aplicaciones interno regional"
+        }
+      ],
+      "respuesta": [
+        "C"
+      ],
+      "explicacion": {
+        "en": "The global external Application Load Balancer is a Layer 7 proxy that uses a single anycast IP to serve users worldwide and supports URL maps, SSL termination and Cloud CDN. The internal passthrough Network Load Balancer (A) is Layer 4 and only serves clients inside the VPC. The external passthrough Network Load Balancer (B) is Layer 4, regional, and does not proxy or understand HTTP. The internal Application Load Balancer (D) is Layer 7 but only reachable from inside the VPC, not from the internet.",
+        "es": "El balanceador de cargas de aplicaciones externo global es un proxy de capa 7 que usa una sola IP anycast para atender usuarios en todo el mundo y admite mapas de URL, terminación SSL y Cloud CDN. El balanceador de red interno passthrough (A) es de capa 4 y solo atiende clientes dentro de la VPC. El balanceador de red externo passthrough (B) es de capa 4, regional, y no hace proxy ni entiende HTTP. El balanceador de aplicaciones interno (D) es de capa 7 pero solo es accesible desde dentro de la VPC, no desde internet."
+      },
+      "doc": "https://cloud.google.com/load-balancing/docs/application-load-balancer"
+    },
+    {
+      "id": "elas-002",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "load-balancing"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is the main difference between a proxy Network Load Balancer and a passthrough Network Load Balancer?",
+        "es": "¿Cuál es la diferencia principal entre un balanceador de cargas de red de tipo proxy y uno de tipo passthrough?"
+      },
+      "opciones": [
+        {
+          "en": "A proxy load balancer terminates the client connection and opens a new connection to the backend, while a passthrough load balancer forwards packets to the backend preserving the original source and destination IP addresses",
+          "es": "Un balanceador de tipo proxy termina la conexión del cliente y abre una conexión nueva hacia el backend, mientras que uno passthrough reenvía los paquetes al backend conservando las direcciones IP de origen y destino originales"
+        },
+        {
+          "en": "A proxy load balancer works only with TCP and a passthrough load balancer works only with UDP",
+          "es": "Un balanceador de tipo proxy solo funciona con TCP y uno passthrough solo funciona con UDP"
+        },
+        {
+          "en": "Passthrough load balancers are always global and proxy load balancers are always regional",
+          "es": "Los balanceadores passthrough siempre son globales y los de tipo proxy siempre son regionales"
+        },
+        {
+          "en": "Only proxy load balancers can use health checks on their backends",
+          "es": "Solo los balanceadores de tipo proxy pueden usar verificaciones de estado en sus backends"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The defining difference is connection handling: proxy load balancers terminate the connection and create a new one to the backend, so the backend sees the proxy's IP; passthrough load balancers route packets untouched, so the backend sees the client's real IP. B is wrong because both types support TCP and passthrough also supports UDP and other protocols. C is backwards: passthrough Network Load Balancers are regional, while proxy load balancers can be regional or global. D is false because every Google Cloud load balancer type relies on health checks.",
+        "es": "La diferencia clave está en el manejo de la conexión: los balanceadores de tipo proxy terminan la conexión y crean una nueva hacia el backend, por lo que el backend ve la IP del proxy; los passthrough enrutan los paquetes sin modificarlos, por lo que el backend ve la IP real del cliente. B es incorrecta porque ambos tipos admiten TCP y passthrough además admite UDP y otros protocolos. C está invertida: los balanceadores de red passthrough son regionales, mientras que los de tipo proxy pueden ser regionales o globales. D es falsa porque todos los tipos de balanceador de Google Cloud usan verificaciones de estado."
+      },
+      "doc": "https://cloud.google.com/load-balancing/docs/network"
+    },
+    {
+      "id": "elas-003",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "load-balancing"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-load-balancers"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What does Cloud CDN do when it is enabled on the backend service of a global external Application Load Balancer?",
+        "es": "¿Qué hace Cloud CDN cuando se habilita en el servicio de backend de un balanceador de cargas de aplicaciones externo global?"
+      },
+      "opciones": [
+        {
+          "en": "It automatically adds backend VMs to the instance group when traffic grows",
+          "es": "Agrega automáticamente VMs de backend al grupo de instancias cuando crece el tráfico"
+        },
+        {
+          "en": "It caches content at Google's edge points of presence, close to users, reducing latency and load on the backends",
+          "es": "Almacena contenido en caché en los puntos de presencia perimetrales de Google, cerca de los usuarios, lo que reduce la latencia y la carga sobre los backends"
+        },
+        {
+          "en": "It encrypts traffic between the client and the load balancer",
+          "es": "Encripta el tráfico entre el cliente y el balanceador de cargas"
+        },
+        {
+          "en": "It routes every request to the region with the lowest compute price",
+          "es": "Enruta cada solicitud a la región con el precio de cómputo más bajo"
+        }
+      ],
+      "respuesta": [
+        "B"
+      ],
+      "explicacion": {
+        "en": "Cloud CDN uses Google's globally distributed edge caches to serve cacheable responses close to the user, cutting latency, egress cost and backend load. A describes managed instance group autoscaling, not caching. C describes TLS/SSL termination, which the load balancer already handles with an SSL certificate regardless of Cloud CDN. D is wrong because the load balancer routes to the closest healthy backend with capacity, not to the cheapest region.",
+        "es": "Cloud CDN usa las cachés perimetrales distribuidas globalmente de Google para entregar respuestas almacenables en caché cerca del usuario, lo que reduce latencia, costo de salida y carga en los backends. A describe el autoescalado de un grupo de instancias administrado, no el almacenamiento en caché. C describe la terminación TLS/SSL, que el balanceador ya realiza con un certificado SSL independientemente de Cloud CDN. D es incorrecta porque el balanceador enruta al backend sano más cercano con capacidad disponible, no a la región más barata."
+      },
+      "doc": "https://cloud.google.com/cdn/docs/overview"
+    },
+    {
+      "id": "elas-004",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-migs-autoscaling"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is an instance template in Compute Engine?",
+        "es": "¿Qué es una plantilla de instancias en Compute Engine?"
+      },
+      "opciones": [
+        {
+          "en": "A point-in-time backup of a running VM's boot disk",
+          "es": "Una copia de seguridad puntual del disco de arranque de una VM en ejecución"
+        },
+        {
+          "en": "A YAML manifest that defines Kubernetes workloads",
+          "es": "Un manifiesto YAML que define cargas de trabajo de Kubernetes"
+        },
+        {
+          "en": "A saved gcloud command that an operator must run manually for each new VM",
+          "es": "Un comando gcloud guardado que un operador debe ejecutar manualmente para cada VM nueva"
+        },
+        {
+          "en": "An immutable resource that defines machine type, boot disk image, network settings and metadata, and is used by a managed instance group to create identical VMs",
+          "es": "Un recurso inmutable que define el tipo de máquina, la imagen del disco de arranque, la configuración de red y los metadatos, y que un grupo de instancias administrado usa para crear VMs idénticas"
+        }
+      ],
+      "respuesta": [
+        "D"
+      ],
+      "explicacion": {
+        "en": "An instance template is the immutable blueprint a managed instance group uses to create identical VMs; to change it you create a new template and roll it out. A describes a persistent disk snapshot or a custom image. B describes Kubernetes manifests, unrelated to Compute Engine templates. C is wrong because the whole point of a template is that the MIG creates the VMs automatically without manual commands.",
+        "es": "Una plantilla de instancias es el plano inmutable que un grupo de instancias administrado usa para crear VMs idénticas; para cambiarla se crea una plantilla nueva y se implementa. A describe una instantánea de disco persistente o una imagen personalizada. B describe manifiestos de Kubernetes, ajenos a las plantillas de Compute Engine. C es incorrecta porque el objetivo de la plantilla es que el MIG cree las VMs automáticamente, sin comandos manuales."
+      },
+      "doc": "https://cloud.google.com/compute/docs/instance-templates"
+    },
+    {
+      "id": "elas-005",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "compute-engine",
+        "cloud-monitoring"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-migs-autoscaling"
+      ],
+      "nivel": "principiante",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO signals can an autoscaling policy for a managed instance group use to decide when to add or remove VMs?",
+        "es": "¿Cuáles DOS señales puede usar una política de autoescalado de un grupo de instancias administrado para decidir cuándo agregar o quitar VMs?"
+      },
+      "opciones": [
+        {
+          "en": "Average CPU utilization across the instances of the group",
+          "es": "Uso promedio de CPU en las instancias del grupo"
+        },
+        {
+          "en": "The number of firewall rules defined in the VPC network",
+          "es": "La cantidad de reglas de firewall definidas en la red de VPC"
+        },
+        {
+          "en": "HTTP load balancing serving capacity (utilization, rate or connections)",
+          "es": "Capacidad de entrega del balanceo de cargas HTTP (uso, tasa o conexiones)"
+        },
+        {
+          "en": "The remaining amount of a Cloud Billing budget",
+          "es": "El monto restante de un presupuesto de Cloud Billing"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "C"
+      ],
+      "explicacion": {
+        "en": "Compute Engine autoscalers support CPU utilization, HTTP load balancing serving capacity, Cloud Monitoring metrics and schedules as scaling signals. B is wrong because firewall rules are a security configuration and have no relation to load. D is wrong because Cloud Billing budgets only trigger alerts and Pub/Sub notifications, they are not an autoscaling signal.",
+        "es": "Los autoescaladores de Compute Engine admiten uso de CPU, capacidad de entrega del balanceo de cargas HTTP, métricas de Cloud Monitoring y programaciones como señales de escalado. B es incorrecta porque las reglas de firewall son configuración de seguridad y no se relacionan con la carga. D es incorrecta porque los presupuestos de Cloud Billing solo generan alertas y notificaciones de Pub/Sub; no son una señal de autoescalado."
+      },
+      "doc": "https://cloud.google.com/compute/docs/autoscaler"
+    },
+    {
+      "id": "elas-006",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-migs-autoscaling"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is the purpose of a health check attached to a managed instance group with autohealing enabled?",
+        "es": "¿Cuál es el propósito de una verificación de estado asociada a un grupo de instancias administrado con reparación automática habilitada?"
+      },
+      "opciones": [
+        {
+          "en": "It adds new instances to the group whenever CPU utilization rises above the target",
+          "es": "Agrega instancias nuevas al grupo cada vez que el uso de CPU supera el objetivo"
+        },
+        {
+          "en": "It periodically probes each instance and recreates the ones that fail the check",
+          "es": "Sondea periódicamente cada instancia y recrea las que no superan la verificación"
+        },
+        {
+          "en": "It verifies that the service account attached to each instance has the right IAM roles",
+          "es": "Verifica que la cuenta de servicio asociada a cada instancia tenga los roles de IAM correctos"
+        },
+        {
+          "en": "It creates a snapshot of the boot disk of every unhealthy instance",
+          "es": "Crea una instantánea del disco de arranque de cada instancia en mal estado"
+        }
+      ],
+      "respuesta": [
+        "B"
+      ],
+      "explicacion": {
+        "en": "Autohealing uses an application-level health check to detect instances whose application is not responding and recreates them, restoring capacity without human intervention. A describes the autoscaler, which is a separate feature from autohealing. C is wrong because health checks probe a network endpoint, not IAM. D is wrong because health checks never create snapshots; the unhealthy VM is recreated from the instance template.",
+        "es": "La reparación automática usa una verificación de estado a nivel de aplicación para detectar instancias cuya aplicación no responde y las recrea, restaurando la capacidad sin intervención humana. A describe el autoescalador, que es una función distinta de la reparación automática. C es incorrecta porque las verificaciones de estado sondean un extremo de red, no IAM. D es incorrecta porque las verificaciones nunca crean instantáneas; la VM en mal estado se recrea desde la plantilla de instancias."
+      },
+      "doc": "https://cloud.google.com/compute/docs/instance-groups/autohealing-instances-in-migs"
+    },
+    {
+      "id": "elas-007",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "hybrid-connectivity"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-connectivity"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which statement best describes the difference between Cloud VPN and Dedicated Interconnect?",
+        "es": "¿Qué enunciado describe mejor la diferencia entre Cloud VPN y Dedicated Interconnect?"
+      },
+      "opciones": [
+        {
+          "en": "Both send traffic over the public internet, but Dedicated Interconnect uses faster routers",
+          "es": "Ambos envían el tráfico por internet pública, pero Dedicated Interconnect usa routers más rápidos"
+        },
+        {
+          "en": "Cloud VPN requires a colocation facility while Dedicated Interconnect does not",
+          "es": "Cloud VPN requiere una instalación de colocación y Dedicated Interconnect no"
+        },
+        {
+          "en": "Cloud VPN carries encrypted traffic over the public internet through IPsec tunnels, while Dedicated Interconnect provides a dedicated physical connection directly to Google's network",
+          "es": "Cloud VPN transporta tráfico encriptado por internet pública mediante túneles IPsec, mientras que Dedicated Interconnect ofrece una conexión física dedicada directamente a la red de Google"
+        },
+        {
+          "en": "Dedicated Interconnect encrypts all traffic with IPsec by default",
+          "es": "Dedicated Interconnect encripta todo el tráfico con IPsec de forma predeterminada"
+        }
+      ],
+      "respuesta": [
+        "C"
+      ],
+      "explicacion": {
+        "en": "Cloud VPN builds IPsec tunnels across the public internet, so bandwidth and latency depend on the internet path; Dedicated Interconnect is a physical circuit into Google's network with predictable bandwidth and lower latency. A is wrong because Interconnect traffic does not traverse the public internet. B is backwards: it is Dedicated Interconnect that requires presence in a colocation facility that peers with Google. D is wrong because Interconnect traffic is not IPsec-encrypted by default; you add MACsec or run HA VPN over Cloud Interconnect if you need encryption.",
+        "es": "Cloud VPN crea túneles IPsec a través de internet pública, por lo que el ancho de banda y la latencia dependen de la ruta de internet; Dedicated Interconnect es un circuito físico hacia la red de Google, con ancho de banda predecible y menor latencia. A es incorrecta porque el tráfico de Interconnect no pasa por internet pública. B está invertida: es Dedicated Interconnect el que exige presencia en una instalación de colocación con peering con Google. D es incorrecta porque el tráfico de Interconnect no se encripta con IPsec de forma predeterminada; se agrega MACsec o se ejecuta HA VPN sobre Cloud Interconnect si se necesita encriptación."
+      },
+      "doc": "https://cloud.google.com/network-connectivity/docs/how-to/choose-product"
+    },
+    {
+      "id": "elas-008",
+      "curso": "infraestructura-escalamiento-automatizacion",
+      "servicios": [
+        "vpc"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-vpc-subnets"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What does VPC Network Peering provide?",
+        "es": "¿Qué proporciona el intercambio de tráfico entre redes de VPC (VPC Network Peering)?"
+      },
+      "opciones": [
+        {
+          "en": "Private internal IP connectivity between two VPC networks, which may belong to different projects or organizations, without traffic leaving Google's network",
+          "es": "Conectividad privada por IP interna entre dos redes de VPC, que pueden pertenecer a proyectos u organizaciones distintos, sin que el tráfico salga de la red de Google"
+        },
+        {
+          "en": "A transitive mesh in which the peers of your peers can also reach your network",
+          "es": "Una malla transitiva en la que los pares de tus pares también pueden alcanzar tu red"
+        },
+        {
+          "en": "Automatic merging of the peered networks' subnet IP ranges into a single range",
+          "es": "Fusión automática de los rangos IP de las subredes emparejadas en un solo rango"
+        },
+        {
+          "en": "IPsec-encrypted tunnels between two VPC networks",
+          "es": "Túneles encriptados con IPsec entre dos redes de VPC"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "VPC Network Peering connects two VPC networks so resources communicate using internal IPs over Google's backbone, with no external IPs or gateways. B is false because peering is explicitly non-transitive: each pair of networks needs its own peering. C is false because each network keeps its own subnets, and peering fails if IP ranges overlap. D describes Cloud VPN, not peering; peered traffic stays inside Google's network and needs no IPsec tunnel.",
+        "es": "El intercambio de tráfico entre redes de VPC conecta dos redes de VPC para que los recursos se comuniquen con IPs internas por la red troncal de Google, sin IPs externas ni puertas de enlace. B es falsa porque el peering es explícitamente no transitivo: cada par de redes necesita su propio peering. C es falsa porque cada red conserva sus subredes y el peering falla si los rangos IP se superponen. D describe Cloud VPN, no el peering; el tráfico emparejado permanece dentro de la red de Google y no necesita túnel IPsec."
+      },
+      "doc": "https://cloud.google.com/vpc/docs/vpc-peering"
+    }
+  ]
+}

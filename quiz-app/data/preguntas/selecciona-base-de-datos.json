@@ -1,0 +1,695 @@
+{
+  "preguntas": [
+    {
+      "id": "db-001",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "cloud-sql"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-data-products"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is Cloud SQL?",
+        "es": "¿Qué es Cloud SQL?"
+      },
+      "opciones": [
+        {
+          "en": "A fully managed relational database service for MySQL, PostgreSQL, and SQL Server",
+          "es": "Un servicio de base de datos relacional completamente administrado para MySQL, PostgreSQL y SQL Server"
+        },
+        {
+          "en": "A globally distributed NoSQL document database for mobile and web apps",
+          "es": "Una base de datos NoSQL documental distribuida globalmente para apps móviles y web"
+        },
+        {
+          "en": "A serverless data warehouse for analytical queries over petabytes of data",
+          "es": "Un data warehouse serverless para consultas analíticas sobre petabytes de datos"
+        },
+        {
+          "en": "An in-memory key-value store used as a cache",
+          "es": "Un almacén de clave-valor en memoria que se usa como caché"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Cloud SQL is Google Cloud's managed relational database service, supporting the MySQL, PostgreSQL, and SQL Server engines with automated backups, patching, and replication. B describes Firestore, C describes BigQuery, and D describes Memorystore.",
+        "es": "Cloud SQL es el servicio administrado de bases de datos relacionales de Google Cloud, compatible con los motores MySQL, PostgreSQL y SQL Server, con backups automáticos, parches y replicación. B describe Firestore, C describe BigQuery y D describe Memorystore."
+      },
+      "doc": "https://cloud.google.com/sql/docs/introduction"
+    },
+    {
+      "id": "db-002",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "spanner"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-data-products"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which characteristic best describes Spanner?",
+        "es": "¿Qué característica describe mejor a Spanner?"
+      },
+      "opciones": [
+        {
+          "en": "A relational database that scales horizontally and offers strong (external) consistency across regions",
+          "es": "Una base de datos relacional que escala horizontalmente y ofrece consistencia sólida (externa) entre regiones"
+        },
+        {
+          "en": "A wide-column NoSQL store optimized for time-series data with no SQL support",
+          "es": "Un almacén NoSQL wide-column optimizado para series de tiempo y sin compatibilidad con SQL"
+        },
+        {
+          "en": "A single-zone database engine intended for development and testing only",
+          "es": "Un motor de base de datos de una sola zona pensado solo para desarrollo y pruebas"
+        },
+        {
+          "en": "A managed cache layer that sits in front of Cloud SQL instances",
+          "es": "Una capa de caché administrada que se coloca frente a instancias de Cloud SQL"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Spanner combines relational semantics and SQL with horizontal scaling and external consistency, including multi-region configurations with a 99.999% SLA. B describes Bigtable, C is false because Spanner is built for mission-critical production workloads, and D describes Memorystore.",
+        "es": "Spanner combina semántica relacional y SQL con escalado horizontal y consistencia externa, incluidas configuraciones multirregión con SLA de 99.999%. B describe Bigtable, C es falsa porque Spanner está pensado para cargas de producción críticas y D describe Memorystore."
+      },
+      "doc": "https://cloud.google.com/spanner/docs/overview"
+    },
+    {
+      "id": "db-003",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "firestore"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-data-products"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What kind of database is Firestore?",
+        "es": "¿Qué tipo de base de datos es Firestore?"
+      },
+      "opciones": [
+        {
+          "en": "A serverless NoSQL document database with collections, documents, and real-time listeners",
+          "es": "Una base de datos NoSQL documental serverless con colecciones, documentos y listeners en tiempo real"
+        },
+        {
+          "en": "A relational database compatible with the PostgreSQL wire protocol",
+          "es": "Una base de datos relacional compatible con el protocolo de PostgreSQL"
+        },
+        {
+          "en": "A columnar analytics engine designed for BI dashboards",
+          "es": "Un motor analítico columnar diseñado para dashboards de BI"
+        },
+        {
+          "en": "A block storage service attached to Compute Engine VMs",
+          "es": "Un servicio de almacenamiento en bloque asociado a VMs de Compute Engine"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Firestore stores data as documents grouped in collections, scales automatically, and supports real-time listeners and offline sync for mobile and web clients. B describes AlloyDB or Cloud SQL for PostgreSQL, C describes BigQuery, and D describes Persistent Disk/Hyperdisk.",
+        "es": "Firestore almacena datos como documentos agrupados en colecciones, escala automáticamente y admite listeners en tiempo real y sincronización sin conexión para clientes móviles y web. B describe AlloyDB o Cloud SQL para PostgreSQL, C describe BigQuery y D describe Persistent Disk/Hyperdisk."
+      },
+      "doc": "https://cloud.google.com/firestore/docs/overview"
+    },
+    {
+      "id": "db-004",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "bigtable"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-data-products"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which workload is Bigtable designed for?",
+        "es": "¿Para qué tipo de carga de trabajo está diseñado Bigtable?"
+      },
+      "opciones": [
+        {
+          "en": "Very high throughput reads and writes of wide-column data such as time-series, IoT, and financial ticks",
+          "es": "Lecturas y escrituras de muy alto rendimiento sobre datos wide-column como series de tiempo, IoT y cotizaciones financieras"
+        },
+        {
+          "en": "Multi-statement ACID transactions with foreign keys and joins",
+          "es": "Transacciones ACID de múltiples sentencias con claves foráneas y joins"
+        },
+        {
+          "en": "Ad hoc SQL analytics over historical data with automatic partitioning",
+          "es": "Analítica SQL ad hoc sobre datos históricos con particionado automático"
+        },
+        {
+          "en": "Session caching with sub-millisecond latency in memory",
+          "es": "Caché de sesiones con latencia inferior al milisegundo en memoria"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Bigtable is a wide-column NoSQL database built for very large volumes of key-based reads and writes with low latency, which fits time-series, IoT, and financial data. B requires a relational engine such as Cloud SQL or Spanner, C describes BigQuery, and D describes Memorystore.",
+        "es": "Bigtable es una base NoSQL wide-column creada para volúmenes muy grandes de lecturas y escrituras por clave con baja latencia, lo que encaja con series de tiempo, IoT y datos financieros. B requiere un motor relacional como Cloud SQL o Spanner, C describe BigQuery y D describe Memorystore."
+      },
+      "doc": "https://cloud.google.com/bigtable/docs/overview"
+    },
+    {
+      "id": "db-005",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "bigquery"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-data-products"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Why is BigQuery a poor fit for an application that performs thousands of single-row updates per second?",
+        "es": "¿Por qué BigQuery es una mala opción para una aplicación que realiza miles de actualizaciones de una sola fila por segundo?"
+      },
+      "opciones": [
+        {
+          "en": "BigQuery is an OLAP analytical warehouse optimized for scanning large datasets, not an OLTP transactional database",
+          "es": "BigQuery es un warehouse analítico OLAP optimizado para escanear grandes conjuntos de datos, no una base de datos transaccional OLTP"
+        },
+        {
+          "en": "BigQuery does not support the SQL language",
+          "es": "BigQuery no admite el lenguaje SQL"
+        },
+        {
+          "en": "BigQuery can only store data for 30 days",
+          "es": "BigQuery solo puede almacenar datos durante 30 días"
+        },
+        {
+          "en": "BigQuery requires you to provision and patch virtual machines",
+          "es": "BigQuery exige aprovisionar y parchear máquinas virtuales"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "BigQuery is a columnar OLAP warehouse: it excels at aggregating huge datasets but is not designed for high-frequency single-row OLTP transactions, which belong in Cloud SQL, AlloyDB, or Spanner. B is false because BigQuery uses GoogleSQL, C is false because storage is durable and unlimited in time, and D is false because BigQuery is serverless.",
+        "es": "BigQuery es un warehouse OLAP columnar: sobresale al agregar conjuntos de datos enormes, pero no está diseñado para transacciones OLTP de una sola fila con alta frecuencia, que corresponden a Cloud SQL, AlloyDB o Spanner. B es falsa porque BigQuery usa GoogleSQL, C es falsa porque el almacenamiento es duradero y sin límite de tiempo, y D es falsa porque BigQuery es serverless."
+      },
+      "doc": "https://cloud.google.com/bigquery/docs/introduction"
+    },
+    {
+      "id": "db-006",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "cloud-sql"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-data-products"
+      ],
+      "nivel": "principiante",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO database engines can you run on Cloud SQL?",
+        "es": "¿Cuáles DOS motores de base de datos puedes ejecutar en Cloud SQL?"
+      },
+      "opciones": [
+        {
+          "en": "MySQL",
+          "es": "MySQL"
+        },
+        {
+          "en": "SQL Server",
+          "es": "SQL Server"
+        },
+        {
+          "en": "MongoDB",
+          "es": "MongoDB"
+        },
+        {
+          "en": "Apache Cassandra",
+          "es": "Apache Cassandra"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Cloud SQL offers managed MySQL, PostgreSQL, and SQL Server. MongoDB and Cassandra are not Cloud SQL engines: document workloads map to Firestore and wide-column workloads map to Bigtable, or you can run those engines yourself on Compute Engine or through a partner offering.",
+        "es": "Cloud SQL ofrece MySQL, PostgreSQL y SQL Server administrados. MongoDB y Cassandra no son motores de Cloud SQL: las cargas documentales corresponden a Firestore y las wide-column a Bigtable, o bien puedes ejecutar esos motores por tu cuenta en Compute Engine o mediante una oferta de socios."
+      },
+      "doc": "https://cloud.google.com/sql/docs/introduction"
+    },
+    {
+      "id": "db-007",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "alloydb"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-data-products"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is AlloyDB for PostgreSQL?",
+        "es": "¿Qué es AlloyDB para PostgreSQL?"
+      },
+      "opciones": [
+        {
+          "en": "A PostgreSQL-compatible database service with a columnar engine that accelerates analytical queries on live transactional data",
+          "es": "Un servicio de base de datos compatible con PostgreSQL con un motor columnar que acelera consultas analíticas sobre datos transaccionales en vivo"
+        },
+        {
+          "en": "A tool that converts PostgreSQL schemas into BigQuery tables",
+          "es": "Una herramienta que convierte esquemas de PostgreSQL en tablas de BigQuery"
+        },
+        {
+          "en": "A NoSQL database that stores PostgreSQL dumps as documents",
+          "es": "Una base de datos NoSQL que almacena volcados de PostgreSQL como documentos"
+        },
+        {
+          "en": "An open source PostgreSQL distribution that you install on Compute Engine VMs",
+          "es": "Una distribución de PostgreSQL de código abierto que instalas en VMs de Compute Engine"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "AlloyDB is a fully managed PostgreSQL-compatible service that adds a columnar engine, so hybrid transactional and analytical (HTAP) queries run much faster than on standard PostgreSQL without moving data. B describes a migration or ETL tool, C is not a real product, and D contradicts the fact that AlloyDB is a managed service.",
+        "es": "AlloyDB es un servicio completamente administrado compatible con PostgreSQL que agrega un motor columnar, por lo que las consultas híbridas transaccionales y analíticas (HTAP) se ejecutan mucho más rápido que en PostgreSQL estándar sin mover los datos. B describe una herramienta de migración o ETL, C no es un producto real y D contradice que AlloyDB sea un servicio administrado."
+      },
+      "doc": "https://cloud.google.com/alloydb/docs/overview"
+    },
+    {
+      "id": "db-008",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "memorystore"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-data-products"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is the typical use case for Memorystore?",
+        "es": "¿Cuál es el caso de uso típico de Memorystore?"
+      },
+      "opciones": [
+        {
+          "en": "An in-memory Redis or Valkey cache that reduces latency and offloads reads from a backing database",
+          "es": "Una caché en memoria de Redis o Valkey que reduce la latencia y descarga lecturas de la base de datos de respaldo"
+        },
+        {
+          "en": "The durable system of record for financial transactions",
+          "es": "El sistema de registro duradero para transacciones financieras"
+        },
+        {
+          "en": "Long-term archival of infrequently accessed objects",
+          "es": "Archivado a largo plazo de objetos de acceso poco frecuente"
+        },
+        {
+          "en": "Batch processing of streaming pipelines",
+          "es": "Procesamiento por lotes de canalizaciones de streaming"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Memorystore provides managed Redis, Valkey, and Memcached instances used as caches or session stores in front of a durable database. B is wrong because an in-memory cache is not the durable system of record, C describes Cloud Storage Archive class, and D describes Dataflow.",
+        "es": "Memorystore ofrece instancias administradas de Redis, Valkey y Memcached que se usan como caché o almacén de sesiones frente a una base de datos duradera. B es incorrecta porque una caché en memoria no es el sistema de registro duradero, C describe la clase Archive de Cloud Storage y D describe Dataflow."
+      },
+      "doc": "https://cloud.google.com/memorystore/docs/redis/redis-overview"
+    },
+    {
+      "id": "db-009",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "cloud-sql"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-db-backup-restore"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What does point-in-time recovery (PITR) provide in Cloud SQL?",
+        "es": "¿Qué ofrece la recuperación de un momento determinado (PITR) en Cloud SQL?"
+      },
+      "opciones": [
+        {
+          "en": "The ability to restore an instance to a specific moment in time, not only to the timestamp of a backup",
+          "es": "La capacidad de restaurar una instancia a un momento específico en el tiempo, no solo a la marca de tiempo de un backup"
+        },
+        {
+          "en": "Automatic failover of the instance to another region",
+          "es": "La conmutación por error automática de la instancia a otra región"
+        },
+        {
+          "en": "Continuous export of the database to BigQuery",
+          "es": "La exportación continua de la base de datos a BigQuery"
+        },
+        {
+          "en": "Compression of backups to reduce storage costs",
+          "es": "La compresión de backups para reducir los costos de almacenamiento"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "PITR uses automated backups plus write-ahead logs (or binary logs) so you can recover to any second within the retention window, which is essential after accidental data deletion. B describes cross-region replica promotion, C describes a data pipeline or federated query, and D is not what PITR does.",
+        "es": "PITR usa los backups automáticos más los registros write-ahead (o binarios) para que puedas recuperar cualquier segundo dentro de la ventana de retención, algo esencial tras un borrado accidental de datos. B describe la promoción de una réplica entre regiones, C describe una canalización de datos o consulta federada y D no es lo que hace PITR."
+      },
+      "doc": "https://cloud.google.com/sql/docs/mysql/backup-recovery/pitr"
+    },
+    {
+      "id": "db-010",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "firestore"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-data-products"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which statement about Firestore Native mode versus Datastore mode is correct?",
+        "es": "¿Cuál afirmación sobre el modo Native y el modo Datastore de Firestore es correcta?"
+      },
+      "opciones": [
+        {
+          "en": "Native mode adds real-time listeners and offline support for mobile/web clients; Datastore mode keeps Datastore API compatibility for server workloads",
+          "es": "El modo Native agrega listeners en tiempo real y soporte sin conexión para clientes móviles/web; el modo Datastore mantiene la compatibilidad con la API de Datastore para cargas de servidor"
+        },
+        {
+          "en": "Datastore mode is the only mode that supports transactions",
+          "es": "El modo Datastore es el único que admite transacciones"
+        },
+        {
+          "en": "Native mode stores data in tables with a fixed schema",
+          "es": "El modo Native almacena los datos en tablas con un esquema fijo"
+        },
+        {
+          "en": "You can switch a database freely between the two modes at any time",
+          "es": "Puedes cambiar libremente una base de datos entre los dos modos en cualquier momento"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Native mode is the recommended choice for new mobile and web apps because of real-time listeners and offline persistence, while Datastore mode preserves the legacy Datastore API for server-side applications. B is false because both modes support transactions, C is false because Firestore is schemaless and document oriented, and D is false because the mode is chosen when the database is created.",
+        "es": "El modo Native es la opción recomendada para apps móviles y web nuevas por sus listeners en tiempo real y persistencia sin conexión, mientras que el modo Datastore conserva la API heredada de Datastore para aplicaciones de servidor. B es falsa porque ambos modos admiten transacciones, C es falsa porque Firestore no tiene esquema y es documental, y D es falsa porque el modo se elige al crear la base de datos."
+      },
+      "doc": "https://cloud.google.com/datastore/docs/firestore-or-datastore"
+    },
+    {
+      "id": "db-011",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "bigtable"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-data-products"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "In Bigtable, what is the row key used for?",
+        "es": "En Bigtable, ¿para qué sirve la clave de fila (row key)?"
+      },
+      "opciones": [
+        {
+          "en": "It is the single indexed identifier that determines how rows are sorted and distributed across nodes",
+          "es": "Es el único identificador indexado que determina cómo se ordenan y distribuyen las filas entre los nodos"
+        },
+        {
+          "en": "It is an optional label used only for billing reports",
+          "es": "Es una etiqueta opcional que solo se usa en reportes de facturación"
+        },
+        {
+          "en": "It defines the encryption key applied to the row",
+          "es": "Define la clave de encriptación aplicada a la fila"
+        },
+        {
+          "en": "It is a secondary index created after the table is populated",
+          "es": "Es un índice secundario que se crea después de poblar la tabla"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Bigtable indexes only the row key; rows are stored in lexicographic order by that key, so key design drives both lookup performance and how evenly load spreads across nodes. B and C are unrelated to row keys, and D is false because Bigtable does not offer secondary indexes.",
+        "es": "Bigtable indexa únicamente la row key; las filas se almacenan en orden lexicográfico por esa clave, así que su diseño determina tanto el rendimiento de las búsquedas como qué tan uniformemente se distribuye la carga entre nodos. B y C no se relacionan con las row keys y D es falsa porque Bigtable no ofrece índices secundarios."
+      },
+      "doc": "https://cloud.google.com/bigtable/docs/schema-design"
+    },
+    {
+      "id": "db-012",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "cloud-sql"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-multiregion-redundancy"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "How does high availability (HA) work for a Cloud SQL instance?",
+        "es": "¿Cómo funciona la alta disponibilidad (HA) en una instancia de Cloud SQL?"
+      },
+      "opciones": [
+        {
+          "en": "A standby instance is kept in a second zone of the same region and takes over automatically during a zonal failure",
+          "es": "Se mantiene una instancia en espera en una segunda zona de la misma región y toma el control automáticamente ante una falla zonal"
+        },
+        {
+          "en": "Copies of the instance run in three different continents simultaneously",
+          "es": "Copias de la instancia se ejecutan en tres continentes distintos al mismo tiempo"
+        },
+        {
+          "en": "Cloud SQL restores the latest backup manually when the primary fails",
+          "es": "Cloud SQL restaura manualmente el último backup cuando falla la instancia principal"
+        },
+        {
+          "en": "Read replicas automatically become writable when the primary is unreachable",
+          "es": "Las réplicas de lectura se vuelven escribibles automáticamente cuando la instancia principal no responde"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Cloud SQL HA is a regional configuration: a standby in another zone of the same region receives synchronous replication and failover happens automatically, keeping the same connection name. B overstates the scope because HA is regional, C is not how HA works, and D is false because read replicas require an explicit manual promotion.",
+        "es": "La HA de Cloud SQL es una configuración regional: una instancia en espera en otra zona de la misma región recibe replicación sincrónica y la conmutación por error ocurre automáticamente conservando el mismo nombre de conexión. B exagera el alcance porque la HA es regional, C no es como funciona la HA y D es falsa porque las réplicas de lectura requieren una promoción manual explícita."
+      },
+      "doc": "https://cloud.google.com/sql/docs/mysql/high-availability"
+    },
+    {
+      "id": "db-013",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "database-center"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-database-center"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is Database Center in Google Cloud?",
+        "es": "¿Qué es Database Center en Google Cloud?"
+      },
+      "opciones": [
+        {
+          "en": "An AI-assisted dashboard that gives a unified view of your database fleet with health, security, and optimization recommendations",
+          "es": "Un panel asistido por IA que ofrece una vista unificada de tu flota de bases de datos con recomendaciones de estado, seguridad y optimización"
+        },
+        {
+          "en": "A physical data center where Google hosts Cloud SQL instances",
+          "es": "Un centro de datos físico donde Google aloja las instancias de Cloud SQL"
+        },
+        {
+          "en": "A CLI tool used to run SQL scripts against multiple instances",
+          "es": "Una herramienta de CLI para ejecutar scripts SQL contra varias instancias"
+        },
+        {
+          "en": "A billing report restricted to database SKUs",
+          "es": "Un reporte de facturación limitado a los SKU de bases de datos"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Database Center is the fleet management console for Cloud SQL, AlloyDB, Spanner, Bigtable, Firestore, and Memorystore: it inventories resources and surfaces availability, data-protection, security, and cost recommendations, with Gemini assistance. B is a literal misreading, C describes gcloud sql connect or a client, and D describes Cloud Billing reports.",
+        "es": "Database Center es la consola de administración de flota para Cloud SQL, AlloyDB, Spanner, Bigtable, Firestore y Memorystore: inventaría los recursos y muestra recomendaciones de disponibilidad, protección de datos, seguridad y costos, con ayuda de Gemini. B es una lectura literal equivocada, C describe gcloud sql connect o un cliente, y D describe los reportes de Cloud Billing."
+      },
+      "doc": "https://cloud.google.com/database-center/docs/overview"
+    },
+    {
+      "id": "db-014",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "spanner"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-multiregion-redundancy",
+        "2.2-data-products"
+      ],
+      "nivel": "principiante",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO statements about Spanner instance configurations are correct?",
+        "es": "¿Cuáles DOS afirmaciones sobre las configuraciones de instancia de Spanner son correctas?"
+      },
+      "opciones": [
+        {
+          "en": "A regional configuration replicates data across zones within a single region",
+          "es": "Una configuración regional replica los datos entre zonas dentro de una sola región"
+        },
+        {
+          "en": "A multi-region configuration replicates data across regions and offers a higher availability SLA",
+          "es": "Una configuración multirregión replica los datos entre regiones y ofrece un SLA de disponibilidad más alto"
+        },
+        {
+          "en": "You can change an existing instance from regional to multi-region only by exporting and recreating it in BigQuery",
+          "es": "Solo puedes cambiar una instancia existente de regional a multirregión exportándola y recreándola en BigQuery"
+        },
+        {
+          "en": "Multi-region configurations remove the need to define a schema",
+          "es": "Las configuraciones multirregión eliminan la necesidad de definir un esquema"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Regional configurations keep replicas in zones of one region (99.99% SLA) while multi-region configurations spread replicas across regions for a 99.999% SLA and continued availability during a regional outage. C is wrong because BigQuery is not part of changing an instance configuration, and D is wrong because Spanner always requires a schema.",
+        "es": "Las configuraciones regionales mantienen réplicas en zonas de una región (SLA de 99.99%) y las multirregión distribuyen réplicas entre regiones para un SLA de 99.999% y disponibilidad continua ante una interrupción regional. C es incorrecta porque BigQuery no interviene al cambiar la configuración de una instancia, y D es incorrecta porque Spanner siempre requiere un esquema."
+      },
+      "doc": "https://cloud.google.com/spanner/docs/instance-configurations"
+    },
+    {
+      "id": "db-015",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "bigquery"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-storage-costs"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "In BigQuery, what happens to a table partition that has not been modified for 90 consecutive days?",
+        "es": "En BigQuery, ¿qué ocurre con una partición de tabla que no se modifica durante 90 días consecutivos?"
+      },
+      "opciones": [
+        {
+          "en": "Its storage is automatically billed at the lower long-term storage rate",
+          "es": "Su almacenamiento se factura automáticamente a la tarifa más baja de almacenamiento a largo plazo"
+        },
+        {
+          "en": "It is deleted automatically to free space",
+          "es": "Se borra automáticamente para liberar espacio"
+        },
+        {
+          "en": "It becomes read-only and cannot be queried",
+          "es": "Se vuelve de solo lectura y no se puede consultar"
+        },
+        {
+          "en": "It is moved to Cloud Storage Archive class",
+          "es": "Se traslada a la clase Archive de Cloud Storage"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "BigQuery automatically applies long-term storage pricing (about half the active price) to any table or partition untouched for 90 days, with no action required and no change in performance. B is false because data is never deleted unless you set an expiration, C is false because queries still work, and D is false because the data stays in BigQuery storage.",
+        "es": "BigQuery aplica automáticamente el precio de almacenamiento a largo plazo (cerca de la mitad del precio activo) a cualquier tabla o partición sin modificaciones durante 90 días, sin acción de tu parte y sin cambio de rendimiento. B es falsa porque los datos no se borran salvo que configures una expiración, C es falsa porque las consultas siguen funcionando y D es falsa porque los datos permanecen en el almacenamiento de BigQuery."
+      },
+      "doc": "https://cloud.google.com/bigquery/pricing#storage"
+    },
+    {
+      "id": "db-016",
+      "curso": "selecciona-base-de-datos",
+      "servicios": [
+        "memorystore"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-data-products"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is the main difference between the Basic and Standard tiers of Memorystore for Redis?",
+        "es": "¿Cuál es la diferencia principal entre los niveles Basic y Standard de Memorystore para Redis?"
+      },
+      "opciones": [
+        {
+          "en": "Standard tier adds a replica in another zone with automatic failover; Basic tier is a single node with no failover",
+          "es": "El nivel Standard agrega una réplica en otra zona con conmutación por error automática; el nivel Basic es un solo nodo sin conmutación por error"
+        },
+        {
+          "en": "Basic tier supports more memory per instance than Standard tier",
+          "es": "El nivel Basic admite más memoria por instancia que el nivel Standard"
+        },
+        {
+          "en": "Only Basic tier supports the Redis protocol",
+          "es": "Solo el nivel Basic admite el protocolo de Redis"
+        },
+        {
+          "en": "Standard tier stores data on Persistent Disk instead of memory",
+          "es": "El nivel Standard almacena los datos en Persistent Disk en lugar de en memoria"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Basic tier is a single node intended for caches that tolerate a cold restart, while Standard tier provisions a cross-zone replica and fails over automatically, which is what production workloads need. B is false, C is false because both speak Redis, and D is false because Memorystore keeps data in memory in both tiers.",
+        "es": "El nivel Basic es un solo nodo pensado para cachés que toleran un reinicio en frío, mientras que el nivel Standard aprovisiona una réplica en otra zona y conmuta automáticamente, que es lo que necesitan las cargas de producción. B es falsa, C es falsa porque ambos hablan Redis y D es falsa porque Memorystore mantiene los datos en memoria en ambos niveles."
+      },
+      "doc": "https://cloud.google.com/memorystore/docs/redis/redis-tiers"
+    }
+  ]
+}

@@ -1,0 +1,351 @@
+{
+  "preguntas": [
+    {
+      "id": "infra-001",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "vpc"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-vpc-subnets"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "In Google Cloud, what is the scope of a VPC network and of the subnets inside it?",
+        "es": "En Google Cloud, ¿cuál es el alcance de una red de VPC y el de las subredes que contiene?"
+      },
+      "opciones": [
+        {
+          "en": "The VPC network is a global resource and each subnet is regional, spanning all zones of its region",
+          "es": "La red de VPC es un recurso global y cada subred es regional, abarcando todas las zonas de su región"
+        },
+        {
+          "en": "Both the VPC network and its subnets are zonal resources",
+          "es": "Tanto la red de VPC como sus subredes son recursos zonales"
+        },
+        {
+          "en": "The VPC network is regional and each subnet is zonal",
+          "es": "La red de VPC es regional y cada subred es zonal"
+        },
+        {
+          "en": "Both the VPC network and its subnets are global resources",
+          "es": "Tanto la red de VPC como sus subredes son recursos globales"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "A VPC network is global: it spans every region without needing VPN or Interconnect between regions. Subnets are regional and their IP range is available to every zone in that region. B and C are wrong because neither object is zonal — VMs in different zones of the same region share one subnet. D is wrong because subnets are always tied to a single region.",
+        "es": "Una red de VPC es global: abarca todas las regiones sin necesitar VPN ni Interconnect entre ellas. Las subredes son regionales y su rango de IP está disponible para todas las zonas de esa región. B y C son incorrectas porque ninguno de los dos objetos es zonal: VMs en zonas distintas de la misma región comparten una subred. D es incorrecta porque las subredes siempre pertenecen a una sola región."
+      },
+      "doc": "https://cloud.google.com/vpc/docs/vpc"
+    },
+    {
+      "id": "infra-002",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "vpc"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-vpc-subnets"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is the difference between an auto mode VPC network and a custom mode VPC network?",
+        "es": "¿Cuál es la diferencia entre una red de VPC en modo automático y una en modo personalizado?"
+      },
+      "opciones": [
+        {
+          "en": "Auto mode creates one subnet per region automatically with predefined IP ranges; custom mode creates no subnets and you define every range yourself",
+          "es": "El modo automático crea una subred por región de forma automática con rangos de IP predefinidos; el modo personalizado no crea subredes y tú defines cada rango"
+        },
+        {
+          "en": "Auto mode networks cannot have firewall rules, while custom mode networks can",
+          "es": "Las redes en modo automático no pueden tener reglas de firewall y las de modo personalizado sí"
+        },
+        {
+          "en": "Auto mode networks are private and custom mode networks are always public",
+          "es": "Las redes en modo automático son privadas y las de modo personalizado siempre son públicas"
+        },
+        {
+          "en": "Custom mode networks are limited to a single region, auto mode networks are global",
+          "es": "Las redes en modo personalizado se limitan a una región y las de modo automático son globales"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Auto mode provisions a subnet in every region using ranges from 10.128.0.0/9, which is convenient for testing but gives you no control over addressing. Custom mode starts empty so you choose regions and CIDR ranges — the recommended option for production. B is false: firewall rules apply to any VPC network. C is false: exposure depends on external IPs and firewall rules, not on the mode. D is false: every VPC network is global regardless of mode.",
+        "es": "El modo automático aprovisiona una subred en cada región con rangos de 10.128.0.0/9, lo cual es cómodo para pruebas pero no da control del direccionamiento. El modo personalizado empieza vacío para que elijas regiones y rangos CIDR: es la opción recomendada para producción. B es falsa: las reglas de firewall aplican a cualquier red de VPC. C es falsa: la exposición depende de las IPs externas y del firewall, no del modo. D es falsa: toda red de VPC es global sin importar el modo."
+      },
+      "doc": "https://cloud.google.com/vpc/docs/subnets"
+    },
+    {
+      "id": "infra-003",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "cloud-ngfw",
+        "vpc"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-firewall-ngfw"
+      ],
+      "nivel": "principiante",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO implied firewall rules exist in every VPC network and cannot be deleted?",
+        "es": "¿Cuáles DOS reglas de firewall implícitas existen en toda red de VPC y no se pueden borrar?"
+      },
+      "opciones": [
+        {
+          "en": "An implied allow rule for all egress traffic",
+          "es": "Una regla implícita de permitir para todo el tráfico de salida (egress)"
+        },
+        {
+          "en": "An implied deny rule for all ingress traffic",
+          "es": "Una regla implícita de denegar para todo el tráfico de entrada (ingress)"
+        },
+        {
+          "en": "An implied allow rule for ingress TCP port 22 from anywhere",
+          "es": "Una regla implícita de permitir entrada TCP en el puerto 22 desde cualquier origen"
+        },
+        {
+          "en": "An implied deny rule for all egress traffic to the internet",
+          "es": "Una regla implícita de denegar todo el tráfico de salida hacia internet"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Every VPC network has two implied rules at the lowest priority: allow all egress and deny all ingress. You cannot delete them, but you can override them with higher-priority rules. C describes the default-allow-ssh rule that only exists in the pre-populated 'default' network and can be deleted, so it is not implied. D is the opposite of the real implied egress behavior.",
+        "es": "Toda red de VPC tiene dos reglas implícitas con la prioridad más baja: permitir todo el egress y denegar todo el ingress. No se pueden borrar, pero sí anular con reglas de mayor prioridad. C describe la regla default-allow-ssh que solo existe en la red 'default' precreada y sí se puede borrar, por lo que no es implícita. D es lo contrario del comportamiento implícito real de egress."
+      },
+      "doc": "https://cloud.google.com/firewall/docs/firewalls"
+    },
+    {
+      "id": "infra-004",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-spot-custom-machines"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is a custom machine type in Compute Engine?",
+        "es": "¿Qué es un tipo de máquina personalizado en Compute Engine?"
+      },
+      "opciones": [
+        {
+          "en": "A machine shape where you specify the exact number of vCPUs and amount of memory, within the limits of a supported machine family",
+          "es": "Una forma de máquina donde especificas la cantidad exacta de vCPUs y de memoria, dentro de los límites de una familia de máquinas compatible"
+        },
+        {
+          "en": "A VM built from a custom boot image instead of a public image",
+          "es": "Una VM creada a partir de una imagen de arranque personalizada en lugar de una imagen pública"
+        },
+        {
+          "en": "A physical server dedicated exclusively to your project",
+          "es": "Un servidor físico dedicado exclusivamente a tu proyecto"
+        },
+        {
+          "en": "A predefined machine type that Google resizes automatically based on load",
+          "es": "Un tipo de máquina predefinido que Google redimensiona automáticamente según la carga"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Custom machine types let you pick vCPU and memory independently so the VM matches the workload and you stop paying for unused capacity in a predefined shape. B describes custom images, C describes sole-tenant nodes, and D describes neither: automatic resizing of a running VM is not how machine types work (you resize by stopping the VM or by using a managed instance group).",
+        "es": "Los tipos de máquina personalizados permiten elegir vCPU y memoria de forma independiente para que la VM se ajuste a la carga y no pagues capacidad ociosa de una forma predefinida. B describe imágenes personalizadas, C describe nodos de un solo usuario (sole-tenant) y D no corresponde: el redimensionamiento automático de una VM en ejecución no es cómo funcionan los tipos de máquina (se cambia deteniendo la VM o usando un grupo de instancias administrado)."
+      },
+      "doc": "https://cloud.google.com/compute/docs/instances/creating-instance-with-custom-machine-type"
+    },
+    {
+      "id": "infra-005",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-spot-custom-machines"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is a Spot VM in Compute Engine?",
+        "es": "¿Qué es una VM Spot en Compute Engine?"
+      },
+      "opciones": [
+        {
+          "en": "A VM offered at a large discount from spare capacity that Compute Engine can preempt at any time",
+          "es": "Una VM ofrecida con un gran descuento a partir de capacidad sobrante que Compute Engine puede interrumpir en cualquier momento"
+        },
+        {
+          "en": "A VM that always runs in the region physically closest to the user",
+          "es": "Una VM que siempre se ejecuta en la región físicamente más cercana al usuario"
+        },
+        {
+          "en": "A VM with a one-year or three-year committed use discount",
+          "es": "Una VM con un descuento por compromiso de uso de uno o tres años"
+        },
+        {
+          "en": "A VM that is billed only for the seconds in which it receives requests",
+          "es": "Una VM que se factura solo por los segundos en los que recibe solicitudes"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Spot VMs use spare capacity at a steep discount and carry no availability guarantee: Compute Engine can preempt them with a 30-second termination notice, so they suit fault-tolerant, restartable workloads. B is not a VM property; you choose the region yourself. C describes committed use discounts, which are the opposite trade-off (long-term commitment for stable capacity). D describes serverless request-based billing such as Cloud Run, not Compute Engine.",
+        "es": "Las VMs Spot usan capacidad sobrante con un descuento fuerte y no tienen garantía de disponibilidad: Compute Engine puede interrumpirlas con un aviso de finalización de 30 segundos, por lo que sirven para cargas tolerantes a fallas y reiniciables. B no es una propiedad de la VM; la región la eliges tú. C describe los descuentos por compromiso de uso, que son el trade-off opuesto (compromiso largo a cambio de capacidad estable). D describe la facturación por solicitud de servicios serverless como Cloud Run, no de Compute Engine."
+      },
+      "doc": "https://cloud.google.com/compute/docs/instances/spot"
+    },
+    {
+      "id": "infra-006",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "persistent-disk",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-storage"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is the main difference between a zonal Persistent Disk and a regional Persistent Disk?",
+        "es": "¿Cuál es la diferencia principal entre un Persistent Disk zonal y uno regional?"
+      },
+      "opciones": [
+        {
+          "en": "A regional Persistent Disk synchronously replicates data between two zones in the same region, so the data survives the loss of one zone",
+          "es": "Un Persistent Disk regional replica los datos de forma síncrona entre dos zonas de la misma región, por lo que los datos sobreviven a la pérdida de una zona"
+        },
+        {
+          "en": "A regional Persistent Disk replicates data to every region in the world",
+          "es": "Un Persistent Disk regional replica los datos a todas las regiones del mundo"
+        },
+        {
+          "en": "A zonal Persistent Disk is temporary and its data is lost when the VM stops",
+          "es": "Un Persistent Disk zonal es temporal y sus datos se pierden cuando la VM se detiene"
+        },
+        {
+          "en": "Only zonal Persistent Disks can be used as boot disks; regional disks are for backups only",
+          "es": "Solo los Persistent Disk zonales pueden usarse como discos de arranque; los regionales son solo para copias de seguridad"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Regional Persistent Disk keeps synchronous replicas in two zones of one region, which allows a failover of the workload to the second zone. B is wrong: replication is limited to two zones in a single region. C describes Local SSD, not Persistent Disk — zonal Persistent Disk data survives stopping or deleting the VM if the disk is kept. D is wrong: regional disks are real block volumes and are not restricted to backups.",
+        "es": "El Persistent Disk regional mantiene réplicas síncronas en dos zonas de una región, lo que permite conmutar la carga a la segunda zona. B es incorrecta: la replicación se limita a dos zonas de una sola región. C describe Local SSD, no Persistent Disk: los datos de un disco zonal sobreviven al detener o borrar la VM si se conserva el disco. D es incorrecta: los discos regionales son volúmenes de bloque reales y no se limitan a copias de seguridad."
+      },
+      "doc": "https://cloud.google.com/compute/docs/disks/high-availability-regional-persistent-disk"
+    },
+    {
+      "id": "infra-007",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "cloud-storage"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-storage-products"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which Cloud Storage class offers the lowest storage price for data that is expected to be accessed less than once a year?",
+        "es": "¿Qué clase de Cloud Storage ofrece el precio de almacenamiento más bajo para datos a los que se espera acceder menos de una vez al año?"
+      },
+      "opciones": [
+        {
+          "en": "Archive",
+          "es": "Archive"
+        },
+        {
+          "en": "Coldline",
+          "es": "Coldline"
+        },
+        {
+          "en": "Nearline",
+          "es": "Nearline"
+        },
+        {
+          "en": "Standard",
+          "es": "Standard"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Archive has the lowest storage cost and a 365-day minimum storage duration, which fits data accessed at most once a year; retrieval costs are the highest, so it is only cheap when access is rare. Coldline targets access about once a quarter (90-day minimum), Nearline about once a month (30-day minimum), and Standard is for frequently accessed or short-lived data with no minimum duration.",
+        "es": "Archive tiene el costo de almacenamiento más bajo y una duración mínima de 365 días, ideal para datos que se leen como máximo una vez al año; los costos de recuperación son los más altos, por lo que solo resulta barato si el acceso es raro. Coldline apunta a un acceso trimestral (mínimo 90 días), Nearline a uno mensual (mínimo 30 días) y Standard es para datos de acceso frecuente o de corta vida, sin duración mínima."
+      },
+      "doc": "https://cloud.google.com/storage/docs/storage-classes"
+    },
+    {
+      "id": "infra-008",
+      "curso": "infraestructura-servicios-principales",
+      "servicios": [
+        "file-storage"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-storage-products"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What kind of storage does Filestore provide?",
+        "es": "¿Qué tipo de almacenamiento ofrece Filestore?"
+      },
+      "opciones": [
+        {
+          "en": "Fully managed NFS file shares that many VMs or GKE Pods can mount at the same time",
+          "es": "Recursos compartidos de archivos NFS completamente administrados que muchas VMs o Pods de GKE pueden montar al mismo tiempo"
+        },
+        {
+          "en": "Object storage accessed over HTTPS with a globally unique namespace",
+          "es": "Almacenamiento de objetos accesible por HTTPS con un espacio de nombres único global"
+        },
+        {
+          "en": "Block storage attached to a single VM as a boot disk",
+          "es": "Almacenamiento en bloque conectado a una sola VM como disco de arranque"
+        },
+        {
+          "en": "A managed relational database with automatic failover",
+          "es": "Una base de datos relacional administrada con conmutación por error automática"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Filestore is managed NFS: it gives a POSIX-compliant shared file system that multiple clients mount concurrently, which is what lift-and-shift applications expecting a file server need. B describes Cloud Storage, C describes Persistent Disk or Hyperdisk, and D describes Cloud SQL or AlloyDB.",
+        "es": "Filestore es NFS administrado: entrega un sistema de archivos compartido compatible con POSIX que varios clientes montan de forma simultánea, que es lo que necesitan las aplicaciones migradas tal cual y que esperan un servidor de archivos. B describe Cloud Storage, C describe Persistent Disk o Hyperdisk y D describe Cloud SQL o AlloyDB."
+      },
+      "doc": "https://cloud.google.com/filestore/docs/overview"
+    }
+  ]
+}

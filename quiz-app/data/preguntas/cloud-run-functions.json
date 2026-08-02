@@ -2659,6 +2659,231 @@
         "es": "Desplegar sin tráfico junto con una etiqueta de revisión te permite ejercitar el código nuevo en una URL privada antes de que lo vea algún usuario, y conservar la revisión anterior hace que revertir sea un cambio de porcentaje de tráfico que surte efecto de inmediato sin reconstruir nada. Borrar las revisiones antiguas elimina justo el destino de reversión que necesitarías en un incidente. Enviar el 100% del tráfico directamente a una revisión sin verificar es lo contrario de un lanzamiento controlado: todos los usuarios quedan expuestos al cambio riesgoso desde el primer segundo."
       },
       "doc": "https://cloud.google.com/run/docs/rollouts-rollbacks-traffic-migration"
+    },
+    {
+      "id": "crf-061",
+      "curso": "cloud-run-functions",
+      "servicios": [
+        "cloud-run-functions",
+        "cloud-run"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-cloud-run-ops"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A function calls a partner API that only tolerates 20 concurrent requests. Under load, the function scales out and the partner starts rejecting calls. What is the BEST way to respect the partner's limit while keeping the workload serverless?",
+        "es": "Una función llama a una API de un socio que solo tolera 20 solicitudes concurrentes. Bajo carga, la función escala y el socio empieza a rechazar llamadas. ¿Cuál es la MEJOR forma de respetar el límite del socio manteniendo la carga serverless?"
+      },
+      "opciones": [
+        {
+          "en": "Bound the fan-out with maximum instances and per-instance concurrency so the product of both stays at or below 20",
+          "es": "Acotar la expansión con instancias máximas y concurrencia por instancia de modo que el producto de ambas quede en 20 o menos"
+        },
+        {
+          "en": "Add a random sleep before each partner call so requests spread out",
+          "es": "Agregar una espera aleatoria antes de cada llamada al socio para que las solicitudes se dispersen"
+        },
+        {
+          "en": "Set minimum instances to 20 so exactly twenty instances exist",
+          "es": "Fijar las instancias mínimas en 20 para que existan exactamente veinte instancias"
+        },
+        {
+          "en": "Ask the partner to raise the limit and change nothing on your side",
+          "es": "Pedir al socio que aumente el límite y no cambiar nada de tu lado"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The number of simultaneous outbound calls is bounded by how many instances run times how many requests each handles at once, so constraining both settings gives a deterministic ceiling that the platform enforces for you. A random sleep only shifts calls in time without capping how many happen at the same instant, and it burns billable execution time. Minimum instances is a floor, not a ceiling: the autoscaler can still create many more instances during a spike. Asking the partner to change is not a design you control, leaves production failing in the meantime, and may simply be refused.",
+        "es": "La cantidad de llamadas salientes simultáneas está acotada por cuántas instancias corren multiplicado por cuántas solicitudes atiende cada una a la vez, así que restringir ambos parámetros da un techo determinista que la plataforma aplica por ti. Una espera aleatoria solo desplaza las llamadas en el tiempo sin limitar cuántas ocurren en el mismo instante, y consume tiempo de ejecución facturable. Las instancias mínimas son un piso, no un techo: el autoescalador igual puede crear muchas más instancias durante un pico. Pedirle al socio que cambie no es un diseño que controles, deja producción fallando mientras tanto y puede ser rechazado."
+      },
+      "doc": "https://cloud.google.com/run/docs/configuring/max-instances"
+    },
+    {
+      "id": "crf-062",
+      "curso": "cloud-run-functions",
+      "servicios": [
+        "cloud-run-functions",
+        "cloud-run",
+        "eventarc"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-compute-choices"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A startup must expose a webhook that receives a few hundred calls a day, validates a payload and writes a record to Firestore. The single developer wants to ship today with no container build and no infrastructure to manage. What is the BEST option?",
+        "es": "Una startup debe exponer un webhook que recibe unos cientos de llamadas al día, valida una carga útil y escribe un registro en Firestore. El único desarrollador quiere publicar hoy sin construir un contenedor ni infraestructura que administrar. ¿Cuál es la MEJOR opción?"
+      },
+      "opciones": [
+        {
+          "en": "Deploy a Cloud Run function from source with an HTTP trigger and a dedicated service account",
+          "es": "Desplegar una Cloud Run function desde el código fuente con un trigger HTTP y una cuenta de servicio dedicada"
+        },
+        {
+          "en": "Build a container image, push it to Artifact Registry and deploy it as a Cloud Run service",
+          "es": "Construir una imagen de contenedor, subirla a Artifact Registry y desplegarla como un servicio de Cloud Run"
+        },
+        {
+          "en": "Create a GKE Autopilot cluster and expose the webhook through an Ingress",
+          "es": "Crear un clúster de GKE Autopilot y exponer el webhook mediante un Ingress"
+        },
+        {
+          "en": "Provision a small Compute Engine VM with a web server and a static external IP",
+          "es": "Aprovisionar una VM pequeña de Compute Engine con un servidor web y una IP externa estática"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Deploying a function from source is the fastest path: Google builds and runs the container for you, the HTTP trigger provides the HTTPS endpoint the webhook provider needs, and a dedicated runtime service account gives Firestore access with least privilege, all with zero infrastructure to operate. Building and pushing an image is a perfectly valid Cloud Run pattern but adds the container build the developer explicitly wants to avoid, for a workload that needs no custom runtime. GKE Autopilot adds cluster and Ingress concepts and continuous cost for a few hundred requests a day. A VM means patching, scaling and securing a server for a workload that is idle almost all the time.",
+        "es": "Desplegar una función desde el código fuente es la vía más rápida: Google construye y ejecuta el contenedor por ti, el trigger HTTP entrega el endpoint HTTPS que el proveedor del webhook necesita y una cuenta de servicio de runtime dedicada da acceso a Firestore con mínimo privilegio, todo sin infraestructura que operar. Construir y subir una imagen es un patrón válido de Cloud Run pero agrega la construcción de contenedor que el desarrollador quiere evitar, para una carga que no requiere un runtime personalizado. GKE Autopilot suma conceptos de clúster e Ingress y costo continuo para unos cientos de solicitudes diarias. Una VM implica parchar, escalar y proteger un servidor para una carga que está inactiva casi todo el tiempo."
+      },
+      "doc": "https://cloud.google.com/run/docs/deploy-functions"
+    },
+    {
+      "id": "crf-063",
+      "curso": "cloud-run-functions",
+      "servicios": [
+        "cloud-run-functions",
+        "iam",
+        "service-accounts"
+      ],
+      "seccion_blueprint": 4,
+      "subtopicos": [
+        "4.2-sa-least-privilege"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A developer needs to deploy functions that run as a hardened service account, but must not be able to broaden that account's permissions. What is the BEST way to grant this?",
+        "es": "Un desarrollador necesita desplegar funciones que se ejecuten con una cuenta de servicio endurecida, pero no debe poder ampliar los permisos de esa cuenta. ¿Cuál es la MEJOR forma de otorgarlo?"
+      },
+      "opciones": [
+        {
+          "en": "Grant the developer roles/iam.serviceAccountUser on that specific service account plus a deploy role on the service, without any project-level IAM administration role",
+          "es": "Otorgar al desarrollador roles/iam.serviceAccountUser sobre esa cuenta de servicio específica más un rol de despliegue sobre el servicio, sin ningún rol de administración de IAM a nivel de proyecto"
+        },
+        {
+          "en": "Grant the developer roles/iam.securityAdmin on the project so deployments never fail on permissions",
+          "es": "Otorgar al desarrollador roles/iam.securityAdmin sobre el proyecto para que los despliegues nunca fallen por permisos"
+        },
+        {
+          "en": "Give the developer the service account's exported key so deployments can use it directly",
+          "es": "Dar al desarrollador la clave exportada de la cuenta de servicio para que los despliegues la usen directamente"
+        },
+        {
+          "en": "Grant roles/editor on the project, which includes everything needed to deploy",
+          "es": "Otorgar roles/editor sobre el proyecto, que incluye todo lo necesario para desplegar"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Attaching a service account to a workload requires the serviceAccountUser role on that account; granting it on the single account, together with a deploy role scoped to the service, lets the developer ship without any ability to edit IAM policies and therefore without a path to escalate the account's own permissions. roles/iam.securityAdmin lets the developer modify IAM policies across the project, which is exactly the escalation the requirement forbids. Handing over an exported key creates a long-lived credential that can be reused anywhere and defeats auditability. roles/editor is a basic role that includes broad write access across the project and is far beyond what deploying a function needs.",
+        "es": "Asociar una cuenta de servicio a una carga de trabajo requiere el rol serviceAccountUser sobre esa cuenta; otorgarlo sobre la cuenta única, junto con un rol de despliegue acotado al servicio, permite al desarrollador publicar sin poder editar políticas de IAM y por lo tanto sin una vía para escalar los permisos de la cuenta. roles/iam.securityAdmin le permitiría modificar políticas de IAM en todo el proyecto, que es justo la escalada que el requisito prohíbe. Entregar una clave exportada crea una credencial de larga duración reutilizable en cualquier parte y arruina la auditabilidad. roles/editor es un rol básico que incluye acceso de escritura amplio en el proyecto y excede por mucho lo que exige desplegar una función."
+      },
+      "doc": "https://cloud.google.com/iam/docs/service-account-permissions"
+    },
+    {
+      "id": "crf-064",
+      "curso": "cloud-run-functions",
+      "servicios": [
+        "cloud-run-functions",
+        "eventarc",
+        "cloud-storage"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.1-serverless-events"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A nightly bulk import writes 500,000 objects into a bucket in a few minutes. The triggered function then overwhelms a downstream system, and some events are reported as delayed by hours. What is the BEST way to make the pipeline resilient?",
+        "es": "Una importación masiva nocturna escribe 500,000 objetos en un bucket en pocos minutos. La función disparada luego satura un sistema descendente y algunos eventos se reportan con horas de retraso. ¿Cuál es la MEJOR forma de hacer resiliente el pipeline?"
+      },
+      "opciones": [
+        {
+          "en": "Buffer the notifications in a Pub/Sub topic and let the function drain the backlog at a bounded rate using maximum instances",
+          "es": "Almacenar en búfer las notificaciones en un topic de Pub/Sub y dejar que la función consuma el backlog a una tasa acotada usando instancias máximas"
+        },
+        {
+          "en": "Remove the trigger and have the import script call the function synchronously for each object",
+          "es": "Quitar el trigger y hacer que el script de importación llame a la función de forma sincrónica por cada objeto"
+        },
+        {
+          "en": "Increase maximum instances so the function absorbs the whole burst at once",
+          "es": "Aumentar las instancias máximas para que la función absorba todo el pico de una vez"
+        },
+        {
+          "en": "Turn off retries so delayed events are dropped instead of queuing",
+          "es": "Apagar los reintentos para que los eventos retrasados se descarten en lugar de encolarse"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "A queue in front of the consumer is the standard way to decouple a bursty producer from a rate-limited consumer: Pub/Sub retains and redelivers the notifications while a bounded number of function instances drains them at a rate the downstream system survives, and the reported delay becomes controlled backlog rather than failure. Making the import script call the function synchronously couples the two, so the import slows to the speed of the slowest consumer and a single failure aborts the batch. Raising maximum instances makes the function hit the downstream system even harder, which is the actual cause of the problem. Dropping events trades a latency problem for silent data loss.",
+        "es": "Una cola delante del consumidor es la forma estándar de desacoplar un productor con picos de un consumidor con límite de tasa: Pub/Sub retiene y reentrega las notificaciones mientras una cantidad acotada de instancias de la función las consume a un ritmo que el sistema descendente soporta, y el retraso reportado pasa a ser backlog controlado en lugar de falla. Hacer que el script de importación llame a la función de forma sincrónica acopla ambos, así la importación se frena a la velocidad del consumidor más lento y una sola falla aborta el lote. Subir las instancias máximas hace que la función golpee aún más fuerte al sistema descendente, que es la causa real del problema. Descartar eventos cambia un problema de latencia por pérdida silenciosa de datos."
+      },
+      "doc": "https://cloud.google.com/storage/docs/pubsub-notifications"
+    },
+    {
+      "id": "crf-065",
+      "curso": "cloud-run-functions",
+      "servicios": [
+        "cloud-run-functions",
+        "cloud-run",
+        "cloud-monitoring"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-cloud-run-ops"
+      ],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Finance reports that a rarely used internal function costs far more than expected. Metrics show near-zero requests but constant billed instance time. Which TWO checks are most likely to find the cause?",
+        "es": "Finanzas informa que una función interna de uso poco frecuente cuesta mucho más de lo esperado. Las métricas muestran solicitudes casi nulas pero tiempo de instancia facturado constante. ¿Cuáles DOS revisiones tienen más probabilidad de encontrar la causa?"
+      },
+      "opciones": [
+        {
+          "en": "Check whether minimum instances is set above zero, keeping warm instances billed around the clock",
+          "es": "Revisar si las instancias mínimas están configuradas por encima de cero, manteniendo instancias tibias facturadas todo el día"
+        },
+        {
+          "en": "Check whether CPU is configured as always allocated instead of allocated only during requests",
+          "es": "Revisar si la CPU está configurada como siempre asignada en lugar de asignada solo durante las solicitudes"
+        },
+        {
+          "en": "Check whether the function's request timeout is set too low",
+          "es": "Revisar si el timeout de solicitud de la función está configurado demasiado bajo"
+        },
+        {
+          "en": "Check whether the function is deployed in more than one Cloud Logging bucket",
+          "es": "Revisar si la función está desplegada en más de un bucket de Cloud Logging"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Billed instance time with almost no traffic points to capacity that exists regardless of requests: a non-zero minimum-instances floor keeps instances alive and billable at all times, and always-allocated CPU switches the service to instance-based billing where you pay for the instance lifetime instead of only request processing. A low request timeout would cause truncated or failed executions, which would show up as errors rather than as steady idle cost. Cloud Logging buckets are log storage destinations; a service is not deployed into them, and they do not generate compute instance time.",
+        "es": "Tiempo de instancia facturado con casi nada de tráfico apunta a capacidad que existe sin importar las solicitudes: un piso de instancias mínimas distinto de cero mantiene instancias vivas y facturables en todo momento, y la CPU siempre asignada cambia el servicio a facturación basada en instancia, donde pagas por la vida de la instancia y no solo por el procesamiento de solicitudes. Un timeout de solicitud bajo provocaría ejecuciones truncadas o fallidas, que aparecerían como errores y no como un costo inactivo constante. Los buckets de Cloud Logging son destinos de almacenamiento de registros; un servicio no se despliega en ellos y no generan tiempo de instancia de cómputo."
+      },
+      "doc": "https://cloud.google.com/run/docs/configuring/cpu-allocation"
     }
   ]
 }
