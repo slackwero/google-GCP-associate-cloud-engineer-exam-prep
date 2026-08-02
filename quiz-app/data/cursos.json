@@ -1,0 +1,154 @@
+{
+  "cursos": [
+    {
+      "slug": "infraestructura-conceptos-basicos",
+      "orden": 1,
+      "tipo": "curso",
+      "nombre": {
+        "en": "Google Cloud Fundamentals: Core Infrastructure",
+        "es": "Infraestructura esencial de Google Cloud: conceptos básicos"
+      },
+      "duracion_min": 405
+    },
+    {
+      "slug": "infraestructura-servicios-principales",
+      "orden": 2,
+      "tipo": "curso",
+      "nombre": {
+        "en": "Essential Google Cloud Infrastructure: Foundation",
+        "es": "Infraestructura esencial de Google Cloud: servicios principales"
+      },
+      "duracion_min": 495
+    },
+    {
+      "slug": "infraestructura-escalamiento-automatizacion",
+      "orden": 3,
+      "tipo": "curso",
+      "nombre": {
+        "en": "Elastic Google Cloud Infrastructure: Scaling and Automation",
+        "es": "Infraestructura elástica de Google Cloud: escalamiento y automatización"
+      },
+      "duracion_min": 420
+    },
+    {
+      "slug": "como-comenzar-gke",
+      "orden": 4,
+      "tipo": "curso",
+      "nombre": {
+        "en": "Getting Started with Google Kubernetes Engine",
+        "es": "Cómo comenzar a usar Google Kubernetes Engine"
+      },
+      "duracion_min": 300
+    },
+    {
+      "slug": "cloud-run-conceptos-basicos",
+      "orden": 5,
+      "tipo": "curso",
+      "nombre": {
+        "en": "Building Applications with Cloud Run and Google Cloud: Fundamentals",
+        "es": "Desarrolla aplicaciones con Cloud Run y Google Cloud: conceptos básicos"
+      },
+      "duracion_min": 300
+    },
+    {
+      "slug": "cloud-run-functions",
+      "orden": 6,
+      "tipo": "curso",
+      "nombre": {
+        "en": "Building Applications with Cloud Run Functions on Google Cloud",
+        "es": "Desarrolla aplicaciones con Cloud Run Functions en Google Cloud"
+      },
+      "duracion_min": 435
+    },
+    {
+      "slug": "selecciona-base-de-datos",
+      "orden": 7,
+      "tipo": "curso",
+      "nombre": {
+        "en": "Choosing a Google Cloud Database for Your Applications",
+        "es": "Selecciona una base de datos de Google Cloud para tus aplicaciones"
+      },
+      "duracion_min": 360
+    },
+    {
+      "slug": "ia-gpu",
+      "orden": 8,
+      "tipo": "curso",
+      "nombre": {
+        "en": "AI Infrastructure: Cloud GPUs",
+        "es": "Infraestructura de IA: GPU de Cloud"
+      },
+      "duracion_min": 60
+    },
+    {
+      "slug": "ia-tpu",
+      "orden": 9,
+      "tipo": "curso",
+      "nombre": {
+        "en": "AI Infrastructure: Cloud TPUs",
+        "es": "Infraestructura de IA: TPU de Cloud"
+      },
+      "duracion_min": 75
+    },
+    {
+      "slug": "ia-tipos-implementacion",
+      "orden": 10,
+      "tipo": "curso",
+      "nombre": {
+        "en": "AI Infrastructure: Deployment Options",
+        "es": "Infraestructura de IA: tipos de implementación"
+      },
+      "duracion_min": 90
+    },
+    {
+      "slug": "registro-supervision",
+      "orden": 11,
+      "tipo": "curso",
+      "nombre": {
+        "en": "Logging and Monitoring in Google Cloud",
+        "es": "Registro y supervisión en Google Cloud"
+      },
+      "duracion_min": 510
+    },
+    {
+      "slug": "introduccion-terraform",
+      "orden": 12,
+      "tipo": "curso",
+      "nombre": {
+        "en": "Getting Started with Terraform for Google Cloud",
+        "es": "Introducción a Terraform para Google Cloud"
+      },
+      "duracion_min": 390
+    },
+    {
+      "slug": "badge-load-balancing",
+      "orden": 13,
+      "tipo": "skill-badge",
+      "nombre": {
+        "en": "Implement Cloud Load Balancing for Compute Engine",
+        "es": "Implementa Cloud Load Balancing para Compute Engine"
+      },
+      "duracion_min": 30
+    },
+    {
+      "slug": "badge-kubernetes-apps",
+      "orden": 14,
+      "tipo": "skill-badge",
+      "nombre": {
+        "en": "Deploy Kubernetes Applications on Google Cloud",
+        "es": "Implementa aplicaciones de Kubernetes en Google Cloud"
+      },
+      "duracion_min": 105
+    },
+    {
+      "slug": "badge-terraform-infra",
+      "orden": 15,
+      "tipo": "skill-badge",
+      "nombre": {
+        "en": "Build Infrastructure with Terraform on Google Cloud",
+        "es": "Crea una infraestructura con Terraform en Google Cloud"
+      },
+      "duracion_min": 105
+    }
+  ]
+}

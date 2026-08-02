@@ -1,0 +1,112 @@
+{
+  "guia": "063026_associate_cloud_engineer_exam_guide (vigente desde 2026-06-30)",
+  "secciones": [
+    {
+      "numero": 1,
+      "peso": 0.20,
+      "nombre": {
+        "en": "Setting up a cloud solution environment",
+        "es": "Configuración de un entorno de solución en la nube"
+      }
+    },
+    {
+      "numero": 2,
+      "peso": 0.30,
+      "nombre": {
+        "en": "Planning and implementing a cloud solution",
+        "es": "Planificación e implementación de una solución en la nube"
+      }
+    },
+    {
+      "numero": 3,
+      "peso": 0.30,
+      "nombre": {
+        "en": "Ensuring the successful operation of a cloud solution",
+        "es": "Cómo asegurar la operación exitosa de una solución en la nube"
+      }
+    },
+    {
+      "numero": 4,
+      "peso": 0.20,
+      "nombre": {
+        "en": "Configuring access and security",
+        "es": "Configuración del acceso y la seguridad"
+      }
+    }
+  ],
+  "subtopicos": [
+    { "id": "1.1-resource-hierarchy", "seccion": 1, "nombre": { "en": "Resource hierarchy, org policies, standalone organizations", "es": "Jerarquía de recursos, políticas de organización, organizaciones independientes" } },
+    { "id": "1.1-iam-project-roles", "seccion": 1, "nombre": { "en": "Granting IAM roles within a project", "es": "Otorgar roles de IAM dentro de un proyecto" } },
+    { "id": "1.1-cloud-identity", "seccion": 1, "nombre": { "en": "Managing users and groups in Cloud Identity", "es": "Administrar usuarios y grupos en Cloud Identity" } },
+    { "id": "1.1-apis-quotas", "seccion": 1, "nombre": { "en": "Enabling APIs; assessing quotas and requesting increases", "es": "Habilitar APIs; evaluar cuotas y solicitar aumentos" } },
+    { "id": "1.1-observability-setup", "seccion": 1, "nombre": { "en": "Provisioning Google Cloud Observability products", "es": "Aprovisionar productos de Google Cloud Observability" } },
+    { "id": "1.1-networking-availability", "seccion": 1, "nombre": { "en": "Initial cloud networking; product availability across regions/zones", "es": "Redes iniciales; disponibilidad de productos por regiones/zonas" } },
+    { "id": "1.1-asset-inventory-gemini", "seccion": 1, "nombre": { "en": "Cloud Asset Inventory and Gemini Cloud Assist resource analysis", "es": "Cloud Asset Inventory y análisis de recursos con Gemini Cloud Assist" } },
+    { "id": "1.1-workforce-identity-federation", "seccion": 1, "nombre": { "en": "Configuring Workforce Identity Federation", "es": "Configurar Workforce Identity Federation" } },
+    { "id": "1.2-billing-accounts", "seccion": 1, "nombre": { "en": "Creating billing accounts and linking projects", "es": "Crear cuentas de facturación y vincular proyectos" } },
+    { "id": "1.2-budgets-alerts", "seccion": 1, "nombre": { "en": "Billing budgets and alerts", "es": "Presupuestos y alertas de facturación" } },
+    { "id": "1.2-billing-exports", "seccion": 1, "nombre": { "en": "Setting up billing exports", "es": "Configurar exportaciones de facturación" } },
+
+    { "id": "2.1-compute-choices", "seccion": 2, "nombre": { "en": "Choosing compute: Compute Engine, GKE, Cloud Run, Cloud Run functions, Agent Runtime", "es": "Elegir cómputo: Compute Engine, GKE, Cloud Run, Cloud Run functions, Agent Runtime" } },
+    { "id": "2.1-instance-config", "seccion": 2, "nombre": { "en": "Launching instances; availability policy, SSH keys, OS Login, VM Manager", "es": "Iniciar instancias; política de disponibilidad, claves SSH, OS Login, VM Manager" } },
+    { "id": "2.1-compute-storage", "seccion": 2, "nombre": { "en": "Compute Engine storage: zonal/regional Persistent Disk, Hyperdisk", "es": "Almacenamiento de Compute Engine: Persistent Disk zonal/regional, Hyperdisk" } },
+    { "id": "2.1-migs-autoscaling", "seccion": 2, "nombre": { "en": "Autoscaled managed instance groups from instance templates", "es": "Grupos de instancias administrados con autoescalado desde plantillas" } },
+    { "id": "2.1-spot-custom-machines", "seccion": 2, "nombre": { "en": "Spot VMs and custom machine types", "es": "VMs Spot y tipos de máquina personalizados" } },
+    { "id": "2.1-gke-cluster-configs", "seccion": 2, "nombre": { "en": "kubectl; deploying GKE clusters (Autopilot, regional, private)", "es": "kubectl; implementar clústeres GKE (Autopilot, regionales, privados)" } },
+    { "id": "2.1-gke-deploy-containers", "seccion": 2, "nombre": { "en": "Deploying containerized applications to GKE", "es": "Implementar aplicaciones en contenedores en GKE" } },
+    { "id": "2.1-serverless-events", "seccion": 2, "nombre": { "en": "Serverless apps and event processing (Pub/Sub, Cloud Storage events, Eventarc)", "es": "Apps serverless y procesamiento de eventos (Pub/Sub, eventos de Cloud Storage, Eventarc)" } },
+    { "id": "2.1-gpus-tpus-choice", "seccion": 2, "nombre": { "en": "Identifying whether to use GPUs or TPUs", "es": "Identificar cuándo usar GPUs o TPUs" } },
+    { "id": "2.2-data-products", "seccion": 2, "nombre": { "en": "Choosing/deploying data products (Cloud SQL, BigQuery, Firestore, Spanner, Bigtable, AlloyDB, Dataflow, Pub/Sub, Kafka, Memorystore)", "es": "Elegir/implementar productos de datos (Cloud SQL, BigQuery, Firestore, Spanner, Bigtable, AlloyDB, Dataflow, Pub/Sub, Kafka, Memorystore)" } },
+    { "id": "2.2-storage-products", "seccion": 2, "nombre": { "en": "Choosing/deploying storage (Cloud Storage classes, Filestore, NetApp Volumes, Managed Lustre)", "es": "Elegir/implementar almacenamiento (clases de Cloud Storage, Filestore, NetApp Volumes, Managed Lustre)" } },
+    { "id": "2.2-data-loading", "seccion": 2, "nombre": { "en": "Loading data (CLI upload, Cloud Storage, Storage Transfer Service)", "es": "Cargar datos (CLI, Cloud Storage, Servicio de transferencia de almacenamiento)" } },
+    { "id": "2.2-multiregion-redundancy", "seccion": 2, "nombre": { "en": "Multi-region redundancy across data solutions", "es": "Redundancia multirregión en soluciones de datos" } },
+    { "id": "2.3-vpc-subnets", "seccion": 2, "nombre": { "en": "VPC with subnets (custom mode, Shared VPC, VPC Network Peering)", "es": "VPC con subredes (modo personalizado, VPC compartida, intercambio entre redes VPC)" } },
+    { "id": "2.3-firewall-ngfw", "seccion": 2, "nombre": { "en": "VPC firewall rules and Cloud NGFW policies (ingress/egress, attributes)", "es": "Reglas de firewall de VPC y políticas de Cloud NGFW (entrada/salida, atributos)" } },
+    { "id": "2.3-ngfw-tags-sa", "seccion": 2, "nombre": { "en": "Tags (secure Tags) and service accounts in Cloud NGFW rules", "es": "Tags (secure Tags) y cuentas de servicio en reglas de Cloud NGFW" } },
+    { "id": "2.3-connectivity", "seccion": 2, "nombre": { "en": "Network connectivity (Cloud VPN, VPC Peering, Cloud Interconnect)", "es": "Conectividad de red (Cloud VPN, intercambio de VPC, Cloud Interconnect)" } },
+    { "id": "2.3-load-balancers", "seccion": 2, "nombre": { "en": "Choosing and deploying load balancers", "es": "Elegir e implementar balanceadores de cargas" } },
+    { "id": "2.3-network-tiers", "seccion": 2, "nombre": { "en": "Differentiating Network Service Tiers", "es": "Diferenciar los niveles de servicio de red" } },
+    { "id": "2.4-iac-tooling", "seccion": 2, "nombre": { "en": "IaC tooling (Fabric FAST, Config Connector, Terraform, Helm)", "es": "Herramientas de IaC (Fabric FAST, Config Connector, Terraform, Helm)" } },
+    { "id": "2.4-ai-assisted-tooling", "seccion": 2, "nombre": { "en": "AI-assisted planning (Gemini CLI, Google Antigravity, Gemini Cloud Assist, Application Design Center)", "es": "Planificación asistida por IA (Gemini CLI, Google Antigravity, Gemini Cloud Assist, Application Design Center)" } },
+
+    { "id": "3.1-instance-ops", "seccion": 3, "nombre": { "en": "Remote access and inventory of Compute Engine instances", "es": "Acceso remoto e inventario de instancias de Compute Engine" } },
+    { "id": "3.1-snapshots-images", "seccion": 3, "nombre": { "en": "Snapshots and images (create, view, delete, schedule)", "es": "Instantáneas e imágenes (crear, ver, borrar, programar)" } },
+    { "id": "3.1-gke-ops", "seccion": 3, "nombre": { "en": "GKE cluster inventory; access to Artifact Registry", "es": "Inventario de clústeres GKE; acceso a Artifact Registry" } },
+    { "id": "3.1-gke-node-pools", "seccion": 3, "nombre": { "en": "Working with GKE node pools (add, edit, remove, autoscaling)", "es": "Trabajar con grupos de nodos de GKE (agregar, editar, quitar, autoescalado)" } },
+    { "id": "3.1-k8s-resources", "seccion": 3, "nombre": { "en": "Kubernetes resources (Pods, Services, StatefulSets)", "es": "Recursos de Kubernetes (Pods, Services, StatefulSets)" } },
+    { "id": "3.1-pod-autoscaling", "seccion": 3, "nombre": { "en": "Horizontal/vertical Pod autoscaling; Autopilot resource requests", "es": "Autoescalado horizontal/vertical de Pods; solicitudes de recursos en Autopilot" } },
+    { "id": "3.1-cloud-run-ops", "seccion": 3, "nombre": { "en": "Cloud Run: new versions, traffic splitting, autoscaling", "es": "Cloud Run: versiones nuevas, división de tráfico, autoescalado" } },
+    { "id": "3.1-ai-workloads", "seccion": 3, "nombre": { "en": "GPUs/TPUs; deploying agents to Agent Runtime; notebooks (Workbench, BigQuery)", "es": "GPUs/TPUs; implementar agentes en Agent Runtime; notebooks (Workbench, BigQuery)" } },
+    { "id": "3.1-cloud-workstations", "seccion": 3, "nombre": { "en": "Managing developer environments (Cloud Workstations)", "es": "Administrar entornos de desarrollo (Cloud Workstations)" } },
+    { "id": "3.2-gcs-management", "seccion": 3, "nombre": { "en": "Managing/securing Cloud Storage objects; lifecycle policies", "es": "Administrar/proteger objetos de Cloud Storage; políticas de ciclo de vida" } },
+    { "id": "3.2-data-queries", "seccion": 3, "nombre": { "en": "Executing queries (Cloud SQL, BigQuery, Bigtable, Spanner, Firestore, AlloyDB)", "es": "Ejecutar consultas (Cloud SQL, BigQuery, Bigtable, Spanner, Firestore, AlloyDB)" } },
+    { "id": "3.2-storage-costs", "seccion": 3, "nombre": { "en": "Estimating data storage costs", "es": "Estimar costos de almacenamiento de datos" } },
+    { "id": "3.2-db-backup-restore", "seccion": 3, "nombre": { "en": "Backing up and restoring databases (Cloud SQL, Firestore, Spanner, AlloyDB, Bigtable)", "es": "Copias de seguridad y restauración de bases de datos (Cloud SQL, Firestore, Spanner, AlloyDB, Bigtable)" } },
+    { "id": "3.2-job-status", "seccion": 3, "nombre": { "en": "Reviewing job status (Dataflow, BigQuery)", "es": "Revisar el estado de los trabajos (Dataflow, BigQuery)" } },
+    { "id": "3.2-database-center", "seccion": 3, "nombre": { "en": "Managing the database fleet with Database Center", "es": "Administrar la flota de bases de datos con Database Center" } },
+    { "id": "3.2-cmek", "seccion": 3, "nombre": { "en": "Configuring customer-managed encryption keys (CMEK)", "es": "Configurar claves de encriptación administradas por el cliente (CMEK)" } },
+    { "id": "3.3-subnets-ips", "seccion": 3, "nombre": { "en": "Resizing subnet ranges; reserving static internal/external IPs", "es": "Redimensionar rangos de subred; reservar IPs estáticas internas/externas" } },
+    { "id": "3.3-custom-routes", "seccion": 3, "nombre": { "en": "Adding custom static routes in a VPC", "es": "Agregar rutas estáticas personalizadas en una VPC" } },
+    { "id": "3.3-dns-nat", "seccion": 3, "nombre": { "en": "Using Cloud DNS and Cloud NAT", "es": "Usar Cloud DNS y Cloud NAT" } },
+    { "id": "3.3-firewall-mgmt", "seccion": 3, "nombre": { "en": "Managing VPC firewall rules and Cloud NGFW policies", "es": "Administrar reglas de firewall de VPC y políticas de Cloud NGFW" } },
+    { "id": "3.4-alerts-metrics", "seccion": 3, "nombre": { "en": "Monitoring alerts; creating/ingesting custom metrics", "es": "Alertas de Monitoring; crear/transferir métricas personalizadas" } },
+    { "id": "3.4-audit-flow-logs", "seccion": 3, "nombre": { "en": "Audit logs, VPC Flow Logs, firewall logs", "es": "Registros de auditoría, VPC Flow Logs, registros de firewall" } },
+    { "id": "3.4-log-routing", "seccion": 3, "nombre": { "en": "Exporting logs; log buckets, log analytics, log routers", "es": "Exportar registros; buckets, análisis y routers de registros" } },
+    { "id": "3.4-logging-usage", "seccion": 3, "nombre": { "en": "Viewing and filtering logs; log message details", "es": "Ver y filtrar registros; detalles de mensajes de registro" } },
+    { "id": "3.4-diagnostics", "seccion": 3, "nombre": { "en": "Diagnostics tools (Cloud Trace, Cloud Profiler, Query Insights, index advisor)", "es": "Herramientas de diagnóstico (Cloud Trace, Cloud Profiler, Query Insights, index advisor)" } },
+    { "id": "3.4-service-health-hub", "seccion": 3, "nombre": { "en": "Personalized Service Health dashboard; Cloud Hub monitoring", "es": "Panel de Personalized Service Health; supervisión con Cloud Hub" } },
+    { "id": "3.4-agents-prometheus", "seccion": 3, "nombre": { "en": "Ops Agent; Managed Service for Prometheus", "es": "Agente de operaciones; Managed Service para Prometheus" } },
+    { "id": "3.4-gemini-assist-monitoring", "seccion": 3, "nombre": { "en": "Gemini Cloud Assist for Cloud Monitoring", "es": "Gemini Cloud Assist para Cloud Monitoring" } },
+    { "id": "3.4-active-assist", "seccion": 3, "nombre": { "en": "Active Assist for resource optimization", "es": "Active Assist para optimizar recursos" } },
+
+    { "id": "4.1-iam-policies", "seccion": 4, "nombre": { "en": "Viewing and creating IAM policies", "es": "Ver y crear políticas de IAM" } },
+    { "id": "4.1-policy-inheritance", "seccion": 4, "nombre": { "en": "Role attachment and policy inheritance in the org hierarchy", "es": "Asignación de roles y herencia de políticas en la jerarquía" } },
+    { "id": "4.1-role-types", "seccion": 4, "nombre": { "en": "Role types (basic, predefined, custom)", "es": "Tipos de roles (básicos, predefinidos, personalizados)" } },
+    { "id": "4.2-sa-creation", "seccion": 4, "nombre": { "en": "Creating service accounts (including Google-managed)", "es": "Crear cuentas de servicio (incluidas las administradas por Google)" } },
+    { "id": "4.2-sa-least-privilege", "seccion": 4, "nombre": { "en": "Service accounts in IAM policies with minimum permissions", "es": "Cuentas de servicio en políticas de IAM con permisos mínimos" } },
+    { "id": "4.2-sa-resources", "seccion": 4, "nombre": { "en": "Assigning service accounts to resources; managing SA IAM", "es": "Asignar cuentas de servicio a recursos; administrar su IAM" } },
+    { "id": "4.2-sa-impersonation", "seccion": 4, "nombre": { "en": "Managing service account impersonation", "es": "Administrar la suplantación de cuentas de servicio" } },
+    { "id": "4.2-short-lived-credentials", "seccion": 4, "nombre": { "en": "Short-lived service account credentials", "es": "Credenciales de corta duración de cuentas de servicio" } },
+    { "id": "4.2-sa-gke-workload-identity", "seccion": 4, "nombre": { "en": "Service accounts with GKE apps; Workload Identity Federation", "es": "Cuentas de servicio con apps de GKE; Workload Identity Federation" } }
+  ]
+}

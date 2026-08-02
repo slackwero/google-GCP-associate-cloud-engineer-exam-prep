@@ -1,0 +1,18 @@
+line-length = 120
+target-version = "py312"
+
+[lint]
+select = [
+    "E",    # errores de estilo
+    "F",    # errores lógicos
+    "I",    # orden de imports
+    "S",    # seguridad
+    "B",    # bugs comunes
+    "UP",   # modernización de sintaxis
+]
+
+[lint.per-file-ignores]
+"tests/*" = ["S101"]  # assert es la base de pytest
+
+[format]
+quote-style = "double"

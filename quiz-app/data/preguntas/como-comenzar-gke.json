@@ -1,0 +1,754 @@
+{
+  "preguntas": [
+    {
+      "id": "gke-001",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.1-compute-choices"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is Google Kubernetes Engine (GKE)?",
+        "es": "¿Qué es Google Kubernetes Engine (GKE)?"
+      },
+      "opciones": [
+        { "en": "A managed environment for deploying, managing, and scaling containerized applications using Kubernetes", "es": "Un entorno administrado para implementar, administrar y escalar aplicaciones en contenedores con Kubernetes" },
+        { "en": "A serverless platform that runs individual functions in response to events", "es": "Una plataforma serverless que ejecuta funciones individuales en respuesta a eventos" },
+        { "en": "A service for creating and managing virtual machines", "es": "Un servicio para crear y administrar máquinas virtuales" },
+        { "en": "A fully managed relational database service", "es": "Un servicio de base de datos relacional completamente administrado" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "GKE provides a managed Kubernetes environment for containerized apps. B describes Cloud Run functions, C describes Compute Engine, and D describes Cloud SQL.",
+        "es": "GKE ofrece un entorno de Kubernetes administrado para apps en contenedores. B describe Cloud Run functions, C describe Compute Engine y D describe Cloud SQL."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/kubernetes-engine-overview"
+    },
+    {
+      "id": "gke-002",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.1-gke-cluster-configs"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is the main difference between GKE Autopilot and Standard mode?",
+        "es": "¿Cuál es la diferencia principal entre los modos Autopilot y Standard de GKE?"
+      },
+      "opciones": [
+        { "en": "In Autopilot, Google manages nodes and you pay per Pod resource requests; in Standard, you manage node pools and pay per node", "es": "En Autopilot, Google administra los nodos y pagas por los recursos solicitados por Pod; en Standard, tú administras los node pools y pagas por nodo" },
+        { "en": "Autopilot only supports stateless workloads while Standard supports any workload", "es": "Autopilot solo admite cargas de trabajo sin estado, mientras que Standard admite cualquier carga" },
+        { "en": "Autopilot clusters are always zonal while Standard clusters are always regional", "es": "Los clústeres de Autopilot siempre son zonales y los de Standard siempre son regionales" },
+        { "en": "Standard mode does not allow using kubectl", "es": "El modo Standard no permite usar kubectl" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Autopilot shifts node management to Google and bills per Pod resources. B is false (Autopilot supports stateful workloads), C is false (Autopilot clusters are regional, Standard can be zonal or regional), and D is false (kubectl works in both modes).",
+        "es": "Autopilot traslada la administración de nodos a Google y factura por recursos de Pod. B es falsa (Autopilot admite cargas con estado), C es falsa (los clústeres Autopilot son regionales y Standard puede ser zonal o regional) y D es falsa (kubectl funciona en ambos modos)."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/autopilot-overview"
+    },
+    {
+      "id": "gke-003",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke", "kubectl"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.1-gke-cluster-configs"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which command configures kubectl credentials to connect to an existing GKE cluster?",
+        "es": "¿Qué comando configura las credenciales de kubectl para conectarse a un clúster de GKE existente?"
+      },
+      "opciones": [
+        { "en": "gcloud container clusters get-credentials CLUSTER_NAME --region REGION", "es": "gcloud container clusters get-credentials CLUSTER_NAME --region REGION" },
+        { "en": "kubectl config set-cluster CLUSTER_NAME --gke", "es": "kubectl config set-cluster CLUSTER_NAME --gke" },
+        { "en": "gcloud compute ssh CLUSTER_NAME", "es": "gcloud compute ssh CLUSTER_NAME" },
+        { "en": "kubectl connect CLUSTER_NAME --project PROJECT_ID", "es": "kubectl connect CLUSTER_NAME --project PROJECT_ID" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "gcloud container clusters get-credentials fetches cluster endpoint and credentials into kubeconfig. B configures a generic cluster manually without GKE auth, C opens SSH to a VM, and D is not a real kubectl command.",
+        "es": "gcloud container clusters get-credentials obtiene el endpoint y las credenciales del clúster hacia kubeconfig. B configura un clúster genérico manualmente sin la autenticación de GKE, C abre SSH a una VM y D no es un comando real de kubectl."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-access-for-kubectl"
+    },
+    {
+      "id": "gke-004",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.1-k8s-resources"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "In Kubernetes, what is a Pod?",
+        "es": "En Kubernetes, ¿qué es un Pod?"
+      },
+      "opciones": [
+        { "en": "The smallest deployable unit, consisting of one or more containers that share network and storage", "es": "La unidad implementable más pequeña, compuesta por uno o más contenedores que comparten red y almacenamiento" },
+        { "en": "A physical machine that runs the Kubernetes control plane", "es": "Una máquina física que ejecuta el plano de control de Kubernetes" },
+        { "en": "A load balancer that exposes applications to the internet", "es": "Un balanceador de cargas que expone aplicaciones a internet" },
+        { "en": "A repository for storing container images", "es": "Un repositorio para almacenar imágenes de contenedores" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "A Pod is the smallest deployable unit and can hold one or more tightly coupled containers. B describes a control plane node, C describes a Service of type LoadBalancer, and D describes Artifact Registry.",
+        "es": "Un Pod es la unidad implementable más pequeña y puede contener uno o más contenedores estrechamente acoplados. B describe un nodo del plano de control, C describe un Service de tipo LoadBalancer y D describe Artifact Registry."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/pod"
+    },
+    {
+      "id": "gke-005",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.1-k8s-resources"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which Kubernetes object provides a stable IP address and DNS name to access a set of Pods?",
+        "es": "¿Qué objeto de Kubernetes proporciona una dirección IP estable y un nombre DNS para acceder a un conjunto de Pods?"
+      },
+      "opciones": [
+        { "en": "Service", "es": "Service" },
+        { "en": "Deployment", "es": "Deployment" },
+        { "en": "ConfigMap", "es": "ConfigMap" },
+        { "en": "Namespace", "es": "Namespace" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "A Service gives Pods a stable virtual IP and DNS name. A Deployment manages replicas and rollouts, a ConfigMap stores configuration data, and a Namespace groups resources logically.",
+        "es": "Un Service da a los Pods una IP virtual estable y un nombre DNS. Un Deployment administra réplicas y despliegues, un ConfigMap almacena configuración y un Namespace agrupa recursos lógicamente."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/service"
+    },
+    {
+      "id": "gke-006",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.1-k8s-resources"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which Kubernetes workload object is designed for stateful applications that need stable identities and persistent storage per replica?",
+        "es": "¿Qué objeto de cargas de trabajo de Kubernetes está diseñado para aplicaciones con estado que necesitan identidades estables y almacenamiento persistente por réplica?"
+      },
+      "opciones": [
+        { "en": "StatefulSet", "es": "StatefulSet" },
+        { "en": "Deployment", "es": "Deployment" },
+        { "en": "DaemonSet", "es": "DaemonSet" },
+        { "en": "Job", "es": "Job" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "StatefulSets give each replica a stable network identity and its own PersistentVolume. Deployments are for stateless apps, DaemonSets run one Pod per node, and Jobs run tasks to completion.",
+        "es": "Los StatefulSets dan a cada réplica una identidad de red estable y su propio PersistentVolume. Los Deployments son para apps sin estado, los DaemonSets ejecutan un Pod por nodo y los Jobs ejecutan tareas hasta completarse."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/statefulset"
+    },
+    {
+      "id": "gke-007",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke", "artifact-registry"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.1-gke-ops"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Where should you store your container images so that a GKE cluster can pull them within Google Cloud?",
+        "es": "¿Dónde deberías almacenar tus imágenes de contenedores para que un clúster de GKE pueda descargarlas dentro de Google Cloud?"
+      },
+      "opciones": [
+        { "en": "Artifact Registry", "es": "Artifact Registry" },
+        { "en": "Cloud Storage buckets mounted as volumes", "es": "Buckets de Cloud Storage montados como volúmenes" },
+        { "en": "A Persistent Disk attached to each node", "es": "Un Persistent Disk conectado a cada nodo" },
+        { "en": "Cloud SQL", "es": "Cloud SQL" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Artifact Registry is Google Cloud's recommended container image registry, integrated with GKE authentication. Cloud Storage, Persistent Disk, and Cloud SQL are not image registries.",
+        "es": "Artifact Registry es el registro de imágenes de contenedores recomendado en Google Cloud, integrado con la autenticación de GKE. Cloud Storage, Persistent Disk y Cloud SQL no son registros de imágenes."
+      },
+      "doc": "https://cloud.google.com/artifact-registry/docs/integrate-gke"
+    },
+    {
+      "id": "gke-008",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke", "kubectl"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.1-gke-ops"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which command lists the nodes of the cluster your kubectl context points to?",
+        "es": "¿Qué comando lista los nodos del clúster al que apunta tu contexto de kubectl?"
+      },
+      "opciones": [
+        { "en": "kubectl get nodes", "es": "kubectl get nodes" },
+        { "en": "gcloud compute instances list --cluster", "es": "gcloud compute instances list --cluster" },
+        { "en": "kubectl describe cluster", "es": "kubectl describe cluster" },
+        { "en": "gcloud container images list", "es": "gcloud container images list" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "kubectl get nodes lists cluster nodes. B lists Compute Engine VMs but has no --cluster flag, C is not a valid kubectl resource command, and D lists container images, not nodes.",
+        "es": "kubectl get nodes lista los nodos del clúster. B lista VMs de Compute Engine pero no tiene la marca --cluster, C no es un comando válido de kubectl y D lista imágenes de contenedores, no nodos."
+      },
+      "doc": "https://kubernetes.io/docs/reference/kubectl/"
+    },
+    {
+      "id": "gke-009",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.1-gke-cluster-configs"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What advantage does a regional GKE cluster have over a zonal cluster?",
+        "es": "¿Qué ventaja tiene un clúster regional de GKE sobre uno zonal?"
+      },
+      "opciones": [
+        { "en": "The control plane and nodes are replicated across multiple zones, increasing availability", "es": "El plano de control y los nodos se replican en varias zonas, lo que aumenta la disponibilidad" },
+        { "en": "It is always cheaper because nodes are shared between zones", "es": "Siempre es más barato porque los nodos se comparten entre zonas" },
+        { "en": "It removes the need for load balancers", "es": "Elimina la necesidad de balanceadores de cargas" },
+        { "en": "It automatically converts all workloads to serverless", "es": "Convierte automáticamente todas las cargas de trabajo a serverless" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Regional clusters replicate the control plane and node pools across zones for higher availability. B is false (more replicas usually cost more), C is false (Services still need load balancers), and D is false (workloads remain containerized, not serverless).",
+        "es": "Los clústeres regionales replican el plano de control y los node pools entre zonas para mayor disponibilidad. B es falsa (más réplicas suelen costar más), C es falsa (los Services siguen necesitando balanceadores) y D es falsa (las cargas siguen siendo contenedores, no serverless)."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/regional-clusters"
+    },
+    {
+      "id": "gke-010",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.1-gke-deploy-containers"],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which Kubernetes object should you use to run and maintain 3 identical replicas of a stateless web application?",
+        "es": "¿Qué objeto de Kubernetes deberías usar para ejecutar y mantener 3 réplicas idénticas de una aplicación web sin estado?"
+      },
+      "opciones": [
+        { "en": "Deployment", "es": "Deployment" },
+        { "en": "Pod created manually 3 times", "es": "Pod creado manualmente 3 veces" },
+        { "en": "StatefulSet", "es": "StatefulSet" },
+        { "en": "CronJob", "es": "CronJob" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "A Deployment maintains the desired replica count and handles rolling updates for stateless apps. Manual Pods are not self-healing, StatefulSets are for stateful apps, and CronJobs run scheduled tasks.",
+        "es": "Un Deployment mantiene la cantidad deseada de réplicas y maneja actualizaciones progresivas para apps sin estado. Los Pods manuales no se autorreparan, los StatefulSets son para apps con estado y los CronJobs ejecutan tareas programadas."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/deployment"
+    },
+    {
+      "id": "gke-011",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke", "kubectl"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.1-gke-cluster-configs"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You need to create a GKE cluster where nodes have no public IP addresses but can still reach Google APIs. What should you create?",
+        "es": "Necesitas crear un clúster de GKE cuyos nodos no tengan direcciones IP públicas pero puedan alcanzar las APIs de Google. ¿Qué deberías crear?"
+      },
+      "opciones": [
+        { "en": "A private cluster with Private Google Access enabled on the subnet", "es": "Un clúster privado con Acceso privado a Google habilitado en la subred" },
+        { "en": "A zonal cluster with an external HTTP(S) load balancer", "es": "Un clúster zonal con un balanceador de cargas HTTP(S) externo" },
+        { "en": "An Autopilot cluster, which never assigns any IP addresses to nodes", "es": "Un clúster de Autopilot, que nunca asigna direcciones IP a los nodos" },
+        { "en": "A Standard cluster with firewall rules blocking all egress", "es": "Un clúster Standard con reglas de firewall que bloqueen toda la salida" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Private clusters give nodes only internal IPs; Private Google Access lets them reach Google APIs. B does not remove public node IPs, C is false (Autopilot nodes still get IPs, public unless the cluster is private), and D blocks connectivity instead of enabling API access.",
+        "es": "Los clústeres privados dan a los nodos solo IPs internas; el Acceso privado a Google les permite alcanzar las APIs de Google. B no elimina las IPs públicas de los nodos, C es falsa (los nodos de Autopilot también reciben IPs, públicas salvo que el clúster sea privado) y D bloquea la conectividad en lugar de habilitar el acceso a APIs."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/private-cluster-concept"
+    },
+    {
+      "id": "gke-012",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke", "kubectl"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.1-gke-node-pools"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your GKE Standard cluster needs a set of nodes with GPUs for ML workloads while keeping existing nodes unchanged. What is the best approach?",
+        "es": "Tu clúster Standard de GKE necesita un conjunto de nodos con GPUs para cargas de ML manteniendo los nodos existentes sin cambios. ¿Cuál es el mejor enfoque?"
+      },
+      "opciones": [
+        { "en": "Add a new node pool with GPU machine types and schedule ML Pods to it with node selectors or taints/tolerations", "es": "Agregar un node pool nuevo con tipos de máquina con GPU y programar los Pods de ML allí con selectores de nodos o taints/tolerations" },
+        { "en": "Recreate the entire cluster with GPU nodes only", "es": "Recrear todo el clúster solo con nodos con GPU" },
+        { "en": "Attach GPUs to the existing nodes while they are running", "es": "Conectar GPUs a los nodos existentes mientras están en ejecución" },
+        { "en": "Migrate the ML workloads to Cloud SQL", "es": "Migrar las cargas de ML a Cloud SQL" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Node pools let you mix machine configurations in one cluster; selectors and taints direct workloads. B causes unnecessary disruption, C is not possible on running nodes, and D makes no sense (Cloud SQL is a database).",
+        "es": "Los node pools permiten mezclar configuraciones de máquinas en un clúster; los selectores y taints dirigen las cargas. B causa una interrupción innecesaria, C no es posible en nodos en ejecución y D no tiene sentido (Cloud SQL es una base de datos)."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/node-pools"
+    },
+    {
+      "id": "gke-013",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.1-pod-autoscaling"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your application's Pods hit 90% CPU during peaks. You want GKE to automatically add or remove Pod replicas based on CPU utilization. What should you configure?",
+        "es": "Los Pods de tu aplicación llegan al 90% de CPU en los picos. Quieres que GKE agregue o quite réplicas de Pods automáticamente según el uso de CPU. ¿Qué deberías configurar?"
+      },
+      "opciones": [
+        { "en": "Horizontal Pod Autoscaler (HPA)", "es": "Horizontal Pod Autoscaler (HPA)" },
+        { "en": "Vertical Pod Autoscaler (VPA)", "es": "Vertical Pod Autoscaler (VPA)" },
+        { "en": "Cluster autoscaler only", "es": "Solo el autoescalador del clúster" },
+        { "en": "A larger machine type for all nodes", "es": "Un tipo de máquina más grande para todos los nodos" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "HPA changes the number of replicas based on metrics like CPU. VPA adjusts resource requests per Pod (not replica count), the cluster autoscaler adds nodes but not Pod replicas, and bigger machines don't scale the app horizontally.",
+        "es": "El HPA cambia la cantidad de réplicas según métricas como la CPU. El VPA ajusta las solicitudes de recursos por Pod (no la cantidad de réplicas), el autoescalador del clúster agrega nodos pero no réplicas de Pods, y máquinas más grandes no escalan la app horizontalmente."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/horizontalpodautoscaler"
+    },
+    {
+      "id": "gke-014",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.1-pod-autoscaling"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "In a GKE Autopilot cluster, what determines how much you are billed for a workload?",
+        "es": "En un clúster de GKE Autopilot, ¿qué determina cuánto se te factura por una carga de trabajo?"
+      },
+      "opciones": [
+        { "en": "The CPU, memory, and ephemeral storage requested by your Pods", "es": "La CPU, memoria y almacenamiento efímero solicitados por tus Pods" },
+        { "en": "The number and machine type of the nodes you provision", "es": "La cantidad y el tipo de máquina de los nodos que aprovisionas" },
+        { "en": "A flat monthly fee per cluster regardless of usage", "es": "Una tarifa mensual fija por clúster sin importar el uso" },
+        { "en": "The number of container images stored in Artifact Registry", "es": "La cantidad de imágenes de contenedores almacenadas en Artifact Registry" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Autopilot bills per Pod resource requests, so right-sizing requests controls cost. B applies to Standard mode, C is false (there is a cluster fee but usage billing is per Pod resources), and D is a separate Artifact Registry cost unrelated to Autopilot billing.",
+        "es": "Autopilot factura por los recursos solicitados por Pod, así que dimensionar bien las solicitudes controla el costo. B aplica al modo Standard, C es falsa (existe una tarifa de clúster pero el uso se factura por recursos de Pod) y D es un costo aparte de Artifact Registry, no de Autopilot."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/autopilot-resource-requests"
+    },
+    {
+      "id": "gke-015",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke", "kubectl"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.1-gke-deploy-containers"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You applied a Deployment with kubectl but its Pods stay in ImagePullBackOff. What is the most likely cause?",
+        "es": "Aplicaste un Deployment con kubectl pero sus Pods quedan en ImagePullBackOff. ¿Cuál es la causa más probable?"
+      },
+      "opciones": [
+        { "en": "The image name/tag is wrong or the cluster lacks permission to pull from the registry", "es": "El nombre o la etiqueta de la imagen es incorrecta, o el clúster no tiene permisos para descargar del registro" },
+        { "en": "The cluster is out of Persistent Disk quota", "es": "El clúster agotó la cuota de Persistent Disk" },
+        { "en": "The Service has no external IP yet", "es": "El Service aún no tiene IP externa" },
+        { "en": "The HPA has reached its maximum replica count", "es": "El HPA alcanzó su cantidad máxima de réplicas" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "ImagePullBackOff means the kubelet cannot pull the image: bad name/tag or missing registry permissions. Disk quota issues surface as scheduling/volume errors, Services don't block image pulls, and HPA limits reduce replicas, not image pulls.",
+        "es": "ImagePullBackOff significa que el kubelet no puede descargar la imagen: nombre/etiqueta incorrectos o faltan permisos sobre el registro. Los problemas de cuota de disco aparecen como errores de programación o volúmenes, los Services no bloquean descargas de imágenes y los límites del HPA reducen réplicas, no descargas."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/troubleshooting/deployed-workloads"
+    },
+    {
+      "id": "gke-016",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.1-gke-deploy-containers"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You want to expose a web Deployment running in GKE to external users with a single stable IP. Which Service type should you use?",
+        "es": "Quieres exponer un Deployment web que corre en GKE a usuarios externos con una sola IP estable. ¿Qué tipo de Service deberías usar?"
+      },
+      "opciones": [
+        { "en": "LoadBalancer", "es": "LoadBalancer" },
+        { "en": "ClusterIP", "es": "ClusterIP" },
+        { "en": "NodePort with users connecting to each node's IP", "es": "NodePort con los usuarios conectándose a la IP de cada nodo" },
+        { "en": "ExternalName", "es": "ExternalName" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Service type LoadBalancer provisions a Google Cloud load balancer with a stable external IP. ClusterIP is internal-only, NodePort exposes node IPs (not a single stable address), and ExternalName maps to an external DNS name instead of exposing Pods.",
+        "es": "El Service de tipo LoadBalancer aprovisiona un balanceador de Google Cloud con una IP externa estable. ClusterIP es solo interno, NodePort expone las IPs de los nodos (no una única dirección estable) y ExternalName mapea a un nombre DNS externo en lugar de exponer Pods."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/service#services_of_type_loadbalancer"
+    },
+    {
+      "id": "gke-017",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke", "kubectl"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.1-gke-node-pools"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Which command adds a node pool named gpu-pool to an existing GKE Standard cluster?",
+        "es": "¿Qué comando agrega un node pool llamado gpu-pool a un clúster Standard de GKE existente?"
+      },
+      "opciones": [
+        { "en": "gcloud container node-pools create gpu-pool --cluster=my-cluster --region=us-central1", "es": "gcloud container node-pools create gpu-pool --cluster=my-cluster --region=us-central1" },
+        { "en": "kubectl create nodepool gpu-pool --cluster my-cluster", "es": "kubectl create nodepool gpu-pool --cluster my-cluster" },
+        { "en": "gcloud compute instance-groups create gpu-pool --cluster=my-cluster", "es": "gcloud compute instance-groups create gpu-pool --cluster=my-cluster" },
+        { "en": "gcloud container clusters resize my-cluster --node-pool gpu-pool", "es": "gcloud container clusters resize my-cluster --node-pool gpu-pool" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Node pools are managed with gcloud container node-pools. kubectl has no nodepool resource, instance-groups are a Compute Engine concept without --cluster, and resize changes node count of an existing pool rather than creating one.",
+        "es": "Los node pools se administran con gcloud container node-pools. kubectl no tiene un recurso nodepool, los instance-groups son un concepto de Compute Engine sin --cluster, y resize cambia la cantidad de nodos de un pool existente en lugar de crear uno."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/how-to/node-pools"
+    },
+    {
+      "id": "gke-018",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.1-gke-ops"],
+      "nivel": "intermedio",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which TWO of the following are valid ways to view what is currently running in a GKE cluster?",
+        "es": "¿Cuáles DOS de las siguientes son formas válidas de ver qué se está ejecutando actualmente en un clúster de GKE?"
+      },
+      "opciones": [
+        { "en": "kubectl get pods --all-namespaces", "es": "kubectl get pods --all-namespaces" },
+        { "en": "The Workloads page in the Google Cloud console", "es": "La página Cargas de trabajo en la consola de Google Cloud" },
+        { "en": "gcloud sql instances list", "es": "gcloud sql instances list" },
+        { "en": "bq ls --cluster", "es": "bq ls --cluster" }
+      ],
+      "respuesta": ["A", "B"],
+      "explicacion": {
+        "en": "kubectl get pods and the console's Workloads page both show running workloads. gcloud sql lists Cloud SQL instances and bq ls lists BigQuery datasets — neither relates to GKE.",
+        "es": "kubectl get pods y la página Cargas de trabajo de la consola muestran las cargas en ejecución. gcloud sql lista instancias de Cloud SQL y bq ls lista datasets de BigQuery — ninguno se relaciona con GKE."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/how-to/viewing-workloads"
+    },
+    {
+      "id": "gke-019",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.1-pod-autoscaling"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What does the GKE cluster autoscaler do in Standard mode?",
+        "es": "¿Qué hace el autoescalador de clústeres de GKE en modo Standard?"
+      },
+      "opciones": [
+        { "en": "Adds or removes nodes in a node pool based on Pod scheduling needs", "es": "Agrega o quita nodos de un node pool según las necesidades de programación de los Pods" },
+        { "en": "Increases the CPU limits of running Pods automatically", "es": "Aumenta automáticamente los límites de CPU de los Pods en ejecución" },
+        { "en": "Creates new clusters when the current one is full", "es": "Crea clústeres nuevos cuando el actual se llena" },
+        { "en": "Moves Pods to Cloud Run when traffic spikes", "es": "Mueve los Pods a Cloud Run cuando el tráfico sube" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "The cluster autoscaler resizes node pools so pending Pods can schedule and underused nodes are removed. B describes VPA behavior (and VPA changes requests, not live limits), C and D do not exist as autoscaler behaviors.",
+        "es": "El autoescalador de clústeres redimensiona los node pools para que los Pods pendientes puedan programarse y se retiren nodos subutilizados. B describe el comportamiento del VPA (que además cambia solicitudes, no límites en vivo); C y D no existen como comportamientos del autoescalador."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/cluster-autoscaler"
+    },
+    {
+      "id": "gke-020",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke", "kubectl"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.1-k8s-resources"],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You need to update the image of a Deployment named web to v2 with zero downtime. Which approach is correct?",
+        "es": "Necesitas actualizar la imagen del Deployment llamado web a v2 sin tiempo de inactividad. ¿Qué enfoque es correcto?"
+      },
+      "opciones": [
+        { "en": "kubectl set image deployment/web web=IMAGE:v2 and let the rolling update replace Pods gradually", "es": "kubectl set image deployment/web web=IMAGE:v2 y dejar que la actualización progresiva reemplace los Pods gradualmente" },
+        { "en": "Delete the Deployment and recreate it with the new image", "es": "Borrar el Deployment y recrearlo con la imagen nueva" },
+        { "en": "SSH into each node and update the container manually", "es": "Entrar por SSH a cada nodo y actualizar el contenedor manualmente" },
+        { "en": "Delete all Pods at once so they restart with the new image", "es": "Borrar todos los Pods a la vez para que reinicien con la imagen nueva" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Deployments perform rolling updates by default, replacing Pods gradually without downtime. B and D cause downtime, and C bypasses Kubernetes' declarative model entirely (kubelet would revert manual changes).",
+        "es": "Los Deployments hacen actualizaciones progresivas por defecto, reemplazando Pods gradualmente sin inactividad. B y D causan inactividad, y C evade por completo el modelo declarativo de Kubernetes (kubelet revertiría los cambios manuales)."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/how-to/updating-apps"
+    },
+    {
+      "id": "gke-021",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.1-gke-cluster-configs", "2.1-compute-choices"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your team runs a production API on GKE. They want minimal node management, per-Pod billing, and Google-hardened security defaults, and they accept less control over node configuration. Which cluster type BEST fits?",
+        "es": "Tu equipo ejecuta una API de producción en GKE. Quieren administración mínima de nodos, facturación por Pod y valores de seguridad reforzados por Google, y aceptan menos control sobre la configuración de los nodos. ¿Qué tipo de clúster se ajusta MEJOR?"
+      },
+      "opciones": [
+        { "en": "A regional Autopilot cluster", "es": "Un clúster regional de Autopilot" },
+        { "en": "A zonal Standard cluster with one node pool", "es": "Un clúster zonal Standard con un solo node pool" },
+        { "en": "A regional Standard cluster with node auto-provisioning", "es": "Un clúster regional Standard con aprovisionamiento automático de nodos" },
+        { "en": "A private zonal Standard cluster", "es": "Un clúster zonal Standard privado" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Autopilot removes node management, bills per Pod requests, applies hardened defaults, and Autopilot clusters are regional — matching every requirement. B and D keep node management and zonal availability, and C still requires node pool management even with auto-provisioning.",
+        "es": "Autopilot elimina la administración de nodos, factura por solicitudes de Pod, aplica valores reforzados y sus clústeres son regionales — cumple todos los requisitos. B y D mantienen la administración de nodos y disponibilidad zonal, y C aún requiere administrar node pools aunque tenga aprovisionamiento automático."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/autopilot-overview"
+    },
+    {
+      "id": "gke-022",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke", "service-accounts", "identity-federation"],
+      "seccion_blueprint": 4,
+      "subtopicos": ["4.2-sa-gke-workload-identity"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Pods in your GKE cluster must read from a Cloud Storage bucket. Following Google's recommended practice, how should they authenticate?",
+        "es": "Los Pods de tu clúster de GKE deben leer de un bucket de Cloud Storage. Siguiendo la práctica recomendada por Google, ¿cómo deberían autenticarse?"
+      },
+      "opciones": [
+        { "en": "Use Workload Identity Federation for GKE to bind a Kubernetes ServiceAccount to an IAM service account with roles/storage.objectViewer", "es": "Usar Workload Identity Federation para GKE para vincular una ServiceAccount de Kubernetes con una cuenta de servicio de IAM con roles/storage.objectViewer" },
+        { "en": "Export a service account key as JSON and mount it in the Pods as a Secret", "es": "Exportar una llave de cuenta de servicio en JSON y montarla en los Pods como Secret" },
+        { "en": "Grant roles/storage.objectViewer to allUsers on the bucket", "es": "Otorgar roles/storage.objectViewer a allUsers en el bucket" },
+        { "en": "Use the node's default Compute Engine service account with the Editor role", "es": "Usar la cuenta de servicio predeterminada de Compute Engine del nodo con el rol Editor" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Workload Identity Federation for GKE avoids long-lived keys and applies least privilege per workload. B uses discouraged long-lived keys, C makes the bucket public, and D grants excessive permissions shared by every Pod on the node.",
+        "es": "Workload Identity Federation para GKE evita llaves de larga vida y aplica mínimo privilegio por carga de trabajo. B usa llaves de larga vida desaconsejadas, C hace público el bucket y D otorga permisos excesivos compartidos por todos los Pods del nodo."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/workload-identity"
+    },
+    {
+      "id": "gke-023",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.1-pod-autoscaling"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "In an Autopilot cluster, a Deployment's Pods are being OOMKilled under load. What is the BEST fix?",
+        "es": "En un clúster de Autopilot, los Pods de un Deployment mueren por OOMKilled bajo carga. ¿Cuál es la MEJOR solución?"
+      },
+      "opciones": [
+        { "en": "Increase the memory requests/limits in the Pod spec so Autopilot provisions more memory", "es": "Aumentar las solicitudes/límites de memoria en la spec del Pod para que Autopilot aprovisione más memoria" },
+        { "en": "Add more nodes manually to the cluster", "es": "Agregar más nodos manualmente al clúster" },
+        { "en": "Change the cluster to a larger machine type", "es": "Cambiar el clúster a un tipo de máquina más grande" },
+        { "en": "Restart the Pods so they free memory", "es": "Reiniciar los Pods para que liberen memoria" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "In Autopilot, resources are driven by Pod requests/limits; raising memory prevents OOMKills. B and C are Standard-mode node operations you don't control in Autopilot, and D only delays the next OOMKill without fixing the memory shortfall.",
+        "es": "En Autopilot los recursos se derivan de las solicitudes/límites del Pod; subir la memoria evita los OOMKill. B y C son operaciones de nodos del modo Standard que no controlas en Autopilot, y D solo pospone el siguiente OOMKill sin resolver la falta de memoria."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/autopilot-resource-requests"
+    },
+    {
+      "id": "gke-024",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke", "kubectl"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.1-k8s-resources"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A rollout of version v2 is failing in production. Which command returns the Deployment web to its previous working version fastest?",
+        "es": "El despliegue de la versión v2 está fallando en producción. ¿Qué comando devuelve el Deployment web a su versión anterior funcional más rápido?"
+      },
+      "opciones": [
+        { "en": "kubectl rollout undo deployment/web", "es": "kubectl rollout undo deployment/web" },
+        { "en": "kubectl delete deployment web && kubectl apply -f v1.yaml", "es": "kubectl delete deployment web && kubectl apply -f v1.yaml" },
+        { "en": "kubectl scale deployment/web --replicas=0", "es": "kubectl scale deployment/web --replicas=0" },
+        { "en": "gcloud container clusters rollback my-cluster", "es": "gcloud container clusters rollback my-cluster" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "kubectl rollout undo reverts to the previous ReplicaSet immediately. B causes downtime by deleting first, C takes the app offline entirely, and D rolls back cluster node upgrades, not application Deployments.",
+        "es": "kubectl rollout undo revierte al ReplicaSet anterior de inmediato. B causa inactividad al borrar primero, C deja la app completamente fuera de línea y D revierte actualizaciones de nodos del clúster, no Deployments de aplicaciones."
+      },
+      "doc": "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#rolling-back-a-deployment"
+    },
+    {
+      "id": "gke-025",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke", "artifact-registry", "service-accounts"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.1-gke-ops"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Pods fail to pull images from Artifact Registry in the same project with 403 errors. The cluster uses a custom node service account. What is the MOST likely fix?",
+        "es": "Los Pods no pueden descargar imágenes de Artifact Registry en el mismo proyecto y reciben errores 403. El clúster usa una cuenta de servicio de nodo personalizada. ¿Cuál es la solución MÁS probable?"
+      },
+      "opciones": [
+        { "en": "Grant roles/artifactregistry.reader to the node service account", "es": "Otorgar roles/artifactregistry.reader a la cuenta de servicio del nodo" },
+        { "en": "Make the Artifact Registry repository public", "es": "Hacer público el repositorio de Artifact Registry" },
+        { "en": "Recreate the cluster in Autopilot mode", "es": "Recrear el clúster en modo Autopilot" },
+        { "en": "Add an external load balancer to the cluster", "es": "Agregar un balanceador de cargas externo al clúster" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Nodes pull images using the node service account, which needs artifactregistry.reader. B works but violates least privilege and exposes images publicly, C doesn't address the missing IAM role, and D is unrelated to image pulls.",
+        "es": "Los nodos descargan imágenes con la cuenta de servicio del nodo, que necesita artifactregistry.reader. B funcionaría pero viola el mínimo privilegio y expone las imágenes públicamente, C no resuelve el rol de IAM faltante y D no tiene relación con la descarga de imágenes."
+      },
+      "doc": "https://cloud.google.com/artifact-registry/docs/integrate-gke"
+    },
+    {
+      "id": "gke-026",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.1-gke-node-pools"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You must patch the node OS of a GKE Standard cluster with zero disruption to a production service that has 2 replicas and a PodDisruptionBudget of minAvailable: 1. What happens during the node pool upgrade?",
+        "es": "Debes parchear el SO de los nodos de un clúster Standard de GKE sin interrumpir un servicio de producción con 2 réplicas y un PodDisruptionBudget de minAvailable: 1. ¿Qué sucede durante la actualización del node pool?"
+      },
+      "opciones": [
+        { "en": "GKE drains nodes one at a time, respecting the PodDisruptionBudget so at least 1 replica stays available", "es": "GKE vacía los nodos de a uno, respetando el PodDisruptionBudget para que al menos 1 réplica siga disponible" },
+        { "en": "All nodes are upgraded simultaneously, causing a brief outage", "es": "Todos los nodos se actualizan simultáneamente, causando una interrupción breve" },
+        { "en": "The upgrade is blocked until the PodDisruptionBudget is deleted", "es": "La actualización se bloquea hasta que se borre el PodDisruptionBudget" },
+        { "en": "Pods are migrated live between nodes without restarts", "es": "Los Pods se migran en vivo entre nodos sin reinicios" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "GKE upgrades honor PodDisruptionBudgets while draining nodes gradually (surge upgrades by default). B contradicts the default one-by-one/surge behavior, C is false (PDBs delay evictions, they don't block upgrades permanently), and D is impossible — Pods are rescheduled, not live-migrated.",
+        "es": "Las actualizaciones de GKE respetan los PodDisruptionBudgets mientras vacían los nodos gradualmente (con actualizaciones de sobreaprovisionamiento por defecto). B contradice el comportamiento gradual predeterminado, C es falsa (los PDB retrasan los desalojos, no bloquean actualizaciones para siempre) y D es imposible — los Pods se reprograman, no se migran en vivo."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/node-pool-upgrade-strategies"
+    },
+    {
+      "id": "gke-027",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.1-compute-choices"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A batch analytics workload on GKE Standard is fault-tolerant, restartable, and cost-sensitive. Which node configuration reduces cost the MOST?",
+        "es": "Una carga batch de analítica en GKE Standard es tolerante a fallas, reiniciable y sensible al costo. ¿Qué configuración de nodos reduce MÁS el costo?"
+      },
+      "opciones": [
+        { "en": "A node pool of Spot VMs dedicated to the batch workload", "es": "Un node pool de VMs Spot dedicado a la carga batch" },
+        { "en": "A node pool of larger standard machines with committed use discounts only", "es": "Un node pool de máquinas estándar más grandes solo con descuentos por uso comprometido" },
+        { "en": "Running the batch jobs on the same nodes as production with higher priority", "es": "Ejecutar los trabajos batch en los mismos nodos que producción con mayor prioridad" },
+        { "en": "A second regional cluster reserved for batch jobs", "es": "Un segundo clúster regional reservado para trabajos batch" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Spot VMs offer 60-91% discounts and suit fault-tolerant, restartable workloads. B saves less than Spot for interruptible work, C risks production stability and saves nothing, and D adds cluster management cost instead of reducing it.",
+        "es": "Las VMs Spot ofrecen descuentos del 60-91% y se ajustan a cargas tolerantes a fallas y reiniciables. B ahorra menos que Spot para trabajo interrumpible, C arriesga la estabilidad de producción sin ahorrar y D agrega costo de administración de otro clúster en lugar de reducirlo."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/spot-vms"
+    },
+    {
+      "id": "gke-028",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke", "kubectl"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.1-k8s-resources", "3.1-gke-ops"],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "A Pod is stuck in Pending. Which TWO commands help you diagnose the cause?",
+        "es": "Un Pod está atascado en Pending. ¿Qué DOS comandos te ayudan a diagnosticar la causa?"
+      },
+      "opciones": [
+        { "en": "kubectl describe pod POD_NAME", "es": "kubectl describe pod POD_NAME" },
+        { "en": "kubectl get events --sort-by=.metadata.creationTimestamp", "es": "kubectl get events --sort-by=.metadata.creationTimestamp" },
+        { "en": "kubectl delete pod POD_NAME --force", "es": "kubectl delete pod POD_NAME --force" },
+        { "en": "gcloud projects list", "es": "gcloud projects list" }
+      ],
+      "respuesta": ["A", "B"],
+      "explicacion": {
+        "en": "describe pod shows scheduling events (e.g., insufficient CPU, unbound PVC) and get events shows cluster-wide event history. Force-deleting destroys evidence without diagnosing, and listing projects is unrelated.",
+        "es": "describe pod muestra los eventos de programación (p. ej., CPU insuficiente, PVC sin vincular) y get events muestra el historial de eventos del clúster. Borrar a la fuerza destruye la evidencia sin diagnosticar y listar proyectos no tiene relación."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/troubleshooting/deployed-workloads"
+    },
+    {
+      "id": "gke-029",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke"],
+      "seccion_blueprint": 3,
+      "subtopicos": ["3.1-pod-autoscaling"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You configured an HPA with minReplicas: 2 and maxReplicas: 10 targeting 60% CPU, but replicas never exceed 2 even under heavy load. What is the MOST common cause?",
+        "es": "Configuraste un HPA con minReplicas: 2 y maxReplicas: 10 apuntando a 60% de CPU, pero las réplicas nunca superan 2 incluso con mucha carga. ¿Cuál es la causa MÁS común?"
+      },
+      "opciones": [
+        { "en": "The Pods have no CPU resource requests defined, so the HPA cannot compute utilization", "es": "Los Pods no tienen solicitudes de CPU definidas, por lo que el HPA no puede calcular la utilización" },
+        { "en": "HPA only works with memory metrics", "es": "El HPA solo funciona con métricas de memoria" },
+        { "en": "maxReplicas must be a multiple of minReplicas", "es": "maxReplicas debe ser múltiplo de minReplicas" },
+        { "en": "The cluster needs a new node pool before HPA can act", "es": "El clúster necesita un node pool nuevo antes de que el HPA pueda actuar" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "CPU utilization for HPA is computed against Pod CPU requests; without requests the metric is undefined and scaling stalls. B is false (CPU is the classic HPA metric), C is not a real constraint, and D is false — if nodes were full, Pods would show as Pending after HPA created them.",
+        "es": "La utilización de CPU del HPA se calcula contra las solicitudes de CPU del Pod; sin solicitudes la métrica queda indefinida y el escalado se detiene. B es falsa (la CPU es la métrica clásica del HPA), C no es una restricción real y D es falsa — si los nodos estuvieran llenos, los Pods aparecerían como Pending después de que el HPA los creara."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/horizontalpodautoscaler"
+    },
+    {
+      "id": "gke-030",
+      "curso": "como-comenzar-gke",
+      "servicios": ["gke"],
+      "seccion_blueprint": 2,
+      "subtopicos": ["2.1-gke-cluster-configs"],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your security team requires that the GKE control plane endpoint is not reachable from the public internet, while your admins connect from an on-premises network linked via Cloud VPN. What should you configure?",
+        "es": "Tu equipo de seguridad exige que el endpoint del plano de control de GKE no sea accesible desde internet público, mientras tus administradores se conectan desde una red local enlazada por Cloud VPN. ¿Qué deberías configurar?"
+      },
+      "opciones": [
+        { "en": "A private cluster with the external endpoint disabled and authorized networks for the internal endpoint", "es": "Un clúster privado con el endpoint externo inhabilitado y redes autorizadas para el endpoint interno" },
+        { "en": "A public cluster protected only by IAM permissions", "es": "Un clúster público protegido solo con permisos de IAM" },
+        { "en": "A firewall rule blocking port 443 on all nodes", "es": "Una regla de firewall que bloquee el puerto 443 en todos los nodos" },
+        { "en": "A NodePort Service restricted to the VPN range", "es": "Un Service NodePort restringido al rango de la VPN" }
+      ],
+      "respuesta": ["A"],
+      "explicacion": {
+        "en": "Disabling the external endpoint and allowing only authorized internal networks keeps the control plane private while admins reach it over VPN. B leaves the endpoint on the internet, C blocks node traffic but not the control plane endpoint, and D controls app access, not the control plane.",
+        "es": "Inhabilitar el endpoint externo y permitir solo redes internas autorizadas mantiene privado el plano de control mientras los administradores llegan por VPN. B deja el endpoint en internet, C bloquea tráfico de nodos pero no el endpoint del plano de control y D controla el acceso a apps, no al plano de control."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/private-cluster-concept"
+    }
+  ]
+}
