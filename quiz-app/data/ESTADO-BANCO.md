@@ -1,12 +1,13 @@
 # Estado del banco de preguntas
 
-**Banco completo: 1,465 preguntas bilingües, 0 excluidas.** El quality gate de cobertura
+**Banco completo: 1,516 preguntas bilingües, 0 excluidas.** El quality gate de cobertura
 está activo en `tests/test_cobertura.py` (sin `xfail`): exige ≥5 preguntas por cada
 subtópico oficial del blueprint 2026, ≥60 por curso del path, ≥1,200 en total y los
 tres niveles bien representados.
 
-Distribución verificada: 456 principiante / 514 intermedio / 495 avanzado.
-Por sección del examen: S1 211, S2 606, S3 429, S4 219.
+Distribución verificada: 461 principiante / 543 intermedio / 512 avanzado.
+Por sección del examen: S1 213, S2 613, S3 471, S4 219.
+Ningún subtópico oficial baja de 12 preguntas.
 
 Comando para ver el estado real en cualquier momento:
 
@@ -53,11 +54,31 @@ Cubren temas de la guía oficial que el path NO cubre (ver `resources/coverage-a
 | `refuerzo-seccion-3.json` | `ref3` | Database Center, CMEK, costos, rutas estáticas, Trace/Profiler, Workstations, DNS/NAT |
 | `refuerzo-seccion-4.json` | `ref4` | Impersonación, credenciales de corta duración, Workload Identity Federation, herencia IAM, roles personalizados |
 | `refuerzo-cobertura.json` | `cob` | Cierra subtópicos con poca cobertura: secure Tags en NGFW, operación de instancias, estado de jobs, Gemini Cloud Assist, Active Assist |
+| `refuerzo-densidad.json` | `den` | Sube a 12 los subtópicos más delgados: niveles de red, autoescalado de Pods, instantáneas e imágenes, rutas estáticas, firewall, Ops Agent y Managed Service for Prometheus, logs y Personalized Service Health / Cloud Hub |
 
 ## Si quieres ampliar el banco
 
 Añade un archivo nuevo en `data/preguntas/` siguiendo el esquema (usa
 `como-comenzar-gke.json` como referencia de calidad) y ejecuta `pytest`: el
 validador rechaza cualquier pregunta mal formada y el gate confirma la cobertura.
-Las Secciones 1 y 4 son las que más ganarían con más preguntas: pesan 20% cada una
-en el examen y siguen siendo las de menor volumen en el banco.
+
+Para decidir **dónde** ampliar, mide la densidad por subtópico, no el porcentaje por
+sección. El reparto bruto engaña: la Sección 1 tiene 11 subtópicos y la 4 solo 9, así
+que pesan poco en el total aunque cada subtópico esté bien cubierto (mediana 17 y 26
+preguntas). La Sección 3 concentra 29 subtópicos y es la de menor profundidad por
+subtópico. Además, el examen simulado ya reparte 20/30/30/20 por sección sin importar
+el tamaño del banco, así que la repetición que nota quien estudia viene de los
+subtópicos delgados, no del porcentaje de su sección.
+
+```bash
+cd quiz-app && .venv/bin/python -c "
+import collections
+from pathlib import Path
+from quiz_ace.services.banco import cargar_banco
+b = cargar_banco(Path('data'))
+cnt = collections.Counter()
+for p in b.preguntas:
+    for st in p['subtopicos']: cnt[st] += 1
+for st, n in sorted(cnt.items(), key=lambda kv: kv[1])[:15]: print(f'{n:3d}  {st}')
+" 2>/dev/null
+```

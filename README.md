@@ -8,7 +8,7 @@
 > [!IMPORTANT]
 > **This is exam practice, not a course.** Everything here is built around
 > **exam-style questions** for the **Google Cloud Associate Cloud Engineer**
-> certification: 1,465 bilingual questions (English / Latin American Spanish),
+> certification: 1,516 bilingual questions (English / Latin American Spanish),
 > timed mock exams, and a progress dashboard that measures you against the
 > official exam guide. You drill questions until the score says you are ready.
 
@@ -27,7 +27,7 @@ study history is a file on your disk.
 
 ## What's inside
 
-- **1,465 bilingual questions**, every one of them mapped to the official exam
+- **1,516 bilingual questions**, every one of them mapped to the official exam
   blueprint. Each question explains why the correct answer is correct **and why
   each distractor fails**, with a link to the official documentation.
 - **100% blueprint coverage** — all 70 sub-topics of the guide effective
@@ -92,11 +92,11 @@ mock exam feels like the real thing rather than whatever was easiest to write.
 
 | Exam section | Weight | Questions | Sub-topics |
 |---|---|---|---|
-| 1. Setting up a cloud solution environment | 20% | 211 | 11 |
-| 2. Planning and implementing a cloud solution | 30% | 606 | 21 |
-| 3. Ensuring the successful operation of a cloud solution | 30% | 429 | 29 |
+| 1. Setting up a cloud solution environment | 20% | 213 | 11 |
+| 2. Planning and implementing a cloud solution | 30% | 613 | 21 |
+| 3. Ensuring the successful operation of a cloud solution | 30% | 471 | 29 |
 | 4. Configuring access and security | 20% | 219 | 9 |
-| **Total** | **100%** | **1,465** | **70** |
+| **Total** | **100%** | **1,516** | **70** |
 
 You can practise by exam topic, by course from the official learning path (15
 activities), or by service. These are the 52 services and topic areas the bank

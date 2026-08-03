@@ -1,0 +1,2251 @@
+{
+  "preguntas": [
+    {
+      "id": "den-001",
+      "curso": null,
+      "servicios": [
+        "billing",
+        "bigquery"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.2-billing-exports"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Finance needs to know how much each individual Compute Engine instance costs per day, not just the total for the Compute Engine service. Which Cloud Billing export should you enable?",
+        "es": "Finanzas necesita saber cuánto cuesta por día cada instancia de Compute Engine por separado, no solo el total del servicio Compute Engine. ¿Qué exportación de Cloud Billing debes habilitar?"
+      },
+      "opciones": [
+        {
+          "en": "The detailed usage cost export to BigQuery",
+          "es": "La exportación detallada de costos de uso a BigQuery"
+        },
+        {
+          "en": "The standard usage cost export to BigQuery",
+          "es": "La exportación estándar de costos de uso a BigQuery"
+        },
+        {
+          "en": "The pricing export to BigQuery",
+          "es": "La exportación de precios a BigQuery"
+        },
+        {
+          "en": "A scheduled CSV download from the Cost table report",
+          "es": "Una descarga programada de CSV desde el informe de tabla de costos"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Only the detailed usage cost export adds resource-level fields, so you can group cost by the specific VM. B, the standard export, stops at the service, SKU, project and label level, so every instance in the project collapses into one row group. C exports the price list of SKUs, not what you actually consumed. D gives you a point-in-time file with the same granularity as the console report and no automated daily history.",
+        "es": "Solo la exportación detallada agrega campos a nivel de recurso, así puedes agrupar el costo por la VM específica. B, la estándar, llega hasta servicio, SKU, proyecto y etiquetas, así que todas las instancias del proyecto se agrupan juntas. C exporta la lista de precios de los SKU, no lo que consumiste. D entrega un archivo puntual con la misma granularidad del informe de la consola y sin historial diario automatizado."
+      },
+      "doc": "https://cloud.google.com/billing/docs/how-to/export-data-bigquery-tables"
+    },
+    {
+      "id": "den-002",
+      "curso": null,
+      "servicios": [
+        "billing",
+        "bigquery"
+      ],
+      "seccion_blueprint": 1,
+      "subtopicos": [
+        "1.2-billing-exports"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You enable the Cloud Billing export to BigQuery today and immediately query the dataset for last quarter's spend. The table only returns rows starting from today. What is happening?",
+        "es": "Habilitas hoy la exportación de Cloud Billing a BigQuery y consultas de inmediato el gasto del trimestre pasado. La tabla solo devuelve filas desde hoy. ¿Qué está pasando?"
+      },
+      "opciones": [
+        {
+          "en": "Billing export is not retroactive; it only writes data generated after it is enabled, so historical spend must come from the billing reports or a CSV download",
+          "es": "La exportación de facturación no es retroactiva; solo escribe datos generados después de habilitarla, así que el gasto histórico debe salir de los informes de facturación o de una descarga CSV"
+        },
+        {
+          "en": "The BigQuery dataset was created in the wrong region, which silently drops older partitions",
+          "es": "El dataset de BigQuery se creó en la región equivocada, lo que descarta silenciosamente las particiones antiguas"
+        },
+        {
+          "en": "The export backfills up to 90 days, but only after the first full billing cycle closes",
+          "es": "La exportación rellena hasta 90 días hacia atrás, pero solo después de que cierre el primer ciclo de facturación completo"
+        },
+        {
+          "en": "Your account is missing the BigQuery Data Viewer role, which hides older partitions from queries",
+          "es": "A tu cuenta le falta el rol Visualizador de datos de BigQuery, lo que oculta de las consultas las particiones antiguas"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The export starts a forward-only stream of billing data, so anything that happened before you turned it on never lands in the table. B is wrong because a region mismatch would block the export from being configured, not silently trim rows. C invents a backfill that does not exist. D is wrong because missing read permission produces an access error, not a partial result set.",
+        "es": "La exportación inicia un flujo de datos de facturación solo hacia adelante, así que nada de lo ocurrido antes de activarla llega a la tabla. B es incorrecta porque una región que no coincide impide configurar la exportación, no recorta filas en silencio. C inventa un relleno retroactivo que no existe. D es incorrecta porque la falta de permiso de lectura produce un error de acceso, no un resultado parcial."
+      },
+      "doc": "https://cloud.google.com/billing/docs/how-to/export-data-bigquery-setup"
+    },
+    {
+      "id": "den-003",
+      "curso": null,
+      "servicios": [
+        "storage-transfer",
+        "cloud-storage"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.2-data-loading"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A partner drops files into an Amazon S3 bucket every night. You need those objects mirrored into Cloud Storage each morning, without maintaining a VM or writing your own retry logic. What should you use?",
+        "es": "Un socio deja archivos en un bucket de Amazon S3 cada noche. Necesitas que esos objetos se repliquen en Cloud Storage cada mañana, sin mantener una VM ni escribir tu propia lógica de reintentos. ¿Qué debes usar?"
+      },
+      "opciones": [
+        {
+          "en": "Storage Transfer Service with a recurring scheduled transfer job from the S3 source",
+          "es": "Storage Transfer Service con un trabajo de transferencia programado recurrente desde el origen S3"
+        },
+        {
+          "en": "A cron job on a Compute Engine instance running gcloud storage rsync",
+          "es": "Un cron job en una instancia de Compute Engine que ejecute gcloud storage rsync"
+        },
+        {
+          "en": "A Transfer Appliance shipped to the partner's data center",
+          "es": "Un Transfer Appliance enviado al centro de datos del socio"
+        },
+        {
+          "en": "Object lifecycle management rules on the destination Cloud Storage bucket",
+          "es": "Reglas de gestión del ciclo de vida de objetos en el bucket de Cloud Storage de destino"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Storage Transfer Service is the managed, agentless path for cloud-to-cloud copies: it schedules the run, parallelizes it and retries failures for you. B works but reintroduces exactly the VM and error handling the requirement rules out. C is for large one-time offline migrations from a physical site, not a nightly cloud-to-cloud sync. D only changes storage class or deletes objects already in the bucket; it never brings data in.",
+        "es": "Storage Transfer Service es la ruta administrada y sin agentes para copias entre nubes: programa la ejecución, la paraleliza y reintenta los fallos por ti. B funciona, pero reintroduce justo la VM y el manejo de errores que el requisito descarta. C sirve para migraciones masivas y únicas desde un sitio físico, no para una sincronización nocturna entre nubes. D solo cambia la clase de almacenamiento o borra objetos que ya están en el bucket; nunca trae datos."
+      },
+      "doc": "https://cloud.google.com/storage-transfer/docs/overview"
+    },
+    {
+      "id": "den-004",
+      "curso": null,
+      "servicios": [
+        "network-service-tiers",
+        "vpc"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-network-tiers"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What is the fundamental difference between Premium Tier and Standard Tier in Network Service Tiers?",
+        "es": "¿Cuál es la diferencia fundamental entre el nivel Premium y el nivel Estándar en los niveles de servicio de red?"
+      },
+      "opciones": [
+        {
+          "en": "Premium Tier carries traffic over Google's global backbone for as long as possible, while Standard Tier hands traffic off to the public internet from the resource's own region",
+          "es": "El nivel Premium transporta el tráfico por la red troncal global de Google el mayor tiempo posible, mientras que el nivel Estándar entrega el tráfico a la internet pública desde la propia región del recurso"
+        },
+        {
+          "en": "Premium Tier encrypts traffic in transit, while Standard Tier sends it in plaintext",
+          "es": "El nivel Premium cifra el tráfico en tránsito, mientras que el nivel Estándar lo envía en texto plano"
+        },
+        {
+          "en": "Premium Tier applies to ingress traffic only, while Standard Tier applies to egress traffic only",
+          "es": "El nivel Premium se aplica solo al tráfico de entrada, mientras que el nivel Estándar se aplica solo al tráfico de salida"
+        },
+        {
+          "en": "Premium Tier gives unlimited egress bandwidth, while Standard Tier caps each project at a fixed monthly quota",
+          "es": "El nivel Premium da ancho de banda de salida ilimitado, mientras que el nivel Estándar limita cada proyecto a una cuota mensual fija"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The tiers differ in routing: Premium keeps packets on Google's backbone between the user's nearest edge point of presence and your resource, which is why it performs better and costs more. B is wrong because encryption in transit is independent of the tier. C is wrong because the tier choice applies to the path of the traffic, not to one direction only. D invents a bandwidth quota that neither tier defines.",
+        "es": "Los niveles se diferencian en el enrutamiento: Premium mantiene los paquetes en la red troncal de Google entre el punto de presencia más cercano al usuario y tu recurso, por eso rinde mejor y cuesta más. B es incorrecta porque el cifrado en tránsito es independiente del nivel. C es incorrecta porque la elección de nivel aplica a la ruta del tráfico, no a un solo sentido. D inventa una cuota de ancho de banda que ninguno de los dos niveles define."
+      },
+      "doc": "https://cloud.google.com/network-tiers/docs/overview"
+    },
+    {
+      "id": "den-005",
+      "curso": null,
+      "servicios": [
+        "network-service-tiers",
+        "load-balancing"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-network-tiers"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You are fronting backends in three continents with a single global external Application Load Balancer and one anycast IP address. Which network tier must the load balancer's forwarding rule use?",
+        "es": "Vas a exponer backends en tres continentes con un único balanceador de cargas de aplicaciones externo global y una sola dirección IP anycast. ¿Qué nivel de red debe usar la regla de reenvío del balanceador?"
+      },
+      "opciones": [
+        {
+          "en": "Premium Tier, because a single global anycast IP address is only available there",
+          "es": "Nivel Premium, porque una única dirección IP anycast global solo está disponible ahí"
+        },
+        {
+          "en": "Standard Tier, because it is cheaper and the load balancer already spans regions",
+          "es": "Nivel Estándar, porque es más barato y el balanceador ya abarca varias regiones"
+        },
+        {
+          "en": "Either tier, as long as every backend region uses the same tier",
+          "es": "Cualquiera de los dos niveles, siempre que todas las regiones de backend usen el mismo nivel"
+        },
+        {
+          "en": "Premium Tier for ingress and Standard Tier for egress, configured separately",
+          "es": "Nivel Premium para la entrada y nivel Estándar para la salida, configurados por separado"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Global load balancing with one anycast address depends on Google's backbone, so the forwarding rule requires Premium Tier. B is wrong because Standard Tier IP addresses are regional and cannot anchor a global load balancer. C is wrong because the tier is a property of the forwarding rule's IP address, and Standard simply is not an option for this product. D invents a split configuration that the forwarding rule does not expose.",
+        "es": "El balanceo global con una sola dirección anycast depende de la red troncal de Google, así que la regla de reenvío exige nivel Premium. B es incorrecta porque las direcciones IP del nivel Estándar son regionales y no pueden sostener un balanceador global. C es incorrecta porque el nivel es una propiedad de la dirección IP de la regla de reenvío, y Estándar sencillamente no es una opción para este producto. D inventa una configuración dividida que la regla de reenvío no expone."
+      },
+      "doc": "https://cloud.google.com/network-tiers/docs/overview"
+    },
+    {
+      "id": "den-006",
+      "curso": null,
+      "servicios": [
+        "network-service-tiers",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-network-tiers"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A nightly batch job in us-central1 pushes several terabytes of processed files to an external endpoint. Latency does not matter, and the team wants the lowest possible network cost. What should you do?",
+        "es": "Un trabajo por lotes nocturno en us-central1 envía varios terabytes de archivos procesados a un endpoint externo. La latencia no importa y el equipo quiere el menor costo de red posible. ¿Qué debes hacer?"
+      },
+      "opciones": [
+        {
+          "en": "Assign the job's external IP address to Standard Tier",
+          "es": "Asignar la dirección IP externa del trabajo al nivel Estándar"
+        },
+        {
+          "en": "Keep Premium Tier and enable Cloud CDN on the egress path",
+          "es": "Mantener el nivel Premium y habilitar Cloud CDN en la ruta de salida"
+        },
+        {
+          "en": "Move the job to a different region with cheaper compute pricing",
+          "es": "Mover el trabajo a otra región con precios de cómputo más baratos"
+        },
+        {
+          "en": "Route the egress through Cloud NAT to consolidate the addresses",
+          "es": "Enrutar la salida a través de Cloud NAT para consolidar las direcciones"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Standard Tier is priced lower precisely because traffic leaves Google's network at the source region and crosses the public internet, which is an acceptable trade for a latency-insensitive batch push. B is wrong because Cloud CDN caches responses served to clients and does nothing for outbound batch transfers, while Premium remains the pricier path. C changes compute pricing, not the egress tier that dominates this bill. D consolidates source addresses for instances without external IPs but does not reduce the per-gigabyte egress rate.",
+        "es": "El nivel Estándar cuesta menos justamente porque el tráfico sale de la red de Google en la región de origen y cruza la internet pública, un intercambio aceptable para un envío por lotes insensible a la latencia. B es incorrecta porque Cloud CDN almacena en caché respuestas servidas a clientes y no hace nada por transferencias salientes por lotes, además de que Premium sigue siendo la ruta más cara. C cambia el precio del cómputo, no el nivel de salida que domina esta factura. D consolida direcciones de origen para instancias sin IP externa, pero no reduce la tarifa de salida por gigabyte."
+      },
+      "doc": "https://cloud.google.com/network-tiers/docs/overview"
+    },
+    {
+      "id": "den-007",
+      "curso": null,
+      "servicios": [
+        "network-service-tiers",
+        "load-balancing"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-network-tiers"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your team wants to put Cloud CDN in front of a public website to cache content at Google's edge. The backend's external IP is currently configured for Standard Tier. What must change?",
+        "es": "Tu equipo quiere poner Cloud CDN delante de un sitio web público para almacenar contenido en caché en el borde de Google. La IP externa del backend está configurada hoy en nivel Estándar. ¿Qué debe cambiar?"
+      },
+      "opciones": [
+        {
+          "en": "The load balancer must use Premium Tier, since Cloud CDN depends on Google's global edge and backbone",
+          "es": "El balanceador debe usar el nivel Premium, ya que Cloud CDN depende del borde y la red troncal globales de Google"
+        },
+        {
+          "en": "Nothing; Cloud CDN works with either tier and simply caches at fewer locations under Standard Tier",
+          "es": "Nada; Cloud CDN funciona con cualquiera de los dos niveles y simplemente almacena en caché en menos ubicaciones con el nivel Estándar"
+        },
+        {
+          "en": "The backend must be migrated to a multi-region Cloud Storage bucket before CDN can be enabled",
+          "es": "El backend debe migrarse a un bucket de Cloud Storage multirregional antes de poder habilitar la CDN"
+        },
+        {
+          "en": "A separate CDN-only project must be created and linked to the billing account",
+          "es": "Se debe crear un proyecto exclusivo para la CDN y vincularlo a la cuenta de facturación"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Cloud CDN is enabled on a backend service behind a global external Application Load Balancer, and that load balancer requires Premium Tier. B is wrong because Standard Tier is not a degraded CDN mode, it is simply unsupported for this configuration. C is wrong because Cloud CDN caches for many backend types, including instance groups, not just buckets. D invents an organizational requirement that does not exist.",
+        "es": "Cloud CDN se habilita en un servicio de backend detrás de un balanceador de cargas de aplicaciones externo global, y ese balanceador exige nivel Premium. B es incorrecta porque el nivel Estándar no es un modo degradado de CDN, sencillamente no es compatible con esta configuración. C es incorrecta porque Cloud CDN almacena en caché para muchos tipos de backend, incluidos grupos de instancias, no solo buckets. D inventa un requisito organizativo que no existe."
+      },
+      "doc": "https://cloud.google.com/cdn/docs/overview"
+    },
+    {
+      "id": "den-008",
+      "curso": null,
+      "servicios": [
+        "network-service-tiers",
+        "gcloud-cli"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-network-tiers"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You set the project-wide default network tier to Standard so new resources are cheap by default, but one public API endpoint in that project needs Premium Tier. What is the correct approach?",
+        "es": "Configuras el nivel de red predeterminado del proyecto en Estándar para que los recursos nuevos sean baratos por defecto, pero un endpoint público de API en ese proyecto necesita nivel Premium. ¿Cuál es el enfoque correcto?"
+      },
+      "opciones": [
+        {
+          "en": "Leave the project default as Standard and explicitly set Premium Tier on that endpoint's external IP address and forwarding rule",
+          "es": "Dejar el valor predeterminado del proyecto en Estándar y establecer explícitamente el nivel Premium en la dirección IP externa y la regla de reenvío de ese endpoint"
+        },
+        {
+          "en": "Switch the project default to Premium, because per-resource tier settings are ignored once a project default exists",
+          "es": "Cambiar el valor predeterminado del proyecto a Premium, porque la configuración de nivel por recurso se ignora una vez que existe un valor predeterminado del proyecto"
+        },
+        {
+          "en": "Move that endpoint into its own project, since the tier can only be set at the project level",
+          "es": "Mover ese endpoint a su propio proyecto, ya que el nivel solo se puede establecer a nivel de proyecto"
+        },
+        {
+          "en": "Apply an organization policy constraint that pins the endpoint to Premium Tier",
+          "es": "Aplicar una restricción de política de la organización que fije el endpoint en nivel Premium"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The project-level setting is only a default for newly created resources; an individual external address or forwarding rule can declare its own tier and that value wins. B inverts the relationship, since the per-resource setting is exactly what overrides the default. C is unnecessary because tiers are not a project-wide hard boundary. D misuses organization policy, which constrains what users may configure rather than assigning a tier to one resource.",
+        "es": "La configuración a nivel de proyecto es solo un valor predeterminado para los recursos nuevos; una dirección externa o regla de reenvío individual puede declarar su propio nivel y ese valor manda. B invierte la relación, ya que la configuración por recurso es justamente lo que anula el valor predeterminado. C es innecesaria porque los niveles no son una frontera rígida de todo el proyecto. D usa mal la política de la organización, que restringe lo que los usuarios pueden configurar en lugar de asignar un nivel a un recurso."
+      },
+      "doc": "https://cloud.google.com/network-tiers/docs/using-network-service-tiers"
+    },
+    {
+      "id": "den-009",
+      "curso": null,
+      "servicios": [
+        "network-service-tiers",
+        "load-balancing"
+      ],
+      "seccion_blueprint": 2,
+      "subtopicos": [
+        "2.3-network-tiers"
+      ],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which two statements accurately describe Standard Tier? (Choose 2)",
+        "es": "¿Qué dos afirmaciones describen correctamente el nivel Estándar? (Elige 2)"
+      },
+      "opciones": [
+        {
+          "en": "Its external IP addresses are regional resources",
+          "es": "Sus direcciones IP externas son recursos regionales"
+        },
+        {
+          "en": "It costs less per gigabyte of internet egress than Premium Tier",
+          "es": "Cuesta menos por gigabyte de salida a internet que el nivel Premium"
+        },
+        {
+          "en": "It supports global external load balancing with a single anycast IP address",
+          "es": "Admite balanceo de cargas externo global con una única dirección IP anycast"
+        },
+        {
+          "en": "It routes traffic across Google's backbone to the point of presence closest to the client",
+          "es": "Enruta el tráfico por la red troncal de Google hasta el punto de presencia más cercano al cliente"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Standard Tier addresses are scoped to a region, and its lower price is the whole reason to choose it. C is false because a single anycast IP for global load balancing is a Premium Tier capability. D describes Premium Tier's routing; Standard Tier hands traffic to the public internet from the source region instead of carrying it on the backbone.",
+        "es": "Las direcciones del nivel Estándar tienen alcance regional, y su menor precio es la razón misma para elegirlo. C es falsa porque una sola IP anycast para balanceo global es una capacidad del nivel Premium. D describe el enrutamiento del nivel Premium; el Estándar entrega el tráfico a la internet pública desde la región de origen en vez de llevarlo por la red troncal."
+      },
+      "doc": "https://cloud.google.com/network-tiers/docs/overview"
+    },
+    {
+      "id": "den-010",
+      "curso": null,
+      "servicios": [
+        "gke",
+        "kubectl"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-pod-autoscaling"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "What does the Horizontal Pod Autoscaler (HPA) change when load on a Deployment increases?",
+        "es": "¿Qué modifica el escalador automático horizontal de Pods (HPA) cuando aumenta la carga sobre un Deployment?"
+      },
+      "opciones": [
+        {
+          "en": "The number of Pod replicas in the Deployment",
+          "es": "La cantidad de réplicas de Pods del Deployment"
+        },
+        {
+          "en": "The CPU and memory requests of each existing Pod",
+          "es": "Las solicitudes de CPU y memoria de cada Pod existente"
+        },
+        {
+          "en": "The machine type of the nodes in the node pool",
+          "es": "El tipo de máquina de los nodos del grupo de nodos"
+        },
+        {
+          "en": "The number of nodes in the cluster",
+          "es": "La cantidad de nodos del clúster"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "HPA scales out, adding or removing replicas of the workload to track a target metric such as average CPU utilization. B describes the Vertical Pod Autoscaler, which resizes requests instead of counting replicas. C is not something any autoscaler does in place; changing machine type means a new node pool. D describes the cluster autoscaler, which reacts to unschedulable Pods rather than to metric targets.",
+        "es": "El HPA escala horizontalmente: agrega o quita réplicas de la carga de trabajo para seguir una métrica objetivo, como el uso promedio de CPU. B describe el escalador vertical de Pods, que redimensiona las solicitudes en lugar de contar réplicas. C no es algo que ningún escalador haga en caliente; cambiar el tipo de máquina implica un grupo de nodos nuevo. D describe el escalador automático de clústeres, que reacciona a Pods no programables y no a métricas objetivo."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/horizontalpodautoscaler"
+    },
+    {
+      "id": "den-011",
+      "curso": null,
+      "servicios": [
+        "gke",
+        "kubectl"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-pod-autoscaling"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You suspect your Pods' CPU and memory requests are badly sized, but this is a production workload and you cannot tolerate Pods being restarted right now. How can you get right-sizing guidance from the Vertical Pod Autoscaler?",
+        "es": "Sospechas que las solicitudes de CPU y memoria de tus Pods están mal dimensionadas, pero es una carga de producción y no puedes tolerar que los Pods se reinicien ahora. ¿Cómo obtienes recomendaciones de dimensionamiento del escalador vertical de Pods?"
+      },
+      "opciones": [
+        {
+          "en": "Create a VerticalPodAutoscaler with updateMode set to Off and read the recommendations it publishes",
+          "es": "Crear un VerticalPodAutoscaler con updateMode en Off y leer las recomendaciones que publica"
+        },
+        {
+          "en": "Create a VerticalPodAutoscaler with updateMode set to Auto and roll it back after one hour",
+          "es": "Crear un VerticalPodAutoscaler con updateMode en Auto y revertirlo después de una hora"
+        },
+        {
+          "en": "Create a VerticalPodAutoscaler with updateMode set to Initial, which only applies changes to running Pods",
+          "es": "Crear un VerticalPodAutoscaler con updateMode en Initial, que solo aplica cambios a los Pods en ejecución"
+        },
+        {
+          "en": "Enable the Horizontal Pod Autoscaler on memory, since it reports request recommendations as events",
+          "es": "Habilitar el escalador horizontal de Pods sobre la memoria, ya que informa recomendaciones de solicitudes como eventos"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "In Off mode VPA computes and stores recommendations without ever evicting or mutating Pods, which is exactly the safe observation mode you want. B does apply changes, and applying them evicts Pods, so the outage happens before you roll back. C is backwards: Initial mode applies requests only when a Pod is created, not to already-running Pods. D is wrong because HPA changes replica counts and does not produce request recommendations.",
+        "es": "En modo Off el VPA calcula y guarda recomendaciones sin desalojar ni modificar Pods, que es justamente el modo de observación seguro que buscas. B sí aplica cambios, y aplicarlos desaloja Pods, así que la interrupción ocurre antes de que puedas revertir. C está al revés: el modo Initial aplica solicitudes solo cuando se crea un Pod, no a los que ya están corriendo. D es incorrecta porque el HPA cambia la cantidad de réplicas y no produce recomendaciones de solicitudes."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/verticalpodautoscaler"
+    },
+    {
+      "id": "den-012",
+      "curso": null,
+      "servicios": [
+        "gke",
+        "kubectl"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-pod-autoscaling"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A team configured both an HPA and a VPA on the same Deployment, each targeting CPU. The workload now oscillates between scaling out and resizing. What is the recommended fix?",
+        "es": "Un equipo configuró un HPA y un VPA sobre el mismo Deployment, ambos apuntando a CPU. Ahora la carga oscila entre escalar horizontalmente y redimensionarse. ¿Cuál es la corrección recomendada?"
+      },
+      "opciones": [
+        {
+          "en": "Use multidimensional Pod autoscaling, which scales horizontally on CPU while the vertical component handles memory",
+          "es": "Usar el escalado multidimensional de Pods, que escala horizontalmente por CPU mientras el componente vertical se ocupa de la memoria"
+        },
+        {
+          "en": "Raise the HPA's target CPU utilization above 100% so the VPA acts first",
+          "es": "Subir el uso de CPU objetivo del HPA por encima del 100% para que el VPA actúe primero"
+        },
+        {
+          "en": "Add a PodDisruptionBudget, which serializes the two autoscalers",
+          "es": "Agregar un PodDisruptionBudget, que serializa los dos escaladores"
+        },
+        {
+          "en": "Move the workload to a node pool with the cluster autoscaler disabled",
+          "es": "Mover la carga de trabajo a un grupo de nodos con el escalador automático de clústeres deshabilitado"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "HPA and VPA fighting over the same metric is a known conflict, and multidimensional Pod autoscaling is the supported combination: horizontal on CPU, vertical on memory. B does not resolve the conflict and makes the HPA effectively unable to react. C only limits how many Pods can be voluntarily disrupted at once; it does not coordinate autoscaler decisions. D targets node provisioning, which is a different layer from the Pod-level fight described here.",
+        "es": "Que el HPA y el VPA peleen por la misma métrica es un conflicto conocido, y el escalado multidimensional de Pods es la combinación admitida: horizontal por CPU, vertical por memoria. B no resuelve el conflicto y deja al HPA prácticamente incapaz de reaccionar. C solo limita cuántos Pods pueden interrumpirse voluntariamente a la vez; no coordina las decisiones de los escaladores. D apunta al aprovisionamiento de nodos, una capa distinta de la disputa a nivel de Pod que se describe aquí."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/how-to/multidimensional-pod-autoscaling"
+    },
+    {
+      "id": "den-013",
+      "curso": null,
+      "servicios": [
+        "gke"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-pod-autoscaling"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "In an Autopilot cluster, a developer submits a Deployment whose containers declare no CPU or memory requests. What happens, and what will the workload be billed for?",
+        "es": "En un clúster Autopilot, una persona desarrolladora envía un Deployment cuyos contenedores no declaran solicitudes de CPU ni memoria. ¿Qué ocurre y por qué se factura la carga de trabajo?"
+      },
+      "opciones": [
+        {
+          "en": "Autopilot applies default resource requests to the Pods, and billing is based on the Pods' resource requests",
+          "es": "Autopilot aplica solicitudes de recursos predeterminadas a los Pods, y la facturación se basa en las solicitudes de recursos de los Pods"
+        },
+        {
+          "en": "The Pods are rejected by the admission controller until requests are declared explicitly",
+          "es": "El controlador de admisión rechaza los Pods hasta que se declaren las solicitudes explícitamente"
+        },
+        {
+          "en": "The Pods run unbounded, and billing is based on the underlying nodes Autopilot provisions",
+          "es": "Los Pods se ejecutan sin límite y la facturación se basa en los nodos subyacentes que aprovisiona Autopilot"
+        },
+        {
+          "en": "The Pods stay Pending until a VerticalPodAutoscaler object is created for them",
+          "es": "Los Pods quedan en estado Pending hasta que se cree un objeto VerticalPodAutoscaler para ellos"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Autopilot always ends up with requests on every Pod, filling in defaults when the manifest omits them, and you pay for the requested CPU, memory and ephemeral storage of the running Pods. B is wrong because omitting requests is tolerated, not rejected. C is wrong on both counts: Autopilot does not expose or bill the nodes to you, and Pods do not run without requests. D invents a dependency on VPA that Autopilot scheduling does not have.",
+        "es": "Autopilot siempre termina con solicitudes en cada Pod y completa valores predeterminados cuando el manifiesto los omite; pagas por la CPU, la memoria y el almacenamiento efímero solicitados por los Pods en ejecución. B es incorrecta porque omitir las solicitudes se tolera, no se rechaza. C es incorrecta por partida doble: Autopilot no te expone ni te factura los nodos, y los Pods no se ejecutan sin solicitudes. D inventa una dependencia del VPA que la programación de Autopilot no tiene."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/autopilot-overview"
+    },
+    {
+      "id": "den-014",
+      "curso": null,
+      "servicios": [
+        "gke",
+        "kubectl"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-pod-autoscaling"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "An HPA raised a Deployment from 4 to 12 replicas, but 5 Pods are stuck in Pending with a FailedScheduling event citing insufficient CPU on every node. What resolves this?",
+        "es": "Un HPA subió un Deployment de 4 a 12 réplicas, pero 5 Pods quedaron en Pending con un evento FailedScheduling que indica CPU insuficiente en todos los nodos. ¿Qué resuelve esto?"
+      },
+      "opciones": [
+        {
+          "en": "Node-level capacity must grow, so enable the cluster autoscaler on the node pool or move the workload to an Autopilot cluster",
+          "es": "La capacidad a nivel de nodo debe crecer, así que habilita el escalador automático de clústeres en el grupo de nodos o mueve la carga a un clúster Autopilot"
+        },
+        {
+          "en": "Increase the HPA's maxReplicas so it can place the Pods elsewhere",
+          "es": "Aumentar maxReplicas del HPA para que pueda ubicar los Pods en otro lugar"
+        },
+        {
+          "en": "Lower the HPA's target CPU utilization so the Pods are scheduled sooner",
+          "es": "Bajar el uso de CPU objetivo del HPA para que los Pods se programen antes"
+        },
+        {
+          "en": "Add a VerticalPodAutoscaler in Auto mode, which will evict the Pending Pods onto free nodes",
+          "es": "Agregar un VerticalPodAutoscaler en modo Auto, que desalojará los Pods pendientes hacia nodos libres"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "HPA creates Pod objects but cannot create capacity; unschedulable Pods are the cluster autoscaler's trigger, and Autopilot does this provisioning for you by design. B raises a ceiling the HPA has not hit and adds even more unschedulable Pods. C makes the HPA scale out more aggressively, which worsens the shortage. D cannot help because a Pending Pod has no node to be evicted from, and shrinking requests is a workaround that hides the capacity problem rather than fixing it.",
+        "es": "El HPA crea objetos Pod pero no puede crear capacidad; los Pods no programables son justamente el disparador del escalador automático de clústeres, y Autopilot hace ese aprovisionamiento por diseño. B eleva un techo que el HPA no ha alcanzado y agrega aún más Pods no programables. C hace que el HPA escale más agresivamente, lo que empeora la escasez. D no sirve porque un Pod en Pending no tiene nodo del cual ser desalojado, y encoger las solicitudes es un parche que oculta el problema de capacidad en vez de resolverlo."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/cluster-autoscaler"
+    },
+    {
+      "id": "den-015",
+      "curso": null,
+      "servicios": [
+        "gke",
+        "pubsub",
+        "cloud-monitoring"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-pod-autoscaling"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Worker Pods drain a Pub/Sub subscription. CPU stays low even when the backlog grows, so CPU-based scaling never triggers. How should the HPA be driven instead?",
+        "es": "Unos Pods de trabajo consumen una suscripción de Pub/Sub. La CPU se mantiene baja incluso cuando crece el backlog, así que el escalado por CPU nunca se dispara. ¿Cómo debe gobernarse el HPA en su lugar?"
+      },
+      "opciones": [
+        {
+          "en": "Configure the HPA against the subscription's undelivered-messages metric exposed to Kubernetes as an external metric",
+          "es": "Configurar el HPA contra la métrica de mensajes sin entregar de la suscripción, expuesta a Kubernetes como métrica externa"
+        },
+        {
+          "en": "Configure the HPA against the Pods' memory utilization, which tracks queue depth closely",
+          "es": "Configurar el HPA contra el uso de memoria de los Pods, que sigue de cerca la profundidad de la cola"
+        },
+        {
+          "en": "Replace the HPA with a CronJob that scales the Deployment on a fixed schedule",
+          "es": "Reemplazar el HPA con un CronJob que escale el Deployment según un horario fijo"
+        },
+        {
+          "en": "Enable the cluster autoscaler, which scales Deployments when a subscription backlog builds up",
+          "es": "Habilitar el escalador automático de clústeres, que escala los Deployments cuando se acumula el backlog de una suscripción"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "HPA supports external metrics, so the backlog reported by Cloud Monitoring for the subscription becomes the scaling signal that actually correlates with demand. B is wrong because an idle worker's memory does not follow queue depth. C trades a demand signal for a guess and cannot react to unexpected bursts. D misstates the cluster autoscaler, which adds nodes for unschedulable Pods and never reads application metrics.",
+        "es": "El HPA admite métricas externas, así que el backlog que Cloud Monitoring informa para la suscripción se convierte en la señal de escalado que sí se correlaciona con la demanda. B es incorrecta porque la memoria de un worker ocioso no sigue la profundidad de la cola. C cambia una señal de demanda por una suposición y no puede reaccionar a picos inesperados. D describe mal el escalador automático de clústeres, que agrega nodos para Pods no programables y nunca lee métricas de aplicación."
+      },
+      "doc": "https://cloud.google.com/kubernetes-engine/docs/concepts/horizontalpodautoscaler"
+    },
+    {
+      "id": "den-016",
+      "curso": null,
+      "servicios": [
+        "persistent-disk",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-snapshots-images"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You have a chain of daily snapshots of the same disk. To save money you delete the oldest one. What happens to the snapshots taken after it?",
+        "es": "Tienes una cadena de instantáneas diarias del mismo disco. Para ahorrar, borras la más antigua. ¿Qué ocurre con las instantáneas tomadas después de ella?"
+      },
+      "opciones": [
+        {
+          "en": "They remain fully restorable, because Compute Engine moves any still-needed data to the next snapshot in the chain",
+          "es": "Siguen siendo totalmente restaurables, porque Compute Engine mueve al siguiente snapshot de la cadena los datos que aún se necesitan"
+        },
+        {
+          "en": "They become unusable, because every later snapshot depends on the first full snapshot",
+          "es": "Quedan inutilizables, porque cada snapshot posterior depende del primer snapshot completo"
+        },
+        {
+          "en": "They can only restore the blocks changed after the deletion, so a full disk restore fails",
+          "es": "Solo pueden restaurar los bloques modificados después del borrado, así que la restauración completa del disco falla"
+        },
+        {
+          "en": "They are automatically converted into machine images to preserve the data",
+          "es": "Se convierten automáticamente en imágenes de máquina para preservar los datos"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Snapshots are incremental but each one is independently restorable: deleting one causes any data the remaining snapshots still reference to be retained. B and C both assume a fragile dependency chain that Compute Engine specifically protects you from. D invents a conversion; machine images are a separate resource you create deliberately.",
+        "es": "Las instantáneas son incrementales pero cada una es restaurable de forma independiente: al borrar una, los datos que las restantes todavía referencian se conservan. B y C suponen una cadena de dependencias frágil de la que Compute Engine te protege justamente. D inventa una conversión; las imágenes de máquina son un recurso aparte que creas deliberadamente."
+      },
+      "doc": "https://cloud.google.com/compute/docs/disks/create-snapshots"
+    },
+    {
+      "id": "den-017",
+      "curso": null,
+      "servicios": [
+        "persistent-disk",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-snapshots-images"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You create a snapshot schedule in us-east1 and try to attach it to a disk in europe-west1. The attach fails. Why?",
+        "es": "Creas una programación de instantáneas en us-east1 e intentas adjuntarla a un disco en europe-west1. La operación falla. ¿Por qué?"
+      },
+      "opciones": [
+        {
+          "en": "A snapshot schedule is a regional resource policy and can only be attached to disks in the same region",
+          "es": "Una programación de instantáneas es una política de recursos regional y solo puede adjuntarse a discos de la misma región"
+        },
+        {
+          "en": "Snapshot schedules can only be attached to disks that are currently detached from any instance",
+          "es": "Las programaciones de instantáneas solo pueden adjuntarse a discos que estén desconectados de toda instancia"
+        },
+        {
+          "en": "A disk can only have a schedule if its snapshots are stored in a multi-region location",
+          "es": "Un disco solo puede tener una programación si sus instantáneas se almacenan en una ubicación multirregional"
+        },
+        {
+          "en": "Snapshot schedules must be created from a snapshot, so an empty schedule cannot be attached",
+          "es": "Las programaciones de instantáneas deben crearse a partir de un snapshot, así que una programación vacía no puede adjuntarse"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Snapshot schedules are resource policies scoped to a region, so you need one policy per region where you keep disks. B is wrong because schedules are designed to snapshot disks that stay attached and in use. C confuses the schedule's location requirement with the optional storage location of the resulting snapshots. D reverses the relationship: the schedule produces snapshots, it is not derived from one.",
+        "es": "Las programaciones de instantáneas son políticas de recursos con alcance regional, así que necesitas una política por cada región donde tengas discos. B es incorrecta porque las programaciones están pensadas justamente para discos que siguen conectados y en uso. C confunde el requisito de ubicación de la programación con la ubicación de almacenamiento opcional de las instantáneas resultantes. D invierte la relación: la programación produce instantáneas, no se deriva de una."
+      },
+      "doc": "https://cloud.google.com/compute/docs/disks/scheduled-snapshots"
+    },
+    {
+      "id": "den-018",
+      "curso": null,
+      "servicios": [
+        "compute-engine",
+        "persistent-disk"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-snapshots-images"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You hardened a base VM with your company's agents and security settings, and now every new instance in a managed instance group must boot from that exact configuration. What should you create?",
+        "es": "Endureciste una VM base con los agentes y la configuración de seguridad de tu empresa, y ahora toda instancia nueva de un grupo de instancias administrado debe arrancar con esa configuración exacta. ¿Qué debes crear?"
+      },
+      "opciones": [
+        {
+          "en": "A custom image from the boot disk, then reference it from the instance template",
+          "es": "Una imagen personalizada a partir del disco de arranque y luego referenciarla desde la plantilla de instancias"
+        },
+        {
+          "en": "A snapshot of the boot disk, then reference the snapshot from the managed instance group",
+          "es": "Una instantánea del disco de arranque y luego referenciar esa instantánea desde el grupo de instancias administrado"
+        },
+        {
+          "en": "A snapshot schedule on the boot disk so new instances pick up the newest snapshot",
+          "es": "Una programación de instantáneas en el disco de arranque para que las instancias nuevas tomen el snapshot más reciente"
+        },
+        {
+          "en": "A persistent disk clone shared read-write across all instances in the group",
+          "es": "Un clon de disco persistente compartido en lectura y escritura entre todas las instancias del grupo"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Custom images are the boot artifact instance templates consume, which is what makes every managed instance identical. B misuses snapshots: they are a backup and restore mechanism, and an instance template expects an image as its boot source. C automates backups of the golden VM but still never produces the image a template needs. D would create a shared-state disk, which breaks the stateless, interchangeable model a managed instance group depends on.",
+        "es": "Las imágenes personalizadas son el artefacto de arranque que consumen las plantillas de instancias, y eso es lo que hace idénticas a todas las instancias administradas. B usa mal las instantáneas: son un mecanismo de copia de seguridad y restauración, y una plantilla de instancias espera una imagen como origen de arranque. C automatiza copias de la VM dorada, pero aun así nunca produce la imagen que la plantilla necesita. D crearía un disco de estado compartido, lo que rompe el modelo sin estado e intercambiable del que depende un grupo de instancias administrado."
+      },
+      "doc": "https://cloud.google.com/compute/docs/images/create-custom"
+    },
+    {
+      "id": "den-019",
+      "curso": null,
+      "servicios": [
+        "compute-engine"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-snapshots-images"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your instance templates point at the image family app-base instead of a specific image name. You publish app-base-v9 into that family and deprecate app-base-v8. What do new instances boot from?",
+        "es": "Tus plantillas de instancias apuntan a la familia de imágenes app-base en vez de a un nombre de imagen específico. Publicas app-base-v9 en esa familia y marcas app-base-v8 como obsoleta. ¿Desde qué arrancan las instancias nuevas?"
+      },
+      "opciones": [
+        {
+          "en": "app-base-v9, because a family always resolves to its most recent image that is not deprecated",
+          "es": "app-base-v9, porque una familia siempre se resuelve a su imagen más reciente que no esté marcada como obsoleta"
+        },
+        {
+          "en": "app-base-v8, until you explicitly promote v9 to be the family's default image",
+          "es": "app-base-v8, hasta que promuevas explícitamente v9 como imagen predeterminada de la familia"
+        },
+        {
+          "en": "Whichever image was created first in the family, to guarantee stability",
+          "es": "La imagen creada primero en la familia, para garantizar la estabilidad"
+        },
+        {
+          "en": "The instance creation fails, because a family with a deprecated member cannot be resolved",
+          "es": "La creación de la instancia falla, porque no se puede resolver una familia que tenga un miembro obsoleto"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "That is the whole point of image families: pointing at the family gives you the newest non-deprecated image, and deprecating v8 is also how you roll back by simply un-deprecating an older one. B invents a promotion step that does not exist. C describes the opposite of the resolution rule. D is wrong because deprecating members is the normal lifecycle, not an error condition.",
+        "es": "Ese es justamente el propósito de las familias de imágenes: apuntar a la familia te da la imagen más reciente no obsoleta, y marcar v8 como obsoleta es además la forma de revertir, simplemente quitándole esa marca a una anterior. B inventa un paso de promoción que no existe. C describe lo contrario a la regla de resolución. D es incorrecta porque marcar miembros como obsoletos es el ciclo de vida normal, no una condición de error."
+      },
+      "doc": "https://cloud.google.com/compute/docs/images/image-families-best-practices"
+    },
+    {
+      "id": "den-020",
+      "curso": null,
+      "servicios": [
+        "persistent-disk",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-snapshots-images"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You must snapshot the disk of a database VM that cannot be stopped. What is the correct guidance?",
+        "es": "Debes tomar una instantánea del disco de una VM de base de datos que no se puede detener. ¿Cuál es la indicación correcta?"
+      },
+      "opciones": [
+        {
+          "en": "Snapshot the running disk, but first flush the file system buffers and pause writes so the snapshot is application-consistent",
+          "es": "Tomar la instantánea del disco en ejecución, pero primero vaciar los búferes del sistema de archivos y pausar las escrituras para que la instantánea sea consistente con la aplicación"
+        },
+        {
+          "en": "Detach the disk from the instance first, since Compute Engine refuses to snapshot an attached disk",
+          "es": "Desconectar primero el disco de la instancia, ya que Compute Engine se niega a tomar instantáneas de un disco conectado"
+        },
+        {
+          "en": "Stop the instance, because snapshots of running disks are always corrupted",
+          "es": "Detener la instancia, porque las instantáneas de discos en ejecución siempre quedan corruptas"
+        },
+        {
+          "en": "Create a machine image instead, which is the only consistent option for a running VM",
+          "es": "Crear una imagen de máquina en su lugar, que es la única opción consistente para una VM en ejecución"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Snapshots of attached, running disks are supported; the risk is in-flight writes, which is why you quiesce the file system before triggering the snapshot. B is wrong because detaching is not required. C overstates the risk: the snapshot is crash-consistent, not guaranteed corrupt, and stopping the VM is exactly what the scenario forbids. D is wrong because machine images capture the same live disk state and inherit the same consistency caveat.",
+        "es": "Las instantáneas de discos conectados y en ejecución son compatibles; el riesgo son las escrituras en vuelo, y por eso se aquieta el sistema de archivos antes de disparar la instantánea. B es incorrecta porque desconectar no es obligatorio. C exagera el riesgo: la instantánea es consistente ante fallos, no necesariamente corrupta, y detener la VM es justo lo que el escenario prohíbe. D es incorrecta porque las imágenes de máquina capturan ese mismo estado de disco en vivo y heredan la misma advertencia de consistencia."
+      },
+      "doc": "https://cloud.google.com/compute/docs/disks/snapshot-best-practices"
+    },
+    {
+      "id": "den-021",
+      "curso": null,
+      "servicios": [
+        "persistent-disk"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.1-snapshots-images"
+      ],
+      "nivel": "avanzado",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which two things does a snapshot schedule let you define beyond how often snapshots are taken? (Choose 2)",
+        "es": "¿Qué dos cosas te permite definir una programación de instantáneas además de la frecuencia con que se toman? (Elige 2)"
+      },
+      "opciones": [
+        {
+          "en": "A retention policy that deletes snapshots older than a given number of days",
+          "es": "Una política de retención que borra las instantáneas más antiguas que cierta cantidad de días"
+        },
+        {
+          "en": "Whether the scheduled snapshots are kept or deleted when the source disk is deleted",
+          "es": "Si las instantáneas programadas se conservan o se borran cuando se elimina el disco de origen"
+        },
+        {
+          "en": "The machine type that must be used when restoring the snapshot",
+          "es": "El tipo de máquina que debe usarse al restaurar la instantánea"
+        },
+        {
+          "en": "The IAM role automatically granted to anyone who restores from the snapshot",
+          "es": "El rol de IAM que se otorga automáticamente a quien restaure desde la instantánea"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "A schedule carries a retention policy and a source-disk-deletion behavior, so old snapshots age out automatically and you decide whether backups survive the disk. C is wrong because a snapshot restores into a disk and imposes no machine type. D is wrong because access is governed by IAM policy on the project and resources, never granted by the schedule itself.",
+        "es": "Una programación lleva una política de retención y un comportamiento ante el borrado del disco de origen, así que las instantáneas viejas caducan solas y tú decides si las copias sobreviven al disco. C es incorrecta porque una instantánea se restaura en un disco y no impone ningún tipo de máquina. D es incorrecta porque el acceso lo gobierna la política de IAM del proyecto y los recursos, nunca lo otorga la programación."
+      },
+      "doc": "https://cloud.google.com/compute/docs/disks/scheduled-snapshots"
+    },
+    {
+      "id": "den-022",
+      "curso": null,
+      "servicios": [
+        "database-center",
+        "cloud-sql",
+        "alloydb"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.2-database-center"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your organization runs Cloud SQL, AlloyDB and Spanner instances across dozens of projects. Leadership asks for one place to see the whole database fleet's inventory, health issues and security posture. What should you use?",
+        "es": "Tu organización ejecuta instancias de Cloud SQL, AlloyDB y Spanner en decenas de proyectos. La dirección pide un único lugar donde ver el inventario, los problemas de estado y la postura de seguridad de toda la flota de bases de datos. ¿Qué debes usar?"
+      },
+      "opciones": [
+        {
+          "en": "Database Center, which gives a fleet-wide view with health and security findings plus recommendations",
+          "es": "Database Center, que ofrece una vista de toda la flota con hallazgos de estado y seguridad más recomendaciones"
+        },
+        {
+          "en": "A custom Cloud Monitoring dashboard built per project and manually consolidated",
+          "es": "Un panel personalizado de Cloud Monitoring creado por proyecto y consolidado manualmente"
+        },
+        {
+          "en": "Cloud Asset Inventory exports, which report database performance and security findings",
+          "es": "Exportaciones de Cloud Asset Inventory, que informan el rendimiento y los hallazgos de seguridad de las bases de datos"
+        },
+        {
+          "en": "The Cloud SQL instances page, filtered across projects with a resource query",
+          "es": "La página de instancias de Cloud SQL, filtrada entre proyectos con una consulta de recursos"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Database Center is purpose-built as the unified fleet view across Google Cloud's managed database products, surfacing inventory, health and security issues together. B is manual work that Database Center already does and does not span engines by itself. C tracks resource metadata and change history, not database health or posture findings. D only covers Cloud SQL, so AlloyDB and Spanner are left out.",
+        "es": "Database Center está diseñado justamente como la vista unificada de la flota entre los productos de bases de datos administradas de Google Cloud, y muestra inventario, estado y problemas de seguridad en un mismo lugar. B es trabajo manual que Database Center ya hace y por sí solo no abarca varios motores. C rastrea metadatos de recursos e historial de cambios, no el estado ni los hallazgos de postura de las bases de datos. D solo cubre Cloud SQL, así que AlloyDB y Spanner quedan fuera."
+      },
+      "doc": "https://cloud.google.com/database-center/docs/overview"
+    },
+    {
+      "id": "den-023",
+      "curso": null,
+      "servicios": [
+        "vpc",
+        "load-balancing"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-custom-routes"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Security requires all internet-bound traffic from a subnet to pass through a pair of inspection appliances running as VMs. How do you steer the traffic without creating a single point of failure?",
+        "es": "Seguridad exige que todo el tráfico con destino a internet de una subred pase por un par de appliances de inspección que corren como VMs. ¿Cómo diriges el tráfico sin crear un único punto de falla?"
+      },
+      "opciones": [
+        {
+          "en": "Create a custom static route for 0.0.0.0/0 whose next hop is an internal passthrough Network Load Balancer fronting both appliances, with a better priority than the default route",
+          "es": "Crear una ruta estática personalizada para 0.0.0.0/0 cuyo siguiente salto sea un balanceador de cargas de red interno de tipo passthrough que exponga ambos appliances, con mejor prioridad que la ruta predeterminada"
+        },
+        {
+          "en": "Create two custom static routes for 0.0.0.0/0, each with one appliance instance as next hop and the same priority",
+          "es": "Crear dos rutas estáticas personalizadas para 0.0.0.0/0, cada una con una instancia de appliance como siguiente salto y la misma prioridad"
+        },
+        {
+          "en": "Create a firewall rule that denies egress to 0.0.0.0/0 except from the appliances",
+          "es": "Crear una regla de firewall que deniegue la salida hacia 0.0.0.0/0 excepto desde los appliances"
+        },
+        {
+          "en": "Configure Cloud NAT on the subnet and add the appliances as NAT gateways",
+          "es": "Configurar Cloud NAT en la subred y agregar los appliances como puertas de enlace NAT"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "An internal passthrough Network Load Balancer as next hop is the supported high-availability pattern: the load balancer's health checks remove a failed appliance without any route change. B does distribute traffic with equal-cost multipath, but a route pointing at a dead instance keeps attracting traffic because static routes do not health check. C blocks traffic rather than redirecting it, so clients simply lose connectivity. D is wrong because Cloud NAT is a managed service that cannot use your own VMs as gateways and performs no inspection.",
+        "es": "Un balanceador de cargas de red interno de tipo passthrough como siguiente salto es el patrón de alta disponibilidad admitido: sus verificaciones de estado sacan de circulación al appliance caído sin tocar ninguna ruta. B sí distribuye el tráfico con múltiples rutas de igual costo, pero una ruta que apunta a una instancia muerta sigue atrayendo tráfico porque las rutas estáticas no verifican el estado. C bloquea el tráfico en vez de redirigirlo, así que los clientes simplemente pierden conectividad. D es incorrecta porque Cloud NAT es un servicio administrado que no puede usar tus propias VMs como puertas de enlace ni realiza inspección."
+      },
+      "doc": "https://cloud.google.com/vpc/docs/routes"
+    },
+    {
+      "id": "den-024",
+      "curso": null,
+      "servicios": [
+        "vpc"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-custom-routes"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A VPC has a custom static route for 10.50.0.0/16 with priority 1000 and another for 10.50.7.0/24 with priority 5000. Which route applies to a packet destined for 10.50.7.20?",
+        "es": "Una VPC tiene una ruta estática personalizada para 10.50.0.0/16 con prioridad 1000 y otra para 10.50.7.0/24 con prioridad 5000. ¿Qué ruta se aplica a un paquete con destino 10.50.7.20?"
+      },
+      "opciones": [
+        {
+          "en": "The 10.50.7.0/24 route, because the most specific matching prefix is chosen before priority is considered",
+          "es": "La ruta 10.50.7.0/24, porque se elige primero el prefijo coincidente más específico y solo después se considera la prioridad"
+        },
+        {
+          "en": "The 10.50.0.0/16 route, because 1000 is a better priority than 5000",
+          "es": "La ruta 10.50.0.0/16, porque 1000 es mejor prioridad que 5000"
+        },
+        {
+          "en": "Both, with traffic split evenly between them as equal-cost multipath",
+          "es": "Ambas, con el tráfico repartido en partes iguales como rutas de igual costo"
+        },
+        {
+          "en": "Neither, because overlapping destination ranges make both routes invalid",
+          "es": "Ninguna, porque los rangos de destino superpuestos invalidan ambas rutas"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Routing selects the longest prefix match first; priority is only the tiebreaker among routes with the same destination. B applies the tiebreaker too early. C is wrong because equal-cost multipath needs identical destinations and identical priorities. D is wrong because overlapping ranges are normal and are exactly what longest-prefix matching resolves.",
+        "es": "El enrutamiento elige primero la coincidencia de prefijo más larga; la prioridad solo desempata entre rutas con el mismo destino. B aplica el desempate demasiado pronto. C es incorrecta porque las rutas de igual costo requieren destinos y prioridades idénticos. D es incorrecta porque los rangos superpuestos son normales y son justamente lo que resuelve la coincidencia de prefijo más largo."
+      },
+      "doc": "https://cloud.google.com/vpc/docs/routes"
+    },
+    {
+      "id": "den-025",
+      "curso": null,
+      "servicios": [
+        "vpc",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-custom-routes"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Only the VMs that run a legacy connector should reach a partner network through a VPN tunnel; every other VM in the same subnet must keep its normal routing. How do you scope the custom static route?",
+        "es": "Solo las VMs que ejecutan un conector heredado deben alcanzar la red de un socio a través de un túnel VPN; el resto de las VMs de la misma subred debe conservar su enrutamiento normal. ¿Cómo acotas la ruta estática personalizada?"
+      },
+      "opciones": [
+        {
+          "en": "Apply network tags to the route and assign those tags only to the connector VMs",
+          "es": "Aplicar etiquetas de red a la ruta y asignar esas etiquetas solo a las VMs del conector"
+        },
+        {
+          "en": "Place the connector VMs in a dedicated service account and reference it in the route",
+          "es": "Colocar las VMs del conector en una cuenta de servicio dedicada y referenciarla en la ruta"
+        },
+        {
+          "en": "Create the route in a separate VPC and peer it with the original one",
+          "es": "Crear la ruta en una VPC aparte y emparejarla con la original"
+        },
+        {
+          "en": "Set the route's priority to 0 so it only affects VMs that explicitly opt in",
+          "es": "Establecer la prioridad de la ruta en 0 para que solo afecte a las VMs que la acepten explícitamente"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Static routes support network tags, and a tagged route applies only to instances carrying the tag, leaving every other VM on the default path. B is wrong because routes select instances by network tag, not by service account, unlike some firewall constructs. C is a heavy redesign and VPC peering does not by itself restrict which VMs use a route. D misreads priority, which only breaks ties between routes and has no opt-in semantics.",
+        "es": "Las rutas estáticas admiten etiquetas de red, y una ruta etiquetada aplica solo a las instancias que llevan la etiqueta, dejando al resto de las VMs en la ruta predeterminada. B es incorrecta porque las rutas seleccionan instancias por etiqueta de red, no por cuenta de servicio, a diferencia de algunas construcciones de firewall. C es un rediseño costoso y el emparejamiento de VPC por sí solo no restringe qué VMs usan una ruta. D malinterpreta la prioridad, que solo desempata entre rutas y no tiene semántica de adhesión voluntaria."
+      },
+      "doc": "https://cloud.google.com/vpc/docs/using-routes"
+    },
+    {
+      "id": "den-026",
+      "curso": null,
+      "servicios": [
+        "vpc"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-custom-routes"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You try to add a custom static route whose destination exactly matches an existing subnet's primary IP range, hoping to send that traffic to an appliance. What is the outcome?",
+        "es": "Intentas agregar una ruta estática personalizada cuyo destino coincide exactamente con el rango de IP principal de una subred existente, con la esperanza de enviar ese tráfico a un appliance. ¿Cuál es el resultado?"
+      },
+      "opciones": [
+        {
+          "en": "Subnet routes always take precedence for their own range, so traffic to that subnet keeps flowing directly and cannot be diverted this way",
+          "es": "Las rutas de subred siempre tienen precedencia para su propio rango, así que el tráfico hacia esa subred sigue fluyendo directamente y no puede desviarse de esta forma"
+        },
+        {
+          "en": "The custom route replaces the subnet route as long as its priority is numerically lower",
+          "es": "La ruta personalizada reemplaza a la ruta de subred siempre que su prioridad sea numéricamente menor"
+        },
+        {
+          "en": "The subnet is automatically deleted to resolve the conflict",
+          "es": "La subred se elimina automáticamente para resolver el conflicto"
+        },
+        {
+          "en": "Traffic alternates between the two routes on every new connection",
+          "es": "El tráfico alterna entre las dos rutas en cada conexión nueva"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Subnet routes are system-generated, cannot be deleted, and win for destinations inside their own subnet range, so intra-VPC traffic to that subnet is not divertible with a static route. B is wrong because priority does not let a custom route beat a subnet route for that range. C is wrong because creating a route never deletes network resources. D invents alternation that the deterministic route selection rules do not produce.",
+        "es": "Las rutas de subred las genera el sistema, no se pueden borrar y ganan para los destinos dentro de su propio rango, así que el tráfico interno de la VPC hacia esa subred no es desviable con una ruta estática. B es incorrecta porque la prioridad no permite que una ruta personalizada le gane a una ruta de subred en ese rango. C es incorrecta porque crear una ruta nunca elimina recursos de red. D inventa una alternancia que las reglas deterministas de selección de rutas no producen."
+      },
+      "doc": "https://cloud.google.com/vpc/docs/routes"
+    },
+    {
+      "id": "den-027",
+      "curso": null,
+      "servicios": [
+        "vpc",
+        "load-balancing"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-firewall-mgmt"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Backends behind a new external Application Load Balancer are all reported unhealthy, even though the application responds correctly when tested from inside the VPC. Which firewall change is required?",
+        "es": "Los backends detrás de un nuevo balanceador de cargas de aplicaciones externo aparecen todos en mal estado, aunque la aplicación responde correctamente al probarla desde dentro de la VPC. ¿Qué cambio de firewall se necesita?"
+      },
+      "opciones": [
+        {
+          "en": "Add an ingress allow rule for Google's health check probe ranges 130.211.0.0/22 and 35.191.0.0/16 on the backend port",
+          "es": "Agregar una regla de entrada que permita los rangos de sondeo de verificación de estado de Google 130.211.0.0/22 y 35.191.0.0/16 en el puerto del backend"
+        },
+        {
+          "en": "Add an egress allow rule from the backends to 0.0.0.0/0 so they can answer the probes",
+          "es": "Agregar una regla de salida que permita a los backends llegar a 0.0.0.0/0 para que puedan responder los sondeos"
+        },
+        {
+          "en": "Add an ingress allow rule for the load balancer's external IP address",
+          "es": "Agregar una regla de entrada que permita la dirección IP externa del balanceador"
+        },
+        {
+          "en": "Remove the implied deny ingress rule from the VPC",
+          "es": "Quitar la regla implícita de denegación de entrada de la VPC"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Health check probes arrive from fixed Google-owned ranges, and the implied deny ingress rule drops them until you allow those ranges explicitly. B is unnecessary because egress is allowed by default and replies to allowed ingress connections are permitted by stateful tracking. C is wrong because probes do not originate from the front-end IP address. D is impossible: implied rules cannot be deleted, only overridden by higher-priority rules.",
+        "es": "Los sondeos de verificación de estado llegan desde rangos fijos propiedad de Google, y la regla implícita de denegación de entrada los descarta hasta que permitas esos rangos explícitamente. B es innecesaria porque la salida está permitida por defecto y las respuestas a conexiones de entrada permitidas se admiten por el seguimiento con estado. C es incorrecta porque los sondeos no se originan en la dirección IP del frontend. D es imposible: las reglas implícitas no se pueden borrar, solo anular con reglas de mayor prioridad."
+      },
+      "doc": "https://cloud.google.com/load-balancing/docs/health-check-concepts"
+    },
+    {
+      "id": "den-028",
+      "curso": null,
+      "servicios": [
+        "cloud-ngfw",
+        "vpc"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-firewall-mgmt"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A hierarchical firewall policy at the folder level denies TCP 22 from 0.0.0.0/0. A project inside that folder has a VPC firewall rule with priority 100 that allows TCP 22 from the corporate range. What happens to an SSH connection from the corporate range?",
+        "es": "Una política de firewall jerárquica a nivel de carpeta deniega TCP 22 desde 0.0.0.0/0. Un proyecto dentro de esa carpeta tiene una regla de firewall de VPC con prioridad 100 que permite TCP 22 desde el rango corporativo. ¿Qué ocurre con una conexión SSH desde el rango corporativo?"
+      },
+      "opciones": [
+        {
+          "en": "It is denied, because hierarchical policies are evaluated before VPC firewall rules and the deny is terminal unless the rule delegates with goto_next",
+          "es": "Se deniega, porque las políticas jerárquicas se evalúan antes que las reglas de firewall de VPC y la denegación es terminal salvo que la regla delegue con goto_next"
+        },
+        {
+          "en": "It is allowed, because the VPC rule's priority of 100 is more specific than an organization-wide policy",
+          "es": "Se permite, porque la prioridad 100 de la regla de VPC es más específica que una política de alcance organizacional"
+        },
+        {
+          "en": "It is allowed, because allow rules always take precedence over deny rules at any level",
+          "es": "Se permite, porque las reglas de permitir siempre tienen precedencia sobre las de denegar en cualquier nivel"
+        },
+        {
+          "en": "It is denied only if the VM has no network tags attached",
+          "es": "Se deniega solo si la VM no tiene etiquetas de red adjuntas"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Enforcement runs top-down through the resource hierarchy before reaching VPC-level rules, so a folder deny ends the evaluation; delegating with goto_next is the deliberate way to let lower levels decide. B is wrong because priorities only order rules within the same policy, never across levels. C inverts the model, since a matching deny at a higher level is exactly what blocks the connection. D is wrong because tags scope which targets a rule applies to, they do not override the hierarchy.",
+        "es": "La aplicación recorre la jerarquía de recursos de arriba hacia abajo antes de llegar a las reglas de nivel VPC, así que una denegación en la carpeta termina la evaluación; delegar con goto_next es la forma deliberada de dejar decidir a los niveles inferiores. B es incorrecta porque las prioridades solo ordenan reglas dentro de una misma política, nunca entre niveles. C invierte el modelo, ya que una denegación coincidente en un nivel superior es justamente lo que bloquea la conexión. D es incorrecta porque las etiquetas acotan a qué destinos aplica una regla, no anulan la jerarquía."
+      },
+      "doc": "https://cloud.google.com/firewall/docs/firewall-policies-overview"
+    },
+    {
+      "id": "den-029",
+      "curso": null,
+      "servicios": [
+        "vpc",
+        "cloud-ngfw"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-firewall-mgmt"
+      ],
+      "nivel": "principiante",
+      "tipo": "multiple",
+      "pregunta": {
+        "en": "Which two implied firewall rules exist in every VPC network and cannot be deleted? (Choose 2)",
+        "es": "¿Qué dos reglas de firewall implícitas existen en toda red de VPC y no se pueden eliminar? (Elige 2)"
+      },
+      "opciones": [
+        {
+          "en": "An implied deny for all ingress traffic",
+          "es": "Una denegación implícita de todo el tráfico de entrada"
+        },
+        {
+          "en": "An implied allow for all egress traffic",
+          "es": "Un permiso implícito de todo el tráfico de salida"
+        },
+        {
+          "en": "An implied allow for ingress on TCP 22 and TCP 3389",
+          "es": "Un permiso implícito de entrada en TCP 22 y TCP 3389"
+        },
+        {
+          "en": "An implied deny for all egress traffic to external IP addresses",
+          "es": "Una denegación implícita de todo el tráfico de salida hacia direcciones IP externas"
+        }
+      ],
+      "respuesta": [
+        "A",
+        "B"
+      ],
+      "explicacion": {
+        "en": "Every VPC ships with an implied deny ingress and an implied allow egress at the lowest possible priority, which is why you must open ingress explicitly while outbound traffic works out of the box. C describes the pre-populated rules of the auto-created default network, which are ordinary deletable rules, not implied ones. D is the opposite of the real egress default.",
+        "es": "Toda VPC trae una denegación implícita de entrada y un permiso implícito de salida con la menor prioridad posible, por eso debes abrir la entrada explícitamente mientras que el tráfico saliente funciona de entrada. C describe las reglas precargadas de la red default creada automáticamente, que son reglas normales y borrables, no implícitas. D es lo contrario al comportamiento predeterminado real de la salida."
+      },
+      "doc": "https://cloud.google.com/firewall/docs/firewalls"
+    },
+    {
+      "id": "den-030",
+      "curso": null,
+      "servicios": [
+        "vpc",
+        "cloud-logging"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.3-firewall-mgmt"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Connections to a VM are being dropped and you have dozens of firewall rules across several policies. You need to know which rule is actually matching the denied traffic. What should you do?",
+        "es": "Las conexiones hacia una VM se están descartando y tienes decenas de reglas de firewall repartidas en varias políticas. Necesitas saber qué regla está coincidiendo realmente con el tráfico denegado. ¿Qué debes hacer?"
+      },
+      "opciones": [
+        {
+          "en": "Enable firewall rules logging on the candidate rules and inspect the resulting log entries, which name the matched rule",
+          "es": "Habilitar el registro de reglas de firewall en las reglas candidatas e inspeccionar las entradas de log resultantes, que nombran la regla coincidente"
+        },
+        {
+          "en": "Enable VPC Flow Logs, which report the rule name that denied each connection",
+          "es": "Habilitar los registros de flujo de VPC, que informan el nombre de la regla que denegó cada conexión"
+        },
+        {
+          "en": "Delete rules one at a time until the traffic succeeds",
+          "es": "Borrar las reglas de una en una hasta que el tráfico funcione"
+        },
+        {
+          "en": "Enable Data Access audit logs on the Compute Engine API",
+          "es": "Habilitar los registros de auditoría de acceso a datos en la API de Compute Engine"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Firewall rules logging records each connection a rule allows or denies, including the rule's identity, which pinpoints the culprit without changing the configuration. B is wrong because flow logs describe traffic flows for allowed connections and network analysis, not the deciding rule. C is destructive trial and error on a production security control. D records API calls against Compute Engine resources, not packet-level decisions.",
+        "es": "El registro de reglas de firewall anota cada conexión que una regla permite o deniega, incluida la identidad de la regla, lo que señala a la culpable sin tocar la configuración. B es incorrecta porque los registros de flujo describen flujos de tráfico de conexiones permitidas y análisis de red, no la regla que decide. C es prueba y error destructiva sobre un control de seguridad en producción. D registra llamadas a la API sobre recursos de Compute Engine, no decisiones a nivel de paquete."
+      },
+      "doc": "https://cloud.google.com/firewall/docs/firewall-rules-logging"
+    },
+    {
+      "id": "den-031",
+      "curso": null,
+      "servicios": [
+        "ops-agent",
+        "compute-engine",
+        "cloud-monitoring"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.4-agents-prometheus"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "In Metrics Explorer you can chart a VM's CPU utilization and network traffic, but there is no metric for how much of its memory is in use. Why, and what fixes it?",
+        "es": "En el Explorador de métricas puedes graficar el uso de CPU y el tráfico de red de una VM, pero no hay ninguna métrica de cuánta memoria está en uso. ¿Por qué y cómo se soluciona?"
+      },
+      "opciones": [
+        {
+          "en": "Memory usage is visible only from inside the guest OS, so you must install the Ops Agent on the VM",
+          "es": "El uso de memoria solo es visible desde dentro del sistema operativo invitado, así que debes instalar el Ops Agent en la VM"
+        },
+        {
+          "en": "Memory metrics require the VM to use a custom machine type with extended memory",
+          "es": "Las métricas de memoria exigen que la VM use un tipo de máquina personalizado con memoria extendida"
+        },
+        {
+          "en": "Memory metrics only appear after the VM has been running for 30 days",
+          "es": "Las métricas de memoria solo aparecen después de que la VM lleve 30 días en ejecución"
+        },
+        {
+          "en": "Memory metrics must be enabled per project in the Cloud Monitoring settings page",
+          "es": "Las métricas de memoria deben habilitarse por proyecto en la página de configuración de Cloud Monitoring"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The hypervisor can see CPU, disk I/O and network without help, but guest-level facts like memory and disk usage need an in-guest collector, which is the Ops Agent's job. B is wrong because machine type has nothing to do with which metrics are collected. C invents a waiting period. D invents a project-level toggle; there is no such setting because the gap is architectural, not configuration.",
+        "es": "El hipervisor ve CPU, E/S de disco y red sin ayuda, pero los datos internos del invitado, como la memoria y el uso de disco, necesitan un recolector dentro del sistema operativo, y esa es la función del Ops Agent. B es incorrecta porque el tipo de máquina no tiene relación con qué métricas se recopilan. C inventa un período de espera. D inventa un interruptor a nivel de proyecto; no existe tal configuración porque la carencia es arquitectónica, no de configuración."
+      },
+      "doc": "https://cloud.google.com/monitoring/agent/ops-agent"
+    },
+    {
+      "id": "den-032",
+      "curso": null,
+      "servicios": [
+        "ops-agent",
+        "cloud-logging",
+        "cloud-monitoring"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.4-agents-prometheus"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A VM image still installs the older, separate monitoring agent and logging agent. What is the recommended replacement, and what does it change?",
+        "es": "Una imagen de VM todavía instala los antiguos agentes de supervisión y de registro por separado. ¿Cuál es el reemplazo recomendado y qué cambia?"
+      },
+      "opciones": [
+        {
+          "en": "The Ops Agent, a single agent that collects both metrics and logs and is configured in one YAML file",
+          "es": "El Ops Agent, un único agente que recopila métricas y registros y se configura en un solo archivo YAML"
+        },
+        {
+          "en": "The Ops Agent, which collects metrics only, so the logging agent must stay installed",
+          "es": "El Ops Agent, que recopila solo métricas, así que el agente de registro debe permanecer instalado"
+        },
+        {
+          "en": "The Managed Service for Prometheus collector, which supersedes both agents on VMs",
+          "es": "El recolector de Managed Service for Prometheus, que reemplaza a ambos agentes en las VMs"
+        },
+        {
+          "en": "The Cloud Logging API client library, embedded directly into the application",
+          "es": "La biblioteca cliente de la API de Cloud Logging, incorporada directamente en la aplicación"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The Ops Agent unifies the two legacy agents into one process with a single configuration file, which is why it is the recommended agent for Compute Engine. B is wrong because the whole point of the consolidation is that it handles logs too. C is wrong because Managed Service for Prometheus ingests Prometheus-style metrics and does not replace log collection or the Ops Agent's system metrics. D would require changing application code and still leaves system-level logs and metrics uncollected.",
+        "es": "El Ops Agent unifica los dos agentes heredados en un solo proceso con un único archivo de configuración, y por eso es el agente recomendado para Compute Engine. B es incorrecta porque el sentido mismo de la consolidación es que también gestiona los registros. C es incorrecta porque Managed Service for Prometheus ingiere métricas al estilo Prometheus y no reemplaza la recolección de registros ni las métricas de sistema del Ops Agent. D exigiría cambiar el código de la aplicación y aun así dejaría sin recopilar los registros y métricas del sistema."
+      },
+      "doc": "https://cloud.google.com/monitoring/agent/ops-agent"
+    },
+    {
+      "id": "den-033",
+      "curso": null,
+      "servicios": [
+        "ops-agent",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.4-agents-prometheus"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You must guarantee the Ops Agent is installed and kept up to date on hundreds of existing VMs and on every VM created from now on, without adding a step to each team's build process. What is the right mechanism?",
+        "es": "Debes garantizar que el Ops Agent esté instalado y actualizado en cientos de VMs existentes y en toda VM que se cree de ahora en adelante, sin agregar un paso al proceso de compilación de cada equipo. ¿Cuál es el mecanismo correcto?"
+      },
+      "opciones": [
+        {
+          "en": "Define an agent policy through the VM Manager OS Config service, which installs and maintains the agent on VMs matching a filter",
+          "es": "Definir una política de agente mediante el servicio OS Config de VM Manager, que instala y mantiene el agente en las VMs que coincidan con un filtro"
+        },
+        {
+          "en": "Add the install command to each VM's startup script and recreate every existing VM",
+          "es": "Agregar el comando de instalación al script de inicio de cada VM y volver a crear todas las VMs existentes"
+        },
+        {
+          "en": "Enable the Ops Agent from the Cloud Monitoring settings page at the organization level",
+          "es": "Habilitar el Ops Agent desde la página de configuración de Cloud Monitoring a nivel de organización"
+        },
+        {
+          "en": "Grant the Monitoring Metric Writer role to the default service account, which triggers automatic agent installation",
+          "es": "Otorgar el rol Escritor de métricas de Monitoring a la cuenta de servicio predeterminada, lo que activa la instalación automática del agente"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Agent policies are the fleet-wide mechanism: you declare which VMs should have the agent and OS Config installs and updates it, including on VMs created later. B forces a disruptive recreation and drifts as soon as someone edits a script. C invents a console toggle that does not install software on VMs. D grants the permission the agent needs to write data, but permission alone never installs anything.",
+        "es": "Las políticas de agente son el mecanismo para toda la flota: declaras qué VMs deben tener el agente y OS Config lo instala y actualiza, incluso en las VMs creadas después. B obliga a una recreación disruptiva y se desincroniza en cuanto alguien edita un script. C inventa un interruptor de consola que no instala software en las VMs. D otorga el permiso que el agente necesita para escribir datos, pero un permiso por sí solo nunca instala nada."
+      },
+      "doc": "https://cloud.google.com/monitoring/agent/ops-agent/install-index"
+    },
+    {
+      "id": "den-034",
+      "curso": null,
+      "servicios": [
+        "gke",
+        "cloud-monitoring",
+        "kubectl"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.4-agents-prometheus"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your application Pods in GKE expose Prometheus metrics on /metrics. With Managed Service for Prometheus managed collection enabled, how do you tell the platform to scrape them?",
+        "es": "Tus Pods de aplicación en GKE exponen métricas de Prometheus en /metrics. Con la recolección administrada de Managed Service for Prometheus habilitada, ¿cómo indicas a la plataforma que las recopile?"
+      },
+      "opciones": [
+        {
+          "en": "Create a PodMonitoring resource in the workload's namespace that selects the Pods and names the port and path",
+          "es": "Crear un recurso PodMonitoring en el espacio de nombres de la carga de trabajo que seleccione los Pods e indique el puerto y la ruta"
+        },
+        {
+          "en": "Deploy your own Prometheus server as a StatefulSet and configure remote write",
+          "es": "Implementar tu propio servidor Prometheus como StatefulSet y configurar la escritura remota"
+        },
+        {
+          "en": "Annotate the cluster with prometheus.io/scrape and restart the nodes",
+          "es": "Anotar el clúster con prometheus.io/scrape y reiniciar los nodos"
+        },
+        {
+          "en": "Install the Ops Agent DaemonSet on the cluster's node pools",
+          "es": "Instalar el DaemonSet del Ops Agent en los grupos de nodos del clúster"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Managed collection is driven declaratively by PodMonitoring for a namespace, or ClusterPodMonitoring for cluster-wide targets. B describes self-deployed collection, which is the alternative you specifically avoided by enabling managed collection. C is wrong because managed collection is configured through custom resources rather than legacy scrape annotations on the cluster. D is wrong because the Ops Agent is for Compute Engine VMs, not the GKE Prometheus path.",
+        "es": "La recolección administrada se controla de forma declarativa con PodMonitoring para un espacio de nombres, o ClusterPodMonitoring para objetivos de todo el clúster. B describe la recolección autoadministrada, que es justamente la alternativa que evitaste al habilitar la administrada. C es incorrecta porque la recolección administrada se configura con recursos personalizados y no con anotaciones heredadas de scraping en el clúster. D es incorrecta porque el Ops Agent es para VMs de Compute Engine, no para la ruta de Prometheus en GKE."
+      },
+      "doc": "https://cloud.google.com/stackdriver/docs/managed-prometheus/setup-managed"
+    },
+    {
+      "id": "den-035",
+      "curso": null,
+      "servicios": [
+        "cloud-monitoring",
+        "observability-tools"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.4-agents-prometheus"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your team has years of Grafana dashboards and alerting rules written in PromQL and does not want to rewrite them, but nobody wants to operate Prometheus servers and long-term storage anymore. What does Managed Service for Prometheus offer?",
+        "es": "Tu equipo tiene años de paneles de Grafana y reglas de alerta escritos en PromQL y no quiere reescribirlos, pero ya nadie quiere operar servidores Prometheus ni almacenamiento a largo plazo. ¿Qué ofrece Managed Service for Prometheus?"
+      },
+      "opciones": [
+        {
+          "en": "Managed, scalable storage for Prometheus metrics that remains queryable with PromQL from Grafana and from Google Cloud's console",
+          "es": "Almacenamiento administrado y escalable para métricas de Prometheus que sigue siendo consultable con PromQL desde Grafana y desde la consola de Google Cloud"
+        },
+        {
+          "en": "An automatic converter that rewrites PromQL queries into Monitoring Query Language before storing them",
+          "es": "Un convertidor automático que reescribe las consultas PromQL a Monitoring Query Language antes de almacenarlas"
+        },
+        {
+          "en": "A hosted Grafana instance that replaces both Prometheus and your dashboards",
+          "es": "Una instancia alojada de Grafana que reemplaza tanto a Prometheus como a tus paneles"
+        },
+        {
+          "en": "A migration tool that exports Prometheus data into BigQuery for SQL analysis only",
+          "es": "Una herramienta de migración que exporta datos de Prometheus a BigQuery solo para análisis con SQL"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The service keeps Prometheus compatibility, including PromQL and existing Grafana dashboards, while Google runs the ingestion and storage layer. B is wrong because you keep writing PromQL; no rewriting step is imposed. C is wrong because the service stores and serves metrics rather than hosting your dashboards. D is wrong because it would abandon PromQL entirely, which is the constraint the team gave you.",
+        "es": "El servicio conserva la compatibilidad con Prometheus, incluidos PromQL y los paneles de Grafana existentes, mientras Google opera la capa de ingesta y almacenamiento. B es incorrecta porque sigues escribiendo PromQL; no se impone ningún paso de reescritura. C es incorrecta porque el servicio almacena y sirve métricas en vez de alojar tus paneles. D es incorrecta porque abandonaría PromQL por completo, que es justo la restricción que puso el equipo."
+      },
+      "doc": "https://cloud.google.com/stackdriver/docs/managed-prometheus"
+    },
+    {
+      "id": "den-036",
+      "curso": null,
+      "servicios": [
+        "cloud-logging",
+        "cloud-storage",
+        "iam"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.4-audit-flow-logs"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Compliance asks which users have read objects from a sensitive Cloud Storage bucket over the past week. You look in Cloud Logging and find nothing. What is the most likely reason?",
+        "es": "Cumplimiento pregunta qué usuarios leyeron objetos de un bucket sensible de Cloud Storage durante la última semana. Buscas en Cloud Logging y no encuentras nada. ¿Cuál es la razón más probable?"
+      },
+      "opciones": [
+        {
+          "en": "Data Access audit logs are disabled by default for most services and must be enabled explicitly, and they are not retroactive",
+          "es": "Los registros de auditoría de acceso a datos están deshabilitados por defecto en la mayoría de los servicios y deben habilitarse explícitamente, además de no ser retroactivos"
+        },
+        {
+          "en": "Object reads are recorded in Admin Activity logs, which you were not filtering for",
+          "es": "Las lecturas de objetos se registran en los registros de actividad de administrador, que no estabas filtrando"
+        },
+        {
+          "en": "Cloud Storage reads are never auditable, so you must enable Object Versioning instead",
+          "es": "Las lecturas en Cloud Storage nunca son auditables, así que debes habilitar el control de versiones de objetos en su lugar"
+        },
+        {
+          "en": "The logs exist but were routed to the _Required bucket, which cannot be queried",
+          "es": "Los registros existen pero se enrutaron al bucket _Required, que no se puede consultar"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Data Access logs record reads of user data and are off by default because of their volume and cost, so nothing was captured before you turned them on. B is wrong because Admin Activity covers configuration changes such as modifying the bucket's IAM policy, not object reads. C is wrong because reads are auditable precisely through Data Access logs. D is wrong because _Required holds Admin Activity and system event logs and is perfectly queryable.",
+        "es": "Los registros de acceso a datos anotan las lecturas de datos de usuario y están desactivados por defecto por su volumen y costo, así que no se capturó nada antes de activarlos. B es incorrecta porque la actividad de administrador cubre cambios de configuración, como modificar la política de IAM del bucket, no las lecturas de objetos. C es incorrecta porque las lecturas sí son auditables justamente mediante los registros de acceso a datos. D es incorrecta porque _Required guarda los registros de actividad de administrador y de eventos del sistema, y es perfectamente consultable."
+      },
+      "doc": "https://cloud.google.com/logging/docs/audit"
+    },
+    {
+      "id": "den-037",
+      "curso": null,
+      "servicios": [
+        "cloud-logging",
+        "compute-engine"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.4-audit-flow-logs"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A production VM disappeared overnight and nobody admits to deleting it. No audit logging was configured in this project. Can you still find out who deleted it?",
+        "es": "Una VM de producción desapareció durante la noche y nadie admite haberla borrado. En este proyecto no se configuró ningún registro de auditoría. ¿Aún puedes averiguar quién la borró?"
+      },
+      "opciones": [
+        {
+          "en": "Yes, the deletion is in Admin Activity audit logs, which are always written and cannot be disabled",
+          "es": "Sí, la eliminación está en los registros de auditoría de actividad de administrador, que siempre se escriben y no se pueden deshabilitar"
+        },
+        {
+          "en": "No, because audit logs must be enabled before the event occurs in all categories",
+          "es": "No, porque los registros de auditoría deben habilitarse antes del evento en todas las categorías"
+        },
+        {
+          "en": "Only if VPC Flow Logs were enabled on the VM's subnet",
+          "es": "Solo si los registros de flujo de VPC estaban habilitados en la subred de la VM"
+        },
+        {
+          "en": "Yes, but only by opening a support case, since deletion events are not exposed to customers",
+          "es": "Sí, pero solo abriendo un caso de soporte, ya que los eventos de eliminación no se exponen a los clientes"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Admin Activity audit logs capture API calls that modify configuration, including instance deletion, and Google Cloud writes them for every project at no charge without any opt-in. B overgeneralizes the Data Access rule to all categories. C is wrong because flow logs record network traffic samples, not control-plane actions. D is wrong because these logs are available directly in Logs Explorer.",
+        "es": "Los registros de auditoría de actividad de administrador capturan las llamadas a la API que modifican la configuración, incluida la eliminación de instancias, y Google Cloud los escribe en todos los proyectos sin costo y sin que haya que activarlos. B generaliza indebidamente a todas las categorías la regla de los registros de acceso a datos. C es incorrecta porque los registros de flujo anotan muestras de tráfico de red, no acciones del plano de control. D es incorrecta porque estos registros están disponibles directamente en el Explorador de registros."
+      },
+      "doc": "https://cloud.google.com/logging/docs/audit"
+    },
+    {
+      "id": "den-038",
+      "curso": null,
+      "servicios": [
+        "vpc",
+        "cloud-logging"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.4-audit-flow-logs"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You want a record of network flows to investigate a suspicious connection pattern, but you are worried about logging cost. What is true about VPC Flow Logs?",
+        "es": "Quieres un registro de los flujos de red para investigar un patrón de conexión sospechoso, pero te preocupa el costo del registro. ¿Qué es cierto sobre los registros de flujo de VPC?"
+      },
+      "opciones": [
+        {
+          "en": "They are enabled per subnet and let you tune a sampling rate to control volume and cost",
+          "es": "Se habilitan por subred y permiten ajustar una tasa de muestreo para controlar el volumen y el costo"
+        },
+        {
+          "en": "They are enabled per VM instance and always capture 100% of packets",
+          "es": "Se habilitan por instancia de VM y siempre capturan el 100% de los paquetes"
+        },
+        {
+          "en": "They are enabled per VPC network and cannot be sampled",
+          "es": "Se habilitan por red de VPC y no se pueden muestrear"
+        },
+        {
+          "en": "They are enabled per firewall rule and only record denied connections",
+          "es": "Se habilitan por regla de firewall y solo registran las conexiones denegadas"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Flow logs are a subnet-level setting with a configurable aggregation interval and sampling rate, which is the standard cost lever. B is wrong on both the scope and the claim, since flow logs sample flows and are not a full packet capture. C is wrong about the scope and denies the sampling control that exists. D describes firewall rules logging, which is a different feature attached to rules.",
+        "es": "Los registros de flujo son una configuración a nivel de subred con intervalo de agregación y tasa de muestreo configurables, que es la palanca estándar de costo. B se equivoca tanto en el alcance como en la afirmación, ya que los registros de flujo muestrean flujos y no son una captura completa de paquetes. C se equivoca en el alcance y niega el control de muestreo que sí existe. D describe el registro de reglas de firewall, que es una función distinta asociada a las reglas."
+      },
+      "doc": "https://cloud.google.com/vpc/docs/flow-logs"
+    },
+    {
+      "id": "den-039",
+      "curso": null,
+      "servicios": [
+        "cloud-logging",
+        "resource-manager"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.4-log-routing"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Security needs every project in the organization to send its audit logs to one central destination, including projects created next year, without asking each team to configure anything. What should you build?",
+        "es": "Seguridad necesita que todos los proyectos de la organización envíen sus registros de auditoría a un destino central, incluidos los proyectos que se creen el año próximo, sin pedirle a cada equipo que configure nada. ¿Qué debes construir?"
+      },
+      "opciones": [
+        {
+          "en": "An aggregated sink at the organization level with the include-children option and a filter for audit logs",
+          "es": "Un receptor agregado a nivel de organización con la opción de incluir elementos secundarios y un filtro para registros de auditoría"
+        },
+        {
+          "en": "One sink per project, created from a script that runs weekly to catch new projects",
+          "es": "Un receptor por proyecto, creado desde un script que se ejecuta semanalmente para capturar los proyectos nuevos"
+        },
+        {
+          "en": "An organization policy constraint that forces all logs into a shared log bucket",
+          "es": "Una restricción de política de la organización que fuerce todos los registros hacia un bucket de registros compartido"
+        },
+        {
+          "en": "A log-based metric at the organization level exported to the central project",
+          "es": "Una métrica basada en registros a nivel de organización exportada al proyecto central"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "An aggregated sink defined on the organization with include-children routes matching logs from every descendant folder and project, and it automatically covers projects created later. B is brittle busywork with a window during which new projects go uncaptured. C is wrong because organization policy constrains resource configuration and has no log-routing capability. D is wrong because a log-based metric produces a time series for alerting, not a copy of the log entries.",
+        "es": "Un receptor agregado definido en la organización con la inclusión de elementos secundarios enruta los registros coincidentes de todas las carpetas y proyectos descendientes, y cubre automáticamente los proyectos creados después. B es trabajo frágil y deja una ventana en la que los proyectos nuevos quedan sin capturar. C es incorrecta porque la política de la organización restringe la configuración de recursos y no tiene capacidad de enrutamiento de registros. D es incorrecta porque una métrica basada en registros produce una serie temporal para alertar, no una copia de las entradas de registro."
+      },
+      "doc": "https://cloud.google.com/logging/docs/export/aggregated_sinks"
+    },
+    {
+      "id": "den-040",
+      "curso": null,
+      "servicios": [
+        "cloud-logging",
+        "bigquery"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.4-log-routing"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Analysts want to run SQL joins and aggregations over the log entries already stored in a Cloud Logging bucket, without copying them anywhere. What should you do?",
+        "es": "Los analistas quieren ejecutar uniones y agregaciones SQL sobre las entradas de registro ya almacenadas en un bucket de Cloud Logging, sin copiarlas a ningún otro lado. ¿Qué debes hacer?"
+      },
+      "opciones": [
+        {
+          "en": "Upgrade the log bucket to use Log Analytics, which makes its contents queryable with SQL",
+          "es": "Actualizar el bucket de registros para usar Log Analytics, lo que hace que su contenido sea consultable con SQL"
+        },
+        {
+          "en": "Create a sink that exports the bucket's contents to a BigQuery dataset",
+          "es": "Crear un receptor que exporte el contenido del bucket a un dataset de BigQuery"
+        },
+        {
+          "en": "Download the logs to Cloud Storage and query them as an external table",
+          "es": "Descargar los registros a Cloud Storage y consultarlos como una tabla externa"
+        },
+        {
+          "en": "Rewrite the analysts' queries in the Logging query language, since SQL is not supported for logs",
+          "es": "Reescribir las consultas de los analistas en el lenguaje de consultas de Logging, ya que SQL no es compatible con los registros"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Upgrading a bucket for Log Analytics exposes its existing entries to SQL queries in place, which is exactly the no-copy requirement. B and C both duplicate the data into another system, adding storage cost and a pipeline to maintain. D is wrong because SQL over logs is supported precisely through Log Analytics.",
+        "es": "Actualizar un bucket para Log Analytics expone sus entradas existentes a consultas SQL en el lugar, que es justo el requisito de no copiar. B y C duplican los datos en otro sistema, lo que agrega costo de almacenamiento y una canalización que mantener. D es incorrecta porque SQL sobre registros sí es compatible, justamente mediante Log Analytics."
+      },
+      "doc": "https://cloud.google.com/logging/docs/log-analytics"
+    },
+    {
+      "id": "den-041",
+      "curso": null,
+      "servicios": [
+        "cloud-logging",
+        "cloud-run"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.4-logging-usage"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "In Logs Explorer you need only the error-level entries produced by one Cloud Run service named checkout. Which query expresses this?",
+        "es": "En el Explorador de registros necesitas solo las entradas de nivel error producidas por un servicio de Cloud Run llamado checkout. ¿Qué consulta expresa esto?"
+      },
+      "opciones": [
+        {
+          "en": "resource.type=\"cloud_run_revision\" AND resource.labels.service_name=\"checkout\" AND severity>=ERROR",
+          "es": "resource.type=\"cloud_run_revision\" AND resource.labels.service_name=\"checkout\" AND severity>=ERROR"
+        },
+        {
+          "en": "SELECT * FROM logs WHERE service = 'checkout' AND level = 'error'",
+          "es": "SELECT * FROM logs WHERE service = 'checkout' AND level = 'error'"
+        },
+        {
+          "en": "resource.type=\"cloud_run_revision\" OR severity=ERROR",
+          "es": "resource.type=\"cloud_run_revision\" OR severity=ERROR"
+        },
+        {
+          "en": "logName=\"checkout\" AND textPayload=\"ERROR\"",
+          "es": "logName=\"checkout\" AND textPayload=\"ERROR\""
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The Logging query language filters on indexed fields such as resource.type, resource labels and severity, and severity comparisons are supported. B is SQL, which belongs to Log Analytics or BigQuery, not the Logs Explorer filter box. C uses OR, so it returns every Cloud Run entry at any severity plus every error from unrelated services. D misuses logName, which holds a full log path rather than a service name, and matching the literal text ERROR misses structured entries whose severity is set properly.",
+        "es": "El lenguaje de consultas de Logging filtra por campos indexados como resource.type, las etiquetas del recurso y severity, y admite comparaciones de severidad. B es SQL, que corresponde a Log Analytics o BigQuery, no al cuadro de filtro del Explorador de registros. C usa OR, así que devuelve todas las entradas de Cloud Run de cualquier severidad más todos los errores de servicios ajenos. D usa mal logName, que contiene una ruta de registro completa y no un nombre de servicio, y buscar el texto literal ERROR omite las entradas estructuradas cuya severidad está bien establecida."
+      },
+      "doc": "https://cloud.google.com/logging/docs/view/logging-query-language"
+    },
+    {
+      "id": "den-042",
+      "curso": null,
+      "servicios": [
+        "cloud-logging",
+        "cloud-monitoring"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.4-logging-usage"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You must be paged whenever the string PaymentDeclined appears more than 50 times in five minutes across your application logs. What is the standard way to set this up?",
+        "es": "Debes recibir una alerta cada vez que la cadena PaymentDeclined aparezca más de 50 veces en cinco minutos en los registros de tu aplicación. ¿Cuál es la forma estándar de configurarlo?"
+      },
+      "opciones": [
+        {
+          "en": "Create a log-based counter metric with a filter for that string, then build a Cloud Monitoring alerting policy on the metric",
+          "es": "Crear una métrica basada en registros de tipo contador con un filtro para esa cadena y luego crear una política de alertas de Cloud Monitoring sobre esa métrica"
+        },
+        {
+          "en": "Create a sink that routes matching entries to Pub/Sub and subscribe your paging tool directly to every message",
+          "es": "Crear un receptor que enrute las entradas coincidentes a Pub/Sub y suscribir tu herramienta de guardia directamente a cada mensaje"
+        },
+        {
+          "en": "Save the query in Logs Explorer and enable its automatic notification schedule",
+          "es": "Guardar la consulta en el Explorador de registros y habilitar su programación automática de notificaciones"
+        },
+        {
+          "en": "Enable Data Access audit logs for the payment service so the threshold is evaluated automatically",
+          "es": "Habilitar los registros de auditoría de acceso a datos del servicio de pagos para que el umbral se evalúe automáticamente"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Log-based metrics turn matching entries into a time series, and alerting policies are what evaluate a rate threshold over a window. B delivers every single occurrence with no aggregation, so it cannot express \"more than 50 in five minutes\" and it floods the on-call channel. C is wrong because a saved query is only a convenience for re-running a search. D confuses audit logging with alerting; enabling a log category never evaluates thresholds.",
+        "es": "Las métricas basadas en registros convierten las entradas coincidentes en una serie temporal, y las políticas de alertas son las que evalúan un umbral de frecuencia en una ventana. B entrega cada aparición individual sin agregación, así que no puede expresar «más de 50 en cinco minutos» e inunda el canal de guardia. C es incorrecta porque una consulta guardada solo es una comodidad para volver a ejecutar una búsqueda. D confunde el registro de auditoría con las alertas; habilitar una categoría de registros nunca evalúa umbrales."
+      },
+      "doc": "https://cloud.google.com/logging/docs/logs-based-metrics"
+    },
+    {
+      "id": "den-043",
+      "curso": null,
+      "servicios": [
+        "cloud-logging"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.4-logging-usage"
+      ],
+      "nivel": "principiante",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A colleague filters with severity>=WARNING and asks whether entries logged as CRITICAL will show up. What is the answer?",
+        "es": "Un colega filtra con severity>=WARNING y pregunta si aparecerán las entradas registradas como CRITICAL. ¿Cuál es la respuesta?"
+      },
+      "opciones": [
+        {
+          "en": "Yes, because severity is an ordered scale and CRITICAL ranks above WARNING",
+          "es": "Sí, porque severity es una escala ordenada y CRITICAL está por encima de WARNING"
+        },
+        {
+          "en": "No, because severity comparisons match only the exact level named",
+          "es": "No, porque las comparaciones de severidad coinciden solo con el nivel exacto indicado"
+        },
+        {
+          "en": "Only if the entries also carry a matching logName filter",
+          "es": "Solo si las entradas también llevan un filtro logName coincidente"
+        },
+        {
+          "en": "No, because CRITICAL entries are stored in a separate log bucket by default",
+          "es": "No, porque las entradas CRITICAL se almacenan en un bucket de registros aparte de forma predeterminada"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Severity runs from DEBUG up through WARNING, ERROR, CRITICAL, ALERT and EMERGENCY, so a >= comparison includes every level at or above the one you name. B describes the = operator, not >=. C is wrong because logName is an independent filter and is not required. D invents a routing behavior; severity does not determine the destination bucket.",
+        "es": "La severidad va desde DEBUG hasta WARNING, ERROR, CRITICAL, ALERT y EMERGENCY, así que una comparación >= incluye todos los niveles iguales o superiores al que indicas. B describe el operador =, no >=. C es incorrecta porque logName es un filtro independiente y no es obligatorio. D inventa un comportamiento de enrutamiento; la severidad no determina el bucket de destino."
+      },
+      "doc": "https://cloud.google.com/logging/docs/view/logging-query-language"
+    },
+    {
+      "id": "den-044",
+      "curso": null,
+      "servicios": [
+        "cloud-logging",
+        "observability-tools"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.4-logging-usage"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "One customer request failed after passing through four services. You have the request's trace identifier and need every log entry emitted while handling it, across all four services. What is the most direct approach?",
+        "es": "Una solicitud de un cliente falló tras pasar por cuatro servicios. Tienes el identificador de traza de la solicitud y necesitas todas las entradas de registro emitidas al atenderla, en los cuatro servicios. ¿Cuál es el enfoque más directo?"
+      },
+      "opciones": [
+        {
+          "en": "Filter Logs Explorer on the entries' trace field with that identifier, since correlated entries share it regardless of which service wrote them",
+          "es": "Filtrar en el Explorador de registros por el campo trace de las entradas con ese identificador, ya que las entradas correlacionadas lo comparten sin importar qué servicio las escribió"
+        },
+        {
+          "en": "Search each service's logs separately by timestamp range and manually reconcile the results",
+          "es": "Buscar los registros de cada servicio por separado por rango de marca temporal y reconciliar los resultados a mano"
+        },
+        {
+          "en": "Export all four services' logs to BigQuery and join them on the insertId field",
+          "es": "Exportar los registros de los cuatro servicios a BigQuery y unirlos por el campo insertId"
+        },
+        {
+          "en": "Enable Data Access audit logs, which group entries by request automatically",
+          "es": "Habilitar los registros de auditoría de acceso a datos, que agrupan las entradas por solicitud automáticamente"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The trace field is exactly the correlation key for a single request across services, so one filter returns the whole story in order. B is slow and unreliable because concurrent requests interleave within any timestamp window. C is wrong because insertId uniquely identifies one entry and therefore joins nothing, and the export is unnecessary work. D is wrong because Data Access logs record API access to user data and do not stitch application requests together.",
+        "es": "El campo trace es justamente la clave de correlación de una misma solicitud entre servicios, así que un solo filtro devuelve toda la historia en orden. B es lento y poco confiable porque las solicitudes concurrentes se entremezclan en cualquier ventana temporal. C es incorrecta porque insertId identifica de forma única una sola entrada y por lo tanto no une nada, además de que la exportación es trabajo innecesario. D es incorrecta porque los registros de acceso a datos anotan el acceso mediante API a datos de usuario y no encadenan las solicitudes de la aplicación."
+      },
+      "doc": "https://cloud.google.com/logging/docs/view/logging-query-language"
+    },
+    {
+      "id": "den-045",
+      "curso": null,
+      "servicios": [
+        "observability-tools",
+        "cloud-monitoring"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.4-service-health-hub"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "During a partial outage, your team keeps refreshing the public Google Cloud Service Health dashboard and arguing about whether the listed incident touches your workloads. What gives a definitive answer?",
+        "es": "Durante una interrupción parcial, tu equipo recarga sin parar el panel público de Google Cloud Service Health y discute si el incidente listado afecta a tus cargas de trabajo. ¿Qué da una respuesta definitiva?"
+      },
+      "opciones": [
+        {
+          "en": "Personalized Service Health, which reports incidents scoped to your own projects and their relevance to you",
+          "es": "Personalized Service Health, que informa los incidentes acotados a tus propios proyectos y su relevancia para ti"
+        },
+        {
+          "en": "A Cloud Monitoring uptime check against each affected service",
+          "es": "Una verificación de tiempo de actividad de Cloud Monitoring contra cada servicio afectado"
+        },
+        {
+          "en": "The Admin Activity audit logs for the affected products",
+          "es": "Los registros de auditoría de actividad de administrador de los productos afectados"
+        },
+        {
+          "en": "Opening a support case, since incident scope is never exposed programmatically",
+          "es": "Abrir un caso de soporte, ya que el alcance de un incidente nunca se expone de forma programática"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The public dashboard is deliberately global and generic, while Personalized Service Health tells you which incidents apply to your projects and how relevant they are. B tells you your endpoint is failing but not whether a Google Cloud incident is the cause. C records who changed configuration in your project and says nothing about provider-side incidents. D is unnecessary because this scoping is available to you directly.",
+        "es": "El panel público es deliberadamente global y genérico, mientras que Personalized Service Health te dice qué incidentes aplican a tus proyectos y con qué relevancia. B te dice que tu endpoint está fallando, pero no si la causa es un incidente de Google Cloud. C registra quién cambió la configuración en tu proyecto y no dice nada sobre incidentes del proveedor. D es innecesaria porque ese acotamiento está disponible para ti directamente."
+      },
+      "doc": "https://cloud.google.com/service-health/docs/overview"
+    },
+    {
+      "id": "den-046",
+      "curso": null,
+      "servicios": [
+        "observability-tools",
+        "cloud-monitoring",
+        "pubsub"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.4-service-health-hub"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "You want your on-call rotation to be notified automatically when a Google Cloud incident starts affecting your projects, instead of someone noticing it in the console. How do you achieve this with Personalized Service Health?",
+        "es": "Quieres que tu turno de guardia reciba una notificación automática cuando un incidente de Google Cloud empiece a afectar a tus proyectos, en vez de que alguien lo note en la consola. ¿Cómo lo consigues con Personalized Service Health?"
+      },
+      "opciones": [
+        {
+          "en": "Configure notifications for service health events, for example an alerting policy on the events or a log sink that routes them to Pub/Sub",
+          "es": "Configurar notificaciones para los eventos de estado del servicio, por ejemplo una política de alertas sobre los eventos o un receptor de registros que los enrute a Pub/Sub"
+        },
+        {
+          "en": "Subscribe to the public status page's RSS feed and forward it to the on-call channel",
+          "es": "Suscribirse al feed RSS de la página pública de estado y reenviarlo al canal de guardia"
+        },
+        {
+          "en": "Create an uptime check for every regional endpoint your projects use",
+          "es": "Crear una verificación de tiempo de actividad para cada endpoint regional que usen tus proyectos"
+        },
+        {
+          "en": "Grant the on-call group the Project Viewer role so the console shows them incidents at login",
+          "es": "Otorgar al grupo de guardia el rol Visualizador del proyecto para que la consola les muestre los incidentes al iniciar sesión"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Personalized Service Health is built to feed downstream notification paths, so you attach alerting or route the events onward rather than polling a page. B goes back to the generic public feed, which is not scoped to your projects. C detects symptoms in your own endpoints and cannot attribute them to a provider incident. D only controls who can see the console; permissions never push a notification.",
+        "es": "Personalized Service Health está pensado para alimentar rutas de notificación posteriores, así que se le adjuntan alertas o se enrutan los eventos hacia adelante en vez de recargar una página. B vuelve al feed público genérico, que no está acotado a tus proyectos. C detecta síntomas en tus propios endpoints y no puede atribuirlos a un incidente del proveedor. D solo controla quién puede ver la consola; los permisos nunca envían una notificación."
+      },
+      "doc": "https://cloud.google.com/service-health/docs/configure-alerts-dashboard"
+    },
+    {
+      "id": "den-047",
+      "curso": null,
+      "servicios": [
+        "observability-tools",
+        "iam"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.4-service-health-hub"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Support engineers report that the Service Health page in the console is empty for them, while you can see incidents for the same project. What is the most likely cause?",
+        "es": "Los ingenieros de soporte informan que la página de Service Health en la consola les aparece vacía, mientras que tú sí ves incidentes del mismo proyecto. ¿Cuál es la causa más probable?"
+      },
+      "opciones": [
+        {
+          "en": "They lack the Service Health Viewer role on the project, which is required to read personalized service health data",
+          "es": "Les falta el rol Visualizador de Service Health en el proyecto, necesario para leer los datos personalizados de estado del servicio"
+        },
+        {
+          "en": "Personalized Service Health can only be viewed by the user who created the project",
+          "es": "Personalized Service Health solo lo puede ver la persona que creó el proyecto"
+        },
+        {
+          "en": "Their browser is scoped to a different region, and incidents are region-locked in the console",
+          "es": "Su navegador está acotado a otra región, y los incidentes están restringidos por región en la consola"
+        },
+        {
+          "en": "Incidents only render for users who also hold the Billing Account Administrator role",
+          "es": "Los incidentes solo se muestran para usuarios que además tengan el rol Administrador de la cuenta de facturación"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Access to personalized service health data is granted through IAM like any other resource, and the viewer role is the least-privilege way to let staff read incidents. B invents a creator-only rule that no Google Cloud service uses. C is wrong because the console is not region-scoped for a user's session. D ties an operational view to a billing role, which has no bearing on service health visibility.",
+        "es": "El acceso a los datos personalizados de estado del servicio se otorga por IAM como con cualquier otro recurso, y el rol de visualizador es la vía de menor privilegio para que el personal lea los incidentes. B inventa una regla de «solo el creador» que ningún servicio de Google Cloud usa. C es incorrecta porque la consola no acota la sesión de una persona por región. D ata una vista operativa a un rol de facturación, que no influye en la visibilidad del estado del servicio."
+      },
+      "doc": "https://cloud.google.com/service-health/docs/manage-access"
+    },
+    {
+      "id": "den-048",
+      "curso": null,
+      "servicios": [
+        "observability-tools"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.4-service-health-hub"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Personalized Service Health marks one incident as impacted for your project and another as related. How should your team read that difference?",
+        "es": "Personalized Service Health marca un incidente como impactado para tu proyecto y otro como relacionado. ¿Cómo debe interpretar tu equipo esa diferencia?"
+      },
+      "opciones": [
+        {
+          "en": "Impacted means your project's resources are affected, while related means the incident concerns a product or location you use without confirmed impact on your resources",
+          "es": "Impactado significa que los recursos de tu proyecto están afectados, mientras que relacionado significa que el incidente atañe a un producto o ubicación que usas sin impacto confirmado en tus recursos"
+        },
+        {
+          "en": "Impacted means the incident is still open, while related means it has already been resolved",
+          "es": "Impactado significa que el incidente sigue abierto, mientras que relacionado significa que ya se resolvió"
+        },
+        {
+          "en": "Impacted means Google has published a root cause, while related means the analysis is pending",
+          "es": "Impactado significa que Google publicó una causa raíz, mientras que relacionado significa que el análisis está pendiente"
+        },
+        {
+          "en": "Impacted refers to production projects, while related refers to development projects",
+          "es": "Impactado se refiere a proyectos de producción, mientras que relacionado se refiere a proyectos de desarrollo"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Relevance describes how the incident connects to your resources, so impacted is a direct hit and related is a heads-up worth watching but not confirmed against your project. B confuses relevance with incident state, which is tracked separately. C confuses relevance with the postmortem lifecycle. D invents an environment classification that the service does not infer.",
+        "es": "La relevancia describe cómo se conecta el incidente con tus recursos, así que impactado es un golpe directo y relacionado es un aviso que conviene vigilar pero sin confirmación sobre tu proyecto. B confunde la relevancia con el estado del incidente, que se rastrea por separado. C confunde la relevancia con el ciclo de vida del análisis posterior. D inventa una clasificación de entornos que el servicio no deduce."
+      },
+      "doc": "https://cloud.google.com/service-health/docs/overview"
+    },
+    {
+      "id": "den-049",
+      "curso": null,
+      "servicios": [
+        "cloud-hub",
+        "observability-tools"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.4-service-health-hub"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "A platform team wants one operational landing page where they can see, for a whole folder, the state of deployments, active incidents, quota pressure and open support cases. Which product is designed for this?",
+        "es": "Un equipo de plataforma quiere una única página operativa donde ver, para toda una carpeta, el estado de las implementaciones, los incidentes activos, la presión sobre las cuotas y los casos de soporte abiertos. ¿Qué producto está diseñado para eso?"
+      },
+      "opciones": [
+        {
+          "en": "Cloud Hub, which aggregates operational signals across projects into a single view",
+          "es": "Cloud Hub, que agrega señales operativas de varios proyectos en una sola vista"
+        },
+        {
+          "en": "Cloud Asset Inventory, which is the operational console for running workloads",
+          "es": "Cloud Asset Inventory, que es la consola operativa de las cargas de trabajo en ejecución"
+        },
+        {
+          "en": "The Cloud Billing console, which consolidates quota and incident data by folder",
+          "es": "La consola de Cloud Billing, que consolida los datos de cuotas e incidentes por carpeta"
+        },
+        {
+          "en": "The Logs Explorer, filtered to the folder scope",
+          "es": "El Explorador de registros, filtrado al alcance de la carpeta"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "Cloud Hub exists precisely to consolidate the operational picture, pulling deployments, incidents, quotas, support and reliability signals into one place instead of five consoles. B is a metadata inventory and search service for assets, not an operations dashboard. C reports cost and billing, not incidents or deployment state. D shows log entries, which is raw evidence rather than an aggregated operational view.",
+        "es": "Cloud Hub existe precisamente para consolidar el panorama operativo, reuniendo señales de implementaciones, incidentes, cuotas, soporte y confiabilidad en un solo lugar en vez de cinco consolas. B es un servicio de inventario y búsqueda de metadatos de recursos, no un panel de operaciones. C informa costos y facturación, no incidentes ni estado de las implementaciones. D muestra entradas de registro, que son evidencia cruda y no una vista operativa agregada."
+      },
+      "doc": "https://cloud.google.com/hub/docs/overview"
+    },
+    {
+      "id": "den-050",
+      "curso": null,
+      "servicios": [
+        "cloud-hub",
+        "cloud-monitoring"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.4-service-health-hub"
+      ],
+      "nivel": "avanzado",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your team already maintains detailed Cloud Monitoring dashboards for application latency and error rates. What does adopting Cloud Hub add that those dashboards do not provide?",
+        "es": "Tu equipo ya mantiene paneles detallados de Cloud Monitoring para la latencia y las tasas de error de la aplicación. ¿Qué aporta adoptar Cloud Hub que esos paneles no ofrecen?"
+      },
+      "opciones": [
+        {
+          "en": "A cross-project operational summary that spans domains such as deployments, quotas, incidents and support, rather than metrics you defined yourself",
+          "es": "Un resumen operativo entre proyectos que abarca dominios como implementaciones, cuotas, incidentes y soporte, en vez de métricas que definiste tú"
+        },
+        {
+          "en": "Higher-resolution metric sampling than Cloud Monitoring can store",
+          "es": "Un muestreo de métricas de mayor resolución del que Cloud Monitoring puede almacenar"
+        },
+        {
+          "en": "The ability to write custom PromQL queries, which Cloud Monitoring lacks",
+          "es": "La capacidad de escribir consultas PromQL personalizadas, que Cloud Monitoring no tiene"
+        },
+        {
+          "en": "Automatic remediation that restarts failing workloads when a threshold is crossed",
+          "es": "Corrección automática que reinicia las cargas de trabajo con fallas cuando se cruza un umbral"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The two are complementary: your dashboards answer how the application behaves, while Cloud Hub answers how the platform around it is doing across projects and operational domains. B is wrong because Cloud Hub is not a higher-fidelity metric store. C is wrong because Cloud Monitoring already supports PromQL. D invents an auto-remediation capability; acting on a condition is the job of alerting plus your own automation.",
+        "es": "Ambos son complementarios: tus paneles responden cómo se comporta la aplicación, mientras que Cloud Hub responde cómo está la plataforma a su alrededor, entre proyectos y dominios operativos. B es incorrecta porque Cloud Hub no es un almacén de métricas de mayor fidelidad. C es incorrecta porque Cloud Monitoring ya admite PromQL. D inventa una capacidad de corrección automática; actuar ante una condición es tarea de las alertas más tu propia automatización."
+      },
+      "doc": "https://cloud.google.com/hub/docs/overview"
+    },
+    {
+      "id": "den-051",
+      "curso": null,
+      "servicios": [
+        "observability-tools",
+        "cloud-monitoring"
+      ],
+      "seccion_blueprint": 3,
+      "subtopicos": [
+        "3.4-service-health-hub"
+      ],
+      "nivel": "intermedio",
+      "tipo": "unica",
+      "pregunta": {
+        "en": "Your API is returning 5xx errors and Personalized Service Health shows no incidents affecting your projects. What is the correct conclusion?",
+        "es": "Tu API devuelve errores 5xx y Personalized Service Health no muestra incidentes que afecten a tus proyectos. ¿Cuál es la conclusión correcta?"
+      },
+      "opciones": [
+        {
+          "en": "No Google Cloud incident is known to affect you, so investigate your own workload, configuration and dependencies",
+          "es": "No se conoce ningún incidente de Google Cloud que te afecte, así que investiga tu propia carga de trabajo, configuración y dependencias"
+        },
+        {
+          "en": "Personalized Service Health has not finished evaluating, so wait 24 hours before investigating",
+          "es": "Personalized Service Health no terminó de evaluar, así que espera 24 horas antes de investigar"
+        },
+        {
+          "en": "The absence of incidents proves the errors come from a networking misconfiguration specifically",
+          "es": "La ausencia de incidentes demuestra que los errores provienen específicamente de una mala configuración de red"
+        },
+        {
+          "en": "Personalized Service Health only covers Compute Engine, so an outage in another product would not appear there",
+          "es": "Personalized Service Health solo cubre Compute Engine, así que una interrupción en otro producto no aparecería ahí"
+        }
+      ],
+      "respuesta": [
+        "A"
+      ],
+      "explicacion": {
+        "en": "The service reports provider-side incidents relevant to your projects; a clean view redirects the investigation to what you control, which is exactly its operational value. B invents an evaluation delay that would make the tool useless during an outage. C jumps to one specific root cause when the evidence only rules out a known provider incident. D understates the coverage, which spans Google Cloud products rather than one service.",
+        "es": "El servicio informa incidentes del lado del proveedor relevantes para tus proyectos; una vista limpia redirige la investigación hacia lo que sí controlas, y ese es justamente su valor operativo. B inventa un retraso de evaluación que volvería inútil la herramienta durante una interrupción. C salta a una causa raíz concreta cuando la evidencia solo descarta un incidente conocido del proveedor. D subestima la cobertura, que abarca los productos de Google Cloud y no un solo servicio."
+      },
+      "doc": "https://cloud.google.com/service-health/docs/overview"
+    }
+  ]
+}

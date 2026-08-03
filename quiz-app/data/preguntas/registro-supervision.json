@@ -648,7 +648,7 @@
         "en": "Cloud Hub gives an app-centric operations view: application health, incidents, alerts, and the underlying resources in one place. B describes Interconnect colocation facilities, C describes Network Connectivity Center hubs, and D describes source repository products, none of which are the Cloud Hub console experience.",
         "es": "Cloud Hub brinda una vista de operaciones centrada en aplicaciones: salud de la aplicación, incidentes, alertas y los recursos subyacentes en un solo lugar. B describe instalaciones de colocación de Interconnect, C describe los hubs de Network Connectivity Center y D describe productos de repositorios de código, y ninguno es la experiencia de consola de Cloud Hub."
       },
-      "doc": "https://cloud.google.com/cloud-hub/docs/overview"
+      "doc": "https://cloud.google.com/hub/docs/overview"
     },
     {
       "id": "ops-016",
@@ -1262,7 +1262,7 @@
         "en": "Personalized Service Health requires its API to be enabled and grants read access through the Service Health Viewer role, following least privilege. B grants far more permissions than needed and violates least privilege. C is the wrong product and is also an admin role. D confuses the personalized view, which is project-scoped and IAM-controlled, with the public Google Cloud Service Health page, which is generic and not filtered to your resources.",
         "es": "Personalized Service Health requiere habilitar su API y otorga acceso de lectura mediante el rol Service Health Viewer, siguiendo el mínimo privilegio. B otorga muchos más permisos de los necesarios y viola el mínimo privilegio. C corresponde a otro producto y además es un rol de administrador. D confunde la vista personalizada, que tiene alcance de proyecto y se controla con IAM, con la página pública de Google Cloud Service Health, que es genérica y no está filtrada a tus recursos."
       },
-      "doc": "https://cloud.google.com/service-health/docs/configure-access-ph"
+      "doc": "https://cloud.google.com/service-health/docs/manage-access"
     },
     {
       "id": "ops-030",
@@ -2814,7 +2814,7 @@
         "en": "Cloud Hub is the application-centric operations surface that aggregates workload health, alerts, the underlying resources, and service health information without building anything, which matches the minimal-effort requirement. B is a lot of manual work per application and still does not surface Google-side incidents. C is an expensive pipeline that duplicates data and reproduces, with delay, what the console already offers. D is manual, always outdated, and not a monitoring solution.",
         "es": "Cloud Hub es la superficie de operaciones centrada en aplicaciones que agrega la salud de las cargas de trabajo, las alertas, los recursos subyacentes y la información de estado del servicio sin construir nada, lo que encaja con el requisito de mínimo esfuerzo. B implica mucho trabajo manual por aplicación y aun así no muestra los incidentes del lado de Google. C es un pipeline costoso que duplica datos y reproduce, con retraso, lo que la consola ya ofrece. D es manual, siempre desactualizado y no es una solución de supervisión."
       },
-      "doc": "https://cloud.google.com/cloud-hub/docs/overview"
+      "doc": "https://cloud.google.com/hub/docs/overview"
     },
     {
       "id": "ops-065",
