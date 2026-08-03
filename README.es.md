@@ -8,7 +8,7 @@
 > [!IMPORTANT]
 > **Esto es práctica para el examen, no un curso.** Todo aquí gira en torno a
 > **preguntas tipo examen** para la certificación **Google Cloud Associate Cloud
-> Engineer**: 1.465 preguntas bilingües (inglés / español latinoamericano),
+> Engineer**: 1.516 preguntas bilingües (inglés / español latinoamericano),
 > simulacros cronometrados y un dashboard de avances que te mide contra la guía
 > oficial. Practicas preguntas hasta que el puntaje diga que estás listo.
 
@@ -27,7 +27,7 @@ historial de estudio es un archivo en tu disco.
 
 ## Qué incluye
 
-- **1.465 preguntas bilingües**, todas mapeadas al blueprint oficial del examen.
+- **1.516 preguntas bilingües**, todas mapeadas al blueprint oficial del examen.
   Cada una explica por qué la respuesta correcta lo es **y por qué falla cada
   distractor**, con enlace a la documentación oficial.
 - **100% de cobertura del blueprint** — los 70 subtópicos de la guía vigente
@@ -96,11 +96,11 @@ de escribir.
 
 | Sección del examen | Peso | Preguntas | Subtópicos |
 |---|---|---|---|
-| 1. Configuración de un entorno de solución en la nube | 20% | 211 | 11 |
-| 2. Planificación e implementación de una solución en la nube | 30% | 606 | 21 |
-| 3. Cómo asegurar la operación exitosa de una solución en la nube | 30% | 429 | 29 |
+| 1. Configuración de un entorno de solución en la nube | 20% | 213 | 11 |
+| 2. Planificación e implementación de una solución en la nube | 30% | 613 | 21 |
+| 3. Cómo asegurar la operación exitosa de una solución en la nube | 30% | 471 | 29 |
 | 4. Configuración del acceso y la seguridad | 20% | 219 | 9 |
-| **Total** | **100%** | **1.465** | **70** |
+| **Total** | **100%** | **1.516** | **70** |
 
 Puedes practicar por tema del examen, por curso del learning path oficial (15
 actividades) o por servicio. Estos son los 52 servicios y áreas por los que está
